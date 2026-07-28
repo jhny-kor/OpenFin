@@ -664,6 +664,7 @@ function renderDetail(item) {
     <h3>${escapeHtml(item.title || item.id)}</h3>
     <p class="detail-description">${escapeHtml(item.description || "설명이 없습니다.")}</p>
     ${renderEvidenceAvailability(item)}
+    ${renderPopulationNotice(item)}
     ${kv.length ? renderKvGrid(kv) : ""}
     ${renderStructuredFacts("상품 혜택·보장", item.benefits)}
     ${renderStructuredFacts("조건·유의사항", item.conditions)}
@@ -673,6 +674,14 @@ function renderDetail(item) {
     ${renderNeighbors(item)}
     ${renderSources(item)}
   `;
+}
+
+// A category can be a real classification with no collected records yet. Say so
+// on screen, otherwise an empty result list reads as a search failure.
+function renderPopulationNotice(item) {
+  if (item.population_status !== "planned") return "";
+  const reason = item.population_reason || "해당 분류의 레코드를 아직 수집하지 않았습니다.";
+  return `<div class="population-notice" role="status"><strong>수집 예정 분류</strong><span>${escapeHtml(reason)}</span></div>`;
 }
 
 function renderEvidenceAvailability(item) {
@@ -794,6 +803,9 @@ function renderNeighbors(item) {
   const groups = [
     ["Parents", item.parents],
     ["Children", item.children],
+    ["Requires (요건·서류)", item.requires],
+    ["Conflicts with (중복 제한)", item.conflicts_with],
+    ["Available in (신청 창구)", item.available_in],
     ["Related", item.related],
     ["Terms", item.terms],
     ["Deadlines", item.deadlines],

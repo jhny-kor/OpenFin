@@ -569,6 +569,19 @@ button {
   line-height: 1.45;
 }
 
+.population-notice {
+  display: grid;
+  gap: 4px;
+  margin: 14px 0;
+  padding: 12px 14px;
+  border: 1px solid #2f6f9f;
+  border-radius: 10px;
+  background: #e8f3fb;
+  color: #1d4a6b;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
 .operational-evidence-warning {
   grid-column: 1 / -1;
   margin: 0;
@@ -875,7 +888,9 @@ button {
   gap: 14px;
 }
 
-.improvement-grid span {
+/* Direct child only: this is the card's footer strip, not every nested span
+   (data hooks inside it must stay inline). */
+.improvement-grid article > span {
   display: block;
   padding-top: 14px;
   border-top: 1px solid var(--line);
