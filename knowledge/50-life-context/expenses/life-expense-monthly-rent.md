@@ -326,7 +326,14 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:fc857613cf426fb9e09545ca165a5dcc1034d7bf60292a571c79d7cab8f5e988"
+  "record_checksum": "sha256:2ab2a780a6e3cb07882c2349a12318fd694ab999556b167d05a404191b35485c",
+  "requires": [
+    "eligibility-rule.monthly-rent-address-match",
+    "required-document.lease-contract"
+  ],
+  "available_in": [
+    "application-channel.company-year-end-settlement"
+  ]
 }
 ---
 

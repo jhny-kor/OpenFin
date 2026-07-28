@@ -270,7 +270,10 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:b0bab44a93cd64a8852d514abb6ad90da61f2bb00d66bda96659002933c6cacf"
+  "record_checksum": "sha256:95287dec42390293c12699aa75c5abb428ba774c2e46f120b98780bb29e1f0ff",
+  "available_in": [
+    "application-channel.company-year-end-settlement"
+  ]
 }
 ---
 

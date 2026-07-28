@@ -300,7 +300,10 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:c3fceddec85f66b342d28bcfc6dc0ae9797964e6a3a9a2eadf4366cfc3cd592b"
+  "record_checksum": "sha256:eda24e665dd6c2e4e9f261117dfa0c35b6574e68c80fb526c17e1b7db6fa1147",
+  "requires": [
+    "required-document.small-business-registration"
+  ]
 }
 ---
 

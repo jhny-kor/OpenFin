@@ -163,7 +163,7 @@
   },
   "search_shard": "reference",
   "search_position": 479,
-  "record_checksum": "sha256:2b592bff8381757bf41a8168499c2f6f0fadda51cfd6552a07969b2511f7568c"
+  "record_checksum": "sha256:4bcb014591e71e3663f0ca0ce4918f0083fd5e9b02c5de6949e13f955cb17833"
 }
 ---
 

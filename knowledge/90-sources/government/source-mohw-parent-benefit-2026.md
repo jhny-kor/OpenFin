@@ -186,7 +186,7 @@
       "value": "최종수정일 2026-03-25"
     }
   ],
-  "record_checksum": "sha256:008fdbefb144f0c85073b45d2c1cf7921807803362026e02daa2a44a05b8ef98"
+  "record_checksum": "sha256:9f56de63408da450eb8beca670eb979135bead1b7c00c53d4a742eb927d1a3d0"
 }
 ---
 

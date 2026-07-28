@@ -1232,7 +1232,8 @@
       "term.card.monthly-benefit-limit",
       "term.card.previous-month-spend",
       "term.card.revolving-minimum-payment",
-      "term.card.short-term-card-loan"
+      "term.card.short-term-card-loan",
+      "category.terms"
     ]
   },
   "korea-deposit-products-ontology-2026.json": {
@@ -1914,7 +1915,8 @@
       "term.finance.medium-interest-credit-loan",
       "term.finance.operating-lease",
       "term.finance.source-approval-risk",
-      "source.easylaw.finance-product-disclosure"
+      "source.easylaw.finance-product-disclosure",
+      "category.terms"
     ]
   },
   "korea-finance-reference-ontology-2026.json": {
@@ -11665,7 +11667,8 @@
       "source.fsc.inclusive-finance-performance",
       "source.fsc.inclusive-finance-products",
       "source.fsc.rate-disclosure-guide",
-      "source.kfb.consumer-portal"
+      "source.kfb.consumer-portal",
+      "category.terms"
     ]
   },
   "korea-insurance-products-ontology-2026.json": {
@@ -12954,7 +12957,8 @@
       "source.fss.finlife.api",
       "source.fss.finlife.web",
       "source.fss.integrated-pension-portal",
-      "source.knia.insurance-disclosure"
+      "source.knia.insurance-disclosure",
+      "category.terms"
     ]
   },
   "korea-loan-products-ontology-2026.json": {
@@ -13786,7 +13790,8 @@
       "term.finance.installment-finance",
       "term.finance.medium-interest-credit-loan",
       "term.finance.operating-lease",
-      "term.finance.source-approval-risk"
+      "term.finance.source-approval-risk",
+      "category.terms"
     ]
   },
   "korea-local-government-supports-ontology-2026.json": {
@@ -22245,7 +22250,8 @@
       "term.finance.installment-finance",
       "term.finance.medium-interest-credit-loan",
       "term.finance.operating-lease",
-      "term.finance.source-approval-risk"
+      "term.finance.source-approval-risk",
+      "category.terms"
     ]
   },
   "korea-tax-advantaged-accounts-ontology-2026.json": {
@@ -22853,7 +22859,20 @@
       "term.withholding",
       "term.withholding-obligor",
       "source.kinfa.hessal-loan-youth",
-      "source.kinfa.illegal-private-finance-prevention-loan"
+      "source.kinfa.illegal-private-finance-prevention-loan",
+      "source.wetax.local-tax-calendar",
+      "deadline.local.property.first",
+      "deadline.local.property.second",
+      "deadline.local.automobile",
+      "deadline.local.resident",
+      "deadline.local.income.final",
+      "deadline.local.acquisition",
+      "deadline.comprehensive-real-estate.payment",
+      "credit.standard",
+      "credit.dividend",
+      "credit.bookkeeping",
+      "credit.housing-loan-interest",
+      "category.terms"
     ]
   }
 }

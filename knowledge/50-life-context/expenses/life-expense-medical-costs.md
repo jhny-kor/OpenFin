@@ -307,7 +307,12 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:5880156a6fb47c0c7f74e5c606ad01c5796205ef2ba8230a8b1ea24b145fb248"
+  "record_checksum": "sha256:a8d4d5e92b48e00a9445d597eb28a551c57f047556e7a162e57955f4f2f33c94",
+  "requires": [
+    "eligibility-rule.medical-expense-floor",
+    "required-document.eyeglasses-receipt",
+    "required-document.medical-receipt"
+  ]
 }
 ---
 

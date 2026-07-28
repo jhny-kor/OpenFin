@@ -1,7 +1,7 @@
 {
   "version": "OPENFIN-SOURCE-REGISTRY-2026.07.28.1",
   "generated_at": "2026-07-28T00:00:00.000Z",
-  "source_count": 144,
+  "source_count": 145,
   "sources": [
     {
       "id": "source.bccard.check-card-list",
@@ -5534,6 +5534,44 @@
       "status": "active",
       "legacy_source_basis_dates": [
         "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.wetax.local-tax-calendar",
+      "type": "source",
+      "title": "위택스 지방세 일정안내",
+      "publisher": "행정안전부 위택스",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.wetax.go.kr/tcp/loi/J030104M01.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.wetax.go.kr/tcp/loi/J030104M01.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-wetax-local-tax-calendar",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-28T00:00:00.000Z"
       ],
       "source_row_count": 1
     }

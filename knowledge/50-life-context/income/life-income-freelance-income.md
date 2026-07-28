@@ -351,7 +351,10 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:33b717a74d3d89530ccd955d907ae18272c9e061a0875a5b50f8dac901eb4419"
+  "record_checksum": "sha256:9420c8de8d1ea82a729a8d67dc186f89d4de196f13369fdcaec24c76fc468ac8",
+  "available_in": [
+    "application-channel.hometax-income-tax"
+  ]
 }
 ---
 

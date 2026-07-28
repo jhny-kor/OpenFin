@@ -27,7 +27,9 @@
   "terms": [
     "term.local-tax"
   ],
-  "deadlines": [],
+  "deadlines": [
+    "deadline.local.resident"
+  ],
   "sources": [
     "source.local-tax-framework-act.2026.article8",
     "source.law.local-tax-act.rates"
@@ -287,7 +289,7 @@
       "value": "2026-05-03 확인"
     }
   ],
-  "record_checksum": "sha256:a60e77c1e459c8167c6fea22bbd3a0d97e81f97c4f8e448f6f2e053ddde16504"
+  "record_checksum": "sha256:d4151403e0b3d99d11fad6baa6a3154b3941f2871e21d0c614efc1fdcbe97272"
 }
 ---
 

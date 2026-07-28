@@ -187,7 +187,7 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:879a47e351ac74a809e76d64a78276f59d3a390926c19821e3dee6223efea32e"
+  "record_checksum": "sha256:5d27af2fe6f976aa9c853f18c25eae40215d80eff81a6419226768f79ed3cd6f"
 }
 ---
 

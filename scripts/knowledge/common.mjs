@@ -7,6 +7,10 @@ export const DOCS = path.join(ROOT, 'docs/opentax');
 export const KNOWLEDGE = path.join(ROOT, 'knowledge');
 export const EXPORT_RE = /^korea-.*-ontology-2026\.json$/;
 export const BULK_TYPES = new Set(['support-program','card-product','bank-product','financial-product','insurance-product','financial-provider','account-product']);
+// Single definition of the relation vocabulary: the builder emits these as graph
+// edges and the validator resolves every target against them. Adding a key in
+// only one of the two is what let untyped edges accumulate unchecked before.
+export const RELATION_KEYS = ['parents','children','related','terms','deadlines','sources','requires','conflicts_with','available_in','provided_by','reference_items'];
 export const PUBLIC_BASE = 'https://jhny-kor.github.io/OpenFin/opentax';
 export const json = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
 export const writeJson = (p, value) => { fs.mkdirSync(path.dirname(p), {recursive:true}); fs.writeFileSync(p, JSON.stringify(value, null, 2) + '\n'); };
@@ -146,7 +150,7 @@ export const sourceClass = (item) => {
   if (/^source\.(fsc|fss)\b/.test(value)) return 'regulators';
   if (/^source\.(crefia|kfb|kofia|knia|klia|fsb)\b/.test(value)) return 'associations';
   if (/^source\.(bccard|samsungcard|einsmarket)\b/.test(value)) return 'financial-institutions';
-  if (/^source\.(nts|mohw|bok|data-go-kr|gov24|bizinfo|molit|moef|myhome|korea|govkr|hometax|call-nts|nhuf|hf|kinfa|ccrs|kdic)\b/.test(value)) return 'government';
+  if (/^source\.(nts|mohw|bok|data-go-kr|gov24|bizinfo|molit|moef|myhome|korea|govkr|hometax|call-nts|nhuf|hf|kinfa|ccrs|kdic|wetax|mois)\b/.test(value)) return 'government';
   return 'secondary-sources';
 };
 export const sourceAuthorityClass = (item) => ({
@@ -159,6 +163,10 @@ export const sourceAuthorityClass = (item) => ({
 }[sourceClass(item)]);
 export const classifyPath = (item, exportFile) => {
   const t = item.type;
+  // Classification nodes declare their own home. The folder tree and the
+  // category graph are one taxonomy, so a category lives with the records it
+  // classifies rather than in a separate concepts bucket.
+  if (item.canonical_folder) return String(item.canonical_folder).split('/');
   if (t === 'source') return ['90-sources', sourceClass(item)];
   if (t === 'tax') return ['10-tax', 'taxes', item.id.includes('local') ? 'local' : item.id.includes('corporate') ? 'corporate' : 'national'];
   if (t === 'tax-credit') return ['10-tax', 'benefits', 'tax-credits'];

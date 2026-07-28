@@ -177,10 +177,14 @@ for (const item of generated) {
     fs.writeFileSync(file, `---\n${frontmatter}\n---\n\n# ${item.title || item.id}\n\n${item.description || ''}\n`);
   }
 }
-for (const dir of dirs) {
+// _index.md is a folder README, never a node. Classification is carried by the
+// category/domain records that declare canonical_folder; a second folder.* node
+// set would be a parallel taxonomy that nothing links to.
+const writeFolderReadme = dir => {
   const index = path.join(dir,'_index.md');
-  if (!fs.existsSync(index)) fs.writeFileSync(index, `---\n${JSON.stringify({id:`folder.${path.relative(BUILD_DIR,dir).replaceAll(path.sep,'.')}`,title:path.basename(dir),type:'category',parents:[]},null,2)}\n---\n\n# ${path.basename(dir)}\n\nDomain index for OpenFin canonical knowledge.\n`);
-}
+  if (!fs.existsSync(index)) fs.writeFileSync(index, `# ${path.basename(dir)}\n\nDomain index for OpenFin canonical knowledge.\n`);
+};
+for (const dir of dirs) writeFolderReadme(dir);
 // Materialize all planned semantic leaves even when no current record maps to them.
 const plannedLeaves = [
   ['10-tax','taxes','national'],['10-tax','taxes','local'],['10-tax','taxes','corporate'],['10-tax','benefits','deductions'],['10-tax','benefits','tax-credits'],['10-tax','benefits','tax-reductions'],['10-tax','filing'],['10-tax','deadlines'],['10-tax','business-support'],
@@ -192,8 +196,7 @@ const plannedLeaves = [
 ];
 for (const parts of plannedLeaves) {
   const dir = path.join(BUILD_DIR, ...parts); fs.mkdirSync(dir,{recursive:true});
-  const index = path.join(dir,'_index.md');
-  if (!fs.existsSync(index)) fs.writeFileSync(index, `---\n${JSON.stringify({id:`folder.${parts.join('.')}`,title:parts.at(-1),type:'category',parents:[]},null,2)}\n---\n\n# ${parts.at(-1)}\n\nDomain index for OpenFin canonical knowledge.\n`);
+  writeFolderReadme(dir);
 }
 fs.writeFileSync(path.join(BUILD_DIR,'_index.md'), `# OpenFin canonical knowledge\n\nDomain-oriented canonical source. Markdown contains curated records; JSONL contains bulk records.\n`);
 writeJson(path.join(BUILD_DIR,'export-manifests.json'), exportManifests);

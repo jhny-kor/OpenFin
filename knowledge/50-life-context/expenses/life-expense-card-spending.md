@@ -299,7 +299,13 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:30f177c4dedfa60f3c2a3e97f79f80309d37b6fa23317af5d0422bdc67a49ef6"
+  "record_checksum": "sha256:a83441c9bce89fa9ef9a816a01e5ca87a13a2d1f1f75feeaf03dc204dd0a8119",
+  "requires": [
+    "eligibility-rule.credit-card-floor"
+  ],
+  "available_in": [
+    "application-channel.hometax-simplification"
+  ]
 }
 ---
 

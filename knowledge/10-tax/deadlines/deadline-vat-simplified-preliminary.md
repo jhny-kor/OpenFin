@@ -17,7 +17,9 @@
   ],
   "abolition_status": "active",
   "revision_status": "none_announced",
-  "parents": [],
+  "parents": [
+    "category.filing-calendar"
+  ],
   "children": [],
   "related": [],
   "terms": [],
@@ -201,7 +203,7 @@
       "value": "2026-05-02 확인"
     }
   ],
-  "record_checksum": "sha256:3119c13553b33982cc334320014055f816d9f7b8e052cb1bff42243a867370e4"
+  "record_checksum": "sha256:85591916dd30f135890d0e2f2b5db32ff16930396774d937b2ae7ca9b2ed6f3d"
 }
 ---
 

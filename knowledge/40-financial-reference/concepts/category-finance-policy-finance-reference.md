@@ -3,6 +3,9 @@
   "id": "category.finance.policy-finance-reference",
   "title": "정책금융 기준정보",
   "type": "category",
+  "canonical_folder": "40-financial-reference/concepts",
+  "population_status": "planned",
+  "population_reason": "공식 출처에서 해당 상품군 레코드를 아직 수집하지 않았습니다. 분류는 유지하되 인스턴스는 비어 있습니다.",
   "description": "서민금융상품, 정책 주택대출, 취급기관, 상담센터, 지원실적을 기존 대출상품과 연결하기 위한 기준 축입니다.",
   "basis_year": 2026,
   "reviewed_at": "2026-07-10",
@@ -340,7 +343,7 @@
       "value": "2026-07-03 확인"
     }
   ],
-  "record_checksum": "sha256:0236d08738c85f022a87aa6b4e7ab4261149186283af462abe5b4563da564cbe"
+  "record_checksum": "sha256:475f701172768884a094fec7cd3f38646b8186bb0dbc797b5bcb8cdc8159fd17"
 }
 ---
 

@@ -388,7 +388,10 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:8bff63e3c25518bf20c7df6672aaf9926e2de38dc710ffcb41afb769d8b2760c"
+  "record_checksum": "sha256:d8ccfd8d9fcbd7096aeeb6110f877af94ccf90e8e4b49c95218c08dc87f32bf0",
+  "requires": [
+    "eligibility-rule.vat-taxpayer-type"
+  ]
 }
 ---
 

@@ -27,7 +27,9 @@
   "terms": [
     "term.local-tax"
   ],
-  "deadlines": [],
+  "deadlines": [
+    "deadline.local.automobile"
+  ],
   "sources": [
     "source.local-tax-framework-act.2026.article8",
     "source.law.local-tax-act.rates"
@@ -287,7 +289,7 @@
       "value": "2026-05-03 확인"
     }
   ],
-  "record_checksum": "sha256:1fc26da9d789cb62f49264d370ca2a88b0f774aaaf178b2f65c01ef25383cfbd"
+  "record_checksum": "sha256:cc171d2032be9c7399a5d722da80370839f76de2767d43ca9395254e27741ed6"
 }
 ---
 

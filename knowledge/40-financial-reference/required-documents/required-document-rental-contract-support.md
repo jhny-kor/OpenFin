@@ -230,7 +230,11 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:42c3d314d902fd5f8d0834efe4dbbd7f4a58c8f20e458415f91b2f1b5fd20876"
+  "record_checksum": "sha256:18e2dc23beebbada39c1e7d3e1ab2a3d437875c97ca6e8982f9ea0d39deef271",
+  "requires": [
+    "required-document.lease-contract",
+    "required-document.rent-payment-proof"
+  ]
 }
 ---
 

@@ -92,6 +92,9 @@
       "id": "category.finance.pension-savings-products",
       "title": "연금저축 상품",
       "type": "category",
+      "canonical_folder": "30-financial-products/retirement/pensions",
+      "population_status": "planned",
+      "population_reason": "공식 출처에서 해당 상품군 레코드를 아직 수집하지 않았습니다. 분류는 유지하되 인스턴스는 비어 있습니다.",
       "description": "연금저축보험·연금저축펀드·연금저축신탁의 최저보증이율, 공시이율, 과거수익률, 납입·연금개시 조건과 세제적격 세액공제 대상 여부를 관리합니다. 연말정산 연금계좌 세액공제(credit.pension-account)와 연결됩니다. 상품 행은 통합연금포털 원천이 확보될 때 추가합니다(FinLife는 연금저축 공시 API를 제공하지 않음). 퇴직연금·IRP 수익률 비교도 같은 원천으로 확장합니다.",
       "basis_year": 2026,
       "reviewed_at": "2026-07-10",
@@ -130,6 +133,8 @@
       "id": "finance.pension-products-ontology",
       "title": "연금저축 상품 온톨로지",
       "type": "domain",
+      "canonical_folder": "30-financial-products/retirement/pensions",
+      "population_status": "populated",
       "description": "세제적격 연금저축(연금저축보험·연금저축펀드·연금저축신탁)의 공시이율·최저보증이율·과거수익률, 납입·연금개시 조건, 판매상태와 연말정산 세액공제 연계를 구조화하는 금융상품 온톨로지입니다.",
       "basis_year": 2026,
       "reviewed_at": "2026-07-10",
@@ -248,5 +253,5 @@
       "provenance_shard": "reference"
     }
   ],
-  "export_checksum": "90f385b3cb19ad8c976e23de2ace52a739c1b03b71843bf561771f962b19a52b"
+  "export_checksum": "7092f1c8934fd6e78374bf00a81d5413d19df4978144955d36cffccb3b034fc9"
 }

@@ -3,6 +3,8 @@
   "id": "finance.reference-ontology",
   "title": "금융 기준정보 온톨로지",
   "type": "domain",
+  "canonical_folder": "40-financial-reference/concepts",
+  "population_status": "populated",
   "description": "금융상품을 한 MCP에서 비교·판정하기 위해 금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태를 묶는 기준정보 온톨로지입니다.",
   "basis_year": 2026,
   "reviewed_at": "2026-07-10",
@@ -10,15 +12,16 @@
   "revision_status": "check_source",
   "parents": [],
   "children": [
-    "category.finance.financial-provider-registry",
-    "category.finance.benchmark-rates",
     "category.finance.bank-rate-disclosure",
+    "category.finance.benchmark-rates",
+    "category.finance.consumer-protection-signals",
+    "category.finance.financial-provider-registry",
     "category.finance.insurance-risk-signals",
     "category.finance.investment-products",
     "category.finance.pension-products",
-    "category.finance.consumer-protection-signals",
     "category.finance.policy-finance-reference",
-    "category.finance.source-health"
+    "category.finance.source-health",
+    "category.terms"
   ],
   "related": [],
   "terms": [],
@@ -892,7 +895,7 @@
       "value": "2026-07-04 확인"
     }
   ],
-  "record_checksum": "sha256:bfd6c464c237ab4833f2f2aba25322ed7fc241323c81c625f6448cde4df8c0cb"
+  "record_checksum": "sha256:4986ffdf9dc1a668f29d4436a18e75c39a1fc6a75bb51acb92bfb28a79a285ab"
 }
 ---
 

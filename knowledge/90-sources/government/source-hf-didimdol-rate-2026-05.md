@@ -187,7 +187,7 @@
       "value": "공시일 2026-05-01"
     }
   ],
-  "record_checksum": "sha256:246e4cd5990db58e047e8fbb3266b2fcdd10f6208d5f6ffe40e455cf11b8394d"
+  "record_checksum": "sha256:0ce193ec555f585cefdd3b1513d5a19241c0456afec8512dc3c05c673e35605d"
 }
 ---
 

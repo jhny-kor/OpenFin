@@ -3,6 +3,9 @@
   "id": "category.finance.source-health",
   "title": "출처 접근 상태",
   "type": "category",
+  "canonical_folder": "40-financial-reference/concepts",
+  "population_status": "planned",
+  "population_reason": "공식 출처에서 해당 상품군 레코드를 아직 수집하지 않았습니다. 분류는 유지하되 인스턴스는 비어 있습니다.",
   "description": "API 활용신청, 403, endpoint mapping, WAF, 수집 성공일을 상품 노드와 분리해 추적하는 운영 기준 축입니다.",
   "basis_year": 2026,
   "reviewed_at": "2026-07-10",
@@ -885,7 +888,7 @@
       "value": "2026-07-04 확인"
     }
   ],
-  "record_checksum": "sha256:416964831b6725f4f50ff9e0df1d27812292158ecb01ab96c52601bbcca4ee43"
+  "record_checksum": "sha256:035618225962e2ec1cf822c3fb3d36a9d2d3ebe4c952aea0733ee5e65d4e82cc"
 }
 ---
 

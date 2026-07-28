@@ -179,7 +179,10 @@
   },
   "search_shard": "reference",
   "search_position": 167,
-  "record_checksum": "sha256:94e2616b6d9800518e69b263fff51cd476cd789f8e2b47337056fc3813c01d34"
+  "record_checksum": "sha256:41066619b35b6e6e8ddac1bfd0d4ca49ea8dd4768fb8fb115d57e523295074f6",
+  "requires": [
+    "required-document.tax-payment-status"
+  ]
 }
 ---
 

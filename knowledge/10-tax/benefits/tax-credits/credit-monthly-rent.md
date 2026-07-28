@@ -488,7 +488,19 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:50c0fa18b73e4045b164785be19cea4a4db1d1665d66577b491d782237ec6bde"
+  "record_checksum": "sha256:8aabdfe843880fad07841c35ecc3a03a59d8ee31ffa4bbb788e7d238362195f4",
+  "requires": [
+    "eligibility-rule.gross-pay-income-threshold",
+    "eligibility-rule.homeless-household",
+    "eligibility-rule.monthly-rent-address-match",
+    "eligibility-rule.monthly-rent-house-standard",
+    "required-document.lease-contract",
+    "required-document.rent-payment-proof",
+    "required-document.resident-registration-copy"
+  ],
+  "conflicts_with": [
+    "conflict-rule.monthly-rent-household-duplicate"
+  ]
 }
 ---
 

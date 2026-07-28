@@ -3,6 +3,8 @@
   "id": "category.finance.investment-products",
   "title": "투자상품 후보",
   "type": "category",
+  "canonical_folder": "40-financial-reference/concepts",
+  "population_status": "populated",
   "description": "펀드, 퇴직연금, 변액보험 펀드처럼 예금·대출·보험과 함께 비교될 수 있는 투자성 금융상품 후보입니다.",
   "basis_year": 2026,
   "reviewed_at": "2026-07-10",
@@ -361,7 +363,7 @@
       "value": "2026-07-04 확인"
     }
   ],
-  "record_checksum": "sha256:7a7c3e1339b2ecc2596cb14369e5195b0fb81cace76e068f0d2c09f0b8f530e3"
+  "record_checksum": "sha256:e40b8cbe0edf4636599a40e60427368f4f7143e85ef782813750ef2dd2cd4c8b"
 }
 ---
 

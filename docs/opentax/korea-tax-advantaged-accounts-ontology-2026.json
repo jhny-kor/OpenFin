@@ -144,6 +144,8 @@
       "id": "category.finance.housing-subscription-accounts",
       "title": "주택청약종합저축",
       "type": "category",
+      "canonical_folder": "30-financial-products/tax-advantaged-accounts",
+      "population_status": "populated",
       "description": "주택청약종합저축과 청년 주택드림 청약통장의 가입대상, 납입방식, 청약 자격, 무주택 세대주 소득공제(deduction.housing-savings) 연계를 관리합니다. 취급은행·시점별 금리는 출처 확인 대상으로 보존합니다.",
       "basis_year": 2026,
       "reviewed_at": "2026-07-10",
@@ -179,12 +181,17 @@
       ],
       "provenance_shard": "reference",
       "source_registry_id": "source.nhuf.housing-subscription",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "requires": [
+        "eligibility-rule.housing-savings-employee-household"
+      ]
     },
     {
       "id": "category.finance.isa-accounts",
       "title": "ISA 개인종합자산관리계좌",
       "type": "category",
+      "canonical_folder": "30-financial-products/tax-advantaged-accounts",
+      "population_status": "populated",
       "description": "ISA의 유형(신탁형·일임형·중개형), 납입한도, 의무가입기간, 비과세·분리과세 세제혜택(support.isa)과 서민형·농어민형 요건을 관리합니다. 세제 한도는 정책 개정에 따라 변동하므로 출처 확인 대상으로 보존합니다.",
       "basis_year": 2026,
       "reviewed_at": "2026-07-10",
@@ -647,7 +654,10 @@
         "recommendation_scope": "listing_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "account-products"
+      "provenance_shard": "account-products",
+      "requires": [
+        "eligibility-rule.housing-savings-employee-household"
+      ]
     },
     {
       "id": "finance.account.housing-subscription.nhuf.youth-dream",
@@ -1912,6 +1922,8 @@
       "id": "finance.tax-advantaged-accounts-ontology",
       "title": "세제혜택 계좌 온톨로지",
       "type": "domain",
+      "canonical_folder": "30-financial-products/tax-advantaged-accounts",
+      "population_status": "populated",
       "description": "주택청약종합저축과 ISA(개인종합자산관리계좌)처럼 소득공제·비과세 등 세제혜택이 결합된 저축·자산관리 계좌의 가입대상, 납입한도, 세제 요건, 연말정산·청약 연계를 구조화하는 금융상품 온톨로지입니다.",
       "basis_year": 2026,
       "reviewed_at": "2026-07-10",
@@ -2000,5 +2012,5 @@
       "provenance_shard": "reference"
     }
   ],
-  "export_checksum": "3b4f3a294d11a4ba9e51a63d149ad90671ac7cb39205fee5617f89606e952b8e"
+  "export_checksum": "2aaad51e89bae1782d7e95cc818df1d1f4d49f5e7ad6e89d27cce01bab518c28"
 }

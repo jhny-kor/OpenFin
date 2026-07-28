@@ -252,7 +252,11 @@
       "value": "2026-05-03 확인"
     }
   ],
-  "record_checksum": "sha256:b25a061f87e66c696d0e22b5b47caccd9b4abe1eb1f1d48b704273bef385b1f7"
+  "record_checksum": "sha256:a1179c740d80f37257988260f24a00b265ea9a01bea81d67d79c2c10bc51fb70",
+  "requires": [
+    "eligibility-rule.housing-savings-employee-household",
+    "required-document.housing-savings-payment-certificate"
+  ]
 }
 ---
 

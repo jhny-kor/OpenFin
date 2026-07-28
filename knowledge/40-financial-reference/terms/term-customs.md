@@ -17,7 +17,9 @@
   ],
   "abolition_status": "active",
   "revision_status": "none_announced",
-  "parents": [],
+  "parents": [
+    "category.terms"
+  ],
   "children": [],
   "related": [],
   "terms": [],
@@ -188,7 +190,7 @@
       "value": "시행 2026-01-01"
     }
   ],
-  "record_checksum": "sha256:0e4d5f99443301df4f8193be8dccdabea032f9c0c9a2d8aa9dd5e0f59e4796ae"
+  "record_checksum": "sha256:a7b431acd769b141b92e743e36ed65fe463640a8f5a1db511c3915ea8344c3b6"
 }
 ---
 

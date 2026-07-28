@@ -42,7 +42,9 @@
     "term.tax-rate",
     "term.eligibility-threshold"
   ],
-  "deadlines": [],
+  "deadlines": [
+    "deadline.comprehensive-real-estate.payment"
+  ],
   "sources": [
     "source.national-tax-framework-act.2026.article2",
     "source.nts.comprehensive-real-estate.overview",
@@ -832,7 +834,7 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:9dfe8c5b369d35ddab5f838ce8b85b6669004bfd84565bb39428b24cf88cf2d3"
+  "record_checksum": "sha256:75794ba7ad3da0fd65c9daf15457894326013cc481b9dadfd052c4406291fd47"
 }
 ---
 

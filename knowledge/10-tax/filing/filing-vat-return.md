@@ -406,7 +406,10 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:9ef257433cef852d7d96204a708b72cfb7f4e74ec16afab3d7af33c5384fa0b2"
+  "record_checksum": "sha256:898176bdde24e60bccdec3219069ad9b9bcd92ad72463868fdf2b7d62992d639",
+  "available_in": [
+    "application-channel.hometax-vat"
+  ]
 }
 ---
 

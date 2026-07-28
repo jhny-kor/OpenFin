@@ -36,7 +36,10 @@
     "term.publicly-notified-price",
     "term.tax-rate"
   ],
-  "deadlines": [],
+  "deadlines": [
+    "deadline.local.property.first",
+    "deadline.local.property.second"
+  ],
   "sources": [
     "source.local-tax-framework-act.2026.article8",
     "source.nts.real-estate-tax.faq",
@@ -555,7 +558,7 @@
       "value": "2026-05-03 확인"
     }
   ],
-  "record_checksum": "sha256:dc7f449b9103b7c1f7c51002d7cf917df1b76f154c9cd0640ea454547a582845"
+  "record_checksum": "sha256:bf1dd396df423fdf4cdb4a44e01a8b8559c80ee70e21fbf9394368f2a3731fda"
 }
 ---
 

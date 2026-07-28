@@ -490,7 +490,14 @@
       "value": "2026-05-03 확인"
     }
   ],
-  "record_checksum": "sha256:83fe8923cc27d0d0136230875e0f4d30faae4642c3ab06f91205d4e589a7d0af"
+  "record_checksum": "sha256:0cdfdcf9c997d70cb8283d0146ed7a8f10d61d242052905fc14c3a392e2e010f",
+  "requires": [
+    "required-document.lease-contract",
+    "required-document.resident-registration-copy"
+  ],
+  "conflicts_with": [
+    "conflict-rule.monthly-rent-household-duplicate"
+  ]
 }
 ---
 

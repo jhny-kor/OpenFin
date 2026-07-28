@@ -397,7 +397,10 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:3477d86edad07d8cdaa57965b2d0eb11193f6b383836044424041e711433e677"
+  "record_checksum": "sha256:d74111eca40ede98845d397884bfc7aa6e28600a535825c80793776fac2a0113",
+  "requires": [
+    "eligibility-rule.gross-pay-income-threshold"
+  ]
 }
 ---
 

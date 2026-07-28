@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { ROOT, DOCS, KNOWLEDGE, PUBLIC_BASE, json, writeJson, stable, sha256, publicProjection, restoreCompatibilityDates, validUrl, isoDate, sourceAuthorityClass, sourcePublisher } from './common.mjs';
+import { ROOT, DOCS, KNOWLEDGE, PUBLIC_BASE, RELATION_KEYS, json, writeJson, stable, sha256, publicProjection, restoreCompatibilityDates, validUrl, isoDate, sourceAuthorityClass, sourcePublisher } from './common.mjs';
 
 const loadCanonical = () => {
   const records = [];
@@ -200,8 +200,8 @@ const checksummed = catalog.filter(i=>i.provenance?.some(p=>p.checksum)).length;
 const invalidUrls = catalog.flatMap(i=>i.source_urls||[]).filter(v=>!validUrl(v));
 const provenanceCoverageArtifact = {version:'OPENFIN-PROVENANCE-COVERAGE-2026.07.28.1', generated_at:now, item_count:catalog.length, external_item_count:externalItems.length, provenance_covered_count:covered, external_provenance_covered_count:externalItems.filter(i=>i.provenance?.length).length, external_provenance_coverage_ratio:externalItems.length?externalItems.filter(i=>i.provenance?.length).length/externalItems.length:1, source_registry_count:catalog.filter(i=>i.type==='source').length, collected_record_count:collected, deterministic_checksum_count:checksummed, invalid_legacy_url_count:invalidUrls.length, invalid_legacy_urls:[...new Set(invalidUrls)].sort(), recommendation_enabled:false, status:'degraded'};
 writeJson(path.join(DOCS,'openfin-provenance-coverage-report-2026.json'), provenanceCoverageArtifact);
-const relations=[]; const relationKeys=['parents','children','related','terms','deadlines','sources','requires','conflicts_with','provided_by','available_in','reference_items'];
-for(const item of catalog){for(const relation of relationKeys){const values = Array.isArray(item[relation]) ? item[relation] : item[relation] == null ? [] : [item[relation]]; for(const to of values){relations.push({from:item.id,relation,to:String(to)})}}}
+const relations=[];
+for(const item of catalog){for(const relation of RELATION_KEYS){const values = Array.isArray(item[relation]) ? item[relation] : item[relation] == null ? [] : [item[relation]]; for(const to of values){relations.push({from:item.id,relation,to:String(to)})}}}
 relations.sort((a,b)=>a.from.localeCompare(b.from)||a.relation.localeCompare(b.relation)||a.to.localeCompare(b.to));
 const relationshipArtifact = {version:'OPENFIN-RELATIONSHIP-INDEX-2026.07.28.1', generated_at:now, node_count:catalog.length, edge_count:relations.length, relations};
 writeCompact(path.join(DOCS,'openfin-relationship-index-2026.json'), relationshipArtifact);

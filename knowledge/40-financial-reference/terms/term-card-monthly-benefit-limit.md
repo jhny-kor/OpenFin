@@ -8,7 +8,9 @@
   "reviewed_at": "2026-07-10",
   "abolition_status": "active",
   "revision_status": "check_source",
-  "parents": [],
+  "parents": [
+    "category.terms"
+  ],
   "children": [],
   "related": [],
   "terms": [],
@@ -369,7 +371,7 @@
       "value": "2026-07-03 확인"
     }
   ],
-  "record_checksum": "sha256:7adbdb143847cdec0a4296d478643c611741e33015b7f71613d6a0726ffd4486"
+  "record_checksum": "sha256:98cbedcf75537a2e61ae6440128fa80231118a9d0e1cbce1ede86a8a5ddf8926"
 }
 ---
 

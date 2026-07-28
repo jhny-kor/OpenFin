@@ -19,7 +19,9 @@
   ],
   "abolition_status": "active",
   "revision_status": "none_announced",
-  "parents": [],
+  "parents": [
+    "category.terms"
+  ],
   "children": [],
   "related": [],
   "terms": [],
@@ -223,7 +225,7 @@
       "value": "최종수정일 2026-02-09"
     }
   ],
-  "record_checksum": "sha256:707ed9875641c67f911a22e040df5ede84e024da4f976c9cdd784b4d8384d974"
+  "record_checksum": "sha256:7068840f7829f77037830bf4cc7ae028a0e2ec9e151df2d05044d87c72007ce4"
 }
 ---
 

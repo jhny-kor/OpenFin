@@ -381,7 +381,13 @@
       "value": "2026-05-02 확인"
     }
   ],
-  "record_checksum": "sha256:835c5b84885453130e558814c9780835de856ec710f87ccc1b8d986e25b16ceb"
+  "record_checksum": "sha256:6ef2df27eb2a04819598cc86722d060d83881bdd7ab380ce4d61fc4032982cab",
+  "conflicts_with": [
+    "conflict-rule.youth-rent-cash-support-duplicate"
+  ],
+  "requires": [
+    "eligibility-rule.youth-rent-income-asset"
+  ]
 }
 ---
 

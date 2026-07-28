@@ -16,10 +16,12 @@ test('canonical knowledge validation passes', () => {
   const output = execFileSync('node', ['scripts/knowledge/validate.mjs'], { cwd: root, encoding: 'utf8', maxBuffer: 10_000_000 });
   const result = JSON.parse(output);
   assert.equal(result.ok, true);
-  assert.equal(result.records, 21266);
-  assert.equal(result.sources, 144);
-  assert.equal(result.public_rows, 21374);
-  assert.equal(result.reference_items, 108);
+  // Floors, matching the validator: curation may add records, never drop them.
+  assert.ok(result.records >= 21266, `records ${result.records}`);
+  assert.ok(result.sources >= 144, `sources ${result.sources}`);
+  assert.ok(result.public_rows >= 21374, `public_rows ${result.public_rows}`);
+  assert.ok(result.reference_items >= 108, `reference_items ${result.reference_items}`);
+  assert.equal(result.public_rows, result.records + result.reference_items);
 });
 
 test('source tracker detects change, conflict, and outage without mutating dry-run status', async () => {
@@ -90,7 +92,7 @@ test('source tracker detects change, conflict, and outage without mutating dry-r
 
 test('manifest keeps OpenFin URLs and fail-closed quality', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'docs/opentax/finance-ontology-manifest.json')));
-  assert.equal(manifest.source_registry.item_count, 144);
+  assert.ok(manifest.source_registry.item_count >= 144, `source registry ${manifest.source_registry.item_count}`);
   assert.equal(manifest.provenance_coverage.coverage.external_provenance_coverage_ratio, 1);
   assert.equal(manifest.recommendation_enabled, false);
   assert.equal(manifest.release_status, 'degraded');

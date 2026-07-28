@@ -3,6 +3,8 @@
   "id": "kr-tax-system",
   "title": "OpenTax",
   "type": "domain",
+  "canonical_folder": "40-financial-reference/concepts",
+  "population_status": "populated",
   "description": "대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 OpenTax 최상위 항목입니다.",
   "folder": "00_Index",
   "basis_year": 2026,
@@ -252,7 +254,7 @@
       "value": "시행 2026-02-05"
     }
   ],
-  "record_checksum": "sha256:da55b96af7fec42d340c576a9f567682d5e1e3edeed88c79770d199e0d42174d"
+  "record_checksum": "sha256:2c7642626ae4ce7ceaf65813bf68cea29f19397fb19361c5681650e182e05917"
 }
 ---
 

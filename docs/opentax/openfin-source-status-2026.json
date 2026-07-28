@@ -1,7 +1,7 @@
 {
   "version": "OPENFIN-SOURCE-STATUS-2026.07.28.1",
   "generated_at": "2026-07-28T00:00:00.000Z",
-  "source_count": 144,
+  "source_count": 145,
   "statuses": [
     {
       "checked_at": "2026-07-28T03:07:39.976Z",
@@ -4750,6 +4750,29 @@
       "needs_review": true,
       "change_detected": true,
       "id": "source.samsungcard.credit-card-list"
+    },
+    {
+      "id": "source.wetax.local-tax-calendar",
+      "lifecycle_status": "active",
+      "status": "stale",
+      "checked_at": "2026-07-28T00:00:00.000Z",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.wetax.go.kr/tcp/loi/J030104M01.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.wetax.go.kr/tcp/loi/J030104M01.do"
+        ]
+      },
+      "stale": true,
+      "verification_status": "baseline_reference",
+      "needs_live_check": true
     }
   ]
 }

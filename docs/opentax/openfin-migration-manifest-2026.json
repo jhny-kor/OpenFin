@@ -11,10 +11,10 @@
   },
   "result": {
     "export_count": 10,
-    "row_count": 21374,
-    "unique_id_count": 21266,
-    "unique_source_count": 144,
-    "reference_item_count": 108,
+    "row_count": 21393,
+    "unique_id_count": 21279,
+    "unique_source_count": 145,
+    "reference_item_count": 114,
     "invalid_source_url_count": 0
   },
   "approved_changes": [

@@ -187,7 +187,7 @@
       "value": "시행 2026-02-05"
     }
   ],
-  "record_checksum": "sha256:43c9a6d2dc93010bf072c211e0d1052f03b296b66af930964846d52b9678333c"
+  "record_checksum": "sha256:dfa57f18c1e90f7cd4e368e60da69ac9e55f9df8bf65e5fa9b567bce37efd10c"
 }
 ---
 

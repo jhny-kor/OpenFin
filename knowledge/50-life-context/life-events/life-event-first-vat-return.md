@@ -356,7 +356,13 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:730ad09b5e118665a7354d3a1d157b95617781b28a6013b95940c20b4db596cb"
+  "record_checksum": "sha256:d5533522d03a854068c2a23ffa19538c6ae6aa8d76f7e84bc6a2dd02cd97d40e",
+  "requires": [
+    "eligibility-rule.vat-taxpayer-type"
+  ],
+  "available_in": [
+    "application-channel.hometax-vat"
+  ]
 }
 ---
 

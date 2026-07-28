@@ -420,7 +420,10 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:ea00cc24e004429d136a1b1c1cac50f3500541e752efc28e601f38e9ba034a8b"
+  "record_checksum": "sha256:d9fdca4eef492fa422b75cfdd9140f2cf85225f78e909a581a6477364b41a758",
+  "requires": [
+    "eligibility-rule.credit-card-floor"
+  ]
 }
 ---
 

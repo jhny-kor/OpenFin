@@ -194,7 +194,10 @@
       "value": "2026-05-02 확인"
     }
   ],
-  "record_checksum": "sha256:2a6d6dceb657fdbfe17ecbd42f3d340d705f655f775fa5f5e0f9bd03679856ce"
+  "record_checksum": "sha256:fc6a7a990deddf0471bdd18f23b019971bd5f13ee877bfb25409341f379d6655",
+  "requires": [
+    "required-document.rental-contract-support"
+  ]
 }
 ---
 

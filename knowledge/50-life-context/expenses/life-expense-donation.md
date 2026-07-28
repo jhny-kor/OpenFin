@@ -254,7 +254,14 @@
       "value": "2026-05-03 확인"
     }
   ],
-  "record_checksum": "sha256:8a755f455cc65ce0e697dd73726ac4db353bbdb51d63be035997dd23de657995"
+  "record_checksum": "sha256:a4d0a6789d4a8653efbb726fcab0e09e02e7c0a34ee8ef0cd3020bd88f80ded2",
+  "requires": [
+    "eligibility-rule.donation-type",
+    "required-document.donation-receipt"
+  ],
+  "conflicts_with": [
+    "conflict-rule.donation-carryover"
+  ]
 }
 ---
 

@@ -391,7 +391,10 @@
       "value": "최종수정일 2026-03-31"
     }
   ],
-  "record_checksum": "sha256:7c26f09bafe7d9600e9bc91d33260be410b98c3fa710eb7d945237e1a69c1c43"
+  "record_checksum": "sha256:fa876fd3c670feeea4ac09ab2b9d7a10ab3b98bce6e4e5aea542fc83741d26f3",
+  "available_in": [
+    "application-channel.bokjiro"
+  ]
 }
 ---
 

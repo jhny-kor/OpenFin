@@ -446,7 +446,14 @@
       "value": "2026-05-03 확인"
     }
   ],
-  "record_checksum": "sha256:85afdbbbe00f4d7883bc96cfe6195dd3385ef5a8064787a5804d0d985eaf1bf5"
+  "record_checksum": "sha256:58fefd6365e84bbd313d5b7c5bfcfc6254710d60e02be3562414954d728d044f",
+  "requires": [
+    "eligibility-rule.education-dependent-type",
+    "required-document.education-payment-certificate"
+  ],
+  "conflicts_with": [
+    "conflict-rule.education-nongrad"
+  ]
 }
 ---
 

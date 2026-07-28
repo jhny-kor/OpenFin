@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { KNOWLEDGE, DOCS, ROOT, json, validUrl, sha256 } from './common.mjs';
+import { KNOWLEDGE, DOCS, ROOT, RELATION_KEYS, json, validUrl, sha256 } from './common.mjs';
 
 const failures = [];
 const records = [];
@@ -58,6 +58,8 @@ for (const record of records) {
   if (item.type === 'source') sources.push(item);
 }
 const sourceIds = new Set(sources.map(source => source.id));
+const instanceCount = new Map();
+for (const { value: item } of records) for (const parent of item.parents || []) instanceCount.set(parent, (instanceCount.get(parent) || 0) + 1);
 const decisionFields = ['criteria','eligibility','options','benefits','rates','interest_rates','limit','limits','amount','support_details','coverage','premium','application_deadline','application_open_from','application_open_to','term','period'];
 
 for (const { value: item } of records) {
@@ -78,6 +80,9 @@ for (const { value: item } of records) {
     if (!sourceIds.has(assertion.source_id)) fail(`unresolved legacy source assertion: ${item.id} -> ${assertion.source_id}`);
     if (assertion.original_url != null && !validUrl(assertion.original_url)) fail(`invalid legacy assertion URL: ${item.id}`);
   }
+  // A stored checksum that no longer describes its record is a silent lie about
+  // provenance. Recompute it the way the builder does and require agreement.
+  if (item.record_checksum && sha256({...item, provenance: undefined, record_checksum: undefined}) !== item.record_checksum) fail(`stale record checksum: ${item.id}`);
   if (item.source_record_id != null) {
     if (!item.record_checksum) fail(`missing record checksum: ${item.id}`);
     if (!(item.provenance || []).some(assertion => assertion.source_record_id != null && assertion.checksum && isIso(assertion.collected_at))) fail(`incomplete collected provenance: ${item.id}`);
@@ -90,8 +95,30 @@ for (const { value: item } of records) {
   }
 }
 
-if (records.length !== 21266) fail(`canonical records ${records.length} != 21266`);
-if (sources.length !== 144) fail(`sources ${sources.length} != 144`);
+// Every relation target must resolve to a canonical node. Without this the graph
+// can accumulate edges into ids that no longer exist and still pass the gate.
+for (const { value: item, file } of records) {
+  for (const relation of RELATION_KEYS) {
+    const values = Array.isArray(item[relation]) ? item[relation] : item[relation] == null ? [] : [item[relation]];
+    for (const to of values) if (!byId.has(String(to))) fail(`unresolved relation target: ${item.id} -${relation}-> ${to}${file ? ` (${path.relative(ROOT, file)})` : ''}`);
+  }
+  // Only ontology roots and provenance nodes stand outside the hierarchy.
+  // Everything else must be reachable from a classification node.
+  if (!['domain','source'].includes(item.type) && !(item.parents || []).length) fail(`entity outside the hierarchy: ${item.id} (${item.type})`);
+  // `parents` is authoritative; `children` is a curated convenience list that
+  // high-volume categories deliberately leave empty. Only the curated direction
+  // is checked, so a hand-written child list cannot drift from the real edge.
+  for (const child of item.children || []) {
+    const node = byId.get(String(child));
+    if (node && !(node.parents || []).includes(item.id)) fail(`asymmetric hierarchy: ${item.id} lists child ${child} that does not claim it as a parent`);
+  }
+}
+
+// Baselines are floors, not equalities: the gate must catch data loss without
+// blocking curation. Cross-artifact agreement is asserted relationally below.
+const BASELINE = {records:21266, sources:144, public_rows:21374, reference_items:108, provenance_covered:21122};
+if (records.length < BASELINE.records) fail(`canonical records ${records.length} < ${BASELINE.records}`);
+if (sources.length < BASELINE.sources) fail(`sources ${sources.length} < ${BASELINE.sources}`);
 for (const source of sources) {
   if (!Array.isArray(source.terms)) fail(`source legacy terms must remain array: ${source.id}`);
   if (!source.publisher || !source.authority_class || !source.access?.method || !source.access?.parser_id || !source.refresh?.sla_hours || !source.refresh?.change_detection || !source.status) fail(`incomplete source contract: ${source.id}`);
@@ -111,6 +138,24 @@ const requiredLeaves = [
 for (const leaf of requiredLeaves) if (!fs.existsSync(path.join(KNOWLEDGE, leaf, '_index.md'))) fail(`missing semantic index: ${leaf}`);
 for (const name of ['taxonomy','ontology','topology']) if (fs.existsSync(path.join(KNOWLEDGE, name))) fail(`forbidden concept folder: ${name}`);
 
+// One taxonomy: every classification node declares the folder it classifies and
+// physically lives there. A folder.* node would be a second, unlinked hierarchy.
+for (const { value: item, file } of records) {
+  if (!['category','domain'].includes(item.type)) continue;
+  if (item.id.startsWith('folder.')) { fail(`parallel folder taxonomy reintroduced: ${item.id}`); continue; }
+  if (!item.canonical_folder) { fail(`classification node without canonical_folder: ${item.id}`); continue; }
+  const actual = path.relative(KNOWLEDGE, path.dirname(file));
+  if (actual !== item.canonical_folder) fail(`classification node misplaced: ${item.id} declares ${item.canonical_folder} but lives in ${actual}`);
+  // A class with no instances must say so. Silently empty categories make the
+  // ontology look broader than the data it can actually answer from.
+  const instances = instanceCount.get(item.id) || 0;
+  const declared = item.population_status;
+  if (!['populated','planned'].includes(declared)) fail(`classification node without population_status: ${item.id}`);
+  else if (declared === 'populated' && instances === 0) fail(`category declared populated but has no instances: ${item.id}`);
+  else if (declared === 'planned' && instances > 0) fail(`category declared planned but has ${instances} instances: ${item.id}`);
+  else if (declared === 'planned' && !item.population_reason) fail(`planned category without population_reason: ${item.id}`);
+}
+
 const manifest = json(path.join(DOCS, 'finance-ontology-manifest.json'));
 if (manifest.release_status !== 'degraded' || manifest.recommendation_enabled !== false) fail('quality/recommendation fail-closed state changed');
 for (const key of ['source_registry','source_status','provenance_index','provenance_coverage','relationship_index']) {
@@ -123,7 +168,7 @@ if (!(manifest.quality_exports || []).some(entry => entry.id === 'openfin-proven
 if (JSON.stringify(manifest).includes('github.io/TaxMeter/opentax')) fail('legacy TaxMeter operational URL remains in manifest');
 
 const registry = json(path.join(DOCS, 'openfin-source-registry-2026.json'));
-if (registry.sources?.length !== 144 || new Set(registry.sources?.map(source => source.id)).size !== 144) fail('source registry is not 144 unique sources');
+if (registry.sources?.length !== sources.length || new Set(registry.sources?.map(source => source.id)).size !== sources.length) fail(`source registry is not ${sources.length} unique sources`);
 const registryById = new Map((registry.sources || []).map(source => [source.id, source]));
 for (const requirement of manifest.api_required_sources || []) {
   const source = registryById.get(requirement.source_id);
@@ -131,7 +176,7 @@ for (const requirement of manifest.api_required_sources || []) {
 }
 const sourceStatuses = json(path.join(DOCS, 'openfin-source-status-2026.json'));
 const statusEnums = new Set(['unchanged','changed','stale','unreachable','retired','conflict']);
-if (sourceStatuses.statuses?.length !== 144) fail('source status count mismatch');
+if (sourceStatuses.statuses?.length !== sources.length) fail('source status count mismatch');
 for (const status of sourceStatuses.statuses || []) {
   if (!sourceIds.has(status.id) || !statusEnums.has(status.status)) fail(`invalid source status: ${status.id}`);
   if (status.freshness_status === 'active') fail(`lifecycle leaked into freshness: ${status.id}`);
@@ -141,7 +186,7 @@ for (const status of sourceStatuses.statuses || []) {
 const coverage = json(path.join(DOCS, 'openfin-provenance-coverage-report-2026.json'));
 if (coverage.external_provenance_coverage_ratio !== 1 || coverage.invalid_legacy_url_count !== 0 || coverage.recommendation_enabled !== false) fail('provenance coverage gate failed');
 
-const expectedCounts = {
+const minimumCounts = {
   'korea-card-products-ontology-2026.json':1030,
   'korea-deposit-products-ontology-2026.json':474,
   'korea-finance-reference-ontology-2026.json':9654,
@@ -154,23 +199,25 @@ const expectedCounts = {
   'korea-tax-ontology-2026.json':374,
 };
 let publicRows = 0; let referenceRows = 0; const publicOwnerIds = new Set(); const publicReferenceIds = [];
-for (const [file, expected] of Object.entries(expectedCounts)) {
+for (const [file, minimum] of Object.entries(minimumCounts)) {
   const payload = json(path.join(DOCS, file));
   const count = (payload.items || []).length + (payload.reference_items || []).length;
-  if (count !== expected) fail(`export count mismatch: ${file} ${count} != ${expected}`);
+  if (count < minimum) fail(`export lost rows: ${file} ${count} < ${minimum}`);
   if (payload.export_checksum !== sha256({items:payload.items || [], reference_items:payload.reference_items || []}).slice(7)) fail(`export checksum mismatch: ${file}`);
   publicRows += count; referenceRows += (payload.reference_items || []).length;
   for (const item of payload.items || []) { if (publicOwnerIds.has(item.id)) fail(`multiple public owners: ${item.id}`); publicOwnerIds.add(item.id); }
   for (const item of payload.reference_items || []) publicReferenceIds.push(item.id);
 }
-if (publicRows !== 21374 || publicOwnerIds.size !== 21266 || referenceRows !== 108) fail(`public compatibility counts invalid: rows=${publicRows} owners=${publicOwnerIds.size} refs=${referenceRows}`);
+if (publicRows < BASELINE.public_rows || publicOwnerIds.size < BASELINE.records || referenceRows < BASELINE.reference_items) fail(`public compatibility rows lost: rows=${publicRows} owners=${publicOwnerIds.size} refs=${referenceRows}`);
+if (publicOwnerIds.size !== records.length) fail(`public owners ${publicOwnerIds.size} != canonical records ${records.length}`);
+if (publicRows !== publicOwnerIds.size + referenceRows) fail(`public row accounting invalid: ${publicRows} != ${publicOwnerIds.size} + ${referenceRows}`);
 for (const id of publicReferenceIds) if (!publicOwnerIds.has(id)) fail(`reference item without owner: ${id}`);
 
 const search = json(path.join(DOCS, 'finance-search-index-2026.json'));
-if (search.item_count !== 21266 || search.canonical_product_count !== 3434) fail('search index counts changed');
-if (!Array.isArray(search.items) || search.items.length !== 21266 || search.compact_item_count !== 21266) fail('compact search root missing or incomplete');
+if (search.item_count !== records.length || search.canonical_product_count !== 3434) fail(`search index counts changed: ${search.item_count} vs ${records.length} canonical`);
+if (!Array.isArray(search.items) || search.items.length !== search.item_count || search.compact_item_count !== search.item_count) fail('compact search root missing or incomplete');
 if (search.export_checksum !== sha256(search.items).slice(7)) fail('compact search root checksum mismatch');
-if ((search.shards || []).reduce((sum, shard) => sum + (shard.item_count || 0), 0) !== 21266) fail('search shard counts changed');
+if ((search.shards || []).reduce((sum, shard) => sum + (shard.item_count || 0), 0) !== search.item_count) fail('search shard counts do not sum to the search root');
 for (const item of search.items || []) {
   if (!Array.isArray(item.source_ids)) fail(`compact search source ids missing: ${item.id}`);
   for (const sourceId of item.source_ids || []) if (!sourceIds.has(sourceId)) fail(`compact search source id unresolved: ${item.id} -> ${sourceId}`);
@@ -184,7 +231,7 @@ for (const shard of search.shards || []) {
   }
 }
 const provenanceIndex = json(path.join(DOCS, 'openfin-provenance-index-2026.json'));
-if (provenanceIndex.covered_item_count !== 21122 || !(provenanceIndex.shards || []).length) fail('provenance index coverage/shards invalid');
+if (provenanceIndex.covered_item_count < BASELINE.provenance_covered || !(provenanceIndex.shards || []).length) fail('provenance index coverage/shards invalid');
 for (const shard of provenanceIndex.shards || []) {
   const payload = json(path.join(DOCS, path.basename(shard.path)));
   if (payload.item_count !== payload.items.length || sha256(payload).slice(7) !== shard.export_checksum) fail(`provenance shard invalid: ${shard.shard_id}`);

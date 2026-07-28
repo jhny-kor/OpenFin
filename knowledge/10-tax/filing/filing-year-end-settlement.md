@@ -334,7 +334,11 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:ac3c17a3356c6907db99d147e064db0bdf104115b9ffbdc2e3e23ce60ddeab24"
+  "record_checksum": "sha256:fbbc5c33b9d925501491239d14c3ae8e027bd52663fb26dcb029f86e88d887c3",
+  "available_in": [
+    "application-channel.company-year-end-settlement",
+    "application-channel.hometax-simplification"
+  ]
 }
 ---
 

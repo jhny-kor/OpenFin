@@ -73,6 +73,10 @@ These flows remain tool-only. Their inputs are naturally conversational and the 
 ## Canonical Knowledge Model
 
 - Domain folders under `knowledge/` embody the primary taxonomy. There are no `taxonomy/`, `ontology/`, or `topology/` top-level folders.
+- There is exactly one taxonomy. Every `category`/`domain` node declares `canonical_folder` and physically lives there, alongside the records it classifies. `_index.md` is a folder README, never a node.
+- Every classification node declares `population_status`. A `planned` class has no instances yet and must state a `population_reason`; a `populated` class must have at least one. Declared-but-empty classes never inflate the published counts silently.
+- Relations are typed. `requires`, `conflicts_with`, and `available_in` carry eligibility rules, required documents, conflict rules, and application channels; `related` remains the untyped compatibility superset.
+- Every relation target resolves to a canonical node. Baseline record, source, and export counts are floors, not equalities: curation may add rows, never drop them.
 - Curated knowledge is authored as Markdown with strict JSON frontmatter.
 - Homogeneous high-volume records are canonical JSONL within domain `_records/` folders.
 - Stable IDs, explicit properties, typed relations, source nodes, and provenance assertions form the semantic model.

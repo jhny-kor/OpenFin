@@ -448,7 +448,17 @@
       "value": "2026-05-03 확인"
     }
   ],
-  "record_checksum": "sha256:9294428ac730655c736ed408b5e55c968949c56f1054b77e5006c8fafe43dd90"
+  "record_checksum": "sha256:52fd5d46346c7da7c21fa9d033caf9d1ac0dc4f9604ec0a88496016926ceb0af",
+  "requires": [
+    "eligibility-rule.gross-pay-income-threshold",
+    "eligibility-rule.homeless-household",
+    "eligibility-rule.housing-savings-employee-household",
+    "required-document.housing-savings-payment-certificate",
+    "required-document.resident-registration-copy"
+  ],
+  "conflicts_with": [
+    "conflict-rule.monthly-rent-household-duplicate"
+  ]
 }
 ---
 

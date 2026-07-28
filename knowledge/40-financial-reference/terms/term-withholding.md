@@ -19,7 +19,9 @@
   ],
   "abolition_status": "active",
   "revision_status": "none_announced",
-  "parents": [],
+  "parents": [
+    "category.terms"
+  ],
   "children": [],
   "related": [],
   "terms": [],
@@ -238,7 +240,7 @@
       "value": "2026-05-02 확인"
     }
   ],
-  "record_checksum": "sha256:ec8d017a8800d18da9899c2909ac39374eda462f11b48fb62a0c17fb53aa2f27"
+  "record_checksum": "sha256:3eeb23e3de3fffbf108041b0639f2cc50f7534439273ac57ea2aa7eda79957ae"
 }
 ---
 
