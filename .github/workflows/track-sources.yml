@@ -1,0 +1,109 @@
+name: Track OpenFin Sources
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: source-tracking
+  cancel-in-progress: false
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Prepare review branch and retain prior receipts
+        run: |
+          git switch -c automation/source-tracking
+          remote_status=0
+          git ls-remote --exit-code --heads origin automation/source-tracking >/dev/null || remote_status=$?
+          if [ "$remote_status" -eq 0 ]; then
+            git fetch origin automation/source-tracking
+            git cat-file -e origin/automation/source-tracking:evidence/source-receipts
+            git cat-file -e origin/automation/source-tracking:docs/opentax/openfin-source-status-2026.json
+            git checkout origin/automation/source-tracking -- evidence/source-receipts docs/opentax/openfin-source-status-2026.json
+          elif [ "$remote_status" -ne 2 ]; then
+            echo "Unable to determine prior source-tracking state" >&2
+            exit "$remote_status"
+          fi
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Check source freshness
+        id: source-check
+        continue-on-error: true
+        run: |
+          report_dir="evidence/source-receipts/$(date -u +%Y-%m)"
+          mkdir -p "$report_dir"
+          npm run knowledge:track-sources:write -- --report-dir "$report_dir"
+          report_file="$report_dir/source-status-report.json"
+          review_count="$(jq '[.results[] | select(.status != "unchanged")] | length' "$report_file")"
+          echo "report_dir=$report_dir" >> "$GITHUB_OUTPUT"
+          echo "report_file=$report_file" >> "$GITHUB_OUTPUT"
+          echo "review_count=$review_count" >> "$GITHUB_OUTPUT"
+      - name: Build impact report and public status
+        if: steps.source-check.outcome == 'success' && steps.source-check.outputs.review_count != '0'
+        run: |
+          stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+          impact_file="${{ steps.source-check.outputs.report_dir }}/source-impact-$stamp.json"
+          npm run knowledge:source-impact-report -- --status-report "${{ steps.source-check.outputs.report_file }}" --output "$impact_file"
+          npm run knowledge:build
+          npm run knowledge:validate
+          echo "impact_file=$impact_file" >> "$GITHUB_ENV"
+      - name: Upload source tracking report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openfin-source-tracking-${{ github.run_id }}
+          path: ${{ steps.source-check.outputs.report_dir || runner.temp }}
+          if-no-files-found: ignore
+      - name: Commit review artifacts
+        id: commit-review
+        if: steps.source-check.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evidence/source-receipts docs/opentax/openfin-source-status-2026.json docs/opentax/finance-ontology-manifest.json
+          if git diff --cached --quiet; then
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "chore: record OpenFin source check"
+          git push --force-with-lease --set-upstream origin automation/source-tracking
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+      - name: Open or update review pull request
+        if: steps.commit-review.outputs.committed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pr_number="$(gh pr list --head automation/source-tracking --base main --state open --json number --jq '.[0].number // empty')"
+          if [ -z "$pr_number" ]; then
+            gh pr create --base main --head automation/source-tracking --title "chore: review OpenFin source changes" --body "자동 점검에서 검토가 필요한 출처 변경을 감지했습니다. source status, checksum 관측값, 영향받는 canonical ID와 필드는 evidence/source-receipts 아래 보고서에서 확인하세요. 이 PR은 원본 지식이나 추천 자격을 자동 승격하지 않습니다."
+          else
+            gh pr comment "$pr_number" --body "새 출처 점검 결과와 영향 보고서를 반영했습니다: $impact_file"
+          fi
+      - name: Summarize source tracking result
+        if: always()
+        run: |
+          {
+            echo "## OpenFin source tracking"
+            echo "- Exit status: ${{ steps.source-check.outcome }}"
+            echo "- Review-required sources: ${{ steps.source-check.outputs.review_count || 'unknown' }}"
+            echo "- Reports: uploaded as workflow artifact"
+            echo "- Canonical knowledge and recommendation eligibility were not auto-promoted"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Fail on tracker execution error
+        if: always() && steps.source-check.outcome == 'failure'
+        run: exit 1

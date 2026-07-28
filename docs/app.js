@@ -81,6 +81,12 @@ const DOMAIN_META = {
 const numberFormat = new Intl.NumberFormat("ko-KR");
 const state = {
   manifest: null,
+  sourceRegistry: new Map(),
+  sourceStatus: new Map(),
+  evidenceErrors: new Map(),
+  provenanceShards: new Map(),
+  provenanceShardInflight: new Map(),
+  provenanceSelectionToken: 0,
   currentDomain: "tax",
   items: [],
   loadedDomains: new Map(),
@@ -98,6 +104,7 @@ async function init() {
 
   try {
     state.manifest = await fetchJson(DATA_BASE + MANIFEST_FILE);
+    await Promise.all([loadSourceRegistry(), loadSourceStatus()]);
     updateManifestUI();
     renderOperationalSummary();
     renderExportCards();
@@ -124,6 +131,69 @@ async function init() {
     }
   } catch (error) {
     showFatalError(error);
+  }
+}
+
+async function loadSourceRegistry() {
+  state.sourceRegistry = new Map();
+  const descriptor = state.manifest?.source_registry;
+  if (!descriptor) {
+    state.evidenceErrors.set("source-registry", "출처 레지스트리가 manifest에 없습니다.");
+    return;
+  }
+
+  const fileName = typeof descriptor === "string"
+    ? descriptor.split("/").pop()
+    : descriptor.basename || fileNameFromEntry(descriptor);
+  if (!fileName) {
+    state.evidenceErrors.set("source-registry", "출처 레지스트리 경로를 확인할 수 없습니다.");
+    return;
+  }
+
+  try {
+    const payload = await fetchJson(DATA_BASE + fileName);
+    const rawEntries = Array.isArray(payload)
+      ? payload
+      : payload?.items || payload?.sources || payload?.records || payload?.registry || [];
+    const entries = Array.isArray(rawEntries)
+      ? rawEntries
+      : rawEntries && typeof rawEntries === "object"
+        ? Object.values(rawEntries)
+        : [];
+    for (const entry of entries) {
+      const sourceId = entry?.id || entry?.source_id;
+      if (sourceId) state.sourceRegistry.set(sourceId, entry);
+    }
+  } catch (error) {
+    state.evidenceErrors.set("source-registry", "출처 레지스트리를 불러오지 못했습니다.");
+    console.warn("OpenFin source registry is unavailable; continuing with item provenance.", error);
+  }
+}
+
+async function loadSourceStatus() {
+  state.sourceStatus = new Map();
+  const descriptor = state.manifest?.source_status;
+  if (!descriptor) {
+    state.evidenceErrors.set("source-status", "출처 상태 산출물이 manifest에 없습니다.");
+    return;
+  }
+  const fileName = typeof descriptor === "string"
+    ? descriptor.split("/").pop()
+    : descriptor.basename || fileNameFromEntry(descriptor);
+  if (!fileName) {
+    state.evidenceErrors.set("source-status", "출처 상태 산출물 경로를 확인할 수 없습니다.");
+    return;
+  }
+  try {
+    const payload = await fetchJson(DATA_BASE + fileName);
+    const entries = Array.isArray(payload) ? payload : payload?.statuses || payload?.items || [];
+    for (const entry of entries) {
+      const sourceId = entry?.id || entry?.source_id;
+      if (sourceId) state.sourceStatus.set(sourceId, entry);
+    }
+  } catch (error) {
+    state.evidenceErrors.set("source-status", "출처 최신 상태를 불러오지 못했습니다.");
+    console.warn("OpenFin source status is unavailable; freshness is unknown.", error);
   }
 }
 
@@ -379,6 +449,7 @@ function indexSearchItem(item) {
     structuredSearchText(item.criteria, 4),
     structuredSearchText(item.options, 3),
     structuredSearchText(item.benefits, 3),
+    structuredSearchText(item.provenance, 4),
     ...(item.tags || []),
     ...(item.sources || []),
     ...(item.source_urls || []),
@@ -443,7 +514,10 @@ function selectFirstVisibleResult() {
     selectItem(first.dataset.selectId, { updateHash: false });
   } else if (state.selectedId) {
     const selected = state.itemIndex.get(state.selectedId);
-    if (selected) renderDetail(selected);
+    if (selected) {
+      renderDetail(selected);
+      void hydrateSelectedProvenance(selected, state.provenanceSelectionToken);
+    }
   }
 }
 
@@ -456,12 +530,101 @@ function selectItem(id, options = {}) {
   }
 
   state.selectedId = id;
+  const selectionToken = ++state.provenanceSelectionToken;
   renderDetail(item);
+  void hydrateSelectedProvenance(item, selectionToken);
   markActiveResult();
 
   if (options.updateHash !== false) {
     history.replaceState(null, "", `#${encodeURIComponent(id)}`);
   }
+}
+
+function provenanceShardDescriptorFor(item) {
+  const descriptor = item?.provenance_shard;
+  if (!descriptor) return null;
+  const shards = Array.isArray(state.manifest?.provenance_index?.shards)
+    ? state.manifest.provenance_index.shards
+    : [];
+  const requested = typeof descriptor === "string"
+    ? descriptor
+    : descriptor.shard_id || descriptor.id || descriptor.basename || descriptor.path || descriptor.url || "";
+  const requestedBase = String(requested).split("/").pop();
+  const match = shards.find((shard) => {
+    const values = [shard?.id, shard?.shard_id, shard?.basename, shard?.path, shard?.url, shard?.web_url];
+    return values.some((value) => value && (value === requested || String(value).split("/").pop() === requestedBase));
+  });
+  if (match) return typeof descriptor === "object" ? { ...match, ...descriptor } : match;
+  return typeof descriptor === "object" ? descriptor : { basename: requestedBase };
+}
+
+async function loadProvenanceShard(descriptor) {
+  if (!descriptor) return null;
+  const fileName = descriptor.basename || fileNameFromEntry(descriptor);
+  if (!fileName) return null;
+  const cacheKey = descriptor.id || descriptor.shard_id || fileName;
+  if (state.provenanceShards.has(cacheKey)) return state.provenanceShards.get(cacheKey);
+  if (state.provenanceShardInflight.has(cacheKey)) return state.provenanceShardInflight.get(cacheKey);
+
+  const request = (async () => {
+    try {
+      const payload = await fetchJson(DATA_BASE + fileName);
+      const rawRecords = Array.isArray(payload)
+        ? payload
+        : payload?.items || payload?.records || payload?.provenance || payload?.data || [];
+      const records = Array.isArray(rawRecords)
+        ? rawRecords
+        : rawRecords && typeof rawRecords === "object"
+          ? Object.values(rawRecords)
+          : [];
+      const index = new Map();
+      for (const record of records) {
+        const id = record?.id || record?.item_id || record?.itemId;
+        if (id) index.set(id, record);
+      }
+      state.provenanceShards.set(cacheKey, index);
+      return index;
+    } catch (error) {
+      state.evidenceErrors.set(`provenance:${cacheKey}`, `근거 인덱스 ${fileName} 로드에 실패했습니다.`);
+      renderOperationalSummary();
+      console.warn(`OpenFin provenance shard unavailable: ${fileName}`, error);
+      return null;
+    }
+  })();
+  state.provenanceShardInflight.set(cacheKey, request);
+  try {
+    return await request;
+  } finally {
+    if (state.provenanceShardInflight.get(cacheKey) === request) {
+      state.provenanceShardInflight.delete(cacheKey);
+    }
+  }
+}
+
+async function hydrateSelectedProvenance(item, selectionToken) {
+  const descriptor = provenanceShardDescriptorFor(item);
+  if (!descriptor) return;
+  const shard = await loadProvenanceShard(descriptor);
+  if (!shard || selectionToken !== state.provenanceSelectionToken || state.selectedId !== item.id) {
+    if (!shard && selectionToken === state.provenanceSelectionToken && state.selectedId === item.id) renderDetail(item);
+    return;
+  }
+  const record = shard.get(item.id);
+  const rawProvenance = record?.provenance || record?.provenances || record?.source_assertions;
+  const provenance = Array.isArray(rawProvenance) && rawProvenance === record?.source_assertions
+    ? rawProvenance.map((entry) => ({
+      ...entry,
+      original_url: entry?.original_url || entry?.source_url,
+    }))
+    : rawProvenance;
+  if (!Array.isArray(provenance) || !provenance.length) return;
+  const existing = Array.isArray(item.provenance) ? item.provenance : [];
+  const merged = [...existing, ...provenance].filter((entry, index, entries) => {
+    const key = `${entry?.source_id || entry?.id || ""}|${entry?.original_url || entry?.source_url || ""}|${entry?.checksum || ""}`;
+    return entries.findIndex((candidate) => `${candidate?.source_id || candidate?.id || ""}|${candidate?.original_url || candidate?.source_url || ""}|${candidate?.checksum || ""}` === key) === index;
+  });
+  item.provenance = merged;
+  renderDetail(item);
 }
 
 function renderDetail(item) {
@@ -500,6 +663,7 @@ function renderDetail(item) {
     <span class="domain-chip">${escapeHtml(meta.label)}</span>
     <h3>${escapeHtml(item.title || item.id)}</h3>
     <p class="detail-description">${escapeHtml(item.description || "설명이 없습니다.")}</p>
+    ${renderEvidenceAvailability(item)}
     ${kv.length ? renderKvGrid(kv) : ""}
     ${renderStructuredFacts("상품 혜택·보장", item.benefits)}
     ${renderStructuredFacts("조건·유의사항", item.conditions)}
@@ -509,6 +673,20 @@ function renderDetail(item) {
     ${renderNeighbors(item)}
     ${renderSources(item)}
   `;
+}
+
+function renderEvidenceAvailability(item) {
+  const warnings = [];
+  if (state.evidenceErrors.has("source-registry")) warnings.push(state.evidenceErrors.get("source-registry"));
+  if (state.evidenceErrors.has("source-status")) warnings.push(state.evidenceErrors.get("source-status"));
+  const descriptor = provenanceShardDescriptorFor(item);
+  if (descriptor) {
+    const fileName = descriptor.basename || fileNameFromEntry(descriptor);
+    const cacheKey = descriptor.id || descriptor.shard_id || fileName;
+    if (state.evidenceErrors.has(`provenance:${cacheKey}`)) warnings.push(state.evidenceErrors.get(`provenance:${cacheKey}`));
+  }
+  if (!warnings.length) return "";
+  return `<div class="evidence-warning" role="status"><strong>출처 정보 확인 불가</strong><span>${warnings.map(escapeHtml).join(" ")}</span></div>`;
 }
 
 function renderMissingItem(id) {
@@ -640,21 +818,83 @@ function renderNeighbors(item) {
 }
 
 function renderSources(item) {
-  const sourceUrls = Array.isArray(item.source_urls) ? item.source_urls : [];
+  const sourceUrls = [
+    ...(Array.isArray(item.source_urls) ? item.source_urls : []),
+    item.original_url,
+  ].filter(isValidSourceUrl);
   const sourceBasisDates = Array.isArray(item.source_basis_dates) ? item.source_basis_dates : [];
-  if (!sourceUrls.length && !sourceBasisDates.length) return "";
+  const sourceRefs = Array.isArray(item.sources) ? item.sources : [];
+  const provenance = [
+    ...(Array.isArray(item.provenance) ? item.provenance : []),
+    ...(Array.isArray(item.provenances) ? item.provenances : []),
+    ...(Array.isArray(item.source_assertions) ? item.source_assertions.map((entry) => ({
+      ...entry,
+      original_url: entry?.original_url || entry?.source_url,
+    })) : []),
+  ].filter((entry) => entry && typeof entry === "object");
+  const referencedIds = sourceRefs
+    .map((source) => (typeof source === "string" ? source : source?.source_id || source?.id))
+    .filter(Boolean);
+  if (!sourceUrls.length && !sourceBasisDates.length && !provenance.length && !referencedIds.length) return "";
+
+  const provenanceCards = provenance.slice(0, 12).map((entry) => {
+    const sourceId = entry.source_id || entry.id || "출처 미상";
+    const sourceMeta = sourceMetadataFor(sourceId);
+    const sourceStatus = state.sourceStatus.get(sourceId);
+    const sourceMetaUrl = sourceMeta?.urls?.canonical || sourceMeta?.canonical_url || sourceMeta?.source_urls?.[0];
+    const sourceUrl = [entry.original_url, sourceMetaUrl].find(isValidSourceUrl) || "";
+    const publisher = sourceMeta?.publisher || entry.publisher || entry.source_publisher || entry.source_title || "";
+    const freshness = sourceStatus?.freshness_status || sourceStatus?.status || "unknown";
+    const verifiedAt = sourceStatus?.last_successful_checked_at || sourceStatus?.checked_at || entry.last_verified_at || entry.reviewed_at || entry.collected_at || "";
+    const locator = entry.locator && (entry.locator.value || entry.locator.kind)
+      ? `${entry.locator.kind ? `${entry.locator.kind}: ` : ""}${entry.locator.value || ""}`
+      : "";
+    const details = [
+      publisher && `publisher: ${publisher}`,
+      freshness && `freshness: ${freshness}`,
+      verifiedAt && `last verified: ${verifiedAt}`,
+      locator && `locator: ${locator}`,
+      entry.checksum && `checksum: ${entry.checksum}`,
+      entry.source_record_id && `record: ${entry.source_record_id}`,
+    ].filter(Boolean);
+    return `
+      <article class="source-card">
+        <strong>${escapeHtml(sourceId)}</strong>
+        ${sourceUrl ? `<a href="${escapeAttribute(sourceUrl)}" target="_blank" rel="noopener noreferrer">원본 링크 열기</a>` : ""}
+        ${details.length ? `<small>${details.map((detail) => escapeHtml(detail)).join(" · ")}</small>` : ""}
+      </article>
+    `;
+  }).join("");
+
+  const legacyIds = referencedIds.filter((id) => !provenance.some((entry) => (entry.source_id || entry.id) === id));
 
   return `
     <section class="detail-section">
       <h4>Sources</h4>
+      ${provenanceCards ? `<div class="source-cards">${provenanceCards}</div>` : ""}
+      ${legacyIds.length ? `<ul class="pill-list source-ids">${legacyIds.slice(0, 24).map((id) => `<li>${escapeHtml(id)}</li>`).join("")}</ul>` : ""}
       ${sourceBasisDates.length ? `<ul class="pill-list">${sourceBasisDates.slice(0, 12).map((value) => `<li>${escapeHtml(value)}</li>`).join("")}</ul>` : ""}
       ${sourceUrls.length ? `
         <div class="source-list">
-          ${sourceUrls.slice(0, 8).map((url) => `<a href="${escapeAttribute(url)}" target="_blank" rel="noreferrer">${escapeHtml(url)}</a>`).join("")}
+          ${[...new Set(sourceUrls)].slice(0, 8).map((url) => `<a href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)}</a>`).join("")}
         </div>
       ` : ""}
     </section>
   `;
+}
+
+function sourceMetadataFor(sourceId) {
+  return state.sourceRegistry.get(sourceId) || null;
+}
+
+function isValidSourceUrl(value) {
+  if (!value || typeof value !== "string" || !/^https?:\/\//i.test(value.trim())) return false;
+  try {
+    const url = new URL(value.trim());
+    return ["http:", "https:"].includes(url.protocol) && Boolean(url.hostname);
+  } catch {
+    return false;
+  }
 }
 
 function updateTypeFilter() {
@@ -726,7 +966,18 @@ function renderOperationalSummary() {
     })
     .filter((line) => line.trim())
     .join("");
+  const sourceStatusCounts = [...state.sourceStatus.values()].reduce((counts, entry) => {
+    const value = entry?.freshness_status || entry?.status || "unknown";
+    counts[value] = (counts[value] || 0) + 1;
+    return counts;
+  }, {});
+  const statusLine = Object.entries(sourceStatusCounts)
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([key, value]) => `${key} ${formatNumber(value)}`)
+    .join(" · ");
+  const evidenceWarnings = [...new Set(state.evidenceErrors.values())];
   container.innerHTML = `
+    ${evidenceWarnings.length ? `<div class="evidence-warning operational-evidence-warning" role="status"><strong>출처 정보 확인 불가</strong><span>${evidenceWarnings.map(escapeHtml).join(" ")}</span></div>` : ""}
     <article>
       <h3>API 필요</h3>
       <div class="operational-source-group">
@@ -745,6 +996,7 @@ function renderOperationalSummary() {
     <article>
       <h3>품질 요약</h3>
       <p class="quality-summary-list">${qualityLines || "품질 요약 로딩 전입니다."}</p>
+      <p class="source-status-summary">출처 상태: ${escapeHtml(statusLine || "확인 불가")}</p>
     </article>
   `;
 }
@@ -842,7 +1094,7 @@ function fileNameFromEntry(entry) {
   if (entry.web_url) {
     return new URL(entry.web_url).pathname.split("/").pop();
   }
-  return String(entry.path || "").split("/").pop();
+  return String(entry.basename || entry.path || entry.file || entry.url || "").split("/").pop();
 }
 
 function domainMeta(domain) {

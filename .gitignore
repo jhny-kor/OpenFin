@@ -1,7 +1,10 @@
 .DS_Store
+.playwright-cli/
 .omc/
 mcp/.omc/
 mcp/node_modules/
 mcp/.wrangler/
 mcp/.env
 mcp/.dev.vars
+knowledge.backup-*/
+knowledge.staging-*/

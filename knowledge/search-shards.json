@@ -1,0 +1,74 @@
+{
+  "finance-search-index-2026-account-products.json": {
+    "version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
+    "basis_date": "2026-07-10",
+    "source_review_date": "2026-07-10",
+    "ontology_kind": "finance-search-index-shard",
+    "shard_id": "account-products",
+    "item_count": 4,
+    "export_checksum": "2ab5bcc9214d127b17f2131f58b147768d3d27ed7a5358ed314c26ea1c662301"
+  },
+  "finance-search-index-2026-bank-products.json": {
+    "version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
+    "basis_date": "2026-07-10",
+    "source_review_date": "2026-07-10",
+    "ontology_kind": "finance-search-index-shard",
+    "shard_id": "bank-products",
+    "item_count": 1363,
+    "export_checksum": "795660ac04ffe5e7abcf881243f68b414b8cfdb5aba0d175eb9a4728d3475c76"
+  },
+  "finance-search-index-2026-card-products.json": {
+    "version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
+    "basis_date": "2026-07-10",
+    "source_review_date": "2026-07-10",
+    "ontology_kind": "finance-search-index-shard",
+    "shard_id": "card-products",
+    "item_count": 1007,
+    "export_checksum": "c4a879caf45419ef221909f096cee5187c882e12cb0790fccc10665d764cfe4e"
+  },
+  "finance-search-index-2026-deposit-protection.json": {
+    "version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
+    "basis_date": "2026-07-10",
+    "source_review_date": "2026-07-10",
+    "ontology_kind": "finance-search-index-shard",
+    "shard_id": "deposit-protection",
+    "item_count": 9380,
+    "export_checksum": "b64ab3f35b7e6d63bfd51a895149946ac746771a5ebc7da0e3c901a7845f29f9"
+  },
+  "finance-search-index-2026-insurance-products.json": {
+    "version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
+    "basis_date": "2026-07-10",
+    "source_review_date": "2026-07-10",
+    "ontology_kind": "finance-search-index-shard",
+    "shard_id": "insurance-products",
+    "item_count": 1071,
+    "export_checksum": "4b24033c8e5d361f7a0a134fb7bbfd10026a12a788812dbdd0e4efe456b7594c"
+  },
+  "finance-search-index-2026-pension-products.json": {
+    "version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
+    "basis_date": "2026-07-10",
+    "source_review_date": "2026-07-10",
+    "ontology_kind": "finance-search-index-shard",
+    "shard_id": "pension-products",
+    "item_count": 0,
+    "export_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "finance-search-index-2026-reference.json": {
+    "version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
+    "basis_date": "2026-07-10",
+    "source_review_date": "2026-07-10",
+    "ontology_kind": "finance-search-index-shard",
+    "shard_id": "reference",
+    "item_count": 702,
+    "export_checksum": "f7a87f6ce043d7803066594ec6b7fc0ae1c3d59d416f83ca29cc3c6b2bb0bf11"
+  },
+  "finance-search-index-2026-support.json": {
+    "version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
+    "basis_date": "2026-07-10",
+    "source_review_date": "2026-07-10",
+    "ontology_kind": "finance-search-index-shard",
+    "shard_id": "support",
+    "item_count": 7739,
+    "export_checksum": "e31619077c0cdec524fda0887b9e137a49f890ed563f246ceceafb1039599fd7"
+  }
+}

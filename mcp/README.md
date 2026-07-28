@@ -7,6 +7,7 @@ It exposes read-only MCP tools for ChatGPT and other remote MCP clients:
 - `search`: search tax, deduction, support, local-government support, card, bank, insurance, filing, concept, deadline, and source nodes.
 - `fetch`: fetch one ontology item with criteria, product metadata, source URLs, and neighboring node ids.
 - `exports`: list ontology exports loaded by the MCP adapter.
+- Optional provenance artifacts add source registry/status, field provenance, coverage, and relationship metadata without changing the legacy export contract. Missing artifacts are ignored for backward compatibility.
 
 The Worker reads the canonical manifest from GitHub Pages:
 
@@ -17,13 +18,13 @@ https://jhny-kor.github.io/OpenFin/opentax/finance-ontology-manifest.json
 The manifest can point to separate ontology JSON files, for example:
 
 ```text
-https://jhny-kor.github.io/TaxMeter/opentax/korea-tax-ontology-2026.json
-https://jhny-kor.github.io/TaxMeter/opentax/korea-local-government-supports-ontology-2026.json
-https://jhny-kor.github.io/TaxMeter/opentax/korea-card-products-ontology-2026.json
-https://jhny-kor.github.io/TaxMeter/opentax/korea-deposit-products-ontology-2026.json
-https://jhny-kor.github.io/TaxMeter/opentax/korea-saving-products-ontology-2026.json
-https://jhny-kor.github.io/TaxMeter/opentax/korea-loan-products-ontology-2026.json
-https://jhny-kor.github.io/TaxMeter/opentax/korea-insurance-products-ontology-2026.json
+https://jhny-kor.github.io/OpenFin/opentax/korea-tax-ontology-2026.json
+https://jhny-kor.github.io/OpenFin/opentax/korea-local-government-supports-ontology-2026.json
+https://jhny-kor.github.io/OpenFin/opentax/korea-card-products-ontology-2026.json
+https://jhny-kor.github.io/OpenFin/opentax/korea-deposit-products-ontology-2026.json
+https://jhny-kor.github.io/OpenFin/opentax/korea-saving-products-ontology-2026.json
+https://jhny-kor.github.io/OpenFin/opentax/korea-loan-products-ontology-2026.json
+https://jhny-kor.github.io/OpenFin/opentax/korea-insurance-products-ontology-2026.json
 ```
 
 ## Local Development

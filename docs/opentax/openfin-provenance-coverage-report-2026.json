@@ -1,0 +1,16 @@
+{
+  "version": "OPENFIN-PROVENANCE-COVERAGE-2026.07.28.1",
+  "generated_at": "2026-07-28T00:00:00.000Z",
+  "item_count": 21266,
+  "external_item_count": 21122,
+  "provenance_covered_count": 21122,
+  "external_provenance_covered_count": 21122,
+  "external_provenance_coverage_ratio": 1,
+  "source_registry_count": 144,
+  "collected_record_count": 20543,
+  "deterministic_checksum_count": 20543,
+  "invalid_legacy_url_count": 0,
+  "invalid_legacy_urls": [],
+  "recommendation_enabled": false,
+  "status": "degraded"
+}

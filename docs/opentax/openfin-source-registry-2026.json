@@ -1,0 +1,5541 @@
+{
+  "version": "OPENFIN-SOURCE-REGISTRY-2026.07.28.1",
+  "generated_at": "2026-07-28T00:00:00.000Z",
+  "source_count": 144,
+  "sources": [
+    {
+      "id": "source.bccard.check-card-list",
+      "type": "source",
+      "title": "비씨카드 체크카드 상품",
+      "publisher": "비씨카드",
+      "authority_class": "provider_official",
+      "domains": [
+        "card"
+      ],
+      "urls": {
+        "canonical": "https://www.bccard.com/app/card/CheckCardMain.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.bccard.com/app/card/CheckCardMain.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-bccard-check-card-list",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.bccard.credit-card-list",
+      "type": "source",
+      "title": "비씨카드 신용카드 상품",
+      "publisher": "비씨카드",
+      "authority_class": "provider_official",
+      "domains": [
+        "card"
+      ],
+      "urls": {
+        "canonical": "https://www.bccard.com/app/card/CreditCardMain.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.bccard.com/app/card/CreditCardMain.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-bccard-credit-card-list",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.bizinfo.small-business-leap.2026",
+      "type": "source",
+      "title": "2026년 소상공인 도약 지원사업",
+      "publisher": "중소벤처기업부",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120120",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120120"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-bizinfo-small-business-leap-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-03-30"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.bizinfo.small-business-management-voucher.2026",
+      "type": "source",
+      "title": "소상공인 경영안정 바우처 지원사업",
+      "publisher": "중소벤처기업부",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117908",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117908"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-bizinfo-small-business-management-voucher-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-01-28"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.bizinfo.small-business-policy-fund.2026",
+      "type": "source",
+      "title": "2026년 중소벤처기업부 소상공인 정책자금 융자사업 변경 공고",
+      "publisher": "중소벤처기업부",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120930",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120930"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-bizinfo-small-business-policy-fund-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-04-17"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.bizinfo.small-business-support.2026",
+      "type": "source",
+      "title": "2026년 중소벤처기업부 소상공인 지원사업 통합 공고",
+      "publisher": "중소벤처기업부",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117016",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117016"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-bizinfo-small-business-support-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2025-12-30"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.bok.ecos",
+      "type": "source",
+      "title": "한국은행 ECOS Open API",
+      "publisher": "한국은행",
+      "authority_class": "government_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://ecos.bok.or.kr/api/",
+        "api": "https://ecos.bok.or.kr/api/",
+        "documentation": null,
+        "all": [
+          "https://ecos.bok.or.kr/api/"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-bok-ecos",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.call.nts.medical-expense-documents",
+      "type": "source",
+      "title": "의료비 세액공제 증빙서류",
+      "publisher": "국세청",
+      "authority_class": "secondary_reference",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://call.nts.go.kr/call/qna/selectQnaInfo.do?ctgId=CTG11786&mi=1441",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://call.nts.go.kr/call/qna/selectQnaInfo.do?ctgId=CTG11786&mi=1441"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-call-nts-medical-expense-documents",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.ccrs.long-term-delinquent-debt-adjustment",
+      "type": "source",
+      "title": "장기연체자 특별채무조정",
+      "publisher": "신용회복위원회",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://ad.ccrs.or.kr/cms/com/index.do?CONTENTS_NO=2&MENU_ID=1580",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://ad.ccrs.or.kr/cms/com/index.do?CONTENTS_NO=2&MENU_ID=1580"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-ccrs-long-term-delinquent-debt-adjustment",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.crefia.auto-lease-disclosure",
+      "type": "source",
+      "title": "자동차리스 상품 리스료 비교 조회",
+      "publisher": "여신금융협회",
+      "authority_class": "association_official",
+      "domains": [
+        "deposit",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/quota/quotaFinancingDisclosureDetail60?ifgcMode=60",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/quota/quotaFinancingDisclosureDetail60?ifgcMode=60"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-crefia-auto-lease-disclosure",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 3
+    },
+    {
+      "id": "source.crefia.card-lending-products",
+      "type": "source",
+      "title": "카드대출상품",
+      "publisher": "여신금융협회",
+      "authority_class": "association_official",
+      "domains": [
+        "card"
+      ],
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardLendingProd",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardLendingProd"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-crefia-card-lending-products",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.crefia.card-loan-revolving-rates",
+      "type": "source",
+      "title": "카드대출·결제성 리볼빙 신용점수별 수수료율",
+      "publisher": "여신금융협회",
+      "authority_class": "association_official",
+      "domains": [
+        "card"
+      ],
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/creditcard/creditcardDisclosureDetail20?cgcMode=20",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/creditcard/creditcardDisclosureDetail20?cgcMode=20"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-crefia-card-loan-revolving-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.crefia.card-products",
+      "type": "source",
+      "title": "카드상품 공시",
+      "publisher": "여신금융협회",
+      "authority_class": "association_official",
+      "domains": [
+        "card"
+      ],
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-crefia-card-products",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.crefia.carddamoa",
+      "type": "source",
+      "title": "카드다모아",
+      "publisher": "여신금융협회",
+      "authority_class": "association_official",
+      "domains": [
+        "card"
+      ],
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-crefia-carddamoa",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.crefia.credit-loan-products",
+      "type": "source",
+      "title": "신용대출상품",
+      "publisher": "여신금융협회",
+      "authority_class": "association_official",
+      "domains": [
+        "deposit",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/financialProdInfo/creditLendingProd",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/financialProdInfo/creditLendingProd"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-crefia-credit-loan-products",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 3
+    },
+    {
+      "id": "source.crefia.credit-loan-rate-disclosure",
+      "type": "source",
+      "title": "신용대출상품 신용점수별 평균금리현황",
+      "publisher": "여신금융협회",
+      "authority_class": "association_official",
+      "domains": [
+        "deposit",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/creditloan/creditloanDisclosureDetail11",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/creditloan/creditloanDisclosureDetail11"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-crefia-credit-loan-rate-disclosure",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 3
+    },
+    {
+      "id": "source.crefia.lease-installment-products",
+      "type": "source",
+      "title": "리스할부상품",
+      "publisher": "여신금융협회",
+      "authority_class": "association_official",
+      "domains": [
+        "deposit",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/financialProdInfo/leaseProd",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/financialProdInfo/leaseProd"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-crefia-lease-installment-products",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 3
+    },
+    {
+      "id": "source.customs-act.2026.article14",
+      "type": "source",
+      "title": "관세법 제14조",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "secondary_reference",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900015991",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900015991"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-customs-act-2026-article14",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-01-01T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.data.go.kr.kinfa-loan-handling-agencies",
+      "type": "source",
+      "title": "서민금융진흥원 서민대출상품 취급기관 정보 서비스",
+      "publisher": "서민금융진흥원",
+      "authority_class": "secondary_reference",
+      "domains": [
+        "deposit",
+        "finance-reference",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15074508/openapi.do",
+        "api": "https://www.data.go.kr/data/15074508/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15074508/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-data-go-kr-kinfa-loan-handling-agencies",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.data.go.kr.kinfa-loan-products",
+      "type": "source",
+      "title": "서민금융진흥원 대출상품한눈에 정보 서비스",
+      "publisher": "서민금융진흥원",
+      "authority_class": "secondary_reference",
+      "domains": [
+        "deposit",
+        "finance-reference",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
+        "api": "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-data-go-kr-kinfa-loan-products",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.data.go.kr.kinfa-support-centers",
+      "type": "source",
+      "title": "서민금융진흥원 서민금융통합지원센터 현황",
+      "publisher": "서민금융진흥원",
+      "authority_class": "secondary_reference",
+      "domains": [
+        "deposit",
+        "finance-reference",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15037733/openapi.do",
+        "api": "https://www.data.go.kr/data/15037733/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15037733/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-data-go-kr-kinfa-support-centers",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.easylaw.finance-product-disclosure",
+      "type": "source",
+      "title": "금융상품 비교공시 범위",
+      "publisher": "법제처 찾기쉬운 생활법령정보",
+      "authority_class": "law_official",
+      "domains": [
+        "card",
+        "deposit",
+        "insurance",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=1&cciNo=1&cnpClsNo=1&csmSeq=1771",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=1&cciNo=1&cnpClsNo=1&csmSeq=1771"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-easylaw-finance-product-disclosure",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 5
+    },
+    {
+      "id": "source.einsmarket.insurance",
+      "type": "source",
+      "title": "온라인 보험슈퍼마켓 보험다모아",
+      "publisher": "생명보험협회·손해보험협회",
+      "authority_class": "provider_official",
+      "domains": [
+        "insurance"
+      ],
+      "urls": {
+        "canonical": "https://www.e-insmarket.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.e-insmarket.or.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-einsmarket-insurance",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsb.savings-bank-deposit-rates",
+      "type": "source",
+      "title": "저축은행중앙회 예·적금 금리공시",
+      "publisher": "저축은행중앙회",
+      "authority_class": "association_official",
+      "domains": [
+        "deposit",
+        "finance-reference",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.fsb.or.kr/ratedepo_0100.act",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsb.or.kr/ratedepo_0100.act"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fsb-savings-bank-deposit-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-04T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.fsc.business-loan-comparison",
+      "type": "source",
+      "title": "개인사업자 대출상품 비교공시 서비스 개시",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "deposit",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/no010101/83693",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/no010101/83693"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fsc-business-loan-comparison",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 3
+    },
+    {
+      "id": "source.fsc.cofix-overview",
+      "type": "source",
+      "title": "COFIX 공시와 자금조달비용지수 설명",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/po010101/70494",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/po010101/70494"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fsc-cofix-overview",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.domestic-bank-statistics",
+      "type": "source",
+      "title": "금융위원회 금융통계국내은행정보",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15061304/openapi.do",
+        "api": "https://www.data.go.kr/data/15061304/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15061304/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fsc-domestic-bank-statistics",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.financial-company-basic",
+      "type": "source",
+      "title": "금융위원회 금융회사기본정보",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15043232/openapi.do",
+        "api": "https://www.data.go.kr/data/15043232/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15043232/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fsc-financial-company-basic",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.financial-company-credit",
+      "type": "source",
+      "title": "금융위원회 금융회사재무신용정보",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15059594/openapi.do",
+        "api": "https://www.data.go.kr/data/15059594/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15059594/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fsc-financial-company-credit",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.financial-investment-statistics",
+      "type": "source",
+      "title": "금융위원회 금융투자협회종합통계정보",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094809/openapi.do",
+        "api": "https://www.data.go.kr/data/15094809/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094809/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fsc-financial-investment-statistics",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.fund-products-basic",
+      "type": "source",
+      "title": "금융위원회 펀드상품기본정보",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094792/openapi.do",
+        "api": "https://www.data.go.kr/data/15094792/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094792/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fsc-fund-products-basic",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.funddamoa-guide",
+      "type": "source",
+      "title": "펀드다모아 비교공시 안내",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/no010101/72549",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/no010101/72549"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fsc-funddamoa-guide",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.inclusive-finance-performance",
+      "type": "source",
+      "title": "금융위원회 서민금융지원실적정보",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "deposit",
+        "finance-reference",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094801/openapi.do",
+        "api": "https://www.data.go.kr/data/15094801/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094801/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fsc-inclusive-finance-performance",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.fsc.inclusive-finance-products",
+      "type": "source",
+      "title": "금융위원회 서민금융상품기본정보",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "deposit",
+        "finance-reference",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094787/openapi.do",
+        "api": "https://www.data.go.kr/data/15094787/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094787/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fsc-inclusive-finance-products",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.fsc.isa-guide",
+      "type": "source",
+      "title": "개인종합자산관리계좌(ISA) 안내",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "tax-advantaged-accounts"
+      ],
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fsc-isa-guide",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-24T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.isa.policy",
+      "type": "source",
+      "title": "ISA 정책문답",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/po020201/27339",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/po020201/27339"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fsc-isa-policy",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.medical-reimbursement-insurance",
+      "type": "source",
+      "title": "금융위원회 실손보험정보",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "insurance"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094797/openapi.do",
+        "api": "https://www.data.go.kr/data/15094797/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094797/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fsc-medical-reimbursement-insurance",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.rate-disclosure-guide",
+      "type": "source",
+      "title": "금리정보 공시 안내",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "deposit",
+        "finance-reference",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/edu/cardnews?cnId=1796",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/edu/cardnews?cnId=1796"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fsc-rate-disclosure-guide",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-04T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.fsc.retirement-pension-basic",
+      "type": "source",
+      "title": "금융위원회 퇴직연금기본정보",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference",
+        "pension"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094798/openapi.do",
+        "api": "https://www.data.go.kr/data/15094798/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094798/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fsc-retirement-pension-basic",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 2
+    },
+    {
+      "id": "source.fsc.revolving-service-improvement",
+      "type": "source",
+      "title": "신용카드 결제성 리볼빙 서비스 개선방안",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "card"
+      ],
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/no010101/78357",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/no010101/78357"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fsc-revolving-service-improvement",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fsc.variable-insurance-info",
+      "type": "source",
+      "title": "금융위원회 변액보험기본정보",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference",
+        "insurance"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094793/openapi.do",
+        "api": "https://www.data.go.kr/data/15094793/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094793/openapi.do"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fsc-variable-insurance-info",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 2
+    },
+    {
+      "id": "source.fsc.youth-future-savings",
+      "type": "source",
+      "title": "청년미래적금 카드뉴스",
+      "publisher": "금융위원회",
+      "authority_class": "regulator_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/no040101?cnId=2983",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/no040101?cnId=2983"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fsc-youth-future-savings",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2025-12-11"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fss.fine.portal",
+      "type": "source",
+      "title": "금융소비자 정보포털 파인",
+      "publisher": "금융감독원",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://fine.fss.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://fine.fss.or.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fss-fine-portal",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.fss.finlife.api",
+      "type": "source",
+      "title": "금융감독원 금융상품통합비교공시 금융상품한눈에 API",
+      "publisher": "금융감독원",
+      "authority_class": "regulator_official",
+      "domains": [
+        "deposit",
+        "insurance",
+        "loan",
+        "pension",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://finlife.fss.or.kr/finlifeapi/",
+        "api": "https://finlife.fss.or.kr/finlifeapi/",
+        "documentation": null,
+        "all": [
+          "https://finlife.fss.or.kr/finlifeapi/"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-fss-finlife-api",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 5
+    },
+    {
+      "id": "source.fss.finlife.web",
+      "type": "source",
+      "title": "금융상품통합비교공시 금융상품한눈에",
+      "publisher": "금융감독원",
+      "authority_class": "regulator_official",
+      "domains": [
+        "deposit",
+        "insurance",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://finlife.fss.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://finlife.fss.or.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fss-finlife-web",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.fss.integrated-pension-portal",
+      "type": "source",
+      "title": "통합연금포털",
+      "publisher": "금융감독원",
+      "authority_class": "regulator_official",
+      "domains": [
+        "finance-reference",
+        "insurance",
+        "pension"
+      ],
+      "urls": {
+        "canonical": "https://100lifeplan.fss.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://100lifeplan.fss.or.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-fss-integrated-pension-portal",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-04T00:00:00.000Z"
+      ],
+      "source_row_count": 3
+    },
+    {
+      "id": "source.gov24.benefit-plus.local-supports",
+      "type": "source",
+      "title": "정부24 보조금24 전체 혜택",
+      "publisher": "행정안전부 정부24",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-gov24-benefit-plus-local-supports",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.govkr.basic-livelihood-benefit",
+      "type": "source",
+      "title": "생계급여",
+      "publisher": "행정안전부 정부24",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.gov.kr/portal/service/serviceInfo/WII000001410",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.gov.kr/portal/service/serviceInfo/WII000001410"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-govkr-basic-livelihood-benefit",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-02-09T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.hf.bogeumjari-loan",
+      "type": "source",
+      "title": "보금자리론 상품소개",
+      "publisher": "한국주택금융공사",
+      "authority_class": "government_official",
+      "domains": [
+        "deposit",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.hf.go.kr/ko/sub01/sub01_01_02.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.hf.go.kr/ko/sub01/sub01_01_02.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-hf-bogeumjari-loan",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 3
+    },
+    {
+      "id": "source.hf.bogeumjari-openapi",
+      "type": "source",
+      "title": "한국주택금융공사 u-보금자리론대출정보",
+      "publisher": "한국주택금융공사",
+      "authority_class": "government_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15082039/openapi.do?recommendDataYn=Y",
+        "api": "https://www.data.go.kr/data/15082039/openapi.do?recommendDataYn=Y",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15082039/openapi.do?recommendDataYn=Y"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-hf-bogeumjari-openapi",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.hf.didimdol-loan",
+      "type": "source",
+      "title": "내집마련 디딤돌대출 상품소개",
+      "publisher": "한국주택금융공사",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.hf.go.kr/ko/sub01/sub01_02_01.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.hf.go.kr/ko/sub01/sub01_02_01.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-hf-didimdol-loan",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.hf.didimdol-rate.2026-05",
+      "type": "source",
+      "title": "2026년 5월 디딤돌대출 금리안내",
+      "publisher": "한국주택금융공사",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://hf.go.kr/ko/sub01/sub01_02_03.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://hf.go.kr/ko/sub01/sub01_02_03.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-hf-didimdol-rate-2026-05",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-01T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.hf.special-rent-guarantee",
+      "type": "source",
+      "title": "특례전세자금보증",
+      "publisher": "한국주택금융공사",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.hf.go.kr/ko/sub02/sub02_01_04.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.hf.go.kr/ko/sub02/sub02_01_04.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-hf-special-rent-guarantee",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.hometax.main",
+      "type": "source",
+      "title": "홈택스",
+      "publisher": "국세청 홈택스",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.hometax.go.kr",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.hometax.go.kr"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-hometax-main",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.kbcard.card-list",
+      "type": "source",
+      "title": "KB국민카드 카드한눈에보기",
+      "publisher": "KB국민카드",
+      "authority_class": "secondary_reference",
+      "domains": [
+        "card"
+      ],
+      "urls": {
+        "canonical": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://card.kbcard.com/CRD/DVIEW/HCAM0101"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-kbcard-card-list",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.kdic.insured-products",
+      "type": "source",
+      "title": "예금보험공사 예금자보호 금융상품",
+      "publisher": "예금보험공사",
+      "authority_class": "government_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y",
+        "api": "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
+        ]
+      },
+      "access": {
+        "method": "api",
+        "parser_id": "api:source-kdic-insured-products",
+        "requires_secret": true
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.kfb.consumer-portal",
+      "type": "source",
+      "title": "은행연합회 소비자포털",
+      "publisher": "은행연합회",
+      "authority_class": "association_official",
+      "domains": [
+        "deposit",
+        "finance-reference",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://portal.kfb.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://portal.kfb.or.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-kfb-consumer-portal",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-04T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.kinfa.hessal-119",
+      "type": "source",
+      "title": "햇살론119",
+      "publisher": "서민금융진흥원",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.kinfa.or.kr/financialProduct/hessalLoanEmergency.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.kinfa.or.kr/financialProduct/hessalLoanEmergency.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-kinfa-hessal-119",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.kinfa.hessal-loan-youth",
+      "type": "source",
+      "title": "햇살론유스",
+      "publisher": "서민금융진흥원",
+      "authority_class": "government_official",
+      "domains": [
+        "deposit",
+        "loan",
+        "saving",
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-kinfa-hessal-loan-youth",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z",
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.kinfa.illegal-private-finance-prevention-loan",
+      "type": "source",
+      "title": "불법사금융예방대출",
+      "publisher": "서민금융진흥원",
+      "authority_class": "government_official",
+      "domains": [
+        "deposit",
+        "loan",
+        "saving",
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-kinfa-illegal-private-finance-prevention-loan",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z",
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 4
+    },
+    {
+      "id": "source.kinfa.youth-leap",
+      "type": "source",
+      "title": "청년도약계좌 상품 안내",
+      "publisher": "서민금융진흥원",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://ylaccount.kinfa.or.kr/main",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://ylaccount.kinfa.or.kr/main"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-kinfa-youth-leap",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.klia.insurance-disclosure",
+      "type": "source",
+      "title": "생명보험협회 공시실",
+      "publisher": "생명보험협회",
+      "authority_class": "association_official",
+      "domains": [
+        "insurance"
+      ],
+      "urls": {
+        "canonical": "https://pub.insure.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://pub.insure.or.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-klia-insurance-disclosure",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.knia.claim-nonpayment",
+      "type": "source",
+      "title": "손해보험협회 보험금부지급률/청구이후 해지비율",
+      "publisher": "손해보험협회",
+      "authority_class": "association_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://consumer.knia.or.kr/disclosure/item/07.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://consumer.knia.or.kr/disclosure/item/07.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-knia-claim-nonpayment",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.knia.insurance-disclosure",
+      "type": "source",
+      "title": "손해보험협회 공시실",
+      "publisher": "손해보험협회",
+      "authority_class": "association_official",
+      "domains": [
+        "finance-reference",
+        "insurance"
+      ],
+      "urls": {
+        "canonical": "https://kpub.knia.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://kpub.knia.or.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-knia-insurance-disclosure",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 2
+    },
+    {
+      "id": "source.knia.mis-selling",
+      "type": "source",
+      "title": "손해보험협회 불완전판매비율",
+      "publisher": "손해보험협회",
+      "authority_class": "association_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://consumer.knia.or.kr/disclosure/item/04.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://consumer.knia.or.kr/disclosure/item/04.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-knia-mis-selling",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.kofia.fund-oneclick",
+      "type": "source",
+      "title": "펀드정보 One-Click 시스템",
+      "publisher": "금융투자협회",
+      "authority_class": "association_official",
+      "domains": [
+        "finance-reference"
+      ],
+      "urls": {
+        "canonical": "https://fund.kofia.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://fund.kofia.or.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-kofia-fund-oneclick",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.korea.youth-job-leap.2026",
+      "type": "source",
+      "title": "2026년 청년일자리도약장려금",
+      "publisher": "대한민국 정책브리핑",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.korea.kr/multi/visualNewsView.do?newsId=148961581",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.korea.kr/multi/visualNewsView.do?newsId=148961581"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-korea-youth-job-leap-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-04 확인"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.korea.youth-monthly-rent.2026",
+      "type": "source",
+      "title": "2026년 청년월세 지원 신청 안내",
+      "publisher": "대한민국 정책브리핑",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.korea.kr/news/policyNewsView.do?newsId=148961092",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.korea.kr/news/policyNewsView.do?newsId=148961092"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-korea-youth-monthly-rent-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-03-19"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.corporate-tax-act.credits",
+      "type": "source",
+      "title": "법인세법 세액공제 조문",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/법인세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/법인세법"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-corporate-tax-act-credits",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.customs-tariff",
+      "type": "source",
+      "title": "관세법 관세율표",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/관세법/별표",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/관세법/별표"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-customs-tariff",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.education-tax-act.article5",
+      "type": "source",
+      "title": "교육세법 제5조",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/교육세법/제5조",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/교육세법/제5조"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-education-tax-act-article5",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.income-tax-act.deductions-credits",
+      "type": "source",
+      "title": "소득세법 공제·세액공제 조문",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/소득세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/소득세법"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-income-tax-act-deductions-credits",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.individual-consumption-tax-act.rates",
+      "type": "source",
+      "title": "개별소비세법 세율 조문",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/개별소비세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/개별소비세법"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-individual-consumption-tax-act-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.inheritance-gift-tax-act.rates",
+      "type": "source",
+      "title": "상속세 및 증여세법 세율·신고 조문",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/상속세및증여세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/상속세및증여세법"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-inheritance-gift-tax-act-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.liquor-tax-act.rates",
+      "type": "source",
+      "title": "주세법 세율 조문",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/주세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/주세법"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-liquor-tax-act-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.local-tax-act.rates",
+      "type": "source",
+      "title": "지방세법 세율 조문",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/지방세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/지방세법"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-local-tax-act-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.securities-transaction-tax-act.article8",
+      "type": "source",
+      "title": "증권거래세법 제8조",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/증권거래세법/제8조",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/증권거래세법/제8조"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-securities-transaction-tax-act-article8",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.special-rural-development-tax-act.article5",
+      "type": "source",
+      "title": "농어촌특별세법 제5조",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/농어촌특별세법/제5조",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/농어촌특별세법/제5조"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-special-rural-development-tax-act-article5",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.stamp-tax-act.article3",
+      "type": "source",
+      "title": "인지세법 제3조",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/인지세법/제3조",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/인지세법/제3조"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-stamp-tax-act-article3",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.tax-special-treatment-restriction-act.reliefs",
+      "type": "source",
+      "title": "조세특례제한법 공제·감면 조문",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/조세특례제한법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/조세특례제한법"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-tax-special-treatment-restriction-act-reliefs",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.transport-energy-environment-tax-act.rates",
+      "type": "source",
+      "title": "교통·에너지·환경세법 세율 조문",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/교통ㆍ에너지ㆍ환경세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/교통ㆍ에너지ㆍ환경세법"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-transport-energy-environment-tax-act-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.law.value-added-tax-act.filing",
+      "type": "source",
+      "title": "부가가치세법 과세유형·신고 조문",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/부가가치세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/부가가치세법"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-law-value-added-tax-act-filing",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.local-tax-framework-act.2026.article8",
+      "type": "source",
+      "title": "지방세기본법 제8조",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1000903169",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1000903169"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-local-tax-framework-act-2026-article8",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-02-05T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.moef.isa.tax-benefit",
+      "type": "source",
+      "title": "ISA 세제혜택 설명",
+      "publisher": "대한민국 정책브리핑",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.korea.kr/briefing/actuallyView.do?newsId=148874193",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.korea.kr/briefing/actuallyView.do?newsId=148874193"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-moef-isa-tax-benefit",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.mohw.beneficiary-selection.2026",
+      "type": "source",
+      "title": "2026년 기초생활보장 수급자 선정기준",
+      "publisher": "보건복지부",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.mohw.go.kr/menu.es?mid=a10708010300",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.mohw.go.kr/menu.es?mid=a10708010300"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-mohw-beneficiary-selection-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "최종수정일 2026-03 확인"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.mohw.child-allowance.2026",
+      "type": "source",
+      "title": "아동수당 지급",
+      "publisher": "보건복지부",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.mohw.go.kr/menu.es?mid=a10711030100",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.mohw.go.kr/menu.es?mid=a10711030100"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-mohw-child-allowance-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-03-31T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.mohw.first-meeting-voucher",
+      "type": "source",
+      "title": "첫만남이용권 지원",
+      "publisher": "보건복지부",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.mohw.go.kr/menu.es?mid=a10711020100",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.mohw.go.kr/menu.es?mid=a10711020100"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-mohw-first-meeting-voucher",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.mohw.parent-benefit.2026",
+      "type": "source",
+      "title": "부모급여",
+      "publisher": "보건복지부",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.mohw.go.kr/menu.es?mid=a10711030600",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.mohw.go.kr/menu.es?mid=a10711030600"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-mohw-parent-benefit-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-03-25T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.molit.realtyprice",
+      "type": "source",
+      "title": "부동산공시가격 알리미",
+      "publisher": "한국부동산원",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.realtyprice.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.realtyprice.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-molit-realtyprice",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.myhome.housing-benefit.2026",
+      "type": "source",
+      "title": "2026년 주거급여",
+      "publisher": "국토교통부 마이홈",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.myhome.go.kr/hws/portal/cont/selectHousingBenefitView.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.myhome.go.kr/hws/portal/cont/selectHousingBenefitView.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-myhome-housing-benefit-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.myhome.support-lease-loan",
+      "type": "source",
+      "title": "버팀목전세대출",
+      "publisher": "국토교통부 마이홈",
+      "authority_class": "government_official",
+      "domains": [
+        "deposit",
+        "loan",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.myhome.go.kr/hws/portal/cont/selectSupLeaseLoanView.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.myhome.go.kr/hws/portal/cont/selectSupLeaseLoanView.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-myhome-support-lease-loan",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 3
+    },
+    {
+      "id": "source.myhome.youth-monthly-rent.2026",
+      "type": "source",
+      "title": "마이홈 청년월세지원 자가진단",
+      "publisher": "국토교통부 마이홈",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.myhome.go.kr/hws/portal/dgn/selectSelfDiagnosisYouthHousView.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.myhome.go.kr/hws/portal/dgn/selectSelfDiagnosisYouthHousView.do"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-myhome-youth-monthly-rent-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.national-tax-framework-act.2026.article2",
+      "type": "source",
+      "title": "국세기본법 제2조",
+      "publisher": "법제처 국가법령정보센터",
+      "authority_class": "law_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900637068",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900637068"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-national-tax-framework-act-2026-article2",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-01-01T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nhuf.housing-subscription",
+      "type": "source",
+      "title": "주택청약종합저축·청년 주택드림 청약통장 안내",
+      "publisher": "국토교통부 주택도시기금",
+      "authority_class": "government_official",
+      "domains": [
+        "tax-advantaged-accounts"
+      ],
+      "urls": {
+        "canonical": "https://nhuf.molit.go.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://nhuf.molit.go.kr/"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nhuf-housing-subscription",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-24T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.business-income.withholding",
+      "type": "source",
+      "title": "사업소득 원천징수",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7902&mi=6466",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7902&mi=6466"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-business-income-withholding",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.business-registration.application",
+      "type": "source",
+      "title": "사업자등록 신청",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7777&mi=2444",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7777&mi=2444"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-business-registration-application",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.capital-gains.additional-tax",
+      "type": "source",
+      "title": "양도소득세 가산세",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7712&mi=2313",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7712&mi=2313"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-capital-gains-additional-tax",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.capital-gains.basic-deduction",
+      "type": "source",
+      "title": "양도소득 기본공제 신고서식",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/tax/sub/1.2.3.%EC%96%91%EB%8F%84%EC%86%8C%EB%93%9D%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%20%EC%8B%A0%EA%B3%A0%20%EB%B0%8F%20%EB%82%A9%EB%B6%80%EA%B3%84%EC%82%B0%EC%84%9C.html",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/tax/sub/1.2.3.%EC%96%91%EB%8F%84%EC%86%8C%EB%93%9D%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%20%EC%8B%A0%EA%B3%A0%20%EB%B0%8F%20%EB%82%A9%EB%B6%80%EA%B3%84%EC%82%B0%EC%84%9C.html"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-capital-gains-basic-deduction",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.capital-gains.deadline",
+      "type": "source",
+      "title": "양도소득세 신고납부기한",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7713&mi=2371",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7713&mi=2371"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-capital-gains-deadline",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.capital-gains.overview",
+      "type": "source",
+      "title": "양도소득세 개요",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7709&mi=2308",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7709&mi=2308"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-capital-gains-overview",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.capital-gains.rates",
+      "type": "source",
+      "title": "양도소득세 세율",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7711&mi=2312",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7711&mi=2312"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-capital-gains-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.comprehensive-real-estate.overview",
+      "type": "source",
+      "title": "종합부동산세 개요",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7733&mi=2351",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7733&mi=2351"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-comprehensive-real-estate-overview",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.comprehensive-real-estate.rates",
+      "type": "source",
+      "title": "종합부동산세 세율",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7736&mi=40378",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7736&mi=40378"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-comprehensive-real-estate-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.corporate-tax-consulting.2026",
+      "type": "source",
+      "title": "중소기업 공제·감면 컨설팅 제도 안내",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239070&mi=41093",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239070&mi=41093"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-corporate-tax-consulting-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.corporate-tax.filing-procedure",
+      "type": "source",
+      "title": "법인세 신고절차",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7975&mi=6549",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7975&mi=6549"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-corporate-tax-filing-procedure",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.corporate-tax.rates",
+      "type": "source",
+      "title": "법인세 세율",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7746",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7746"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-corporate-tax-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.corporate-tax.reliefs",
+      "type": "source",
+      "title": "법인세 공제감면",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7987&mi=6561",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7987&mi=6561"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-corporate-tax-reliefs",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.credit-card-deduction",
+      "type": "source",
+      "title": "신용카드 등 사용금액 소득공제",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7794&mi=2202",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7794&mi=2202"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-credit-card-deduction",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.ctc.intro",
+      "type": "source",
+      "title": "자녀장려금 소개",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7782&mi=2451",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7782&mi=2451"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-ctc-intro",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.donation-credit",
+      "type": "source",
+      "title": "기부금 세액공제",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239040&mi=40978",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239040&mi=40978"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-donation-credit",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.education-expense-credit",
+      "type": "source",
+      "title": "교육비 세액공제",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239024&mi=40612",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239024&mi=40612"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-education-expense-credit",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.eitc.intro",
+      "type": "source",
+      "title": "근로장려금 소개",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7781&mi=2450",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7781&mi=2450"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-eitc-intro",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.employee-income-statement",
+      "type": "source",
+      "title": "간이지급명세서(근로소득)",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://d.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239032&mi=40678",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://d.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239032&mi=40678"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-employee-income-statement",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.financial-income",
+      "type": "source",
+      "title": "금융(이자·배당)소득",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7896&mi=6471",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7896&mi=6471"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-financial-income",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.gift.deadline",
+      "type": "source",
+      "title": "증여세 신고납부기한",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7727&mi=2339",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7727&mi=2339"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-gift-deadline",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.gift.rates",
+      "type": "source",
+      "title": "증여세 세율",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7960&mi=2227",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7960&mi=2227"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-gift-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.grant.2026-regular-press",
+      "type": "source",
+      "title": "2026년 근로·자녀장려금 정기신청 보도자료",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/na/ntt/selectNttInfo.do?mi=2201&nttSn=1350768",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/na/ntt/selectNttInfo.do?mi=2201&nttSn=1350768"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-grant-2026-regular-press",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-04-30"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.grant.deadline",
+      "type": "source",
+      "title": "근로·자녀장려금 심사 및 지급",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7784&mi=2453",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7784&mi=2453"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-grant-deadline",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.grant.eligibility",
+      "type": "source",
+      "title": "근로·자녀장려금 신청자격",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7783&mi=2452",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7783&mi=2452"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-grant-eligibility",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.housing-mortgage-interest-deduction",
+      "type": "source",
+      "title": "장기주택저당차입금 이자상환액 소득공제",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239020&mi=40630",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239020&mi=40630"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-housing-mortgage-interest-deduction",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.housing-rent-principal-deduction",
+      "type": "source",
+      "title": "주택임차차입금 원리금 상환액 소득공제",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239021&mi=40629",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239021&mi=40629"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-housing-rent-principal-deduction",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.housing-savings-deduction",
+      "type": "source",
+      "title": "주택마련저축 소득공제",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239022&mi=40610",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239022&mi=40610"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-housing-savings-deduction",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.income-tax.additional-tax",
+      "type": "source",
+      "title": "종합소득세 가산세",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-income-tax-additional-tax",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.income-tax.deadline",
+      "type": "source",
+      "title": "종합소득세 신고납부기한",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7665&mi=2225",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7665&mi=2225"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-income-tax-deadline",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.income-tax.overview",
+      "type": "source",
+      "title": "종합소득세 개요",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7666&mi=2224",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7666&mi=2224"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-income-tax-overview",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.income-tax.rates",
+      "type": "source",
+      "title": "종합소득세 세율",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7667&mi=2223",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7667&mi=2223"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-income-tax-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.inheritance.overview",
+      "type": "source",
+      "title": "상속세 개요",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7719&mi=2324",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7719&mi=2324"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-inheritance-overview",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.inheritance.rates",
+      "type": "source",
+      "title": "상속세 세율",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7957&mi=6529",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7957&mi=6529"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-inheritance-rates",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.monthly-rent-credit",
+      "type": "source",
+      "title": "월세액 세액공제",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239025",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239025"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-monthly-rent-credit",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.payment-statement.deadlines",
+      "type": "source",
+      "title": "지급명세서 제출",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=8631&mi=12242",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=8631&mi=12242"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-payment-statement-deadlines",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.real-estate-tax.faq",
+      "type": "source",
+      "title": "궁금해요 종합부동산 세법",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7739&mi=2357",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7739&mi=2357"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-real-estate-tax-faq",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.retirement-income.calculation",
+      "type": "source",
+      "title": "퇴직소득세 계산방법",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7880&mi=6444",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7880&mi=6444"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-retirement-income-calculation",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.sme-employment-income-reduction",
+      "type": "source",
+      "title": "중소기업 취업자 소득세 감면",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239023&mi=40611",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239023&mi=40611"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-sme-employment-income-reduction",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.tax-calendar.2026",
+      "type": "source",
+      "title": "2026년 국세청 세무일정",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/ad/taxSchdul/selectList.do?mi=135747&taxYear=2026",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/ad/taxSchdul/selectList.do?mi=135747&taxYear=2026"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-tax-calendar-2026",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.vat.additional-tax",
+      "type": "source",
+      "title": "부가가치세 가산세",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7697&mi=2405",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7697&mi=2405"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-vat-additional-tax",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.vat.filing-duty",
+      "type": "source",
+      "title": "부가가치세 신고·납부 의무",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7806",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7806"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-vat-filing-duty",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.vat.overview",
+      "type": "source",
+      "title": "부가가치세 개요",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7693&mi=2272",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7693&mi=2272"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-vat-overview",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.withholding.deadlines",
+      "type": "source",
+      "title": "원천세 신고납부기한",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://sc.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7702&mi=2290",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://sc.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7702&mi=2290"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-withholding-deadlines",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-04T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.withholding.overview",
+      "type": "source",
+      "title": "원천징수 개요",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7701&mi=2289",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7701&mi=2289"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-withholding-overview",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.year-end-settlement.calculation",
+      "type": "source",
+      "title": "연말정산 세액계산방법",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7870&mi=2312",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7870&mi=2312"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-year-end-settlement-calculation",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.year-end-settlement.deduction-limit",
+      "type": "source",
+      "title": "근로소득 과세표준과 산출세액",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7873&mi=6594",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7873&mi=6594"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-year-end-settlement-deduction-limit",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.nts.year-end-settlement.special-credit",
+      "type": "source",
+      "title": "근로소득 특별세액공제",
+      "publisher": "국세청",
+      "authority_class": "government_official",
+      "domains": [
+        "tax"
+      ],
+      "urls": {
+        "canonical": "https://kids.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7874&mi=6438",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://kids.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7874&mi=6438"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-nts-year-end-settlement-special-credit",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-05-02T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.samsungcard.check-card-list",
+      "type": "source",
+      "title": "삼성카드 체크카드 상품",
+      "publisher": "삼성카드",
+      "authority_class": "provider_official",
+      "domains": [
+        "card"
+      ],
+      "urls": {
+        "canonical": "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoCheckcard001",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoCheckcard001"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-samsungcard-check-card-list",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.samsungcard.credit-card-list",
+      "type": "source",
+      "title": "삼성카드 신용카드 상품",
+      "publisher": "삼성카드",
+      "authority_class": "provider_official",
+      "domains": [
+        "card"
+      ],
+      "urls": {
+        "canonical": "https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001"
+        ]
+      },
+      "access": {
+        "method": "web",
+        "parser_id": "http:source-samsungcard-credit-card-list",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "이용조건 미확인 - 원문 이용약관 검토 필요",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [
+        "2026-07-03T00:00:00.000Z"
+      ],
+      "source_row_count": 1
+    }
+  ]
+}

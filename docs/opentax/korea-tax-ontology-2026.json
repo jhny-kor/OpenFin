@@ -68,6 +68,8 @@
       "description": "정부24 보조금24 기준 지자체 지원금은 메인 온톨로지에서 분리한 별도 파일입니다."
     }
   },
+  "item_count": 374,
+  "reference_item_count": 2,
   "items": [
     {
       "id": "application-channel.bokjiro",
@@ -118,7 +120,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.mohw.parent-benefit.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "application-channel.company-year-end-settlement",
@@ -158,7 +163,10 @@
       "tags": [
         "application-channel",
         "year-end-settlement"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "application-channel.gov24-subsidy24",
@@ -199,7 +207,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.mohw.first-meeting-voucher",
+      "source_registry_status": "registered"
     },
     {
       "id": "application-channel.hometax-income-tax",
@@ -242,7 +253,10 @@
       "tags": [
         "application-channel",
         "hometax"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.hometax.main",
+      "source_registry_status": "registered"
     },
     {
       "id": "application-channel.hometax-simplification",
@@ -282,7 +296,10 @@
       "tags": [
         "application-channel",
         "hometax"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.hometax.main",
+      "source_registry_status": "registered"
     },
     {
       "id": "application-channel.hometax-vat",
@@ -325,7 +342,10 @@
       "tags": [
         "application-channel",
         "hometax"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.hometax.main",
+      "source_registry_status": "registered"
     },
     {
       "id": "application-channel.myhome",
@@ -366,7 +386,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.myhome.youth-monthly-rent.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "application-channel.small-business-24",
@@ -410,7 +433,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.bizinfo.small-business-support.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "application-channel.small-business-policy-fund-site",
@@ -448,7 +474,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.bizinfo.small-business-policy-fund.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.application-channels",
@@ -491,7 +520,10 @@
       "law_reference": "",
       "tags": [
         "application-channel"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.hometax.main",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.business-tax-compliance",
@@ -541,7 +573,10 @@
         "source.nts.business-income.withholding"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.business-registration.application",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.conflict-rules",
@@ -580,7 +615,10 @@
       "law_reference": "",
       "tags": [
         "conflict-rule"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.corporate-tax-supports",
@@ -655,7 +693,10 @@
       "law_reference": "",
       "tags": [
         "complete-manifest"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.customs",
@@ -690,7 +731,10 @@
         "source.customs-act.2026.article14"
       ],
       "law_reference": "관세법 제14조",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.customs-act.2026.article14",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.deductions-and-reliefs",
@@ -739,7 +783,10 @@
         "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.eligibility-rules",
@@ -788,7 +835,10 @@
       "law_reference": "",
       "tags": [
         "eligibility-rule"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.filing-calendar",
@@ -843,7 +893,10 @@
         "source.nts.gift.deadline"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.income-deductions",
@@ -894,7 +947,10 @@
         "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.life-events",
@@ -933,7 +989,10 @@
       "law_reference": "",
       "tags": [
         "life-language"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.life-expenses",
@@ -974,7 +1033,10 @@
       "law_reference": "",
       "tags": [
         "life-language"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.life-incomes",
@@ -1012,7 +1074,10 @@
       "law_reference": "",
       "tags": [
         "life-language"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.life-language",
@@ -1059,7 +1124,10 @@
       "tags": [
         "life-language",
         "mapping-layer"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.local-government-supports",
@@ -1095,7 +1163,10 @@
       "tags": [
         "local-government-supports",
         "gov24"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.gov24.benefit-plus.local-supports",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.local-ordinary-taxes",
@@ -1138,7 +1209,10 @@
         "source.local-tax-framework-act.2026.article8"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.local-purpose-taxes",
@@ -1174,7 +1248,10 @@
         "source.local-tax-framework-act.2026.article8"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.local-taxes",
@@ -1212,7 +1289,10 @@
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "complete-manifest"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.national-taxes",
@@ -1260,7 +1340,10 @@
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "complete-manifest"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.policy-supports",
@@ -1351,7 +1434,10 @@
         "source.gov24.benefit-plus.local-supports"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.eitc.intro",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.required-documents",
@@ -1398,7 +1484,10 @@
       "law_reference": "",
       "tags": [
         "required-document"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.tax-credits",
@@ -1454,7 +1543,10 @@
         "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.tax-reductions",
@@ -1500,7 +1592,10 @@
         "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "category.user-scenarios",
@@ -1564,7 +1659,10 @@
         "source.nts.grant.eligibility"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "concept.additional-tax.general",
@@ -1725,7 +1823,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.additional-tax",
+      "source_registry_status": "registered"
     },
     {
       "id": "concept.capital-gains.calculation-flow",
@@ -1792,7 +1893,10 @@
           "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
           "basis_source": "source.nts.capital-gains.basic-deduction"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.capital-gains.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "concept.capital-gains.stock-basic-deduction",
@@ -1846,7 +1950,10 @@
           "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
           "basis_source": "source.nts.capital-gains.basic-deduction"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.capital-gains.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "concept.cre-deduction-thresholds",
@@ -1945,7 +2052,10 @@
           "basis_source": "source.molit.realtyprice",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.comprehensive-real-estate.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "concept.cre-tax-base-date",
@@ -1995,7 +2105,10 @@
           "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
           "basis_source": "source.nts.comprehensive-real-estate.overview"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.comprehensive-real-estate.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "concept.financial-income-comprehensive-taxation",
@@ -2066,7 +2179,10 @@
       "revision_status": "none_announced",
       "children": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "concept.general-vat-taxpayer",
@@ -2146,7 +2262,10 @@
           "law_reference": "국세기본법 제2조 제1호",
           "amount_formula": "매출세액 × 적용비율 10%"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "concept.simple-vat-taxpayer",
@@ -2264,7 +2383,10 @@
           "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "concept.vat-payment-exemption",
@@ -2323,7 +2445,10 @@
           "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.filing-duty",
+      "source_registry_status": "registered"
     },
     {
       "id": "conflict-rule.donation-carryover",
@@ -2360,7 +2485,10 @@
       "tags": [
         "conflict-rule",
         "donation"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.donation-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "conflict-rule.education-nongrad",
@@ -2396,7 +2524,10 @@
       "tags": [
         "conflict-rule",
         "education"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.education-expense-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "conflict-rule.monthly-rent-household-duplicate",
@@ -2435,7 +2566,10 @@
       "tags": [
         "conflict-rule",
         "monthly-rent"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "conflict-rule.parent-benefit-childcare-service",
@@ -2473,7 +2607,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.mohw.parent-benefit.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "conflict-rule.youth-rent-cash-support-duplicate",
@@ -2515,7 +2652,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.myhome.youth-monthly-rent.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.agricultural-corporation-reduction",
@@ -2619,7 +2759,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제66조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.cooperation-credit",
@@ -2704,7 +2847,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제8조의3 등 상생협력 조세지원 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.crisis-area-startup-reduction",
@@ -2789,7 +2935,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제99조의9"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.disaster-loss-credit",
@@ -2875,7 +3024,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "법인세법 제58조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.e-filing-credit",
@@ -2955,7 +3107,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제104조의8"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.employment-maintenance-credit",
@@ -3040,7 +3195,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제30조의3"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.enterprise-city-reduction",
@@ -3124,7 +3282,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제121조의17"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.facility-investment-credit",
@@ -3233,7 +3394,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제24조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.foreign-tax-paid-credit",
@@ -3316,7 +3480,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "법인세법 제57조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.good-landlord-credit",
@@ -3404,7 +3571,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제96조의3"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.industrial-complex-reduction",
@@ -3490,7 +3660,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제64조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.jeju-zone-reduction",
@@ -3574,7 +3747,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제121조의8 등 제주 투자·입주 감면 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.local-relocation-deferral",
@@ -3655,7 +3831,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제61조 및 제62조 등 지방이전 과세특례 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.local-relocation-reduction",
@@ -3740,7 +3919,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제63조 및 제63조의2"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.ma-credit",
@@ -3825,7 +4007,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제12조의3"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.minimum-tax-preference",
@@ -3910,7 +4095,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제132조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.performance-sharing-credit",
@@ -3995,7 +4183,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제19조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.restructuring-deferral",
@@ -4076,7 +4267,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제37조부터 제46조까지 중 구조조정·재무구조개선 과세특례 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.rnd-credit",
@@ -4194,7 +4388,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제10조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.rnd-grant-deferral",
@@ -4275,7 +4472,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제10조의2"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.rnd-zone-reduction",
@@ -4360,7 +4560,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제12조의2"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.sme-special-reduction",
@@ -4507,7 +4710,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제7조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.social-enterprise-reduction",
@@ -4592,7 +4798,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제85조의6"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.social-insurance-credit",
@@ -4679,7 +4888,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제30조의4"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.startup-sme-reduction",
@@ -4810,7 +5022,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제6조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.tech-transfer-reduction",
@@ -4914,7 +5129,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제12조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.wage-increase-credit",
@@ -5001,7 +5219,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제29조의4"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "corporate.support.winwin-payment-credit",
@@ -5086,7 +5307,10 @@
         "tax_type": "corporate-tax-support",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제7조의4"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.child",
@@ -5248,7 +5472,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "소득세법 제59조의2"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.donation",
@@ -5459,7 +5686,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "소득세법 제59조의4"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.special-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.earned-income",
@@ -5662,7 +5892,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "소득세법 제59조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.education-expense",
@@ -5819,7 +6052,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "소득세법 제59조의4"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.special-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.foreign-tax-paid",
@@ -5906,7 +6142,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "법인세법 제57조 및 소득세법 제57조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.insurance-premium",
@@ -6013,7 +6252,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "소득세법 제59조의4"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.special-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.integrated-employment",
@@ -6114,7 +6356,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제29조의8"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.medical-expense",
@@ -6290,7 +6535,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "소득세법 제59조의4"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.special-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.monthly-rent",
@@ -6485,7 +6733,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 월세액 세액공제 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.pension-account",
@@ -6608,7 +6859,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "소득세법 제59조의3"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.research-and-development",
@@ -6726,7 +6980,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제10조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "credit.special-tax",
@@ -7061,7 +7318,10 @@
         "credit_or_deduction": "tax-credit",
         "applicable_year": 2026,
         "law_reference": "소득세법 제59조의4"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.special-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.business-registration.application",
@@ -7103,7 +7363,10 @@
         "anchor": "사업 개시일",
         "period": "사업 개시 전 또는 개시 직후",
         "due_rule": "사업 개시 전 또는 사업 개시일부터 20일 이내"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.business-registration.application",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.capital-gains.final",
@@ -7143,7 +7406,10 @@
         "period": "매년 5월",
         "start_rule": "5월 1일",
         "due_rule": "5월 31일까지"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.capital-gains.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.capital-gains.preliminary",
@@ -7182,7 +7448,10 @@
         "anchor": "양도일이 속하는 달 또는 반기의 말일",
         "period": "양도 건별",
         "due_rule": "토지·건물 등은 양도일이 속하는 달의 말일부터 2개월 이내, 주식 등은 양도일이 속하는 반기의 말일부터 2개월 이내"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.capital-gains.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.corporate-tax.return",
@@ -7224,7 +7493,10 @@
         "period": "사업연도 단위",
         "due_rule": "사업연도 종료일이 속하는 달의 말일부터 3개월 이내",
         "example": "12월 말 결산법인은 다음 해 3월 말까지"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.filing-procedure",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.gift.general",
@@ -7263,7 +7535,10 @@
         "anchor": "증여받은 날이 속하는 달의 말일",
         "period": "증여 건별",
         "due_rule": "증여받은 날이 속하는 달의 말일부터 3개월 이내"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.gift.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.grant.regular.2025-income",
@@ -7306,7 +7581,10 @@
         "start_rule": "5월 1일",
         "due_rule": "5월 말까지. 기한의 특례가 있으면 다음 날",
         "example": "2025년 귀속 정기신청은 2026년 5월 1일부터 2026년 6월 1일까지"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.grant.eligibility",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.grant.semiannual.2026",
@@ -7346,7 +7624,10 @@
         "period": "상반기분·하반기분",
         "due_rule": "상반기분은 해당 연도 12월 말, 하반기분은 다음연도 6월 말 지급기한으로 관리",
         "example": "2026년 상반기분 2026년 12월 30일, 하반기분 2027년 6월 30일"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.grant.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.income-tax.2025-return",
@@ -7388,7 +7669,10 @@
         "due_rule": "5월 31일. 기한일이 공휴일·토요일·근로자의 날이면 다음 날",
         "special_rule": "성실신고확인서 제출자는 6월 30일까지",
         "example": "2025년 귀속 일반 신고는 2026년 5월 1일부터 2026년 6월 1일까지"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.inheritance.nonresident",
@@ -7427,7 +7711,10 @@
         "anchor": "상속개시일이 속하는 달의 말일",
         "period": "상속 건별",
         "due_rule": "피상속인이나 상속인 전원이 비거주자인 경우 9개월 이내"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.inheritance.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.inheritance.resident",
@@ -7466,7 +7753,10 @@
         "anchor": "상속개시일이 속하는 달의 말일",
         "period": "상속 건별",
         "due_rule": "상속개시일이 속하는 달의 말일부터 6개월 이내"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.inheritance.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.vat.general.first-final",
@@ -7506,7 +7796,10 @@
         "period": "1월 1일~6월 30일",
         "start_rule": "7월 1일",
         "due_rule": "7월 25일까지"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.filing-duty",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.vat.general.second-final",
@@ -7546,7 +7839,10 @@
         "period": "7월 1일~12월 31일",
         "start_rule": "다음해 1월 1일",
         "due_rule": "다음해 1월 25일까지"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.filing-duty",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.vat.periodic",
@@ -7590,7 +7886,10 @@
         "period": "일반과세자 제1기·제2기 예정 및 확정",
         "due_rule": "일반과세자는 매년 1월과 7월 확정신고, 예정신고는 세무일정과 고지·신고 대상 여부 확인",
         "special_rule": "간이과세자는 원칙적으로 매년 1월 확정신고"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.vat.simplified.annual",
@@ -7630,7 +7929,10 @@
         "period": "1월 1일~12월 31일",
         "start_rule": "다음해 1월 1일",
         "due_rule": "다음해 1월 25일까지"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.filing-duty",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.vat.simplified.preliminary",
@@ -7671,7 +7973,10 @@
         "start_rule": "7월 1일",
         "due_rule": "7월 25일까지",
         "special_rule": "직전연도 공급대가 4,800만원 이상 1억400만원 미만이고 예정부과기간에 세금계산서를 발급한 경우"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.filing-duty",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.withholding.monthly",
@@ -7714,7 +8019,10 @@
         "period": "매월",
         "due_rule": "소득 지급일이 속하는 달의 다음 달 10일까지",
         "example": "2026년 4월 지급분은 2026년 5월 10일까지"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.tax-calendar.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.withholding.semiannual",
@@ -7757,7 +8065,10 @@
         "period": "1월~6월, 7월~12월",
         "due_rule": "각 반기의 마지막 달의 다음 달 10일까지",
         "example": "1월~6월 지급분은 7월 10일까지, 7월~12월 지급분은 다음해 1월 10일까지"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.business-income.withholding",
+      "source_registry_status": "registered"
     },
     {
       "id": "deadline.year-end-settlement",
@@ -7797,7 +8108,10 @@
         "period": "다음연도 2월분 급여 지급 시",
         "due_rule": "계속근로자는 다음연도 2월분 근로소득 지급 시, 중도퇴직자는 퇴직하는 달의 근로소득 지급 시",
         "special_rule": "2월분 급여를 2월 말일까지 지급하지 않거나 2월분 급여가 없으면 2월 말일 기준"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.credit-card-use",
@@ -7947,7 +8261,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.credit-card-deduction",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.employee-stock-ownership",
@@ -8046,7 +8363,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 우리사주조합 출연금 소득공제 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.employment-maintenance-worker",
@@ -8134,7 +8454,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 고용유지 중소기업 근로자 소득공제 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.health-insurance-premium",
@@ -8233,7 +8556,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "소득세법 제52조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.housing-funds",
@@ -8402,7 +8728,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "소득세법 제52조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.housing-savings",
@@ -8529,7 +8858,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 주택마련저축 소득공제 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.investment-association",
@@ -8684,7 +9016,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.long-term-fund",
@@ -8777,7 +9112,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 장기집합투자증권저축 소득공제 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.other-income",
@@ -8903,7 +9241,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.pension-insurance",
@@ -8986,7 +9327,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "소득세법 제51조의3"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.personal",
@@ -9175,7 +9519,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "소득세법 제50조 및 제51조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.personal-pension-savings",
@@ -9264,7 +9611,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 개인연금저축 소득공제 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.personal.additional",
@@ -9397,7 +9747,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "소득세법 제51조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.personal.basic",
@@ -9518,7 +9871,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "소득세법 제50조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.small-business-mutual-aid",
@@ -9650,7 +10006,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.special-income",
@@ -9848,7 +10207,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "소득세법 제52조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "deduction.youth-long-term-fund",
@@ -9961,7 +10323,10 @@
         "credit_or_deduction": "deduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.child-age",
@@ -10006,7 +10371,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.mohw.parent-benefit.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.credit-card-floor",
@@ -10043,7 +10411,10 @@
       "tags": [
         "eligibility-rule",
         "card"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.credit-card-deduction",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.donation-type",
@@ -10080,7 +10451,10 @@
       "tags": [
         "eligibility-rule",
         "donation"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.donation-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.education-dependent-type",
@@ -10117,7 +10491,10 @@
       "tags": [
         "eligibility-rule",
         "education"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.education-expense-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.gross-pay-income-threshold",
@@ -10160,7 +10537,10 @@
       "tags": [
         "eligibility-rule",
         "income"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.homeless-household",
@@ -10203,7 +10583,10 @@
       "tags": [
         "eligibility-rule",
         "housing"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.housing-savings-employee-household",
@@ -10240,7 +10623,10 @@
       "tags": [
         "eligibility-rule",
         "housing"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.housing-savings-deduction",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.median-income-support",
@@ -10284,7 +10670,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.mohw.beneficiary-selection.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.medical-expense-floor",
@@ -10321,7 +10710,10 @@
       "tags": [
         "eligibility-rule",
         "medical"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.special-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.monthly-rent-address-match",
@@ -10358,7 +10750,10 @@
       "tags": [
         "eligibility-rule",
         "monthly-rent"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.monthly-rent-house-standard",
@@ -10394,7 +10789,10 @@
       "tags": [
         "eligibility-rule",
         "monthly-rent"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.small-business-basic",
@@ -10436,7 +10834,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.bizinfo.small-business-policy-fund.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.tax-delinquency-exclusion",
@@ -10475,7 +10876,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.bizinfo.small-business-policy-fund.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.vat-taxpayer-type",
@@ -10516,7 +10920,10 @@
       "tags": [
         "eligibility-rule",
         "vat"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "eligibility-rule.youth-rent-income-asset",
@@ -10634,7 +11041,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.korea.youth-monthly-rent.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.business-income-withholding",
@@ -10732,7 +11142,10 @@
         "tax_type": "filing",
         "applicable_year": 2026,
         "law_reference": "소득세법 제127조 및 제129조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.business-income.withholding",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.business-registration",
@@ -10822,7 +11235,10 @@
         "tax_type": "filing",
         "applicable_year": 2026,
         "law_reference": "부가가치세법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.business-registration.application",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.capital-gains-return",
@@ -10933,7 +11349,10 @@
         "tax_type": "filing",
         "applicable_year": 2026,
         "law_reference": "소득세법 제105조 및 제110조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.capital-gains.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.gift-tax-return",
@@ -11014,7 +11433,10 @@
         "tax_type": "filing",
         "applicable_year": 2026,
         "law_reference": "상속세 및 증여세법 제68조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.gift.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.grant-application",
@@ -11100,7 +11522,10 @@
         "tax_type": "filing",
         "applicable_year": 2025,
         "law_reference": "조세특례제한법 근로장려금·자녀장려금 신청 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.grant.eligibility",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.income-tax-return",
@@ -11187,7 +11612,10 @@
         "tax_type": "filing",
         "applicable_year": 2025,
         "law_reference": "소득세법 제70조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.inheritance-tax-return",
@@ -11271,7 +11699,10 @@
         "tax_type": "filing",
         "applicable_year": 2026,
         "law_reference": "상속세 및 증여세법 제67조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.inheritance.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.payment-statement-submission",
@@ -11427,7 +11858,10 @@
         "tax_type": "filing",
         "applicable_year": 2026,
         "law_reference": "소득세법 지급명세서 제출 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.payment-statement.deadlines",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.vat-return",
@@ -11555,7 +11989,10 @@
         "tax_type": "filing",
         "applicable_year": 2026,
         "law_reference": "부가가치세법 제48조·제49조 및 제67조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.withholding-tax",
@@ -11651,7 +12088,10 @@
         "tax_type": "filing",
         "applicable_year": 2026,
         "law_reference": "소득세법 제128조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.tax-calendar.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "filing.year-end-settlement",
@@ -11741,7 +12181,10 @@
         "tax_type": "filing",
         "applicable_year": 2026,
         "law_reference": "소득세법 제137조 및 원천징수 연말정산 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "kr-tax-system",
@@ -11789,7 +12232,10 @@
       "law_reference": "",
       "tags": [
         "root"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-event.childbirth-parenting",
@@ -11920,7 +12366,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.mohw.first-meeting-voucher",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-event.first-vat-return",
@@ -12032,7 +12481,10 @@
           "target": "application-channel.hometax-vat",
           "criterion": "신청 경로"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.business-registration.application",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-event.small-business-operating-funds",
@@ -12165,7 +12617,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.bizinfo.small-business-policy-fund.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-expense.card-spending",
@@ -12254,7 +12709,10 @@
           "target": "application-channel.hometax-simplification",
           "criterion": "자료 확인"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.credit-card-deduction",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-expense.donation",
@@ -12348,7 +12806,10 @@
           "target": "conflict-rule.donation-carryover",
           "criterion": "이월공제 제한"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.donation-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-expense.education-costs",
@@ -12440,7 +12901,10 @@
           "target": "conflict-rule.education-nongrad",
           "criterion": "제외 항목"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.education-expense-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-expense.housing-subscription",
@@ -12532,7 +12996,10 @@
           "target": "required-document.housing-savings-payment-certificate",
           "criterion": "필요서류"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.housing-savings-deduction",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-expense.medical-costs",
@@ -12629,7 +13096,10 @@
           "target": "required-document.eyeglasses-receipt",
           "criterion": "안경 증빙"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.special-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-expense.monthly-rent",
@@ -12745,7 +13215,10 @@
           "target": "required-document.lease-contract",
           "criterion": "필요서류"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-expense.monthly-rent-support",
@@ -12881,7 +13354,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.korea.youth-monthly-rent.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-income.freelance-income",
@@ -12988,7 +13464,10 @@
           "target": "application-channel.hometax-income-tax",
           "criterion": "신고 경로"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.business-income.withholding",
+      "source_registry_status": "registered"
     },
     {
       "id": "life-income.side-job-income",
@@ -13090,7 +13569,10 @@
           "target": "application-channel.hometax-income-tax",
           "criterion": "신고 경로"
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.acquisition",
@@ -13165,7 +13647,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.automobile",
@@ -13240,7 +13725,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.leisure",
@@ -13319,7 +13807,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.local-consumption",
@@ -13396,7 +13887,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.local-education",
@@ -13473,7 +13967,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.local-income",
@@ -13551,7 +14048,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.property",
@@ -13843,7 +14343,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.regional-resource-facility",
@@ -13918,7 +14421,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.registration-license",
@@ -13993,7 +14499,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.resident",
@@ -14068,7 +14577,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "local.tobacco-consumption",
@@ -14143,7 +14655,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "지방세기본법 제8조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "reduction.good-landlord",
@@ -14230,7 +14745,10 @@
         "credit_or_deduction": "tax-reduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제96조의3"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "reduction.sme-employment-income",
@@ -14362,7 +14880,10 @@
         "credit_or_deduction": "tax-reduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제30조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.sme-employment-income-reduction",
+      "source_registry_status": "registered"
     },
     {
       "id": "reduction.sme-special",
@@ -14507,7 +15028,10 @@
         "credit_or_deduction": "tax-reduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제7조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "reduction.startup-sme",
@@ -14636,7 +15160,10 @@
         "credit_or_deduction": "tax-reduction",
         "applicable_year": 2026,
         "law_reference": "조세특례제한법 제6조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.reliefs",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.birth-registration",
@@ -14681,7 +15208,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.mohw.first-meeting-voucher",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.donation-receipt",
@@ -14718,7 +15248,10 @@
       "tags": [
         "required-document",
         "donation"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.donation-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.education-payment-certificate",
@@ -14755,7 +15288,10 @@
       "tags": [
         "required-document",
         "education"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.education-expense-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.eyeglasses-receipt",
@@ -14792,7 +15328,10 @@
       "tags": [
         "required-document",
         "medical"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.call.nts.medical-expense-documents",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.housing-savings-payment-certificate",
@@ -14829,7 +15368,10 @@
       "tags": [
         "required-document",
         "housing"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.housing-savings-deduction",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.lease-contract",
@@ -14871,7 +15413,10 @@
       "tags": [
         "required-document",
         "housing"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.medical-expense-statement",
@@ -14907,7 +15452,10 @@
       "tags": [
         "required-document",
         "medical"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.call.nts.medical-expense-documents",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.medical-receipt",
@@ -14944,7 +15492,10 @@
       "tags": [
         "required-document",
         "medical"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.call.nts.medical-expense-documents",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.rent-payment-proof",
@@ -14981,7 +15532,10 @@
       "tags": [
         "required-document",
         "housing"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.rental-contract-support",
@@ -15023,7 +15577,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.myhome.youth-monthly-rent.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.resident-registration-copy",
@@ -15066,7 +15623,10 @@
       "tags": [
         "required-document",
         "housing"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.small-business-registration",
@@ -15108,7 +15668,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.bizinfo.small-business-policy-fund.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "required-document.tax-payment-status",
@@ -15147,7 +15710,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.bizinfo.small-business-policy-fund.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.childbirth-parenting-benefits",
@@ -15226,7 +15792,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.mohw.first-meeting-voucher",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.corporate-tax-manager",
@@ -15301,7 +15870,10 @@
           "target": "credit.foreign-tax-paid",
           "reason": "외국납부세액공제처럼 산식 기반 한도는 criteria의 금액·적용 산식으로 확인합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.corporate-tax.rates",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.dual-income-personal-deduction",
@@ -15370,7 +15942,10 @@
           "target": "application-channel.company-year-end-settlement",
           "reason": "배분 결과에 맞게 각 회사 연말정산 자료를 제출합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.employee.side-job-income",
@@ -15440,7 +16015,10 @@
           "target": "application-channel.hometax-income-tax",
           "reason": "필요하면 홈택스 종합소득세 신고로 연결합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.employee.thirties-year-end-settlement",
@@ -15522,7 +16100,10 @@
           "target": "application-channel.company-year-end-settlement",
           "reason": "간소화 자료와 누락 증빙을 회사 연말정산 경로로 제출합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.employee.year-end-settlement",
@@ -15597,7 +16178,10 @@
           "target": "category.tax-credits",
           "reason": "산출세액에서 차감하는 보험료·의료비·교육비·기부금·월세액 등 공제율과 한도를 확인합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.first-vat-return",
@@ -15667,7 +16251,10 @@
           "target": "application-channel.hometax-vat",
           "reason": "전자 신고 채널로 연결합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.filing-duty",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.freelancer.income-tax",
@@ -15739,7 +16326,10 @@
           "target": "application-channel.hometax-income-tax",
           "reason": "다음연도 5월 확정신고 경로로 연결합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.business-income.withholding",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.homeless-youth-support",
@@ -15810,7 +16400,10 @@
           "target": "support.youth-special-rent-guarantee",
           "reason": "무주택 청년 특례전세자금보증의 소득과 한도를 확인합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.fsc.youth-future-savings",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.homeowner.real-estate-tax",
@@ -15884,7 +16477,10 @@
           "target": "tax.comprehensive-real-estate",
           "reason": "공제 후 공정시장가액비율을 적용한 과세표준으로 주택 수·토지 유형별 세율표 구간을 선택합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.real-estate-tax.faq",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.inheritance-gift",
@@ -15963,7 +16559,10 @@
           "target": "filing.gift-tax-return",
           "reason": "일반 증여는 증여받은 날이 속하는 달의 말일부터 3개월 이내 신고합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.inheritance.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.job-change-year-end-settlement",
@@ -16027,7 +16626,10 @@
           "target": "application-channel.hometax-income-tax",
           "reason": "전 직장 자료를 반영하지 못한 경우 다음연도 종합소득세 신고로 보완합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.monthly-rent-tenant-credit",
@@ -16092,7 +16694,10 @@
           "target": "required-document.rent-payment-proof",
           "reason": "주민등록표등본, 임대차계약서, 지급 증빙을 준비합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.monthly-rent-credit",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.payment-statement-submission",
@@ -16161,7 +16766,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.payment-statement.deadlines",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.real-estate-transfer",
@@ -16235,7 +16843,10 @@
           "target": "deadline.capital-gains.final",
           "reason": "복수 양도 등 확정신고 대상은 다음연도 5월 신고 경로로 연결합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.capital-gains.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.resigned-worker-year-end-settlement",
@@ -16298,7 +16909,10 @@
           "target": "application-channel.hometax-income-tax",
           "reason": "누락 공제 또는 다른 소득이 있으면 다음연도 5월 신고에서 보완합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.simple-vat-taxpayer-decision",
@@ -16368,7 +16982,10 @@
           "target": "deadline.vat.simplified.annual",
           "reason": "다음해 1월 확정신고·납부 기한을 확인합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.filing-duty",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.small-business-policy-fund",
@@ -16446,7 +17063,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.bizinfo.small-business-policy-fund.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.sole-proprietor.compliance",
@@ -16526,7 +17146,10 @@
           "target": "filing.income-tax-return",
           "reason": "사업소득을 포함한 종합소득은 다음연도 5월 확정신고 경로로 연결합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.business-registration.application",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.tax-penalty-risk",
@@ -16597,7 +17220,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.additional-tax",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.youth-monthly-rent-support",
@@ -16676,7 +17302,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference",
+      "source_registry_id": "source.korea.youth-monthly-rent.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "scenario.youth-policy-support",
@@ -16755,7 +17384,10 @@
           "target": "support.youth-special-rent-guarantee",
           "reason": "무주택 청년의 나이, 소득, 보증한도 기준을 확인합니다."
         }
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.fsc.youth-future-savings",
+      "source_registry_status": "registered"
     },
     {
       "id": "source.bizinfo.small-business-leap.2026",
@@ -16763,7 +17395,6 @@
       "type": "source",
       "description": "로컬기업육성·강한소상공인 성장 사업을 통한 소상공인 사업화, 홍보·마케팅, 유형별 특화프로그램 지원 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "기업마당",
       "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120120",
       "basis_date": "2026-03-30",
       "tags": [
@@ -16787,7 +17418,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.bizinfo.small-business-management-voucher.2026",
@@ -16795,7 +17427,6 @@
       "type": "source",
       "description": "2025년 연 매출액 0원 초과 1억400만원 미만 영업 중 소상공인에게 25만원 한도 바우처를 지원하는 2026년 사업 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "기업마당",
       "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117908",
       "basis_date": "2026-01-28",
       "tags": [
@@ -16819,7 +17450,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.bizinfo.small-business-policy-fund.2026",
@@ -16827,7 +17459,6 @@
       "type": "source",
       "description": "2026년 소상공인 정책자금 융자사업의 지원대상, 일반·특별·긴급 경영안정자금, 신용취약자금, 대환대출, 재도전특별자금, 청년고용연계자금, 성장기반자금 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "기업마당",
       "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120930",
       "basis_date": "2026-04-17",
       "tags": [
@@ -16851,7 +17482,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.bizinfo.small-business-support.2026",
@@ -16859,7 +17491,6 @@
       "type": "source",
       "description": "2026년 소상공인 지원사업의 기업가형 소상공인 육성, 성장 지원, 소공인 특화, 지역상권, 디지털 역량, 경영부담 완화, 재기지원 분야 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "기업마당",
       "url": "https://bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117016",
       "basis_date": "2025-12-30",
       "tags": [
@@ -16883,7 +17514,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.call.nts.medical-expense-documents",
@@ -16914,9 +17546,9 @@
         "official-source",
         "국세상담센터"
       ],
-      "publisher": "국세상담센터",
       "url": "https://call.nts.go.kr/call/qna/selectQnaInfo.do?ctgId=CTG11786&mi=1441",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.ccrs.long-term-delinquent-debt-adjustment",
@@ -16947,9 +17579,9 @@
         "official-source",
         "신용회복위원회"
       ],
-      "publisher": "신용회복위원회",
       "url": "https://ad.ccrs.or.kr/cms/com/index.do?CONTENTS_NO=2&MENU_ID=1580",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.customs-act.2026.article14",
@@ -16980,9 +17612,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900015991",
-      "basis_date": "시행 2026-01-01"
+      "basis_date": "시행 2026-01-01",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.fsc.isa.policy",
@@ -17013,9 +17645,9 @@
         "official-source",
         "금융위원회"
       ],
-      "publisher": "금융위원회",
       "url": "https://www.fsc.go.kr/po020201/27339",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.fsc.youth-future-savings",
@@ -17046,9 +17678,9 @@
         "official-source",
         "금융위원회"
       ],
-      "publisher": "금융위원회",
       "url": "https://www.fsc.go.kr/no040101?cnId=2983",
-      "basis_date": "2025-12-11"
+      "basis_date": "2025-12-11",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.gov24.benefit-plus.local-supports",
@@ -17079,9 +17711,9 @@
         "official-source",
         "정부24"
       ],
-      "publisher": "정부24",
       "url": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.govkr.basic-livelihood-benefit",
@@ -17112,9 +17744,9 @@
         "official-source",
         "정부24"
       ],
-      "publisher": "정부24",
       "url": "https://www.gov.kr/portal/service/serviceInfo/WII000001410",
-      "basis_date": "최종수정일 2026-02-09"
+      "basis_date": "최종수정일 2026-02-09",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.hf.didimdol-loan",
@@ -17145,9 +17777,9 @@
         "official-source",
         "한국주택금융공사"
       ],
-      "publisher": "한국주택금융공사",
       "url": "https://www.hf.go.kr/ko/sub01/sub01_02_01.do",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.hf.didimdol-rate.2026-05",
@@ -17178,9 +17810,9 @@
         "official-source",
         "한국주택금융공사"
       ],
-      "publisher": "한국주택금융공사",
       "url": "https://hf.go.kr/ko/sub01/sub01_02_03.do",
-      "basis_date": "공시일 2026-05-01"
+      "basis_date": "공시일 2026-05-01",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.hf.special-rent-guarantee",
@@ -17211,9 +17843,9 @@
         "official-source",
         "한국주택금융공사"
       ],
-      "publisher": "한국주택금융공사",
       "url": "https://www.hf.go.kr/ko/sub02/sub02_01_04.do",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.hometax.main",
@@ -17244,9 +17876,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.hometax.go.kr",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.kinfa.hessal-119",
@@ -17277,75 +17909,9 @@
         "official-source",
         "서민금융진흥원"
       ],
-      "publisher": "서민금융진흥원",
       "url": "https://www.kinfa.or.kr/financialProduct/hessalLoanEmergency.do",
-      "basis_date": "2026-05-02 확인"
-    },
-    {
-      "id": "source.kinfa.hessal-loan-youth",
-      "title": "햇살론유스",
-      "type": "source",
-      "description": "만 19~34세 청년·대학생·사회초년생 대상 햇살론유스의 소득요건, 동일인 한도, 연간·용도별 보증한도 근거입니다.",
-      "folder": "90_Sources",
-      "basis_year": null,
-      "effective_date": null,
-      "expiration_date": null,
-      "reviewed_at": "2026-05-04",
-      "source_urls": [
-        "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do"
-      ],
-      "source_basis_dates": [
-        "2026-05-02 확인"
-      ],
-      "abolition_status": "active",
-      "revision_status": "none_announced",
-      "parents": [],
-      "children": [],
-      "related": [],
-      "terms": [],
-      "deadlines": [],
-      "sources": [],
-      "law_reference": "",
-      "tags": [
-        "official-source",
-        "서민금융진흥원"
-      ],
-      "publisher": "서민금융진흥원",
-      "url": "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do",
-      "basis_date": "2026-05-02 확인"
-    },
-    {
-      "id": "source.kinfa.illegal-private-finance-prevention-loan",
-      "title": "불법사금융예방대출",
-      "type": "source",
-      "description": "신용평점 하위 20%·연소득 3,500만원 이하 대상 생계비 정책서민금융상품의 대출한도, 금리, 상환방식 근거입니다.",
-      "folder": "90_Sources",
-      "basis_year": null,
-      "effective_date": null,
-      "expiration_date": null,
-      "reviewed_at": "2026-05-04",
-      "source_urls": [
-        "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do"
-      ],
-      "source_basis_dates": [
-        "2026-05-02 확인"
-      ],
-      "abolition_status": "active",
-      "revision_status": "none_announced",
-      "parents": [],
-      "children": [],
-      "related": [],
-      "terms": [],
-      "deadlines": [],
-      "sources": [],
-      "law_reference": "",
-      "tags": [
-        "official-source",
-        "서민금융진흥원"
-      ],
-      "publisher": "서민금융진흥원",
-      "url": "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.kinfa.youth-leap",
@@ -17376,9 +17942,9 @@
         "official-source",
         "서민금융진흥원"
       ],
-      "publisher": "서민금융진흥원",
       "url": "https://ylaccount.kinfa.or.kr/main",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.korea.youth-job-leap.2026",
@@ -17386,7 +17952,6 @@
       "type": "source",
       "description": "청년 정규직 채용 후 6개월 이상 고용 유지 시 기업과 청년에게 최대 720만원을 지원하는 2026년 청년일자리도약장려금 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "대한민국 정책브리핑",
       "url": "https://www.korea.kr/multi/visualNewsView.do?newsId=148961581",
       "basis_date": "2026-04 확인",
       "tags": [
@@ -17410,7 +17975,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.korea.youth-monthly-rent.2026",
@@ -17418,7 +17984,6 @@
       "type": "source",
       "description": "2026년 청년월세 지원사업의 신청기간, 월 최대 20만원, 최장 24개월, 19~34세, 소득·재산 기준, 신청경로 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "대한민국 정책브리핑",
       "url": "https://www.korea.kr/news/policyNewsView.do?newsId=148961092",
       "basis_date": "2026-03-19",
       "tags": [
@@ -17442,7 +18007,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.corporate-tax-act.credits",
@@ -17473,9 +18039,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/법인세법",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.customs-tariff",
@@ -17506,9 +18072,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/관세법/별표",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.education-tax-act.article5",
@@ -17539,9 +18105,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/교육세법/제5조",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.income-tax-act.deductions-credits",
@@ -17572,9 +18138,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/소득세법",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.individual-consumption-tax-act.rates",
@@ -17605,9 +18171,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/개별소비세법",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.inheritance-gift-tax-act.rates",
@@ -17638,9 +18204,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/상속세및증여세법",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.liquor-tax-act.rates",
@@ -17671,9 +18237,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/주세법",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.local-tax-act.rates",
@@ -17704,9 +18270,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/지방세법",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.securities-transaction-tax-act.article8",
@@ -17737,9 +18303,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/증권거래세법/제8조",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.special-rural-development-tax-act.article5",
@@ -17770,9 +18336,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/농어촌특별세법/제5조",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.stamp-tax-act.article3",
@@ -17803,9 +18369,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/인지세법/제3조",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.tax-special-treatment-restriction-act.reliefs",
@@ -17836,9 +18402,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/조세특례제한법",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.transport-energy-environment-tax-act.rates",
@@ -17869,9 +18435,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/교통ㆍ에너지ㆍ환경세법",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.law.value-added-tax-act.filing",
@@ -17902,9 +18468,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/부가가치세법",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.local-tax-framework-act.2026.article8",
@@ -17935,9 +18501,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1000903169",
-      "basis_date": "시행 2026-02-05"
+      "basis_date": "시행 2026-02-05",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.moef.isa.tax-benefit",
@@ -17968,9 +18534,9 @@
         "official-source",
         "기획재정부·대한민국 정책브리핑"
       ],
-      "publisher": "기획재정부·대한민국 정책브리핑",
       "url": "https://www.korea.kr/briefing/actuallyView.do?newsId=148874193",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.mohw.beneficiary-selection.2026",
@@ -17978,7 +18544,6 @@
       "type": "source",
       "description": "2026년 기준 중위소득과 생계·의료·주거·교육급여 선정기준의 보건복지부 공식 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "보건복지부",
       "url": "https://www.mohw.go.kr/menu.es?mid=a10708010300",
       "basis_date": "최종수정일 2026-03 확인",
       "tags": [
@@ -18002,7 +18567,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.mohw.child-allowance.2026",
@@ -18010,7 +18576,6 @@
       "type": "source",
       "description": "만 9세 미만 아동 대상 아동수당, 지역별 월 10만~13만원, 방문·복지로 신청 경로 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "보건복지부",
       "url": "https://www.mohw.go.kr/menu.es?mid=a10711030100",
       "basis_date": "최종수정일 2026-03-31",
       "tags": [
@@ -18034,7 +18599,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.mohw.first-meeting-voucher",
@@ -18042,7 +18608,6 @@
       "type": "source",
       "description": "2024년 이후 출생아 첫째 200만원, 둘째 이상 300만원 국민행복카드 바우처, 사용기간과 신청서류 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "보건복지부",
       "url": "https://www.mohw.go.kr/menu.es?mid=a10711020100",
       "basis_date": "2026-05-04 확인",
       "tags": [
@@ -18066,7 +18631,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.mohw.parent-benefit.2026",
@@ -18074,7 +18640,6 @@
       "type": "source",
       "description": "2세 미만 아동 대상 부모급여, 0세 월 100만원, 1세 월 50만원, 방문·복지로 신청 경로 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "보건복지부",
       "url": "https://www.mohw.go.kr/menu.es?mid=a10711030600",
       "basis_date": "최종수정일 2026-03-25",
       "tags": [
@@ -18098,7 +18663,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.molit.realtyprice",
@@ -18129,9 +18695,9 @@
         "official-source",
         "국토교통부"
       ],
-      "publisher": "국토교통부",
       "url": "https://www.realtyprice.kr/",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.myhome.housing-benefit.2026",
@@ -18139,7 +18705,6 @@
       "type": "source",
       "description": "2026년 주거급여 선정기준, 가구원 수별 기준 중위소득 48%, 급지·가구원 수별 기준임대료, 자가가구 수선비용 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "마이홈포털",
       "url": "https://www.myhome.go.kr/hws/portal/cont/selectHousingBenefitView.do",
       "basis_date": "2026-05-04 확인",
       "tags": [
@@ -18163,7 +18728,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.myhome.youth-monthly-rent.2026",
@@ -18171,7 +18737,6 @@
       "type": "source",
       "description": "청년월세지원의 청년가구·원가구 범위, 제외대상, 2026년 기준 중위소득 60%·100%, 재산 기준, 임차료 환산 기준 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "마이홈포털",
       "url": "https://www.myhome.go.kr/hws/portal/dgn/selectSelfDiagnosisYouthHousView.do",
       "basis_date": "2026-05-04 확인",
       "tags": [
@@ -18195,7 +18760,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.national-tax-framework-act.2026.article2",
@@ -18226,9 +18792,9 @@
         "official-source",
         "국가법령정보센터"
       ],
-      "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900637068",
-      "basis_date": "시행 2026-01-01"
+      "basis_date": "시행 2026-01-01",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.business-income.withholding",
@@ -18259,9 +18825,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7902&mi=6466",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.business-registration.application",
@@ -18292,9 +18858,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7777&mi=2444",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.capital-gains.additional-tax",
@@ -18302,7 +18868,6 @@
       "type": "source",
       "description": "양도소득세 신고불성실, 납부지연, 기장불성실, 환산취득가액 가산세율 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7712&mi=2313",
       "basis_date": "2026-05-04 확인",
       "tags": [
@@ -18326,7 +18891,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.capital-gains.basic-deduction",
@@ -18357,9 +18923,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/tax/sub/1.2.3.%EC%96%91%EB%8F%84%EC%86%8C%EB%93%9D%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%20%EC%8B%A0%EA%B3%A0%20%EB%B0%8F%20%EB%82%A9%EB%B6%80%EA%B3%84%EC%82%B0%EC%84%9C.html",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.capital-gains.deadline",
@@ -18390,9 +18956,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7713&mi=2371",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.capital-gains.overview",
@@ -18423,9 +18989,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7709&mi=2308",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.capital-gains.rates",
@@ -18456,9 +19022,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7711&mi=2312",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.comprehensive-real-estate.overview",
@@ -18489,9 +19055,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7733&mi=2351",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.comprehensive-real-estate.rates",
@@ -18522,9 +19088,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7736&mi=40378",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.corporate-tax-consulting.2026",
@@ -18555,9 +19121,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239070&mi=41093",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.corporate-tax.filing-procedure",
@@ -18588,9 +19154,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7975&mi=6549",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.corporate-tax.rates",
@@ -18621,9 +19187,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7746",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.corporate-tax.reliefs",
@@ -18654,9 +19220,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7987&mi=6561",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.credit-card-deduction",
@@ -18687,9 +19253,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7794&mi=2202",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.ctc.intro",
@@ -18720,9 +19286,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7782&mi=2451",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.donation-credit",
@@ -18753,9 +19319,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239040&mi=40978",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.education-expense-credit",
@@ -18786,9 +19352,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239024&mi=40612",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.eitc.intro",
@@ -18819,9 +19385,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7781&mi=2450",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.employee-income-statement",
@@ -18854,9 +19420,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://d.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239032&mi=40678",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.financial-income",
@@ -18864,7 +19430,6 @@
       "type": "source",
       "description": "이자·배당소득의 범위, 원천징수, 종합과세와 분리과세 구분 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7896&mi=6471",
       "basis_date": "2026-05-04 확인",
       "tags": [
@@ -18888,7 +19453,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.gift.deadline",
@@ -18919,9 +19485,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7727&mi=2339",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.gift.rates",
@@ -18952,9 +19518,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7960&mi=2227",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.grant.2026-regular-press",
@@ -18985,9 +19551,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/na/ntt/selectNttInfo.do?mi=2201&nttSn=1350768",
-      "basis_date": "2026-04-30"
+      "basis_date": "2026-04-30",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.grant.deadline",
@@ -19018,9 +19584,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7784&mi=2453",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.grant.eligibility",
@@ -19051,9 +19617,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7783&mi=2452",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.housing-mortgage-interest-deduction",
@@ -19084,9 +19650,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239020&mi=40630",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.housing-rent-principal-deduction",
@@ -19117,9 +19683,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239021&mi=40629",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.housing-savings-deduction",
@@ -19150,9 +19716,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239022&mi=40610",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.income-tax.additional-tax",
@@ -19160,7 +19726,6 @@
       "type": "source",
       "description": "종합소득세 무신고, 과소신고, 장부 기록·보관 불성실, 납부지연 가산세율 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
       "basis_date": "2026-05-04 확인",
       "tags": [
@@ -19184,7 +19749,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.income-tax.deadline",
@@ -19215,9 +19781,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7665&mi=2225",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.income-tax.overview",
@@ -19225,7 +19791,6 @@
       "type": "source",
       "description": "종합소득세 계산 흐름, 금융·사업·근로·연금·기타소득 합산, 소득공제·세액공제·가산세 항목의 공식 개요입니다.",
       "folder": "90_Sources",
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7666&mi=2224",
       "basis_date": "2026-05-04 확인",
       "tags": [
@@ -19249,7 +19814,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.income-tax.rates",
@@ -19280,9 +19846,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7667&mi=2223",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.inheritance.overview",
@@ -19313,9 +19879,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7719&mi=2324",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.inheritance.rates",
@@ -19346,9 +19912,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7957&mi=6529",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.monthly-rent-credit",
@@ -19379,9 +19945,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239025",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.payment-statement.deadlines",
@@ -19389,7 +19955,6 @@
       "type": "source",
       "description": "근로·퇴직·사업·종교인·연금계좌 지급명세서, 간이지급명세서, 일용근로소득, 금융·기타소득 지급명세서 제출기한 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=8631&mi=12242",
       "basis_date": "2026-05-04 확인",
       "tags": [
@@ -19413,7 +19978,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.real-estate-tax.faq",
@@ -19444,9 +20010,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7739&mi=2357",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.retirement-income.calculation",
@@ -19477,9 +20043,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7880&mi=6444",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.sme-employment-income-reduction",
@@ -19510,9 +20076,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239023&mi=40611",
-      "basis_date": "2026-05-03 확인"
+      "basis_date": "2026-05-03 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.tax-calendar.2026",
@@ -19543,9 +20109,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/ad/taxSchdul/selectList.do?mi=135747&taxYear=2026",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.vat.additional-tax",
@@ -19553,7 +20119,6 @@
       "type": "source",
       "description": "부가가치세 무신고, 과소신고, 납부지연, 영세율 과세표준 신고불성실, 미등록 가산세율 근거입니다.",
       "folder": "90_Sources",
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7697&mi=2405",
       "basis_date": "2026-05-04 확인",
       "tags": [
@@ -19577,7 +20142,8 @@
       "terms": [],
       "deadlines": [],
       "sources": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.vat.filing-duty",
@@ -19608,9 +20174,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7806",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.vat.overview",
@@ -19641,9 +20207,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7693&mi=2272",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.withholding.deadlines",
@@ -19674,9 +20240,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://sc.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7702&mi=2290",
-      "basis_date": "2026-05-04 확인"
+      "basis_date": "2026-05-04 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.withholding.overview",
@@ -19707,9 +20273,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7701&mi=2289",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.year-end-settlement.calculation",
@@ -19740,9 +20306,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7870&mi=2312",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.year-end-settlement.deduction-limit",
@@ -19773,9 +20339,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7873&mi=6594",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "source.nts.year-end-settlement.special-credit",
@@ -19806,9 +20372,9 @@
         "official-source",
         "국세청"
       ],
-      "publisher": "국세청",
       "url": "https://kids.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7874&mi=6438",
-      "basis_date": "2026-05-02 확인"
+      "basis_date": "2026-05-02 확인",
+      "provenance_shard": "reference"
     },
     {
       "id": "support.basic-livelihood-benefit",
@@ -19860,7 +20426,7 @@
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
           "source": "source.govkr.basic-livelihood-benefit",
           "household_size": 1,
-          "median_income_percent_max": 32.0,
+          "median_income_percent_max": 32,
           "criteria_kind": "eligibility",
           "basis_category": "median-income",
           "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
@@ -19876,7 +20442,7 @@
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
           "source": "source.govkr.basic-livelihood-benefit",
           "household_size": 2,
-          "median_income_percent_max": 32.0,
+          "median_income_percent_max": 32,
           "criteria_kind": "eligibility",
           "basis_category": "median-income",
           "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
@@ -19892,7 +20458,7 @@
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
           "source": "source.govkr.basic-livelihood-benefit",
           "household_size": 3,
-          "median_income_percent_max": 32.0,
+          "median_income_percent_max": 32,
           "criteria_kind": "eligibility",
           "basis_category": "median-income",
           "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
@@ -19908,7 +20474,7 @@
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
           "source": "source.govkr.basic-livelihood-benefit",
           "household_size": 4,
-          "median_income_percent_max": 32.0,
+          "median_income_percent_max": 32,
           "criteria_kind": "eligibility",
           "basis_category": "median-income",
           "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
@@ -19924,7 +20490,7 @@
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
           "source": "source.govkr.basic-livelihood-benefit",
           "household_size": 5,
-          "median_income_percent_max": 32.0,
+          "median_income_percent_max": 32,
           "criteria_kind": "eligibility",
           "basis_category": "median-income",
           "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
@@ -19958,7 +20524,10 @@
           "selection_rule": "합산 범위가 가구원 전체인지 본인·배우자인지 확인하고 기준금액 이하 또는 감액구간 해당 여부를 판정합니다.",
           "basis_source": "source.govkr.basic-livelihood-benefit"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.govkr.basic-livelihood-benefit",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.child-allowance",
@@ -20046,7 +20615,10 @@
       "revision_status": "none_announced",
       "children": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "support",
+      "source_registry_id": "source.mohw.child-allowance.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.child-tax-credit",
@@ -20155,7 +20727,10 @@
           "selection_rule": "합산 범위가 가구원 전체인지 본인·배우자인지 확인하고 기준금액 이하 또는 감액구간 해당 여부를 판정합니다.",
           "basis_source": "source.nts.grant.2026-regular-press"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.nts.ctc.intro",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.didimdol-loan",
@@ -20332,7 +20907,10 @@
           "basis_source": "source.hf.didimdol-rate.2026-05",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.hf.didimdol-loan",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.earned-income-tax-credit",
@@ -20456,7 +21034,10 @@
           "selection_rule": "합산 범위가 가구원 전체인지 본인·배우자인지 확인하고 기준금액 이하 또는 감액구간 해당 여부를 판정합니다.",
           "basis_source": "source.nts.grant.2026-regular-press"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.nts.eitc.intro",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.first-meeting-voucher",
@@ -20556,7 +21137,10 @@
       "children": [],
       "terms": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "support",
+      "source_registry_id": "source.mohw.first-meeting-voucher",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.hessal-119",
@@ -20691,7 +21275,10 @@
           "basis_source": "source.kinfa.hessal-119",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.kinfa.hessal-119",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.hessal-loan-youth",
@@ -20830,7 +21417,10 @@
           "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
           "basis_source": "source.kinfa.hessal-loan-youth"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.kinfa.hessal-loan-youth",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.housing-benefit",
@@ -20988,7 +21578,10 @@
       "revision_status": "none_announced",
       "children": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "support",
+      "source_registry_id": "source.myhome.housing-benefit.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.illegal-private-finance-prevention-loan",
@@ -21134,7 +21727,10 @@
           "basis_source": "source.kinfa.illegal-private-finance-prevention-loan",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.kinfa.illegal-private-finance-prevention-loan",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.isa",
@@ -21248,7 +21844,10 @@
           "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
           "basis_source": "source.moef.isa.tax-benefit"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.fsc.isa.policy",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.long-term-delinquent-debt-adjustment",
@@ -21409,7 +22008,10 @@
           "basis_source": "source.ccrs.long-term-delinquent-debt-adjustment",
           "amount_formula": "유예기간·유예이자율 × 유예이자율 2%"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.ccrs.long-term-delinquent-debt-adjustment",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.parent-benefit",
@@ -21503,7 +22105,10 @@
       "revision_status": "none_announced",
       "children": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "support",
+      "source_registry_id": "source.mohw.parent-benefit.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.small-business-leap",
@@ -21577,7 +22182,10 @@
       "revision_status": "none_announced",
       "children": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "support",
+      "source_registry_id": "source.bizinfo.small-business-leap.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.small-business-management-stability-voucher",
@@ -21665,7 +22273,10 @@
       "revision_status": "none_announced",
       "children": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "support",
+      "source_registry_id": "source.bizinfo.small-business-management-voucher.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.small-business-policy-fund",
@@ -21809,7 +22420,10 @@
       "revision_status": "none_announced",
       "children": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "support",
+      "source_registry_id": "source.bizinfo.small-business-policy-fund.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.youth-future-savings",
@@ -21924,7 +22538,7 @@
           "condition": "200% 이하",
           "benefit": "일반형 가입 가능",
           "source": "source.fsc.youth-future-savings",
-          "median_income_percent_max": 200.0,
+          "median_income_percent_max": 200,
           "criteria_kind": "eligibility",
           "basis_category": "median-income",
           "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
@@ -21965,7 +22579,7 @@
           "condition": "150% 이하",
           "benefit": "우대형 가입 가능",
           "source": "source.fsc.youth-future-savings",
-          "median_income_percent_max": 150.0,
+          "median_income_percent_max": 150,
           "criteria_kind": "eligibility",
           "basis_category": "median-income",
           "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
@@ -22036,7 +22650,10 @@
           "basis_source": "source.fsc.youth-future-savings",
           "amount_applicability": "정액 금액 기준 없음"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.fsc.youth-future-savings",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.youth-job-leap-incentive",
@@ -22120,7 +22737,10 @@
       "revision_status": "none_announced",
       "children": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "support",
+      "source_registry_id": "source.korea.youth-job-leap.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.youth-leap-account",
@@ -22219,7 +22839,7 @@
           "condition": "250% 이하",
           "benefit": "가입 대상",
           "source": "source.kinfa.youth-leap",
-          "median_income_percent_max": 250.0,
+          "median_income_percent_max": 250,
           "criteria_kind": "eligibility",
           "basis_category": "median-income",
           "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
@@ -22242,7 +22862,10 @@
           "basis_source": "source.kinfa.youth-leap",
           "amount_applicability": "정액 금액 기준 없음"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.kinfa.youth-leap",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.youth-monthly-rent-special",
@@ -22414,7 +23037,10 @@
       "revision_status": "none_announced",
       "children": [],
       "deadlines": [],
-      "law_reference": ""
+      "law_reference": "",
+      "provenance_shard": "support",
+      "source_registry_id": "source.korea.youth-monthly-rent.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "support.youth-special-rent-guarantee",
@@ -22517,7 +23143,10 @@
           "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
           "basis_source": "source.hf.special-rent-guarantee"
         }
-      ]
+      ],
+      "provenance_shard": "support",
+      "source_registry_id": "source.hf.special-rent-guarantee",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.comprehensive-real-estate",
@@ -22669,7 +23298,7 @@
           "basis": "종부세 과세표준",
           "condition": "주택 2주택 이하, 12억원 이하",
           "threshold_krw_max": 1200000000,
-          "rate_percent": 1.0,
+          "rate_percent": 1,
           "source": "source.nts.comprehensive-real-estate.rates",
           "criteria_kind": "rate",
           "rate_basis": "종부세 과세표준",
@@ -22717,7 +23346,7 @@
           "basis": "종부세 과세표준",
           "condition": "주택 2주택 이하, 94억원 이하",
           "threshold_krw_max": 9400000000,
-          "rate_percent": 2.0,
+          "rate_percent": 2,
           "source": "source.nts.comprehensive-real-estate.rates",
           "criteria_kind": "rate",
           "rate_basis": "종부세 과세표준",
@@ -22749,7 +23378,7 @@
           "basis": "종부세 과세표준",
           "condition": "주택 3주택 이상, 25억원 이하",
           "threshold_krw_max": 2500000000,
-          "rate_percent": 2.0,
+          "rate_percent": 2,
           "note": "3억원 이하 0.5%, 6억원 이하 0.7%, 12억원 이하 1.0%",
           "source": "source.nts.comprehensive-real-estate.rates",
           "criteria_kind": "rate",
@@ -22766,7 +23395,7 @@
           "basis": "종부세 과세표준",
           "condition": "주택 3주택 이상, 50억원 이하",
           "threshold_krw_max": 5000000000,
-          "rate_percent": 3.0,
+          "rate_percent": 3,
           "source": "source.nts.comprehensive-real-estate.rates",
           "criteria_kind": "rate",
           "rate_basis": "종부세 과세표준",
@@ -22782,7 +23411,7 @@
           "basis": "종부세 과세표준",
           "condition": "주택 3주택 이상, 94억원 이하",
           "threshold_krw_max": 9400000000,
-          "rate_percent": 4.0,
+          "rate_percent": 4,
           "source": "source.nts.comprehensive-real-estate.rates",
           "criteria_kind": "rate",
           "rate_basis": "종부세 과세표준",
@@ -22798,7 +23427,7 @@
           "basis": "종부세 과세표준",
           "condition": "주택 3주택 이상, 94억원 초과",
           "threshold_krw_min": 9400000000,
-          "rate_percent": 5.0,
+          "rate_percent": 5,
           "source": "source.nts.comprehensive-real-estate.rates",
           "criteria_kind": "rate",
           "rate_basis": "종부세 과세표준",
@@ -22814,7 +23443,7 @@
           "basis": "종부세 과세표준",
           "condition": "종합합산토지 15억원 이하",
           "threshold_krw_max": 1500000000,
-          "rate_percent": 1.0,
+          "rate_percent": 1,
           "source": "source.nts.comprehensive-real-estate.rates",
           "criteria_kind": "rate",
           "rate_basis": "종부세 과세표준",
@@ -22830,7 +23459,7 @@
           "basis": "종부세 과세표준",
           "condition": "종합합산토지 45억원 이하",
           "threshold_krw_max": 4500000000,
-          "rate_percent": 2.0,
+          "rate_percent": 2,
           "source": "source.nts.comprehensive-real-estate.rates",
           "criteria_kind": "rate",
           "rate_basis": "종부세 과세표준",
@@ -22846,7 +23475,7 @@
           "basis": "종부세 과세표준",
           "condition": "종합합산토지 45억원 초과",
           "threshold_krw_min": 4500000000,
-          "rate_percent": 3.0,
+          "rate_percent": 3,
           "source": "source.nts.comprehensive-real-estate.rates",
           "criteria_kind": "rate",
           "rate_basis": "종부세 과세표준",
@@ -22912,18 +23541,18 @@
           "rates": {
             "criterion_5": 0.5,
             "criterion_6": 0.7,
-            "criterion_7": 1.0,
+            "criterion_7": 1,
             "criterion_8": 1.3,
             "criterion_9": 1.5,
-            "criterion_10": 2.0,
+            "criterion_10": 2,
             "criterion_11": 2.7,
-            "criterion_12": 2.0,
-            "criterion_13": 3.0,
-            "criterion_14": 4.0,
-            "criterion_15": 5.0,
-            "criterion_16": 1.0,
-            "criterion_17": 2.0,
-            "criterion_18": 3.0,
+            "criterion_12": 2,
+            "criterion_13": 3,
+            "criterion_14": 4,
+            "criterion_15": 5,
+            "criterion_16": 1,
+            "criterion_17": 2,
+            "criterion_18": 3,
             "criterion_19": 0.5,
             "criterion_20": 0.6,
             "criterion_21": 0.7
@@ -23016,7 +23645,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.corporate",
@@ -23191,7 +23823,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.customs",
@@ -23265,7 +23900,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "관세법 제14조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.customs-act.2026.article14",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.education",
@@ -23343,7 +23981,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.gift",
@@ -23535,7 +24176,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "상속세 및 증여세법 제26조 및 제68조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.income",
@@ -23809,7 +24453,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.income.capital-gains",
@@ -24138,7 +24785,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "소득세법 제92조·제104조·제105조·제110조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.income.comprehensive",
@@ -24410,7 +25060,10 @@
         "tax_type": "tax",
         "applicable_year": 2025,
         "law_reference": "소득세법 제55조 및 제70조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.income.retirement",
@@ -24563,7 +25216,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.individual-consumption",
@@ -24639,7 +25295,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.inheritance",
@@ -24833,7 +25492,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "상속세 및 증여세법 제26조 및 제67조"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.inheritance-and-gift",
@@ -25034,7 +25696,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.liquor",
@@ -25110,7 +25775,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.securities-transaction",
@@ -25190,7 +25858,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.special-rural-development",
@@ -25266,7 +25937,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.stamp",
@@ -25446,7 +26120,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.transport-energy-environment",
@@ -25522,7 +26199,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "tax.value-added",
@@ -25733,7 +26413,10 @@
         "tax_type": "tax",
         "applicable_year": 2026,
         "law_reference": "국세기본법 제2조 제1호"
-      }
+      },
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.capital-gain",
@@ -25764,7 +26447,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.capital-gains.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.customs",
@@ -25795,7 +26481,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.customs-act.2026.article14",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.deadline",
@@ -25826,7 +26515,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.deadline-special-rule",
@@ -25859,7 +26551,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.tax-calendar.2026",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.debt-adjustment",
@@ -25890,7 +26585,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.ccrs.long-term-delinquent-debt-adjustment",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.deduction-limit",
@@ -25921,7 +26619,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.donee",
@@ -25952,7 +26653,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.gift.deadline",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.eligibility-threshold",
@@ -25986,7 +26690,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.grant.2026-regular-press",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.employee",
@@ -26020,7 +26727,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.employee-income-statement",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.general-vat-taxpayer",
@@ -26053,7 +26763,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.gross-pay",
@@ -26084,7 +26797,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.grant.eligibility",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.heir",
@@ -26115,7 +26831,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.inheritance.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.income-deduction",
@@ -26148,7 +26867,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.local-government-support",
@@ -26179,7 +26901,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.gov24.benefit-plus.local-supports",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.local-tax",
@@ -26210,7 +26935,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.local-tax-framework-act.2026.article8",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.median-income",
@@ -26244,7 +26972,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.govkr.basic-livelihood-benefit",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.national-tax",
@@ -26275,7 +27006,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.policy-finance",
@@ -26311,7 +27045,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.fsc.youth-future-savings",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.policy-loan",
@@ -26346,7 +27083,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.kinfa.hessal-loan-youth",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.progressive-deduction",
@@ -26377,7 +27117,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.rates",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.property-requirement",
@@ -26408,7 +27151,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.grant.eligibility",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.publicly-notified-price",
@@ -26442,7 +27188,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.comprehensive-real-estate.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.simple-vat-taxpayer",
@@ -26477,7 +27226,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.vat.overview",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.tax-base",
@@ -26511,7 +27263,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.tax-credit",
@@ -26544,7 +27299,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.tax-law",
@@ -26575,7 +27333,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.tax-period",
@@ -26606,7 +27367,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.tax-rate",
@@ -26639,7 +27403,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.income-tax.rates",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.tax-reduction",
@@ -26672,7 +27439,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.year-end-settlement.calculation",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.total-income",
@@ -26703,7 +27473,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.grant.eligibility",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.withholding",
@@ -26737,7 +27510,10 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.national-tax-framework-act.2026.article2",
+      "source_registry_status": "registered"
     },
     {
       "id": "term.withholding-obligor",
@@ -26768,7 +27544,69 @@
       "law_reference": "",
       "tags": [
         "term"
-      ]
+      ],
+      "provenance_shard": "reference",
+      "source_registry_id": "source.nts.withholding.overview",
+      "source_registry_status": "registered"
     }
-  ]
+  ],
+  "reference_items": [
+    {
+      "id": "source.kinfa.hessal-loan-youth",
+      "title": "햇살론유스",
+      "type": "source",
+      "description": "청년·대학생 대상 햇살론유스의 지원대상, 보증한도, 보증기간, 대출금리와 보증료율 공식 안내입니다.",
+      "basis_year": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "tags": [
+        "official-source",
+        "finance-source",
+        "서민금융진흥원"
+      ],
+      "url": "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do",
+      "basis_date": "2026-07-03 확인",
+      "source_urls": [
+        "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do"
+      ],
+      "source_basis_dates": [
+        "2026-07-03 확인",
+        "2026-05-02 확인"
+      ],
+      "provenance_shard": "reference"
+    },
+    {
+      "id": "source.kinfa.illegal-private-finance-prevention-loan",
+      "title": "불법사금융예방대출",
+      "type": "source",
+      "description": "대부업 이용도 어려운 저신용·저소득자 생계비 대출의 지원대상, 금리, 한도, 상환방식 공식 안내입니다.",
+      "basis_year": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "tags": [
+        "official-source",
+        "finance-source",
+        "서민금융진흥원"
+      ],
+      "url": "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do",
+      "basis_date": "2026-07-03 확인",
+      "source_urls": [
+        "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do"
+      ],
+      "source_basis_dates": [
+        "2026-07-03 확인",
+        "2026-05-02 확인"
+      ],
+      "provenance_shard": "reference"
+    }
+  ],
+  "export_checksum": "ee5655b581d27e706b843b6404678209cb71e74dfc1bdf7598ce3d85c8958264"
 }

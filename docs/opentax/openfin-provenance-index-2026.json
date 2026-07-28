@@ -1,0 +1,85 @@
+{
+  "version": "OPENFIN-PROVENANCE-INDEX-2026.07.28.1",
+  "generated_at": "2026-07-28T00:00:00.000Z",
+  "item_count": 21266,
+  "covered_item_count": 21122,
+  "shards": [
+    {
+      "id": "openfin-provenance-account-products",
+      "domain": "provenance",
+      "path": "opentax/openfin-provenance-index-2026-account-products.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
+      "item_count": 4,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "50bca42b69a9506672662019732794ed24130fa85e484be054a0ad9b730f3bff",
+      "shard_id": "account-products"
+    },
+    {
+      "id": "openfin-provenance-bank-products",
+      "domain": "provenance",
+      "path": "opentax/openfin-provenance-index-2026-bank-products.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
+      "item_count": 1363,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "d25311b470a0f9b0cf081b2f683e2d8d014eb93136ac8a31d8458b8a6cc3dc1f",
+      "shard_id": "bank-products"
+    },
+    {
+      "id": "openfin-provenance-card-products",
+      "domain": "provenance",
+      "path": "opentax/openfin-provenance-index-2026-card-products.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
+      "item_count": 1007,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "4e1cf5a148446595d0f42ce3040be1711f9c2d67bcf6f55dbcba54f7673dfb6c",
+      "shard_id": "card-products"
+    },
+    {
+      "id": "openfin-provenance-deposit-protection",
+      "domain": "provenance",
+      "path": "opentax/openfin-provenance-index-2026-deposit-protection.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
+      "item_count": 9380,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "442d3cce3ebe99e588d5d85bc57583fc963f37f5ceed2d962bd749ffb85ae320",
+      "shard_id": "deposit-protection"
+    },
+    {
+      "id": "openfin-provenance-insurance-products",
+      "domain": "provenance",
+      "path": "opentax/openfin-provenance-index-2026-insurance-products.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
+      "item_count": 1071,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "3863cad13f6eba481ba7ec62d89725fd7846d3061780ea3b14b32f2098abf565",
+      "shard_id": "insurance-products"
+    },
+    {
+      "id": "openfin-provenance-reference",
+      "domain": "provenance",
+      "path": "opentax/openfin-provenance-index-2026-reference.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
+      "item_count": 558,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "ae926aece7febe7966e931d78b65ea2f0604aa54c23f3e682fc66f575742c9a0",
+      "shard_id": "reference"
+    },
+    {
+      "id": "openfin-provenance-support",
+      "domain": "provenance",
+      "path": "opentax/openfin-provenance-index-2026-support.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
+      "item_count": 7739,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "475f43d0ca7da8977831011899f059be85447899c2fa6dc11e1708e0bf52a522",
+      "shard_id": "support"
+    }
+  ]
+}

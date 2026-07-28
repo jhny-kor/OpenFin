@@ -2,7 +2,7 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-26T13:08:27Z",
+  "built_at": "2026-07-28T00:00:00.000Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "degraded",
@@ -230,7 +230,7 @@
         "product_count": 430,
         "verified_pilot_count": 0,
         "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_completeness_ratio": 0,
         "verified_pilot_threshold": 0.5,
         "status_counts": {
           "active": 430
@@ -413,7 +413,7 @@
         "product_count": 335,
         "verified_pilot_count": 0,
         "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_completeness_ratio": 0,
         "verified_pilot_threshold": 0.5,
         "status_counts": {
           "active": 335
@@ -597,7 +597,7 @@
         "product_count": 598,
         "verified_pilot_count": 20,
         "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 1.0,
+        "verified_pilot_completeness_ratio": 1,
         "verified_pilot_threshold": 0.5,
         "status_counts": {
           "active": 587,
@@ -935,7 +935,7 @@
         "product_count": 0,
         "verified_pilot_count": 0,
         "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_completeness_ratio": 0,
         "verified_pilot_threshold": null,
         "status_counts": {},
         "active_products_without_criteria": 0,
@@ -973,7 +973,7 @@
           "unverified_fields_by_field_name": {},
           "sales_verification_status_missing_count": 0
         },
-        "average_completeness_ratio": 0.0,
+        "average_completeness_ratio": 0,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {},
@@ -1009,7 +1009,7 @@
         "product_count": 4,
         "verified_pilot_count": 0,
         "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_completeness_ratio": 0,
         "verified_pilot_threshold": null,
         "status_counts": {
           "active": 4
@@ -1053,7 +1053,7 @@
           "unverified_fields_by_field_name": {},
           "sales_verification_status_missing_count": 0
         },
-        "average_completeness_ratio": 0.0,
+        "average_completeness_ratio": 0,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
@@ -1131,7 +1131,7 @@
         "product_count": 0,
         "verified_pilot_count": 0,
         "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_completeness_ratio": 0,
         "verified_pilot_threshold": null,
         "status_counts": {},
         "active_products_without_criteria": 0,
@@ -1169,7 +1169,7 @@
           "unverified_fields_by_field_name": {},
           "sales_verification_status_missing_count": 0
         },
-        "average_completeness_ratio": 0.0,
+        "average_completeness_ratio": 0,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {},
@@ -1403,99 +1403,100 @@
   "search_index": {
     "id": "finance-search-index",
     "domain": "search-index",
-    "path": "ontology/exports/finance-search-index-2026.json",
-    "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026.json",
-    "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026.json",
+    "path": "opentax/finance-search-index-2026.json",
+    "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026.json",
+    "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026.json",
     "item_count": 21266,
     "product_count": 0,
     "source_review_date": "2026-07-10",
     "collection_dates": [],
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "2df5d30584a85f621979356c5c2006f10a62ef7a089b667804df661abb41327f",
+    "export_checksum": "be278dbdd96f44245f862dde2c8b35b0049d508fb49b11f97dc1953070155b3f",
     "description": "MCP search 전용 경량 인덱스입니다.",
     "shards": [
       {
-        "id": "finance-search-index-support",
-        "shard_id": "support",
-        "path": "ontology/exports/finance-search-index-2026-support.json",
-        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-support.json",
-        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-support.json",
-        "item_count": 7739,
-        "export_checksum": "5afada398c8d5e3da7ab53b54c807fbb780c65c67a706d43fc6f084bf79d8ecc"
-      },
-      {
-        "id": "finance-search-index-deposit-protection",
-        "shard_id": "deposit-protection",
-        "path": "ontology/exports/finance-search-index-2026-deposit-protection.json",
-        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-deposit-protection.json",
-        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-deposit-protection.json",
-        "item_count": 9380,
-        "export_checksum": "989c5d54332e7ed97e31acde0c4c4a2029299d53546d9fab9232ea5ef1966875"
+        "id": "finance-search-index-account-products",
+        "shard_id": "account-products",
+        "path": "opentax/finance-search-index-2026-account-products.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-account-products.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-account-products.json",
+        "item_count": 4,
+        "export_checksum": "2ab5bcc9214d127b17f2131f58b147768d3d27ed7a5358ed314c26ea1c662301"
       },
       {
         "id": "finance-search-index-bank-products",
         "shard_id": "bank-products",
-        "path": "ontology/exports/finance-search-index-2026-bank-products.json",
-        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
-        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
+        "path": "opentax/finance-search-index-2026-bank-products.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-bank-products.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-bank-products.json",
         "item_count": 1363,
-        "export_checksum": "5e79acecbad3d1c3b4724f4eb3eadf0812a6a523f9f3999b2b103e92fabe262e"
+        "export_checksum": "795660ac04ffe5e7abcf881243f68b414b8cfdb5aba0d175eb9a4728d3475c76"
       },
       {
         "id": "finance-search-index-card-products",
         "shard_id": "card-products",
-        "path": "ontology/exports/finance-search-index-2026-card-products.json",
-        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-card-products.json",
-        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-card-products.json",
+        "path": "opentax/finance-search-index-2026-card-products.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-card-products.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-card-products.json",
         "item_count": 1007,
-        "export_checksum": "2d5cd70754548685167fba31819e9102d0d52de245c978230b4b76f0c21c6f3e"
+        "export_checksum": "c4a879caf45419ef221909f096cee5187c882e12cb0790fccc10665d764cfe4e"
+      },
+      {
+        "id": "finance-search-index-deposit-protection",
+        "shard_id": "deposit-protection",
+        "path": "opentax/finance-search-index-2026-deposit-protection.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-deposit-protection.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-deposit-protection.json",
+        "item_count": 9380,
+        "export_checksum": "b64ab3f35b7e6d63bfd51a895149946ac746771a5ebc7da0e3c901a7845f29f9"
       },
       {
         "id": "finance-search-index-insurance-products",
         "shard_id": "insurance-products",
-        "path": "ontology/exports/finance-search-index-2026-insurance-products.json",
-        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-insurance-products.json",
-        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-insurance-products.json",
+        "path": "opentax/finance-search-index-2026-insurance-products.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-insurance-products.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-insurance-products.json",
         "item_count": 1071,
-        "export_checksum": "560ee35129f18730a55ea79571568bc29d65307ecd792a6e2efe9e6b0c8ca4f3"
+        "export_checksum": "4b24033c8e5d361f7a0a134fb7bbfd10026a12a788812dbdd0e4efe456b7594c"
       },
       {
         "id": "finance-search-index-pension-products",
         "shard_id": "pension-products",
-        "path": "ontology/exports/finance-search-index-2026-pension-products.json",
-        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-pension-products.json",
-        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-pension-products.json",
+        "path": "opentax/finance-search-index-2026-pension-products.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-pension-products.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-pension-products.json",
         "item_count": 0,
-        "export_checksum": "cae9ea8a457937eb500d7f73f526977c90d1f6d4909d4c27d4e88a1d367f6cc5"
-      },
-      {
-        "id": "finance-search-index-account-products",
-        "shard_id": "account-products",
-        "path": "ontology/exports/finance-search-index-2026-account-products.json",
-        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-account-products.json",
-        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-account-products.json",
-        "item_count": 4,
-        "export_checksum": "3cba29bcf499166d49ec39c6a4b32dc9603685130a3c380fc6006b5585cc99bb"
+        "export_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
       },
       {
         "id": "finance-search-index-reference",
         "shard_id": "reference",
-        "path": "ontology/exports/finance-search-index-2026-reference.json",
-        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
-        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
+        "path": "opentax/finance-search-index-2026-reference.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-reference.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-reference.json",
         "item_count": 702,
-        "export_checksum": "140e4a82f25beb2b0a874de4b79e1f41620cd19b861657963210924eeb9dc0a6"
+        "export_checksum": "f7a87f6ce043d7803066594ec6b7fc0ae1c3d59d416f83ca29cc3c6b2bb0bf11"
+      },
+      {
+        "id": "finance-search-index-support",
+        "shard_id": "support",
+        "path": "opentax/finance-search-index-2026-support.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-support.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-support.json",
+        "item_count": 7739,
+        "export_checksum": "e31619077c0cdec524fda0887b9e137a49f890ed563f246ceceafb1039599fd7"
       }
-    ]
+    ],
+    "canonical_product_count": 3434
   },
   "quality_exports": [
     {
       "id": "openfin-quality-manifest",
       "domain": "quality",
-      "path": "ontology/exports/openfin-quality-manifest-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-quality-manifest-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-quality-manifest-2026.json",
+      "path": "opentax/openfin-quality-manifest-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-quality-manifest-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-quality-manifest-2026.json",
       "item_count": 10,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -1517,9 +1518,9 @@
     {
       "id": "openfin-search-regression-report",
       "domain": "quality",
-      "path": "ontology/exports/openfin-search-regression-report-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-search-regression-report-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-search-regression-report-2026.json",
+      "path": "opentax/openfin-search-regression-report-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-search-regression-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-search-regression-report-2026.json",
       "item_count": 20,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -1538,9 +1539,9 @@
     {
       "id": "openfin-verification-coverage-report",
       "domain": "quality",
-      "path": "ontology/exports/openfin-verification-coverage-report-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-verification-coverage-report-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-verification-coverage-report-2026.json",
+      "path": "opentax/openfin-verification-coverage-report-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-verification-coverage-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-verification-coverage-report-2026.json",
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -1559,9 +1560,9 @@
     {
       "id": "openfin-semantic-duplicate-report",
       "domain": "quality",
-      "path": "ontology/exports/openfin-semantic-duplicate-report-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-semantic-duplicate-report-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-semantic-duplicate-report-2026.json",
+      "path": "opentax/openfin-semantic-duplicate-report-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-semantic-duplicate-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-semantic-duplicate-report-2026.json",
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -1588,9 +1589,9 @@
     {
       "id": "openfin-comparison-regression-report",
       "domain": "quality",
-      "path": "ontology/exports/openfin-comparison-regression-report-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-comparison-regression-report-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-comparison-regression-report-2026.json",
+      "path": "opentax/openfin-comparison-regression-report-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-comparison-regression-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-comparison-regression-report-2026.json",
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -1611,9 +1612,9 @@
     {
       "id": "openfin-recommendation-safety-report",
       "domain": "quality",
-      "path": "ontology/exports/openfin-recommendation-safety-report-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-recommendation-safety-report-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-recommendation-safety-report-2026.json",
+      "path": "opentax/openfin-recommendation-safety-report-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-recommendation-safety-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-recommendation-safety-report-2026.json",
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -1632,9 +1633,9 @@
     {
       "id": "openfin-support-relevance-report",
       "domain": "quality",
-      "path": "ontology/exports/openfin-support-relevance-report-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-support-relevance-report-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-support-relevance-report-2026.json",
+      "path": "opentax/openfin-support-relevance-report-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-support-relevance-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-support-relevance-report-2026.json",
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -1656,9 +1657,9 @@
     {
       "id": "openfin-data-drift-report",
       "domain": "quality",
-      "path": "ontology/exports/openfin-data-drift-report-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-data-drift-report-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-data-drift-report-2026.json",
+      "path": "opentax/openfin-data-drift-report-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-data-drift-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-data-drift-report-2026.json",
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -1677,9 +1678,9 @@
     {
       "id": "openfin-local-cloudflare-parity-report",
       "domain": "quality",
-      "path": "ontology/exports/openfin-local-cloudflare-parity-report-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-local-cloudflare-parity-report-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-local-cloudflare-parity-report-2026.json",
+      "path": "opentax/openfin-local-cloudflare-parity-report-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-local-cloudflare-parity-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-local-cloudflare-parity-report-2026.json",
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -1695,30 +1696,46 @@
       },
       "export_checksum": "5ec437823e07221157988dffa0b54e496614df8ca3b503fefe7a05e5f54cf922",
       "description": "OpenFin 품질 하위 리포트입니다."
+    },
+    {
+      "id": "openfin-provenance-coverage",
+      "domain": "quality",
+      "path": "opentax/openfin-provenance-coverage-report-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
+      "item_count": 1,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "f7d51335863c648d98cab85dc2d6ff07137b6fa5ba2bc4acdb6aa567d8198386",
+      "coverage": {
+        "external_provenance_coverage_ratio": 1,
+        "status": "degraded"
+      },
+      "description": "Canonical provenance coverage and source URL validation report."
     }
   ],
   "exports": [
     {
       "id": "tax-ontology",
       "domain": "tax",
-      "path": "ontology/exports/korea-tax-ontology-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-ontology-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-tax-ontology-2026.json",
+      "path": "opentax/korea-tax-ontology-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/korea-tax-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/korea-tax-ontology-2026.json",
       "item_count": 374,
       "product_count": 0,
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {},
-      "export_checksum": "53a9f3f91070351135a79668b063994de26b40fcb098ccf5cffddb28e9fab31b",
-      "description": "세금, 공제, 신고기한, 중앙 정책지원 핵심 온톨로지입니다."
+      "export_checksum": "ee5655b581d27e706b843b6404678209cb71e74dfc1bdf7598ce3d85c8958264",
+      "description": "세금, 공제, 신고기한, 중앙 정책지원 핵심 온톨로지입니다.",
+      "reference_item_count": 2
     },
     {
       "id": "local-government-supports-ontology",
       "domain": "local-government-supports",
-      "path": "ontology/exports/korea-local-government-supports-ontology-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-local-government-supports-ontology-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-local-government-supports-ontology-2026.json",
+      "path": "opentax/korea-local-government-supports-ontology-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/korea-local-government-supports-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/korea-local-government-supports-ontology-2026.json",
       "item_count": 7718,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -1764,15 +1781,16 @@
         "current_refresh_complete": true,
         "preserved_from_previous_snapshot_count": 0
       },
-      "export_checksum": "c10cb003997191b5d54fd6cf5a52a6d23d3d09df318fc410229411c580eb5e88",
-      "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다."
+      "export_checksum": "15c5e8a2d3d3cafe690b9699a31ec6a2ce2c05ce6fa2f39d288f8db434c7a82a",
+      "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다.",
+      "reference_item_count": 0
     },
     {
       "id": "card-products-ontology",
       "domain": "card-products",
-      "path": "ontology/exports/korea-card-products-ontology-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-card-products-ontology-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-card-products-ontology-2026.json",
+      "path": "opentax/korea-card-products-ontology-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/korea-card-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/korea-card-products-ontology-2026.json",
       "item_count": 1030,
       "product_count": 1007,
       "source_review_date": "2026-07-10",
@@ -1963,15 +1981,16 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "f063fd80f2582506923e93b14030756bdf7dec663a895518973cfa06f58eb0de",
-      "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
+      "export_checksum": "9f39a26e7f0797a3e66ab487ab8c2feaa4129de974bdccabf3bd16e9140ac500",
+      "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다.",
+      "reference_item_count": 0
     },
     {
       "id": "deposit-products-ontology",
       "domain": "deposit-products",
-      "path": "ontology/exports/korea-deposit-products-ontology-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-deposit-products-ontology-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-deposit-products-ontology-2026.json",
+      "path": "opentax/korea-deposit-products-ontology-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/korea-deposit-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/korea-deposit-products-ontology-2026.json",
       "item_count": 474,
       "product_count": 430,
       "source_review_date": "2026-07-10",
@@ -1985,7 +2004,7 @@
         "product_count": 430,
         "verified_pilot_count": 0,
         "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_completeness_ratio": 0,
         "verified_pilot_threshold": 0.5,
         "status_counts": {
           "active": 430
@@ -2164,15 +2183,16 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "12de700a1a4c22ede9da41fc5eec6df164062e344eba5661bdb4ef70eb2a666d",
-      "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
+      "export_checksum": "069f8432312cadadd4b359482365eb372cc669b82a97d8a16fc95836a5bc65d7",
+      "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다.",
+      "reference_item_count": 1
     },
     {
       "id": "saving-products-ontology",
       "domain": "saving-products",
-      "path": "ontology/exports/korea-saving-products-ontology-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-saving-products-ontology-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-saving-products-ontology-2026.json",
+      "path": "opentax/korea-saving-products-ontology-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/korea-saving-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/korea-saving-products-ontology-2026.json",
       "item_count": 379,
       "product_count": 335,
       "source_review_date": "2026-07-10",
@@ -2186,7 +2206,7 @@
         "product_count": 335,
         "verified_pilot_count": 0,
         "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_completeness_ratio": 0,
         "verified_pilot_threshold": 0.5,
         "status_counts": {
           "active": 335
@@ -2366,15 +2386,16 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "714f1ea16e50b1c5517670410a9c63802eadc84c455e5b66eb2a8a890565443a",
-      "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
+      "export_checksum": "2dec1ddc3c41c52409fc3d6a80d712e10ee73d1bc2d35933245bdc7e7326b2e0",
+      "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다.",
+      "reference_item_count": 44
     },
     {
       "id": "loan-products-ontology",
       "domain": "loan-products",
-      "path": "ontology/exports/korea-loan-products-ontology-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-loan-products-ontology-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-loan-products-ontology-2026.json",
+      "path": "opentax/korea-loan-products-ontology-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/korea-loan-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/korea-loan-products-ontology-2026.json",
       "item_count": 642,
       "product_count": 598,
       "source_review_date": "2026-07-10",
@@ -2390,7 +2411,7 @@
         "product_count": 598,
         "verified_pilot_count": 20,
         "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 1.0,
+        "verified_pilot_completeness_ratio": 1,
         "verified_pilot_threshold": 0.5,
         "status_counts": {
           "active": 587,
@@ -2549,15 +2570,16 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "9ad3743c4dceb56af6aa91ed12a9727c36ee9aa1d23b46361abcd938aefcb7b8",
-      "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
+      "export_checksum": "a659422d68c85c7bfdbdbd7036a8506b2f3a89e6370c33c95cfcdd936439c135",
+      "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다.",
+      "reference_item_count": 44
     },
     {
       "id": "insurance-products-ontology",
       "domain": "insurance-products",
-      "path": "ontology/exports/korea-insurance-products-ontology-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-insurance-products-ontology-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-insurance-products-ontology-2026.json",
+      "path": "opentax/korea-insurance-products-ontology-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/korea-insurance-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/korea-insurance-products-ontology-2026.json",
       "item_count": 1089,
       "product_count": 1071,
       "source_review_date": "2026-07-10",
@@ -2742,15 +2764,16 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "1ad384bac78b34ddd20783a9cadb4faf602fd9822d6dabd1f8c258e0c346f48b",
-      "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
+      "export_checksum": "35af8eb314d81db9ba15c42e253a1660d4805796dec13f786959a58dc72e1efa",
+      "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다.",
+      "reference_item_count": 6
     },
     {
       "id": "pension-products-ontology",
       "domain": "pension-products",
-      "path": "ontology/exports/korea-pension-products-ontology-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-pension-products-ontology-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-pension-products-ontology-2026.json",
+      "path": "opentax/korea-pension-products-ontology-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/korea-pension-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/korea-pension-products-ontology-2026.json",
       "item_count": 5,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -2760,7 +2783,7 @@
         "product_count": 0,
         "verified_pilot_count": 0,
         "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_completeness_ratio": 0,
         "verified_pilot_threshold": null,
         "status_counts": {},
         "active_products_without_criteria": 0,
@@ -2798,7 +2821,7 @@
           "unverified_fields_by_field_name": {},
           "sales_verification_status_missing_count": 0
         },
-        "average_completeness_ratio": 0.0,
+        "average_completeness_ratio": 0,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {},
@@ -2830,15 +2853,16 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "ff0177b9e930736d4f90c741b61814237019c5907e4c7046550418a6ee69e397",
-      "description": "연금저축 팩: 연금저축보험·펀드·신탁의 공시이율, 최저보증이율, 과거수익률, 세액공제 연계 온톨로지입니다."
+      "export_checksum": "90f385b3cb19ad8c976e23de2ace52a739c1b03b71843bf561771f962b19a52b",
+      "description": "연금저축 팩: 연금저축보험·펀드·신탁의 공시이율, 최저보증이율, 과거수익률, 세액공제 연계 온톨로지입니다.",
+      "reference_item_count": 3
     },
     {
       "id": "tax-advantaged-accounts-ontology",
       "domain": "tax-advantaged-accounts",
-      "path": "ontology/exports/korea-tax-advantaged-accounts-ontology-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-advantaged-accounts-ontology-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-tax-advantaged-accounts-ontology-2026.json",
+      "path": "opentax/korea-tax-advantaged-accounts-ontology-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/korea-tax-advantaged-accounts-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/korea-tax-advantaged-accounts-ontology-2026.json",
       "item_count": 9,
       "product_count": 4,
       "source_review_date": "2026-07-10",
@@ -2852,7 +2876,7 @@
         "product_count": 4,
         "verified_pilot_count": 0,
         "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_completeness_ratio": 0,
         "verified_pilot_threshold": null,
         "status_counts": {
           "active": 4
@@ -2896,7 +2920,7 @@
           "unverified_fields_by_field_name": {},
           "sales_verification_status_missing_count": 0
         },
-        "average_completeness_ratio": 0.0,
+        "average_completeness_ratio": 0,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
@@ -2970,15 +2994,16 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "5ff9bfd3e02fbb74c57b8ff154c1833f64cdad37811306e38c0c9e321b3a9f5d",
-      "description": "세제혜택 계좌: 주택청약종합저축·청년 주택드림 청약통장·ISA의 가입대상, 납입한도, 세제혜택, 소득공제·청약 연계 온톨로지입니다."
+      "export_checksum": "3b4f3a294d11a4ba9e51a63d149ad90671ac7cb39205fee5617f89606e952b8e",
+      "description": "세제혜택 계좌: 주택청약종합저축·청년 주택드림 청약통장·ISA의 가입대상, 납입한도, 세제혜택, 소득공제·청약 연계 온톨로지입니다.",
+      "reference_item_count": 0
     },
     {
       "id": "finance-reference-ontology",
       "domain": "finance-reference",
-      "path": "ontology/exports/korea-finance-reference-ontology-2026.json",
-      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-finance-reference-ontology-2026.json",
-      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-finance-reference-ontology-2026.json",
+      "path": "opentax/korea-finance-reference-ontology-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/korea-finance-reference-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/korea-finance-reference-ontology-2026.json",
       "item_count": 9654,
       "product_count": 0,
       "source_review_date": "2026-07-10",
@@ -2990,7 +3015,7 @@
         "product_count": 0,
         "verified_pilot_count": 0,
         "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_completeness_ratio": 0,
         "verified_pilot_threshold": null,
         "status_counts": {},
         "active_products_without_criteria": 0,
@@ -3028,7 +3053,7 @@
           "unverified_fields_by_field_name": {},
           "sales_verification_status_missing_count": 0
         },
-        "average_completeness_ratio": 0.0,
+        "average_completeness_ratio": 0,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {},
@@ -3060,12 +3085,304 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "2ff3977c2710bdf1860399665faa4e14afa66154fbd627a1a6801eacc95021b2",
-      "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다."
+      "export_checksum": "1b34d66eeab49aaeafcaedf28c192c557efb390f0117888154a080d5570da251",
+      "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다.",
+      "reference_item_count": 8
     }
   ],
   "blocking_reasons": [
     "OpenFin 120 live regression is missing or not 120/120"
   ],
-  "recommendation_enabled": false
+  "recommendation_enabled": false,
+  "operational_base_url": "https://jhny-kor.github.io/OpenFin/opentax",
+  "artifacts": {
+    "source_registry": {
+      "id": "openfin-source-registry",
+      "domain": "sources",
+      "path": "opentax/openfin-source-registry-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
+      "item_count": 144,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "98deca5eabe1a2c33ff555c1a71086f9fc9fbaa0073a30e0d19f3ad3ac09e509"
+    },
+    "source_status": {
+      "id": "openfin-source-status",
+      "domain": "sources",
+      "path": "opentax/openfin-source-status-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
+      "item_count": 144,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "37e0e89ee31f3619270c63aaa15ee2c3138f2d8525d309f84075310273ac6c9c"
+    },
+    "provenance_index": {
+      "id": "openfin-provenance-index",
+      "domain": "provenance",
+      "path": "opentax/openfin-provenance-index-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
+      "item_count": 21122,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "6ae85a96c08fafce9eda65503ed52aac2778b8735daa085d7edcdb099ac9fcfd",
+      "shards": [
+        {
+          "id": "openfin-provenance-account-products",
+          "domain": "provenance",
+          "path": "opentax/openfin-provenance-index-2026-account-products.json",
+          "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
+          "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
+          "item_count": 4,
+          "generated_at": "2026-07-28T00:00:00.000Z",
+          "export_checksum": "50bca42b69a9506672662019732794ed24130fa85e484be054a0ad9b730f3bff",
+          "shard_id": "account-products"
+        },
+        {
+          "id": "openfin-provenance-bank-products",
+          "domain": "provenance",
+          "path": "opentax/openfin-provenance-index-2026-bank-products.json",
+          "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
+          "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
+          "item_count": 1363,
+          "generated_at": "2026-07-28T00:00:00.000Z",
+          "export_checksum": "d25311b470a0f9b0cf081b2f683e2d8d014eb93136ac8a31d8458b8a6cc3dc1f",
+          "shard_id": "bank-products"
+        },
+        {
+          "id": "openfin-provenance-card-products",
+          "domain": "provenance",
+          "path": "opentax/openfin-provenance-index-2026-card-products.json",
+          "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
+          "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
+          "item_count": 1007,
+          "generated_at": "2026-07-28T00:00:00.000Z",
+          "export_checksum": "4e1cf5a148446595d0f42ce3040be1711f9c2d67bcf6f55dbcba54f7673dfb6c",
+          "shard_id": "card-products"
+        },
+        {
+          "id": "openfin-provenance-deposit-protection",
+          "domain": "provenance",
+          "path": "opentax/openfin-provenance-index-2026-deposit-protection.json",
+          "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
+          "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
+          "item_count": 9380,
+          "generated_at": "2026-07-28T00:00:00.000Z",
+          "export_checksum": "442d3cce3ebe99e588d5d85bc57583fc963f37f5ceed2d962bd749ffb85ae320",
+          "shard_id": "deposit-protection"
+        },
+        {
+          "id": "openfin-provenance-insurance-products",
+          "domain": "provenance",
+          "path": "opentax/openfin-provenance-index-2026-insurance-products.json",
+          "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
+          "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
+          "item_count": 1071,
+          "generated_at": "2026-07-28T00:00:00.000Z",
+          "export_checksum": "3863cad13f6eba481ba7ec62d89725fd7846d3061780ea3b14b32f2098abf565",
+          "shard_id": "insurance-products"
+        },
+        {
+          "id": "openfin-provenance-reference",
+          "domain": "provenance",
+          "path": "opentax/openfin-provenance-index-2026-reference.json",
+          "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
+          "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
+          "item_count": 558,
+          "generated_at": "2026-07-28T00:00:00.000Z",
+          "export_checksum": "ae926aece7febe7966e931d78b65ea2f0604aa54c23f3e682fc66f575742c9a0",
+          "shard_id": "reference"
+        },
+        {
+          "id": "openfin-provenance-support",
+          "domain": "provenance",
+          "path": "opentax/openfin-provenance-index-2026-support.json",
+          "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
+          "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
+          "item_count": 7739,
+          "generated_at": "2026-07-28T00:00:00.000Z",
+          "export_checksum": "475f43d0ca7da8977831011899f059be85447899c2fa6dc11e1708e0bf52a522",
+          "shard_id": "support"
+        }
+      ]
+    },
+    "provenance_coverage": {
+      "id": "openfin-provenance-coverage",
+      "domain": "quality",
+      "path": "opentax/openfin-provenance-coverage-report-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
+      "item_count": 1,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "f7d51335863c648d98cab85dc2d6ff07137b6fa5ba2bc4acdb6aa567d8198386",
+      "coverage": {
+        "external_provenance_coverage_ratio": 1,
+        "status": "degraded"
+      }
+    },
+    "relationship_index": {
+      "id": "openfin-relationship-index",
+      "domain": "relations",
+      "path": "opentax/openfin-relationship-index-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
+      "item_count": 102207,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "20953fe8240757e74c476d2f787c3ee7018041a21776c359de4fd1bd76045bbd"
+    },
+    "migration_manifest": {
+      "id": "openfin-migration-manifest",
+      "domain": "quality",
+      "path": "opentax/openfin-migration-manifest-2026.json",
+      "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
+      "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
+      "item_count": 1,
+      "generated_at": "2026-07-28T00:00:00.000Z",
+      "export_checksum": "54bd7d8c598a21ad2e7f1a8ee29a13559f239c6f07fa60b350f4ee0401495a69"
+    }
+  },
+  "source_registry_count": 144,
+  "provenance_coverage": {
+    "id": "openfin-provenance-coverage",
+    "domain": "quality",
+    "path": "opentax/openfin-provenance-coverage-report-2026.json",
+    "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
+    "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
+    "item_count": 1,
+    "generated_at": "2026-07-28T00:00:00.000Z",
+    "export_checksum": "f7d51335863c648d98cab85dc2d6ff07137b6fa5ba2bc4acdb6aa567d8198386",
+    "coverage": {
+      "external_provenance_coverage_ratio": 1,
+      "status": "degraded"
+    }
+  },
+  "source_registry": {
+    "id": "openfin-source-registry",
+    "domain": "sources",
+    "path": "opentax/openfin-source-registry-2026.json",
+    "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
+    "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
+    "item_count": 144,
+    "generated_at": "2026-07-28T00:00:00.000Z",
+    "export_checksum": "98deca5eabe1a2c33ff555c1a71086f9fc9fbaa0073a30e0d19f3ad3ac09e509"
+  },
+  "source_status": {
+    "id": "openfin-source-status",
+    "domain": "sources",
+    "path": "opentax/openfin-source-status-2026.json",
+    "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
+    "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
+    "item_count": 144,
+    "generated_at": "2026-07-28T00:00:00.000Z",
+    "export_checksum": "37e0e89ee31f3619270c63aaa15ee2c3138f2d8525d309f84075310273ac6c9c"
+  },
+  "provenance_index": {
+    "id": "openfin-provenance-index",
+    "domain": "provenance",
+    "path": "opentax/openfin-provenance-index-2026.json",
+    "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
+    "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
+    "item_count": 21122,
+    "generated_at": "2026-07-28T00:00:00.000Z",
+    "export_checksum": "6ae85a96c08fafce9eda65503ed52aac2778b8735daa085d7edcdb099ac9fcfd",
+    "shards": [
+      {
+        "id": "openfin-provenance-account-products",
+        "domain": "provenance",
+        "path": "opentax/openfin-provenance-index-2026-account-products.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
+        "item_count": 4,
+        "generated_at": "2026-07-28T00:00:00.000Z",
+        "export_checksum": "50bca42b69a9506672662019732794ed24130fa85e484be054a0ad9b730f3bff",
+        "shard_id": "account-products"
+      },
+      {
+        "id": "openfin-provenance-bank-products",
+        "domain": "provenance",
+        "path": "opentax/openfin-provenance-index-2026-bank-products.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
+        "item_count": 1363,
+        "generated_at": "2026-07-28T00:00:00.000Z",
+        "export_checksum": "d25311b470a0f9b0cf081b2f683e2d8d014eb93136ac8a31d8458b8a6cc3dc1f",
+        "shard_id": "bank-products"
+      },
+      {
+        "id": "openfin-provenance-card-products",
+        "domain": "provenance",
+        "path": "opentax/openfin-provenance-index-2026-card-products.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
+        "item_count": 1007,
+        "generated_at": "2026-07-28T00:00:00.000Z",
+        "export_checksum": "4e1cf5a148446595d0f42ce3040be1711f9c2d67bcf6f55dbcba54f7673dfb6c",
+        "shard_id": "card-products"
+      },
+      {
+        "id": "openfin-provenance-deposit-protection",
+        "domain": "provenance",
+        "path": "opentax/openfin-provenance-index-2026-deposit-protection.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
+        "item_count": 9380,
+        "generated_at": "2026-07-28T00:00:00.000Z",
+        "export_checksum": "442d3cce3ebe99e588d5d85bc57583fc963f37f5ceed2d962bd749ffb85ae320",
+        "shard_id": "deposit-protection"
+      },
+      {
+        "id": "openfin-provenance-insurance-products",
+        "domain": "provenance",
+        "path": "opentax/openfin-provenance-index-2026-insurance-products.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
+        "item_count": 1071,
+        "generated_at": "2026-07-28T00:00:00.000Z",
+        "export_checksum": "3863cad13f6eba481ba7ec62d89725fd7846d3061780ea3b14b32f2098abf565",
+        "shard_id": "insurance-products"
+      },
+      {
+        "id": "openfin-provenance-reference",
+        "domain": "provenance",
+        "path": "opentax/openfin-provenance-index-2026-reference.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
+        "item_count": 558,
+        "generated_at": "2026-07-28T00:00:00.000Z",
+        "export_checksum": "ae926aece7febe7966e931d78b65ea2f0604aa54c23f3e682fc66f575742c9a0",
+        "shard_id": "reference"
+      },
+      {
+        "id": "openfin-provenance-support",
+        "domain": "provenance",
+        "path": "opentax/openfin-provenance-index-2026-support.json",
+        "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
+        "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
+        "item_count": 7739,
+        "generated_at": "2026-07-28T00:00:00.000Z",
+        "export_checksum": "475f43d0ca7da8977831011899f059be85447899c2fa6dc11e1708e0bf52a522",
+        "shard_id": "support"
+      }
+    ]
+  },
+  "relationship_index": {
+    "id": "openfin-relationship-index",
+    "domain": "relations",
+    "path": "opentax/openfin-relationship-index-2026.json",
+    "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
+    "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
+    "item_count": 102207,
+    "generated_at": "2026-07-28T00:00:00.000Z",
+    "export_checksum": "20953fe8240757e74c476d2f787c3ee7018041a21776c359de4fd1bd76045bbd"
+  },
+  "provenance_coverage_ratio": 1,
+  "migration_manifest": {
+    "id": "openfin-migration-manifest",
+    "domain": "quality",
+    "path": "opentax/openfin-migration-manifest-2026.json",
+    "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
+    "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
+    "item_count": 1,
+    "generated_at": "2026-07-28T00:00:00.000Z",
+    "export_checksum": "54bd7d8c598a21ad2e7f1a8ee29a13559f239c6f07fa60b350f4ee0401495a69"
+  }
 }

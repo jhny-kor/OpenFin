@@ -1,0 +1,11 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"OpenFin provenance assertion",
+  "type":"object",
+  "required":["source_id","original_url","collected_at","verification_status"],
+  "properties":{
+    "source_id":{"type":"string"},"original_url":{"type":"string","pattern":"^https?://"},"source_record_id":{"type":["string","number","null"]},
+    "locator":{"type":["object","null"]},"supported_fields":{"type":"array","items":{"type":"string"}},
+    "collected_at":{"type":"string","format":"date-time"},"reviewed_at":{"type":["string","null"]},"checksum":{"type":["string","null"],"pattern":"^sha256:[a-f0-9]{64}$"},"checksum_scope":{"type":["string","null"]},"verification_status":{"enum":["verified","reference_only","listing_only","conflict","unverified"]}
+  },"additionalProperties":true
+}

@@ -1,6 +1,8 @@
 import { createMcpHandler } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { generationCacheKey, isCurrentGeneration, SingleFlight } from "./generation-cache";
+import { resolveSourceStatus } from "./source-status";
 
 type FinanceItem = {
   id: string;
@@ -101,6 +103,7 @@ type FinanceItem = {
   legacy_ids?: string[];
   aliases?: string[];
   source_urls?: string[];
+  source_ids?: string[];
   source_basis_dates?: string[];
   source_checksum?: string;
   state?: string;
@@ -109,6 +112,9 @@ type FinanceItem = {
   verified_at?: string | null;
   published_at?: string | null;
   source_assertions?: Record<string, unknown>[];
+  provenance?: Record<string, unknown>[];
+  provenance_shard?: string;
+  shard_id?: string;
   promotion_receipt?: Record<string, unknown>;
   risk_level?: string;
   structured_summary?: Record<string, unknown>;
@@ -133,6 +139,8 @@ type ManifestEntry = {
   product_count?: number;
   description?: string;
   shards?: SearchIndexShard[];
+  coverage?: Record<string, unknown>;
+  summary?: Record<string, unknown>;
 };
 
 type SearchIndexShard = {
@@ -157,6 +165,11 @@ type FinanceManifest = {
   runtime_quality_metrics?: Record<string, unknown>;
   search_index?: ManifestEntry;
   quality_exports?: ManifestEntry[];
+  source_registry?: ManifestEntry;
+  source_status?: ManifestEntry;
+  provenance_index?: ManifestEntry;
+  provenance_coverage?: ManifestEntry;
+  relationship_index?: ManifestEntry;
   exports: ManifestEntry[];
 };
 
@@ -171,6 +184,7 @@ type FinanceGraph = {
 type CachedGraph = {
   data: FinanceGraph;
   loadedAt: number;
+  generation: string;
 };
 
 type SearchIndexFile = {
@@ -185,12 +199,25 @@ type SearchIndexFile = {
 type CachedSearchIndexMetadata = {
   readonly data: SearchIndexFile;
   readonly loadedAt: number;
+  readonly generation: string;
 };
 
 type CachedSearchItems = {
   readonly items: readonly FinanceItem[];
   readonly loadedAt: number;
+  readonly generation: string;
 };
+
+type FinanceArtifacts = {
+  source_registry?: unknown;
+  source_status?: unknown;
+  provenance_index?: unknown;
+  provenance_coverage?: unknown;
+  relationship_index?: unknown;
+};
+
+type FinanceArtifactKey = keyof FinanceArtifacts;
+type CachedFinanceArtifact = { data: unknown; loadedAt: number; generation: string };
 
 type SearchFilters = {
   readonly searchType?: string;
@@ -255,8 +282,15 @@ const PROMPT_INJECTION_TOKENS = new Set(["무시", "이전", "지시", "시스�
 
 let cachedGraph: CachedGraph | undefined;
 let cachedManifest: { data: FinanceManifest; loadedAt: number } | undefined;
+const manifestSingleFlight = new SingleFlight<FinanceManifest>();
+let manifestGeneration = "uninitialized";
 let cachedSearchIndexMetadata: CachedSearchIndexMetadata | undefined;
 let cachedSearchItems: CachedSearchItems | undefined;
+const cachedSearchShards = new Map<string, CachedSearchItems>();
+const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
+const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
+const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
+const financeArtifactErrors = new Map<string, Record<string, unknown>>();
 
 function jsonText(value: unknown): string {
   return JSON.stringify(value, null, 2);
@@ -528,7 +562,7 @@ function matchesRecommendationDomain(item: FinanceItem, query: string, searchTyp
   return true;
 }
 
-function matchesSearchFilters(item: FinanceItem, filters: SearchFilters): boolean {
+function matchesSearchFilters(item: FinanceItem, filters: SearchFilters, artifacts?: FinanceArtifacts): boolean {
   const equals = (value: string | undefined, expected: string | undefined): boolean =>
     expected === undefined || normalizeQuery(value ?? "") === normalizeQuery(expected);
   const region = normalizeQuery(filters.region ?? "");
@@ -540,7 +574,7 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters): boolea
     equals(item.sales_status, filters.salesStatus) &&
     equals(item.application_status, filters.applicationStatus) &&
     equals(item.provider, filters.provider) &&
-    equals(item.freshness_status, filters.freshnessStatus) &&
+    equals(artifacts ? (sourceHealth(item, artifacts).freshness_status as string | null ?? undefined) : item.freshness_status, filters.freshnessStatus) &&
     (!region || [item.jurisdiction, item.jurisdiction_code, ...(item.jurisdiction_aliases ?? [])]
       .some((value) => normalizeQuery(value ?? "").includes(region)))
   );
@@ -572,9 +606,10 @@ function discoveryDomainForItem(item: FinanceItem): DiscoveryDomain | undefined 
   return undefined;
 }
 
-function isDiscoveryCandidate(item: FinanceItem, domain: DiscoveryDomain): boolean {
+function isDiscoveryCandidate(item: FinanceItem, domain: DiscoveryDomain, artifacts?: FinanceArtifacts): boolean {
   if (discoveryDomainForItem(item) !== domain) return false;
-  if (item.product_status !== "active" || item.status !== "active" || item.source_freshness_status === "stale") return false;
+  const effectiveFreshness = artifacts ? sourceHealth(item, artifacts).freshness_status : item.source_freshness_status ?? item.freshness_status;
+  if (item.product_status !== "active" || item.status !== "active" || effectiveFreshness !== "current") return false;
   if (!item.source_urls?.length || item.source_listing_status !== "listed") return false;
   const evidence = new Set(item.discovery_evidence_fields ?? []);
   if (domain === "card") return Boolean(item.title && item.provider && item.product_kind && (["benefit_type", "benefit_rate_or_amount", "benefit_categories"].some((field) => evidence.has(field))));
@@ -861,7 +896,7 @@ function discoveryDecisionReason(item: FinanceItem, field: string): Record<strin
   };
 }
 
-function discoveryPayload(query: string, items: readonly FinanceItem[], limit: number): Record<string, unknown> {
+function discoveryPayload(query: string, items: readonly FinanceItem[], limit: number, artifacts?: FinanceArtifacts): Record<string, unknown> {
   const domain = discoveryDomainForQuery(query);
   const enabled = domain === "card" ? ENABLE_CARD_DISCOVERY : domain === "loan" ? ENABLE_LOAN_DISCOVERY : domain === "insurance" ? ENABLE_INSURANCE_DISCOVERY : true;
   if (!domain || !enabled) return { requested_intent: "discovery", executed_mode: "discovery", parsed_query: { original_query: query, parser_version: QUERY_PARSER_VERSION, domain: domain ?? null }, exact_candidates: [], partial_candidates: [], related_candidates: [], excluded_summary: {}, warnings: [domain ? "이 도메인의 탐색은 현재 비활성화되어 있습니다." : "상품 유형을 특정할 수 없어 탐색 후보를 만들지 않았습니다."], engine_version: DISCOVERY_ENGINE_VERSION, field_extractor_version: FIELD_EXTRACTOR_VERSION };
@@ -874,7 +909,7 @@ function discoveryPayload(query: string, items: readonly FinanceItem[], limit: n
       excludedSummary.domain_mismatch = (excludedSummary.domain_mismatch ?? 0) + 1;
       continue;
     }
-    if (!isDiscoveryCandidate(item, domain)) {
+    if (!isDiscoveryCandidate(item, domain, artifacts)) {
       excludedSummary.inactive_or_unlisted = (excludedSummary.inactive_or_unlisted ?? 0) + 1;
       continue;
     }
@@ -1012,9 +1047,27 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
   if (cachedManifest && now - cachedManifest.loadedAt < CACHE_TTL_MS) {
     return cachedManifest.data;
   }
-  const manifest = await fetchJson<FinanceManifest>(financeManifestUrl(env));
-  cachedManifest = { data: manifest, loadedAt: now };
-  return manifest;
+  return manifestSingleFlight.run(async () => {
+    const manifest = await fetchJson<FinanceManifest>(financeManifestUrl(env));
+    const generation = JSON.stringify({
+      version: manifest.version,
+      basis_date: manifest.basis_date,
+      search_index: (manifest.search_index as (ManifestEntry & { export_checksum?: string }) | undefined)?.export_checksum ?? manifest.search_index?.path,
+      exports: manifest.exports.map((entry) => [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum]),
+      artifacts: [manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index]
+        .map((entry) => entry ? [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum] : null),
+    });
+    if (manifestGeneration !== "uninitialized" && manifestGeneration !== generation) {
+      cachedGraph = undefined;
+      cachedSearchIndexMetadata = undefined;
+      cachedSearchItems = undefined;
+      cachedSearchShards.clear();
+      cachedFinanceArtifacts.clear();
+    }
+    manifestGeneration = generation;
+    cachedManifest = { data: manifest, loadedAt: Date.now() };
+    return manifest;
+  });
 }
 
 function resolveExportUrl(entry: { path: string; url?: string; web_url?: string }, manifestUrl: string): string {
@@ -1024,6 +1077,177 @@ function resolveExportUrl(entry: { path: string; url?: string; web_url?: string 
   const fileName = new URL(candidate, manifestUrl).pathname.split("/").pop();
   if (!fileName) throw new SearchIndexContractError(`Cannot resolve export file for ${entry.path}`);
   return new URL(fileName, manifestUrl).toString();
+}
+
+async function loadFinanceArtifactEntry(env: Env, cacheKey: string, entry: { path: string; url?: string; web_url?: string }): Promise<unknown | undefined> {
+  const now = Date.now();
+  const requestGeneration = manifestGeneration;
+  const pendingKey = generationCacheKey(requestGeneration, cacheKey);
+  const cached = cachedFinanceArtifacts.get(cacheKey);
+  if (cached && cached.generation === manifestGeneration && now - cached.loadedAt < CACHE_TTL_MS) return cached.data;
+  const pending = inFlightFinanceArtifacts.get(pendingKey);
+  if (pending) return pending;
+  const request = (async () => {
+    try {
+      const data = await fetchJson<unknown>(resolveExportUrl(entry, financeManifestUrl(env)));
+      if (isCurrentGeneration(requestGeneration, manifestGeneration)) {
+        cachedFinanceArtifacts.set(cacheKey, { data, loadedAt: Date.now(), generation: requestGeneration });
+        financeArtifactErrors.delete(cacheKey);
+      }
+      return data;
+    } catch (error) {
+      if (isCurrentGeneration(requestGeneration, manifestGeneration)) {
+        financeArtifactErrors.set(cacheKey, { cache_key: cacheKey, error: error instanceof Error ? error.message : String(error), failed_at: new Date().toISOString() });
+      }
+      return undefined;
+    } finally {
+      inFlightFinanceArtifacts.delete(pendingKey);
+    }
+  })();
+  inFlightFinanceArtifacts.set(pendingKey, request);
+  return request;
+}
+
+async function loadFinanceArtifact(env: Env, key: FinanceArtifactKey, manifest?: FinanceManifest): Promise<unknown | undefined> {
+  let currentManifest = manifest;
+  try { currentManifest ??= await loadFinanceManifest(env); } catch (error) {
+    financeArtifactErrors.set(key, { cache_key: key, error: error instanceof Error ? error.message : String(error), failed_at: new Date().toISOString() });
+    return undefined;
+  }
+  const entry = currentManifest[key];
+  // An absent optional manifest entry is a normal condition, not an error.
+  return entry ? loadFinanceArtifactEntry(env, key, entry) : undefined;
+}
+
+async function loadProvenanceShard(env: Env, manifest: FinanceManifest, shardId: string): Promise<unknown | undefined> {
+  const shard = manifest.provenance_index?.shards?.find((entry) => entry.shard_id === shardId || entry.id === shardId);
+  if (!shard) return undefined;
+  return loadFinanceArtifactEntry(env, `provenance_index.shard:${shardId}`, shard);
+}
+
+async function loadFinanceArtifacts(env: Env, keys: readonly FinanceArtifactKey[], manifest?: FinanceManifest): Promise<FinanceArtifacts> {
+  const values = await Promise.all(keys.map((key) => loadFinanceArtifact(env, key, manifest)));
+  return keys.reduce<FinanceArtifacts>((result, key, index) => {
+    if (values[index] !== undefined) result[key] = values[index];
+    return result;
+  }, {});
+}
+
+function artifactRecords(value: unknown): Record<string, unknown>[] {
+  if (Array.isArray(value)) return value.filter(isRecord);
+  if (!isRecord(value)) return [];
+  for (const key of ["items", "records", "entries", "provenance", "sources", "statuses"]) {
+    if (Array.isArray(value[key])) return value[key].filter(isRecord);
+  }
+  return [];
+}
+
+function artifactErrors(): Record<string, unknown>[] {
+  return [...financeArtifactErrors.values()];
+}
+
+function artifactRecordFor(value: unknown, id: string): Record<string, unknown> | undefined {
+  if (isRecord(value)) {
+    if (value.id === id || value.item_id === id || value.entity_id === id) return value;
+    const direct = value[id];
+    if (isRecord(direct)) return direct;
+    for (const key of ["items", "records", "entries", "provenance", "sources", "statuses"]) {
+      const nested = value[key];
+      if (isRecord(nested) && isRecord(nested[id])) return nested[id];
+    }
+  }
+  return artifactRecords(value).find((record) => record.id === id || record.item_id === id || record.entity_id === id || record.source_id === id || record.sourceId === id);
+}
+
+function normalizedProvenance(item: FinanceItem, artifacts?: FinanceArtifacts): Record<string, unknown>[] {
+  const artifact = artifactRecordFor(artifacts?.provenance_index, item.id);
+  const candidates = [
+    ...(Array.isArray(item.provenance) ? item.provenance : []),
+    ...(Array.isArray(item.source_assertions) ? item.source_assertions : []),
+    ...(artifact ? (Array.isArray(artifact.provenance) ? artifact.provenance.filter(isRecord) : [artifact]) : []),
+  ];
+  const fallbackUrl = item.source_urls?.find((url) => /^https?:\/\//i.test(url));
+  return candidates.filter(isRecord).map((entry) => ({
+    source_id: entry.source_id ?? entry.source ?? entry.sourceId,
+    original_url: entry.original_url ?? entry.url ?? fallbackUrl,
+    source_record_id: entry.source_record_id ?? entry.record_id,
+    locator: entry.locator,
+    supported_fields: entry.supported_fields ?? entry.fields ?? [],
+    source_published_at: entry.source_published_at,
+    source_modified_at: entry.source_modified_at,
+    collected_at: entry.collected_at ?? item.collected_at,
+    reviewed_at: entry.reviewed_at ?? item.last_reviewed_at,
+    valid_from: entry.valid_from,
+    valid_to: entry.valid_to,
+    checksum: entry.checksum ?? entry.source_checksum ?? item.source_checksum,
+    verification_status: entry.verification_status ?? item.verification_status,
+  }));
+}
+
+function publicProvenance(item: FinanceItem, artifacts: FinanceArtifacts): { entries: Record<string, unknown>[]; unresolvedCount: number } {
+  const registryIds = new Set(artifactRecords(artifacts.source_registry).flatMap((record) => {
+    const id = record.id ?? record.source_id ?? record.sourceId;
+    return typeof id === "string" ? [id] : [];
+  }));
+  const entries = normalizedProvenance(item, artifacts);
+  // Without a usable registry, source ids cannot be claimed canonical; omit
+  // them from public provenance while reporting the unresolved count.
+  if (!registryIds.size) {
+    const resolved = entries.filter((entry) => typeof entry.source_id !== "string");
+    return { entries: resolved, unresolvedCount: entries.length - resolved.length };
+  }
+  const resolved = entries.filter((entry) => typeof entry.source_id !== "string" || registryIds.has(entry.source_id));
+  return { entries: resolved, unresolvedCount: entries.length - resolved.length };
+}
+
+function sourceHealth(item: FinanceItem, artifacts?: FinanceArtifacts): Record<string, unknown> {
+  const provenance = normalizedProvenance(item, artifacts);
+  const sourceIds = new Set([
+    ...(item.sources ?? []),
+    ...(item.source_ids ?? []),
+    ...provenance.map((entry) => entry.source_id).filter((value): value is string => typeof value === "string"),
+  ]);
+  const resolution = resolveSourceStatus({
+    sourceIds: [...sourceIds],
+    sourceUrlCount: item.source_urls?.length ?? 0,
+    sourceStatusArtifact: artifacts?.source_status,
+    staticFreshness: item.freshness_status ?? item.source_freshness_status,
+  });
+  const { statuses } = resolution;
+  const statusVerifiedAt = statuses.map((status) => status.last_successful_checked_at).find((value): value is string => typeof value === "string");
+  return {
+    source_count: sourceIds.size || (item.source_urls?.length ?? 0),
+    last_verified_at: item.last_verified_at ?? item.verified_at ?? item.last_source_checked_at ?? statusVerifiedAt ?? null,
+    freshness_status: resolution.freshnessStatus,
+    source_status: statuses.length ? statuses : undefined,
+    source_status_resolution: resolution.resolution,
+    source_status_reason: resolution.reason,
+    artifact_errors: artifactErrors(),
+  };
+}
+
+function enrichSearchPayload(payload: Record<string, unknown>, items: readonly FinanceItem[], artifacts: FinanceArtifacts): Record<string, unknown> {
+  const byId = new Map(items.map((item) => [item.id, item]));
+  for (const key of ["results", "exact_results", "partial_results", "exact_candidates", "partial_candidates", "related_candidates", "related_results"]) {
+    const values = payload[key];
+    if (!Array.isArray(values)) continue;
+    payload[key] = values.map((value) => {
+      if (!isRecord(value) || typeof value.id !== "string") return value;
+      const item = byId.get(value.id);
+      return item ? { ...value, ...sourceHealth(item, artifacts) } : value;
+    });
+  }
+  return payload;
+}
+
+function coverageReport(value: unknown): Record<string, unknown> | null {
+  if (!isRecord(value)) return null;
+  const candidate = isRecord(value.coverage) ? value.coverage : isRecord(value.summary) ? value.summary : value;
+  const result: Record<string, unknown> = {};
+  for (const key of ["status", "coverage_ratio", "provenance_coverage_ratio", "verified_ratio", "total", "verified", "missing", "stale", "generated_at"]) {
+    if (candidate[key] !== undefined) result[key] = candidate[key];
+  }
+  return Object.keys(result).length ? result : null;
 }
 
 class SearchIndexContractError extends Error {
@@ -1113,7 +1337,7 @@ function assertEmbeddedItemCount(value: unknown, items: readonly FinanceItem[], 
 
 async function loadSearchIndexMetadata(env: Env): Promise<SearchIndexFile> {
   const now = Date.now();
-  if (cachedSearchIndexMetadata && now - cachedSearchIndexMetadata.loadedAt < CACHE_TTL_MS) {
+  if (cachedSearchIndexMetadata && cachedSearchIndexMetadata.generation === manifestGeneration && now - cachedSearchIndexMetadata.loadedAt < CACHE_TTL_MS) {
     return cachedSearchIndexMetadata.data;
   }
   const manifestUrl = financeManifestUrl(env);
@@ -1123,13 +1347,13 @@ async function loadSearchIndexMetadata(env: Env): Promise<SearchIndexFile> {
   }
   const indexUrl = resolveExportUrl(manifest.search_index, manifestUrl);
   const data = parseSearchIndexFile(await fetchJson<unknown>(indexUrl), indexUrl);
-  cachedSearchIndexMetadata = { data, loadedAt: now };
+  cachedSearchIndexMetadata = { data, loadedAt: now, generation: manifestGeneration };
   return data;
 }
 
 async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
   const now = Date.now();
-  if (cachedSearchItems && now - cachedSearchItems.loadedAt < CACHE_TTL_MS) {
+  if (cachedSearchItems && cachedSearchItems.generation === manifestGeneration && now - cachedSearchItems.loadedAt < CACHE_TTL_MS) {
     return cachedSearchItems.items;
   }
 
@@ -1140,7 +1364,7 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
   if (inlineItems) {
     assertSearchItemCount(inlineItems.length, metadata.item_count, "search-index root");
     assertSearchItemCount(inlineItems.length, manifest.search_index?.item_count, "finance manifest search_index");
-    cachedSearchItems = { items: inlineItems, loadedAt: now };
+    cachedSearchItems = { items: inlineItems, loadedAt: now, generation: manifestGeneration };
     return inlineItems;
   }
 
@@ -1148,24 +1372,72 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
   if (!shards?.length) {
     throw new SearchIndexContractError("search-index manifest has neither inline items nor shards");
   }
+  // A root without compact items must never fan out across an unbounded set of
+  // detailed shards in a Worker request. Releases with large shard sets must
+  // publish compact root items; small legacy snapshots remain supported.
+  if (shards.length > 32) {
+    throw new SearchIndexContractError("search-index root requires compact inline items when shard count exceeds 32");
+  }
   const shardItems = await Promise.all(shards.map(async (shard) => {
-    const shardUrl = resolveExportUrl(shard, manifestUrl);
-    const payload = await fetchJson<unknown>(shardUrl);
-    const items = parseSearchItems(payload, shardUrl);
-    assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
-    assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
-    return items;
+    return loadSearchShard(env, shard);
   }));
   const items = shardItems.flat();
   assertSearchItemCount(items.length, metadata.item_count, "search-index root");
   assertSearchItemCount(items.length, manifest.search_index?.item_count, "finance manifest search_index");
-  cachedSearchItems = { items, loadedAt: now };
+  cachedSearchItems = { items, loadedAt: now, generation: manifestGeneration };
   return items;
+}
+
+async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<readonly FinanceItem[]> {
+  const now = Date.now();
+  const key = shard.shard_id;
+  const requestGeneration = manifestGeneration;
+  const pendingKey = generationCacheKey(requestGeneration, key);
+  const cached = cachedSearchShards.get(key);
+  if (cached && cached.generation === manifestGeneration && now - cached.loadedAt < CACHE_TTL_MS) return cached.items;
+  const pending = inFlightSearchShards.get(pendingKey);
+  if (pending) return pending;
+  const request = (async () => {
+    const url = resolveExportUrl(shard, financeManifestUrl(env));
+    const payload = await fetchJson<unknown>(url);
+    const items = parseSearchItems(payload, url);
+    assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
+    assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
+    if (requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
+      cachedSearchShards.set(key, { items, loadedAt: Date.now(), generation: requestGeneration });
+    }
+    return items;
+  })().finally(() => inFlightSearchShards.delete(pendingKey));
+  inFlightSearchShards.set(pendingKey, request);
+  return request;
+}
+
+const SEARCH_SHARD_BY_DOMAIN: Record<string, string> = {
+  card: "card-products", loan: "bank-products", insurance: "insurance-products",
+  deposit: "bank-products", saving: "bank-products", support: "support",
+};
+
+async function loadDetailedItemsForDomain(env: Env, domain: string): Promise<readonly FinanceItem[]> {
+  const manifest = await loadFinanceManifest(env);
+  const metadata = await loadSearchIndexMetadata(env);
+  const shardId = SEARCH_SHARD_BY_DOMAIN[domain];
+  const shard = (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
+}
+
+async function hydrateSearchItem(env: Env, item: FinanceItem): Promise<FinanceItem> {
+  const manifest = await loadFinanceManifest(env);
+  const metadata = await loadSearchIndexMetadata(env);
+  const shardId = item.provenance_shard ?? item.shard_id;
+  const shard = shardId && (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  if (!shard) return item;
+  const detailed = (await loadSearchShard(env, shard)).find((candidate) => candidate.id === item.id);
+  return detailed ? { ...item, ...detailed } : item;
 }
 
 async function loadFinanceGraph(env: Env): Promise<FinanceGraph> {
   const now = Date.now();
-  if (cachedGraph && now - cachedGraph.loadedAt < CACHE_TTL_MS) {
+  if (cachedGraph && cachedGraph.generation === manifestGeneration && now - cachedGraph.loadedAt < CACHE_TTL_MS) {
     return cachedGraph.data;
   }
 
@@ -1190,7 +1462,7 @@ async function loadFinanceGraph(env: Env): Promise<FinanceGraph> {
     exports: manifest.exports,
     items: [...itemsById.values()].sort((a, b) => a.id.localeCompare(b.id, "ko-KR")),
   };
-  cachedGraph = { data, loadedAt: now };
+  cachedGraph = { data, loadedAt: now, generation: manifestGeneration };
   return data;
 }
 
@@ -1323,12 +1595,13 @@ function verificationEvidenceBlocker(item: FinanceItem): string | undefined {
   return undefined;
 }
 
-function recommendationBlocker(item: FinanceItem): string | undefined {
+function recommendationBlocker(item: FinanceItem, artifacts?: FinanceArtifacts): string | undefined {
   if (!ENABLE_PUBLIC_RECOMMENDATION) return "public_recommendation_disabled";
   if (item.public_recommendation_exclusion_reasons?.length) return "public_recommendation_excluded";
   if (item.recommendation_status !== "verified_recommendation_candidate") return "not_verified_recommendation_candidate";
   if (item.recommendation_scope !== "public_recommendation") return "not_public_recommendation_scope";
   if (item.sales_status !== "active" || item.sales_verification_status !== "verified_active") return "sales_not_verified";
+  if (artifacts && sourceHealth(item, artifacts).freshness_status !== "current") return "stale_source";
   return verificationEvidenceBlocker(item);
 }
 
@@ -1427,10 +1700,12 @@ function nextRecommendationAction(domain: string, readiness: Record<string, numb
 function comparisonBlockers(domain: string, excludedSummary: Record<string, number>): readonly Record<string, unknown>[] {
   const salesNotVerified = excludedSummary.sales_not_verified ?? 0;
   const fieldNotVerified = excludedSummary.comparison_fields_not_verified ?? 0;
+  const staleSource = excludedSummary.stale_source ?? 0;
   const label = domain === "deposit" ? "정기예금" : "적금";
   return [
     ...(salesNotVerified ? [{ code: "SALES_NOT_VERIFIED", count: salesNotVerified, message: `판매상태가 검증되지 않은 ${label}입니다.` }] : []),
     ...(fieldNotVerified ? [{ code: "COMPARISON_FIELDS_NOT_VERIFIED", count: fieldNotVerified, message: `비교 필드 검증이 끝나지 않은 ${label}입니다.` }] : []),
+    ...(staleSource ? [{ code: "SOURCE_NOT_CURRENT", count: staleSource, message: `출처 상태가 current가 아닌 ${label}입니다.` }] : []),
   ];
 }
 
@@ -1450,12 +1725,12 @@ function isPastOrCurrentIsoDate(value: unknown): value is string {
   return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value && value <= new Date().toISOString().slice(0, 10);
 }
 
-function comparisonBlocker(item: FinanceItem): string | undefined {
+function comparisonBlocker(item: FinanceItem, artifacts?: FinanceArtifacts): string | undefined {
   if (item.comparison_exclusion_reasons?.length) return "comparison_excluded";
   if (item.recommendation_scope !== "comparison_only") return "not_comparison_scope";
   if (item.source_listing_status !== "listed") return "source_not_listed";
   if (item.sales_verification_status !== "verified_active") return "sales_not_verified";
-  if (item.source_freshness_status !== "current") return "stale_source";
+  if ((artifacts ? sourceHealth(item, artifacts).freshness_status : item.source_freshness_status) !== "current") return "stale_source";
   const verifiedAt = Date.parse(`${item.sales_verified_at ?? ""}T00:00:00Z`);
   if (!Number.isFinite(verifiedAt) || verifiedAt > Date.now() || Date.now() - verifiedAt > 31 * 24 * 60 * 60 * 1000) return "stale_source";
   if (item.verification_status !== "verified") return "not_verified";
@@ -1543,10 +1818,8 @@ async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceI
   const directExportId = directExportIdForItem(rawId);
   const indexedItem = directExportId ? undefined : resolveCanonicalItemId(rawId, await loadSearchItems(env));
   const itemId = indexedItem?.id ?? resolveItemId(rawId);
-  // Non-product nodes are fully represented in the hydrated search index. Avoid
-  // loading every ontology export for a tax/support/reference fetch; this keeps
-  // the MCP response inside the Worker streaming budget while preserving the
-  // same canonical/legacy resolution path used by product fetches.
+  // Non-product nodes are fully represented in the compact index when no
+  // detail shard is declared; avoid loading every ontology export.
   if (indexedItem && !["card-product", "bank-product", "insurance-product"].includes(indexedItem.type)) {
     return { item: indexedItem, itemsById: new Map([[indexedItem.id, indexedItem]]) };
   }
@@ -1801,7 +2074,8 @@ function createServer(env: Env): McpServer {
     assertFinanceSafe(item);
     const normalized = normalizeFinanceSnapshot(snapshot);
     const requestedId = typeof item.id === "string" ? item.id : typeof item.item_id === "string" ? item.item_id : undefined;
-    const catalogItem = (await loadSearchItems(env)).find((candidate) => candidate.id === requestedId || candidate.canonical_product_id === requestedId || candidate.resolved_canonical_product_id === requestedId);
+    const catalogRootItem = (await loadSearchItems(env)).find((candidate) => candidate.id === requestedId || candidate.canonical_product_id === requestedId || candidate.resolved_canonical_product_id === requestedId);
+    const catalogItem = catalogRootItem ? await hydrateSearchItem(env, catalogRootItem) : undefined;
     const candidateItem: FinanceItem | Record<string, unknown> = catalogItem ?? {
       id: requestedId ?? "unresolved-product",
       title: "Unresolved catalog product",
@@ -1878,6 +2152,12 @@ function createServer(env: Env): McpServer {
     annotations: { title: "Get OpenFin Quality Status", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async () => {
     const manifest = await loadFinanceManifest(env); const metadata = await loadSearchIndexMetadata(env);
+    const [coverageArtifact, sourceRegistry, sourceStatus] = await Promise.all([
+      loadFinanceArtifact(env, "provenance_coverage", manifest),
+      loadFinanceArtifact(env, "source_registry", manifest),
+      loadFinanceArtifact(env, "source_status", manifest),
+    ]);
+    const coverage = coverageReport(coverageArtifact);
     const live = manifest.openfin_120_live_regression ?? {};
     const releaseStatus = manifest.release_status ?? "unknown";
     const blockingReasons = manifest.blocking_reasons ?? [];
@@ -1888,7 +2168,7 @@ function createServer(env: Env): McpServer {
       data_as_of: manifest.basis_date,
       missing_information: blockingReasons,
       assumptions: ["quality status reflects the loaded manifest and search index"],
-      quality_status: { manifest_version: manifest.version, release_status: releaseStatus, basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: ENABLE_PUBLIC_RECOMMENDATION },
+      quality_status: { manifest_version: manifest.version, release_status: releaseStatus, basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: ENABLE_PUBLIC_RECOMMENDATION, provenance_artifacts: { source_registry: manifest.source_registry ?? null, source_status: manifest.source_status ?? null, provenance_index: manifest.provenance_index ?? null, provenance_coverage: manifest.provenance_coverage ?? null, relationship_index: manifest.relationship_index ?? null }, source_health: { registry_loaded: sourceRegistry !== undefined, status_loaded: sourceStatus !== undefined, provenance_loaded: false, coverage_loaded: coverageArtifact !== undefined, relationships_loaded: false, coverage, artifact_errors: artifactErrors() } },
       limitations: ["quality status is not a product recommendation", ...blockingReasons],
     }));
   });
@@ -1933,16 +2213,21 @@ function createServer(env: Env): McpServer {
       },
     },
     async ({ query, type, search_type, product_kind, recommendation_status, recommendation_scope, sales_status, application_status, provider, region, freshness_status, limit }) => {
-      const items = dedupeProductItems(await loadSearchItems(env));
+      let items = dedupeProductItems(await loadSearchItems(env));
+      if (isDiscoveryQuery(query)) {
+        const detailDomain = discoveryDomainForQuery(query) ?? (SUPPORT_INTENT_RE.test(query) ? "support" : undefined);
+        if (detailDomain) items = dedupeProductItems(await loadDetailedItemsForDomain(env, detailDomain));
+      }
+      const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
       if (isNamedProductQuery(query)) {
         const payload = strictNamedProductPayload(query, items, maxResults, env);
-        if (payload) return mcpResult(payload);
+        if (payload) return mcpResult(enrichSearchPayload(payload, items, artifacts));
       }
       if (isDiscoveryQuery(query)) {
-        const payload = discoveryPayload(query, items, maxResults);
-        return mcpResult(payload);
+        const payload = discoveryPayload(query, items, maxResults, artifacts);
+        return mcpResult(enrichSearchPayload(payload, items, artifacts));
       }
 
       const allowedTypes = type ? SEARCH_TYPE_GROUPS[type] ?? new Set([type]) : inferredTypesForQuery(normalizedQuery);
@@ -1959,7 +2244,7 @@ function createServer(env: Env): McpServer {
         freshnessStatus: freshness_status,
       };
       const results = items
-        .filter((item) => isPubliclySearchable(item) && (!allowedTypes || allowedTypes.has(item.type)) && matchesSearchFilters(item, filters) && matchesSupportRegion(item, supportRegion) && matchesSupportIntent(item, normalizedQuery))
+        .filter((item) => isPubliclySearchable(item) && (!allowedTypes || allowedTypes.has(item.type)) && matchesSearchFilters(item, filters, artifacts) && matchesSupportRegion(item, supportRegion) && matchesSupportIntent(item, normalizedQuery))
         .map((item) => ({ item, score: scoreItem(item, normalizedQuery) }))
         .filter((result) => result.score > 0)
         .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR"))
@@ -2004,6 +2289,7 @@ function createServer(env: Env): McpServer {
           missing_required_fields: item.missing_required_fields ?? [],
           structured_summary: item.structured_summary ?? {},
           search_facets: item.search_facets ?? {},
+          ...sourceHealth(item, artifacts),
           match_reasons: matchReasons(item, normalizedQuery),
           match_tier: supportMatchTier(item, normalizedQuery),
           url: itemUrl(env, item.id),
@@ -2049,13 +2335,15 @@ function createServer(env: Env): McpServer {
       annotations: { title: "Discover Finance Products", ...READ_ONLY_TOOL_ANNOTATIONS },
     },
     async ({ query, limit }) => {
-      const items = dedupeProductItems(await loadSearchItems(env));
+      const detailDomain = discoveryDomainForQuery(query) ?? (SUPPORT_INTENT_RE.test(query) ? "support" : undefined);
+      const items = dedupeProductItems(detailDomain ? await loadDetailedItemsForDomain(env, detailDomain) : await loadSearchItems(env));
+      const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       if (isNamedProductQuery(query)) {
         const payload = strictNamedProductPayload(query, items, limit ?? 10, env);
-        if (payload) return mcpResult(payload);
+        if (payload) return mcpResult(enrichSearchPayload(payload, items, artifacts));
       }
-      const payload = discoveryPayload(query, items, limit ?? 10);
-      return mcpResult(payload);
+      const payload = discoveryPayload(query, items, limit ?? 10, artifacts);
+      return mcpResult(enrichSearchPayload(payload, items, artifacts));
     },
   );
 
@@ -2084,9 +2372,10 @@ function createServer(env: Env): McpServer {
       assertFinanceSafe(constraints, "constraints");
       assertFinanceSafe(preferences, "preferences");
       assertFinanceSafe(decision_context, "decision_context");
-      const items = dedupeProductItems(await loadSearchItems(env));
+      const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain));
+      const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       const maxResults = limit ?? 5;
-      const domainItems = items.filter((item) => domainMatches(item, domain));
+      const domainItems = items.filter((item) => domainMatches(item, domain) && sourceHealth(item, artifacts).freshness_status === "current");
       const readiness = recommendationReadiness(domain, domainItems);
       const context = normalizeFinanceSnapshot(decision_context);
       const contextMetrics = financeMetrics(context);
@@ -2131,7 +2420,7 @@ function createServer(env: Env): McpServer {
       const excluded = [];
       const candidates = [];
       for (const item of domainItems) {
-        const blocker = recommendationBlocker(item);
+        const blocker = recommendationBlocker(item, artifacts);
         if (blocker) {
           excluded.push({ item_id: item.id, reason: blocker });
           continue;
@@ -2223,15 +2512,16 @@ function createServer(env: Env): McpServer {
         const payload = { domain, data_as_of: null, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison is currently disabled."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
         return mcpResult(payload);
       }
-      const items = dedupeProductItems(await loadSearchItems(env));
+      const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain));
       const metadata = await loadSearchIndexMetadata(env);
+      const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       const channels = (join_channels ?? []).map((channel) => normalizeQuery(channel));
       const conditions = new Set(eligible_conditions ?? []);
       const excluded: Array<{ item_id: string; reason: string }> = [];
       const candidates: Record<string, unknown>[] = [];
       const candidateTargetIds = new Set<string>();
       for (const item of items.filter((candidate) => domainMatches(candidate, domain))) {
-        const blocker = comparisonBlocker(item);
+        const blocker = comparisonBlocker(item, artifacts);
         if (blocker) {
           excluded.push({ item_id: item.id, reason: blocker });
           continue;
@@ -2308,6 +2598,15 @@ function createServer(env: Env): McpServer {
     },
     async ({ id }) => {
       const { item, itemsById } = await fetchItemGraph(env, id);
+      // Provenance is carried by the item itself; only the small status report
+      // is fetched on demand. Never hydrate the large provenance/relationship
+      // indexes in the Worker request path.
+      const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
+      if (!(item.provenance?.length) && item.provenance_shard) {
+        const manifest = await loadFinanceManifest(env);
+        const shard = await loadProvenanceShard(env, manifest, item.provenance_shard);
+        if (shard !== undefined) artifacts.provenance_index = shard;
+      }
       const requestedId = resolveItemId(id);
       const resolvedCanonicalId = item.resolved_canonical_product_id ?? item.canonical_product_id ?? item.id;
       const redirected = requestedId !== item.id;
@@ -2320,6 +2619,7 @@ function createServer(env: Env): McpServer {
         description: source.description,
       }));
 
+      const provenance = publicProvenance(item, artifacts);
       const payload = {
         requested_id: id,
         id: item.id,
@@ -2405,6 +2705,10 @@ function createServer(env: Env): McpServer {
         source_urls: item.source_urls ?? [],
         source_basis_dates: item.source_basis_dates ?? [],
         sources,
+        provenance: provenance.entries,
+        unresolved_source_assertion_count: provenance.unresolvedCount,
+        ...sourceHealth(item, artifacts),
+        artifact_errors: artifactErrors(),
       };
 
       return {
@@ -2434,12 +2738,32 @@ function createServer(env: Env): McpServer {
     async () => {
       const manifest = await loadFinanceManifest(env);
       const metadata = await loadSearchIndexMetadata(env);
+      const [coverageArtifact, sourceRegistry, sourceStatus] = await Promise.all([
+        loadFinanceArtifact(env, "provenance_coverage", manifest),
+        loadFinanceArtifact(env, "source_registry", manifest),
+        loadFinanceArtifact(env, "source_status", manifest),
+      ]);
+      const artifacts: FinanceArtifacts = { source_registry: sourceRegistry, source_status: sourceStatus, provenance_coverage: coverageArtifact };
       const payload = {
         version: manifest.version,
         basis_date: manifest.basis_date,
         item_count: manifest.search_index?.item_count ?? manifest.exports.reduce((total, entry) => total + (entry.item_count ?? 0), 0),
         search_index: manifest.search_index,
         quality_exports: manifest.quality_exports ?? [],
+        source_registry: manifest.source_registry,
+        source_status: manifest.source_status,
+        provenance_index: manifest.provenance_index,
+        provenance_coverage: manifest.provenance_coverage,
+        relationship_index: manifest.relationship_index,
+        provenance_coverage_report: coverageReport(coverageArtifact),
+        artifact_errors: artifactErrors(),
+        source_health: {
+          registry: artifacts.source_registry !== undefined,
+          status: artifacts.source_status !== undefined,
+          provenance: Boolean(artifacts.provenance_index),
+          coverage: Boolean(artifacts.provenance_coverage),
+          relationships: Boolean(artifacts.relationship_index),
+        },
         exports: manifest.exports,
         runtime: await runtimeMetadata(env, manifest, metadata),
       };

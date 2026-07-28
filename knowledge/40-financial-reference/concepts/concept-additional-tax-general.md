@@ -1,0 +1,440 @@
+---
+{
+  "id": "concept.additional-tax.general",
+  "title": "가산세 공통 리스크",
+  "type": "concept",
+  "description": "신고기한을 놓치거나 과소신고·미납부가 발생했을 때 종합소득세, 부가가치세, 양도소득세에서 추가 부담이 생기는 가산세 리스크입니다.",
+  "folder": "40_Terms/Concepts",
+  "parents": [
+    "category.filing-calendar"
+  ],
+  "related": [
+    "filing.income-tax-return",
+    "filing.vat-return",
+    "filing.capital-gains-return",
+    "tax.income.comprehensive",
+    "tax.value-added",
+    "tax.income.capital-gains",
+    "scenario.tax-penalty-risk"
+  ],
+  "sources": [
+    "source.nts.income-tax.additional-tax",
+    "source.nts.vat.additional-tax",
+    "source.nts.capital-gains.additional-tax",
+    "source.nts.vat.filing-duty"
+  ],
+  "criteria": [
+    {
+      "label": "종합소득세 무신고",
+      "basis": "무신고납부세액",
+      "condition": "신고기한까지 신고하지 않은 경우",
+      "rate_percent": 20,
+      "source": "source.nts.income-tax.additional-tax",
+      "criteria_kind": "rate",
+      "rate_basis": "무신고납부세액",
+      "basis_category": "official-standard",
+      "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+      "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+      "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+      "basis_source": "source.nts.income-tax.additional-tax",
+      "amount_formula": "무신고납부세액 × 적용비율 20%"
+    },
+    {
+      "label": "종합소득세 과소신고",
+      "basis": "과소신고납부세액",
+      "condition": "과세표준 또는 세액을 과소신고한 경우",
+      "rate_percent": 10,
+      "source": "source.nts.income-tax.additional-tax",
+      "criteria_kind": "rate",
+      "rate_basis": "과소신고납부세액",
+      "basis_category": "tax-base",
+      "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+      "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+      "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+      "basis_source": "source.nts.income-tax.additional-tax",
+      "amount_formula": "과소신고납부세액 × 적용비율 10%"
+    },
+    {
+      "label": "종합소득세 납부지연",
+      "basis": "미납·미달납부세액",
+      "condition": "납부기한 다음날부터 자진납부일 또는 고지일까지",
+      "rate_percent": 0.022,
+      "rate_label": "1일 이자율",
+      "amount_formula": "미납세액 × 경과일수 × 2.2/10,000",
+      "source": "source.nts.income-tax.additional-tax",
+      "criteria_kind": "rate",
+      "rate_basis": "미납·미달납부세액",
+      "basis_category": "official-standard",
+      "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+      "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+      "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+      "basis_source": "source.nts.income-tax.additional-tax"
+    },
+    {
+      "label": "부가가치세 영세율 신고불성실",
+      "basis": "무·과소신고 영세율 과세표준",
+      "condition": "영세율 과세표준을 무신고 또는 과소신고한 경우",
+      "rate_percent": 0.5,
+      "source": "source.nts.vat.additional-tax",
+      "criteria_kind": "rate",
+      "rate_basis": "무·과소신고 영세율 과세표준",
+      "basis_category": "tax-base",
+      "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+      "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+      "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+      "basis_source": "source.nts.vat.additional-tax",
+      "amount_formula": "무·과소신고 영세율 과세표준 × 적용비율 0.5%"
+    },
+    {
+      "label": "부가가치세 미등록",
+      "basis": "공급가액 또는 공급대가",
+      "condition": "사업자등록을 하지 않은 경우",
+      "rate_percent_min": 0.5,
+      "rate_percent_max": 1,
+      "note": "간이과세자는 공급대가 0.5%, 일반은 공급가액 1%",
+      "source": "source.nts.vat.additional-tax",
+      "criteria_kind": "rate",
+      "rate_basis": "공급가액 또는 공급대가",
+      "basis_category": "revenue",
+      "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+      "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+      "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+      "basis_source": "source.nts.vat.filing-duty",
+      "amount_formula": "공급가액 또는 공급대가 × 적용비율 0.5%~1%"
+    },
+    {
+      "label": "양도소득세 단순무신고",
+      "basis": "무신고 납부세액",
+      "condition": "신고기한까지 양도소득세를 신고하지 않은 경우",
+      "rate_percent": 20,
+      "source": "source.nts.capital-gains.additional-tax",
+      "criteria_kind": "rate",
+      "rate_basis": "무신고 납부세액",
+      "basis_category": "official-standard",
+      "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+      "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+      "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+      "basis_source": "source.nts.capital-gains.additional-tax",
+      "amount_formula": "무신고 납부세액 × 적용비율 20%"
+    },
+    {
+      "label": "양도소득세 환산취득가액",
+      "basis": "환산취득가액 건물분",
+      "condition": "건물 신축·증축 취득 후 5년 이내 양도",
+      "rate_percent": 5,
+      "source": "source.nts.capital-gains.additional-tax",
+      "period_years_max": 5,
+      "criteria_kind": "rate",
+      "rate_basis": "환산취득가액 건물분",
+      "basis_category": "official-standard",
+      "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+      "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+      "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+      "basis_source": "source.nts.capital-gains.additional-tax",
+      "amount_formula": "환산취득가액 건물분 × 적용비율 5%"
+    }
+  ],
+  "tags": [
+    "tax-risk",
+    "additional-tax",
+    "custom-overlay"
+  ],
+  "basis_year": 2026,
+  "effective_date": null,
+  "expiration_date": null,
+  "reviewed_at": "2026-05-04",
+  "source_urls": [
+    "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
+    "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7697&mi=2405",
+    "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7712&mi=2313",
+    "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7806"
+  ],
+  "source_basis_dates": [
+    "2026-05-04T00:00:00.000Z",
+    "2026-05-02T00:00:00.000Z"
+  ],
+  "abolition_status": "active",
+  "revision_status": "none_announced",
+  "children": [],
+  "terms": [],
+  "deadlines": [],
+  "law_reference": "",
+  "provenance_shard": "reference",
+  "source_registry_id": "source.nts.income-tax.additional-tax",
+  "source_registry_status": "registered",
+  "provenance": [
+    {
+      "source_id": "source.nts.income-tax.additional-tax",
+      "original_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
+      "source_record_id": null,
+      "locator": null,
+      "supported_fields": [
+        "title",
+        "type",
+        "description",
+        "folder",
+        "criteria",
+        "basis_year",
+        "reviewed_at",
+        "abolition_status",
+        "revision_status",
+        "law_reference",
+        "provenance_shard",
+        "source_registry_id",
+        "source_registry_status"
+      ],
+      "source_published_at": null,
+      "source_modified_at": null,
+      "collected_at": "2026-05-04T00:00:00.000Z",
+      "reviewed_at": "2026-05-04T00:00:00.000Z",
+      "valid_from": null,
+      "valid_to": null,
+      "checksum": null,
+      "checksum_scope": null,
+      "verification_status": "reference_only"
+    },
+    {
+      "source_id": "source.nts.vat.additional-tax",
+      "original_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
+      "source_record_id": null,
+      "locator": null,
+      "supported_fields": [
+        "title",
+        "type",
+        "description",
+        "folder",
+        "criteria",
+        "basis_year",
+        "reviewed_at",
+        "abolition_status",
+        "revision_status",
+        "law_reference",
+        "provenance_shard",
+        "source_registry_id",
+        "source_registry_status"
+      ],
+      "source_published_at": null,
+      "source_modified_at": null,
+      "collected_at": "2026-05-04T00:00:00.000Z",
+      "reviewed_at": "2026-05-04T00:00:00.000Z",
+      "valid_from": null,
+      "valid_to": null,
+      "checksum": null,
+      "checksum_scope": null,
+      "verification_status": "reference_only"
+    },
+    {
+      "source_id": "source.nts.capital-gains.additional-tax",
+      "original_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
+      "source_record_id": null,
+      "locator": null,
+      "supported_fields": [
+        "title",
+        "type",
+        "description",
+        "folder",
+        "criteria",
+        "basis_year",
+        "reviewed_at",
+        "abolition_status",
+        "revision_status",
+        "law_reference",
+        "provenance_shard",
+        "source_registry_id",
+        "source_registry_status"
+      ],
+      "source_published_at": null,
+      "source_modified_at": null,
+      "collected_at": "2026-05-04T00:00:00.000Z",
+      "reviewed_at": "2026-05-04T00:00:00.000Z",
+      "valid_from": null,
+      "valid_to": null,
+      "checksum": null,
+      "checksum_scope": null,
+      "verification_status": "reference_only"
+    },
+    {
+      "source_id": "source.nts.vat.filing-duty",
+      "original_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
+      "source_record_id": null,
+      "locator": null,
+      "supported_fields": [
+        "title",
+        "type",
+        "description",
+        "folder",
+        "criteria",
+        "basis_year",
+        "reviewed_at",
+        "abolition_status",
+        "revision_status",
+        "law_reference",
+        "provenance_shard",
+        "source_registry_id",
+        "source_registry_status"
+      ],
+      "source_published_at": null,
+      "source_modified_at": null,
+      "collected_at": "2026-05-04T00:00:00.000Z",
+      "reviewed_at": "2026-05-04T00:00:00.000Z",
+      "valid_from": null,
+      "valid_to": null,
+      "checksum": null,
+      "checksum_scope": null,
+      "verification_status": "reference_only"
+    }
+  ],
+  "publication_memberships": [
+    "korea-tax-ontology-2026.json"
+  ],
+  "search_projection": {
+    "id": "concept.additional-tax.general",
+    "title": "가산세 공통 리스크",
+    "type": "concept",
+    "description": "신고기한을 놓치거나 과소신고·미납부가 발생했을 때 종합소득세, 부가가치세, 양도소득세에서 추가 부담이 생기는 가산세 리스크입니다.",
+    "provider": null,
+    "product_kind": null,
+    "search_type": null,
+    "product_status": null,
+    "sales_status": null,
+    "source_listing_status": null,
+    "sales_verification_status": null,
+    "sales_verified_at": null,
+    "condition_verification_status": null,
+    "source_freshness_status": null,
+    "status": null,
+    "status_reason": null,
+    "recommendation_status": null,
+    "recommendation_scope": null,
+    "catalog_recommendation_status": null,
+    "catalog_recommendation_scope": null,
+    "canonical_product_id": null,
+    "resolved_canonical_product_id": null,
+    "external_product_ids": [],
+    "provider_external_ids": [],
+    "provider_roles": [],
+    "source_records": [],
+    "preferred_source": null,
+    "merged_fields": {},
+    "field_provenance": {},
+    "field_conflicts": {},
+    "recommendation_model_version": "openfin-recommendation-v0.1.0",
+    "recommendation_exclusion_reasons": [],
+    "recommendation_basis_fields": [],
+    "verification_evidence": null,
+    "verification_status": null,
+    "quality_flags": [],
+    "last_verified_at": null,
+    "last_source_checked_at": null,
+    "last_reviewed_at": null,
+    "public_recommendation_exclusion_reasons": [],
+    "comparison_exclusion_reasons": [],
+    "discovery_limitations": [],
+    "missing_required_fields": [],
+    "missing_in_source_fields": [],
+    "unmapped_existing_fields": [],
+    "unverified_fields": [],
+    "discovery_evidence_fields": [],
+    "completeness_ratio": null,
+    "source_completeness_ratio": null,
+    "normalized_completeness_ratio": null,
+    "verified_completeness_ratio": null,
+    "required_field_count": null,
+    "completed_field_count": null,
+    "domain_gate_passed": null,
+    "comparison_engine_gate_passed": null,
+    "comparison_field_verification_status": null,
+    "comparison_field_verification": {},
+    "comparison_basis_fields": [],
+    "comparison_options": [],
+    "application_status": null,
+    "is_currently_applicable": null,
+    "application_open_from": null,
+    "application_open_to": null,
+    "application_window": {},
+    "jurisdiction": null,
+    "jurisdiction_code": null,
+    "jurisdiction_aliases": [],
+    "parent_jurisdiction_code": null,
+    "administrative_history": [],
+    "target_group": [],
+    "support_category": [],
+    "last_status_checked_at": null,
+    "freshness_status": null,
+    "collection_status": null,
+    "legacy_ids": [],
+    "search_aliases": [],
+    "aliases": [],
+    "export_id": "tax-ontology",
+    "source_checksum": null,
+    "source_urls": [
+      "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
+      "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7697&mi=2405",
+      "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7712&mi=2313",
+      "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7806"
+    ],
+    "source_basis_dates": [
+      "2026-05-04T00:00:00.000Z",
+      "2026-05-02T00:00:00.000Z"
+    ],
+    "structured_summary": {
+      "rates": {},
+      "limits": {},
+      "periods": {},
+      "card": {},
+      "insurance": {},
+      "support": {
+        "application_window": {}
+      }
+    },
+    "search_facets": {},
+    "search_text": "concept.additional-tax.general 가산세 공통 리스크 concept 신고기한을 놓치거나 과소신고·미납부가 발생했을 때 종합소득세, 부가가치세, 양도소득세에서 추가 부담이 생기는 가산세 리스크입니",
+    "provenance_shard": "reference",
+    "source_ids": [
+      "source.nts.income-tax.additional-tax",
+      "source.nts.vat.additional-tax",
+      "source.nts.capital-gains.additional-tax",
+      "source.nts.vat.filing-duty"
+    ]
+  },
+  "search_shard": "reference",
+  "search_position": 66,
+  "legacy_compatibility_dates": [
+    {
+      "path": [
+        "source_basis_dates",
+        0
+      ],
+      "value": "2026-05-04 확인"
+    },
+    {
+      "path": [
+        "source_basis_dates",
+        1
+      ],
+      "value": "2026-05-02 확인"
+    },
+    {
+      "path": [
+        "search_projection",
+        "source_basis_dates",
+        0
+      ],
+      "value": "2026-05-04 확인"
+    },
+    {
+      "path": [
+        "search_projection",
+        "source_basis_dates",
+        1
+      ],
+      "value": "2026-05-02 확인"
+    }
+  ],
+  "record_checksum": "sha256:19281e62874cbfa5b1f6a217ac2bba32b1725cc22e8e58d956cf8191d4a3ec08"
+}
+---
+
+# 가산세 공통 리스크
+
+신고기한을 놓치거나 과소신고·미납부가 발생했을 때 종합소득세, 부가가치세, 양도소득세에서 추가 부담이 생기는 가산세 리스크입니다.

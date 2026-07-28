@@ -1,0 +1,17 @@
+{
+  "name": "openfin-knowledge",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=22"},
+  "scripts": {
+    "knowledge:bootstrap": "node scripts/knowledge/bootstrap.mjs",
+    "knowledge:build": "node scripts/knowledge/build.mjs",
+    "knowledge:validate": "node scripts/knowledge/validate.mjs",
+    "knowledge:track-sources": "node scripts/knowledge/track-sources.mjs --dry-run",
+    "knowledge:track-sources:write": "node scripts/knowledge/track-sources.mjs --write",
+    "knowledge:track-sources:dry-run": "node scripts/knowledge/track-sources.mjs --dry-run",
+    "knowledge:source-impact-report": "node scripts/knowledge/source-impact-report.mjs",
+    "test": "npm run test:knowledge",
+    "test:knowledge": "node --test tests/knowledge/*.test.mjs"
+  }
+}

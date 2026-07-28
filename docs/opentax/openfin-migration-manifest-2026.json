@@ -1,0 +1,42 @@
+{
+  "version": "OPENFIN-MIGRATION-2026.07.28.1",
+  "generated_at": "2026-07-28T00:00:00.000Z",
+  "baseline": {
+    "export_count": 10,
+    "row_count": 21374,
+    "unique_id_count": 21266,
+    "source_row_count": 204,
+    "unique_source_count": 144,
+    "invalid_source_url_count": 62
+  },
+  "result": {
+    "export_count": 10,
+    "row_count": 21374,
+    "unique_id_count": 21266,
+    "unique_source_count": 144,
+    "reference_item_count": 108,
+    "invalid_source_url_count": 0
+  },
+  "approved_changes": [
+    "invalid_source_url_values_removed",
+    "source_rows_canonicalized",
+    "cross_export_duplicates_moved_to_reference_items",
+    "structured_provenance_added",
+    "operational_urls_moved_to_openfin"
+  ],
+  "source_basis_conflict_resolutions": [
+    {
+      "id": "source.kinfa.hessal-loan-youth",
+      "selected_basis_date": "2026-07-03"
+    },
+    {
+      "id": "source.kinfa.illegal-private-finance-prevention-loan",
+      "selected_basis_date": "2026-07-03"
+    }
+  ],
+  "invariants": {
+    "release_status": "degraded",
+    "recommendation_enabled": false,
+    "full_live_regression_required": "120/120"
+  }
+}

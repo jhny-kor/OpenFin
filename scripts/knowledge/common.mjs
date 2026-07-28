@@ -1,0 +1,189 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+
+export const ROOT = path.resolve(new URL('../..', import.meta.url).pathname);
+export const DOCS = path.join(ROOT, 'docs/opentax');
+export const KNOWLEDGE = path.join(ROOT, 'knowledge');
+export const EXPORT_RE = /^korea-.*-ontology-2026\.json$/;
+export const BULK_TYPES = new Set(['support-program','card-product','bank-product','financial-product','insurance-product','financial-provider','account-product']);
+export const PUBLIC_BASE = 'https://jhny-kor.github.io/OpenFin/opentax';
+export const json = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
+export const writeJson = (p, value) => { fs.mkdirSync(path.dirname(p), {recursive:true}); fs.writeFileSync(p, JSON.stringify(value, null, 2) + '\n'); };
+export const stable = (value) => {
+  if (Array.isArray(value)) return `[${value.map(stable).join(',')}]`;
+  if (value && typeof value === 'object') return `{${Object.keys(value).sort().map(k => `${JSON.stringify(k)}:${stable(value[k])}`).join(',')}}`;
+  return JSON.stringify(value);
+};
+export const sha256 = (value) => `sha256:${crypto.createHash('sha256').update(typeof value === 'string' ? value : stable(value)).digest('hex')}`;
+export const isoDate = (value, fallback = null) => {
+  if (!value) return fallback;
+  if (value instanceof Date) return Number.isNaN(value.getTime()) ? fallback : value.toISOString();
+  const s = String(value).trim();
+  const m = s.match(/(20\d{2})[./-](\d{1,2})[./-](\d{1,2})/);
+  if (!m) return fallback;
+  const d = new Date(Date.UTC(+m[1], +m[2]-1, +m[3]));
+  return Number.isNaN(d.getTime()) ? fallback : d.toISOString();
+};
+const STRUCTURED_DATE_KEY_RE = /(?:^|_)(?:date|dates|at|from|to)$/i;
+const ISO_DATE_VALUE_RE = /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z)?$/;
+export const normalizeCompatibilityDates = (input) => {
+  const value = structuredClone(input);
+  const legacy = [];
+  const walk = (node, pathParts = [], parentKey = '') => {
+    if (Array.isArray(node)) {
+      node.forEach((child, index) => {
+        if (typeof child === 'string' && STRUCTURED_DATE_KEY_RE.test(parentKey) && !ISO_DATE_VALUE_RE.test(child.trim())) {
+          const normalized = isoDate(child, null);
+          if (normalized) { legacy.push({path:[...pathParts, index], value:child}); node[index] = normalized; return; }
+        }
+        if (child && typeof child === 'object') walk(child, [...pathParts, index], parentKey);
+      });
+      return;
+    }
+    if (!node || typeof node !== 'object') return;
+    for (const [key, child] of Object.entries(node)) {
+      if (key === 'legacy_compatibility_dates') continue;
+      if (typeof child === 'string' && STRUCTURED_DATE_KEY_RE.test(key) && !ISO_DATE_VALUE_RE.test(child.trim())) {
+        const normalized = isoDate(child, null);
+        if (normalized) { legacy.push({path:[...pathParts, key], value:child}); node[key] = normalized; continue; }
+      }
+      if (child && typeof child === 'object') walk(child, [...pathParts, key], key);
+    }
+  };
+  walk(value);
+  if (legacy.length) value.legacy_compatibility_dates = legacy;
+  return value;
+};
+export const restoreCompatibilityDates = (input) => {
+  const value = structuredClone(input);
+  for (const entry of value.legacy_compatibility_dates || []) {
+    if (!Array.isArray(entry?.path) || typeof entry?.value !== 'string') continue;
+    let target = value;
+    for (const segment of entry.path.slice(0, -1)) {
+      if (!target || typeof target !== 'object' || !(segment in target)) { target = null; break; }
+      target = target[segment];
+    }
+    if (target && typeof target === 'object') target[entry.path.at(-1)] = entry.value;
+  }
+  delete value.legacy_compatibility_dates;
+  return value;
+};
+export const dateOnly = (value, fallback = null) => isoDate(value, fallback)?.slice(0,10) ?? fallback;
+export const validUrl = (value) => typeof value === 'string' && /^https?:\/\//i.test(value.trim()) ? value.trim() : null;
+export const urlsFrom = (item) => {
+  const vals = [];
+  for (const v of [...(item.source_urls || []), item.source_url, item.url]) {
+    const u = validUrl(v); if (u && !vals.includes(u)) vals.push(u);
+  }
+  return vals;
+};
+const SOURCE_PUBLISHER_BY_HOST = new Map(Object.entries({
+  '100lifeplan.fss.or.kr': '금융감독원',
+  'ad.ccrs.or.kr': '신용회복위원회',
+  'bizinfo.go.kr': '중소벤처기업부',
+  'www.bizinfo.go.kr': '중소벤처기업부',
+  'call.nts.go.kr': '국세청',
+  'd.nts.go.kr': '국세청',
+  'kids.nts.go.kr': '국세청',
+  'sc.nts.go.kr': '국세청',
+  'www.nts.go.kr': '국세청',
+  'consumer.knia.or.kr': '손해보험협회',
+  'kpub.knia.or.kr': '손해보험협회',
+  'ecos.bok.or.kr': '한국은행',
+  'fine.fss.or.kr': '금융감독원',
+  'finlife.fss.or.kr': '금융감독원',
+  'fund.kofia.or.kr': '금융투자협회',
+  'gongsi.crefia.or.kr': '여신금융협회',
+  'hf.go.kr': '한국주택금융공사',
+  'www.hf.go.kr': '한국주택금융공사',
+  'law.go.kr': '법제처 국가법령정보센터',
+  'www.law.go.kr': '법제처 국가법령정보센터',
+  'nhuf.molit.go.kr': '국토교통부 주택도시기금',
+  'plus.gov.kr': '행정안전부 정부24',
+  'portal.kfb.or.kr': '은행연합회',
+  'pub.insure.or.kr': '생명보험협회',
+  'www.e-insmarket.or.kr': '생명보험협회·손해보험협회',
+  'www.easylaw.go.kr': '법제처 찾기쉬운 생활법령정보',
+  'www.fsc.go.kr': '금융위원회',
+  'www.gov.kr': '행정안전부 정부24',
+  'www.hometax.go.kr': '국세청 홈택스',
+  'www.kinfa.or.kr': '서민금융진흥원',
+  'ylaccount.kinfa.or.kr': '서민금융진흥원',
+  'www.korea.kr': '대한민국 정책브리핑',
+  'www.mohw.go.kr': '보건복지부',
+  'www.myhome.go.kr': '국토교통부 마이홈',
+  'www.realtyprice.kr': '한국부동산원',
+}));
+export const sourcePublisher = (item) => {
+  const canonical = validUrl(item.urls?.canonical) || urlsFrom(item)[0];
+  let hostname = null;
+  try { hostname = canonical ? new URL(canonical).hostname.toLowerCase() : null; } catch {}
+  return (hostname && SOURCE_PUBLISHER_BY_HOST.get(hostname))
+    || item.publisher
+    || item.title?.split(/\s+/)[0]
+    || 'Unknown';
+};
+export const sourceBasisDate = (item) => {
+  const vals = [item.source_modified_at, item.source_collected_at, item.last_verified_at, item.reviewed_at, ...(item.source_basis_dates || [])].map(x => isoDate(x)).filter(Boolean);
+  return vals.sort().at(-1) || '2026-07-18T00:00:00.000Z';
+};
+export const slug = (s) => String(s || 'item').toLowerCase().normalize('NFKD').replace(/[^\p{Letter}\p{Number}]+/gu, '-').replace(/^-|-$/g,'').slice(0,100) || 'item';
+export const readExports = () => fs.readdirSync(DOCS).filter(f => EXPORT_RE.test(f)).sort().map(file => ({file, data: json(path.join(DOCS,file))}));
+export const publicProjection = (item) => {
+  const out = restoreCompatibilityDates(item);
+  if (item.search_shard) out.provenance_shard = item.search_shard;
+  if (out.type === 'source' && !Array.isArray(out.terms)) out.terms = [];
+  if (out.type === 'source') for (const key of ['authority_class','domains','urls','access','refresh','usage_terms','recommendation_eligible','status','publisher']) delete out[key];
+  delete out.publication_memberships; delete out.record_checksum; delete out.provenance;
+  delete out.search_projection; delete out.search_shard; delete out.search_position;
+  delete out.legacy_export_variants;
+  return out;
+};
+export const sourceClass = (item) => {
+  const value = `${item.id || ''} ${item.title || ''}`.toLowerCase();
+  if (/^source\.(law|easylaw)\b/.test(value) || /(?:^|[.\s-])(customs|local-tax|national-tax)[-_. ]?framework[-_. ]?act\b/.test(value)) return 'laws';
+  if (/^source\.(fsc|fss)\b/.test(value)) return 'regulators';
+  if (/^source\.(crefia|kfb|kofia|knia|klia|fsb)\b/.test(value)) return 'associations';
+  if (/^source\.(bccard|samsungcard|einsmarket)\b/.test(value)) return 'financial-institutions';
+  if (/^source\.(nts|mohw|bok|data-go-kr|gov24|bizinfo|molit|moef|myhome|korea|govkr|hometax|call-nts|nhuf|hf|kinfa|ccrs|kdic)\b/.test(value)) return 'government';
+  return 'secondary-sources';
+};
+export const sourceAuthorityClass = (item) => ({
+  laws: 'law_official',
+  government: 'government_official',
+  regulators: 'regulator_official',
+  associations: 'association_official',
+  'financial-institutions': 'provider_official',
+  'secondary-sources': 'secondary_reference',
+}[sourceClass(item)]);
+export const classifyPath = (item, exportFile) => {
+  const t = item.type;
+  if (t === 'source') return ['90-sources', sourceClass(item)];
+  if (t === 'tax') return ['10-tax', 'taxes', item.id.includes('local') ? 'local' : item.id.includes('corporate') ? 'corporate' : 'national'];
+  if (t === 'tax-credit') return ['10-tax', 'benefits', 'tax-credits'];
+  if (t === 'tax-reduction' || t === 'corporate-tax-support') return ['10-tax', t === 'corporate-tax-support' ? 'business-support' : 'benefits', ...(t === 'tax-reduction' ? ['tax-reductions'] : [])];
+  if (t === 'deduction') return ['10-tax', 'benefits', 'deductions'];
+  if (t === 'filing') return ['10-tax', 'filing'];
+  if (t === 'deadline') return ['10-tax', 'deadlines'];
+  if (t === 'support-program') return item.jurisdiction ? ['20-public-support', 'local', '_records', 'by-region'] : ['20-public-support', 'central'];
+  if (t === 'card-product') return ['30-financial-products', 'cards', /check/i.test(`${item.product_kind||''} ${item.id}`) ? 'check' : 'credit'];
+  if (t === 'bank-product') {
+    const s = `${item.product_kind||''} ${item.id} ${item.title||''}`.toLowerCase();
+    return ['30-financial-products', 'banking', s.includes('loan') || s.includes('대출') ? 'loans' : s.includes('saving') || s.includes('적금') ? 'savings' : 'deposits'];
+  }
+  if (t === 'insurance-product') return ['30-financial-products', 'insurance'];
+  if (t === 'account-product') return ['30-financial-products', 'tax-advantaged-accounts'];
+  if (t === 'financial-product') return ['30-financial-products', 'protected-products'];
+  if (t === 'financial-provider') return ['40-financial-reference', 'providers'];
+  if (t === 'term' || t === 'concept' || t === 'benchmark-rate' || t === 'risk-signal') return ['40-financial-reference', t === 'term' ? 'terms' : t === 'concept' ? 'concepts' : t === 'benchmark-rate' ? 'benchmark-rates' : 'risk-signals'];
+  if (t === 'eligibility-rule' || t === 'conflict-rule') return ['40-financial-reference', 'rules', t === 'eligibility-rule' ? 'eligibility' : 'conflicts'];
+  if (t === 'required-document') return ['40-financial-reference', 'required-documents'];
+  if (t === 'application-channel') return ['40-financial-reference', 'application-channels'];
+  if (t === 'life-event') return ['50-life-context', 'life-events'];
+  if (t === 'life-expense') return ['50-life-context', 'expenses'];
+  if (t === 'life-income') return ['50-life-context', 'income'];
+  if (t === 'scenario') return ['50-life-context', 'scenarios'];
+  if (t === 'domain' || t === 'category') return ['40-financial-reference', 'concepts'];
+  return ['40-financial-reference', 'concepts'];
+};

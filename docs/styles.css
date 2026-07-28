@@ -556,6 +556,28 @@ button {
   line-height: 1.5;
 }
 
+.evidence-warning {
+  display: grid;
+  gap: 4px;
+  margin: 14px 0;
+  padding: 12px 14px;
+  border: 1px solid #c87900;
+  border-radius: 10px;
+  background: #fff4dc;
+  color: #704100;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.operational-evidence-warning {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.source-status-summary {
+  margin-top: 12px !important;
+}
+
 .comparison-grid article {
   padding: 28px;
 }
@@ -1110,6 +1132,36 @@ button {
   justify-content: flex-start;
   border-radius: 6px;
   overflow-wrap: anywhere;
+}
+
+.source-cards {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.source-card {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.source-card a {
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+
+.source-card small {
+  color: var(--muted);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.source-ids {
+  margin-bottom: 12px;
 }
 
 .criteria-list {

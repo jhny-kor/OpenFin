@@ -1,0 +1,4755 @@
+{
+  "version": "OPENFIN-SOURCE-STATUS-2026.07.28.1",
+  "generated_at": "2026-07-28T00:00:00.000Z",
+  "source_count": 144,
+  "statuses": [
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.bccard.com/app/card/CheckCardMain.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:506234ca97d1fcfbbb64bd6b7954b7ba69f7748f6dab4ed59f49f37ce76e95a4",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.bccard.com/app/card/CheckCardMain.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.bccard.com/app/card/CheckCardMain.do"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 64923,
+      "checksum_truncated": false,
+      "id": "source.bccard.check-card-list"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.bccard.com/app/card/CreditCardMain.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:024cdf4528e4db9e6317db09d854c24994e00622b82d4b23d9b03dc5176cc4c3",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.bccard.com/app/card/CreditCardMain.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.bccard.com/app/card/CreditCardMain.do"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 64601,
+      "checksum_truncated": false,
+      "id": "source.bccard.credit-card-list"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120120",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:d9c9d45a5204ada3eda133a5bdc1c01a45bea7c189c1473a003a880a4c9c3a67",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120120",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120120"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 101967,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:836a33c78a7d968a58d4a3649242352232f5e0a5f3b520c71cd33d27431be99a",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.bizinfo.small-business-leap.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117908",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:01d5d98882291127ce021b2ed21e58a3269232a970319cb8773c88e1972d53df",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117908",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117908"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 97589,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:4efcf12e73cdba1253e9cbe1ae1afc43082a3071f6eda05123c6ee1c50681631",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.bizinfo.small-business-management-voucher.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120930",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:927912b238a2e5a047dd8a0a776a1f3e128f328ea0d6eb39e607a2c83e5034ea",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120930",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120930"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 92010,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:d657560c1d4dd863ca28d3863159c84976d0a863eba7b9a2df2b7527ac6703bb",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.bizinfo.small-business-policy-fund.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117016",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:5f5ac73f5fb0c7d682aa24c8616f2b9c061fe5c096d910199319df6b3476d1a5",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117016",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117016"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 105265,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:4be832078b5bb5cd6e59a20f29d4e395a72ccccdb65d33baab086916950454f6",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.bizinfo.small-business-support.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://ecos.bok.or.kr/api/",
+      "etag": "W/\"4436-1784595615415\"",
+      "last_modified": "Tue, 21 Jul 2026 01:00:15 GMT",
+      "checksum": "sha256:1213d7890ec5feaa46c41f3c43705dae8dcfa00c5f16f915618b11339eef64e7",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://ecos.bok.or.kr/api/",
+        "api": "https://ecos.bok.or.kr/api/",
+        "documentation": null,
+        "all": [
+          "https://ecos.bok.or.kr/api/"
+        ]
+      },
+      "stale": true,
+      "method": "HEAD",
+      "http_status": 304,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 4436,
+      "checksum_truncated": false,
+      "id": "source.bok.ecos"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://call.nts.go.kr/call/qna/selectQnaInfo.do?ctgId=CTG11786&mi=1441",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:49a6236194af52a601c1b1b71bafac86b9f3a93b8cd97b42c2e245d1154dca63",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://call.nts.go.kr/call/qna/selectQnaInfo.do?ctgId=CTG11786&mi=1441",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://call.nts.go.kr/call/qna/selectQnaInfo.do?ctgId=CTG11786&mi=1441"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 80801,
+      "checksum_truncated": false,
+      "id": "source.call.nts.medical-expense-documents"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://ad.ccrs.or.kr/cms/com/index.do?CONTENTS_NO=2&MENU_ID=1580",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:30f7934d08e42ff8804491fbc1a7fcea9502b611da770a1c1de19222d2125d53",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://ad.ccrs.or.kr/cms/com/index.do?CONTENTS_NO=2&MENU_ID=1580",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://ad.ccrs.or.kr/cms/com/index.do?CONTENTS_NO=2&MENU_ID=1580"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 270086,
+      "checksum_truncated": false,
+      "id": "source.ccrs.long-term-delinquent-debt-adjustment"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://gongsi.crefia.or.kr/portal/quota/quotaFinancingDisclosureDetail60?ifgcMode=60",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:d2c87fce6219f41ce157ed0b6ce06b7ac69a0ece4b0b1bc056b60766bf8147b0",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/quota/quotaFinancingDisclosureDetail60?ifgcMode=60",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/quota/quotaFinancingDisclosureDetail60?ifgcMode=60"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 87199,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:834e7efbd2c796f2b81e7c07b8c013406b6d4ed70b1683b2725ba77f44816438",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.crefia.auto-lease-disclosure"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardLendingProd",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:fbcec25d35259a6d0db495addf7e7469231dddbdf0df0e657fcbd395a21fda6c",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardLendingProd",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardLendingProd"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 75878,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:d42f5993ae56cf2a8683b90eed3f83dd4a899e5f3157bfe2af95ba59ac8fc813",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.crefia.card-lending-products"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://gongsi.crefia.or.kr/portal/creditcard/creditcardDisclosureDetail20?cgcMode=20",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:9eb5d1a2de90eaa2d74f3050aa6c34bd307c427942b6114a8dc938be19a18f07",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/creditcard/creditcardDisclosureDetail20?cgcMode=20",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/creditcard/creditcardDisclosureDetail20?cgcMode=20"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 133443,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:192bcdc72dabe6aba5d6d2a49e202a57be9a693c59f9efa2c39f0ab5305d550a",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.crefia.card-loan-revolving-rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:e2d8acda11cf0201da62f8ba3f15ac6641a876f61d0fb7b9fe6abf67a511523c",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 89150,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:a7fc0254e30b4bdd688b0cf50c22736bbdb7bf22e1a63ec58600cb454041526f",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.crefia.card-products"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:ddf91008b4522b0e3c646b18bb5c27e4c87bcc07a9b08a930d68067a7cdc2716",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 77592,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:37abb4bb94808a1fe92d8f8e0cd450d7e5d442803267f0abaf10dcb93fc896a4",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.crefia.carddamoa"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://gongsi.crefia.or.kr/portal/financialProdInfo/creditLendingProd",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:10c1bee47b39a264f23bfcd247781bcfce4fbde0c8ec69e9ebf9e3c4ab6a950f",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/financialProdInfo/creditLendingProd",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/financialProdInfo/creditLendingProd"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 75345,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:15c8a3dbc27d8a6b0deb10cb5f96734adbd7c4b2c45214fbdaa0b9c2779f86c8",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.crefia.credit-loan-products"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://gongsi.crefia.or.kr/portal/creditloan/creditloanDisclosureDetail11",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:46453026c60f4374da3ea90502a9c29411b7d11a3fdde331bc6749ae77d79f83",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/creditloan/creditloanDisclosureDetail11",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/creditloan/creditloanDisclosureDetail11"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 119678,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:a15d8dd788b17cac8f49d55bea16fe3cb9d6be82ac4846dcc18b2e7e3eb1e9d0",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.crefia.credit-loan-rate-disclosure"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://gongsi.crefia.or.kr/portal/financialProdInfo/leaseProd",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:622ce5bce9eec0f8cff89ee37f5d6de831d663066a75eccd3db6223af8b5ad2a",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://gongsi.crefia.or.kr/portal/financialProdInfo/leaseProd",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://gongsi.crefia.or.kr/portal/financialProdInfo/leaseProd"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 76276,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:c1eacb719aeb7d123316358f4755e39c8017c669dc9c397f2f4d6206505ddb1a",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.crefia.lease-installment-products"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900015991",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:6a588b20685f1948beb8366e518e4ad2458722c0cd85d85e971fae21d93bd813",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900015991",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900015991"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 3953,
+      "checksum_truncated": false,
+      "id": "source.customs-act.2026.article14"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15074508/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:00fc380ef756db604626e273fb4d793629929e841eeada603450ce6cc8cd09ae",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15074508/openapi.do",
+        "api": "https://www.data.go.kr/data/15074508/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15074508/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 199212,
+      "checksum_truncated": false,
+      "id": "source.data.go.kr.kinfa-loan-handling-agencies"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:9ff76de6df9ea1c5d940c55e35ff099dc5a396f76d7a87539b438dc389a57272",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
+        "api": "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 180240,
+      "checksum_truncated": false,
+      "id": "source.data.go.kr.kinfa-loan-products"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15037733/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:ee0841bf4d6b7f03282daf8d9bb14c4e77ed787853fdb343c0a242103d1213e6",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15037733/openapi.do",
+        "api": "https://www.data.go.kr/data/15037733/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15037733/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 199242,
+      "checksum_truncated": false,
+      "id": "source.data.go.kr.kinfa-support-centers"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=1&cciNo=1&cnpClsNo=1&csmSeq=1771",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:5662c8aa3497952b1243aafe2aa846ca28183647504d53e890041bd5d4b3e00f",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=1&cciNo=1&cnpClsNo=1&csmSeq=1771",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=1&cciNo=1&cnpClsNo=1&csmSeq=1771"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 55117,
+      "checksum_truncated": false,
+      "id": "source.easylaw.finance-product-disclosure"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unreachable",
+      "canonical_url": "https://www.e-insmarket.or.kr/",
+      "etag": null,
+      "last_modified": null,
+      "checksum": null,
+      "verification_status": "fetch-error",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "unreachable",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.e-insmarket.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.e-insmarket.or.kr/"
+        ]
+      },
+      "stale": true,
+      "method": "HEAD",
+      "http_status": 400,
+      "error": "fetch failed",
+      "id": "source.einsmarket.insurance"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.fsb.or.kr/ratedepo_0100.act",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:4d9ebe2b3ba1d2aa3133c2fd6f156638164376d4de61ec233fb7d7c7965f234f",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.fsb.or.kr/ratedepo_0100.act",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsb.or.kr/ratedepo_0100.act"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 118878,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:c7c3ac682129cfe086576ea204ab21508fc6d265df22b47f1e893a978f038c4c",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.fsb.savings-bank-deposit-rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.fsc.go.kr/no010101/83693",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:4f4a3e5299c6bcf00733667f594eebd022f3cce83d3b363757f2defd71d3e247",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/no010101/83693",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/no010101/83693"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 123655,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:65279d1f94f500624ec9b881ccbf62af4e15fa44fb250f08e1c5efae7b47713c",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.fsc.business-loan-comparison"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.fsc.go.kr/po010101/70494",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:5053068633e326cee56d7674ba50282ddeac5ff231b76817d9e12b94f5598315",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/po010101/70494",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/po010101/70494"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 85108,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:320a491feb04336664d6ec01b2dced218d0ea34b2b0e6ba959a73a6215c7f146",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.fsc.cofix-overview"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15061304/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:2bf9882ca8447c048baa4a9b96d9eef16e41bb8acf49dc8ca3bb80493ea7a620",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15061304/openapi.do",
+        "api": "https://www.data.go.kr/data/15061304/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15061304/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 200163,
+      "checksum_truncated": false,
+      "id": "source.fsc.domestic-bank-statistics"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15043232/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:7d337e70cfd177593135394cd2442840c5b053dc3b4e9247dd3c2279e7400391",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15043232/openapi.do",
+        "api": "https://www.data.go.kr/data/15043232/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15043232/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 224894,
+      "checksum_truncated": false,
+      "id": "source.fsc.financial-company-basic"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15059594/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:6caa81c36bbe3eec450cb8ef2507c620038eee993cfb46bf7e7e33fffb8bbd69",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15059594/openapi.do",
+        "api": "https://www.data.go.kr/data/15059594/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15059594/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 185726,
+      "checksum_truncated": false,
+      "id": "source.fsc.financial-company-credit"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15094809/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:91e85df3aaa109d9bf41fcc615586a8a5ed6bc204e8f3063ed6d4b155a83e10a",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094809/openapi.do",
+        "api": "https://www.data.go.kr/data/15094809/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094809/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 198567,
+      "checksum_truncated": false,
+      "id": "source.fsc.financial-investment-statistics"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15094792/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:3f25f4bcf894c52816c0653184306cddfea8f11da0419981616e19f58a96287a",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094792/openapi.do",
+        "api": "https://www.data.go.kr/data/15094792/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094792/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 181120,
+      "checksum_truncated": false,
+      "id": "source.fsc.fund-products-basic"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.fsc.go.kr/no010101/72549",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:0fabbcafde1de7778345c13aabd8f8f989b88880da8c5e5eca83a9b31458ec48",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/no010101/72549",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/no010101/72549"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 114124,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:cb60edff4f8e196ef974f54e828d471a82621200a143b9bbf8096abf05112704",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.fsc.funddamoa-guide"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15094801/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:6a6892cb1964110889247605304bc4419ec1ed8cba3fa143d5fb2fa98454e2c2",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094801/openapi.do",
+        "api": "https://www.data.go.kr/data/15094801/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094801/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 182118,
+      "checksum_truncated": false,
+      "id": "source.fsc.inclusive-finance-performance"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15094787/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:0dc82461e60f24048f24ba1a733ccf4df1b66bed9b9a0fcd0d2b721380ed6cb0",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094787/openapi.do",
+        "api": "https://www.data.go.kr/data/15094787/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094787/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 183227,
+      "checksum_truncated": false,
+      "id": "source.fsc.inclusive-finance-products"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.fsc.go.kr/",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:02333cc9f006ac0b8d18e77509ed0b9843e5ffb645c5a7949149f264916c79ad",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 98655,
+      "checksum_truncated": false,
+      "id": "source.fsc.isa-guide"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.fsc.go.kr/po020201/27339",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:e8d07a213fc1be2271702bdfcb26d3c311523271cab378775b05b5255e81083f",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/po020201/27339",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/po020201/27339"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 299206,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:981bab5c152a68ba55073503706e364f5f1a77f44b6e7de2412be4ad73fa8a80",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.fsc.isa.policy"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15094797/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:62e091a13ec9f3afc84608f0026ac36f24380760755db1be6da13dbd1933e485",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094797/openapi.do",
+        "api": "https://www.data.go.kr/data/15094797/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094797/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 184209,
+      "checksum_truncated": false,
+      "id": "source.fsc.medical-reimbursement-insurance"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.fsc.go.kr/edu/cardnews?cnId=1796",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:42c239355387cce924ae22d666acc88a55c9278d5932569289a0fa26e634c706",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/edu/cardnews?cnId=1796",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/edu/cardnews?cnId=1796"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 16393,
+      "checksum_truncated": false,
+      "id": "source.fsc.rate-disclosure-guide"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15094798/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:be36ecfa8aa9c14b82381d0b506cb254994dd1aa65451974b88771dbbb44cbb3",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094798/openapi.do",
+        "api": "https://www.data.go.kr/data/15094798/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094798/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 179501,
+      "checksum_truncated": false,
+      "id": "source.fsc.retirement-pension-basic"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.fsc.go.kr/no010101/78357",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:4ff56b11e3681601159a4287fd0206a0b2a4630b594bc3379a3452faceec171a",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/no010101/78357",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/no010101/78357"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 123640,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:c3c6f1fe4058e54fe2c9df34c73366db70fc943bddd22ad094319a56a93281ca",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.fsc.revolving-service-improvement"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15094793/openapi.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:6f4407de99117b0bac35080ba6aa06c505dbe6f39d6e6d3bcee7f631ff48ff81",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15094793/openapi.do",
+        "api": "https://www.data.go.kr/data/15094793/openapi.do",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15094793/openapi.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 180643,
+      "checksum_truncated": false,
+      "id": "source.fsc.variable-insurance-info"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.fsc.go.kr/no040101?cnId=2983",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:7dab764466f0b663562eff3e02ca04d3f1b8d200223b0a57de9bf55a4347b5a4",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.fsc.go.kr/no040101?cnId=2983",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.fsc.go.kr/no040101?cnId=2983"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 95125,
+      "checksum_truncated": false,
+      "id": "source.fsc.youth-future-savings"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://fine.fss.or.kr/",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:448c0e4e1d4c0da4174e72f89b4a762d1a0a8558acca30cb2c22617e68cf1e6c",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://fine.fss.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://fine.fss.or.kr/"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 111159,
+      "checksum_truncated": false,
+      "id": "source.fss.fine.portal"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://finlife.fss.or.kr/finlifeapi/",
+      "etag": "W/\"51-1679639116000\"",
+      "last_modified": "Fri, 24 Mar 2023 06:25:16 GMT",
+      "checksum": "sha256:cab6665257953c94d21c97a528411642dbf7d84140fea338cbb5202043470c2d",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://finlife.fss.or.kr/finlifeapi/",
+        "api": "https://finlife.fss.or.kr/finlifeapi/",
+        "documentation": null,
+        "all": [
+          "https://finlife.fss.or.kr/finlifeapi/"
+        ]
+      },
+      "stale": true,
+      "method": "HEAD",
+      "http_status": 304,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 51,
+      "checksum_truncated": false,
+      "id": "source.fss.finlife.api"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://finlife.fss.or.kr/",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:bbc76737d6e7a8b199b95d1038dea23ce488c9c6993a10107360f8c6a2031b18",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://finlife.fss.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://finlife.fss.or.kr/"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 163702,
+      "checksum_truncated": false,
+      "id": "source.fss.finlife.web"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://100lifeplan.fss.or.kr/",
+      "etag": "W/\"1425-1679647467000\"",
+      "last_modified": "Fri, 24 Mar 2023 08:44:27 GMT",
+      "checksum": "sha256:04b7a753c3e6bafbec369ecb63f41ba4c1522d313399151a75557b267664201f",
+      "verification_status": "not-modified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://100lifeplan.fss.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://100lifeplan.fss.or.kr/"
+        ]
+      },
+      "stale": false,
+      "method": "HEAD",
+      "http_status": 304,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1425,
+      "checksum_truncated": false,
+      "id": "source.fss.integrated-pension-portal"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
+      "etag": "\"6a67b5d9-11ce6\"",
+      "last_modified": "Mon, 27 Jul 2026 19:47:37 GMT",
+      "checksum": "sha256:03cf59abf34fe75f08412d15159210b78a1d87aa693560c33c7a0b02c599bacf",
+      "verification_status": "not-modified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"
+        ]
+      },
+      "stale": false,
+      "method": "HEAD",
+      "http_status": 304,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 72934,
+      "checksum_truncated": false,
+      "id": "source.gov24.benefit-plus.local-supports"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.gov.kr/portal/service/serviceInfo/WII000001410",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:753bae7cf92022059b483f14596606ada4660212ccb6ac994c753d4c93f366f4",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.gov.kr/portal/service/serviceInfo/WII000001410",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.gov.kr/portal/service/serviceInfo/WII000001410"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 220314,
+      "checksum_truncated": false,
+      "id": "source.govkr.basic-livelihood-benefit"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.hf.go.kr/ko/sub01/sub01_01_02.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:cd77e0d6833ae0574864323fd6e14d26a97dee8bfa22d00d5ba63dcad04aacbd",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.hf.go.kr/ko/sub01/sub01_01_02.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.hf.go.kr/ko/sub01/sub01_01_02.do"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 202173,
+      "checksum_truncated": false,
+      "id": "source.hf.bogeumjari-loan"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/15082039/openapi.do?recommendDataYn=Y",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:8946439f28a027ae1c48addab709f042e9b6495b69f10ae7c113cf99c6e2362e",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/15082039/openapi.do?recommendDataYn=Y",
+        "api": "https://www.data.go.kr/data/15082039/openapi.do?recommendDataYn=Y",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/15082039/openapi.do?recommendDataYn=Y"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 195612,
+      "checksum_truncated": false,
+      "id": "source.hf.bogeumjari-openapi"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.hf.go.kr/ko/sub01/sub01_02_01.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:5025c97c10f55919c8b5374d818c7c57863b0b5d75853a918857c318e9128b9c",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.hf.go.kr/ko/sub01/sub01_02_01.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.hf.go.kr/ko/sub01/sub01_02_01.do"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 203412,
+      "checksum_truncated": false,
+      "id": "source.hf.didimdol-loan"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://hf.go.kr/ko/sub01/sub01_02_03.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:2b0febc73e0043193faa34d4747dac6c81fa8afe42370c31ac9824970fc37354",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://hf.go.kr/ko/sub01/sub01_02_03.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://hf.go.kr/ko/sub01/sub01_02_03.do"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 198823,
+      "checksum_truncated": false,
+      "id": "source.hf.didimdol-rate.2026-05"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.hf.go.kr/ko/sub02/sub02_01_04.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:62776d397fb53c392bab067b26da51b7bf39980493c8c255f15b6dcd70155349",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.hf.go.kr/ko/sub02/sub02_01_04.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.hf.go.kr/ko/sub02/sub02_01_04.do"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 203262,
+      "checksum_truncated": false,
+      "id": "source.hf.special-rent-guarantee"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.hometax.go.kr",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:039fb536ed8348369166cdb168b8ace5934193f1faa92b25e96ada9ff6e8247a",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.hometax.go.kr",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.hometax.go.kr"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 4002,
+      "checksum_truncated": false,
+      "id": "source.hometax.main"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:c789289722283dad7b46b23c806703b7902f1660105d1e2efab86fa939ce72ce",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://card.kbcard.com/CRD/DVIEW/HCAM0101"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 312943,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:1be64bebc9c05ed891d5e1cdf0513d0eaa3873c0d910b78630f386b1f0964b43",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.kbcard.card-list"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "stale",
+      "canonical_url": "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:5878b32cb4488dc4d5ad5cb781aa572df072e51111e0d48a6baf6c7b957297f3",
+      "verification_status": "secret-required",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y",
+        "api": "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y",
+        "documentation": null,
+        "all": [
+          "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 197741,
+      "checksum_truncated": false,
+      "id": "source.kdic.insured-products"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://portal.kfb.or.kr/",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:e2484c7c510aace488431b1de8ee28efb1cd4250dfdc372a6ef11d48467538f9",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://portal.kfb.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://portal.kfb.or.kr/"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 97191,
+      "checksum_truncated": false,
+      "id": "source.kfb.consumer-portal"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.kinfa.or.kr/financialProduct/hessalLoanEmergency.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:ceb845a20f3d953a275b157627bc58e6f85e0a137648bdf66c43bb5bdc6cc33e",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.kinfa.or.kr/financialProduct/hessalLoanEmergency.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.kinfa.or.kr/financialProduct/hessalLoanEmergency.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1487588,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:4348361a95b294747bb662ca27545eef09393edc22944378a8d9a8a19cc963ba",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.kinfa.hessal-119"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:18f1ba39adc67e31ff101826fc9472c0bce9f4c94c6c9b18cc94ba7ace8959cf",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1509105,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:38162cf77542c2b54c56c023054821a78cd8f7b0953f0cea37ef1a2740f6a4ab",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.kinfa.hessal-loan-youth"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:d2341beee844e10ef3add50f96c10bd03016b1adf30750a43d05aca8f0f2068c",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1463788,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:2b97f48454eaea8c28db3c56e0e6bdb831cf7986a44afe29d19f5bc9296cf2ee",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.kinfa.illegal-private-finance-prevention-loan"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unreachable",
+      "canonical_url": "https://ylaccount.kinfa.or.kr/main",
+      "etag": null,
+      "last_modified": null,
+      "checksum": null,
+      "verification_status": "fetch-error",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "unreachable",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://ylaccount.kinfa.or.kr/main",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://ylaccount.kinfa.or.kr/main"
+        ]
+      },
+      "stale": true,
+      "error": "fetch failed",
+      "id": "source.kinfa.youth-leap"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://pub.insure.or.kr/",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:b9d610ee9eabb03f2f31e25be62d9f3e3105e68589919a6c63c444fb1f05eaa2",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://pub.insure.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://pub.insure.or.kr/"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 114684,
+      "checksum_truncated": false,
+      "id": "source.klia.insurance-disclosure"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://consumer.knia.or.kr/disclosure/item/07.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:61e69f72a52de36df6fe921e222a36e1f3219b7fbc0a840d69b0cad25b79c3b4",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://consumer.knia.or.kr/disclosure/item/07.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://consumer.knia.or.kr/disclosure/item/07.do"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 143279,
+      "checksum_truncated": false,
+      "id": "source.knia.claim-nonpayment"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unreachable",
+      "canonical_url": "https://kpub.knia.or.kr/",
+      "etag": null,
+      "last_modified": null,
+      "checksum": null,
+      "verification_status": "timeout",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": null,
+      "freshness_status": "unreachable",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://kpub.knia.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://kpub.knia.or.kr/"
+        ]
+      },
+      "stale": true,
+      "error": "This operation was aborted",
+      "id": "source.knia.insurance-disclosure"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://consumer.knia.or.kr/disclosure/item/04.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:5135da38a92c5dae521a4acc65058f9ced6b2ffb6c2c3deca6ee931378da0054",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://consumer.knia.or.kr/disclosure/item/04.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://consumer.knia.or.kr/disclosure/item/04.do"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 151405,
+      "checksum_truncated": false,
+      "id": "source.knia.mis-selling"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://fund.kofia.or.kr/",
+      "etag": "\"0-8d-5804384e\"",
+      "last_modified": "Mon, 17 Oct 2016 02:32:46 GMT",
+      "checksum": "sha256:6b59012cd4a4e9341532023a4b4514eb61989f1069253f07a75d5ce0e776d93f",
+      "verification_status": "not-modified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://fund.kofia.or.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://fund.kofia.or.kr/"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 304,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 141,
+      "checksum_truncated": false,
+      "id": "source.kofia.fund-oneclick"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.korea.kr/multi/visualNewsView.do?newsId=148961581",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:6e44f7b69c494b16d380b8265684ca793e11b7fc2edfccd479195d6f01a0294c",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.korea.kr/multi/visualNewsView.do?newsId=148961581",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.korea.kr/multi/visualNewsView.do?newsId=148961581"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 179396,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:5edbfc270eb7acf05823ec3b0056c28c6a3c735866546fce8b044a3016c36d65",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.korea.youth-job-leap.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148961092",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:c85ff6a5642359c0395b01ae77bf00dd0181f254232230305d44cdd556764a2a",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.korea.kr/news/policyNewsView.do?newsId=148961092",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.korea.kr/news/policyNewsView.do?newsId=148961092"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 164730,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:8cf034a25eb47971f4fbdf3bbc06e215b06114eb2b402752c86e4220dfd0b376",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.korea.youth-monthly-rent.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/법인세법",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:7318c39805e088c3ecb2bab3466749d3ac9f850c49243e76084383d9d9b7c4f1",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/법인세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/법인세법"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1270,
+      "checksum_truncated": false,
+      "id": "source.law.corporate-tax-act.credits"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/관세법/별표",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:aa20d2e89bf70c73e6a7874254c8698b9c9d91e02beebae80c46f70c7bb66985",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/관세법/별표",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/관세법/별표"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1196,
+      "checksum_truncated": false,
+      "id": "source.law.customs-tariff"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/교육세법/제5조",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:d2f5e48e8bbb75b40378804cb81b74a7e4055b4dd3b3a231ae706a76c19ea8fc",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/교육세법/제5조",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/교육세법/제5조"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1270,
+      "checksum_truncated": false,
+      "id": "source.law.education-tax-act.article5"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/소득세법",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:87cdcc8519396178eb386ab83cfbead59247d4f379f251efda22decb92d84809",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/소득세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/소득세법"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1270,
+      "checksum_truncated": false,
+      "id": "source.law.income-tax-act.deductions-credits"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/개별소비세법",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:92daaa6cadf062a69fce449ebbdff191d8acc837f33ef7097ee7e7ad5a9609be",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/개별소비세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/개별소비세법"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1276,
+      "checksum_truncated": false,
+      "id": "source.law.individual-consumption-tax-act.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/상속세및증여세법",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:9d31b2c34b1fdfdea2551da98ec6faf8fd97859fbbd842b6c99c117a6210f3d3",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/상속세및증여세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/상속세및증여세법"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1282,
+      "checksum_truncated": false,
+      "id": "source.law.inheritance-gift-tax-act.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/주세법",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:0eca12cb9fe82dbda72a50bc52abf61d193aebe7f8ee419d0b5e232f2c60b77d",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/주세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/주세법"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1267,
+      "checksum_truncated": false,
+      "id": "source.law.liquor-tax-act.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/지방세법",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:546791adc69f54dc034e9bfc7303b17ca3f417314582eeb09b2896ecce055d43",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/지방세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/지방세법"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1270,
+      "checksum_truncated": false,
+      "id": "source.law.local-tax-act.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/증권거래세법/제8조",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:0591fe5f5e1e57f0c74b0cfdf57f126fd1a34069759e24af23cfb84deb61444f",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/증권거래세법/제8조",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/증권거래세법/제8조"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1276,
+      "checksum_truncated": false,
+      "id": "source.law.securities-transaction-tax-act.article8"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/농어촌특별세법/제5조",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:199722afecc6eb010d610ecacd052ea54f360c9d509e5fb95a151c8fb60d49cb",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/농어촌특별세법/제5조",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/농어촌특별세법/제5조"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1279,
+      "checksum_truncated": false,
+      "id": "source.law.special-rural-development-tax-act.article5"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/인지세법/제3조",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:543ecf81ed8f8ba3fd38a605a9a520c855e1fe6763972e035665ac08fc8cf4c3",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/인지세법/제3조",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/인지세법/제3조"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1270,
+      "checksum_truncated": false,
+      "id": "source.law.stamp-tax-act.article3"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/조세특례제한법",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:a219760a732e90eb56d97cd0d17a8d4e05485047ae6c9cc169192998379d6704",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/조세특례제한법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/조세특례제한법"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1279,
+      "checksum_truncated": false,
+      "id": "source.law.tax-special-treatment-restriction-act.reliefs"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/교통ㆍ에너지ㆍ환경세법",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:feb76aab4c2c2ac18c25e47899e0d22117f0b37a38dd6e791b789252d2bbfc8d",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/교통ㆍ에너지ㆍ환경세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/교통ㆍ에너지ㆍ환경세법"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1291,
+      "checksum_truncated": false,
+      "id": "source.law.transport-energy-environment-tax-act.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/법령/부가가치세법",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:3b6fb40ed8b49b82fab1eee7f83a3b0f84860049cc367f1bce4eab400af08082",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/법령/부가가치세법",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/법령/부가가치세법"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 1276,
+      "checksum_truncated": false,
+      "id": "source.law.value-added-tax-act.filing"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1000903169",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:f87b860d97480aae1277cb3e2260aa54945d90eb690a053fb4cb4e3f075e8f88",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1000903169",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1000903169"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 8630,
+      "checksum_truncated": false,
+      "id": "source.local-tax-framework-act.2026.article8"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.korea.kr/briefing/actuallyView.do?newsId=148874193",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:4f0c451a694002ac5e10c34ea7018e79ec4cb616d43c63776ddbf91536ec07c8",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.korea.kr/briefing/actuallyView.do?newsId=148874193",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.korea.kr/briefing/actuallyView.do?newsId=148874193"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 154367,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:886057172a2217f37fb3c8808e3bdbd9e3622dee12bbbbd7381a2562a9d56ddd",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.moef.isa.tax-benefit"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.mohw.go.kr/menu.es?mid=a10708010300",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:3c0f526e7f9d48f7cf71f0acaea06dc0ccdcd16e10dc9d90444a221bc0acbc51",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.mohw.go.kr/menu.es?mid=a10708010300",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.mohw.go.kr/menu.es?mid=a10708010300"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 127514,
+      "checksum_truncated": false,
+      "id": "source.mohw.beneficiary-selection.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.mohw.go.kr/menu.es?mid=a10711030100",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:3cb85eefb2e970a18bba7ec028173c1544c71f32e77b770d605b66c6a371aaeb",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.mohw.go.kr/menu.es?mid=a10711030100",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.mohw.go.kr/menu.es?mid=a10711030100"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 111301,
+      "checksum_truncated": false,
+      "id": "source.mohw.child-allowance.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.mohw.go.kr/menu.es?mid=a10711020100",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:2c8381051ddefa011f050ec462637eb4c1b759f8050f98a896dea15188a43c2d",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.mohw.go.kr/menu.es?mid=a10711020100",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.mohw.go.kr/menu.es?mid=a10711020100"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 172461,
+      "checksum_truncated": false,
+      "id": "source.mohw.first-meeting-voucher"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.mohw.go.kr/menu.es?mid=a10711030600",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:45eedbab4e15d75f7b1cf18d42f12a1e5770366a320a04733c6f83886b7f8884",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.mohw.go.kr/menu.es?mid=a10711030600",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.mohw.go.kr/menu.es?mid=a10711030600"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 111183,
+      "checksum_truncated": false,
+      "id": "source.mohw.parent-benefit.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.realtyprice.kr/",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:dce9a1fc997cb05babfe06b9fde9c77a95cac02be54a8a866b5cf5c1f0b0e7c5",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.realtyprice.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.realtyprice.kr/"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 69692,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:dc51a9a63f3f1f82af2351fbad1e94b0d179eb03252fb0fae1dd55194e49320c",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.molit.realtyprice"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.myhome.go.kr/hws/portal/cont/selectHousingBenefitView.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:2f9a21867ab7a63419463f4a44c3ca2b31624228a989f5e2d9363b4ab9ca53c9",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.myhome.go.kr/hws/portal/cont/selectHousingBenefitView.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.myhome.go.kr/hws/portal/cont/selectHousingBenefitView.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 146850,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:92e5fdd45032ec0f98f49326be4deb3b784f7b1643f8ae88ec5f3b67b0d08c62",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.myhome.housing-benefit.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.myhome.go.kr/hws/portal/cont/selectSupLeaseLoanView.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:b46fa9c41f4498178097f6417dabc68ee53bdb58dd7e0e9162a948bdf4fd5b2b",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.myhome.go.kr/hws/portal/cont/selectSupLeaseLoanView.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.myhome.go.kr/hws/portal/cont/selectSupLeaseLoanView.do"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 152241,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:61edd2bf81339a10780a3788253796a35997a6304fe92a209a255ae8c5d3ec30",
+      "observed_etag": null,
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.myhome.support-lease-loan"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.myhome.go.kr/hws/portal/dgn/selectSelfDiagnosisYouthHousView.do",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:21de077985475c2fa15af643326f876b5aa8568cec9351bd13c2f06ac8633a4c",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.myhome.go.kr/hws/portal/dgn/selectSelfDiagnosisYouthHousView.do",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.myhome.go.kr/hws/portal/dgn/selectSelfDiagnosisYouthHousView.do"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 184546,
+      "checksum_truncated": false,
+      "id": "source.myhome.youth-monthly-rent.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900637068",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:4ecc5c297103bcf6a889916cc22504acded02c832ae3dc146aaba9bc494b69be",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900637068",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900637068"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 12115,
+      "checksum_truncated": false,
+      "id": "source.national-tax-framework-act.2026.article2"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://nhuf.molit.go.kr/",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:3c7336e8adc188d7cb333ac15bd8d53db16d8febc4589b536f1b02048635530e",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://nhuf.molit.go.kr/",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://nhuf.molit.go.kr/"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 103873,
+      "checksum_truncated": false,
+      "id": "source.nhuf.housing-subscription"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7902&mi=6466",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:ec53662142aa150dc97fd51538c02abb807bc418e8d0ac5f56c600f88b4ffd0b",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7902&mi=6466",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7902&mi=6466"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 197396,
+      "checksum_truncated": false,
+      "id": "source.nts.business-income.withholding"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7777&mi=2444",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:7d3bcbb70950f76e7802c6e4feb6f6f77229c11f3fe23e8eee6ef39f700e94a5",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7777&mi=2444",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7777&mi=2444"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 190622,
+      "checksum_truncated": false,
+      "id": "source.nts.business-registration.application"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7712&mi=2313",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:fa0f1466229b022cc4af9dbda6984158d6a738d66a4dc16d868a986905bdafbe",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7712&mi=2313",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7712&mi=2313"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 198676,
+      "checksum_truncated": false,
+      "id": "source.nts.capital-gains.additional-tax"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/tax/sub/1.2.3.%EC%96%91%EB%8F%84%EC%86%8C%EB%93%9D%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%20%EC%8B%A0%EA%B3%A0%20%EB%B0%8F%20%EB%82%A9%EB%B6%80%EA%B3%84%EC%82%B0%EC%84%9C.html",
+      "etag": null,
+      "last_modified": "Tue, 14 Oct 2025 07:33:10 GMT",
+      "checksum": "sha256:37c37249b48b32dc70d6dd5bcb8dc11dcef2e528ba94fc99fc559ac76d3f1caa",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/tax/sub/1.2.3.%EC%96%91%EB%8F%84%EC%86%8C%EB%93%9D%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%20%EC%8B%A0%EA%B3%A0%20%EB%B0%8F%20%EB%82%A9%EB%B6%80%EA%B3%84%EC%82%B0%EC%84%9C.html",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/tax/sub/1.2.3.%EC%96%91%EB%8F%84%EC%86%8C%EB%93%9D%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%20%EC%8B%A0%EA%B3%A0%20%EB%B0%8F%20%EB%82%A9%EB%B6%80%EA%B3%84%EC%82%B0%EC%84%9C.html"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 57942,
+      "checksum_truncated": false,
+      "id": "source.nts.capital-gains.basic-deduction"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7713&mi=2371",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:e75a3e0197868e38a5bc8a8b131bb2442382d7dec79ce6b365a47d904777e0e4",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7713&mi=2371",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7713&mi=2371"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 200948,
+      "checksum_truncated": false,
+      "id": "source.nts.capital-gains.deadline"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7709&mi=2308",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:32eb37973935e1e8eee126945433f12fa8885ccf4f640c2a8e3bd15f03b19169",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7709&mi=2308",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7709&mi=2308"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 205333,
+      "checksum_truncated": false,
+      "id": "source.nts.capital-gains.overview"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7711&mi=2312",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:e532201c5a511d0657190a8f7a1d16a28c025496e3dd8c4e4a46d3243b4efd3e",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7711&mi=2312",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7711&mi=2312"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 220255,
+      "checksum_truncated": false,
+      "id": "source.nts.capital-gains.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7733&mi=2351",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:664c67d61c7101eafec4422e43e88f9a8f257ffef99a3de0cdb0eb51e6648176",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7733&mi=2351",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7733&mi=2351"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 197630,
+      "checksum_truncated": false,
+      "id": "source.nts.comprehensive-real-estate.overview"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7736&mi=40378",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:efa08f5bb8ae2b6b558d5f1e5859bcc6eb5d946287a5d69fce1cd03aa7531fcb",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7736&mi=40378",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7736&mi=40378"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 212431,
+      "checksum_truncated": false,
+      "id": "source.nts.comprehensive-real-estate.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239070&mi=41093",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:13f87eca42d8e2d87e37cc4baf295c2e4ce35c8412ed5de7653154b5caab03b6",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239070&mi=41093",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239070&mi=41093"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 199456,
+      "checksum_truncated": false,
+      "id": "source.nts.corporate-tax-consulting.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7975&mi=6549",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:492f553ae482bbe31116e7ebfd82279d39f705c76362aa46667a6d854053bb6a",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7975&mi=6549",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7975&mi=6549"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 207142,
+      "checksum_truncated": false,
+      "id": "source.nts.corporate-tax.filing-procedure"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7746",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:2953945a49b77013276fb727192fa1a1b8e1cfa7eff7fd92b73ea8281a66bc2d",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7746",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7746"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 159689,
+      "checksum_truncated": false,
+      "id": "source.nts.corporate-tax.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7987&mi=6561",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:679ae9d261cfc4acd956c5d432184da3d511029770ad815469e6ecd32409dc40",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7987&mi=6561",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7987&mi=6561"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 240669,
+      "checksum_truncated": false,
+      "id": "source.nts.corporate-tax.reliefs"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7794&mi=2202",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:cb2be1c19d8073ff283e1b93dadc420506e7ef529c062b3164c127baec0b4ae6",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7794&mi=2202",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7794&mi=2202"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 163414,
+      "checksum_truncated": false,
+      "id": "source.nts.credit-card-deduction"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7782&mi=2451",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:1a76d951a44a1e276b6b88db0dc62af27af9eb0f43e990fda721de1592ff8376",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7782&mi=2451",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7782&mi=2451"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 189392,
+      "checksum_truncated": false,
+      "id": "source.nts.ctc.intro"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239040&mi=40978",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:1695e600bc14ae5f9e9e9a122cecc38da82f7ba64be0155ccbf8978c4d9c34cc",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239040&mi=40978",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239040&mi=40978"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 200486,
+      "checksum_truncated": false,
+      "id": "source.nts.donation-credit"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239024&mi=40612",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:c1ca868d06ec0c307f23a348dc68a5ac146ed7ac2be657da1d4b1f474ab27cd5",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239024&mi=40612",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239024&mi=40612"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 198797,
+      "checksum_truncated": false,
+      "id": "source.nts.education-expense-credit"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7781&mi=2450",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:e45d17c57de85002e4b89136b3b327b1e5fea6a95315ae16a410be286fb8ca75",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7781&mi=2450",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7781&mi=2450"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 188944,
+      "checksum_truncated": false,
+      "id": "source.nts.eitc.intro"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://d.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239032&mi=40678",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:29e76acccde3ee9f29c240ae5d81871d25fb435c0ecd96e061db2e0daae25aad",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://d.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239032&mi=40678",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://d.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239032&mi=40678"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 193958,
+      "checksum_truncated": false,
+      "id": "source.nts.employee-income-statement"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7896&mi=6471",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:4674b495ebf53c72a23b78919a422ba454330a67ed564418499bf961a876e7f6",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7896&mi=6471",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7896&mi=6471"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 199060,
+      "checksum_truncated": false,
+      "id": "source.nts.financial-income"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7727&mi=2339",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:c0030caa263100cfdede5d41b1d04e71b891def052ffd720b87ea3bc15640a8b",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7727&mi=2339",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7727&mi=2339"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 199886,
+      "checksum_truncated": false,
+      "id": "source.nts.gift.deadline"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7960&mi=2227",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:722a45291b33d1da56104bb2c4ff590fa7ebb984ae01f9f514ba04d084fc3ae4",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7960&mi=2227",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7960&mi=2227"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 218446,
+      "checksum_truncated": false,
+      "id": "source.nts.gift.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/na/ntt/selectNttInfo.do?mi=2201&nttSn=1350768",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:83fc32ebfc4722668e4a041f6815ecbf0515d2e7ee5556779cb0b31eff938ad1",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/na/ntt/selectNttInfo.do?mi=2201&nttSn=1350768",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/na/ntt/selectNttInfo.do?mi=2201&nttSn=1350768"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 184557,
+      "checksum_truncated": false,
+      "id": "source.nts.grant.2026-regular-press"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7784&mi=2453",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:5d577b596b7dd0940605731cd4235c909510cf35e92697a135b3d23a99f874c7",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7784&mi=2453",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7784&mi=2453"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 191502,
+      "checksum_truncated": false,
+      "id": "source.nts.grant.deadline"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7783&mi=2452",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:3a1e7040ddea5f53a8968db828395fdb88d87acf950fcaa55c7081ccfc764b42",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7783&mi=2452",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7783&mi=2452"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 195538,
+      "checksum_truncated": false,
+      "id": "source.nts.grant.eligibility"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239020&mi=40630",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:c94a044be59c37e5aa1ebf021ecb7cc5fb4e8cb37d194e28b34196da1db5a2da",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239020&mi=40630",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239020&mi=40630"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 200825,
+      "checksum_truncated": false,
+      "id": "source.nts.housing-mortgage-interest-deduction"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239021&mi=40629",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:aad9149e41f97252862264f8ed80da63eaacd96b308cd4b1b265c34dba4882d4",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239021&mi=40629",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239021&mi=40629"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 199248,
+      "checksum_truncated": false,
+      "id": "source.nts.housing-rent-principal-deduction"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239022&mi=40610",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:75ddb6264c61081612c9b3641b0c78eada5bc5e6c52dcc73755bd3027a343646",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239022&mi=40610",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239022&mi=40610"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 199400,
+      "checksum_truncated": false,
+      "id": "source.nts.housing-savings-deduction"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:3924b6551e6235e076620f929ae0ad8ab61b9d639db96121673bfdbb0c0729a3",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 205581,
+      "checksum_truncated": false,
+      "id": "source.nts.income-tax.additional-tax"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7665&mi=2225",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:a4dece12c8c3644374a459d160670472dc5d4fa2e33c42d88370c5497ff6483f",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7665&mi=2225",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7665&mi=2225"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 199426,
+      "checksum_truncated": false,
+      "id": "source.nts.income-tax.deadline"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7666&mi=2224",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:12854b3231c1e24a48ed32366f718a3fdeb54e50330c61e30f4c41b4811d3fd6",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7666&mi=2224",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7666&mi=2224"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 197434,
+      "checksum_truncated": false,
+      "id": "source.nts.income-tax.overview"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7667&mi=2223",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:e834c4f1dfbc910bdf54a4490859ce8d5b43ebfac037208c8720408cf09213f8",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7667&mi=2223",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7667&mi=2223"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 199626,
+      "checksum_truncated": false,
+      "id": "source.nts.income-tax.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7719&mi=2324",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:a03c5f846aedcd5c74db871370a1a2099534388ea7bdb253c2aa1b6c1b9e4380",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7719&mi=2324",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7719&mi=2324"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 197407,
+      "checksum_truncated": false,
+      "id": "source.nts.inheritance.overview"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7957&mi=6529",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:39e87e81459f0bfcd9c07c99f9cb6f5050f3f4573d2cb7115df6f1eb78476ed9",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7957&mi=6529",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7957&mi=6529"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 198318,
+      "checksum_truncated": false,
+      "id": "source.nts.inheritance.rates"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239025",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:1a549d63e222873f3e9245c88089c13db58d5becdf62bc8c6fa5ebe5c78b47fd",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239025",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239025"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 157144,
+      "checksum_truncated": false,
+      "id": "source.nts.monthly-rent-credit"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=8631&mi=12242",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:92c2f9eaf9b1366c6acdb29b32de710a6dd164228c393f8f8cb075908c87f250",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=8631&mi=12242",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=8631&mi=12242"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 206357,
+      "checksum_truncated": false,
+      "id": "source.nts.payment-statement.deadlines"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7739&mi=2357",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:c8f5a8f6a2034d994e4e80698bb0d1ba792ac6b5d1f685b563dbf213920f794a",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7739&mi=2357",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7739&mi=2357"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 215415,
+      "checksum_truncated": false,
+      "id": "source.nts.real-estate-tax.faq"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7880&mi=6444",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:20c6adbf6d3997ef538797af29145dc3ceb149499c9a9cce552faf454e780641",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7880&mi=6444",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7880&mi=6444"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 221377,
+      "checksum_truncated": false,
+      "id": "source.nts.retirement-income.calculation"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239023&mi=40611",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:b2f7e9358323a61a95a60bec92360df5054f48db8b126ca1f56a3a7e8a9d8791",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239023&mi=40611",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239023&mi=40611"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 202048,
+      "checksum_truncated": false,
+      "id": "source.nts.sme-employment-income-reduction"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/ad/taxSchdul/selectList.do?mi=135747&taxYear=2026",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:95812a1a7726db86e255dececfcf8208b3ff3549daab3957a7b1883705666b9d",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/ad/taxSchdul/selectList.do?mi=135747&taxYear=2026",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/ad/taxSchdul/selectList.do?mi=135747&taxYear=2026"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 201422,
+      "checksum_truncated": false,
+      "id": "source.nts.tax-calendar.2026"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7697&mi=2405",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:1fae689bc121c1c196c7da3fe586a7eb03f1a8f2fae6229d8fb0275e03750134",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7697&mi=2405",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7697&mi=2405"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 198961,
+      "checksum_truncated": false,
+      "id": "source.nts.vat.additional-tax"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7806",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:caebcf80f0f87e2aa51bd89b6ace5b3a7cebb813a3345d20c40ce22aa5c58248",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7806",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7806"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 177317,
+      "checksum_truncated": false,
+      "id": "source.nts.vat.filing-duty"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7693&mi=2272",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:b22e61a16583d0524ee19c45f142cabb676d807710f0b7446a026efbf1129671",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7693&mi=2272",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7693&mi=2272"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 204842,
+      "checksum_truncated": false,
+      "id": "source.nts.vat.overview"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://sc.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7702&mi=2290",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:f53e43397e7f62f132c7f5ee06e24d4d263bf24b521e5e589c2cb0d55199c132",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://sc.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7702&mi=2290",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://sc.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7702&mi=2290"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 198110,
+      "checksum_truncated": false,
+      "id": "source.nts.withholding.deadlines"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7701&mi=2289",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:4a3a2c02db11f601afa28c0c58d07d91f117ad239aac0ede3732117612e2a193",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7701&mi=2289",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7701&mi=2289"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 217461,
+      "checksum_truncated": false,
+      "id": "source.nts.withholding.overview"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7870&mi=2312",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:f746796934da34fca1979997da40ae77e266dd049d6eaf2ed85bbac22aa8a29f",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7870&mi=2312",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7870&mi=2312"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 198355,
+      "checksum_truncated": false,
+      "id": "source.nts.year-end-settlement.calculation"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7873&mi=6594",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:ee96aad6df1ff08c5837ee488deed13fd7a4742d4815c2fd8d69beeef1ebda1a",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7873&mi=6594",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7873&mi=6594"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 200414,
+      "checksum_truncated": false,
+      "id": "source.nts.year-end-settlement.deduction-limit"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "unchanged",
+      "canonical_url": "https://kids.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7874&mi=6438",
+      "etag": null,
+      "last_modified": null,
+      "checksum": "sha256:3670283cefa772afa1e304636771502bd62775490e9632d856a1893c3db28a10",
+      "verification_status": "verified",
+      "needs_live_check": false,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:07:39.976Z",
+      "freshness_status": "current",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://kids.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7874&mi=6438",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://kids.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7874&mi=6438"
+        ]
+      },
+      "stale": false,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 207110,
+      "checksum_truncated": false,
+      "id": "source.nts.year-end-settlement.special-credit"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoCheckcard001",
+      "etag": "\"21f9f-1v49AST/Z7sfJmG/GBLHySTuhho\"",
+      "last_modified": null,
+      "checksum": "sha256:2eaa3a68a95429ea59edba9657901f683759ffb0621654f7f95846a2bd06c87b",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoCheckcard001",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoCheckcard001"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 143425,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:09ad1cbf0da2dcf53ffc68cf30c4bf4751680b9c2ce7b65595b08e1bb6f79582",
+      "observed_etag": "\"21f95-IcxhUmgTSApK/Fq32PVtMRAFI/g\"",
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.samsungcard.check-card-list"
+    },
+    {
+      "checked_at": "2026-07-28T03:07:39.976Z",
+      "status": "changed",
+      "canonical_url": "https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001",
+      "etag": "\"8d768-/0rryRmdujXFNmkL6Mg279Jxras\"",
+      "last_modified": null,
+      "checksum": "sha256:c99060b2e53bb5cec8b1c0114a489f19f77eaac3f63ec341567050782c3ff94b",
+      "verification_status": "change-detected",
+      "needs_live_check": true,
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-28T03:05:50.524Z",
+      "freshness_status": "stale",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "http-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001"
+        ]
+      },
+      "stale": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 583687,
+      "checksum_truncated": false,
+      "observed_checksum": "sha256:385960c2b0d73477a4d1bb73a84edcfaec5235b578f6974ec96ef8c65e6c591b",
+      "observed_etag": "\"8d75c-fS2CBbUlYrZ1y5fE2YKxf3sCJY8\"",
+      "observed_last_modified": null,
+      "needs_review": true,
+      "change_detected": true,
+      "id": "source.samsungcard.credit-card-list"
+    }
+  ]
+}

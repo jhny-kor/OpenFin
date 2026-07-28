@@ -9,7 +9,7 @@
     "predeploy": "npm run typecheck",
     "deploy": "wrangler deploy",
     "smoke": "node --input-type=module -e \"const url = process.env.MCP_URL || 'https://openfin-mcp.y2kthr.workers.dev/health'; const response = await fetch(url); if (!response.ok) process.exit(1); console.log(await response.text())\"",
-    "test": "tsc --noEmit",
+    "test": "npm run typecheck && node --experimental-strip-types --test tests/*.test.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
