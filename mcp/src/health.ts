@@ -37,7 +37,7 @@ export function readinessPayload(input: {
     mcp_endpoint: "/mcp",
     finance_manifest_url: input.manifestUrl,
     manifest_version: manifest.version ?? null,
-    manifest_checksum: manifest.export_checksum ?? null,
+    manifest_checksum: manifest.manifest_checksum ?? null,
     release_status: manifest.release_status ?? "unknown",
     recommendation_enabled: manifest.recommendation_enabled ?? false,
     blocking_reasons: manifest.blocking_reasons ?? ["MANIFEST_UNAVAILABLE"],
