@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { KNOWLEDGE, DOCS, ROOT, RELATION_KEYS, json, validUrl, sha256 } from './common.mjs';
+import { deriveQuality } from './derive-quality.mjs';
 
 const failures = [];
 const records = [];
@@ -68,6 +70,7 @@ for (const { value: item } of records) {
   for (const sourceId of item.sources || []) if (!sourceIds.has(sourceId)) fail(`unresolved source id: ${item.id} -> ${sourceId}`);
   const external = item.type !== 'source' && ((item.sources || []).length || (item.source_urls || []).length);
   if (external && !(item.provenance || []).length) fail(`missing provenance: ${item.id}`);
+  if (external && !(item.source_basis_dates || []).length && !(item.source_modified_at || item.source_collected_at || item.last_verified_at)) fail(`missing basis date: ${item.id}`);
   const supported = new Set((item.provenance || []).flatMap(assertion => assertion.supported_fields || []));
   for (const assertion of item.provenance || []) {
     if (!sourceIds.has(assertion.source_id)) fail(`unresolved provenance source: ${item.id} -> ${assertion.source_id}`);
@@ -157,7 +160,6 @@ for (const { value: item, file } of records) {
 }
 
 const manifest = json(path.join(DOCS, 'finance-ontology-manifest.json'));
-if (manifest.release_status !== 'degraded' || manifest.recommendation_enabled !== false) fail('quality/recommendation fail-closed state changed');
 for (const key of ['source_registry','source_status','provenance_index','provenance_coverage','relationship_index']) {
   const entry = manifest[key];
   if (!entry?.path || !entry?.url || !entry?.generated_at || !entry?.export_checksum) { fail(`missing manifest entry: ${key}`); continue; }
@@ -184,7 +186,7 @@ for (const status of sourceStatuses.statuses || []) {
   if (registryById.get(status.id)?.access?.requires_secret === true && status.verification_status !== 'secret-required') fail(`secret source not fail-closed: ${status.id}`);
 }
 const coverage = json(path.join(DOCS, 'openfin-provenance-coverage-report-2026.json'));
-if (coverage.external_provenance_coverage_ratio !== 1 || coverage.invalid_legacy_url_count !== 0 || coverage.recommendation_enabled !== false) fail('provenance coverage gate failed');
+if (coverage.external_provenance_coverage_ratio !== 1 || coverage.invalid_legacy_url_count !== 0) fail('provenance coverage gate failed');
 
 const minimumCounts = {
   'korea-card-products-ontology-2026.json':1030,
@@ -214,7 +216,10 @@ if (publicRows !== publicOwnerIds.size + referenceRows) fail(`public row account
 for (const id of publicReferenceIds) if (!publicOwnerIds.has(id)) fail(`reference item without owner: ${id}`);
 
 const search = json(path.join(DOCS, 'finance-search-index-2026.json'));
-if (search.item_count !== records.length || search.canonical_product_count !== 3434) fail(`search index counts changed: ${search.item_count} vs ${records.length} canonical`);
+const derivedQuality = deriveQuality([...byId.values()], { sourceCount: sources.length, exportCount: (manifest.exports || []).length, searchItemCount: search.item_count, relationshipCount: manifest.relationship_index?.item_count || 0, invalidUrlCount: coverage.invalid_legacy_url_count, sourceStatusLoaded: sourceStatuses.statuses?.length === sources.length });
+if (search.item_count !== records.length || search.canonical_product_count !== derivedQuality.canonical.canonical_product_count) fail(`search index counts changed: ${search.item_count}/${search.canonical_product_count} vs ${records.length}/${derivedQuality.canonical.canonical_product_count}`);
+if (manifest.release_status !== derivedQuality.release_status || manifest.recommendation_enabled !== derivedQuality.recommendation_enabled) fail('manifest release gate does not match derived quality policy');
+if (JSON.stringify(manifest.blocking_reasons || []) !== JSON.stringify(derivedQuality.blocking_reasons)) fail('manifest blocking reasons do not match derived quality policy');
 if (!Array.isArray(search.items) || search.items.length !== search.item_count || search.compact_item_count !== search.item_count) fail('compact search root missing or incomplete');
 if (search.export_checksum !== sha256(search.items).slice(7)) fail('compact search root checksum mismatch');
 if ((search.shards || []).reduce((sum, shard) => sum + (shard.item_count || 0), 0) !== search.item_count) fail('search shard counts do not sum to the search root');
@@ -236,6 +241,9 @@ for (const shard of provenanceIndex.shards || []) {
   const payload = json(path.join(DOCS, path.basename(shard.path)));
   if (payload.item_count !== payload.items.length || sha256(payload).slice(7) !== shard.export_checksum) fail(`provenance shard invalid: ${shard.shard_id}`);
 }
+
+const schemaCheck = spawnSync(process.execPath, [path.join(ROOT, 'scripts/knowledge/schema-validate.mjs')], { cwd: ROOT, encoding: 'utf8', maxBuffer: 10_000_000 });
+if (schemaCheck.status !== 0) fail(`JSON Schema contract failed: ${schemaCheck.stdout || schemaCheck.stderr}`);
 
 for (const root of [KNOWLEDGE, DOCS, path.join(ROOT, 'evidence')]) {
   const walkSizes = dir => { if(!fs.existsSync(dir)) return; for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory())walkSizes(file);else if(fs.statSync(file).size>=100_000_000)fail(`file exceeds 100MB: ${file}`);} };

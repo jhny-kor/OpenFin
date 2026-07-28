@@ -92,10 +92,12 @@ test('source tracker detects change, conflict, and outage without mutating dry-r
 
 test('manifest keeps OpenFin URLs and fail-closed quality', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'docs/opentax/finance-ontology-manifest.json')));
+  const derived = JSON.parse(execFileSync('node', ['scripts/knowledge/derive-quality.mjs', '--check'], { cwd: root, encoding: 'utf8' }));
+  assert.equal(derived.ok, true);
   assert.ok(manifest.source_registry.item_count >= 144, `source registry ${manifest.source_registry.item_count}`);
   assert.equal(manifest.provenance_coverage.coverage.external_provenance_coverage_ratio, 1);
-  assert.equal(manifest.recommendation_enabled, false);
-  assert.equal(manifest.release_status, 'degraded');
+  assert.equal(manifest.recommendation_enabled, derived.recommendation_enabled);
+  assert.equal(manifest.release_status, derived.release_status);
   assert.ok(manifest.quality_exports.some(entry => entry.id === 'openfin-provenance-coverage'));
   assert.ok(!JSON.stringify(manifest).includes('github.io/TaxMeter/opentax'));
 });
@@ -140,7 +142,7 @@ test('canonical dates are ISO while compatibility exports preserve legacy labels
 
 test('deterministic build leaves public artifacts byte-identical', () => {
   const docs = path.join(root, 'docs/opentax');
-  const files = fs.readdirSync(docs).filter(file => /^(finance-ontology-manifest|finance-search-index-2026|korea-.*-ontology-2026|openfin-(source|provenance|relationship|migration)).*\.json$/.test(file)).sort();
+  const files = fs.readdirSync(docs).filter(file => /^(finance-ontology-manifest|finance-search-index-2026|korea-.*-ontology-2026|openfin-(source|provenance|relationship|migration|quality)).*\.json$/.test(file)).sort();
   const before = new Map(files.map(file => [file, hash(path.join(docs, file))]));
   execFileSync('node', ['scripts/knowledge/build.mjs'], { cwd: root, encoding: 'utf8', maxBuffer: 10_000_000 });
   for (const file of files) assert.equal(hash(path.join(docs, file)), before.get(file), `${file} changed after deterministic rebuild`);

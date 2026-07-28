@@ -1,15 +1,51 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "title":"OpenFin source",
-  "type":"object",
-  "required":["id","type","title","publisher","authority_class","domains","urls","access","refresh","usage_terms","recommendation_eligible","status"],
-  "properties":{
-    "id":{"type":"string"},"type":{"const":"source"},"title":{"type":"string"},"publisher":{"type":"string"},"authority_class":{"type":"string"},"domains":{"type":"array","items":{"type":"string"}},
-    "urls":{"type":"object","properties":{"canonical":{"type":["string","null"]},"api":{"type":["string","null"]},"documentation":{"type":["string","null"]},"all":{"type":"array","items":{"type":"string"}}},"additionalProperties":false},
-    "access":{"type":"object","required":["method","requires_secret"],"properties":{"method":{"enum":["api","web","pdf","law","notice","product-page"]},"parser_id":{"type":["string","null"]},"requires_secret":{"type":"boolean"}},"additionalProperties":true},
-    "refresh":{"type":"object","required":["sla_hours","change_detection"],"properties":{"sla_hours":{"type":"number","exclusiveMinimum":0},"change_detection":{"type":"string"}},"additionalProperties":true},
-    "usage_terms":{"type":"object","required":["license_or_terms","raw_snapshot_allowed"],"properties":{"license_or_terms":{"type":"string","minLength":1},"terms_status":{"type":"string"},"raw_snapshot_allowed":{"type":"boolean"}},"additionalProperties":true},
-    "recommendation_eligible":{"const":false},"status":{"type":"string"}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/source.schema.json",
+  "title": "OpenFin source registry record",
+  "type": "object",
+  "required": ["id", "type", "title", "publisher", "authority_class", "domains", "urls", "access", "refresh", "usage_terms", "recommendation_eligible", "status"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^source\\.[a-z0-9][a-z0-9._-]*$" },
+    "type": { "const": "source" },
+    "title": { "type": "string", "minLength": 1 },
+    "publisher": { "type": "string", "minLength": 1 },
+    "authority_class": { "enum": ["law_official", "government_official", "regulator_official", "association_official", "provider_official", "secondary_reference"] },
+    "domains": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "urls": {
+      "type": "object",
+      "required": ["canonical"],
+      "properties": {
+        "canonical": { "type": ["string", "null"], "pattern": "^https?://" },
+        "api": { "type": ["string", "null"], "pattern": "^https?://" },
+        "documentation": { "type": ["string", "null"], "pattern": "^https?://" },
+        "all": { "type": "array", "items": { "type": "string", "pattern": "^https?://" } }
+      },
+      "additionalProperties": false
+    },
+    "access": {
+      "type": "object",
+      "required": ["method", "requires_secret"],
+      "properties": {
+        "method": { "enum": ["api", "web", "pdf", "law", "notice", "product-page", "public_web_scrape", "public_web_reference", "public_web_or_excel_scrape", "public_web_scrape_or_future_api"] },
+        "parser_id": { "type": ["string", "null"] },
+        "requires_secret": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "refresh": {
+      "type": "object",
+      "required": ["sla_hours", "change_detection"],
+      "properties": { "sla_hours": { "type": "number", "exclusiveMinimum": 0 }, "change_detection": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    },
+    "usage_terms": {
+      "type": "object",
+      "required": ["license_or_terms", "raw_snapshot_allowed"],
+      "properties": { "license_or_terms": { "type": "string", "minLength": 1 }, "terms_status": { "type": "string" }, "raw_snapshot_allowed": { "type": "boolean" } },
+      "additionalProperties": true
+    },
+    "recommendation_eligible": { "const": false },
+    "status": { "enum": ["active", "retired", "review_required"] }
   },
-  "additionalProperties":true
+  "additionalProperties": true
 }

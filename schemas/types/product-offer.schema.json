@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/product-offer.schema.json",
+  "title": "OpenFin deterministic product offer fields",
+  "type": "object",
+  "properties": {
+    "value": {},
+    "unit": { "type": "string", "minLength": 1 },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "valid_from": { "type": ["string", "null"], "format": "date-time" },
+    "valid_to": { "type": ["string", "null"], "format": "date-time" },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "source_assertion_id": { "type": "string", "minLength": 1 }
+  },
+  "required": ["observed_at", "source_assertion_id"],
+  "additionalProperties": false
+}

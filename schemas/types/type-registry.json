@@ -1,0 +1,13 @@
+{
+  "entity_types": [
+    "account-product", "application-channel", "bank-product", "benchmark-rate", "card-product", "category", "concept", "conflict-rule", "corporate-tax-support", "deduction", "deadline", "domain", "eligibility-rule", "filing", "financial-product", "financial-provider", "insurance-product", "life-event", "life-expense", "life-income", "required-document", "risk-signal", "scenario", "source", "support-program", "tax", "tax-credit", "tax-reduction", "term"
+  ],
+  "relation_types": [
+    "parents", "children", "related", "terms", "deadlines", "sources", "requires", "conflicts_with", "available_in", "provided_by", "reference_items"
+  ],
+  "authority_classes": [
+    "law_official", "government_official", "regulator_official", "association_official", "provider_official", "secondary_reference"
+  ],
+  "verification_statuses": ["verified", "reference_only", "listing_only", "conflict", "unverified"],
+  "freshness_statuses": ["current", "stale", "unreachable", "retired", "unknown"]
+}

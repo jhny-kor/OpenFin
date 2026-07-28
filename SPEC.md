@@ -4,6 +4,10 @@
 
 OpenFin is the canonical, public source for Korean tax, public-support, and financial-product knowledge. It replaces the copied TaxMeter OpenFin surface with a domain-oriented, reviewable knowledge repository that preserves every public Pages and MCP compatibility contract.
 
+## Scope decision and bounded contexts
+
+OpenFin is a personal-finance platform knowledge layer, not an unconstrained financial adviser. Its bounded contexts are `tax`, `public-support`, `financial-products`, `financial-reference`, and `life-context`. Each context has independent source freshness and release readiness; a context that is not ready remains searchable as reference data and cannot silently enter comparison or recommendation output. The `/opentax` paths are compatibility adapters for the existing public export contract, not a separate source of truth.
+
 Target users are people and AI assistants that need source-backed Korean financial information. The core problem is that the current flat generated JSON is difficult to maintain, duplicate source nodes are hard to refresh consistently, and most collected records lack normalized field-level provenance and change receipts.
 
 **Core actions**:
@@ -104,6 +108,9 @@ These flows remain tool-only. Their inputs are naturally conversational and the 
 ## Safety and Quality Gates
 
 - Public recommendation remains disabled and the current degraded release state is preserved.
+- Release status, recommendation status, domain readiness, counts, and built-at values are derived from canonical records, source artifacts, search/relationship indexes, and the current live regression report.
+- The MCP exposes liveness at `/health` and data/readiness at `/ready`; a degraded readiness response is HTTP 503 and includes manifest, checksum, cache-age, and blocker metadata.
+- Recommendation policy is deterministic: eligibility, ranking, and explanation consume explicit constraints, preferences, and decision context. Missing, stale, or unverified fields become unknown and are excluded.
 - A missing, stale, conflicting, or non-official assertion remains `reference_only` or `listing_only`.
 - Generated artifacts are deterministic and never edited as canonical input.
 - Publication requires schema, ID, relation, source URL, provenance, deterministic-build, compatibility, Pages, and MCP regression checks.

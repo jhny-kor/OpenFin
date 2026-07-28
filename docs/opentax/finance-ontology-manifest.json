@@ -6,21 +6,32 @@
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "degraded",
-  "degraded_domains": [],
-  "blocking_issues": [],
+  "degraded_domains": [
+    "card",
+    "deposit",
+    "insurance",
+    "loan",
+    "pension",
+    "saving"
+  ],
+  "blocking_issues": [
+    "live_regression_stale"
+  ],
   "warning_issues": [],
   "semantic_validation_passed": true,
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-26T13:08:27Z",
+      "built_at": "2026-07-28T00:00:00.000Z",
       "domain_export_count": 10,
-      "search_index_item_count": 21266,
-      "canonical_product_count": 3434,
+      "search_index_item_count": 21279,
+      "canonical_product_count": 12825,
       "duplicate_canonical_product_count": 0,
-      "checksum_covered_export_count": 11,
+      "canonical_merge_count": 49,
+      "checksum_covered_export_count": 17,
       "broken_relation_count": 0,
-      "collection_failure_sources": "see source_access_risks"
+      "relationship_count": 102523,
+      "collection_failure_sources": 51
     },
     "search_regression_tests": {
       "test_count": 20,
@@ -1201,7 +1212,12 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       }
-    }
+    },
+    "release_status": "degraded",
+    "recommendation_enabled": false,
+    "blocking_reasons": [
+      "live_regression_stale"
+    ]
   },
   "operating_policy": {
     "allowed": [
@@ -1488,7 +1504,9 @@
         "export_checksum": "e31619077c0cdec524fda0887b9e137a49f890ed563f246ceceafb1039599fd7"
       }
     ],
-    "canonical_product_count": 3434
+    "canonical_product_count": 12825,
+    "duplicate_canonical_product_count": 0,
+    "canonical_merge_count": 49
   },
   "quality_exports": [
     {
@@ -1497,23 +1515,26 @@
       "path": "opentax/openfin-quality-manifest-2026.json",
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-quality-manifest-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-quality-manifest-2026.json",
-      "item_count": 10,
+      "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-26T13:08:27Z",
+        "built_at": "2026-07-28T00:00:00.000Z",
         "domain_export_count": 10,
-        "search_index_item_count": 21266,
-        "canonical_product_count": 3434,
+        "search_index_item_count": 21279,
+        "canonical_product_count": 12825,
         "duplicate_canonical_product_count": 0,
-        "checksum_covered_export_count": 11,
+        "canonical_merge_count": 49,
+        "checksum_covered_export_count": 17,
         "broken_relation_count": 0,
-        "collection_failure_sources": "see source_access_risks"
+        "relationship_count": 102523,
+        "collection_failure_sources": 51
       },
-      "export_checksum": "a539451ea55234261b435971ebabc4114ac9fff05bba54fa0ef6c4004e659bdf",
-      "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
+      "export_checksum": "2ed93638ae48b8f592d01be76dbd38d68e4312851b77a56e72a54d72868cc163",
+      "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
+      "generated_at": "2026-07-28T00:00:00.000Z"
     },
     {
       "id": "openfin-search-regression-report",
@@ -3091,7 +3112,7 @@
     }
   ],
   "blocking_reasons": [
-    "OpenFin 120 live regression is missing or not 120/120"
+    "live_regression_stale"
   ],
   "recommendation_enabled": false,
   "operational_base_url": "https://jhny-kor.github.io/OpenFin/opentax",
@@ -3237,7 +3258,7 @@
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
       "item_count": 1,
       "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "8a7392a6ae94d301e1f9476c175bd1c1b0a2624b623a6ed843e30350dcfa172d"
+      "export_checksum": "8915d1ada036dcd724244f009dd771f3e8de5f936df35e56774c144dabca502f"
     }
   },
   "source_registry_count": 145,
@@ -3383,6 +3404,1347 @@
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
     "item_count": 1,
     "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "8a7392a6ae94d301e1f9476c175bd1c1b0a2624b623a6ed843e30350dcfa172d"
-  }
+    "export_checksum": "8915d1ada036dcd724244f009dd771f3e8de5f936df35e56774c144dabca502f"
+  },
+  "openfin_120_live_regression": {
+    "report_version": "openfin-live-120-v1",
+    "mode": "live",
+    "checked_at": "2026-07-26T11:37:00+00:00",
+    "endpoint": "https://finance-mcp.y2kthr.workers.dev/mcp",
+    "fixture": "tests/golden/openfin-120.jsonl",
+    "runtime": {
+      "runtime_version": "openfin-mcp-2026.07.22.1",
+      "deployment_commit": "40215ba9c",
+      "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+      "loaded_index_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
+      "loaded_item_count": 21266
+    },
+    "test_count": 120,
+    "passed_count": 15,
+    "failed_count": 105,
+    "skipped_count": 0,
+    "failures": [
+      {
+        "case_id": "exact_product-001",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-002",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-003",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-004",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-005",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-006",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-007",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-008",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-009",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-010",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-011",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-012",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-013",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-014",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-015",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-016",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-017",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-018",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-019",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-020",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-021",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-022",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-023",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-024",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-025",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-026",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-027",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-028",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "exact_product-029",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "exact_product-030",
+        "tool": "opentax_search",
+        "errors": [
+          "named product was not resolved as exact"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "alias_ambiguity-009",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "alias_ambiguity-011",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "alias_ambiguity-015",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "alias_ambiguity-017",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "alias_ambiguity-018",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "comparison-001",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010002.00320342",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010356.1001",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0069",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0085",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0017801.1001202000002",
+          "comparison candidate missing object version: finance.deposit.deposit.0010002.00320342",
+          "comparison candidate missing object version: finance.deposit.deposit.0010356.1001",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0069",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0085",
+          "comparison candidate missing object version: finance.deposit.deposit.0017801.1001202000002",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-002",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.saving.saving.0010020.220002101",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21001116",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010030.03700",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010349.0803",
+          "comparison candidate missing data_as_of: finance.saving.saving.0013175.10-059-1264-0001",
+          "comparison candidate missing object version: finance.saving.saving.0010020.220002101",
+          "comparison candidate missing object version: finance.saving.saving.0010024.21001116",
+          "comparison candidate missing object version: finance.saving.saving.0010030.03700",
+          "comparison candidate missing object version: finance.saving.saving.0010349.0803",
+          "comparison candidate missing object version: finance.saving.saving.0013175.10-059-1264-0001",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-003",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010345.hk00012",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0055",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0059",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0061",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0081",
+          "comparison candidate missing object version: finance.deposit.deposit.0010345.hk00012",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0055",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0059",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0061",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0081",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-004",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.saving.saving.0010002.00266451",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010017.01020400490002",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010471.31-0026",
+          "comparison candidate missing object version: finance.saving.saving.0010002.00266451",
+          "comparison candidate missing object version: finance.saving.saving.0010017.01020400490002",
+          "comparison candidate missing object version: finance.saving.saving.0010471.31-0026",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-005",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "comparison-006",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.saving.saving.0010020.220002101",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21001116",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010030.03700",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010349.0803",
+          "comparison candidate missing data_as_of: finance.saving.saving.0013175.10-059-1264-0001",
+          "comparison candidate missing object version: finance.saving.saving.0010020.220002101",
+          "comparison candidate missing object version: finance.saving.saving.0010024.21001116",
+          "comparison candidate missing object version: finance.saving.saving.0010030.03700",
+          "comparison candidate missing object version: finance.saving.saving.0010349.0803",
+          "comparison candidate missing object version: finance.saving.saving.0013175.10-059-1264-0001",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-007",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010002.00320342",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010356.1001",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0069",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0085",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0017801.1001202000002",
+          "comparison candidate missing object version: finance.deposit.deposit.0010002.00320342",
+          "comparison candidate missing object version: finance.deposit.deposit.0010356.1001",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0069",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0085",
+          "comparison candidate missing object version: finance.deposit.deposit.0017801.1001202000002",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-008",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.saving.saving.0010002.00266451",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010016.10521001001166004",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21000111",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21001292",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010471.31-0026",
+          "comparison candidate missing object version: finance.saving.saving.0010002.00266451",
+          "comparison candidate missing object version: finance.saving.saving.0010016.10521001001166004",
+          "comparison candidate missing object version: finance.saving.saving.0010024.21000111",
+          "comparison candidate missing object version: finance.saving.saving.0010024.21001292",
+          "comparison candidate missing object version: finance.saving.saving.0010471.31-0026",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-009",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "comparison-010",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "comparison-011",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010345.hk00012",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0055",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0059",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0061",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0081",
+          "comparison candidate missing object version: finance.deposit.deposit.0010345.hk00012",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0055",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0059",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0061",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0081",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-012",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "comparison-013",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010002.00320342",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010356.1001",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0069",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0085",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0017801.1001202000002",
+          "comparison candidate missing object version: finance.deposit.deposit.0010002.00320342",
+          "comparison candidate missing object version: finance.deposit.deposit.0010356.1001",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0069",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0085",
+          "comparison candidate missing object version: finance.deposit.deposit.0017801.1001202000002",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-014",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.saving.saving.0010020.220002101",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21001116",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010030.03700",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010349.0803",
+          "comparison candidate missing data_as_of: finance.saving.saving.0013175.10-059-1264-0001",
+          "comparison candidate missing object version: finance.saving.saving.0010020.220002101",
+          "comparison candidate missing object version: finance.saving.saving.0010024.21001116",
+          "comparison candidate missing object version: finance.saving.saving.0010030.03700",
+          "comparison candidate missing object version: finance.saving.saving.0010349.0803",
+          "comparison candidate missing object version: finance.saving.saving.0013175.10-059-1264-0001",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-015",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010345.hk00012",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0055",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0059",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0061",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0081",
+          "comparison candidate missing object version: finance.deposit.deposit.0010345.hk00012",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0055",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0059",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0061",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0081",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-016",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "comparison-017",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "comparison-018",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.saving.saving.0010020.220002101",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21001116",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010030.03700",
+          "comparison candidate missing data_as_of: finance.saving.saving.0010349.0803",
+          "comparison candidate missing data_as_of: finance.saving.saving.0013175.10-059-1264-0001",
+          "comparison candidate missing object version: finance.saving.saving.0010020.220002101",
+          "comparison candidate missing object version: finance.saving.saving.0010024.21001116",
+          "comparison candidate missing object version: finance.saving.saving.0010030.03700",
+          "comparison candidate missing object version: finance.saving.saving.0010349.0803",
+          "comparison candidate missing object version: finance.saving.saving.0013175.10-059-1264-0001",
+          "comparison response missing comparison_basis",
+          "comparison response missing data_as_of",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing data_as_of"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "comparison-019",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "comparison-020",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "support-001",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "support-002",
+        "tool": "opentax_search",
+        "errors": [
+          "support result has no application_window: support.local-gov.gov24.1001801"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "support-003",
+        "tool": "opentax_search",
+        "errors": [
+          "support result has no application_window: support.local-gov.gov24.1004876",
+          "support result has no application_window: support.local-gov.gov24.2114209",
+          "support result has no application_window: support.local-gov.gov24.2128509",
+          "support result has no application_window: support.local-gov.gov24.2161850",
+          "support result has no application_window: support.local-gov.gov24.803493"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "support-004",
+        "tool": "opentax_search",
+        "errors": [
+          "support result has no application_window: support.local-gov.gov24.1003015",
+          "support result has no application_window: support.local-gov.gov24.810403"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "support-005",
+        "tool": "opentax_search",
+        "errors": [
+          "support query returned no result"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "support-006",
+        "tool": "opentax_search",
+        "errors": [
+          "support result has no application_window: support.local-gov.gov24.1002732",
+          "support result has no application_window: support.local-gov.gov24.1003400",
+          "support result has no application_window: support.local-gov.gov24.1004980",
+          "support result has no application_window: support.local-gov.gov24.804088",
+          "support result has no application_window: support.local-gov.gov24.809983"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "support-007",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "support-008",
+        "tool": "opentax_search",
+        "errors": [
+          "support result has no application_window: support.local-gov.gov24.1002551",
+          "support result has no application_window: support.local-gov.gov24.1005633",
+          "support result has no application_window: support.local-gov.gov24.2114329"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "support-009",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "support-010",
+        "tool": "opentax_search",
+        "errors": [
+          "support result has no application_window: support.local-gov.gov24.2128423"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "support-011",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "support-012",
+        "tool": "opentax_search",
+        "errors": [
+          "support result has no application_window: support.local-gov.gov24.1001764",
+          "support result has no application_window: support.local-gov.gov24.1003706",
+          "support result has no application_window: support.local-gov.gov24.1004672",
+          "support result has no application_window: support.local-gov.gov24.2130824",
+          "support result has no application_window: support.local-gov.gov24.810220"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "support-013",
+        "tool": "opentax_search",
+        "errors": [
+          "support query returned no result"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "support-014",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "support-015",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "support-016",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "support-017",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "support-018",
+        "tool": "opentax_search",
+        "errors": [
+          "support result has no application_window: support.local-gov.gov24.2106301",
+          "support result has no application_window: support.local-gov.gov24.2119606",
+          "support result has no application_window: support.local-gov.gov24.2128502",
+          "support result has no application_window: support.local-gov.gov24.2177116",
+          "support result has no application_window: support.local-gov.gov24.2185418"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "support-019",
+        "tool": "opentax_search",
+        "errors": [
+          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "support-020",
+        "tool": "opentax_search",
+        "errors": [
+          "support result has no application_window: support.local-gov.gov24.2001624",
+          "support result has no application_window: support.local-gov.gov24.2106301",
+          "support result has no application_window: support.local-gov.gov24.2119606",
+          "support result has no application_window: support.local-gov.gov24.2128502",
+          "support result has no application_window: support.local-gov.gov24.2177116"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "personal_finance-001",
+        "tool": "get_finance_summary",
+        "errors": [
+          "unexpected tool error: ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-002",
+        "tool": "calculate_finance_metrics",
+        "errors": [
+          "unexpected tool error: ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-003",
+        "tool": "evaluate_product_fit",
+        "errors": [
+          "unexpected tool error: ValueError: evaluate_product_fit live call failed: evaluate_product_fit returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool evaluate_product_fit not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: evaluate_product_fit live call failed: evaluate_product_fit returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool evaluate_product_fit not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-004",
+        "tool": "simulate_finance_scenario",
+        "errors": [
+          "unexpected tool error: ValueError: simulate_finance_scenario live call failed: simulate_finance_scenario returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool simulate_finance_scenario not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: simulate_finance_scenario live call failed: simulate_finance_scenario returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool simulate_finance_scenario not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-005",
+        "tool": "explain_recommendation",
+        "errors": [
+          "unexpected tool error: ValueError: explain_recommendation live call failed: explain_recommendation returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool explain_recommendation not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: explain_recommendation live call failed: explain_recommendation returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool explain_recommendation not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-006",
+        "tool": "validate_finance_advice",
+        "errors": [
+          "unexpected tool error: ValueError: validate_finance_advice live call failed: validate_finance_advice returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool validate_finance_advice not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: validate_finance_advice live call failed: validate_finance_advice returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool validate_finance_advice not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal-recommendation-001",
+        "tool": "opentax_recommend",
+        "errors": [
+          "decision owner mismatch",
+          "expected status blocked, got None",
+          "recommendation response missing assumptions",
+          "recommendation response missing audit_id",
+          "recommendation response missing data_as_of",
+          "recommendation response missing decision_owner",
+          "recommendation response missing financial_needs",
+          "recommendation response missing limitations",
+          "recommendation response missing missing_information",
+          "recommendation response missing mode",
+          "recommendation response missing profile_as_of",
+          "recommendation response missing reason_codes",
+          "recommendation response missing status"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "personal_finance-007",
+        "tool": "get_finance_summary",
+        "errors": [
+          "unexpected tool error: ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-008",
+        "tool": "calculate_finance_metrics",
+        "errors": [
+          "unexpected tool error: ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-009",
+        "tool": "evaluate_product_fit",
+        "errors": [
+          "unexpected tool error: ValueError: evaluate_product_fit live call failed: evaluate_product_fit returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool evaluate_product_fit not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: evaluate_product_fit live call failed: evaluate_product_fit returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool evaluate_product_fit not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-010",
+        "tool": "simulate_finance_scenario",
+        "errors": [
+          "unexpected tool error: ValueError: simulate_finance_scenario live call failed: simulate_finance_scenario returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool simulate_finance_scenario not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: simulate_finance_scenario live call failed: simulate_finance_scenario returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool simulate_finance_scenario not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-011",
+        "tool": "explain_recommendation",
+        "errors": [
+          "unexpected tool error: ValueError: explain_recommendation live call failed: explain_recommendation returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool explain_recommendation not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: explain_recommendation live call failed: explain_recommendation returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool explain_recommendation not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-012",
+        "tool": "validate_finance_advice",
+        "errors": [
+          "unexpected tool error: ValueError: validate_finance_advice live call failed: validate_finance_advice returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool validate_finance_advice not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: validate_finance_advice live call failed: validate_finance_advice returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool validate_finance_advice not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-013",
+        "tool": "get_finance_summary",
+        "errors": [
+          "unexpected tool error: ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "personal_finance-014",
+        "tool": "calculate_finance_metrics",
+        "errors": [
+          "unexpected tool error: ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "stale_conflict-001",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010345.hk00012",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0055",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0059",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0061",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0081",
+          "comparison candidate missing object version: finance.deposit.deposit.0010345.hk00012",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0055",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0059",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0061",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0081",
+          "comparison response missing comparison_basis",
+          "comparison response missing limitations",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing limitations"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "stale_conflict-002",
+        "tool": "opentax_recommend",
+        "errors": [
+          "unexpected tool error: ValueError: recommend live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: recommend live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "stale_conflict-003",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "stale_conflict-004",
+        "tool": "opentax_recommend",
+        "errors": [
+          "expected status blocked, got None",
+          "recommendation response missing assumptions",
+          "recommendation response missing audit_id",
+          "recommendation response missing data_as_of",
+          "recommendation response missing decision_owner",
+          "recommendation response missing financial_needs",
+          "recommendation response missing limitations",
+          "recommendation response missing missing_information",
+          "recommendation response missing mode",
+          "recommendation response missing profile_as_of",
+          "recommendation response missing reason_codes",
+          "recommendation response missing status"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "stale_conflict-005",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "stale_conflict-006",
+        "tool": "opentax_recommend",
+        "errors": [
+          "expected status blocked, got None",
+          "recommendation response missing assumptions",
+          "recommendation response missing audit_id",
+          "recommendation response missing data_as_of",
+          "recommendation response missing decision_owner",
+          "recommendation response missing financial_needs",
+          "recommendation response missing limitations",
+          "recommendation response missing missing_information",
+          "recommendation response missing mode",
+          "recommendation response missing profile_as_of",
+          "recommendation response missing reason_codes",
+          "recommendation response missing status"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "stale_conflict-007",
+        "tool": "opentax_compare",
+        "errors": [
+          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+        ],
+        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
+      },
+      {
+        "case_id": "stale_conflict-008",
+        "tool": "opentax_recommend",
+        "errors": [
+          "expected status blocked, got None",
+          "recommendation response missing assumptions",
+          "recommendation response missing audit_id",
+          "recommendation response missing data_as_of",
+          "recommendation response missing decision_owner",
+          "recommendation response missing financial_needs",
+          "recommendation response missing limitations",
+          "recommendation response missing missing_information",
+          "recommendation response missing mode",
+          "recommendation response missing profile_as_of",
+          "recommendation response missing reason_codes",
+          "recommendation response missing status"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "stale_conflict-009",
+        "tool": "opentax_compare",
+        "errors": [
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010345.hk00012",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0055",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0059",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0061",
+          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0081",
+          "comparison candidate missing object version: finance.deposit.deposit.0010345.hk00012",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0055",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0059",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0061",
+          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0081",
+          "comparison response missing comparison_basis",
+          "comparison response missing limitations",
+          "comparison statistics are not tied to the final comparison object",
+          "response missing comparison_basis",
+          "response missing limitations"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "stale_conflict-010",
+        "tool": "opentax_recommend",
+        "errors": [
+          "expected status blocked, got None",
+          "recommendation response missing assumptions",
+          "recommendation response missing audit_id",
+          "recommendation response missing data_as_of",
+          "recommendation response missing decision_owner",
+          "recommendation response missing financial_needs",
+          "recommendation response missing limitations",
+          "recommendation response missing missing_information",
+          "recommendation response missing mode",
+          "recommendation response missing profile_as_of",
+          "recommendation response missing reason_codes",
+          "recommendation response missing status"
+        ],
+        "error": null
+      },
+      {
+        "case_id": "security_auth-001",
+        "tool": "update_finance_snapshot",
+        "errors": [
+          "unexpected tool error: ValueError: update_finance_snapshot live call failed: update_finance_snapshot returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool update_finance_snapshot not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: update_finance_snapshot live call failed: update_finance_snapshot returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool update_finance_snapshot not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "security_auth-002",
+        "tool": "update_finance_snapshot",
+        "errors": [
+          "unexpected tool error: ValueError: update_finance_snapshot live call failed: update_finance_snapshot returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool update_finance_snapshot not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: update_finance_snapshot live call failed: update_finance_snapshot returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool update_finance_snapshot not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "security_auth-003",
+        "tool": "get_finance_summary",
+        "errors": [
+          "error does not contain 'sensitive': ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "security_auth-004",
+        "tool": "calculate_finance_metrics",
+        "errors": [
+          "error does not contain 'sensitive': ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
+        ],
+        "error": "ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
+      },
+      {
+        "case_id": "security_auth-005",
+        "tool": "opentax_recommend",
+        "errors": [
+          "expected an error containing 'sensitive'"
+        ],
+        "error": null
+      }
+    ],
+    "category_counts": {
+      "exact_product": 30,
+      "alias_ambiguity": 20,
+      "comparison": 20,
+      "support": 20,
+      "personal_finance": 15,
+      "stale_conflict": 10,
+      "security_auth": 5
+    },
+    "fixture_output_is_not_live_evidence": false,
+    "status": "stale"
+  },
+  "domain_readiness": {
+    "deposit": {
+      "item_count": 430,
+      "required_fields": [
+        "base_rate_percent",
+        "maximum_rate_percent",
+        "term_months",
+        "interest_method",
+        "preferential_rate_conditions",
+        "minimum_deposit_krw",
+        "maximum_deposit_krw",
+        "early_termination_condition",
+        "deposit_protection_status",
+        "join_member",
+        "join_channel",
+        "sales_verification_status"
+      ],
+      "complete_field_count": 0,
+      "verified_candidate_count": 0,
+      "comparison_data": "limited_public_ready",
+      "recommendation": "blocked",
+      "status": "domain_coverage_incomplete",
+      "missing_required_fields": {
+        "base_rate_percent": 0,
+        "maximum_rate_percent": 0,
+        "term_months": 0,
+        "interest_method": 0,
+        "preferential_rate_conditions": 0,
+        "minimum_deposit_krw": 398,
+        "maximum_deposit_krw": 395,
+        "early_termination_condition": 430,
+        "deposit_protection_status": 0,
+        "join_member": 0,
+        "join_channel": 0,
+        "sales_verification_status": 0
+      },
+      "data_layers": {
+        "raw": {
+          "item_count": 430,
+          "status": "available"
+        },
+        "normalized": {
+          "item_count": 430,
+          "status": "available"
+        },
+        "verified": {
+          "item_count": 0,
+          "status": "blocked"
+        }
+      }
+    },
+    "saving": {
+      "item_count": 335,
+      "required_fields": [
+        "base_rate_percent",
+        "maximum_rate_percent",
+        "term_months",
+        "saving_method",
+        "preferential_rate_conditions",
+        "monthly_payment_min_krw",
+        "monthly_payment_max_krw",
+        "early_termination_condition",
+        "deposit_protection_status",
+        "join_member",
+        "join_channel",
+        "sales_verification_status"
+      ],
+      "complete_field_count": 0,
+      "verified_candidate_count": 0,
+      "comparison_data": "limited_public_ready",
+      "recommendation": "blocked",
+      "status": "domain_coverage_incomplete",
+      "missing_required_fields": {
+        "base_rate_percent": 0,
+        "maximum_rate_percent": 0,
+        "term_months": 0,
+        "saving_method": 0,
+        "preferential_rate_conditions": 0,
+        "monthly_payment_min_krw": 328,
+        "monthly_payment_max_krw": 238,
+        "early_termination_condition": 335,
+        "deposit_protection_status": 0,
+        "join_member": 0,
+        "join_channel": 0,
+        "sales_verification_status": 0
+      },
+      "data_layers": {
+        "raw": {
+          "item_count": 335,
+          "status": "available"
+        },
+        "normalized": {
+          "item_count": 335,
+          "status": "available"
+        },
+        "verified": {
+          "item_count": 0,
+          "status": "blocked"
+        }
+      }
+    },
+    "card": {
+      "item_count": 1007,
+      "required_fields": [],
+      "complete_field_count": 1007,
+      "verified_candidate_count": 11,
+      "comparison_data": "domain_coverage_incomplete",
+      "recommendation": "blocked",
+      "status": "engine_ready",
+      "missing_required_fields": {},
+      "data_layers": {
+        "raw": {
+          "item_count": 1007,
+          "status": "available"
+        },
+        "normalized": {
+          "item_count": 1007,
+          "status": "available"
+        },
+        "verified": {
+          "item_count": 11,
+          "status": "available"
+        }
+      }
+    },
+    "loan": {
+      "item_count": 598,
+      "required_fields": [],
+      "complete_field_count": 598,
+      "verified_candidate_count": 20,
+      "comparison_data": "domain_coverage_incomplete",
+      "recommendation": "blocked",
+      "status": "engine_ready",
+      "missing_required_fields": {},
+      "data_layers": {
+        "raw": {
+          "item_count": 598,
+          "status": "available"
+        },
+        "normalized": {
+          "item_count": 598,
+          "status": "available"
+        },
+        "verified": {
+          "item_count": 20,
+          "status": "available"
+        }
+      }
+    },
+    "insurance": {
+      "item_count": 1071,
+      "required_fields": [],
+      "complete_field_count": 1071,
+      "verified_candidate_count": 20,
+      "comparison_data": "domain_coverage_incomplete",
+      "recommendation": "blocked",
+      "status": "engine_ready",
+      "missing_required_fields": {},
+      "data_layers": {
+        "raw": {
+          "item_count": 1071,
+          "status": "available"
+        },
+        "normalized": {
+          "item_count": 1071,
+          "status": "available"
+        },
+        "verified": {
+          "item_count": 20,
+          "status": "available"
+        }
+      }
+    },
+    "pension": {
+      "item_count": 0,
+      "required_fields": [],
+      "complete_field_count": 0,
+      "verified_candidate_count": 0,
+      "comparison_data": "blocked",
+      "recommendation": "blocked",
+      "status": "blocked",
+      "missing_required_fields": {},
+      "data_layers": {
+        "raw": {
+          "item_count": 0,
+          "status": "missing"
+        },
+        "normalized": {
+          "item_count": 0,
+          "status": "missing"
+        },
+        "verified": {
+          "item_count": 0,
+          "status": "blocked"
+        }
+      }
+    }
+  },
+  "manifest_checksum": "64d00eb6693b215ab17fc10e5d56388e316784c367c911d62f64a2906ea1372a"
 }

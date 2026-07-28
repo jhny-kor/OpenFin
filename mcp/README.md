@@ -2,6 +2,8 @@
 
 `openfin-mcp` is a Cloudflare Worker Remote MCP adapter for the OpenFin ontology snapshot.
 
+The Worker is bounded to the OpenFin personal-finance contexts (`tax`, `public-support`, `financial-products`, `financial-reference`, and `life-context`). It reads only the OpenFin Pages manifest and verifies artifact checksums before treating data as ready. `/health` is liveness; `/ready` is data readiness and returns HTTP 503 while the release gate is degraded.
+
 It exposes read-only MCP tools for ChatGPT and other remote MCP clients:
 
 - `search`: search tax, deduction, support, local-government support, card, bank, insurance, filing, concept, deadline, and source nodes.
@@ -68,7 +70,7 @@ cd mcp
 npm run deploy
 ```
 
-`npm run deploy`는 현재 quality manifest와 live regression이 모두 ready일 때만 Worker를 배포합니다.
+`npm run verify:release`는 manifest와 release gate를 검사합니다. 추천이 manifest에서 활성화된 경우 gate 실패로 배포를 중단하고, 현재처럼 fail-closed degraded 상태인 경우에는 조회 표면을 배포할 수 있습니다.
 
 The deployed MCP endpoint will be:
 

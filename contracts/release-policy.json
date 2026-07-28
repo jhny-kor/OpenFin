@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "openfin-release-policy-v1",
+  "scope": "personal-finance-platform",
+  "quality_statuses": ["engine_ready", "pilot_data_ready", "limited_public_ready", "domain_coverage_incomplete", "blocked"],
+  "live_regression": {
+    "required_count": 120,
+    "required_mode": "live",
+    "allow_skipped": false,
+    "allow_failed": false,
+    "freshness": "current"
+  },
+  "release": {
+    "ready_requires": [
+      "manifest_integrity",
+      "canonical_validation",
+      "cross_artifact_consistency",
+      "source_registry_loaded",
+      "source_status_loaded",
+      "live_regression"
+    ],
+    "recommendation_requires": [
+      "release_status_ready",
+      "manifest_recommendation_enabled",
+      "live_regression",
+      "domain_readiness",
+      "item_readiness"
+    ]
+  },
+  "domains": {
+    "deposit": {
+      "comparison": "limited_public_ready",
+      "recommendation": "blocked",
+      "required_verified_candidates": 20,
+      "required_fields": [
+        "base_rate_percent",
+        "maximum_rate_percent",
+        "term_months",
+        "interest_method",
+        "preferential_rate_conditions",
+        "minimum_deposit_krw",
+        "maximum_deposit_krw",
+        "early_termination_condition",
+        "deposit_protection_status",
+        "join_member",
+        "join_channel",
+        "sales_verification_status"
+      ]
+    },
+    "saving": {
+      "comparison": "limited_public_ready",
+      "recommendation": "blocked",
+      "required_verified_candidates": 20,
+      "required_fields": [
+        "base_rate_percent",
+        "maximum_rate_percent",
+        "term_months",
+        "saving_method",
+        "preferential_rate_conditions",
+        "monthly_payment_min_krw",
+        "monthly_payment_max_krw",
+        "early_termination_condition",
+        "deposit_protection_status",
+        "join_member",
+        "join_channel",
+        "sales_verification_status"
+      ]
+    },
+    "card": { "comparison": "domain_coverage_incomplete", "recommendation": "blocked" },
+    "loan": { "comparison": "domain_coverage_incomplete", "recommendation": "blocked" },
+    "insurance": { "comparison": "domain_coverage_incomplete", "recommendation": "blocked" },
+    "pension": { "comparison": "blocked", "recommendation": "blocked" }
+  },
+  "public_surface": {
+    "card": "reference_only",
+    "loan": "reference_only",
+    "insurance": "reference_only",
+    "tax": "educational_only",
+    "public_support": "reference_only"
+  }
+}

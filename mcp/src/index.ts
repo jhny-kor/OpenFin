@@ -3,6 +3,11 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { generationCacheKey, isCurrentGeneration, SingleFlight } from "./generation-cache";
 import { resolveSourceStatus } from "./source-status";
+import { evaluateReleaseGate } from "./release-gate";
+import { evaluateEligibility, productDomain, recommendationFields } from "./recommendation/policy";
+import { explainCandidate } from "./recommendation/explanation";
+import { rankCandidates } from "./recommendation/ranking";
+import { livenessPayload, readinessPayload } from "./health";
 
 type FinanceItem = {
   id: string;
@@ -141,6 +146,8 @@ type ManifestEntry = {
   shards?: SearchIndexShard[];
   coverage?: Record<string, unknown>;
   summary?: Record<string, unknown>;
+  export_checksum?: string;
+  generated_at?: string;
 };
 
 type SearchIndexShard = {
@@ -170,7 +177,11 @@ type FinanceManifest = {
   provenance_index?: ManifestEntry;
   provenance_coverage?: ManifestEntry;
   relationship_index?: ManifestEntry;
+  domain_readiness?: Record<string, Record<string, unknown>>;
+  degraded_domains?: string[];
   exports: ManifestEntry[];
+  manifest_checksum?: string;
+  _manifest_checksum_verified?: boolean;
 };
 
 type FinanceGraph = {
@@ -263,7 +274,6 @@ const ENABLE_LOAN_DISCOVERY = true;
 const ENABLE_INSURANCE_DISCOVERY = true;
 const ENABLE_DEPOSIT_COMPARISON = true;
 const ENABLE_SAVING_COMPARISON = true;
-const ENABLE_PUBLIC_RECOMMENDATION = false;
 const EXCLUDED_SAMPLE_LIMIT = 10;
 const QUERY_PARSER_VERSION = "openfin-query-parser-v1.3.0";
 const FIELD_EXTRACTOR_VERSION = "openfin-field-extractor-v1.1.0";
@@ -1042,6 +1052,23 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await response.json()) as T;
 }
 
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value as Record<string, unknown>).sort().map((key) => `${JSON.stringify(key)}:${stableJson((value as Record<string, unknown>)[key])}`).join(",")}}`;
+  }
+  return JSON.stringify(value);
+}
+
+async function sha256Hex(value: unknown): Promise<string> {
+  const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(stableJson(value)));
+  return [...new Uint8Array(bytes)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function verifyArtifactChecksum(data: unknown, expected: string | undefined): Promise<boolean> {
+  return typeof expected === "string" && expected.length > 0 && expected.replace(/^sha256:/, "") === await sha256Hex(data);
+}
+
 async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
   const now = Date.now();
   if (cachedManifest && now - cachedManifest.loadedAt < CACHE_TTL_MS) {
@@ -1049,6 +1076,10 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
   }
   return manifestSingleFlight.run(async () => {
     const manifest = await fetchJson<FinanceManifest>(financeManifestUrl(env));
+    const expectedManifestChecksum = manifest.manifest_checksum;
+    const manifestForChecksum = { ...manifest } as Record<string, unknown>;
+    delete manifestForChecksum.manifest_checksum;
+    manifest._manifest_checksum_verified = await verifyArtifactChecksum(manifestForChecksum, expectedManifestChecksum);
     const generation = JSON.stringify({
       version: manifest.version,
       basis_date: manifest.basis_date,
@@ -1068,6 +1099,11 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
     cachedManifest = { data: manifest, loadedAt: Date.now() };
     return manifest;
   });
+}
+
+function manifestChecksumContract(manifest: FinanceManifest): boolean {
+  const entries = [manifest.search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, ...(manifest.exports ?? [])];
+  return manifest._manifest_checksum_verified === true && entries.length > 0 && entries.every((entry) => typeof entry?.export_checksum === "string" && entry.export_checksum.length > 0);
 }
 
 function resolveExportUrl(entry: { path: string; url?: string; web_url?: string }, manifestUrl: string): string {
@@ -1090,6 +1126,9 @@ async function loadFinanceArtifactEntry(env: Env, cacheKey: string, entry: { pat
   const request = (async () => {
     try {
       const data = await fetchJson<unknown>(resolveExportUrl(entry, financeManifestUrl(env)));
+      if (!(await verifyArtifactChecksum(data, (entry as ManifestEntry).export_checksum))) {
+        throw new Error(`manifest checksum mismatch for ${cacheKey}`);
+      }
       if (isCurrentGeneration(requestGeneration, manifestGeneration)) {
         cachedFinanceArtifacts.set(cacheKey, { data, loadedAt: Date.now(), generation: requestGeneration });
         financeArtifactErrors.delete(cacheKey);
@@ -1346,7 +1385,15 @@ async function loadSearchIndexMetadata(env: Env): Promise<SearchIndexFile> {
     throw new SearchIndexContractError("finance manifest is missing search_index metadata");
   }
   const indexUrl = resolveExportUrl(manifest.search_index, manifestUrl);
-  const data = parseSearchIndexFile(await fetchJson<unknown>(indexUrl), indexUrl);
+  const rawData = await fetchJson<unknown>(indexUrl);
+  // Search-root checksums are defined over the compact `items` payload by
+  // the knowledge build. Keep that scope explicit so checksum validation is
+  // identical for local and deployed artifacts.
+  const checksumPayload = isRecord(rawData) && Array.isArray(rawData.items) ? rawData.items : rawData;
+  if (!(await verifyArtifactChecksum(checksumPayload, manifest.search_index.export_checksum))) {
+    throw new SearchIndexContractError("finance manifest search_index checksum mismatch");
+  }
+  const data = parseSearchIndexFile(rawData, indexUrl);
   cachedSearchIndexMetadata = { data, loadedAt: now, generation: manifestGeneration };
   return data;
 }
@@ -1400,6 +1447,10 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<reado
   const request = (async () => {
     const url = resolveExportUrl(shard, financeManifestUrl(env));
     const payload = await fetchJson<unknown>(url);
+    const checksumPayload = isRecord(payload) && Array.isArray(payload.items) ? payload.items : payload;
+    if (!(await verifyArtifactChecksum(checksumPayload, shard.export_checksum))) {
+      throw new SearchIndexContractError(`search-index shard ${shard.shard_id} checksum mismatch`);
+    }
     const items = parseSearchItems(payload, url);
     assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
     assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
@@ -1596,7 +1647,6 @@ function verificationEvidenceBlocker(item: FinanceItem): string | undefined {
 }
 
 function recommendationBlocker(item: FinanceItem, artifacts?: FinanceArtifacts): string | undefined {
-  if (!ENABLE_PUBLIC_RECOMMENDATION) return "public_recommendation_disabled";
   if (item.public_recommendation_exclusion_reasons?.length) return "public_recommendation_excluded";
   if (item.recommendation_status !== "verified_recommendation_candidate") return "not_verified_recommendation_candidate";
   if (item.recommendation_scope !== "public_recommendation") return "not_public_recommendation_scope";
@@ -2104,8 +2154,15 @@ function createServer(env: Env): McpServer {
     const riskOrder: Record<string, number> = { low: 1, conservative: 1, medium: 2, moderate: 2, high: 3, aggressive: 3 };
     if (riskCapacity !== "unknown" && !productRisk) unknown.push("product_risk_level");
     if (riskCapacity !== "unknown" && productRisk && (riskOrder[productRisk] ?? 0) > (riskOrder[riskCapacity] ?? 0)) failed.push("risk_capacity_exceeded");
+    const sharedEligibility = evaluateEligibility(value, {
+      profile: normalized,
+      constraints: constraints,
+      decision_context: normalized,
+    });
+    failed.push(...sharedEligibility.failed_conditions);
+    unknown.push(...sharedEligibility.unknown_conditions);
     const eligible = !failed.length && !unknown.length;
-    const candidate = { item_id: value.id ?? requestedId ?? null, domain: domain ?? null, eligible, decision: eligible ? "fit" : failed.length ? "not_fit" : "insufficient_information", failed_conditions: [...new Set(failed)].sort(), unknown_conditions: [...new Set(unknown)].sort(), score: eligible ? 100 : null, score_components: { source_verification: value.verification_status === "verified" ? 30 : 0, current_listing: value.source_listing_status === "listed" ? 20 : 0, liquidity_fit: unknown.includes("term_months") || failed.includes("term_exceeds_liquidity_horizon") ? 0 : 25, risk_fit: unknown.includes("product_risk_level") || failed.includes("risk_capacity_exceeded") ? 0 : 25 }, recommendation_state: value.recommendation_status ?? value.status ?? "unknown", sources: value.source_urls ?? value.sources ?? [], source_assertions: assertions, verification_status: value.verification_status ?? "unknown", promotion_receipt: value.promotion_receipt ?? null, data_as_of: value.last_verified_at ?? value.verified_at ?? value.source_basis_dates ?? normalized.as_of ?? null, limitations: ["fit evaluation is not a recommendation", "user remains the decision owner"], policy_version: ADVICE_POLICY_VERSION };
+    const candidate = { item_id: value.id ?? requestedId ?? null, domain: domain ?? productDomain(value), eligible, decision: eligible ? "fit" : failed.length ? "not_fit" : "insufficient_information", matched_conditions: sharedEligibility.matched_conditions, failed_conditions: [...new Set(failed)].sort(), unknown_conditions: [...new Set(unknown)].sort(), reason_codes: [...new Set(failed.concat(unknown))].sort(), score: eligible ? 100 : null, score_components: { source_verification: value.verification_status === "verified" ? 30 : 0, current_listing: value.source_listing_status === "listed" ? 20 : 0, liquidity_fit: unknown.includes("term_months") || failed.includes("term_exceeds_liquidity_horizon") ? 0 : 25, risk_fit: unknown.includes("product_risk_level") || failed.includes("risk_capacity_exceeded") ? 0 : 25 }, recommendation_state: value.recommendation_status ?? value.status ?? "unknown", sources: value.source_urls ?? value.sources ?? [], source_assertions: assertions, verification_status: value.verification_status ?? "unknown", promotion_receipt: value.promotion_receipt ?? null, data_as_of: value.last_verified_at ?? value.verified_at ?? value.source_basis_dates ?? normalized.as_of ?? null, source_basis: value.provenance ?? value.source_assertions ?? [], limitations: ["fit evaluation is not a recommendation", "user remains the decision owner"], policy_version: ADVICE_POLICY_VERSION };
     return financeResult({ status: eligible ? "ready" : "insufficient_information", profile_as_of: normalized.as_of ?? null, data_as_of: candidate.data_as_of, assumptions: ["only catalog-resolved product fields and user constraints are evaluated"], missing_information: [...new Set(unknown)].sort(), financial_needs: [], candidates: eligible ? [candidate] : [], limitations: candidate.limitations, fit: candidate });
   });
 
@@ -2161,14 +2218,14 @@ function createServer(env: Env): McpServer {
     const live = manifest.openfin_120_live_regression ?? {};
     const releaseStatus = manifest.release_status ?? "unknown";
     const blockingReasons = manifest.blocking_reasons ?? [];
-    const livePassed = live.mode === "live" && live.test_count === 120 && live.passed_count === 120 && live.failed_count === 0 && live.skipped_count === 0;
+    const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest) });
     return financeResult(financeSafety({
-      status: releaseStatus === "ready" && livePassed ? "ready" : "blocked",
-      reason_codes: releaseStatus === "ready" && livePassed ? [] : ["QUALITY_RELEASE_BLOCKED"],
+      status: releaseGate.status === "ready" ? "ready" : "blocked",
+      reason_codes: releaseGate.status === "ready" ? [] : ["QUALITY_RELEASE_BLOCKED", ...releaseGate.reasons],
       data_as_of: manifest.basis_date,
       missing_information: blockingReasons,
       assumptions: ["quality status reflects the loaded manifest and search index"],
-      quality_status: { manifest_version: manifest.version, release_status: releaseStatus, basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: ENABLE_PUBLIC_RECOMMENDATION, provenance_artifacts: { source_registry: manifest.source_registry ?? null, source_status: manifest.source_status ?? null, provenance_index: manifest.provenance_index ?? null, provenance_coverage: manifest.provenance_coverage ?? null, relationship_index: manifest.relationship_index ?? null }, source_health: { registry_loaded: sourceRegistry !== undefined, status_loaded: sourceStatus !== undefined, provenance_loaded: false, coverage_loaded: coverageArtifact !== undefined, relationships_loaded: false, coverage, artifact_errors: artifactErrors() } },
+      quality_status: { manifest_version: manifest.version, release_status: releaseStatus, basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: Boolean(manifest.recommendation_enabled), release_gate: releaseGate, provenance_artifacts: { source_registry: manifest.source_registry ?? null, source_status: manifest.source_status ?? null, provenance_index: manifest.provenance_index ?? null, provenance_coverage: manifest.provenance_coverage ?? null, relationship_index: manifest.relationship_index ?? null }, source_health: { registry_loaded: sourceRegistry !== undefined, status_loaded: sourceStatus !== undefined, provenance_loaded: false, coverage_loaded: coverageArtifact !== undefined, relationships_loaded: false, coverage, artifact_errors: artifactErrors() } },
       limitations: ["quality status is not a product recommendation", ...blockingReasons],
     }));
   });
@@ -2374,6 +2431,8 @@ function createServer(env: Env): McpServer {
       assertFinanceSafe(decision_context, "decision_context");
       const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain));
       const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
+      const manifest = await loadFinanceManifest(env);
+      const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), domain });
       const maxResults = limit ?? 5;
       const domainItems = items.filter((item) => domainMatches(item, domain) && sourceHealth(item, artifacts).freshness_status === "current");
       const readiness = recommendationReadiness(domain, domainItems);
@@ -2381,7 +2440,7 @@ function createServer(env: Env): McpServer {
       const contextMetrics = financeMetrics(context);
       const contextNeeds = financeNeeds(context, contextMetrics);
       const contextMissing = ["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => context[key] === null || context[key] === undefined || context[key] === "");
-      if (!ENABLE_PUBLIC_RECOMMENDATION) {
+      if (releaseGate.status !== "ready") {
         const blockerCounts = {
           domain_recommendation_not_enabled: domainItems.length,
           sales_not_verified: domainItems.filter((item) => item.sales_verification_status !== "verified_active").length,
@@ -2391,14 +2450,15 @@ function createServer(env: Env): McpServer {
         const payload = {
           mode: "decision_support",
           status: "blocked",
-          reason_codes: ["PUBLIC_RECOMMENDATION_DISABLED", "NO_VERIFIED_RECOMMENDATION_CANDIDATE"],
+          reason_codes: [...releaseGate.reasons.map((reason) => `RELEASE_GATE_${reason}`), "NO_VERIFIED_RECOMMENDATION_CANDIDATE"],
           profile_as_of: context.as_of ?? (isRecord(profile) ? profile.as_of ?? null : null),
           data_as_of: null,
-          assumptions: ["public recommendation feature flag is disabled", "only verified recommendation candidates could qualify"],
+          assumptions: ["the manifest release gate is evaluated at request time", "only verified recommendation candidates could qualify"],
           missing_information: contextMissing,
           financial_needs: contextNeeds,
           domain,
           domain_enabled: false,
+          release_gate: releaseGate,
           input_summary: { profile_fields: Object.keys(profile ?? {}).sort(), constraint_fields: Object.keys(constraints ?? {}).sort(), preference_fields: Object.keys(preferences ?? {}).sort() },
           recommendation_model_version: "openfin-recommendation-v0.1.0",
           result_count: 0,
@@ -2409,7 +2469,7 @@ function createServer(env: Env): McpServer {
           next_required_actions: nextRecommendationActions(domain, readiness),
           next_required_action: nextRecommendationAction(domain, readiness),
           excluded_count: domainItems.length,
-          excluded_sample: domainItems.slice(0, EXCLUDED_SAMPLE_LIMIT).map((item) => ({ item_id: item.id, reason: "domain_recommendation_not_enabled" })),
+          excluded_sample: domainItems.slice(0, EXCLUDED_SAMPLE_LIMIT).map((item) => ({ item_id: item.id, reason: "release_gate_blocked" })),
           decision_owner: "user",
           limitations: ["use lookup, education, comparison, and scenario tools only until the owner pilot is enabled"],
           audit_id: financeAuditId("blocked-recommendation", domain, context.as_of ?? null),
@@ -2420,7 +2480,9 @@ function createServer(env: Env): McpServer {
       const excluded = [];
       const candidates = [];
       for (const item of domainItems) {
-        const blocker = recommendationBlocker(item, artifacts);
+        const eligibility = evaluateEligibility(item, { profile: profile as Record<string, unknown> | undefined, constraints: constraints as Record<string, unknown> | undefined, decision_context: decision_context as Record<string, unknown> | undefined });
+        const itemGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), domain, item: item as unknown as Record<string, unknown> });
+        const blocker = recommendationBlocker(item, artifacts) ?? (eligibility.eligible ? undefined : eligibility.reason_codes[0] ?? "eligibility_unknown") ?? (itemGate.status === "ready" ? undefined : itemGate.reasons[0]);
         if (blocker) {
           excluded.push({ item_id: item.id, reason: blocker });
           continue;
@@ -2431,11 +2493,9 @@ function createServer(env: Env): McpServer {
           title: item.title,
           provider: item.provider,
           eligible: true,
+          ...explainCandidate(item as unknown as Record<string, unknown>, eligibility, score),
           score: score.score,
           score_components: score.components,
-          matched_conditions: [],
-          failed_conditions: [],
-          unknown_conditions: [],
           warnings: [],
           source_basis_dates: item.source_basis_dates ?? [],
           last_verified_at: item.last_verified_at,
@@ -2446,12 +2506,12 @@ function createServer(env: Env): McpServer {
           source_assertions: item.source_assertions ?? [],
           verification_status: item.verification_status ?? "unknown",
           promotion_receipt: item.promotion_receipt ?? null,
-          data_as_of: item.last_verified_at ?? item.verified_at ?? null,
+          data_as_of: eligibility.data_as_of ?? item.last_verified_at ?? item.verified_at ?? null,
           structured_summary: item.structured_summary ?? {},
           url: itemUrl(env, item.id),
         });
       }
-      candidates.sort((a, b) => b.score - a.score || a.item_id.localeCompare(b.item_id, "ko-KR"));
+      candidates.sort((a, b) => Number(b.score ?? 0) - Number(a.score ?? 0) || a.item_id.localeCompare(b.item_id, "ko-KR"));
       const results = candidates.slice(0, maxResults);
       const payload = {
         mode: "recommendation",
@@ -2466,6 +2526,7 @@ function createServer(env: Env): McpServer {
         input_summary: { profile_fields: Object.keys(profile ?? {}).sort(), constraint_fields: Object.keys(constraints ?? {}).sort(), preference_fields: Object.keys(preferences ?? {}).sort() },
         recommendation_model_version: "openfin-recommendation-v0.1.0",
         domain_enabled: true,
+        release_gate: releaseGate,
         result_count: results.length,
         candidates: results,
         blocker_counts: reasonCounts(excluded),
@@ -2783,12 +2844,26 @@ function createServer(env: Env): McpServer {
 }
 
 function healthResponse(env: Env): Response {
-  return Response.json({
-    name: "finance",
-    status: "ok",
-    mcp_endpoint: "/mcp",
-    finance_manifest_url: financeManifestUrl(env),
-  });
+  return Response.json(livenessPayload(env, financeManifestUrl(env)));
+}
+
+async function readyResponse(env: Env): Promise<Response> {
+  const startedAt = Date.now();
+  let manifest: FinanceManifest | undefined;
+  let metadata: SearchIndexFile | undefined;
+  let artifactsLoaded = false;
+  let checksumVerified = false;
+  try {
+    manifest = await loadFinanceManifest(env);
+    metadata = await loadSearchIndexMetadata(env);
+    const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status", "provenance_coverage"] , manifest);
+    artifactsLoaded = artifacts.source_registry !== undefined && artifacts.source_status !== undefined && artifacts.provenance_coverage !== undefined;
+    checksumVerified = manifestChecksumContract(manifest) && artifactsLoaded;
+  } catch (error) {
+    financeArtifactErrors.set("ready", { error: error instanceof Error ? error.message : String(error), failed_at: new Date().toISOString() });
+  }
+  const payload = readinessPayload({ env, manifest: manifest as unknown as Record<string, unknown> | undefined, metadata: metadata as unknown as Record<string, unknown> | undefined, artifactsLoaded, checksumVerified, cacheAgeMs: Date.now() - startedAt, manifestUrl: financeManifestUrl(env) });
+  return Response.json({ ...payload, artifact_errors: artifactErrors() }, { status: payload.ready ? 200 : 503, headers: { "cache-control": "no-store" } });
 }
 
 function openAiAppsChallengeResponse(env: Env): Response {
@@ -2816,6 +2891,9 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === "/" || url.pathname === "/health") {
       return healthResponse(env);
+    }
+    if (url.pathname === "/ready") {
+      return readyResponse(env);
     }
     if (url.pathname === OPENAI_APPS_CHALLENGE_PATH) {
       return openAiAppsChallengeResponse(env);

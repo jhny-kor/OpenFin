@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { KNOWLEDGE, DOCS, BULK_TYPES, readExports, writeJson, stable, sha256, isoDate, dateOnly, urlsFrom, validUrl, sourceBasisDate, slug, classifyPath, sourceAuthorityClass, sourcePublisher, normalizeCompatibilityDates } from './common.mjs';
+import { KNOWLEDGE, DOCS, BULK_TYPES, readExports, writeJson, stable, sha256, isoDate, dateOnly, urlsFrom, validUrl, sourceBasisDate, slug, classifyPath, normalizeCompatibilityDates } from './common.mjs';
 
 // Build into a sibling staging directory.  The canonical tree is never removed
 // up front: a failed build therefore cannot erase a curated knowledge snapshot.
@@ -64,8 +64,7 @@ const sourceIds = new Set(sources.keys());
 for (const source of sources.values()) {
   if (!Array.isArray(source.terms)) source.terms = [];
   const sourceUrls = urlsFrom(source);
-  source.publisher = sourcePublisher(source);
-  source.authority_class = sourceAuthorityClass(source);
+  if (!source.publisher || !source.authority_class) throw new Error(`Canonical source ${source.id} must declare publisher and authority_class`);
   const sourceMemberships = byId.get(source.id)?.exports || [];
   source.domains = [...new Set(sourceMemberships.map(file => file
     .replace(/^korea-/, '')
@@ -99,7 +98,6 @@ for (const entry of items) {
   const item = entry.item;
   item.sources = [...new Set(item.sources || [])];
   const registeredSourceIds = item.sources.filter(id => sourceIds.has(id));
-  const fallbackSourceId = registeredSourceIds[0] || null;
   if (Array.isArray(item.source_assertions)) {
     item.source_assertions = item.source_assertions.map(assertion => {
       const assertionUrl = validUrl(assertion?.original_url || assertion?.source_url);
@@ -107,7 +105,7 @@ for (const entry of items) {
       const matchingSourceId = assertionHost
         ? registeredSourceIds.find(sourceId => urlsFrom(sources.get(sourceId) || {}).some(url => new URL(url).host === assertionHost))
         : null;
-      const canonicalSourceId = sourceIds.has(assertion?.source_id) ? assertion.source_id : matchingSourceId || fallbackSourceId;
+      const canonicalSourceId = sourceIds.has(assertion?.source_id) ? assertion.source_id : matchingSourceId;
       return {
         ...assertion,
         source_id: canonicalSourceId,
@@ -115,13 +113,10 @@ for (const entry of items) {
       };
     }).filter(assertion => assertion.source_id);
   }
-  if (!sourceIds.has(item.source_registry_id) && fallbackSourceId) {
-    item.source_registry_id = fallbackSourceId;
-    item.source_registry_status = 'registered';
-  }
+  if (!sourceIds.has(item.source_registry_id)) delete item.source_registry_id;
   const urls = urlsFrom(item);
-  const basis = dateOnly(sourceBasisDate(item), '2026-07-18');
-  const collected = isoDate(item.source_collected_at || item.collected_at || item.reviewed_at, `${basis}T00:00:00.000Z`);
+  const basis = dateOnly(sourceBasisDate(item), null);
+  const collected = isoDate(item.source_collected_at || item.collected_at || item.reviewed_at, null);
   const assertionStatuses = (item.source_assertions || []).map(assertion => assertion?.verification_status).filter(Boolean);
   const verifiedEvidence = item.verification_status === 'verified'
     || item.source_verification_status === 'verified'

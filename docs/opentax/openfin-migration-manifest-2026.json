@@ -35,8 +35,6 @@
     }
   ],
   "invariants": {
-    "release_status": "degraded",
-    "recommendation_enabled": false,
     "full_live_regression_required": "120/120"
   }
 }

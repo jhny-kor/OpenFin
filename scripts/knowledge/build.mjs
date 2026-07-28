@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { ROOT, DOCS, KNOWLEDGE, PUBLIC_BASE, RELATION_KEYS, json, writeJson, stable, sha256, publicProjection, restoreCompatibilityDates, validUrl, isoDate, sourceAuthorityClass, sourcePublisher } from './common.mjs';
+import { ROOT, DOCS, KNOWLEDGE, PUBLIC_BASE, RELATION_KEYS, json, writeJson, stable, sha256, publicProjection, restoreCompatibilityDates, validUrl, isoDate } from './common.mjs';
+import { deriveQuality } from './derive-quality.mjs';
 
 const loadCanonical = () => {
   const records = [];
@@ -28,7 +29,10 @@ const loadCanonical = () => {
 const catalog = loadCanonical();
 const manifests = json(path.join(KNOWLEDGE,'export-manifests.json'));
 const byId = new Map(catalog.map(item => [item.id, item]));
-const now = process.env.OPENFIN_BUILD_AT || '2026-07-28T00:00:00.000Z';
+// Build metadata is deterministic and describes the latest collected/reviewed
+// snapshot. Future effective dates in a product contract are not build times.
+const sourceSnapshotDates = catalog.flatMap(item => [item.source_collected_at, item.last_verified_at, item.reviewed_at]).map(value => isoDate(value)).filter(Boolean).sort();
+const now = process.env.OPENFIN_BUILD_AT || sourceSnapshotDates.at(-1) || 'unknown';
 const artifactEntry = (id, domain, file, payload, itemCount, extra = {}) => ({id, domain, path:`opentax/${file}`, url:`${PUBLIC_BASE}/${file}`, web_url:`${PUBLIC_BASE}/${file}`, item_count:itemCount, generated_at:now, export_checksum:sha256(payload).slice(7), ...extra});
 const writeCompact = (file, payload) => { fs.mkdirSync(path.dirname(file), {recursive:true}); fs.writeFileSync(file, JSON.stringify(payload) + '\n'); };
 const legacyFiles = Object.keys(manifests).sort();
@@ -108,13 +112,16 @@ const compactSearchItems = allSearchItems.map(item => {
   return compact;
 });
 const searchRoot = fs.existsSync(path.join(KNOWLEDGE,'search-manifest.json')) ? json(path.join(KNOWLEDGE,'search-manifest.json')) : {version:'KR-FINANCE-SEARCH-INDEX-2026.07.18.1', basis_date:'2026-07-10', source_review_date:'2026-07-10', ontology_kind:'finance-search-index', description:'MCP search가 대용량 원본 export를 모두 적재하지 않고 검색할 수 있도록 만든 경량 인덱스입니다.'};
-const searchManifest = {...searchRoot, item_count:allSearchItems.length, compact_item_count:compactSearchItems.length, canonical_product_count:3434, duplicate_canonical_product_count:0, canonical_merge_count:11, export_checksum:sha256(compactSearchItems).slice(7), detail_checksum:sha256(allSearchItems).slice(7), shards:shardOutputs, items:compactSearchItems};
+const productNodes = catalog.filter(item => ['account-product','bank-product','card-product','financial-product','insurance-product'].includes(item.type));
+const canonicalProductIds = new Set(productNodes.map(item => item.canonical_product_id || item.id));
+const canonicalMergeCount = catalog.filter(item => (item.publication_memberships || []).length > 1).length;
+const searchManifest = {...searchRoot, item_count:allSearchItems.length, compact_item_count:compactSearchItems.length, canonical_product_count:canonicalProductIds.size, duplicate_canonical_product_count:productNodes.length - canonicalProductIds.size, canonical_merge_count:canonicalMergeCount, export_checksum:sha256(compactSearchItems).slice(7), detail_checksum:sha256(allSearchItems).slice(7), shards:shardOutputs, items:compactSearchItems};
 writeCompact(path.join(DOCS,'finance-search-index-2026.json'), searchManifest);
 const sourceRows = catalog.filter(i=>i.type==='source').sort((a,b)=>a.id.localeCompare(b.id));
 const sourceRegistry = sourceRows.map(source => {
   const urls = [...new Set([source.urls?.canonical, source.urls?.api, source.urls?.documentation, ...(source.urls?.all || []), ...(source.source_urls || [])].filter(validUrl))];
-  const publisher = sourcePublisher(source);
-  return {id:source.id, type:'source', title:source.title, publisher, authority_class:source.authority_class || sourceAuthorityClass(source), domains:source.domains || [], urls:{canonical:validUrl(source.urls?.canonical) || urls[0] || null, api:validUrl(source.urls?.api), documentation:validUrl(source.urls?.documentation), all:urls}, access:source.access || {method:source.source_api?'api':'web', parser_id:null, requires_secret:Boolean(source.source_api)}, refresh:source.refresh || {sla_hours:source.source_record_id?72:168, change_detection:source.source_record_id?'record-checksum':'http-checksum'}, usage_terms:{license_or_terms:source.usage_terms?.license_or_terms || '이용조건 미확인 - 원문 이용약관 검토 필요', terms_status:source.usage_terms?.terms_status || 'review_required', raw_snapshot_allowed:source.usage_terms?.raw_snapshot_allowed === true}, recommendation_eligible:false, status:source.status || 'active', legacy_source_basis_dates:source.source_basis_dates||[], source_row_count:source.publication_memberships?.length||0};
+  if (!source.publisher || !source.authority_class) throw new Error(`Source ${source.id} is missing explicit publisher or authority_class`);
+  return {id:source.id, type:'source', title:source.title, publisher:source.publisher, authority_class:source.authority_class, domains:source.domains || [], urls:{canonical:validUrl(source.urls?.canonical) || urls[0] || null, api:validUrl(source.urls?.api), documentation:validUrl(source.urls?.documentation), all:urls}, access:source.access || {method:'web', parser_id:null, requires_secret:false}, refresh:source.refresh || {sla_hours:168, change_detection:'http-checksum'}, usage_terms:{license_or_terms:source.usage_terms?.license_or_terms || '이용조건 미확인 - 원문 이용약관 검토 필요', terms_status:source.usage_terms?.terms_status || 'review_required', raw_snapshot_allowed:source.usage_terms?.raw_snapshot_allowed === true}, recommendation_eligible:false, status:source.status || 'active', legacy_source_basis_dates:source.source_basis_dates||[], source_row_count:source.publication_memberships?.length||0};
 });
 const sourceRegistryArtifact = {version:'OPENFIN-SOURCE-REGISTRY-2026.07.28.1', generated_at:now, source_count:sourceRegistry.length, sources:sourceRegistry};
 writeJson(path.join(DOCS,'openfin-source-registry-2026.json'), sourceRegistryArtifact);
@@ -198,7 +205,7 @@ const covered = catalog.filter(i=>Array.isArray(i.provenance)&&i.provenance.leng
 const collected = catalog.filter(i=>i.source_record_id!=null).length;
 const checksummed = catalog.filter(i=>i.provenance?.some(p=>p.checksum)).length;
 const invalidUrls = catalog.flatMap(i=>i.source_urls||[]).filter(v=>!validUrl(v));
-const provenanceCoverageArtifact = {version:'OPENFIN-PROVENANCE-COVERAGE-2026.07.28.1', generated_at:now, item_count:catalog.length, external_item_count:externalItems.length, provenance_covered_count:covered, external_provenance_covered_count:externalItems.filter(i=>i.provenance?.length).length, external_provenance_coverage_ratio:externalItems.length?externalItems.filter(i=>i.provenance?.length).length/externalItems.length:1, source_registry_count:catalog.filter(i=>i.type==='source').length, collected_record_count:collected, deterministic_checksum_count:checksummed, invalid_legacy_url_count:invalidUrls.length, invalid_legacy_urls:[...new Set(invalidUrls)].sort(), recommendation_enabled:false, status:'degraded'};
+const provenanceCoverageArtifact = {version:'OPENFIN-PROVENANCE-COVERAGE-2026.07.28.1', generated_at:now, item_count:catalog.length, external_item_count:externalItems.length, provenance_covered_count:covered, external_provenance_covered_count:externalItems.filter(i=>i.provenance?.length).length, external_provenance_coverage_ratio:externalItems.length?externalItems.filter(i=>i.provenance?.length).length/externalItems.length:1, source_registry_count:catalog.filter(i=>i.type==='source').length, collected_record_count:collected, deterministic_checksum_count:checksummed, invalid_legacy_url_count:invalidUrls.length, invalid_legacy_urls:[...new Set(invalidUrls)].sort(), recommendation_enabled:null, status:'unknown'};
 writeJson(path.join(DOCS,'openfin-provenance-coverage-report-2026.json'), provenanceCoverageArtifact);
 const relations=[];
 for(const item of catalog){for(const relation of RELATION_KEYS){const values = Array.isArray(item[relation]) ? item[relation] : item[relation] == null ? [] : [item[relation]]; for(const to of values){relations.push({from:item.id,relation,to:String(to)})}}}
@@ -206,7 +213,7 @@ relations.sort((a,b)=>a.from.localeCompare(b.from)||a.relation.localeCompare(b.r
 const relationshipArtifact = {version:'OPENFIN-RELATIONSHIP-INDEX-2026.07.28.1', generated_at:now, node_count:catalog.length, edge_count:relations.length, relations};
 writeCompact(path.join(DOCS,'openfin-relationship-index-2026.json'), relationshipArtifact);
 const referenceItemCount = Object.values(generatedExports).reduce((sum, value)=>sum+(value.reference_items?.length||0),0);
-const migrationArtifact = {version:'OPENFIN-MIGRATION-2026.07.28.1', generated_at:now, baseline:{export_count:10,row_count:21374,unique_id_count:21266,source_row_count:204,unique_source_count:144,invalid_source_url_count:62},result:{export_count:legacyFiles.length,row_count:Object.values(generatedExports).reduce((sum,value)=>sum+value.items.length+(value.reference_items?.length||0),0),unique_id_count:catalog.length,unique_source_count:sourceRegistry.length,reference_item_count:referenceItemCount,invalid_source_url_count:invalidUrls.length},approved_changes:['invalid_source_url_values_removed','source_rows_canonicalized','cross_export_duplicates_moved_to_reference_items','structured_provenance_added','operational_urls_moved_to_openfin'],source_basis_conflict_resolutions:[{id:'source.kinfa.hessal-loan-youth',selected_basis_date:'2026-07-03'},{id:'source.kinfa.illegal-private-finance-prevention-loan',selected_basis_date:'2026-07-03'}],invariants:{release_status:'degraded',recommendation_enabled:false,full_live_regression_required:'120/120'}};
+const migrationArtifact = {version:'OPENFIN-MIGRATION-2026.07.28.1', generated_at:now, baseline:{export_count:10,row_count:21374,unique_id_count:21266,source_row_count:204,unique_source_count:144,invalid_source_url_count:62},result:{export_count:legacyFiles.length,row_count:Object.values(generatedExports).reduce((sum,value)=>sum+value.items.length+(value.reference_items?.length||0),0),unique_id_count:catalog.length,unique_source_count:sourceRegistry.length,reference_item_count:referenceItemCount,invalid_source_url_count:invalidUrls.length},approved_changes:['invalid_source_url_values_removed','source_rows_canonicalized','cross_export_duplicates_moved_to_reference_items','structured_provenance_added','operational_urls_moved_to_openfin'],source_basis_conflict_resolutions:[{id:'source.kinfa.hessal-loan-youth',selected_basis_date:'2026-07-03'},{id:'source.kinfa.illegal-private-finance-prevention-loan',selected_basis_date:'2026-07-03'}],invariants:{full_live_regression_required:'120/120'}};
 writeJson(path.join(DOCS,'openfin-migration-manifest-2026.json'), migrationArtifact);
 const manifest = json(path.join(DOCS,'finance-ontology-manifest.json'));
 manifest.built_at=now; manifest.operational_base_url=PUBLIC_BASE; manifest.artifacts={...(manifest.artifacts||{})};
@@ -215,9 +222,75 @@ Object.assign(manifest, artifactEntries); Object.assign(manifest.artifacts, arti
 manifest.quality_exports = [...(manifest.quality_exports || []).filter(entry => entry.id !== 'openfin-provenance-coverage'), {id:'openfin-provenance-coverage', domain:'quality', ...artifactEntries.provenance_coverage, description:'Canonical provenance coverage and source URL validation report.'}]
   .map(entry => entry.path ? {...entry, path:`opentax/${path.basename(entry.path)}`} : entry);
 for(const m of manifest.exports||[]) { const file=path.basename(m.path||m.url||''); const generated=generatedExports[file]; if(m.url) m.url=`${PUBLIC_BASE}/${file}`; if(m.web_url) m.web_url=`${PUBLIC_BASE}/${file}`; if(m.path) m.path=`opentax/${file}`; if(generated){m.item_count=generated.items.length+(generated.reference_items?.length||0);m.reference_item_count=generated.reference_items?.length||0;m.export_checksum=generated.export_checksum;} }
-manifest.search_index={...(manifest.search_index||{}),path:'opentax/finance-search-index-2026.json',url:`${PUBLIC_BASE}/finance-search-index-2026.json`,web_url:`${PUBLIC_BASE}/finance-search-index-2026.json`,item_count:searchManifest.item_count,canonical_product_count:searchManifest.canonical_product_count,export_checksum:searchManifest.export_checksum,shards:shardOutputs};
-manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.recommendation_enabled=false;
+const quality = deriveQuality(catalog, { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length });
+provenanceCoverageArtifact.status = quality.release_status;
+provenanceCoverageArtifact.recommendation_enabled = quality.recommendation_enabled;
+writeJson(path.join(DOCS,'openfin-provenance-coverage-report-2026.json'), provenanceCoverageArtifact);
+artifactEntries.provenance_coverage = artifactEntry('openfin-provenance-coverage','quality','openfin-provenance-coverage-report-2026.json',provenanceCoverageArtifact,1,{coverage:{external_provenance_coverage_ratio:provenanceCoverageArtifact.external_provenance_coverage_ratio,status:provenanceCoverageArtifact.status}});
+manifest.provenance_coverage = artifactEntries.provenance_coverage;
+manifest.artifacts.provenance_coverage = artifactEntries.provenance_coverage;
+for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-provenance-coverage') Object.assign(entry, artifactEntries.provenance_coverage);
+const qualityManifestPath = path.join(DOCS, 'openfin-quality-manifest-2026.json');
+const existingQualityManifest = fs.existsSync(qualityManifestPath) ? json(qualityManifestPath) : {};
+const dynamicQualitySummaries = Object.entries(quality.domains).map(([domain, readiness]) => ({
+  id: `${domain}-readiness`,
+  domain,
+  item_count: readiness.item_count,
+  product_count: readiness.item_count,
+  quality_summary: readiness,
+}));
+const dynamicExportAudit = {
+  built_at: now,
+  domain_export_count: legacyFiles.length,
+  search_index_item_count: quality.canonical.search_item_count,
+  canonical_product_count: quality.canonical.canonical_product_count,
+  duplicate_canonical_product_count: quality.canonical.product_count - quality.canonical.canonical_product_count,
+  canonical_merge_count: canonicalMergeCount,
+  checksum_covered_export_count: Object.values(generatedExports).filter(value => typeof value.export_checksum === 'string').length + 1 + Object.keys(artifactEntries).length,
+  broken_relation_count: 0,
+  relationship_count: quality.canonical.relationship_count,
+  collection_failure_sources: statuses.filter(status => status.freshness_status !== 'current').length,
+};
+const dynamicRuntimeMetrics = {
+  catalog_status_counts: Object.fromEntries([...new Set(catalog.map(item => item.status).filter(Boolean))].sort().map(status => [status, catalog.filter(item => item.status === status).length])),
+  runtime_discovery_eligible_count: productNodes.filter(item => item.source_listing_status === 'listed' && item.recommendation_status !== 'reference_only').length,
+  exact_discovery_candidate_count: productNodes.filter(item => item.recommendation_status === 'eligible_for_listing').length,
+  duplicate_canonical_product_count: dynamicExportAudit.duplicate_canonical_product_count,
+  canonical_merge_count: canonicalMergeCount,
+  exact_id_duplicate_count: catalog.length - new Set(catalog.map(item => item.id)).size,
+  external_id_duplicate_count: 0,
+};
+const qualityManifest = {
+  ...existingQualityManifest,
+  generated_at: now,
+  built_at: now,
+  release_status: quality.release_status,
+  recommendation_enabled: quality.recommendation_enabled,
+  blocking_reasons: quality.blocking_reasons,
+  degraded_domains: quality.degraded_domains,
+  canonical: quality.canonical,
+  domain_readiness: quality.domains,
+  domain_summaries: dynamicQualitySummaries,
+  export_audit: dynamicExportAudit,
+  runtime_quality_metrics: dynamicRuntimeMetrics,
+  openfin_120_live_regression: quality.live_regression,
+  quality_policy_version: quality.policy_version,
+  quality_hash: quality.quality_hash,
+};
+writeJson(qualityManifestPath, qualityManifest);
+manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.blocking_reasons=quality.blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains;
+manifest.quality_summary={...(manifest.quality_summary||{}), release_status:quality.release_status, recommendation_enabled:quality.recommendation_enabled, blocking_reasons:quality.blocking_reasons, export_audit:dynamicExportAudit};
+for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-quality-manifest') {
+  entry.generated_at = now;
+  entry.export_checksum = sha256(qualityManifest).slice(7);
+  entry.item_count = 1;
+  entry.quality_summary = dynamicExportAudit;
+}
+manifest.search_index={...(manifest.search_index||{}),path:'opentax/finance-search-index-2026.json',url:`${PUBLIC_BASE}/finance-search-index-2026.json`,web_url:`${PUBLIC_BASE}/finance-search-index-2026.json`,item_count:searchManifest.item_count,canonical_product_count:searchManifest.canonical_product_count,duplicate_canonical_product_count:searchManifest.duplicate_canonical_product_count,canonical_merge_count:searchManifest.canonical_merge_count,export_checksum:searchManifest.export_checksum,shards:shardOutputs};
 const rewriteOperational = value => typeof value === 'string' ? value.replaceAll('https://jhny-kor.github.io/TaxMeter/opentax/', `${PUBLIC_BASE}/`).replaceAll('https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/', `${PUBLIC_BASE}/`) : Array.isArray(value) ? value.map(rewriteOperational) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rewriteOperational(v)])) : value;
 const rewrittenManifest = rewriteOperational(manifest); for (const key of Object.keys(manifest)) delete manifest[key]; Object.assign(manifest, rewrittenManifest);
+delete manifest.manifest_checksum;
+const manifestChecksumInput = {...manifest};
+manifest.manifest_checksum = sha256(manifestChecksumInput).slice(7);
 writeJson(path.join(DOCS,'finance-ontology-manifest.json'), manifest);
 console.log(JSON.stringify({exports:legacyFiles.length, rows:Object.values(generatedExports).reduce((n,x)=>n+x.items.length+(x.reference_items?.length||0),0), unique:catalog.length, reference_items:referenceItemCount, search_items:allSearchItems.length, sources:sourceRegistry.length, provenance_covered:covered, relationships:relations.length},null,2));

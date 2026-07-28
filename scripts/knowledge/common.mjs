@@ -82,55 +82,9 @@ export const urlsFrom = (item) => {
   }
   return vals;
 };
-const SOURCE_PUBLISHER_BY_HOST = new Map(Object.entries({
-  '100lifeplan.fss.or.kr': '금융감독원',
-  'ad.ccrs.or.kr': '신용회복위원회',
-  'bizinfo.go.kr': '중소벤처기업부',
-  'www.bizinfo.go.kr': '중소벤처기업부',
-  'call.nts.go.kr': '국세청',
-  'd.nts.go.kr': '국세청',
-  'kids.nts.go.kr': '국세청',
-  'sc.nts.go.kr': '국세청',
-  'www.nts.go.kr': '국세청',
-  'consumer.knia.or.kr': '손해보험협회',
-  'kpub.knia.or.kr': '손해보험협회',
-  'ecos.bok.or.kr': '한국은행',
-  'fine.fss.or.kr': '금융감독원',
-  'finlife.fss.or.kr': '금융감독원',
-  'fund.kofia.or.kr': '금융투자협회',
-  'gongsi.crefia.or.kr': '여신금융협회',
-  'hf.go.kr': '한국주택금융공사',
-  'www.hf.go.kr': '한국주택금융공사',
-  'law.go.kr': '법제처 국가법령정보센터',
-  'www.law.go.kr': '법제처 국가법령정보센터',
-  'nhuf.molit.go.kr': '국토교통부 주택도시기금',
-  'plus.gov.kr': '행정안전부 정부24',
-  'portal.kfb.or.kr': '은행연합회',
-  'pub.insure.or.kr': '생명보험협회',
-  'www.e-insmarket.or.kr': '생명보험협회·손해보험협회',
-  'www.easylaw.go.kr': '법제처 찾기쉬운 생활법령정보',
-  'www.fsc.go.kr': '금융위원회',
-  'www.gov.kr': '행정안전부 정부24',
-  'www.hometax.go.kr': '국세청 홈택스',
-  'www.kinfa.or.kr': '서민금융진흥원',
-  'ylaccount.kinfa.or.kr': '서민금융진흥원',
-  'www.korea.kr': '대한민국 정책브리핑',
-  'www.mohw.go.kr': '보건복지부',
-  'www.myhome.go.kr': '국토교통부 마이홈',
-  'www.realtyprice.kr': '한국부동산원',
-}));
-export const sourcePublisher = (item) => {
-  const canonical = validUrl(item.urls?.canonical) || urlsFrom(item)[0];
-  let hostname = null;
-  try { hostname = canonical ? new URL(canonical).hostname.toLowerCase() : null; } catch {}
-  return (hostname && SOURCE_PUBLISHER_BY_HOST.get(hostname))
-    || item.publisher
-    || item.title?.split(/\s+/)[0]
-    || 'Unknown';
-};
 export const sourceBasisDate = (item) => {
   const vals = [item.source_modified_at, item.source_collected_at, item.last_verified_at, item.reviewed_at, ...(item.source_basis_dates || [])].map(x => isoDate(x)).filter(Boolean);
-  return vals.sort().at(-1) || '2026-07-18T00:00:00.000Z';
+  return vals.sort().at(-1) || null;
 };
 export const slug = (s) => String(s || 'item').toLowerCase().normalize('NFKD').replace(/[^\p{Letter}\p{Number}]+/gu, '-').replace(/^-|-$/g,'').slice(0,100) || 'item';
 export const readExports = () => fs.readdirSync(DOCS).filter(f => EXPORT_RE.test(f)).sort().map(file => ({file, data: json(path.join(DOCS,file))}));
@@ -153,14 +107,6 @@ export const sourceClass = (item) => {
   if (/^source\.(nts|mohw|bok|data-go-kr|gov24|bizinfo|molit|moef|myhome|korea|govkr|hometax|call-nts|nhuf|hf|kinfa|ccrs|kdic|wetax|mois)\b/.test(value)) return 'government';
   return 'secondary-sources';
 };
-export const sourceAuthorityClass = (item) => ({
-  laws: 'law_official',
-  government: 'government_official',
-  regulators: 'regulator_official',
-  associations: 'association_official',
-  'financial-institutions': 'provider_official',
-  'secondary-sources': 'secondary_reference',
-}[sourceClass(item)]);
 export const classifyPath = (item, exportFile) => {
   const t = item.type;
   // Classification nodes declare their own home. The folder tree and the
@@ -193,5 +139,5 @@ export const classifyPath = (item, exportFile) => {
   if (t === 'life-income') return ['50-life-context', 'income'];
   if (t === 'scenario') return ['50-life-context', 'scenarios'];
   if (t === 'domain' || t === 'category') return ['40-financial-reference', 'concepts'];
-  return ['40-financial-reference', 'concepts'];
+  throw new Error(`Unclassified canonical entity type: ${String(t)} (${item.id || 'missing-id'}) from ${exportFile || 'unknown export'}`);
 };

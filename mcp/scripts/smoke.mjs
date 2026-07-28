@@ -1,0 +1,10 @@
+const base = (process.env.MCP_URL || "https://openfin-mcp.y2kthr.workers.dev").replace(/\/$/, "");
+const health = await fetch(`${base}/health`);
+if (!health.ok) throw new Error(`/health failed: ${health.status}`);
+const healthPayload = await health.json();
+if (healthPayload.status !== "ok") throw new Error("/health is not live");
+const ready = await fetch(`${base}/ready`);
+if (![200, 503].includes(ready.status)) throw new Error(`/ready unexpected status: ${ready.status}`);
+const readyPayload = await ready.json();
+if (!["ready", "degraded"].includes(readyPayload.status)) throw new Error("/ready missing readiness status");
+console.log(JSON.stringify({ health: healthPayload, ready: readyPayload }, null, 2));

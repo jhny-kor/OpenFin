@@ -2,6 +2,8 @@
 
 OpenFin은 금융 도메인 지식과 상품 데이터를 같은 출처·관계 계약으로 공개하는 읽기 전용 탐색기와 Cloudflare Remote MCP입니다.
 
+범위 결정은 개인 금융 플랫폼 전체를 하나의 추천기로 만드는 것이 아니라, `tax`, `public-support`, `financial-products`, `financial-reference`, `life-context` bounded context를 각각 출처·신선도·공개등급으로 운영하는 방식입니다. 현재 공개 기능은 조회·탐색·비교 중심이며 추천은 release gate와 최신 120/120 live regression을 통과하기 전까지 fail-closed입니다.
+
 - 사이트: <https://jhny-kor.github.io/OpenFin/>
 - MCP: <https://openfin-mcp.y2kthr.workers.dev/mcp>
 - 상태 확인: <https://openfin-mcp.y2kthr.workers.dev/health>
@@ -25,6 +27,8 @@ OpenFin은 금융 도메인 지식과 상품 데이터를 같은 출처·관계 
 npm ci
 npm run knowledge:validate
 npm run knowledge:build
+npm run knowledge:schema-validate
+npm run knowledge:derive-quality:check
 npm run knowledge:track-sources -- --dry-run --report-dir .reports/source-tracking
 npm test
 ```
@@ -34,6 +38,8 @@ npm test
 ## Deployment
 
 `main`에 푸시하면 Pages workflow가 의존성 설치 → 지식 검증 → 결정적 export 빌드 → 회귀 테스트를 통과한 뒤 `docs/`를 GitHub Pages에 배포합니다. 데이터 변경은 Pages 산출물만 갱신합니다.
+
+Pages manifest의 release status, domain readiness, source coverage, live regression 결과는 빌드 입력에서 계산됩니다. 고정된 행 수·기준일·추천 플래그를 품질 판정에 사용하지 않습니다.
 
 매일 실행되는 `Track OpenFin Sources` workflow와 수동 `workflow_dispatch`는 SLA가 도래한 출처를 점검하고 결과를 artifact로 업로드합니다. `changed`, `stale`, `unreachable`, `conflict`, `retired` 상태가 감지되면 상태 영수증과 영향받는 canonical ID·필드 보고서만 `automation/source-tracking` 검토 PR로 올립니다. 원본 지식과 추천 자격은 자동 수정하지 않으며, 일시적인 원본 오류가 있어도 마지막 정상 데이터는 보존됩니다.
 

@@ -31,8 +31,12 @@ jobs:
         run: npm ci
       - name: Validate canonical knowledge
         run: npm run knowledge:validate
+      - name: Validate JSON Schemas and type registry
+        run: npm run knowledge:schema-validate
       - name: Build deterministic public exports
         run: npm run knowledge:build
+      - name: Verify derived quality gate
+        run: npm run knowledge:derive-quality:check
       - name: Run regression tests
         run: npm test
       - uses: actions/configure-pages@v5

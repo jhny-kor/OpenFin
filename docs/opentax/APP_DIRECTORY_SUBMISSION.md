@@ -6,13 +6,11 @@ Last updated: 2026-05-05
 ## App Identity
 
 - Name: OpenTax
-- Public MCP URL: `https://finance-mcp.y2kthr.workers.dev/mcp`
-- Health URL: `https://finance-mcp.y2kthr.workers.dev/health`
-- Homepage: `https://jhny-kor.github.io/TaxMeter/opentax/`
-- Privacy policy: `https://jhny-kor.github.io/TaxMeter/opentax/privacy.html`
-- Terms: `https://jhny-kor.github.io/TaxMeter/opentax/terms.html`
-- Support: `https://jhny-kor.github.io/TaxMeter/opentax/support.html`
-- Repository: `https://github.com/jhny-kor/TaxMeter`
+- Public MCP URL: `https://openfin-mcp.y2kthr.workers.dev/mcp`
+- Health URL: `https://openfin-mcp.y2kthr.workers.dev/health`
+- Readiness URL: `https://openfin-mcp.y2kthr.workers.dev/ready`
+- Homepage: `https://jhny-kor.github.io/OpenFin/`
+- Repository: `https://github.com/jhny-kor/OpenFin`
 
 ## Short Description
 

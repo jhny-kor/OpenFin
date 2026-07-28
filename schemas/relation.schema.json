@@ -1,8 +1,13 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "title":"OpenFin relation",
-  "type":"object",
-  "required":["from","relation","to"],
-  "properties":{"from":{"type":"string"},"relation":{"type":"string"},"to":{"type":"string"}},
-  "additionalProperties":false
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/relation.schema.json",
+  "title": "OpenFin typed relation",
+  "type": "object",
+  "required": ["from", "relation", "to"],
+  "properties": {
+    "from": { "type": "string", "minLength": 1 },
+    "relation": { "enum": ["parents", "children", "related", "terms", "deadlines", "sources", "requires", "conflicts_with", "available_in", "provided_by", "reference_items"] },
+    "to": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
 }
