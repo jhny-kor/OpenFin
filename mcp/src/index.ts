@@ -1521,10 +1521,47 @@ const SEARCH_SHARD_BY_DOMAIN: Record<string, string> = {
   deposit: "bank-products", saving: "bank-products", support: "support",
 };
 
+// The compatibility search root is intentionally complete, but hydrating all
+// 21k records for every Worker query exceeds the public Worker resource limit.
+// Route bounded queries to the smallest authoritative shard first; the root
+// remains the compatibility fallback for genuinely cross-domain searches.
+function searchShardForQuery(
+  query: string,
+  type?: string,
+  searchType?: string,
+  productKind?: string,
+): string | undefined {
+  const normalized = normalizeQuery(query);
+  if (type === "account-product" || productKind === "housing-subscription" || /청약통장|주택드림|isa|개인종합자산관리/.test(normalized)) return "account-products";
+  if (type === "support-program" || SUPPORT_INTENT_RE.test(normalized)) return "support";
+  if (type === "card-product" || /카드|마일리지|전월실적|연회비/.test(normalized)) return "card-products";
+  if (type === "insurance-product" || /보험|실손|실비/.test(normalized)) return "insurance-products";
+  if (type === "bank-product" || ["deposit", "saving", "loan"].includes(searchType ?? "") || /대출|예금|적금|은행|bank-products/.test(normalized)) return "bank-products";
+  if (type === "financial-product" || PROTECTION_QUERY_RE.test(normalized)) return "deposit-protection";
+  if (type && (SEARCH_TYPE_GROUPS[type] || ["tax", "term", "concept", "category", "source", "filing", "deadline"].includes(type))) return "reference";
+  if (TAX_INTENT_RE.test(normalized)) return "reference";
+  return undefined;
+}
+
 async function loadDetailedItemsForDomain(env: Env, domain: string): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
   const metadata = await loadSearchIndexMetadata(env);
   const shardId = SEARCH_SHARD_BY_DOMAIN[domain];
+  const shard = (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
+}
+
+async function loadSearchItemsForQuery(
+  env: Env,
+  query: string,
+  type?: string,
+  searchType?: string,
+  productKind?: string,
+): Promise<readonly FinanceItem[]> {
+  const manifest = await loadFinanceManifest(env);
+  const metadata = await loadSearchIndexMetadata(env);
+  const shardId = searchShardForQuery(query, type, searchType, productKind);
+  if (!shardId) return loadSearchItems(env);
   const shard = (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
 }
@@ -2323,11 +2360,10 @@ function createServer(env: Env): McpServer {
       },
     },
     async ({ query, type, search_type, product_kind, recommendation_status, recommendation_scope, sales_status, application_status, provider, region, freshness_status, limit }) => {
-      let items = dedupeProductItems(await loadSearchItems(env));
-      if (isDiscoveryQuery(query)) {
-        const detailDomain = discoveryDomainForQuery(query) ?? (SUPPORT_INTENT_RE.test(query) ? "support" : undefined);
-        if (detailDomain) items = dedupeProductItems(await loadDetailedItemsForDomain(env, detailDomain));
-      }
+      const detailDomain = discoveryDomainForQuery(query) ?? (SUPPORT_INTENT_RE.test(query) ? "support" : undefined);
+      let items = dedupeProductItems(detailDomain
+        ? await loadDetailedItemsForDomain(env, detailDomain)
+        : await loadSearchItemsForQuery(env, query, type, search_type, product_kind));
       const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
