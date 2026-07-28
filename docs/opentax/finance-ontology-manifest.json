@@ -1438,7 +1438,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-account-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-account-products.json",
         "item_count": 4,
-        "export_checksum": "dd5a7a7060ba34e03e5a091124cb03eb4f3327e4fab29f28af76bc4eace341cc"
+        "export_checksum": "dd5a7a7060ba34e03e5a091124cb03eb4f3327e4fab29f28af76bc4eace341cc",
+        "content_checksum": "12bac5aad381e707ce6151f405427406e061ea8c9f534ee5215d5f9c5103a973"
       },
       {
         "id": "finance-search-index-bank-products",
@@ -1447,7 +1448,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-bank-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-bank-products.json",
         "item_count": 1363,
-        "export_checksum": "8e13c3a327e0b6048cd1385d4339e11686b602d6a062f60b418d042e08bda4be"
+        "export_checksum": "8e13c3a327e0b6048cd1385d4339e11686b602d6a062f60b418d042e08bda4be",
+        "content_checksum": "1701218aa6f2c4ea4ea91b3fb195efd8baa234ad614385cca396057a72610345"
       },
       {
         "id": "finance-search-index-card-products",
@@ -1456,7 +1458,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-card-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-card-products.json",
         "item_count": 1007,
-        "export_checksum": "81404c2fa88333440e4002d09ff5894675fa0331bc446157b25d96ea244df702"
+        "export_checksum": "81404c2fa88333440e4002d09ff5894675fa0331bc446157b25d96ea244df702",
+        "content_checksum": "b19af27f30068cca6d41c4d5da5528378022a44dda3714f65bd0546ce73bcd0d"
       },
       {
         "id": "finance-search-index-deposit-protection",
@@ -1465,7 +1468,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-deposit-protection.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-deposit-protection.json",
         "item_count": 9380,
-        "export_checksum": "e0d00937367fe0a8b008a68a31ef9b0d5f6a07031cda21252ff6f70987b5af5d"
+        "export_checksum": "e0d00937367fe0a8b008a68a31ef9b0d5f6a07031cda21252ff6f70987b5af5d",
+        "content_checksum": "c92f51b8f7fec799453d49351a55cb2d2849f886bfaf43d529b10873e7dc1d73"
       },
       {
         "id": "finance-search-index-insurance-products",
@@ -1474,7 +1478,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-insurance-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-insurance-products.json",
         "item_count": 1071,
-        "export_checksum": "8003cf655e546d21daaf3110ec5d8871e4ae224569f1e3aaede9c6b1c1345d47"
+        "export_checksum": "8003cf655e546d21daaf3110ec5d8871e4ae224569f1e3aaede9c6b1c1345d47",
+        "content_checksum": "84898571d5469f1e0f3b6229356099ddb88b7c45d3e3c8a0bf704d9f8445d961"
       },
       {
         "id": "finance-search-index-pension-products",
@@ -1483,7 +1488,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-pension-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-pension-products.json",
         "item_count": 0,
-        "export_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        "export_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "content_checksum": "17cea59bc90877d7af3f6d9a547ff9f61079d2515ba63104af1bdcdd5217a9a7"
       },
       {
         "id": "finance-search-index-reference",
@@ -1492,7 +1498,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-reference.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-reference.json",
         "item_count": 715,
-        "export_checksum": "deeeee3b9f1bb1c6fb35997a94b9ccb6f27bdb29f8a7d1ad07c4693afba21f2a"
+        "export_checksum": "deeeee3b9f1bb1c6fb35997a94b9ccb6f27bdb29f8a7d1ad07c4693afba21f2a",
+        "content_checksum": "2b63b66e5687b7a102fde50ad396dcc648e9a5b57618bb02bac5f5931385637d"
       },
       {
         "id": "finance-search-index-support",
@@ -1501,12 +1508,14 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-support.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-support.json",
         "item_count": 7739,
-        "export_checksum": "e666e8aef62e88b1870b0ca4c8278ac05f4c08b21841a554f05d83ba6f98d18d"
+        "export_checksum": "e666e8aef62e88b1870b0ca4c8278ac05f4c08b21841a554f05d83ba6f98d18d",
+        "content_checksum": "9578a2cec7834180a23cc1ce250871c9ba65492622fc4f3b7560e89381027ee7"
       }
     ],
     "canonical_product_count": 12825,
     "duplicate_canonical_product_count": 0,
-    "canonical_merge_count": 49
+    "canonical_merge_count": 49,
+    "content_checksum": "aa2cc857b9eb68bb23a3a8492f35b417667bd5c9ebe3768110e417b9af9324ae"
   },
   "quality_exports": [
     {
@@ -4746,5 +4755,5 @@
       }
     }
   },
-  "manifest_checksum": "04f43948c7419b45698c230b6be9c00a0fbcd07cd41864525fe2878beb3dce3b"
+  "manifest_checksum": "08dd9b74da1a1931ce237bc7edcdbc10c531bc0947cb34a90fb5428c564d9291"
 }

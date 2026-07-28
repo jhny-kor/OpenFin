@@ -147,6 +147,7 @@ type ManifestEntry = {
   coverage?: Record<string, unknown>;
   summary?: Record<string, unknown>;
   export_checksum?: string;
+  content_checksum?: string;
   generated_at?: string;
 };
 
@@ -158,6 +159,7 @@ type SearchIndexShard = {
   web_url?: string;
   item_count?: number;
   export_checksum?: string;
+  content_checksum?: string;
 };
 
 type FinanceManifest = {
@@ -203,6 +205,7 @@ type SearchIndexFile = {
   readonly basis_date: string;
   readonly item_count?: number;
   readonly export_checksum?: string;
+  readonly content_checksum?: string;
   readonly items?: readonly FinanceItem[];
   readonly shards?: readonly SearchIndexShard[];
 };
@@ -1052,6 +1055,17 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await response.json()) as T;
 }
 
+async function fetchText(url: string): Promise<string> {
+  const response = await fetch(url, {
+    headers: {
+      accept: "application/json",
+      "user-agent": "finance-mcp-cloudflare-worker",
+    },
+  });
+  if (!response.ok) throw new Error(`Finance ontology fetch failed: ${url} ${response.status} ${response.statusText}`);
+  return response.text();
+}
+
 function stableJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
   if (value && typeof value === "object") {
@@ -1076,6 +1090,13 @@ async function verifySearchChecksum(data: unknown, expected: string | undefined)
   return expected.replace(/^sha256:/, "") === actual;
 }
 
+async function verifyTextChecksum(text: string, expected: string | undefined): Promise<boolean> {
+  if (typeof expected !== "string" || expected.length === 0) return false;
+  const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  const actual = [...new Uint8Array(bytes)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  return expected.replace(/^sha256:/, "") === actual;
+}
+
 async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
   const now = Date.now();
   if (cachedManifest && now - cachedManifest.loadedAt < CACHE_TTL_MS) {
@@ -1090,7 +1111,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
     const generation = JSON.stringify({
       version: manifest.version,
       basis_date: manifest.basis_date,
-      search_index: (manifest.search_index as (ManifestEntry & { export_checksum?: string }) | undefined)?.export_checksum ?? manifest.search_index?.path,
+      search_index: (manifest.search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.search_index?.content_checksum ?? manifest.search_index?.path,
       exports: manifest.exports.map((entry) => [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum]),
       artifacts: [manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index]
         .map((entry) => entry ? [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum] : null),
@@ -1333,6 +1354,9 @@ function parseSearchShard(value: unknown, source: string): SearchIndexShard {
   if (value.export_checksum !== undefined && typeof value.export_checksum !== "string") {
     throw new SearchIndexContractError(`${source}.export_checksum must be a string when present`);
   }
+  if (value.content_checksum !== undefined && typeof value.content_checksum !== "string") {
+    throw new SearchIndexContractError(`${source}.content_checksum must be a string when present`);
+  }
   return {
     id: value.id,
     shard_id: value.shard_id,
@@ -1341,6 +1365,7 @@ function parseSearchShard(value: unknown, source: string): SearchIndexShard {
     web_url: value.web_url,
     item_count: itemCount,
     export_checksum: value.export_checksum,
+    content_checksum: value.content_checksum,
   };
 }
 
@@ -1361,7 +1386,10 @@ function parseSearchIndexFile(value: unknown, source: string): SearchIndexFile {
   if (value.export_checksum !== undefined && typeof value.export_checksum !== "string") {
     throw new SearchIndexContractError(`${source}.export_checksum must be a string when present`);
   }
-  return { version: value.version, basis_date: value.basis_date, item_count: itemCount, export_checksum: value.export_checksum, items, shards };
+  if (value.content_checksum !== undefined && typeof value.content_checksum !== "string") {
+    throw new SearchIndexContractError(`${source}.content_checksum must be a string when present`);
+  }
+  return { version: value.version, basis_date: value.basis_date, item_count: itemCount, export_checksum: value.export_checksum, content_checksum: value.content_checksum, items, shards };
 }
 
 function assertSearchItemCount(actual: number, expected: number | undefined, source: string): void {
@@ -1392,12 +1420,21 @@ async function loadSearchIndexMetadata(env: Env): Promise<SearchIndexFile> {
     throw new SearchIndexContractError("finance manifest is missing search_index metadata");
   }
   const indexUrl = resolveExportUrl(manifest.search_index, manifestUrl);
-  const rawData = await fetchJson<unknown>(indexUrl);
+  const rawText = await fetchText(indexUrl);
+  if (manifest.search_index.content_checksum && !(await verifyTextChecksum(rawText, manifest.search_index.content_checksum))) {
+    throw new SearchIndexContractError("finance manifest search_index content checksum mismatch");
+  }
+  let rawData: unknown;
+  try {
+    rawData = JSON.parse(rawText);
+  } catch (error) {
+    throw new SearchIndexContractError(`finance manifest search_index is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
+  }
   // Search-root checksums are defined over the compact `items` payload by
   // the knowledge build. Keep that scope explicit so checksum validation is
   // identical for local and deployed artifacts.
   const checksumPayload = isRecord(rawData) && Array.isArray(rawData.items) ? rawData.items : rawData;
-  if (!(await verifySearchChecksum(checksumPayload, manifest.search_index.export_checksum))) {
+  if (!manifest.search_index.content_checksum && !(await verifySearchChecksum(checksumPayload, manifest.search_index.export_checksum))) {
     throw new SearchIndexContractError("finance manifest search_index checksum mismatch");
   }
   const data = parseSearchIndexFile(rawData, indexUrl);
@@ -1453,9 +1490,18 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<reado
   if (pending) return pending;
   const request = (async () => {
     const url = resolveExportUrl(shard, financeManifestUrl(env));
-    const payload = await fetchJson<unknown>(url);
+    const rawText = await fetchText(url);
+    if (shard.content_checksum && !(await verifyTextChecksum(rawText, shard.content_checksum))) {
+      throw new SearchIndexContractError(`search-index shard ${shard.shard_id} content checksum mismatch`);
+    }
+    let payload: unknown;
+    try {
+      payload = JSON.parse(rawText);
+    } catch (error) {
+      throw new SearchIndexContractError(`search-index shard ${shard.shard_id} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
+    }
     const checksumPayload = isRecord(payload) && Array.isArray(payload.items) ? payload.items : payload;
-    if (!(await verifySearchChecksum(checksumPayload, shard.export_checksum))) {
+    if (!shard.content_checksum && !(await verifySearchChecksum(checksumPayload, shard.export_checksum))) {
       throw new SearchIndexContractError(`search-index shard ${shard.shard_id} checksum mismatch`);
     }
     const items = parseSearchItems(payload, url);

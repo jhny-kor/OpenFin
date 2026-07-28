@@ -222,6 +222,7 @@ if (manifest.release_status !== derivedQuality.release_status || manifest.recomm
 if (JSON.stringify(manifest.blocking_reasons || []) !== JSON.stringify(derivedQuality.blocking_reasons)) fail('manifest blocking reasons do not match derived quality policy');
 if (!Array.isArray(search.items) || search.items.length !== search.item_count || search.compact_item_count !== search.item_count) fail('compact search root missing or incomplete');
 if (search.export_checksum !== sha256(JSON.stringify(search.items)).slice(7)) fail('compact search root checksum mismatch');
+if (search.content_checksum && search.content_checksum !== sha256(fs.readFileSync(path.join(DOCS, 'finance-search-index-2026.json'), 'utf8')).slice(7)) fail('compact search root content checksum mismatch');
 if ((search.shards || []).reduce((sum, shard) => sum + (shard.item_count || 0), 0) !== search.item_count) fail('search shard counts do not sum to the search root');
 for (const item of search.items || []) {
   if (!Array.isArray(item.source_ids)) fail(`compact search source ids missing: ${item.id}`);
@@ -229,7 +230,10 @@ for (const item of search.items || []) {
   if (typeof item.provenance_shard !== 'string') fail(`compact search detail shard missing: ${item.id}`);
 }
 for (const shard of search.shards || []) {
-  const payload = json(path.join(DOCS, path.basename(shard.path)));
+  const shardPath = path.join(DOCS, path.basename(shard.path));
+  const shardText = fs.readFileSync(shardPath, 'utf8');
+  if (shard.content_checksum && shard.content_checksum !== sha256(shardText).slice(7)) fail(`search shard content checksum mismatch: ${shard.shard_id}`);
+  const payload = JSON.parse(shardText);
   for (const item of payload.items || []) {
     if (!Array.isArray(item.source_ids)) fail(`search source ids missing: ${item.id}`);
     for (const sourceId of item.source_ids || []) if (!sourceIds.has(sourceId)) fail(`search source id unresolved: ${item.id} -> ${sourceId}`);
