@@ -1,4 +1,6 @@
 .DS_Store
+.omc/
+mcp/.omc/
 mcp/node_modules/
 mcp/.wrangler/
 mcp/.env
