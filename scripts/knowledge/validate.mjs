@@ -221,7 +221,7 @@ if (search.item_count !== records.length || search.canonical_product_count !== d
 if (manifest.release_status !== derivedQuality.release_status || manifest.recommendation_enabled !== derivedQuality.recommendation_enabled) fail('manifest release gate does not match derived quality policy');
 if (JSON.stringify(manifest.blocking_reasons || []) !== JSON.stringify(derivedQuality.blocking_reasons)) fail('manifest blocking reasons do not match derived quality policy');
 if (!Array.isArray(search.items) || search.items.length !== search.item_count || search.compact_item_count !== search.item_count) fail('compact search root missing or incomplete');
-if (search.export_checksum !== sha256(search.items).slice(7)) fail('compact search root checksum mismatch');
+if (search.export_checksum !== sha256(JSON.stringify(search.items)).slice(7)) fail('compact search root checksum mismatch');
 if ((search.shards || []).reduce((sum, shard) => sum + (shard.item_count || 0), 0) !== search.item_count) fail('search shard counts do not sum to the search root');
 for (const item of search.items || []) {
   if (!Array.isArray(item.source_ids)) fail(`compact search source ids missing: ${item.id}`);

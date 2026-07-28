@@ -1069,6 +1069,13 @@ async function verifyArtifactChecksum(data: unknown, expected: string | undefine
   return typeof expected === "string" && expected.length > 0 && expected.replace(/^sha256:/, "") === await sha256Hex(data);
 }
 
+async function verifySearchChecksum(data: unknown, expected: string | undefined): Promise<boolean> {
+  if (typeof expected !== "string" || expected.length === 0) return false;
+  const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(JSON.stringify(data)));
+  const actual = [...new Uint8Array(bytes)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  return expected.replace(/^sha256:/, "") === actual;
+}
+
 async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
   const now = Date.now();
   if (cachedManifest && now - cachedManifest.loadedAt < CACHE_TTL_MS) {
@@ -1390,7 +1397,7 @@ async function loadSearchIndexMetadata(env: Env): Promise<SearchIndexFile> {
   // the knowledge build. Keep that scope explicit so checksum validation is
   // identical for local and deployed artifacts.
   const checksumPayload = isRecord(rawData) && Array.isArray(rawData.items) ? rawData.items : rawData;
-  if (!(await verifyArtifactChecksum(checksumPayload, manifest.search_index.export_checksum))) {
+  if (!(await verifySearchChecksum(checksumPayload, manifest.search_index.export_checksum))) {
     throw new SearchIndexContractError("finance manifest search_index checksum mismatch");
   }
   const data = parseSearchIndexFile(rawData, indexUrl);
@@ -1448,7 +1455,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<reado
     const url = resolveExportUrl(shard, financeManifestUrl(env));
     const payload = await fetchJson<unknown>(url);
     const checksumPayload = isRecord(payload) && Array.isArray(payload.items) ? payload.items : payload;
-    if (!(await verifyArtifactChecksum(checksumPayload, shard.export_checksum))) {
+    if (!(await verifySearchChecksum(checksumPayload, shard.export_checksum))) {
       throw new SearchIndexContractError(`search-index shard ${shard.shard_id} checksum mismatch`);
     }
     const items = parseSearchItems(payload, url);

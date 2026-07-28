@@ -65,7 +65,10 @@ for (const [file, meta] of Object.entries(searchFiles).sort(([a],[b])=>a.localeC
     source_ids:[...new Set(i.sources || [])],
     provenance_shard:i.search_shard,
   } : null).filter(Boolean);
-  const output = {version:meta.version, basis_date:meta.basis_date, source_review_date:meta.source_review_date, ontology_kind:meta.ontology_kind, shard_id:meta.shard_id, item_count:items.length, items, export_checksum:sha256(items).slice(7)};
+  // Search shards are verified over their JSON array payload. The search
+  // index is a hot path in the Worker, so avoid recursively sorting every
+  // object key at request time while keeping the emitted ordering stable.
+  const output = {version:meta.version, basis_date:meta.basis_date, source_review_date:meta.source_review_date, ontology_kind:meta.ontology_kind, shard_id:meta.shard_id, item_count:items.length, items, export_checksum:sha256(JSON.stringify(items)).slice(7)};
   const outFile = file;
   writeJson(path.join(DOCS,outFile), output);
   shardOutputs.push({id:`finance-search-index-${meta.shard_id}`, shard_id:meta.shard_id, path:`opentax/${outFile}`, url:`${PUBLIC_BASE}/${outFile}`, web_url:`${PUBLIC_BASE}/${outFile}`, item_count:items.length, export_checksum:output.export_checksum});
@@ -74,7 +77,7 @@ for (const [file, meta] of Object.entries(searchFiles).sort(([a],[b])=>a.localeC
 const knownShardIds = new Set(shardOutputs.map(x=>x.shard_id));
 for (const file of fs.readdirSync(DOCS).filter(f=>/^finance-search-index-2026-.+\.json$/.test(f)).sort()) {
   const data = json(path.join(DOCS,file)); if (knownShardIds.has(data.shard_id)) continue;
-  const output = {version:data.version, basis_date:data.basis_date, source_review_date:data.source_review_date, ontology_kind:data.ontology_kind, shard_id:data.shard_id, item_count:0, items:[], export_checksum:sha256([]).slice(7)};
+  const output = {version:data.version, basis_date:data.basis_date, source_review_date:data.source_review_date, ontology_kind:data.ontology_kind, shard_id:data.shard_id, item_count:0, items:[], export_checksum:sha256(JSON.stringify([])).slice(7)};
   writeJson(path.join(DOCS,file), output);
   shardOutputs.push({id:`finance-search-index-${data.shard_id}`, shard_id:data.shard_id, path:`opentax/${file}`, url:`${PUBLIC_BASE}/${file}`, web_url:`${PUBLIC_BASE}/${file}`, item_count:0, export_checksum:output.export_checksum});
 }
@@ -115,7 +118,7 @@ const searchRoot = fs.existsSync(path.join(KNOWLEDGE,'search-manifest.json')) ? 
 const productNodes = catalog.filter(item => ['account-product','bank-product','card-product','financial-product','insurance-product'].includes(item.type));
 const canonicalProductIds = new Set(productNodes.map(item => item.canonical_product_id || item.id));
 const canonicalMergeCount = catalog.filter(item => (item.publication_memberships || []).length > 1).length;
-const searchManifest = {...searchRoot, item_count:allSearchItems.length, compact_item_count:compactSearchItems.length, canonical_product_count:canonicalProductIds.size, duplicate_canonical_product_count:productNodes.length - canonicalProductIds.size, canonical_merge_count:canonicalMergeCount, export_checksum:sha256(compactSearchItems).slice(7), detail_checksum:sha256(allSearchItems).slice(7), shards:shardOutputs, items:compactSearchItems};
+const searchManifest = {...searchRoot, item_count:allSearchItems.length, compact_item_count:compactSearchItems.length, canonical_product_count:canonicalProductIds.size, duplicate_canonical_product_count:productNodes.length - canonicalProductIds.size, canonical_merge_count:canonicalMergeCount, export_checksum:sha256(JSON.stringify(compactSearchItems)).slice(7), detail_checksum:sha256(JSON.stringify(allSearchItems)).slice(7), shards:shardOutputs, items:compactSearchItems};
 writeCompact(path.join(DOCS,'finance-search-index-2026.json'), searchManifest);
 const sourceRows = catalog.filter(i=>i.type==='source').sort((a,b)=>a.id.localeCompare(b.id));
 const sourceRegistry = sourceRows.map(source => {

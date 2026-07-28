@@ -1428,7 +1428,7 @@
     "collection_dates": [],
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "cb4b6e76aa9b6590e421cd6923ea9922f72b67bc4109a514a0e5ebd4303fc634",
+    "export_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
     "description": "MCP search 전용 경량 인덱스입니다.",
     "shards": [
       {
@@ -1438,7 +1438,7 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-account-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-account-products.json",
         "item_count": 4,
-        "export_checksum": "2ab5bcc9214d127b17f2131f58b147768d3d27ed7a5358ed314c26ea1c662301"
+        "export_checksum": "dd5a7a7060ba34e03e5a091124cb03eb4f3327e4fab29f28af76bc4eace341cc"
       },
       {
         "id": "finance-search-index-bank-products",
@@ -1447,7 +1447,7 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-bank-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-bank-products.json",
         "item_count": 1363,
-        "export_checksum": "795660ac04ffe5e7abcf881243f68b414b8cfdb5aba0d175eb9a4728d3475c76"
+        "export_checksum": "8e13c3a327e0b6048cd1385d4339e11686b602d6a062f60b418d042e08bda4be"
       },
       {
         "id": "finance-search-index-card-products",
@@ -1456,7 +1456,7 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-card-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-card-products.json",
         "item_count": 1007,
-        "export_checksum": "c4a879caf45419ef221909f096cee5187c882e12cb0790fccc10665d764cfe4e"
+        "export_checksum": "81404c2fa88333440e4002d09ff5894675fa0331bc446157b25d96ea244df702"
       },
       {
         "id": "finance-search-index-deposit-protection",
@@ -1465,7 +1465,7 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-deposit-protection.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-deposit-protection.json",
         "item_count": 9380,
-        "export_checksum": "b64ab3f35b7e6d63bfd51a895149946ac746771a5ebc7da0e3c901a7845f29f9"
+        "export_checksum": "e0d00937367fe0a8b008a68a31ef9b0d5f6a07031cda21252ff6f70987b5af5d"
       },
       {
         "id": "finance-search-index-insurance-products",
@@ -1474,7 +1474,7 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-insurance-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-insurance-products.json",
         "item_count": 1071,
-        "export_checksum": "4b24033c8e5d361f7a0a134fb7bbfd10026a12a788812dbdd0e4efe456b7594c"
+        "export_checksum": "8003cf655e546d21daaf3110ec5d8871e4ae224569f1e3aaede9c6b1c1345d47"
       },
       {
         "id": "finance-search-index-pension-products",
@@ -1492,7 +1492,7 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-reference.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-reference.json",
         "item_count": 715,
-        "export_checksum": "616951c9f55a67d63b32275f35805704ecc1ff3ce7dfc2a17e0eac7a893c00d8"
+        "export_checksum": "deeeee3b9f1bb1c6fb35997a94b9ccb6f27bdb29f8a7d1ad07c4693afba21f2a"
       },
       {
         "id": "finance-search-index-support",
@@ -1501,7 +1501,7 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-support.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-support.json",
         "item_count": 7739,
-        "export_checksum": "e31619077c0cdec524fda0887b9e137a49f890ed563f246ceceafb1039599fd7"
+        "export_checksum": "e666e8aef62e88b1870b0ca4c8278ac05f4c08b21841a554f05d83ba6f98d18d"
       }
     ],
     "canonical_product_count": 12825,
@@ -4746,5 +4746,5 @@
       }
     }
   },
-  "manifest_checksum": "64d00eb6693b215ab17fc10e5d56388e316784c367c911d62f64a2906ea1372a"
+  "manifest_checksum": "04f43948c7419b45698c230b6be9c00a0fbcd07cd41864525fe2878beb3dce3b"
 }
