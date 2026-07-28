@@ -20,28 +20,46 @@ function isRecord(value: unknown): value is JsonRecord {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function artifactRecords(value: unknown): JsonRecord[] {
-  if (Array.isArray(value)) return value.filter(isRecord);
-  if (!isRecord(value)) return [];
-  for (const key of ["items", "records", "entries", "provenance", "sources", "statuses"]) {
-    if (Array.isArray(value[key])) return value[key].filter(isRecord);
+// Search and recommendation responses resolve source freshness for many items
+// in one request. Keep a per-artifact lookup so each item does not rescan the
+// full source-status array.
+const sourceStatusIndexCache = new WeakMap<object, Map<string, JsonRecord>>();
+
+function sourceStatusIndex(value: unknown): Map<string, JsonRecord> | undefined {
+  if (!isRecord(value) && !Array.isArray(value)) return undefined;
+  const object = value as object;
+  const cached = sourceStatusIndexCache.get(object);
+  if (cached) return cached;
+  const index = new Map<string, JsonRecord>();
+  const add = (key: unknown, record: unknown) => {
+    if (typeof key === "string" && isRecord(record)) index.set(key, record);
+  };
+  const addRecord = (record: JsonRecord, fallbackKey?: string) => {
+    add(record.id, record);
+    add(record.source_id, record);
+    add(record.sourceId, record);
+    if (fallbackKey) add(fallbackKey, record);
+  };
+  if (Array.isArray(value)) {
+    for (const record of value) if (isRecord(record)) addRecord(record);
+  } else {
+    if (isRecord(value)) addRecord(value);
+    for (const key of ["items", "records", "entries", "sources", "statuses"]) {
+      const nested = value[key];
+      if (Array.isArray(nested)) {
+        for (const record of nested) if (isRecord(record)) addRecord(record);
+      } else if (isRecord(nested)) {
+        for (const [id, record] of Object.entries(nested)) if (isRecord(record)) addRecord(record, id);
+      }
+    }
+    for (const [id, record] of Object.entries(value)) add(id, record);
   }
-  return [];
+  sourceStatusIndexCache.set(object, index);
+  return index;
 }
 
 export function sourceStatusRecordFor(value: unknown, id: string): JsonRecord | undefined {
-  if (isRecord(value)) {
-    if (value.id === id || value.source_id === id || value.sourceId === id) return value;
-    const direct = value[id];
-    if (isRecord(direct)) return direct;
-    for (const key of ["items", "records", "entries", "sources", "statuses"]) {
-      const nested = value[key];
-      if (isRecord(nested) && isRecord(nested[id])) return nested[id];
-    }
-  }
-  return artifactRecords(value).find(
-    (record) => record.id === id || record.source_id === id || record.sourceId === id,
-  );
+  return sourceStatusIndex(value)?.get(id);
 }
 
 function normalizeSourceFreshness(value: unknown): string | null {
