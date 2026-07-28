@@ -1,0 +1,9 @@
+name = "openfin-mcp"
+main = "src/index.ts"
+compatibility_date = "2026-05-03"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+FINANCE_MANIFEST_URL = "https://jhny-kor.github.io/OpenFin/opentax/finance-ontology-manifest.json"
+FINANCE_WEB_BASE_URL = "https://jhny-kor.github.io/OpenFin/opentax/"
+RUNTIME_VERSION = "openfin-mcp-2026.07.28.1"

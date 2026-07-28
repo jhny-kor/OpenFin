@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd /Users/plo/Documents/TaxMeter/ontology/scripts\\npython3 build_finance_ontology.py >/dev/null 2>&1; echo \\\"build: $?\\\"\\necho \\\"=== 전체 검증기 (parity 제외 기대) ===\\\"\\npass=0; fail=0; failed=\\\"\\...",
+  "error": "Exit code 1\nbuild: 0\n=== 전체 검증기 (parity 제외 기대) ===\nPASS=25 FAIL=0  (parity 제외)\n\n=== 연금저축 검색 동작 (검색 인덱스 대상) ===\nTraceback (most recent call last):\n  File \"<string>\", line 3, in <module>\n    items=json.load(open('finance-search-index-2026.json'))['items']\n          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^\nKeyError: 'items'",
+  "timestamp": "2026-07-24T12:17:55.209Z",
+  "retry_count": 1
+}

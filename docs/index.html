@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenFin | Integrated Finance Ontology</title>
+  <meta name="description" content="세금, 지자체 지원금, 카드, 은행, 보험, 연금저축, 세제혜택 계좌 온톨로지를 통합한 OpenFin GitHub Pages 탐색기">
+  <meta name="theme-color" content="#05080d">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3.5 27 9.8v12.4l-11 6.3-11-6.3V9.8Z' fill='%2305080d' stroke='%2373f0c1' stroke-width='2'/%3E%3Cpath d='M9.5 17.5 16 21l6.5-3.5M9.5 13.5 16 17l6.5-3.5' fill='none' stroke='%2373f0c1' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css?v=2026.07.22.3">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="OpenFin 홈">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" role="img">
+          <path d="M16 3.5 27 9.8v12.4l-11 6.3-11-6.3V9.8L16 3.5Z" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M9.5 17.5 16 21l6.5-3.5M9.5 13.5 16 17l6.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>OpenFin</span>
+    </a>
+    <nav class="top-nav" aria-label="주요 섹션">
+      <a href="#top">Universe</a>
+      <a href="#exports">Exports</a>
+      <a href="#mcp">MCP</a>
+      <a href="./explorer.html">Explorer</a>
+    </nav>
+    <div class="header-actions">
+      <a href="https://github.com/jhny-kor/OpenFin" rel="noreferrer" target="_blank">GitHub</a>
+      <a href="https://openfin-mcp.y2kthr.workers.dev/health" rel="noreferrer" target="_blank">Health</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section" id="overview">
+      <div class="hero-copy">
+        <p class="eyebrow">OpenFin Ontology Surface</p>
+        <h1>OpenFin</h1>
+        <p class="hero-lede">
+          세금, 지자체 지원금, 카드, 은행, 보험, 연금저축, 세제혜택 계좌 데이터를 하나의 금융 온톨로지로 묶고
+          검색·탐색·비교·추천 결과와 근거를 같은 manifest에서 확인하는 공개 탐색면입니다.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="./explorer.html?scope=all">정보 검색 →</a>
+          <a class="button secondary" href="#mcp">MCP 연결</a>
+        </div>
+        <dl class="hero-meta">
+          <div><dt>version</dt><dd data-version>로딩 중</dd></div>
+          <div><dt>basis date</dt><dd data-basis-date>로딩 중</dd></div>
+          <div><dt>source review</dt><dd data-source-review-date>로딩 중</dd></div>
+          <div><dt>product dates</dt><dd data-product-collection-dates>로딩 중</dd></div>
+          <div><dt>MCP endpoint</dt><dd><a href="https://openfin-mcp.y2kthr.workers.dev/mcp" rel="noreferrer" target="_blank">openfin-mcp.y2kthr.workers.dev/mcp</a></dd></div>
+        </dl>
+      </div>
+
+      <div class="galaxy-stage" data-galaxy aria-label="OpenFin 금융 온톨로지 유니버스">
+        <canvas role="img" aria-label="세금·지원금·카드·은행·보험·연금·세제혜택 계좌 도메인이 매니페스트 코어를 공전하는 금융 온톨로지 성계"></canvas>
+        <button class="galaxy-fs" type="button" data-galaxy-fullscreen aria-label="유니버스 전체화면으로 보기">⤢ 전체화면</button>
+        <div class="galaxy-tooltip" data-galaxy-tooltip hidden></div>
+        <p class="galaxy-hint">드래그 회전 · 휠 확대 · 행성을 클릭하면 해당 도메인을 직접 조회합니다</p>
+      </div>
+    </section>
+
+    <section class="section galaxy-legend-section" aria-label="도메인 성계 범례">
+      <div class="galaxy-legend" data-galaxy-legend></div>
+    </section>
+
+    <section class="metrics section" aria-label="OpenFin 요약 수치">
+      <div><strong data-total-items-plain>로딩 중</strong><span>통합 항목</span></div>
+      <div><strong data-export-count>로딩 중</strong><span>도메인 export</span></div>
+      <div><strong data-product-count>로딩 중</strong><span>금융 상품 노드</span></div>
+      <div><strong data-local-count>로딩 중</strong><span>지자체 지원금</span></div>
+      <div><strong data-basis-date-short>로딩 중</strong><span>최종 기준일</span></div>
+    </section>
+
+    <section class="section operational-status" aria-label="운영 품질 상태" data-operational-summary>
+      <article>
+        <h3>상태 게이트</h3>
+        <p>manifest 품질 요약을 로딩 중입니다.</p>
+      </article>
+    </section>
+
+    <section class="section split-section" aria-labelledby="why-title">
+      <div class="section-heading">
+        <p class="eyebrow">Why This Exists</p>
+        <h2 id="why-title">OpenFin의 운영 목적</h2>
+        <p>
+          OpenFin은 금융·세금 데이터를 보여주는 소개 페이지가 아니라, 앱과 AI가 같은 기준을
+          읽도록 만드는 온톨로지 표면입니다.
+        </p>
+      </div>
+      <div class="comparison-grid">
+        <article>
+          <h3>기존 금융 정보의 문제</h3>
+          <ul>
+            <li>세금·복지·카드·은행·보험·연금·세제혜택 계좌 정보가 기관·파일별로 흩어집니다.</li>
+            <li>상품명·우대조건·한도·기준일이 바뀌어 공통 기준이 필요합니다.</li>
+            <li>원문 출처·수집일이 없으면 답변을 검증하기 어렵습니다.</li>
+          </ul>
+        </article>
+        <div class="comparison-arrow" aria-hidden="true">
+          <svg viewBox="0 0 72 40" role="img" focusable="false">
+            <defs>
+              <linearGradient id="comparison-arrow-gradient" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#73f0c1"/>
+                <stop offset="0.55" stop-color="#38a7ff"/>
+                <stop offset="1" stop-color="#8c7bff"/>
+              </linearGradient>
+              <filter id="comparison-arrow-glow" x="-30%" y="-50%" width="160%" height="200%">
+                <feDropShadow dx="0" dy="4" flood-color="#38a7ff" flood-opacity="0.38" stdDeviation="3"/>
+              </filter>
+            </defs>
+            <path class="arrow-shadow" d="M5 21h43l-7-8 4-4 17 17-17 17-4-4 7-8H5Z" fill="#02050a" opacity="0.58"/>
+            <path class="arrow-face" d="M4 16h43l-7-8 4-4 17 17-17 17-4-4 7-8H4Z" fill="url(#comparison-arrow-gradient)" filter="url(#comparison-arrow-glow)"/>
+            <path class="arrow-highlight" d="M7 13h37" fill="none" stroke="#d9fff2" stroke-linecap="round" stroke-opacity="0.82" stroke-width="2"/>
+          </svg>
+        </div>
+        <article>
+          <h3>OpenFin에 반영한 방식</h3>
+          <ul>
+            <li>manifest·샤드 인덱스로 도메인별 항목·상품 수를 노출합니다.</li>
+            <li>각 노드에 ID·타입·설명·조건·출처·이웃 노드를 보존합니다.</li>
+            <li>Pages 탐색기와 Cloudflare MCP가 같은 export를 읽습니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="exports" aria-labelledby="exports-title">
+      <div class="section-heading row-heading">
+        <div>
+          <p class="eyebrow">Exports</p>
+          <h2 id="exports-title">통합 manifest가 로드하는 파일</h2>
+          <p>각 카드의 수치는 현재 JSON manifest에서 읽어옵니다.</p>
+        </div>
+        <a class="text-link" href="./opentax/finance-ontology-manifest.json" target="_blank" rel="noreferrer">manifest JSON 열기</a>
+      </div>
+      <div class="export-grid" data-export-grid>
+        <article class="export-card skeleton"><span></span><strong>manifest 로딩 중</strong><p>GitHub Pages JSON을 확인하고 있습니다.</p></article>
+      </div>
+    </section>
+
+    <section class="section flow" id="mcp" aria-labelledby="mcp-title">
+      <div class="section-heading">
+        <p class="eyebrow">ChatGPT Connector</p>
+        <h2 id="mcp-title">ChatGPT에 OpenFin MCP 연결하기</h2>
+        <p>
+          OpenFin MCP는 읽기 전용 서버입니다. ChatGPT의 Plugins에서 아래 MCP URL을 추가하면
+          세금, 지원금, 카드, 은행, 보험, 연금저축, 세제혜택 계좌 온톨로지를 ChatGPT 대화 안에서 검색하고,
+          조건에 맞는 비교·추천 후보와 다음 행동을 확인할 수 있습니다.
+        </p>
+      </div>
+      <div class="pipeline">
+        <div><strong>GitHub JSON</strong><span>ontology/exports</span></div>
+        <div><strong>Pages Mirror</strong><span>/opentax/*.json</span></div>
+        <div><strong>Cloudflare MCP</strong><span>finance-mcp worker</span></div>
+        <div><strong>ChatGPT</strong><span>Plugins에서 사용</span></div>
+      </div>
+      <div class="connector-guide">
+        <article class="connector-endpoint">
+          <h3>붙여 넣을 MCP 서버 URL</h3>
+          <code>https://openfin-mcp.y2kthr.workers.dev/mcp</code>
+          <p>읽기 전용 도구를 제공합니다: `exports`, `search`, `fetch`, `discover`, `compare`, `recommend`.</p>
+        </article>
+        <ol class="connector-steps">
+          <li>
+            <strong>ChatGPT 설정 열기</strong>
+            <span>Settings → Plugins → Advanced에서 Developer mode를 켭니다.</span>
+          </li>
+          <li>
+            <strong>원격 MCP 서버 추가</strong>
+            <span>Plugins 탭에서 새 MCP 서버를 추가하고 위 URL을 입력합니다.</span>
+          </li>
+          <li>
+            <strong>대화에서 커넥터 선택</strong>
+            <span>질문할 때 OpenFin 커넥터를 선택하고 “청년 월세 지원”, “체크카드 전월실적”, “신용대출 금리”처럼 검색합니다.</span>
+          </li>
+        </ol>
+      </div>
+      <div class="mcp-grid">
+        <article>
+          <h3>exports</h3>
+          <p>OpenFin이 현재 읽는 export, 샤드 manifest, 기준일, 총 항목 수를 확인합니다.</p>
+        </article>
+        <article>
+          <h3>search</h3>
+          <p>사용자 질문과 의도를 기준으로 세금, 지원금, 카드, 은행, 보험, 연금저축, 세제혜택 계좌 노드를 찾습니다.</p>
+        </article>
+        <article>
+          <h3>fetch</h3>
+          <p>선택한 노드의 기준, 출처, 상품 메타데이터, 연결 노드를 자세히 조회합니다.</p>
+        </article>
+        <article>
+          <h3>discover / compare</h3>
+          <p>상품 후보를 구조화하고 예금·적금·대출의 비교 가능 필드를 기준으로 비교합니다.</p>
+        </article>
+        <article>
+          <h3>recommend</h3>
+          <p>필수 프로필·제약조건과 검증 상태를 확인한 뒤, 근거가 부족한 상품은 추천에서 제외합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section improvements" aria-labelledby="improvements-title">
+      <div class="section-heading">
+        <p class="eyebrow">Content Additions</p>
+        <h2 id="improvements-title">현재 반영된 금융 온톨로지</h2>
+        <p>현재 데이터와 운영 게이트를 기준으로 웹 탐색기와 MCP에서 확인할 수 있는 기능 상태입니다.</p>
+      </div>
+      <div class="improvement-grid">
+        <article>
+          <h3>검색·탐색</h3>
+          <p>질의를 의도와 분야로 해석해 세금·지원금·카드·은행·보험·연금·세제혜택 계좌 후보를 찾고, 종료·미확인 항목은 기본 결과에서 분리합니다.</p>
+          <span>반영: search · discover · status-aware filtering · 샤드 hydration</span>
+        </article>
+        <article>
+          <h3>상품 비교</h3>
+          <p>예금·적금·대출은 기간, 금리, 한도, 상환 등 비교 필드를 구조화하고 검증된 비교 후보만 비교 결과에 사용합니다.</p>
+          <span>반영: compare · comparison completeness · sales verification evidence</span>
+        </article>
+        <article>
+          <h3>추천 안전 게이트</h3>
+          <p>추천은 프로필·제약조건·판매상태·필수 필드·검증 증거를 모두 확인하며, 현재 공개 추천이 차단된 도메인은 후보 설명만 제공합니다.</p>
+          <span>반영: recommend · reference_only 제외 · fail-closed recommendation policy</span>
+        </article>
+        <article>
+          <h3>지원사업 필드화</h3>
+          <p>지역, 대상, 신청기간, 상태, 제외 요약을 필드로 유지해 “내가 신청할 수 있는 지원”을 설명할 수 있게 했습니다.</p>
+          <span>반영: support search · region/youth intent · excluded_summary</span>
+        </article>
+        <article>
+          <h3>공식 보험 출처</h3>
+          <p>보험 공시와 공식 문서에서 확인된 보장·가입·보험료 필드를 반영하고, 공개되지 않은 대기·감액 정보는 unknown으로 보존합니다.</p>
+          <span>반영: official disclosure overlay · source checksum · unknown fail-closed</span>
+        </article>
+        <article>
+          <h3>샤드 인덱스</h3>
+          <p>대용량 검색 인덱스는 manifest와 도메인 샤드로 나누고, 화면과 MCP가 같은 공통 데이터 계약으로 hydrate합니다.</p>
+          <span>반영: 21,251 items · shard item_count 검증 · inline/shard loader</span>
+        </article>
+        <article>
+          <h3>검증 표면</h3>
+          <p>로컬 릴리스 검증과 실제 MCP smoke/regression 결과를 함께 기록해 화면에 표시되는 데이터 계약을 추적할 수 있습니다.</p>
+          <span>반영: release 20/20 · live regression 37/37 · smoke 11/11</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section explorer-cta" aria-labelledby="explorer-cta-title">
+      <div class="explorer-cta-card">
+        <div>
+          <p class="eyebrow">Explorer</p>
+          <h2 id="explorer-cta-title">정보 검색</h2>
+          <p>세금·지원금·카드·예금·적금·대출·보험·연금저축·세제혜택 계좌·기준정보 노드를 검색하고, 기준·출처·상품 메타데이터·연결 노드를 별도 화면에서 조회합니다.</p>
+        </div>
+        <a class="button primary" href="./explorer.html">탐색기 열기 →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 OpenFin</span>
+    <a href="https://github.com/jhny-kor/OpenFin" rel="noreferrer" target="_blank">GitHub</a>
+    <a href="./opentax/">OpenTax</a>
+    <a href="https://openfin-mcp.y2kthr.workers.dev/health" rel="noreferrer" target="_blank">MCP Health</a>
+  </footer>
+
+  <script src="./app.js?v=2026.07.22.3"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three.module.min.js",
+        "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js"
+      }
+    }
+  </script>
+  <script type="module" src="./galaxy3d.js?v=2026.07.23.1"></script>
+</body>
+</html>

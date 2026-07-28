@@ -1,0 +1,3071 @@
+{
+  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+  "basis_date": "2026-07-10",
+  "source_review_date": "2026-07-10",
+  "built_at": "2026-07-26T13:08:27Z",
+  "name": "finance",
+  "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
+  "release_status": "degraded",
+  "degraded_domains": [],
+  "blocking_issues": [],
+  "warning_issues": [],
+  "semantic_validation_passed": true,
+  "id_compatibility_validation_passed": true,
+  "quality_summary": {
+    "export_audit": {
+      "built_at": "2026-07-26T13:08:27Z",
+      "domain_export_count": 10,
+      "search_index_item_count": 21266,
+      "canonical_product_count": 3434,
+      "duplicate_canonical_product_count": 0,
+      "checksum_covered_export_count": 11,
+      "broken_relation_count": 0,
+      "collection_failure_sources": "see source_access_risks"
+    },
+    "search_regression_tests": {
+      "test_count": 20,
+      "passed_count": 20,
+      "failed_count": 0,
+      "failures": [],
+      "last_failed_at": null
+    },
+    "committee_remediation": {
+      "status_fields_added": true,
+      "expired_local_support_active_gate": true,
+      "active_insurance_without_criteria_gate": true,
+      "status_aware_search_required": true,
+      "cross_export_reference_validation": true,
+      "semantic_product_related_edges_added": true,
+      "card_incomplete_conditions_reference_only_gate": true,
+      "loan_reference_only_guard": true,
+      "loan_required_fields_candidate_gate": true,
+      "insurance_incomplete_coverage_reference_only_gate": true,
+      "insurance_loan_misclassification_gate": true,
+      "support_unknown_reference_only_gate": true,
+      "recommendation_intent_candidate_only_search": true
+    },
+    "finance_exports": {
+      "card": {
+        "product_count": 1007,
+        "verified_pilot_count": 20,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.9955,
+        "verified_pilot_threshold": 0.7,
+        "status_counts": {
+          "active": 652,
+          "unknown": 355
+        },
+        "active_products_without_criteria": 1,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 122,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 981,
+        "manual_review_candidate_products": 11,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 652,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 1007,
+        "recommendation_status_counts": {
+          "eligible_for_listing": 15,
+          "manual_review_candidate": 11,
+          "reference_only": 981
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 1007
+        },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 11,
+        "products_with_verification_evidence": 11,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 0,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.1812,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "annual_fee_krw": 977,
+          "benefit_amount_krw": 492,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 593,
+          "benefit_type": 355,
+          "criteria_or_options": 355,
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 958,
+          "per_transaction_limit_krw": 974,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
+        },
+        "absent_fields_by_field_name": {
+          "annual_fee_krw": 977,
+          "benefit_amount_krw": 492,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 593,
+          "benefit_type": 355,
+          "criteria_or_options": 1007,
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 958,
+          "per_transaction_limit_krw": 974,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
+        },
+        "empty_fields_by_field_name": {
+          "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
+          "benefit_categories": 0,
+          "benefit_frequency_limit": 0,
+          "benefit_rate_percent": 0,
+          "benefit_type": 0,
+          "criteria_or_options": 0,
+          "excluded_spend": 0,
+          "minimum_payment_amount": 0,
+          "monthly_benefit_limit_krw": 0,
+          "per_transaction_limit_krw": 0,
+          "performance_excluded_spend": 0,
+          "previous_month_spend_min_krw": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "annual_fee_krw": 977,
+          "benefit_amount_krw": 492,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 593,
+          "benefit_type": 355,
+          "criteria_or_options": 0,
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 958,
+          "per_transaction_limit_krw": 974,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
+        },
+        "unverified_fields_by_field_name": {
+          "annual_fee_krw": 30,
+          "benefit_amount_krw": 515,
+          "benefit_categories": 312,
+          "benefit_frequency_limit": 39,
+          "benefit_rate_percent": 414,
+          "benefit_type": 652,
+          "criteria_or_options": 0,
+          "excluded_spend": 36,
+          "minimum_payment_amount": 35,
+          "monthly_benefit_limit_krw": 49,
+          "per_transaction_limit_krw": 33,
+          "performance_excluded_spend": 36,
+          "previous_month_spend_min_krw": 39
+        },
+        "conflicting_fields_by_field_name": {
+          "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
+          "benefit_categories": 0,
+          "benefit_frequency_limit": 0,
+          "benefit_rate_percent": 0,
+          "benefit_type": 0,
+          "criteria_or_options": 0,
+          "excluded_spend": 0,
+          "minimum_payment_amount": 0,
+          "monthly_benefit_limit_krw": 0,
+          "per_transaction_limit_krw": 0,
+          "performance_excluded_spend": 0,
+          "previous_month_spend_min_krw": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
+          "benefit_categories": 0,
+          "benefit_frequency_limit": 0,
+          "benefit_rate_percent": 0,
+          "benefit_type": 0,
+          "criteria_or_options": 0,
+          "excluded_spend": 0,
+          "minimum_payment_amount": 0,
+          "monthly_benefit_limit_krw": 0,
+          "per_transaction_limit_krw": 0,
+          "performance_excluded_spend": 0,
+          "previous_month_spend_min_krw": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 11,
+          "verification_evidence_product_count": 11
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "deposit": {
+        "product_count": 430,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": 0.5,
+        "status_counts": {
+          "active": 430
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 430,
+        "comparison_candidate_products": 430,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {
+          "eligible_for_listing": 430
+        },
+        "recommendation_scope_counts": {
+          "comparison_only": 430
+        },
+        "products_with_complete_comparison_fields": 30,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 30,
+        "products_with_verification_evidence": 30,
+        "comparison_overlay_quality": {
+          "candidate_count": 30,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 30,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 30,
+          "missing_required_fields_by_field_name": {
+            "deposit_protection_status": 8,
+            "early_termination_condition": 30,
+            "maximum_deposit_krw": 16,
+            "minimum_deposit_krw": 22,
+            "preferential_rate_conditions": 4
+          },
+          "unverified_fields_by_field_name": {
+            "base_rate_percent": 30,
+            "deposit_protection_status": 22,
+            "interest_method": 30,
+            "join_channel": 30,
+            "join_member": 30,
+            "maximum_deposit_krw": 14,
+            "maximum_rate_percent": 30,
+            "minimum_deposit_krw": 8,
+            "preferential_rate_conditions": 26,
+            "term_months": 30
+          },
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.6126,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "deposit_protection_status": 370,
+          "early_termination_condition": 430,
+          "join_member": 2,
+          "maximum_deposit_krw": 395,
+          "minimum_deposit_krw": 398,
+          "preferential_rate_conditions": 4,
+          "sales_verification_status": 400
+        },
+        "absent_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 0,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "empty_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 430,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 395,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 398,
+          "preferential_rate_conditions": 345,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 370,
+          "early_termination_condition": 430,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 2,
+          "maximum_deposit_krw": 395,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 398,
+          "preferential_rate_conditions": 345,
+          "sales_verification_status": 430,
+          "term_months": 0
+        },
+        "unverified_fields_by_field_name": {
+          "base_rate_percent": 430,
+          "deposit_protection_status": 60,
+          "early_termination_condition": 0,
+          "interest_method": 430,
+          "join_channel": 430,
+          "join_member": 428,
+          "maximum_deposit_krw": 35,
+          "maximum_rate_percent": 430,
+          "minimum_deposit_krw": 32,
+          "preferential_rate_conditions": 85,
+          "sales_verification_status": 0,
+          "term_months": 430
+        },
+        "conflicting_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 0,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 0,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "structural_comparison_candidate_count": 430,
+        "complete_comparison_data_count": 30,
+        "verified_comparison_candidate_count": 30,
+        "public_comparison_candidate_count": 30,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "ready",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 30,
+          "verification_evidence_product_count": 30
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "saving": {
+        "product_count": 335,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": 0.5,
+        "status_counts": {
+          "active": 335
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 335,
+        "comparison_candidate_products": 335,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {
+          "eligible_for_listing": 335
+        },
+        "recommendation_scope_counts": {
+          "comparison_only": 335
+        },
+        "products_with_complete_comparison_fields": 30,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 30,
+        "products_with_verification_evidence": 30,
+        "comparison_overlay_quality": {
+          "candidate_count": 30,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 30,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 30,
+          "missing_required_fields_by_field_name": {
+            "deposit_protection_status": 1,
+            "early_termination_condition": 30,
+            "monthly_payment_max_krw": 3,
+            "monthly_payment_min_krw": 28,
+            "preferential_rate_conditions": 1
+          },
+          "unverified_fields_by_field_name": {
+            "base_rate_percent": 30,
+            "deposit_protection_status": 29,
+            "join_channel": 30,
+            "join_member": 30,
+            "maximum_rate_percent": 30,
+            "monthly_payment_max_krw": 27,
+            "monthly_payment_min_krw": 2,
+            "preferential_rate_conditions": 29,
+            "saving_method": 30,
+            "term_months": 30
+          },
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.6316,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "deposit_protection_status": 265,
+          "early_termination_condition": 335,
+          "join_channel": 3,
+          "join_member": 6,
+          "monthly_payment_max_krw": 238,
+          "monthly_payment_min_krw": 328,
+          "preferential_rate_conditions": 1,
+          "sales_verification_status": 305
+        },
+        "absent_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 0,
+          "monthly_payment_min_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "empty_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 335,
+          "join_channel": 3,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 238,
+          "monthly_payment_min_krw": 328,
+          "preferential_rate_conditions": 186,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 265,
+          "early_termination_condition": 335,
+          "join_channel": 3,
+          "join_member": 6,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 238,
+          "monthly_payment_min_krw": 328,
+          "preferential_rate_conditions": 186,
+          "sales_verification_status": 335,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "unverified_fields_by_field_name": {
+          "base_rate_percent": 335,
+          "deposit_protection_status": 70,
+          "early_termination_condition": 0,
+          "join_channel": 332,
+          "join_member": 329,
+          "maximum_rate_percent": 335,
+          "monthly_payment_max_krw": 97,
+          "monthly_payment_min_krw": 7,
+          "preferential_rate_conditions": 149,
+          "sales_verification_status": 0,
+          "saving_method": 335,
+          "term_months": 335
+        },
+        "conflicting_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 0,
+          "monthly_payment_min_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 0,
+          "monthly_payment_min_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "structural_comparison_candidate_count": 335,
+        "complete_comparison_data_count": 30,
+        "verified_comparison_candidate_count": 30,
+        "public_comparison_candidate_count": 30,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "ready",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 30,
+          "verification_evidence_product_count": 30
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "loan": {
+        "product_count": 598,
+        "verified_pilot_count": 20,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 1.0,
+        "verified_pilot_threshold": 0.5,
+        "status_counts": {
+          "active": 587,
+          "unknown": 11
+        },
+        "active_products_without_criteria": 4,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 4,
+        "loans_missing_required_fields": 564,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 587,
+        "manual_review_candidate_products": 11,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 587,
+        "comparison_candidate_products": 13,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 574,
+        "recommendation_status_counts": {
+          "manual_review_candidate": 11,
+          "reference_only": 587
+        },
+        "recommendation_scope_counts": {
+          "comparison_only": 13,
+          "internal_verification_candidate": 11,
+          "listing_only": 574
+        },
+        "products_with_complete_comparison_fields": 20,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 20,
+        "products_with_verification_evidence": 20,
+        "comparison_overlay_quality": {
+          "candidate_count": 20,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 20,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 20,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {
+            "collateral_type": 20,
+            "early_repayment_fee": 20,
+            "eligible_borrower": 20,
+            "loan_limit_krw": 20,
+            "loan_rate_max_percent": 20,
+            "loan_rate_min_percent": 20,
+            "rate_type": 20,
+            "repayment_method": 20
+          },
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.6885,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "collateral_type": 90,
+          "criteria_or_options": 11,
+          "early_repayment_fee": 325,
+          "eligible_borrower": 163,
+          "loan_limit_krw": 293,
+          "loan_rate_max_percent": 160,
+          "loan_rate_min_percent": 160,
+          "rate_type": 128,
+          "repayment_method": 171
+        },
+        "absent_fields_by_field_name": {
+          "collateral_type": 0,
+          "criteria_or_options": 598,
+          "early_repayment_fee": 0,
+          "eligible_borrower": 0,
+          "loan_limit_krw": 0,
+          "loan_rate_max_percent": 0,
+          "loan_rate_min_percent": 0,
+          "rate_type": 0,
+          "repayment_method": 0
+        },
+        "empty_fields_by_field_name": {
+          "collateral_type": 90,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 325,
+          "eligible_borrower": 163,
+          "loan_limit_krw": 293,
+          "loan_rate_max_percent": 160,
+          "loan_rate_min_percent": 160,
+          "rate_type": 128,
+          "repayment_method": 171
+        },
+        "not_collected_fields_by_field_name": {
+          "collateral_type": 90,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 325,
+          "eligible_borrower": 163,
+          "loan_limit_krw": 255,
+          "loan_rate_max_percent": 160,
+          "loan_rate_min_percent": 160,
+          "rate_type": 128,
+          "repayment_method": 171
+        },
+        "unverified_fields_by_field_name": {
+          "collateral_type": 508,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 273,
+          "eligible_borrower": 435,
+          "loan_limit_krw": 305,
+          "loan_rate_max_percent": 438,
+          "loan_rate_min_percent": 438,
+          "rate_type": 470,
+          "repayment_method": 427
+        },
+        "conflicting_fields_by_field_name": {
+          "collateral_type": 0,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 0,
+          "eligible_borrower": 0,
+          "loan_limit_krw": 0,
+          "loan_rate_max_percent": 0,
+          "loan_rate_min_percent": 0,
+          "rate_type": 0,
+          "repayment_method": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "collateral_type": 0,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 0,
+          "eligible_borrower": 0,
+          "loan_limit_krw": 0,
+          "loan_rate_max_percent": 0,
+          "loan_rate_min_percent": 0,
+          "rate_type": 0,
+          "repayment_method": 0
+        },
+        "structural_comparison_candidate_count": 13,
+        "complete_comparison_data_count": 20,
+        "verified_comparison_candidate_count": 20,
+        "public_comparison_candidate_count": 13,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "ready",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "insurance": {
+        "product_count": 1071,
+        "verified_pilot_count": 20,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.835,
+        "verified_pilot_threshold": 0.6,
+        "status_counts": {
+          "active": 1071
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 1071,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 1071,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 1071,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 1071,
+        "recommendation_status_counts": {
+          "reference_only": 1071
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 1071
+        },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 20,
+        "products_with_verification_evidence": 20,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 0,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.424,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "coverage_amount_krw": 29,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
+          "reduction_period_days": 1071,
+          "renewal_type": 199,
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
+        },
+        "absent_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 29,
+          "coverage_names": 0,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
+          "premium_basis": 0,
+          "reduction_period_days": 1071,
+          "renewal_type": 199,
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
+        },
+        "empty_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 0,
+          "coverage_names": 0,
+          "exclusion_condition": 0,
+          "insurance_term": 0,
+          "insured_age_max": 0,
+          "insured_age_min": 0,
+          "payment_term": 0,
+          "premium_basis": 0,
+          "reduction_period_days": 0,
+          "renewal_type": 0,
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 29,
+          "coverage_names": 0,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
+          "premium_basis": 0,
+          "reduction_period_days": 1071,
+          "renewal_type": 199,
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
+        },
+        "unverified_fields_by_field_name": {
+          "claim_condition": 1071,
+          "coverage_amount_krw": 1042,
+          "coverage_names": 1071,
+          "exclusion_condition": 13,
+          "insurance_term": 414,
+          "insured_age_max": 8,
+          "insured_age_min": 8,
+          "payment_term": 18,
+          "premium_basis": 1071,
+          "reduction_period_days": 0,
+          "renewal_type": 872,
+          "surrender_refund_type": 316,
+          "waiting_period_days": 0
+        },
+        "conflicting_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 0,
+          "coverage_names": 0,
+          "exclusion_condition": 0,
+          "insurance_term": 0,
+          "insured_age_max": 0,
+          "insured_age_min": 0,
+          "payment_term": 0,
+          "premium_basis": 0,
+          "reduction_period_days": 0,
+          "renewal_type": 0,
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 0,
+          "coverage_names": 0,
+          "exclusion_condition": 0,
+          "insurance_term": 0,
+          "insured_age_max": 0,
+          "insured_age_min": 0,
+          "payment_term": 0,
+          "premium_basis": 0,
+          "reduction_period_days": 0,
+          "renewal_type": 0,
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "pension": {
+        "product_count": 0,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
+        "status_counts": {},
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {},
+        "recommendation_scope_counts": {},
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 0,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {},
+        "absent_fields_by_field_name": {},
+        "empty_fields_by_field_name": {},
+        "not_collected_fields_by_field_name": {},
+        "unverified_fields_by_field_name": {},
+        "conflicting_fields_by_field_name": {},
+        "expired_verification_fields_by_field_name": {},
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "account": {
+        "product_count": 4,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
+        "status_counts": {
+          "active": 4
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 4,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 4,
+        "recommendation_status_counts": {
+          "reference_only": 4
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 4
+        },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 0,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 4,
+          "tax_benefit": 4
+        },
+        "absent_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 0,
+          "tax_benefit": 4
+        },
+        "empty_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 4,
+          "tax_benefit": 4
+        },
+        "unverified_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "conflicting_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "reference": {
+        "product_count": 0,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
+        "status_counts": {},
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {},
+        "recommendation_scope_counts": {},
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 0,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {},
+        "absent_fields_by_field_name": {},
+        "empty_fields_by_field_name": {},
+        "not_collected_fields_by_field_name": {},
+        "unverified_fields_by_field_name": {},
+        "conflicting_fields_by_field_name": {},
+        "expired_verification_fields_by_field_name": {},
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      }
+    }
+  },
+  "operating_policy": {
+    "allowed": [
+      "tax_explanation_lookup",
+      "deposit_and_saving_rate_lookup",
+      "loan_disclosure_reference_lookup",
+      "loan_required_field_candidate_matching",
+      "verified_recommendation_search",
+      "insurance_representative_coverage_and_premium_lookup",
+      "card_benefit_text_lookup",
+      "local_support_open_status_assistance",
+      "operational_quality_audit"
+    ],
+    "blocked": [
+      "card_automatic_recommendation",
+      "loan_personalized_recommendation",
+      "insurance_automatic_recommendation",
+      "personalized_financial_product_ranking",
+      "local_support_final_eligibility_decision",
+      "tax_auto_calculation"
+    ],
+    "domain_rules": {
+      "tax": "description_lookup_only",
+      "deposit-products": "rate_listing_allowed",
+      "saving-products": "rate_listing_allowed",
+      "local-government-supports": "open_status_is_eligible_for_listing_until_final_eligibility_is_verified",
+      "card-products": "benefit_text_lookup_only_until_conditions_are_complete",
+      "loan-products": "manual_review_candidate_only_when_active_and_all_required_fields_are_complete",
+      "insurance-products": "reference_only_when_coverage_conditions_are_incomplete"
+    }
+  },
+  "source_access_risks": [
+    {
+      "source_id": "source.kdic.insured-products",
+      "status": "live_imported",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "HTTP 200 NORMAL SERVICE; totalCount 45292; current rows imported into deposit-protection generated snapshot",
+      "mitigation": "상품판매중단일자가 있는 행은 기본 운영 export에서 제외하고 --include-kdic-ended-products 옵션으로만 이력 수집합니다."
+    },
+    {
+      "source_id": "source.klia.insurance-disclosure",
+      "status": "live_imported",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1071",
+      "mitigation": "상품 상세 약관 파일은 내려받지 않고 리스트 표의 상품명·담보·보험료·갱신여부·판매일자만 운영 export에 반영합니다."
+    },
+    {
+      "source_id": "source.fsc.medical-reimbursement-insurance",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetMedicalReimbursementInsuranceInfoService/getInsuranceInfo",
+      "mitigation": "권한이 열릴 때까지 실손보험 API 행은 생성하지 않고 생명보험협회 공시실 수집분만 보험상품으로 노출합니다."
+    },
+    {
+      "source_id": "source.fsc.variable-insurance-info",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetVariableInsuranceInfoService/getFundInfo",
+      "mitigation": "권한이 열릴 때까지 변액보험 펀드별 정보는 상품 노드가 아닌 대기 출처로만 기록합니다."
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
+      "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 기존 policy-loan 상품의 취급기관 상세에 섞지 않습니다."
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-support-centers",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
+      "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 상담센터·미소금융 지점 노드 생성을 보류합니다."
+    },
+    {
+      "source_id": "source.fsc.inclusive-finance-products",
+      "status": "approved_by_user_endpoint_mapping_pending",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "official metadata reviewed; endpoint mapping still pending",
+      "mitigation": "서민금융상품기본정보 활용신청 및 Swagger endpoint 확인 후 기존 KINFA 상품과 중복 제거합니다."
+    },
+    {
+      "source_id": "source.fsc.inclusive-finance-performance",
+      "status": "approved_by_user_metric_source",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "official metadata reviewed; not a product-row source",
+      "mitigation": "상품 노드가 아니라 실적·커버리지 지표로 별도 metric export를 만들 때 사용합니다."
+    },
+    {
+      "source_id": "source.bok.ecos",
+      "status": "reference_source_added_key_required",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "official ECOS Open API source reviewed; BOK API key is separate from DATA_GO_KR_SERVICE_KEY",
+      "mitigation": "기준금리·시장금리 값은 BOK API 키가 준비될 때까지 benchmark-rate 기준 노드로만 노출합니다."
+    },
+    {
+      "source_id": "source.fsc.financial-company-basic",
+      "status": "reference_source_added",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "official metadata reviewed; provider registry currently derived from existing product exports",
+      "mitigation": "금융회사 API 실데이터 수집 전에도 상품 provider 문자열을 financial-provider 노드로 묶어 MCP 검색성을 확보합니다."
+    }
+  ],
+  "api_required_sources": [
+    {
+      "source_id": "source.bok.ecos",
+      "required_secret": "BOK_ECOS_API_KEY",
+      "status": "missing_key",
+      "needed_for": "한국은행 기준금리, 시장금리, 환율 등 시계열 기준지표 값 수집"
+    },
+    {
+      "source_id": "source.fsc.financial-company-basic",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_or_endpoint_mapping_required",
+      "needed_for": "상품 provider 문자열을 공식 금융회사 코드·주소·설립일·상장폐지 상태와 매칭"
+    },
+    {
+      "source_id": "source.fsc.financial-company-credit",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_or_endpoint_mapping_required",
+      "needed_for": "금융회사 재무·신용 리스크 지표를 provider 노드에 연결"
+    },
+    {
+      "source_id": "source.fsc.domestic-bank-statistics",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_or_endpoint_mapping_required",
+      "needed_for": "은행 일반현황, 재무현황, 경영지표를 은행상품 provider 리스크에 연결"
+    },
+    {
+      "source_id": "source.fsc.fund-products-basic",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_required",
+      "needed_for": "펀드표준코드, 펀드명, 운용사, 펀드유형 상품 행 생성"
+    },
+    {
+      "source_id": "source.fsc.retirement-pension-basic",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_required",
+      "needed_for": "퇴직연금 펀드별 기준일자, 순자산금액, 운용 현황 수집"
+    },
+    {
+      "source_id": "source.fsc.financial-investment-statistics",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_required",
+      "needed_for": "펀드 순자산, CMA 잔고, 신용공여 잔고, 증시자금 추이 지표 수집"
+    },
+    {
+      "source_id": "source.fsc.medical-reimbursement-insurance",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "실손의료보험 유형, 담보, 성별·연령별 보험료 상품 행 생성"
+    },
+    {
+      "source_id": "source.fsc.variable-insurance-info",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "변액보험 펀드 기준가, 순자산, 설정일자, 운용회사 정보 수집"
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "정책대출별 취급기관, 주소, 기관 코드 상세 연결"
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-support-centers",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "서민금융통합지원센터, 미소금융 지점 지역·주소·전화번호 노드 생성"
+    }
+  ],
+  "public_web_collection_candidates": [
+    {
+      "source_id": "source.kfb.consumer-portal",
+      "collection_mode": "public_web_or_excel_scrape",
+      "needed_for": "은행권 예금·대출 금리, 예대금리차, COFIX 최신 공시값"
+    },
+    {
+      "source_id": "source.fsb.savings-bank-deposit-rates",
+      "collection_mode": "public_web_or_excel_scrape",
+      "needed_for": "저축은행 정기예금·적금 상품별 금리표"
+    },
+    {
+      "source_id": "source.kofia.fund-oneclick",
+      "collection_mode": "public_web_scrape",
+      "needed_for": "펀드 상세, 운용사·판매사 연결, 투자설명서·운용보고서 링크"
+    },
+    {
+      "source_id": "source.fss.integrated-pension-portal",
+      "collection_mode": "public_web_scrape_or_future_api",
+      "needed_for": "연금저축 수익률·수수료·위험등급·판매사별 적립금"
+    },
+    {
+      "source_id": "source.fss.fine.portal",
+      "collection_mode": "public_web_reference",
+      "needed_for": "숨은 금융자산, 소비자 보호 안내, 금융생활 위험 신호 연결"
+    }
+  ],
+  "search_index": {
+    "id": "finance-search-index",
+    "domain": "search-index",
+    "path": "ontology/exports/finance-search-index-2026.json",
+    "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026.json",
+    "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026.json",
+    "item_count": 21266,
+    "product_count": 0,
+    "source_review_date": "2026-07-10",
+    "collection_dates": [],
+    "product_collection_dates": [],
+    "quality_summary": {},
+    "export_checksum": "2df5d30584a85f621979356c5c2006f10a62ef7a089b667804df661abb41327f",
+    "description": "MCP search 전용 경량 인덱스입니다.",
+    "shards": [
+      {
+        "id": "finance-search-index-support",
+        "shard_id": "support",
+        "path": "ontology/exports/finance-search-index-2026-support.json",
+        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-support.json",
+        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-support.json",
+        "item_count": 7739,
+        "export_checksum": "5afada398c8d5e3da7ab53b54c807fbb780c65c67a706d43fc6f084bf79d8ecc"
+      },
+      {
+        "id": "finance-search-index-deposit-protection",
+        "shard_id": "deposit-protection",
+        "path": "ontology/exports/finance-search-index-2026-deposit-protection.json",
+        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-deposit-protection.json",
+        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-deposit-protection.json",
+        "item_count": 9380,
+        "export_checksum": "989c5d54332e7ed97e31acde0c4c4a2029299d53546d9fab9232ea5ef1966875"
+      },
+      {
+        "id": "finance-search-index-bank-products",
+        "shard_id": "bank-products",
+        "path": "ontology/exports/finance-search-index-2026-bank-products.json",
+        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
+        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
+        "item_count": 1363,
+        "export_checksum": "5e79acecbad3d1c3b4724f4eb3eadf0812a6a523f9f3999b2b103e92fabe262e"
+      },
+      {
+        "id": "finance-search-index-card-products",
+        "shard_id": "card-products",
+        "path": "ontology/exports/finance-search-index-2026-card-products.json",
+        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-card-products.json",
+        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-card-products.json",
+        "item_count": 1007,
+        "export_checksum": "2d5cd70754548685167fba31819e9102d0d52de245c978230b4b76f0c21c6f3e"
+      },
+      {
+        "id": "finance-search-index-insurance-products",
+        "shard_id": "insurance-products",
+        "path": "ontology/exports/finance-search-index-2026-insurance-products.json",
+        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-insurance-products.json",
+        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-insurance-products.json",
+        "item_count": 1071,
+        "export_checksum": "560ee35129f18730a55ea79571568bc29d65307ecd792a6e2efe9e6b0c8ca4f3"
+      },
+      {
+        "id": "finance-search-index-pension-products",
+        "shard_id": "pension-products",
+        "path": "ontology/exports/finance-search-index-2026-pension-products.json",
+        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-pension-products.json",
+        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-pension-products.json",
+        "item_count": 0,
+        "export_checksum": "cae9ea8a457937eb500d7f73f526977c90d1f6d4909d4c27d4e88a1d367f6cc5"
+      },
+      {
+        "id": "finance-search-index-account-products",
+        "shard_id": "account-products",
+        "path": "ontology/exports/finance-search-index-2026-account-products.json",
+        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-account-products.json",
+        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-account-products.json",
+        "item_count": 4,
+        "export_checksum": "3cba29bcf499166d49ec39c6a4b32dc9603685130a3c380fc6006b5585cc99bb"
+      },
+      {
+        "id": "finance-search-index-reference",
+        "shard_id": "reference",
+        "path": "ontology/exports/finance-search-index-2026-reference.json",
+        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
+        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
+        "item_count": 702,
+        "export_checksum": "140e4a82f25beb2b0a874de4b79e1f41620cd19b861657963210924eeb9dc0a6"
+      }
+    ]
+  },
+  "quality_exports": [
+    {
+      "id": "openfin-quality-manifest",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-quality-manifest-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-quality-manifest-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-quality-manifest-2026.json",
+      "item_count": 10,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "built_at": "2026-07-26T13:08:27Z",
+        "domain_export_count": 10,
+        "search_index_item_count": 21266,
+        "canonical_product_count": 3434,
+        "duplicate_canonical_product_count": 0,
+        "checksum_covered_export_count": 11,
+        "broken_relation_count": 0,
+        "collection_failure_sources": "see source_access_risks"
+      },
+      "export_checksum": "a539451ea55234261b435971ebabc4114ac9fff05bba54fa0ef6c4004e659bdf",
+      "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
+    },
+    {
+      "id": "openfin-search-regression-report",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-search-regression-report-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-search-regression-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-search-regression-report-2026.json",
+      "item_count": 20,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "test_count": 20,
+        "passed_count": 20,
+        "failed_count": 0,
+        "failures": [],
+        "last_failed_at": null
+      },
+      "export_checksum": "881b6d03070b5d8382056cf3ae48928346ed755d70c2fb225aca926acda55860",
+      "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
+    },
+    {
+      "id": "openfin-verification-coverage-report",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-verification-coverage-report-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-verification-coverage-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-verification-coverage-report-2026.json",
+      "item_count": 1,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "live_case_count": 120,
+        "live_passed_count": 15,
+        "live_failed_count": 105,
+        "live_failure_count": 105,
+        "report_kind": "verification-coverage"
+      },
+      "export_checksum": "9aabf23f3ce7686b284b27815ba1c7a86eee4709e9bbf6be9bd7e0cc5d33a990",
+      "description": "OpenFin 품질 하위 리포트입니다."
+    },
+    {
+      "id": "openfin-semantic-duplicate-report",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-semantic-duplicate-report-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-semantic-duplicate-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-semantic-duplicate-report-2026.json",
+      "item_count": 1,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "live_case_count": 120,
+        "live_passed_count": 15,
+        "live_failed_count": 105,
+        "live_failure_count": 105,
+        "report_kind": "semantic-duplicate",
+        "exact_id_duplicate_count": 0,
+        "external_id_duplicate_count": 0,
+        "semantic_duplicate_candidate_count": 0,
+        "confirmed_semantic_duplicate_count": 0,
+        "unresolved_semantic_duplicate_count": 0,
+        "duplicate_candidate_response_count": 0,
+        "duplicate_canonical_product_count": 0,
+        "canonical_merge_count": 11
+      },
+      "export_checksum": "56f3fd44f3fd25068f732c91432c054af46e01c1acdb567a8b4086d5768607f9",
+      "description": "OpenFin 품질 하위 리포트입니다."
+    },
+    {
+      "id": "openfin-comparison-regression-report",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-comparison-regression-report-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-comparison-regression-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-comparison-regression-report-2026.json",
+      "item_count": 1,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "live_case_count": 120,
+        "live_passed_count": 15,
+        "live_failed_count": 105,
+        "live_failure_count": 105,
+        "report_kind": "comparison-regression",
+        "failed_count": 0,
+        "search_regression_failed_count": 0
+      },
+      "export_checksum": "f12f3dde4c6d66a9217fcee9b8d2dc5c861173df3e747819a56406e4415c6178",
+      "description": "OpenFin 품질 하위 리포트입니다."
+    },
+    {
+      "id": "openfin-recommendation-safety-report",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-recommendation-safety-report-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-recommendation-safety-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-recommendation-safety-report-2026.json",
+      "item_count": 1,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "live_case_count": 120,
+        "live_passed_count": 15,
+        "live_failed_count": 105,
+        "live_failure_count": 105,
+        "report_kind": "recommendation-safety"
+      },
+      "export_checksum": "b2df8a635006349727aa4b87fcbcfd18478c51f15bb0a5ff494f82d8ec217310",
+      "description": "OpenFin 품질 하위 리포트입니다."
+    },
+    {
+      "id": "openfin-support-relevance-report",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-support-relevance-report-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-support-relevance-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-support-relevance-report-2026.json",
+      "item_count": 1,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "live_case_count": 120,
+        "live_passed_count": 15,
+        "live_failed_count": 105,
+        "live_failure_count": 105,
+        "report_kind": "support-relevance",
+        "jurisdiction_violation_count": 0,
+        "support_category_violation_count": 0,
+        "unknown_constraint_false_match_count": 0
+      },
+      "export_checksum": "67389d58f571f86cc1c2fda2523d8a3da788c616041b436fa289eb279eeac101",
+      "description": "OpenFin 품질 하위 리포트입니다."
+    },
+    {
+      "id": "openfin-data-drift-report",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-data-drift-report-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-data-drift-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-data-drift-report-2026.json",
+      "item_count": 1,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "live_case_count": 120,
+        "live_passed_count": 15,
+        "live_failed_count": 105,
+        "live_failure_count": 105,
+        "report_kind": "data-drift"
+      },
+      "export_checksum": "6d0680f31f943a68f96f5f6c340b7aa3278d91327f0d3d897b7126b6a90d4f8c",
+      "description": "OpenFin 품질 하위 리포트입니다."
+    },
+    {
+      "id": "openfin-local-cloudflare-parity-report",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-local-cloudflare-parity-report-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-local-cloudflare-parity-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-local-cloudflare-parity-report-2026.json",
+      "item_count": 1,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "live_case_count": 120,
+        "live_passed_count": 15,
+        "live_failed_count": 105,
+        "live_failure_count": 105,
+        "report_kind": "local-cloudflare-parity",
+        "local_cloudflare_parity_error_count": 0
+      },
+      "export_checksum": "5ec437823e07221157988dffa0b54e496614df8ca3b503fefe7a05e5f54cf922",
+      "description": "OpenFin 품질 하위 리포트입니다."
+    }
+  ],
+  "exports": [
+    {
+      "id": "tax-ontology",
+      "domain": "tax",
+      "path": "ontology/exports/korea-tax-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-tax-ontology-2026.json",
+      "item_count": 374,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {},
+      "export_checksum": "53a9f3f91070351135a79668b063994de26b40fcb098ccf5cffddb28e9fab31b",
+      "description": "세금, 공제, 신고기한, 중앙 정책지원 핵심 온톨로지입니다."
+    },
+    {
+      "id": "local-government-supports-ontology",
+      "domain": "local-government-supports",
+      "path": "ontology/exports/korea-local-government-supports-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-local-government-supports-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-local-government-supports-ontology-2026.json",
+      "item_count": 7718,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18"
+      ],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "status_review_date": "2026-07-14",
+        "status_counts": {
+          "active": 5296,
+          "closed": 436,
+          "unknown": 1986
+        },
+        "application_status_counts": {
+          "agency_contact_required": 30,
+          "agency_schedule_varies": 416,
+          "always_open": 4960,
+          "announcement_based": 81,
+          "budget_exhaustion": 70,
+          "closed": 436,
+          "not_required": 129,
+          "open": 207,
+          "recurring_annual": 759,
+          "recurring_monthly": 30,
+          "recurring_quarterly": 18,
+          "schedule_pending": 8,
+          "source_schedule_ambiguous": 545,
+          "unknown": 29
+        },
+        "expired_active_local_supports": 0,
+        "unknown_status_local_supports": 1986,
+        "unknown_reason_counts": {
+          "always_open": 28,
+          "conditional_reopen_after_deadline": 1
+        },
+        "preserved_snapshot_local_supports": 0,
+        "currently_applicable_local_supports": 5296,
+        "eligible_for_listing": 5167,
+        "recommendation_reference_only": 2551,
+        "source_refresh_missing_regions": [],
+        "unpreserved_missing_regions": [],
+        "current_refresh_complete": true,
+        "preserved_from_previous_snapshot_count": 0
+      },
+      "export_checksum": "c10cb003997191b5d54fd6cf5a52a6d23d3d09df318fc410229411c580eb5e88",
+      "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다."
+    },
+    {
+      "id": "card-products-ontology",
+      "domain": "card-products",
+      "path": "ontology/exports/korea-card-products-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-card-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-card-products-ontology-2026.json",
+      "item_count": 1030,
+      "product_count": 1007,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18T00:00:00Z"
+      ],
+      "product_collection_dates": [
+        "2026-07-18T00:00:00Z"
+      ],
+      "quality_summary": {
+        "product_count": 1007,
+        "verified_pilot_count": 20,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.9955,
+        "verified_pilot_threshold": 0.7,
+        "status_counts": {
+          "active": 652,
+          "unknown": 355
+        },
+        "active_products_without_criteria": 1,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 122,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 981,
+        "manual_review_candidate_products": 11,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 652,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 1007,
+        "recommendation_status_counts": {
+          "eligible_for_listing": 15,
+          "manual_review_candidate": 11,
+          "reference_only": 981
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 1007
+        },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 11,
+        "products_with_verification_evidence": 11,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 0,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.1812,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "annual_fee_krw": 977,
+          "benefit_amount_krw": 492,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 593,
+          "benefit_type": 355,
+          "criteria_or_options": 355,
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 958,
+          "per_transaction_limit_krw": 974,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
+        },
+        "absent_fields_by_field_name": {
+          "annual_fee_krw": 977,
+          "benefit_amount_krw": 492,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 593,
+          "benefit_type": 355,
+          "criteria_or_options": 1007,
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 958,
+          "per_transaction_limit_krw": 974,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
+        },
+        "empty_fields_by_field_name": {
+          "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
+          "benefit_categories": 0,
+          "benefit_frequency_limit": 0,
+          "benefit_rate_percent": 0,
+          "benefit_type": 0,
+          "criteria_or_options": 0,
+          "excluded_spend": 0,
+          "minimum_payment_amount": 0,
+          "monthly_benefit_limit_krw": 0,
+          "per_transaction_limit_krw": 0,
+          "performance_excluded_spend": 0,
+          "previous_month_spend_min_krw": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "annual_fee_krw": 977,
+          "benefit_amount_krw": 492,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 593,
+          "benefit_type": 355,
+          "criteria_or_options": 0,
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 958,
+          "per_transaction_limit_krw": 974,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
+        },
+        "unverified_fields_by_field_name": {
+          "annual_fee_krw": 30,
+          "benefit_amount_krw": 515,
+          "benefit_categories": 312,
+          "benefit_frequency_limit": 39,
+          "benefit_rate_percent": 414,
+          "benefit_type": 652,
+          "criteria_or_options": 0,
+          "excluded_spend": 36,
+          "minimum_payment_amount": 35,
+          "monthly_benefit_limit_krw": 49,
+          "per_transaction_limit_krw": 33,
+          "performance_excluded_spend": 36,
+          "previous_month_spend_min_krw": 39
+        },
+        "conflicting_fields_by_field_name": {
+          "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
+          "benefit_categories": 0,
+          "benefit_frequency_limit": 0,
+          "benefit_rate_percent": 0,
+          "benefit_type": 0,
+          "criteria_or_options": 0,
+          "excluded_spend": 0,
+          "minimum_payment_amount": 0,
+          "monthly_benefit_limit_krw": 0,
+          "per_transaction_limit_krw": 0,
+          "performance_excluded_spend": 0,
+          "previous_month_spend_min_krw": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
+          "benefit_categories": 0,
+          "benefit_frequency_limit": 0,
+          "benefit_rate_percent": 0,
+          "benefit_type": 0,
+          "criteria_or_options": 0,
+          "excluded_spend": 0,
+          "minimum_payment_amount": 0,
+          "monthly_benefit_limit_krw": 0,
+          "per_transaction_limit_krw": 0,
+          "performance_excluded_spend": 0,
+          "previous_month_spend_min_krw": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 11,
+          "verification_evidence_product_count": 11
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "f063fd80f2582506923e93b14030756bdf7dec663a895518973cfa06f58eb0de",
+      "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
+    },
+    {
+      "id": "deposit-products-ontology",
+      "domain": "deposit-products",
+      "path": "ontology/exports/korea-deposit-products-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-deposit-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-deposit-products-ontology-2026.json",
+      "item_count": 474,
+      "product_count": 430,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18T00:00:00Z"
+      ],
+      "product_collection_dates": [
+        "2026-07-18T00:00:00Z"
+      ],
+      "quality_summary": {
+        "product_count": 430,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": 0.5,
+        "status_counts": {
+          "active": 430
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 430,
+        "comparison_candidate_products": 430,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {
+          "eligible_for_listing": 430
+        },
+        "recommendation_scope_counts": {
+          "comparison_only": 430
+        },
+        "products_with_complete_comparison_fields": 30,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 30,
+        "products_with_verification_evidence": 30,
+        "comparison_overlay_quality": {
+          "candidate_count": 30,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 30,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 30,
+          "missing_required_fields_by_field_name": {
+            "deposit_protection_status": 8,
+            "early_termination_condition": 30,
+            "maximum_deposit_krw": 16,
+            "minimum_deposit_krw": 22,
+            "preferential_rate_conditions": 4
+          },
+          "unverified_fields_by_field_name": {
+            "base_rate_percent": 30,
+            "deposit_protection_status": 22,
+            "interest_method": 30,
+            "join_channel": 30,
+            "join_member": 30,
+            "maximum_deposit_krw": 14,
+            "maximum_rate_percent": 30,
+            "minimum_deposit_krw": 8,
+            "preferential_rate_conditions": 26,
+            "term_months": 30
+          },
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.6126,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "deposit_protection_status": 370,
+          "early_termination_condition": 430,
+          "join_member": 2,
+          "maximum_deposit_krw": 395,
+          "minimum_deposit_krw": 398,
+          "preferential_rate_conditions": 4,
+          "sales_verification_status": 400
+        },
+        "absent_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 0,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "empty_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 430,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 395,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 398,
+          "preferential_rate_conditions": 345,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 370,
+          "early_termination_condition": 430,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 2,
+          "maximum_deposit_krw": 395,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 398,
+          "preferential_rate_conditions": 345,
+          "sales_verification_status": 430,
+          "term_months": 0
+        },
+        "unverified_fields_by_field_name": {
+          "base_rate_percent": 430,
+          "deposit_protection_status": 60,
+          "early_termination_condition": 0,
+          "interest_method": 430,
+          "join_channel": 430,
+          "join_member": 428,
+          "maximum_deposit_krw": 35,
+          "maximum_rate_percent": 430,
+          "minimum_deposit_krw": 32,
+          "preferential_rate_conditions": 85,
+          "sales_verification_status": 0,
+          "term_months": 430
+        },
+        "conflicting_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 0,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 0,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "structural_comparison_candidate_count": 430,
+        "complete_comparison_data_count": 30,
+        "verified_comparison_candidate_count": 30,
+        "public_comparison_candidate_count": 30,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "ready",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 30,
+          "verification_evidence_product_count": 30
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "12de700a1a4c22ede9da41fc5eec6df164062e344eba5661bdb4ef70eb2a666d",
+      "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
+    },
+    {
+      "id": "saving-products-ontology",
+      "domain": "saving-products",
+      "path": "ontology/exports/korea-saving-products-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-saving-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-saving-products-ontology-2026.json",
+      "item_count": 379,
+      "product_count": 335,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18T00:00:00Z"
+      ],
+      "product_collection_dates": [
+        "2026-07-18T00:00:00Z"
+      ],
+      "quality_summary": {
+        "product_count": 335,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": 0.5,
+        "status_counts": {
+          "active": 335
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 335,
+        "comparison_candidate_products": 335,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {
+          "eligible_for_listing": 335
+        },
+        "recommendation_scope_counts": {
+          "comparison_only": 335
+        },
+        "products_with_complete_comparison_fields": 30,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 30,
+        "products_with_verification_evidence": 30,
+        "comparison_overlay_quality": {
+          "candidate_count": 30,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 30,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 30,
+          "missing_required_fields_by_field_name": {
+            "deposit_protection_status": 1,
+            "early_termination_condition": 30,
+            "monthly_payment_max_krw": 3,
+            "monthly_payment_min_krw": 28,
+            "preferential_rate_conditions": 1
+          },
+          "unverified_fields_by_field_name": {
+            "base_rate_percent": 30,
+            "deposit_protection_status": 29,
+            "join_channel": 30,
+            "join_member": 30,
+            "maximum_rate_percent": 30,
+            "monthly_payment_max_krw": 27,
+            "monthly_payment_min_krw": 2,
+            "preferential_rate_conditions": 29,
+            "saving_method": 30,
+            "term_months": 30
+          },
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.6316,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "deposit_protection_status": 265,
+          "early_termination_condition": 335,
+          "join_channel": 3,
+          "join_member": 6,
+          "monthly_payment_max_krw": 238,
+          "monthly_payment_min_krw": 328,
+          "preferential_rate_conditions": 1,
+          "sales_verification_status": 305
+        },
+        "absent_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 0,
+          "monthly_payment_min_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "empty_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 335,
+          "join_channel": 3,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 238,
+          "monthly_payment_min_krw": 328,
+          "preferential_rate_conditions": 186,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 265,
+          "early_termination_condition": 335,
+          "join_channel": 3,
+          "join_member": 6,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 238,
+          "monthly_payment_min_krw": 328,
+          "preferential_rate_conditions": 186,
+          "sales_verification_status": 335,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "unverified_fields_by_field_name": {
+          "base_rate_percent": 335,
+          "deposit_protection_status": 70,
+          "early_termination_condition": 0,
+          "join_channel": 332,
+          "join_member": 329,
+          "maximum_rate_percent": 335,
+          "monthly_payment_max_krw": 97,
+          "monthly_payment_min_krw": 7,
+          "preferential_rate_conditions": 149,
+          "sales_verification_status": 0,
+          "saving_method": 335,
+          "term_months": 335
+        },
+        "conflicting_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 0,
+          "monthly_payment_min_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 0,
+          "monthly_payment_min_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "structural_comparison_candidate_count": 335,
+        "complete_comparison_data_count": 30,
+        "verified_comparison_candidate_count": 30,
+        "public_comparison_candidate_count": 30,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "ready",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 30,
+          "verification_evidence_product_count": 30
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "714f1ea16e50b1c5517670410a9c63802eadc84c455e5b66eb2a8a890565443a",
+      "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
+    },
+    {
+      "id": "loan-products-ontology",
+      "domain": "loan-products",
+      "path": "ontology/exports/korea-loan-products-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-loan-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-loan-products-ontology-2026.json",
+      "item_count": 642,
+      "product_count": 598,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-10T00:00:00Z",
+        "2026-07-18T00:00:00Z"
+      ],
+      "product_collection_dates": [
+        "2026-07-10T00:00:00Z",
+        "2026-07-18T00:00:00Z"
+      ],
+      "quality_summary": {
+        "product_count": 598,
+        "verified_pilot_count": 20,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 1.0,
+        "verified_pilot_threshold": 0.5,
+        "status_counts": {
+          "active": 587,
+          "unknown": 11
+        },
+        "active_products_without_criteria": 4,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 4,
+        "loans_missing_required_fields": 564,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 587,
+        "manual_review_candidate_products": 11,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 587,
+        "comparison_candidate_products": 13,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 574,
+        "recommendation_status_counts": {
+          "manual_review_candidate": 11,
+          "reference_only": 587
+        },
+        "recommendation_scope_counts": {
+          "comparison_only": 13,
+          "internal_verification_candidate": 11,
+          "listing_only": 574
+        },
+        "products_with_complete_comparison_fields": 20,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 20,
+        "products_with_verification_evidence": 20,
+        "comparison_overlay_quality": {
+          "candidate_count": 20,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 20,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 20,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {
+            "collateral_type": 20,
+            "early_repayment_fee": 20,
+            "eligible_borrower": 20,
+            "loan_limit_krw": 20,
+            "loan_rate_max_percent": 20,
+            "loan_rate_min_percent": 20,
+            "rate_type": 20,
+            "repayment_method": 20
+          },
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.6885,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "collateral_type": 90,
+          "criteria_or_options": 11,
+          "early_repayment_fee": 325,
+          "eligible_borrower": 163,
+          "loan_limit_krw": 293,
+          "loan_rate_max_percent": 160,
+          "loan_rate_min_percent": 160,
+          "rate_type": 128,
+          "repayment_method": 171
+        },
+        "absent_fields_by_field_name": {
+          "collateral_type": 0,
+          "criteria_or_options": 598,
+          "early_repayment_fee": 0,
+          "eligible_borrower": 0,
+          "loan_limit_krw": 0,
+          "loan_rate_max_percent": 0,
+          "loan_rate_min_percent": 0,
+          "rate_type": 0,
+          "repayment_method": 0
+        },
+        "empty_fields_by_field_name": {
+          "collateral_type": 90,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 325,
+          "eligible_borrower": 163,
+          "loan_limit_krw": 293,
+          "loan_rate_max_percent": 160,
+          "loan_rate_min_percent": 160,
+          "rate_type": 128,
+          "repayment_method": 171
+        },
+        "not_collected_fields_by_field_name": {
+          "collateral_type": 90,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 325,
+          "eligible_borrower": 163,
+          "loan_limit_krw": 255,
+          "loan_rate_max_percent": 160,
+          "loan_rate_min_percent": 160,
+          "rate_type": 128,
+          "repayment_method": 171
+        },
+        "unverified_fields_by_field_name": {
+          "collateral_type": 508,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 273,
+          "eligible_borrower": 435,
+          "loan_limit_krw": 305,
+          "loan_rate_max_percent": 438,
+          "loan_rate_min_percent": 438,
+          "rate_type": 470,
+          "repayment_method": 427
+        },
+        "conflicting_fields_by_field_name": {
+          "collateral_type": 0,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 0,
+          "eligible_borrower": 0,
+          "loan_limit_krw": 0,
+          "loan_rate_max_percent": 0,
+          "loan_rate_min_percent": 0,
+          "rate_type": 0,
+          "repayment_method": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "collateral_type": 0,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 0,
+          "eligible_borrower": 0,
+          "loan_limit_krw": 0,
+          "loan_rate_max_percent": 0,
+          "loan_rate_min_percent": 0,
+          "rate_type": 0,
+          "repayment_method": 0
+        },
+        "structural_comparison_candidate_count": 13,
+        "complete_comparison_data_count": 20,
+        "verified_comparison_candidate_count": 20,
+        "public_comparison_candidate_count": 13,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "ready",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "9ad3743c4dceb56af6aa91ed12a9727c36ee9aa1d23b46361abcd938aefcb7b8",
+      "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
+    },
+    {
+      "id": "insurance-products-ontology",
+      "domain": "insurance-products",
+      "path": "ontology/exports/korea-insurance-products-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-insurance-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-insurance-products-ontology-2026.json",
+      "item_count": 1089,
+      "product_count": 1071,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18T00:00:00Z"
+      ],
+      "product_collection_dates": [
+        "2026-07-18T00:00:00Z"
+      ],
+      "quality_summary": {
+        "product_count": 1071,
+        "verified_pilot_count": 20,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.835,
+        "verified_pilot_threshold": 0.6,
+        "status_counts": {
+          "active": 1071
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 1071,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 1071,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 1071,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 1071,
+        "recommendation_status_counts": {
+          "reference_only": 1071
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 1071
+        },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 20,
+        "products_with_verification_evidence": 20,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 0,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.424,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "coverage_amount_krw": 29,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
+          "reduction_period_days": 1071,
+          "renewal_type": 199,
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
+        },
+        "absent_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 29,
+          "coverage_names": 0,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
+          "premium_basis": 0,
+          "reduction_period_days": 1071,
+          "renewal_type": 199,
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
+        },
+        "empty_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 0,
+          "coverage_names": 0,
+          "exclusion_condition": 0,
+          "insurance_term": 0,
+          "insured_age_max": 0,
+          "insured_age_min": 0,
+          "payment_term": 0,
+          "premium_basis": 0,
+          "reduction_period_days": 0,
+          "renewal_type": 0,
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 29,
+          "coverage_names": 0,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
+          "premium_basis": 0,
+          "reduction_period_days": 1071,
+          "renewal_type": 199,
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
+        },
+        "unverified_fields_by_field_name": {
+          "claim_condition": 1071,
+          "coverage_amount_krw": 1042,
+          "coverage_names": 1071,
+          "exclusion_condition": 13,
+          "insurance_term": 414,
+          "insured_age_max": 8,
+          "insured_age_min": 8,
+          "payment_term": 18,
+          "premium_basis": 1071,
+          "reduction_period_days": 0,
+          "renewal_type": 872,
+          "surrender_refund_type": 316,
+          "waiting_period_days": 0
+        },
+        "conflicting_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 0,
+          "coverage_names": 0,
+          "exclusion_condition": 0,
+          "insurance_term": 0,
+          "insured_age_max": 0,
+          "insured_age_min": 0,
+          "payment_term": 0,
+          "premium_basis": 0,
+          "reduction_period_days": 0,
+          "renewal_type": 0,
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 0,
+          "coverage_names": 0,
+          "exclusion_condition": 0,
+          "insurance_term": 0,
+          "insured_age_max": 0,
+          "insured_age_min": 0,
+          "payment_term": 0,
+          "premium_basis": 0,
+          "reduction_period_days": 0,
+          "renewal_type": 0,
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "1ad384bac78b34ddd20783a9cadb4faf602fd9822d6dabd1f8c258e0c346f48b",
+      "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
+    },
+    {
+      "id": "pension-products-ontology",
+      "domain": "pension-products",
+      "path": "ontology/exports/korea-pension-products-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-pension-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-pension-products-ontology-2026.json",
+      "item_count": 5,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "product_count": 0,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
+        "status_counts": {},
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {},
+        "recommendation_scope_counts": {},
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 0,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {},
+        "absent_fields_by_field_name": {},
+        "empty_fields_by_field_name": {},
+        "not_collected_fields_by_field_name": {},
+        "unverified_fields_by_field_name": {},
+        "conflicting_fields_by_field_name": {},
+        "expired_verification_fields_by_field_name": {},
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "ff0177b9e930736d4f90c741b61814237019c5907e4c7046550418a6ee69e397",
+      "description": "연금저축 팩: 연금저축보험·펀드·신탁의 공시이율, 최저보증이율, 과거수익률, 세액공제 연계 온톨로지입니다."
+    },
+    {
+      "id": "tax-advantaged-accounts-ontology",
+      "domain": "tax-advantaged-accounts",
+      "path": "ontology/exports/korea-tax-advantaged-accounts-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-advantaged-accounts-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-tax-advantaged-accounts-ontology-2026.json",
+      "item_count": 9,
+      "product_count": 4,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-24T00:00:00Z"
+      ],
+      "product_collection_dates": [
+        "2026-07-24T00:00:00Z"
+      ],
+      "quality_summary": {
+        "product_count": 4,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
+        "status_counts": {
+          "active": 4
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 4,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 4,
+        "recommendation_status_counts": {
+          "reference_only": 4
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 4
+        },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 0,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 4,
+          "tax_benefit": 4
+        },
+        "absent_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 0,
+          "tax_benefit": 4
+        },
+        "empty_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 4,
+          "tax_benefit": 4
+        },
+        "unverified_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "conflicting_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "5ff9bfd3e02fbb74c57b8ff154c1833f64cdad37811306e38c0c9e321b3a9f5d",
+      "description": "세제혜택 계좌: 주택청약종합저축·청년 주택드림 청약통장·ISA의 가입대상, 납입한도, 세제혜택, 소득공제·청약 연계 온톨로지입니다."
+    },
+    {
+      "id": "finance-reference-ontology",
+      "domain": "finance-reference",
+      "path": "ontology/exports/korea-finance-reference-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-finance-reference-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-finance-reference-ontology-2026.json",
+      "item_count": 9654,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18"
+      ],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "product_count": 0,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
+        "status_counts": {},
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {},
+        "recommendation_scope_counts": {},
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "statistics_basis": "final_comparison_object",
+          "statistics_candidate_count": 0,
+          "raw_unverified_candidate_count": 0,
+          "raw_unverified_excluded_from_statistics_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {},
+        "absent_fields_by_field_name": {},
+        "empty_fields_by_field_name": {},
+        "not_collected_fields_by_field_name": {},
+        "unverified_fields_by_field_name": {},
+        "conflicting_fields_by_field_name": {},
+        "expired_verification_fields_by_field_name": {},
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "2ff3977c2710bdf1860399665faa4e14afa66154fbd627a1a6801eacc95021b2",
+      "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다."
+    }
+  ],
+  "blocking_reasons": [
+    "OpenFin 120 live regression is missing or not 120/120"
+  ],
+  "recommendation_enabled": false
+}

@@ -1,0 +1,25 @@
+{
+  "name": "openfin-mcp",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Cloudflare Worker Remote MCP adapter for Finance ontology",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "predeploy": "npm run typecheck",
+    "deploy": "wrangler deploy",
+    "smoke": "node --input-type=module -e \"const url = process.env.MCP_URL || 'https://openfin-mcp.y2kthr.workers.dev/health'; const response = await fetch(url); if (!response.ok) process.exit(1); console.log(await response.text())\"",
+    "test": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "agents": "^0.12.3",
+    "zod": "^4.1.8"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260418.0",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.43.0"
+  }
+}

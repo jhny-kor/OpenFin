@@ -1,0 +1,234 @@
+{
+  "version": "openfin-verification-coverage-report-2026.07.18.1",
+  "basis_date": "2026-07-10",
+  "live_status": "executed",
+  "live_not_executed_reason": null,
+  "live_tested_at": "2026-07-26T11:37:00+00:00",
+  "runtime_version": "openfin-mcp-2026.07.22.1",
+  "deployment_commit": "40215ba9c",
+  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+  "live_case_count": 120,
+  "live_passed_count": 15,
+  "live_failed_count": 105,
+  "live_failure_count": 105,
+  "live_failure_sample": [
+    {
+      "case_id": "exact_product-001",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-002",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-003",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-004",
+      "tool": "opentax_search",
+      "errors": [
+        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      ],
+      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+    },
+    {
+      "case_id": "exact_product-005",
+      "tool": "opentax_search",
+      "errors": [
+        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      ],
+      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+    },
+    {
+      "case_id": "exact_product-006",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-007",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-008",
+      "tool": "opentax_search",
+      "errors": [
+        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      ],
+      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+    },
+    {
+      "case_id": "exact_product-009",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-010",
+      "tool": "opentax_search",
+      "errors": [
+        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      ],
+      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+    }
+  ],
+  "report_kind": "verification-coverage",
+  "domain_summaries": [
+    {
+      "domain": "tax",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {},
+      "blockers": {}
+    },
+    {
+      "domain": "local-government-supports",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {},
+      "blockers": {}
+    },
+    {
+      "domain": "card-products",
+      "verified_sales_product_count": 11,
+      "verification_evidence_product_count": 11,
+      "readiness": {
+        "discovery": "ready",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 11,
+        "verification_evidence_product_count": 11
+      }
+    },
+    {
+      "domain": "deposit-products",
+      "verified_sales_product_count": 30,
+      "verification_evidence_product_count": 30,
+      "readiness": {
+        "discovery": "ready",
+        "comparison_engine": "ready",
+        "comparison_data": "ready",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 30,
+        "verification_evidence_product_count": 30
+      }
+    },
+    {
+      "domain": "saving-products",
+      "verified_sales_product_count": 30,
+      "verification_evidence_product_count": 30,
+      "readiness": {
+        "discovery": "ready",
+        "comparison_engine": "ready",
+        "comparison_data": "ready",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 30,
+        "verification_evidence_product_count": 30
+      }
+    },
+    {
+      "domain": "loan-products",
+      "verified_sales_product_count": 20,
+      "verification_evidence_product_count": 20,
+      "readiness": {
+        "discovery": "ready",
+        "comparison_engine": "ready",
+        "comparison_data": "ready",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 20,
+        "verification_evidence_product_count": 20
+      }
+    },
+    {
+      "domain": "insurance-products",
+      "verified_sales_product_count": 20,
+      "verification_evidence_product_count": 20,
+      "readiness": {
+        "discovery": "ready",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 20,
+        "verification_evidence_product_count": 20
+      }
+    },
+    {
+      "domain": "pension-products",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "blocked",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    },
+    {
+      "domain": "tax-advantaged-accounts",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "blocked",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    },
+    {
+      "domain": "finance-reference",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "blocked",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    }
+  ],
+  "export_checksum": "9aabf23f3ce7686b284b27815ba1c7a86eee4709e9bbf6be9bd7e0cc5d33a990"
+}
