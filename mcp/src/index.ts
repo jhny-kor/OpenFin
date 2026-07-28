@@ -2429,23 +2429,31 @@ function createServer(env: Env): McpServer {
       assertFinanceSafe(constraints, "constraints");
       assertFinanceSafe(preferences, "preferences");
       assertFinanceSafe(decision_context, "decision_context");
-      const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain));
-      const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       const manifest = await loadFinanceManifest(env);
       const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), domain });
       const maxResults = limit ?? 5;
-      const domainItems = items.filter((item) => domainMatches(item, domain) && sourceHealth(item, artifacts).freshness_status === "current");
-      const readiness = recommendationReadiness(domain, domainItems);
       const context = normalizeFinanceSnapshot(decision_context);
       const contextMetrics = financeMetrics(context);
       const contextNeeds = financeNeeds(context, contextMetrics);
       const contextMissing = ["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => context[key] === null || context[key] === undefined || context[key] === "");
       if (releaseGate.status !== "ready") {
+        // A blocked release must be cheap and deterministic. Do not hydrate
+        // the large product shard or source artifacts just to return an empty
+        // fail-closed response.
+        const manifestReadiness = manifest.domain_readiness?.[domain] ?? {};
+        const readiness = {
+          verified_active_product_count: Number(manifestReadiness.verified_candidate_count ?? 0),
+          verification_evidence_product_count: Number(manifestReadiness.verified_candidate_count ?? 0),
+          comparison_engine_product_count: Number(manifestReadiness.complete_field_count ?? 0),
+          verified_completeness_product_count: Number(manifestReadiness.complete_field_count ?? 0),
+          public_recommendation_candidate_count: Number(manifestReadiness.verified_candidate_count ?? 0),
+          minimum_required_count: minimumVerifiedCount(domain),
+        };
         const blockerCounts = {
-          domain_recommendation_not_enabled: domainItems.length,
-          sales_not_verified: domainItems.filter((item) => item.sales_verification_status !== "verified_active").length,
-          verification_evidence_missing: domainItems.filter((item) => !isRecord(item.verification_evidence)).length,
-          verified_completeness_incomplete: domainItems.filter((item) => item.verified_completeness_ratio !== 1).length,
+          domain_recommendation_not_enabled: Number(manifestReadiness.item_count ?? 0),
+          sales_not_verified: Math.max(0, Number(manifestReadiness.item_count ?? 0) - readiness.verified_active_product_count),
+          verification_evidence_missing: Math.max(0, Number(manifestReadiness.item_count ?? 0) - readiness.verification_evidence_product_count),
+          verified_completeness_incomplete: Math.max(0, Number(manifestReadiness.item_count ?? 0) - readiness.verified_completeness_product_count),
         };
         const payload = {
           mode: "decision_support",
@@ -2468,8 +2476,8 @@ function createServer(env: Env): McpServer {
           readiness_states: recommendationReadinessStates(domain, readiness),
           next_required_actions: nextRecommendationActions(domain, readiness),
           next_required_action: nextRecommendationAction(domain, readiness),
-          excluded_count: domainItems.length,
-          excluded_sample: domainItems.slice(0, EXCLUDED_SAMPLE_LIMIT).map((item) => ({ item_id: item.id, reason: "release_gate_blocked" })),
+          excluded_count: Number(manifestReadiness.item_count ?? 0),
+          excluded_sample: [],
           decision_owner: "user",
           limitations: ["use lookup, education, comparison, and scenario tools only until the owner pilot is enabled"],
           audit_id: financeAuditId("blocked-recommendation", domain, context.as_of ?? null),
@@ -2477,6 +2485,10 @@ function createServer(env: Env): McpServer {
         };
         return mcpResult(payload);
       }
+      const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain));
+      const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
+      const domainItems = items.filter((item) => domainMatches(item, domain) && sourceHealth(item, artifacts).freshness_status === "current");
+      const readiness = recommendationReadiness(domain, domainItems);
       const excluded = [];
       const candidates = [];
       for (const item of domainItems) {
