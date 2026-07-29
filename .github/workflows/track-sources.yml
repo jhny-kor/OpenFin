@@ -65,7 +65,7 @@ jobs:
           echo "impact_file=$impact_file" >> "$GITHUB_ENV"
       - name: Upload source tracking report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: openfin-source-tracking-${{ github.run_id }}
           path: ${{ steps.source-check.outputs.report_dir || runner.temp }}
@@ -114,7 +114,7 @@ jobs:
           fi
       - name: Upload delivery diagnostics
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: openfin-source-delivery-${{ github.run_id }}
           path: ${{ steps.source-check.outputs.report_dir }}/pr-create.stderr

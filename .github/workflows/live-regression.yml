@@ -31,7 +31,7 @@ jobs:
         run: node scripts/live-regression.mjs > ../live-regression-report.json
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: openfin-live-regression-${{ github.sha }}
