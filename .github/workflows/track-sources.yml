@@ -126,16 +126,14 @@ jobs:
           REPORT_FILE: ${{ steps.source-check.outputs.report_file || '' }}
           SOURCE_CHECK_OUTCOME: ${{ steps.source-check.outcome }}
           REVIEW_COUNT: ${{ steps.source-check.outputs.review_count || '0' }}
-          DELIVERY: ${{ env.delivery || '' }}
-          IMPACT_FILE: ${{ env.impact_file || '' }}
         run: |
           node scripts/knowledge/source-tracking-summary.mjs \
             --report "$REPORT_FILE" \
             --output "$REPORT_DIR/source-tracking-summary.json" \
             --source-check-outcome "$SOURCE_CHECK_OUTCOME" \
             --review-count "$REVIEW_COUNT" \
-            --delivery "$DELIVERY" \
-            --impact-file "$IMPACT_FILE"
+            --delivery "${delivery:-}" \
+            --impact-file "${impact_file:-}"
       - name: Upload tracking conclusion
         if: always()
         uses: actions/upload-artifact@v5
