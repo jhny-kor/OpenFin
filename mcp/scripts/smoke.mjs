@@ -1,5 +1,5 @@
 const base = (process.env.MCP_URL || "https://openfin-mcp.y2kthr.workers.dev").replace(/\/$/, "");
-const attempts = Number(process.env.SMOKE_ATTEMPTS || 8);
+const attempts = Number(process.env.SMOKE_ATTEMPTS || 20);
 const delayMs = Number(process.env.SMOKE_DELAY_MS || 3000);
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 let healthPayload;
@@ -8,15 +8,18 @@ let readyPayload;
 let lastError;
 for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
-    const health = await fetch(`${base}/health`, { headers: { accept: "application/json" } });
+    const cacheBust = `smoke=${Date.now()}-${attempt}`;
+    const health = await fetch(`${base}/health?${cacheBust}`, { headers: { accept: "application/json", "cache-control": "no-cache" } });
     if (!health.ok) throw new Error(`/health failed: ${health.status}`);
     healthPayload = await health.json();
     if (healthPayload.status !== "ok") throw new Error("/health is not live");
-    ready = await fetch(`${base}/ready`, { headers: { accept: "application/json" } });
+    ready = await fetch(`${base}/ready?${cacheBust}`, { headers: { accept: "application/json", "cache-control": "no-cache" } });
     if (ready.status !== 200) throw new Error(`/ready failed: ${ready.status}`);
     readyPayload = await ready.json();
     if (readyPayload.status !== "ready" || readyPayload.capabilities?.core !== "ready" || readyPayload.capabilities?.search !== "ready") throw new Error("/ready core capabilities are not ready");
     if (readyPayload.capabilities?.recommendation !== "blocked") throw new Error("recommendation must remain blocked by current policy");
+    if (healthPayload.deployment_commit === "unknown") throw new Error("/health deployment_commit is unknown");
+    if (process.env.EXPECTED_DEPLOYMENT_COMMIT && healthPayload.deployment_commit !== process.env.EXPECTED_DEPLOYMENT_COMMIT) throw new Error(`/health deployment_commit mismatch: ${healthPayload.deployment_commit}`);
     break;
   } catch (error) {
     lastError = error;
@@ -25,9 +28,6 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
   }
 }
 if (!healthPayload || !ready || !readyPayload) throw lastError || new Error("smoke test did not receive a response");
-if (healthPayload.deployment_commit === "unknown") throw new Error("/health deployment_commit is unknown");
-if (process.env.EXPECTED_DEPLOYMENT_COMMIT && healthPayload.deployment_commit !== process.env.EXPECTED_DEPLOYMENT_COMMIT) throw new Error(`/health deployment_commit mismatch: ${healthPayload.deployment_commit}`);
-
 const endpoint = `${base}/mcp`;
 let requestId = 0;
 async function rpc(method, params = {}) {
