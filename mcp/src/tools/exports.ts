@@ -2,7 +2,7 @@
 type ToolContext = Record<string, any>;
 
 export function registerExportsTool(ctx: ToolContext): void {
-  const { server, env, loadFinanceManifest, loadSearchIndexMetadata, loadFinanceArtifact, coverageReport, artifactErrors, runtimeMetadata, READ_ONLY_TOOL_ANNOTATIONS } = ctx;
+  const { server, env, loadFinanceManifest, loadSearchIndexMetadata, loadFinanceArtifact, coverageReport, artifactErrors, runtimeMetadata, jsonText, READ_ONLY_TOOL_ANNOTATIONS } = ctx;
   server.registerTool(
     "exports",
     {

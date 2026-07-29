@@ -4,7 +4,7 @@ import { z } from "zod";
 type ToolContext = Record<string, any>;
 
 export function registerFetchTool(ctx: ToolContext): void {
-  const { server, env, loadFinanceArtifacts, loadFinanceManifest, loadProvenanceShard, fetchItemGraph, resolveItemId, sourceItems, publicProvenance, itemUrl, sourceHealth, artifactErrors, READ_ONLY_TOOL_ANNOTATIONS } = ctx;
+  const { server, env, loadFinanceArtifacts, loadFinanceManifest, loadProvenanceShard, fetchItemGraph, resolveItemId, sourceItems, publicProvenance, itemUrl, sourceHealth, artifactErrors, jsonText, READ_ONLY_TOOL_ANNOTATIONS } = ctx;
   server.registerTool(
     "fetch",
     {
