@@ -47,9 +47,11 @@ jobs:
           mkdir -p evidence/live-regression
           cp live-regression-report.json "evidence/live-regression/${deployment_commit}.json"
           cp live-regression-report.json evidence/live-regression/current.json
+          npm ci --ignore-scripts
+          npm run knowledge:build
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add evidence/live-regression
+          git add evidence/live-regression docs/opentax
           git diff --cached --quiet && exit 0
           git commit -m "ci: record live regression evidence ${deployment_commit:0:12}"
           git push
