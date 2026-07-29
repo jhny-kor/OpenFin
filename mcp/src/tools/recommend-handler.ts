@@ -4,7 +4,7 @@ import { z } from "zod";
 type ToolContext = Record<string, any>;
 
 export function registerRecommendTool(ctx: ToolContext): void {
-  const { server, env, mcpResult, assertFinanceSafe, loadFinanceManifest, evaluateReleaseGate, manifestChecksumContract, minimumVerifiedCount, normalizeFinanceSnapshot, financeMetrics, financeNeeds, recommendationReadinessStates, nextRecommendationActions, nextRecommendationAction, financeAuditId, dedupeProductItems, loadDetailedItemsForDomain, loadFinanceArtifacts, domainMatches, sourceHealth, recommendationReadiness, buildRecommendationCandidates, evaluateEligibility, rankCandidate, explainCandidate, recommendationBlocker, EXCLUDED_SAMPLE_LIMIT, reasonCounts, itemUrl, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
+  const { server, env, mcpResult, assertFinanceSafe, isRecord, loadFinanceManifest, evaluateReleaseGate, manifestChecksumContract, minimumVerifiedCount, normalizeFinanceSnapshot, financeMetrics, financeNeeds, recommendationReadinessStates, nextRecommendationActions, nextRecommendationAction, financeAuditId, dedupeProductItems, loadDetailedItemsForDomain, loadFinanceArtifacts, domainMatches, sourceHealth, recommendationReadiness, buildRecommendationCandidates, evaluateEligibility, rankCandidate, explainCandidate, recommendationBlocker, EXCLUDED_SAMPLE_LIMIT, reasonCounts, itemUrl, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
   server.registerTool(
     "recommend",
     {
