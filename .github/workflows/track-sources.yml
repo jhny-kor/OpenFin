@@ -119,6 +119,30 @@ jobs:
           name: openfin-source-delivery-${{ github.run_id }}
           path: ${{ steps.source-check.outputs.report_dir }}/pr-create.stderr
           if-no-files-found: ignore
+      - name: Write tracking conclusion
+        if: always()
+        env:
+          REPORT_DIR: ${{ steps.source-check.outputs.report_dir || runner.temp }}
+          REPORT_FILE: ${{ steps.source-check.outputs.report_file || '' }}
+          SOURCE_CHECK_OUTCOME: ${{ steps.source-check.outcome }}
+          REVIEW_COUNT: ${{ steps.source-check.outputs.review_count || '0' }}
+          DELIVERY: ${{ env.delivery || '' }}
+          IMPACT_FILE: ${{ env.impact_file || '' }}
+        run: |
+          node scripts/knowledge/source-tracking-summary.mjs \
+            --report "$REPORT_FILE" \
+            --output "$REPORT_DIR/source-tracking-summary.json" \
+            --source-check-outcome "$SOURCE_CHECK_OUTCOME" \
+            --review-count "$REVIEW_COUNT" \
+            --delivery "$DELIVERY" \
+            --impact-file "$IMPACT_FILE"
+      - name: Upload tracking conclusion
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: openfin-source-summary-${{ github.run_id }}
+          path: ${{ steps.source-check.outputs.report_dir || runner.temp }}/source-tracking-summary.json
+          if-no-files-found: ignore
       - name: Summarize source tracking result
         if: always()
         run: |
