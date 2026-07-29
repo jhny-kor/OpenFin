@@ -104,8 +104,12 @@ jobs:
           elif [ -n "${{ secrets.OPENFIN_SOURCE_TRACKING_TOKEN }}" ]; then
             if ! gh pr create --repo "$GITHUB_REPOSITORY" --base main --head automation/source-tracking --title "chore: review OpenFin source changes" --body "자동 점검에서 검토가 필요한 출처 변경을 감지했습니다. 영향 보고서: $impact_file" 2>pr-create.stderr; then
               cp pr-create.stderr "${{ steps.source-check.outputs.report_dir }}/pr-create.stderr"
-              echo "delivery=DELIVERY_FAILED" >> "$GITHUB_ENV"
-              exit 1
+              if GH_TOKEN="${{ github.token }}" gh issue create --repo "$GITHUB_REPOSITORY" --title "review required: OpenFin source tracking" --body "PR 자동 생성이 거부되어 수동 승격이 필요합니다. 검토 브랜치: https://github.com/$GITHUB_REPOSITORY/tree/automation/source-tracking\n영향 보고서: $impact_file\nPR stderr는 workflow artifact에 보존됐습니다."; then
+                echo "delivery=REVIEW_REQUIRED" >> "$GITHUB_ENV"
+              else
+                echo "delivery=DELIVERY_FAILED" >> "$GITHUB_ENV"
+                exit 1
+              fi
             fi
             echo "delivery=REVIEW_REQUIRED" >> "$GITHUB_ENV"
           else
