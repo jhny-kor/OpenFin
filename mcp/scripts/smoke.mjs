@@ -13,9 +13,10 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
     healthPayload = await health.json();
     if (healthPayload.status !== "ok") throw new Error("/health is not live");
     ready = await fetch(`${base}/ready`, { headers: { accept: "application/json" } });
-    if (![200, 503].includes(ready.status)) throw new Error(`/ready unexpected status: ${ready.status}`);
+    if (ready.status !== 200) throw new Error(`/ready failed: ${ready.status}`);
     readyPayload = await ready.json();
-    if (!["ready", "degraded"].includes(readyPayload.status)) throw new Error("/ready missing readiness status");
+    if (readyPayload.status !== "ready" || readyPayload.capabilities?.core !== "ready" || readyPayload.capabilities?.search !== "ready") throw new Error("/ready core capabilities are not ready");
+    if (readyPayload.capabilities?.recommendation !== "blocked") throw new Error("recommendation must remain blocked by current policy");
     break;
   } catch (error) {
     lastError = error;
@@ -24,6 +25,8 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
   }
 }
 if (!healthPayload || !ready || !readyPayload) throw lastError || new Error("smoke test did not receive a response");
+if (healthPayload.deployment_commit === "unknown") throw new Error("/health deployment_commit is unknown");
+if (process.env.EXPECTED_DEPLOYMENT_COMMIT && healthPayload.deployment_commit !== process.env.EXPECTED_DEPLOYMENT_COMMIT) throw new Error(`/health deployment_commit mismatch: ${healthPayload.deployment_commit}`);
 
 const endpoint = `${base}/mcp`;
 let requestId = 0;

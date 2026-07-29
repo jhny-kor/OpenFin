@@ -5,7 +5,7 @@
   "built_at": "2026-07-28T00:00:00.000Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
-  "release_status": "degraded",
+  "release_status": "ready",
   "degraded_domains": [
     "card",
     "deposit",
@@ -14,9 +14,7 @@
     "pension",
     "saving"
   ],
-  "blocking_issues": [
-    "live_regression_stale"
-  ],
+  "blocking_issues": [],
   "warning_issues": [],
   "semantic_validation_passed": true,
   "id_compatibility_validation_passed": true,
@@ -56,1168 +54,278 @@
       "recommendation_intent_candidate_only_search": true
     },
     "finance_exports": {
-      "card": {
-        "product_count": 1007,
-        "verified_pilot_count": 20,
-        "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0.9955,
-        "verified_pilot_threshold": 0.7,
-        "status_counts": {
-          "active": 652,
-          "unknown": 355
-        },
-        "active_products_without_criteria": 1,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 122,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 981,
-        "manual_review_candidate_products": 11,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 652,
-        "comparison_candidate_products": 0,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 1007,
-        "recommendation_status_counts": {
-          "eligible_for_listing": 15,
-          "manual_review_candidate": 11,
-          "reference_only": 981
-        },
-        "recommendation_scope_counts": {
-          "listing_only": 1007
-        },
-        "products_with_complete_comparison_fields": 0,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 11,
-        "products_with_verification_evidence": 11,
-        "comparison_overlay_quality": {
-          "candidate_count": 0,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 0,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 0,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {},
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0.1812,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "annual_fee_krw": 977,
-          "benefit_amount_krw": 492,
-          "benefit_categories": 695,
-          "benefit_frequency_limit": 968,
-          "benefit_rate_percent": 593,
-          "benefit_type": 355,
-          "criteria_or_options": 355,
-          "excluded_spend": 971,
-          "minimum_payment_amount": 972,
-          "monthly_benefit_limit_krw": 958,
-          "per_transaction_limit_krw": 974,
-          "performance_excluded_spend": 971,
-          "previous_month_spend_min_krw": 968
-        },
-        "absent_fields_by_field_name": {
-          "annual_fee_krw": 977,
-          "benefit_amount_krw": 492,
-          "benefit_categories": 695,
-          "benefit_frequency_limit": 968,
-          "benefit_rate_percent": 593,
-          "benefit_type": 355,
-          "criteria_or_options": 1007,
-          "excluded_spend": 971,
-          "minimum_payment_amount": 972,
-          "monthly_benefit_limit_krw": 958,
-          "per_transaction_limit_krw": 974,
-          "performance_excluded_spend": 971,
-          "previous_month_spend_min_krw": 968
-        },
-        "empty_fields_by_field_name": {
-          "annual_fee_krw": 0,
-          "benefit_amount_krw": 0,
-          "benefit_categories": 0,
-          "benefit_frequency_limit": 0,
-          "benefit_rate_percent": 0,
-          "benefit_type": 0,
-          "criteria_or_options": 0,
-          "excluded_spend": 0,
-          "minimum_payment_amount": 0,
-          "monthly_benefit_limit_krw": 0,
-          "per_transaction_limit_krw": 0,
-          "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0
-        },
-        "not_collected_fields_by_field_name": {
-          "annual_fee_krw": 977,
-          "benefit_amount_krw": 492,
-          "benefit_categories": 695,
-          "benefit_frequency_limit": 968,
-          "benefit_rate_percent": 593,
-          "benefit_type": 355,
-          "criteria_or_options": 0,
-          "excluded_spend": 971,
-          "minimum_payment_amount": 972,
-          "monthly_benefit_limit_krw": 958,
-          "per_transaction_limit_krw": 974,
-          "performance_excluded_spend": 971,
-          "previous_month_spend_min_krw": 968
-        },
-        "unverified_fields_by_field_name": {
-          "annual_fee_krw": 30,
-          "benefit_amount_krw": 515,
-          "benefit_categories": 312,
-          "benefit_frequency_limit": 39,
-          "benefit_rate_percent": 414,
-          "benefit_type": 652,
-          "criteria_or_options": 0,
-          "excluded_spend": 36,
-          "minimum_payment_amount": 35,
-          "monthly_benefit_limit_krw": 49,
-          "per_transaction_limit_krw": 33,
-          "performance_excluded_spend": 36,
-          "previous_month_spend_min_krw": 39
-        },
-        "conflicting_fields_by_field_name": {
-          "annual_fee_krw": 0,
-          "benefit_amount_krw": 0,
-          "benefit_categories": 0,
-          "benefit_frequency_limit": 0,
-          "benefit_rate_percent": 0,
-          "benefit_type": 0,
-          "criteria_or_options": 0,
-          "excluded_spend": 0,
-          "minimum_payment_amount": 0,
-          "monthly_benefit_limit_krw": 0,
-          "per_transaction_limit_krw": 0,
-          "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "annual_fee_krw": 0,
-          "benefit_amount_krw": 0,
-          "benefit_categories": 0,
-          "benefit_frequency_limit": 0,
-          "benefit_rate_percent": 0,
-          "benefit_type": 0,
-          "criteria_or_options": 0,
-          "excluded_spend": 0,
-          "minimum_payment_amount": 0,
-          "monthly_benefit_limit_krw": 0,
-          "per_transaction_limit_krw": 0,
-          "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0
-        },
-        "structural_comparison_candidate_count": 0,
-        "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
-        "public_comparison_candidate_count": 0,
-        "readiness": {
-          "discovery": "ready",
-          "comparison_engine": "ready",
-          "comparison_data": "blocked",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 11,
-          "verification_evidence_product_count": 11
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        }
-      },
       "deposit": {
-        "product_count": 430,
-        "verified_pilot_count": 0,
-        "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0,
-        "verified_pilot_threshold": 0.5,
-        "status_counts": {
-          "active": 430
-        },
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 0,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 430,
-        "comparison_candidate_products": 430,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 0,
-        "recommendation_status_counts": {
-          "eligible_for_listing": 430
-        },
-        "recommendation_scope_counts": {
-          "comparison_only": 430
-        },
-        "products_with_complete_comparison_fields": 30,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 30,
-        "products_with_verification_evidence": 30,
-        "comparison_overlay_quality": {
-          "candidate_count": 30,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 30,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 30,
-          "missing_required_fields_by_field_name": {
-            "deposit_protection_status": 8,
-            "early_termination_condition": 30,
-            "maximum_deposit_krw": 16,
-            "minimum_deposit_krw": 22,
-            "preferential_rate_conditions": 4
-          },
-          "unverified_fields_by_field_name": {
-            "base_rate_percent": 30,
-            "deposit_protection_status": 22,
-            "interest_method": 30,
-            "join_channel": 30,
-            "join_member": 30,
-            "maximum_deposit_krw": 14,
-            "maximum_rate_percent": 30,
-            "minimum_deposit_krw": 8,
-            "preferential_rate_conditions": 26,
-            "term_months": 30
-          },
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0.6126,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "deposit_protection_status": 370,
-          "early_termination_condition": 430,
-          "join_member": 2,
-          "maximum_deposit_krw": 395,
-          "minimum_deposit_krw": 398,
-          "preferential_rate_conditions": 4,
-          "sales_verification_status": 400
-        },
-        "absent_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "interest_method": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_deposit_krw": 0,
-          "maximum_rate_percent": 0,
-          "minimum_deposit_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "term_months": 0
-        },
-        "empty_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 430,
-          "interest_method": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_deposit_krw": 395,
-          "maximum_rate_percent": 0,
-          "minimum_deposit_krw": 398,
-          "preferential_rate_conditions": 345,
-          "sales_verification_status": 0,
-          "term_months": 0
-        },
-        "not_collected_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 370,
-          "early_termination_condition": 430,
-          "interest_method": 0,
-          "join_channel": 0,
-          "join_member": 2,
-          "maximum_deposit_krw": 395,
-          "maximum_rate_percent": 0,
-          "minimum_deposit_krw": 398,
-          "preferential_rate_conditions": 345,
-          "sales_verification_status": 430,
-          "term_months": 0
-        },
-        "unverified_fields_by_field_name": {
-          "base_rate_percent": 430,
-          "deposit_protection_status": 60,
-          "early_termination_condition": 0,
-          "interest_method": 430,
-          "join_channel": 430,
-          "join_member": 428,
-          "maximum_deposit_krw": 35,
-          "maximum_rate_percent": 430,
-          "minimum_deposit_krw": 32,
-          "preferential_rate_conditions": 85,
-          "sales_verification_status": 0,
-          "term_months": 430
-        },
-        "conflicting_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "interest_method": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_deposit_krw": 0,
-          "maximum_rate_percent": 0,
-          "minimum_deposit_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "term_months": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "interest_method": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_deposit_krw": 0,
-          "maximum_rate_percent": 0,
-          "minimum_deposit_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "term_months": 0
-        },
-        "structural_comparison_candidate_count": 430,
-        "complete_comparison_data_count": 30,
-        "verified_comparison_candidate_count": 30,
-        "public_comparison_candidate_count": 30,
+        "deprecated": true,
+        "replacement_path": "domain_readiness.deposit",
         "readiness": {
-          "discovery": "ready",
-          "comparison_engine": "ready",
-          "comparison_data": "ready",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 30,
-          "verification_evidence_product_count": 30
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
+          "item_count": 430,
+          "required_fields": [
+            "base_rate_percent",
+            "maximum_rate_percent",
+            "term_months",
+            "interest_method",
+            "preferential_rate_conditions",
+            "minimum_deposit_krw",
+            "maximum_deposit_krw",
+            "early_termination_condition",
+            "deposit_protection_status",
+            "join_member",
+            "join_channel",
+            "sales_verification_status"
+          ],
+          "structural_candidate_count": 430,
+          "value_complete_candidate_count": 0,
+          "field_verified_candidate_count": 0,
+          "runtime_eligible_candidate_count": 0,
+          "public_candidate_count": 0,
+          "complete_field_count": 0,
+          "verified_candidate_count": 0,
+          "comparison_data": "domain_coverage_incomplete",
+          "recommendation": "blocked",
+          "recommendation_mode": "blocked",
+          "status": "domain_coverage_incomplete",
+          "blockers": [
+            "FIELD_ASSERTIONS_INCOMPLETE"
+          ],
+          "missing_required_fields": {
+            "base_rate_percent": 0,
+            "maximum_rate_percent": 0,
+            "term_months": 0,
+            "interest_method": 0,
+            "preferential_rate_conditions": 0,
+            "minimum_deposit_krw": 398,
+            "maximum_deposit_krw": 395,
+            "early_termination_condition": 430,
+            "deposit_protection_status": 0,
+            "join_member": 0,
+            "join_channel": 0,
+            "sales_verification_status": 0
+          },
+          "data_layers": {
+            "raw": {
+              "item_count": 430,
+              "status": "available"
+            },
+            "normalized": {
+              "item_count": 430,
+              "status": "available"
+            },
+            "verified": {
+              "item_count": 0,
+              "status": "blocked"
+            }
+          }
         }
       },
       "saving": {
-        "product_count": 335,
-        "verified_pilot_count": 0,
-        "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0,
-        "verified_pilot_threshold": 0.5,
-        "status_counts": {
-          "active": 335
-        },
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 0,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 335,
-        "comparison_candidate_products": 335,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 0,
-        "recommendation_status_counts": {
-          "eligible_for_listing": 335
-        },
-        "recommendation_scope_counts": {
-          "comparison_only": 335
-        },
-        "products_with_complete_comparison_fields": 30,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 30,
-        "products_with_verification_evidence": 30,
-        "comparison_overlay_quality": {
-          "candidate_count": 30,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 30,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 30,
-          "missing_required_fields_by_field_name": {
-            "deposit_protection_status": 1,
-            "early_termination_condition": 30,
-            "monthly_payment_max_krw": 3,
-            "monthly_payment_min_krw": 28,
-            "preferential_rate_conditions": 1
-          },
-          "unverified_fields_by_field_name": {
-            "base_rate_percent": 30,
-            "deposit_protection_status": 29,
-            "join_channel": 30,
-            "join_member": 30,
-            "maximum_rate_percent": 30,
-            "monthly_payment_max_krw": 27,
-            "monthly_payment_min_krw": 2,
-            "preferential_rate_conditions": 29,
-            "saving_method": 30,
-            "term_months": 30
-          },
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0.6316,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "deposit_protection_status": 265,
-          "early_termination_condition": 335,
-          "join_channel": 3,
-          "join_member": 6,
-          "monthly_payment_max_krw": 238,
-          "monthly_payment_min_krw": 328,
-          "preferential_rate_conditions": 1,
-          "sales_verification_status": 305
-        },
-        "absent_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 0,
-          "monthly_payment_min_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "saving_method": 0,
-          "term_months": 0
-        },
-        "empty_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 335,
-          "join_channel": 3,
-          "join_member": 0,
-          "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 238,
-          "monthly_payment_min_krw": 328,
-          "preferential_rate_conditions": 186,
-          "sales_verification_status": 0,
-          "saving_method": 0,
-          "term_months": 0
-        },
-        "not_collected_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 265,
-          "early_termination_condition": 335,
-          "join_channel": 3,
-          "join_member": 6,
-          "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 238,
-          "monthly_payment_min_krw": 328,
-          "preferential_rate_conditions": 186,
-          "sales_verification_status": 335,
-          "saving_method": 0,
-          "term_months": 0
-        },
-        "unverified_fields_by_field_name": {
-          "base_rate_percent": 335,
-          "deposit_protection_status": 70,
-          "early_termination_condition": 0,
-          "join_channel": 332,
-          "join_member": 329,
-          "maximum_rate_percent": 335,
-          "monthly_payment_max_krw": 97,
-          "monthly_payment_min_krw": 7,
-          "preferential_rate_conditions": 149,
-          "sales_verification_status": 0,
-          "saving_method": 335,
-          "term_months": 335
-        },
-        "conflicting_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 0,
-          "monthly_payment_min_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "saving_method": 0,
-          "term_months": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 0,
-          "monthly_payment_min_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "saving_method": 0,
-          "term_months": 0
-        },
-        "structural_comparison_candidate_count": 335,
-        "complete_comparison_data_count": 30,
-        "verified_comparison_candidate_count": 30,
-        "public_comparison_candidate_count": 30,
+        "deprecated": true,
+        "replacement_path": "domain_readiness.saving",
         "readiness": {
-          "discovery": "ready",
-          "comparison_engine": "ready",
-          "comparison_data": "ready",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 30,
-          "verification_evidence_product_count": 30
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
+          "item_count": 335,
+          "required_fields": [
+            "base_rate_percent",
+            "maximum_rate_percent",
+            "term_months",
+            "saving_method",
+            "preferential_rate_conditions",
+            "monthly_payment_min_krw",
+            "monthly_payment_max_krw",
+            "early_termination_condition",
+            "deposit_protection_status",
+            "join_member",
+            "join_channel",
+            "sales_verification_status"
+          ],
+          "structural_candidate_count": 335,
+          "value_complete_candidate_count": 0,
+          "field_verified_candidate_count": 0,
+          "runtime_eligible_candidate_count": 0,
+          "public_candidate_count": 0,
+          "complete_field_count": 0,
+          "verified_candidate_count": 0,
+          "comparison_data": "domain_coverage_incomplete",
+          "recommendation": "blocked",
+          "recommendation_mode": "blocked",
+          "status": "domain_coverage_incomplete",
+          "blockers": [
+            "FIELD_ASSERTIONS_INCOMPLETE"
+          ],
+          "missing_required_fields": {
+            "base_rate_percent": 0,
+            "maximum_rate_percent": 0,
+            "term_months": 0,
+            "saving_method": 0,
+            "preferential_rate_conditions": 0,
+            "monthly_payment_min_krw": 328,
+            "monthly_payment_max_krw": 238,
+            "early_termination_condition": 335,
+            "deposit_protection_status": 0,
+            "join_member": 0,
+            "join_channel": 0,
+            "sales_verification_status": 0
+          },
+          "data_layers": {
+            "raw": {
+              "item_count": 335,
+              "status": "available"
+            },
+            "normalized": {
+              "item_count": 335,
+              "status": "available"
+            },
+            "verified": {
+              "item_count": 0,
+              "status": "blocked"
+            }
+          }
+        }
+      },
+      "card": {
+        "deprecated": true,
+        "replacement_path": "domain_readiness.card",
+        "readiness": {
+          "item_count": 1007,
+          "required_fields": [],
+          "structural_candidate_count": 1007,
+          "value_complete_candidate_count": 1007,
+          "field_verified_candidate_count": 0,
+          "runtime_eligible_candidate_count": 0,
+          "public_candidate_count": 0,
+          "complete_field_count": 1007,
+          "verified_candidate_count": 0,
+          "comparison_data": "engine_ready",
+          "recommendation": "blocked",
+          "recommendation_mode": "blocked",
+          "status": "engine_ready",
+          "blockers": [],
+          "missing_required_fields": {},
+          "data_layers": {
+            "raw": {
+              "item_count": 1007,
+              "status": "available"
+            },
+            "normalized": {
+              "item_count": 1007,
+              "status": "available"
+            },
+            "verified": {
+              "item_count": 0,
+              "status": "blocked"
+            }
+          }
         }
       },
       "loan": {
-        "product_count": 598,
-        "verified_pilot_count": 20,
-        "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 1,
-        "verified_pilot_threshold": 0.5,
-        "status_counts": {
-          "active": 587,
-          "unknown": 11
-        },
-        "active_products_without_criteria": 4,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 564,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 587,
-        "manual_review_candidate_products": 11,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 587,
-        "comparison_candidate_products": 13,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 574,
-        "recommendation_status_counts": {
-          "manual_review_candidate": 11,
-          "reference_only": 587
-        },
-        "recommendation_scope_counts": {
-          "comparison_only": 13,
-          "internal_verification_candidate": 11,
-          "listing_only": 574
-        },
-        "products_with_complete_comparison_fields": 20,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 20,
-        "products_with_verification_evidence": 20,
-        "comparison_overlay_quality": {
-          "candidate_count": 20,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 20,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 20,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {
-            "collateral_type": 20,
-            "early_repayment_fee": 20,
-            "eligible_borrower": 20,
-            "loan_limit_krw": 20,
-            "loan_rate_max_percent": 20,
-            "loan_rate_min_percent": 20,
-            "rate_type": 20,
-            "repayment_method": 20
-          },
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0.6885,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "collateral_type": 90,
-          "criteria_or_options": 11,
-          "early_repayment_fee": 325,
-          "eligible_borrower": 163,
-          "loan_limit_krw": 293,
-          "loan_rate_max_percent": 160,
-          "loan_rate_min_percent": 160,
-          "rate_type": 128,
-          "repayment_method": 171
-        },
-        "absent_fields_by_field_name": {
-          "collateral_type": 0,
-          "criteria_or_options": 598,
-          "early_repayment_fee": 0,
-          "eligible_borrower": 0,
-          "loan_limit_krw": 0,
-          "loan_rate_max_percent": 0,
-          "loan_rate_min_percent": 0,
-          "rate_type": 0,
-          "repayment_method": 0
-        },
-        "empty_fields_by_field_name": {
-          "collateral_type": 90,
-          "criteria_or_options": 0,
-          "early_repayment_fee": 325,
-          "eligible_borrower": 163,
-          "loan_limit_krw": 293,
-          "loan_rate_max_percent": 160,
-          "loan_rate_min_percent": 160,
-          "rate_type": 128,
-          "repayment_method": 171
-        },
-        "not_collected_fields_by_field_name": {
-          "collateral_type": 90,
-          "criteria_or_options": 0,
-          "early_repayment_fee": 325,
-          "eligible_borrower": 163,
-          "loan_limit_krw": 255,
-          "loan_rate_max_percent": 160,
-          "loan_rate_min_percent": 160,
-          "rate_type": 128,
-          "repayment_method": 171
-        },
-        "unverified_fields_by_field_name": {
-          "collateral_type": 508,
-          "criteria_or_options": 0,
-          "early_repayment_fee": 273,
-          "eligible_borrower": 435,
-          "loan_limit_krw": 305,
-          "loan_rate_max_percent": 438,
-          "loan_rate_min_percent": 438,
-          "rate_type": 470,
-          "repayment_method": 427
-        },
-        "conflicting_fields_by_field_name": {
-          "collateral_type": 0,
-          "criteria_or_options": 0,
-          "early_repayment_fee": 0,
-          "eligible_borrower": 0,
-          "loan_limit_krw": 0,
-          "loan_rate_max_percent": 0,
-          "loan_rate_min_percent": 0,
-          "rate_type": 0,
-          "repayment_method": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "collateral_type": 0,
-          "criteria_or_options": 0,
-          "early_repayment_fee": 0,
-          "eligible_borrower": 0,
-          "loan_limit_krw": 0,
-          "loan_rate_max_percent": 0,
-          "loan_rate_min_percent": 0,
-          "rate_type": 0,
-          "repayment_method": 0
-        },
-        "structural_comparison_candidate_count": 13,
-        "complete_comparison_data_count": 20,
-        "verified_comparison_candidate_count": 20,
-        "public_comparison_candidate_count": 13,
+        "deprecated": true,
+        "replacement_path": "domain_readiness.loan",
         "readiness": {
-          "discovery": "ready",
-          "comparison_engine": "ready",
-          "comparison_data": "ready",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 20,
-          "verification_evidence_product_count": 20
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
+          "item_count": 598,
+          "required_fields": [],
+          "structural_candidate_count": 598,
+          "value_complete_candidate_count": 598,
+          "field_verified_candidate_count": 0,
+          "runtime_eligible_candidate_count": 0,
+          "public_candidate_count": 0,
+          "complete_field_count": 598,
+          "verified_candidate_count": 0,
+          "comparison_data": "engine_ready",
+          "recommendation": "blocked",
+          "recommendation_mode": "blocked",
+          "status": "engine_ready",
+          "blockers": [],
+          "missing_required_fields": {},
+          "data_layers": {
+            "raw": {
+              "item_count": 598,
+              "status": "available"
+            },
+            "normalized": {
+              "item_count": 598,
+              "status": "available"
+            },
+            "verified": {
+              "item_count": 0,
+              "status": "blocked"
+            }
+          }
         }
       },
       "insurance": {
-        "product_count": 1071,
-        "verified_pilot_count": 20,
-        "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0.835,
-        "verified_pilot_threshold": 0.6,
-        "status_counts": {
-          "active": 1071
-        },
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 1071,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 1071,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 1071,
-        "comparison_candidate_products": 0,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 1071,
-        "recommendation_status_counts": {
-          "reference_only": 1071
-        },
-        "recommendation_scope_counts": {
-          "listing_only": 1071
-        },
-        "products_with_complete_comparison_fields": 0,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 20,
-        "products_with_verification_evidence": 20,
-        "comparison_overlay_quality": {
-          "candidate_count": 0,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 0,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 0,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {},
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0.424,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "coverage_amount_krw": 29,
-          "exclusion_condition": 1058,
-          "insurance_term": 657,
-          "insured_age_max": 1063,
-          "insured_age_min": 1063,
-          "payment_term": 1053,
-          "reduction_period_days": 1071,
-          "renewal_type": 199,
-          "surrender_refund_type": 755,
-          "waiting_period_days": 1071
-        },
-        "absent_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 29,
-          "coverage_names": 0,
-          "exclusion_condition": 1058,
-          "insurance_term": 657,
-          "insured_age_max": 1063,
-          "insured_age_min": 1063,
-          "payment_term": 1053,
-          "premium_basis": 0,
-          "reduction_period_days": 1071,
-          "renewal_type": 199,
-          "surrender_refund_type": 755,
-          "waiting_period_days": 1071
-        },
-        "empty_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 0,
-          "coverage_names": 0,
-          "exclusion_condition": 0,
-          "insurance_term": 0,
-          "insured_age_max": 0,
-          "insured_age_min": 0,
-          "payment_term": 0,
-          "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_type": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
-        },
-        "not_collected_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 29,
-          "coverage_names": 0,
-          "exclusion_condition": 1058,
-          "insurance_term": 657,
-          "insured_age_max": 1063,
-          "insured_age_min": 1063,
-          "payment_term": 1053,
-          "premium_basis": 0,
-          "reduction_period_days": 1071,
-          "renewal_type": 199,
-          "surrender_refund_type": 755,
-          "waiting_period_days": 1071
-        },
-        "unverified_fields_by_field_name": {
-          "claim_condition": 1071,
-          "coverage_amount_krw": 1042,
-          "coverage_names": 1071,
-          "exclusion_condition": 13,
-          "insurance_term": 414,
-          "insured_age_max": 8,
-          "insured_age_min": 8,
-          "payment_term": 18,
-          "premium_basis": 1071,
-          "reduction_period_days": 0,
-          "renewal_type": 872,
-          "surrender_refund_type": 316,
-          "waiting_period_days": 0
-        },
-        "conflicting_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 0,
-          "coverage_names": 0,
-          "exclusion_condition": 0,
-          "insurance_term": 0,
-          "insured_age_max": 0,
-          "insured_age_min": 0,
-          "payment_term": 0,
-          "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_type": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 0,
-          "coverage_names": 0,
-          "exclusion_condition": 0,
-          "insurance_term": 0,
-          "insured_age_max": 0,
-          "insured_age_min": 0,
-          "payment_term": 0,
-          "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_type": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
-        },
-        "structural_comparison_candidate_count": 0,
-        "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
-        "public_comparison_candidate_count": 0,
+        "deprecated": true,
+        "replacement_path": "domain_readiness.insurance",
         "readiness": {
-          "discovery": "ready",
-          "comparison_engine": "ready",
-          "comparison_data": "blocked",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 20,
-          "verification_evidence_product_count": 20
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
+          "item_count": 1071,
+          "required_fields": [],
+          "structural_candidate_count": 1071,
+          "value_complete_candidate_count": 1071,
+          "field_verified_candidate_count": 0,
+          "runtime_eligible_candidate_count": 0,
+          "public_candidate_count": 0,
+          "complete_field_count": 1071,
+          "verified_candidate_count": 0,
+          "comparison_data": "engine_ready",
+          "recommendation": "blocked",
+          "recommendation_mode": "blocked",
+          "status": "engine_ready",
+          "blockers": [],
+          "missing_required_fields": {},
+          "data_layers": {
+            "raw": {
+              "item_count": 1071,
+              "status": "available"
+            },
+            "normalized": {
+              "item_count": 1071,
+              "status": "available"
+            },
+            "verified": {
+              "item_count": 0,
+              "status": "blocked"
+            }
+          }
         }
       },
       "pension": {
-        "product_count": 0,
-        "verified_pilot_count": 0,
-        "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0,
-        "verified_pilot_threshold": null,
-        "status_counts": {},
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 0,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 0,
-        "comparison_candidate_products": 0,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 0,
-        "recommendation_status_counts": {},
-        "recommendation_scope_counts": {},
-        "products_with_complete_comparison_fields": 0,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
-        "comparison_overlay_quality": {
-          "candidate_count": 0,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 0,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 0,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {},
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {},
-        "absent_fields_by_field_name": {},
-        "empty_fields_by_field_name": {},
-        "not_collected_fields_by_field_name": {},
-        "unverified_fields_by_field_name": {},
-        "conflicting_fields_by_field_name": {},
-        "expired_verification_fields_by_field_name": {},
-        "structural_comparison_candidate_count": 0,
-        "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
-        "public_comparison_candidate_count": 0,
+        "deprecated": true,
+        "replacement_path": "domain_readiness.pension",
         "readiness": {
-          "discovery": "blocked",
-          "comparison_engine": "ready",
-          "comparison_data": "blocked",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        }
-      },
-      "account": {
-        "product_count": 4,
-        "verified_pilot_count": 0,
-        "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0,
-        "verified_pilot_threshold": null,
-        "status_counts": {
-          "active": 4
-        },
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 4,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 0,
-        "comparison_candidate_products": 0,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 4,
-        "recommendation_status_counts": {
-          "reference_only": 4
-        },
-        "recommendation_scope_counts": {
-          "listing_only": 4
-        },
-        "products_with_complete_comparison_fields": 0,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
-        "comparison_overlay_quality": {
-          "candidate_count": 0,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 0,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
+          "item_count": 0,
+          "required_fields": [],
+          "structural_candidate_count": 0,
+          "value_complete_candidate_count": 0,
+          "field_verified_candidate_count": 0,
+          "runtime_eligible_candidate_count": 0,
+          "public_candidate_count": 0,
+          "complete_field_count": 0,
           "verified_candidate_count": 0,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {},
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "account_kind": 4,
-          "join_member": 4,
-          "payment_limit_krw": 4,
-          "sales_verification_status": 4,
-          "tax_benefit": 4
-        },
-        "absent_fields_by_field_name": {
-          "account_kind": 4,
-          "join_member": 4,
-          "payment_limit_krw": 4,
-          "sales_verification_status": 0,
-          "tax_benefit": 4
-        },
-        "empty_fields_by_field_name": {
-          "account_kind": 0,
-          "join_member": 0,
-          "payment_limit_krw": 0,
-          "sales_verification_status": 0,
-          "tax_benefit": 0
-        },
-        "not_collected_fields_by_field_name": {
-          "account_kind": 4,
-          "join_member": 4,
-          "payment_limit_krw": 4,
-          "sales_verification_status": 4,
-          "tax_benefit": 4
-        },
-        "unverified_fields_by_field_name": {
-          "account_kind": 0,
-          "join_member": 0,
-          "payment_limit_krw": 0,
-          "sales_verification_status": 0,
-          "tax_benefit": 0
-        },
-        "conflicting_fields_by_field_name": {
-          "account_kind": 0,
-          "join_member": 0,
-          "payment_limit_krw": 0,
-          "sales_verification_status": 0,
-          "tax_benefit": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "account_kind": 0,
-          "join_member": 0,
-          "payment_limit_krw": 0,
-          "sales_verification_status": 0,
-          "tax_benefit": 0
-        },
-        "structural_comparison_candidate_count": 0,
-        "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
-        "public_comparison_candidate_count": 0,
-        "readiness": {
-          "discovery": "blocked",
-          "comparison_engine": "ready",
           "comparison_data": "blocked",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        }
-      },
-      "reference": {
-        "product_count": 0,
-        "verified_pilot_count": 0,
-        "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0,
-        "verified_pilot_threshold": null,
-        "status_counts": {},
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 0,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 0,
-        "comparison_candidate_products": 0,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 0,
-        "recommendation_status_counts": {},
-        "recommendation_scope_counts": {},
-        "products_with_complete_comparison_fields": 0,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
-        "comparison_overlay_quality": {
-          "candidate_count": 0,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 0,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 0,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {},
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {},
-        "absent_fields_by_field_name": {},
-        "empty_fields_by_field_name": {},
-        "not_collected_fields_by_field_name": {},
-        "unverified_fields_by_field_name": {},
-        "conflicting_fields_by_field_name": {},
-        "expired_verification_fields_by_field_name": {},
-        "structural_comparison_candidate_count": 0,
-        "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
-        "public_comparison_candidate_count": 0,
-        "readiness": {
-          "discovery": "blocked",
-          "comparison_engine": "ready",
-          "comparison_data": "blocked",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
+          "recommendation": "blocked",
+          "recommendation_mode": "blocked",
+          "status": "blocked",
+          "blockers": [],
+          "missing_required_fields": {},
+          "data_layers": {
+            "raw": {
+              "item_count": 0,
+              "status": "missing"
+            },
+            "normalized": {
+              "item_count": 0,
+              "status": "missing"
+            },
+            "verified": {
+              "item_count": 0,
+              "status": "blocked"
+            }
+          }
         }
       }
     },
-    "release_status": "degraded",
+    "release_status": "ready",
     "recommendation_enabled": false,
-    "blocking_reasons": [
-      "live_regression_stale"
-    ]
+    "blocking_reasons": [],
+    "deprecated": true,
+    "replacement_path": "domain_readiness"
   },
   "operating_policy": {
     "allowed": [
@@ -1541,7 +649,7 @@
         "relationship_count": 102523,
         "collection_failure_sources": 51
       },
-      "export_checksum": "2ed93638ae48b8f592d01be76dbd38d68e4312851b77a56e72a54d72868cc163",
+      "export_checksum": "99e8357e00efafaf1bce72a011da0cddf6d49fa6a2b9fe9251a41aa80af7f70d",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1735,10 +843,10 @@
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "item_count": 1,
       "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "ba2e0b5b15f00a0729d3f4ce13797d08ae6e95c4ddef9cd6bd55cae79aa9a1ea",
+      "export_checksum": "0aec9caa039e193c9697b10251364c2f962bca484e3d66b414a9049c48c9f89e",
       "coverage": {
         "external_provenance_coverage_ratio": 1,
-        "status": "degraded"
+        "status": "ready"
       },
       "description": "Canonical provenance coverage and source URL validation report."
     }
@@ -3120,9 +2228,7 @@
       "reference_item_count": 8
     }
   ],
-  "blocking_reasons": [
-    "live_regression_stale"
-  ],
+  "blocking_reasons": [],
   "recommendation_enabled": false,
   "operational_base_url": "https://jhny-kor.github.io/OpenFin/opentax",
   "artifacts": {
@@ -3243,10 +2349,10 @@
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "item_count": 1,
       "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "ba2e0b5b15f00a0729d3f4ce13797d08ae6e95c4ddef9cd6bd55cae79aa9a1ea",
+      "export_checksum": "0aec9caa039e193c9697b10251364c2f962bca484e3d66b414a9049c48c9f89e",
       "coverage": {
         "external_provenance_coverage_ratio": 1,
-        "status": "degraded"
+        "status": "ready"
       }
     },
     "relationship_index": {
@@ -3279,10 +2385,10 @@
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
     "item_count": 1,
     "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "ba2e0b5b15f00a0729d3f4ce13797d08ae6e95c4ddef9cd6bd55cae79aa9a1ea",
+    "export_checksum": "0aec9caa039e193c9697b10251364c2f962bca484e3d66b414a9049c48c9f89e",
     "coverage": {
       "external_provenance_coverage_ratio": 1,
-      "status": "degraded"
+      "status": "ready"
     }
   },
   "source_registry": {
@@ -3416,1146 +2522,13 @@
     "export_checksum": "8915d1ada036dcd724244f009dd771f3e8de5f936df35e56774c144dabca502f"
   },
   "openfin_120_live_regression": {
-    "report_version": "openfin-live-120-v1",
-    "mode": "live",
-    "checked_at": "2026-07-26T11:37:00+00:00",
-    "endpoint": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "fixture": "tests/golden/openfin-120.jsonl",
-    "runtime": {
-      "runtime_version": "openfin-mcp-2026.07.22.1",
-      "deployment_commit": "40215ba9c",
-      "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-      "loaded_index_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
-      "loaded_item_count": 21266
-    },
-    "test_count": 120,
-    "passed_count": 15,
-    "failed_count": 105,
+    "status": "missing",
+    "test_count": 0,
+    "passed_count": 0,
+    "failed_count": 0,
     "skipped_count": 0,
-    "failures": [
-      {
-        "case_id": "exact_product-001",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-002",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-003",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-004",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-005",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-006",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-007",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-008",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-009",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-010",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-011",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-012",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-013",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-014",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-015",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-016",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-017",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-018",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-019",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-020",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-021",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-022",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-023",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-024",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-025",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-026",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-027",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-028",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "exact_product-029",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "exact_product-030",
-        "tool": "opentax_search",
-        "errors": [
-          "named product was not resolved as exact"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "alias_ambiguity-009",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "alias_ambiguity-011",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "alias_ambiguity-015",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "alias_ambiguity-017",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "alias_ambiguity-018",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "comparison-001",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010002.00320342",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010356.1001",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0069",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0085",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0017801.1001202000002",
-          "comparison candidate missing object version: finance.deposit.deposit.0010002.00320342",
-          "comparison candidate missing object version: finance.deposit.deposit.0010356.1001",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0069",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0085",
-          "comparison candidate missing object version: finance.deposit.deposit.0017801.1001202000002",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-002",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.saving.saving.0010020.220002101",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21001116",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010030.03700",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010349.0803",
-          "comparison candidate missing data_as_of: finance.saving.saving.0013175.10-059-1264-0001",
-          "comparison candidate missing object version: finance.saving.saving.0010020.220002101",
-          "comparison candidate missing object version: finance.saving.saving.0010024.21001116",
-          "comparison candidate missing object version: finance.saving.saving.0010030.03700",
-          "comparison candidate missing object version: finance.saving.saving.0010349.0803",
-          "comparison candidate missing object version: finance.saving.saving.0013175.10-059-1264-0001",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-003",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010345.hk00012",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0055",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0059",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0061",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0081",
-          "comparison candidate missing object version: finance.deposit.deposit.0010345.hk00012",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0055",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0059",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0061",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0081",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-004",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.saving.saving.0010002.00266451",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010017.01020400490002",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010471.31-0026",
-          "comparison candidate missing object version: finance.saving.saving.0010002.00266451",
-          "comparison candidate missing object version: finance.saving.saving.0010017.01020400490002",
-          "comparison candidate missing object version: finance.saving.saving.0010471.31-0026",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-005",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "comparison-006",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.saving.saving.0010020.220002101",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21001116",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010030.03700",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010349.0803",
-          "comparison candidate missing data_as_of: finance.saving.saving.0013175.10-059-1264-0001",
-          "comparison candidate missing object version: finance.saving.saving.0010020.220002101",
-          "comparison candidate missing object version: finance.saving.saving.0010024.21001116",
-          "comparison candidate missing object version: finance.saving.saving.0010030.03700",
-          "comparison candidate missing object version: finance.saving.saving.0010349.0803",
-          "comparison candidate missing object version: finance.saving.saving.0013175.10-059-1264-0001",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-007",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010002.00320342",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010356.1001",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0069",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0085",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0017801.1001202000002",
-          "comparison candidate missing object version: finance.deposit.deposit.0010002.00320342",
-          "comparison candidate missing object version: finance.deposit.deposit.0010356.1001",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0069",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0085",
-          "comparison candidate missing object version: finance.deposit.deposit.0017801.1001202000002",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-008",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.saving.saving.0010002.00266451",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010016.10521001001166004",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21000111",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21001292",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010471.31-0026",
-          "comparison candidate missing object version: finance.saving.saving.0010002.00266451",
-          "comparison candidate missing object version: finance.saving.saving.0010016.10521001001166004",
-          "comparison candidate missing object version: finance.saving.saving.0010024.21000111",
-          "comparison candidate missing object version: finance.saving.saving.0010024.21001292",
-          "comparison candidate missing object version: finance.saving.saving.0010471.31-0026",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-009",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "comparison-010",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "comparison-011",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010345.hk00012",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0055",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0059",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0061",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0081",
-          "comparison candidate missing object version: finance.deposit.deposit.0010345.hk00012",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0055",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0059",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0061",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0081",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-012",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "comparison-013",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010002.00320342",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010356.1001",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0069",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0085",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0017801.1001202000002",
-          "comparison candidate missing object version: finance.deposit.deposit.0010002.00320342",
-          "comparison candidate missing object version: finance.deposit.deposit.0010356.1001",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0069",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0085",
-          "comparison candidate missing object version: finance.deposit.deposit.0017801.1001202000002",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-014",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.saving.saving.0010020.220002101",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21001116",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010030.03700",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010349.0803",
-          "comparison candidate missing data_as_of: finance.saving.saving.0013175.10-059-1264-0001",
-          "comparison candidate missing object version: finance.saving.saving.0010020.220002101",
-          "comparison candidate missing object version: finance.saving.saving.0010024.21001116",
-          "comparison candidate missing object version: finance.saving.saving.0010030.03700",
-          "comparison candidate missing object version: finance.saving.saving.0010349.0803",
-          "comparison candidate missing object version: finance.saving.saving.0013175.10-059-1264-0001",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-015",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010345.hk00012",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0055",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0059",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0061",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0081",
-          "comparison candidate missing object version: finance.deposit.deposit.0010345.hk00012",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0055",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0059",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0061",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0081",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-016",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "comparison-017",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "comparison-018",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.saving.saving.0010020.220002101",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010024.21001116",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010030.03700",
-          "comparison candidate missing data_as_of: finance.saving.saving.0010349.0803",
-          "comparison candidate missing data_as_of: finance.saving.saving.0013175.10-059-1264-0001",
-          "comparison candidate missing object version: finance.saving.saving.0010020.220002101",
-          "comparison candidate missing object version: finance.saving.saving.0010024.21001116",
-          "comparison candidate missing object version: finance.saving.saving.0010030.03700",
-          "comparison candidate missing object version: finance.saving.saving.0010349.0803",
-          "comparison candidate missing object version: finance.saving.saving.0013175.10-059-1264-0001",
-          "comparison response missing comparison_basis",
-          "comparison response missing data_as_of",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing data_as_of"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "comparison-019",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "comparison-020",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "support-001",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "support-002",
-        "tool": "opentax_search",
-        "errors": [
-          "support result has no application_window: support.local-gov.gov24.1001801"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "support-003",
-        "tool": "opentax_search",
-        "errors": [
-          "support result has no application_window: support.local-gov.gov24.1004876",
-          "support result has no application_window: support.local-gov.gov24.2114209",
-          "support result has no application_window: support.local-gov.gov24.2128509",
-          "support result has no application_window: support.local-gov.gov24.2161850",
-          "support result has no application_window: support.local-gov.gov24.803493"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "support-004",
-        "tool": "opentax_search",
-        "errors": [
-          "support result has no application_window: support.local-gov.gov24.1003015",
-          "support result has no application_window: support.local-gov.gov24.810403"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "support-005",
-        "tool": "opentax_search",
-        "errors": [
-          "support query returned no result"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "support-006",
-        "tool": "opentax_search",
-        "errors": [
-          "support result has no application_window: support.local-gov.gov24.1002732",
-          "support result has no application_window: support.local-gov.gov24.1003400",
-          "support result has no application_window: support.local-gov.gov24.1004980",
-          "support result has no application_window: support.local-gov.gov24.804088",
-          "support result has no application_window: support.local-gov.gov24.809983"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "support-007",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "support-008",
-        "tool": "opentax_search",
-        "errors": [
-          "support result has no application_window: support.local-gov.gov24.1002551",
-          "support result has no application_window: support.local-gov.gov24.1005633",
-          "support result has no application_window: support.local-gov.gov24.2114329"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "support-009",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "support-010",
-        "tool": "opentax_search",
-        "errors": [
-          "support result has no application_window: support.local-gov.gov24.2128423"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "support-011",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "support-012",
-        "tool": "opentax_search",
-        "errors": [
-          "support result has no application_window: support.local-gov.gov24.1001764",
-          "support result has no application_window: support.local-gov.gov24.1003706",
-          "support result has no application_window: support.local-gov.gov24.1004672",
-          "support result has no application_window: support.local-gov.gov24.2130824",
-          "support result has no application_window: support.local-gov.gov24.810220"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "support-013",
-        "tool": "opentax_search",
-        "errors": [
-          "support query returned no result"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "support-014",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "support-015",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "support-016",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "support-017",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "support-018",
-        "tool": "opentax_search",
-        "errors": [
-          "support result has no application_window: support.local-gov.gov24.2106301",
-          "support result has no application_window: support.local-gov.gov24.2119606",
-          "support result has no application_window: support.local-gov.gov24.2128502",
-          "support result has no application_window: support.local-gov.gov24.2177116",
-          "support result has no application_window: support.local-gov.gov24.2185418"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "support-019",
-        "tool": "opentax_search",
-        "errors": [
-          "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "support-020",
-        "tool": "opentax_search",
-        "errors": [
-          "support result has no application_window: support.local-gov.gov24.2001624",
-          "support result has no application_window: support.local-gov.gov24.2106301",
-          "support result has no application_window: support.local-gov.gov24.2119606",
-          "support result has no application_window: support.local-gov.gov24.2128502",
-          "support result has no application_window: support.local-gov.gov24.2177116"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "personal_finance-001",
-        "tool": "get_finance_summary",
-        "errors": [
-          "unexpected tool error: ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-002",
-        "tool": "calculate_finance_metrics",
-        "errors": [
-          "unexpected tool error: ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-003",
-        "tool": "evaluate_product_fit",
-        "errors": [
-          "unexpected tool error: ValueError: evaluate_product_fit live call failed: evaluate_product_fit returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool evaluate_product_fit not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: evaluate_product_fit live call failed: evaluate_product_fit returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool evaluate_product_fit not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-004",
-        "tool": "simulate_finance_scenario",
-        "errors": [
-          "unexpected tool error: ValueError: simulate_finance_scenario live call failed: simulate_finance_scenario returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool simulate_finance_scenario not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: simulate_finance_scenario live call failed: simulate_finance_scenario returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool simulate_finance_scenario not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-005",
-        "tool": "explain_recommendation",
-        "errors": [
-          "unexpected tool error: ValueError: explain_recommendation live call failed: explain_recommendation returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool explain_recommendation not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: explain_recommendation live call failed: explain_recommendation returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool explain_recommendation not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-006",
-        "tool": "validate_finance_advice",
-        "errors": [
-          "unexpected tool error: ValueError: validate_finance_advice live call failed: validate_finance_advice returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool validate_finance_advice not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: validate_finance_advice live call failed: validate_finance_advice returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool validate_finance_advice not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal-recommendation-001",
-        "tool": "opentax_recommend",
-        "errors": [
-          "decision owner mismatch",
-          "expected status blocked, got None",
-          "recommendation response missing assumptions",
-          "recommendation response missing audit_id",
-          "recommendation response missing data_as_of",
-          "recommendation response missing decision_owner",
-          "recommendation response missing financial_needs",
-          "recommendation response missing limitations",
-          "recommendation response missing missing_information",
-          "recommendation response missing mode",
-          "recommendation response missing profile_as_of",
-          "recommendation response missing reason_codes",
-          "recommendation response missing status"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "personal_finance-007",
-        "tool": "get_finance_summary",
-        "errors": [
-          "unexpected tool error: ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-008",
-        "tool": "calculate_finance_metrics",
-        "errors": [
-          "unexpected tool error: ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-009",
-        "tool": "evaluate_product_fit",
-        "errors": [
-          "unexpected tool error: ValueError: evaluate_product_fit live call failed: evaluate_product_fit returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool evaluate_product_fit not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: evaluate_product_fit live call failed: evaluate_product_fit returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool evaluate_product_fit not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-010",
-        "tool": "simulate_finance_scenario",
-        "errors": [
-          "unexpected tool error: ValueError: simulate_finance_scenario live call failed: simulate_finance_scenario returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool simulate_finance_scenario not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: simulate_finance_scenario live call failed: simulate_finance_scenario returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool simulate_finance_scenario not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-011",
-        "tool": "explain_recommendation",
-        "errors": [
-          "unexpected tool error: ValueError: explain_recommendation live call failed: explain_recommendation returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool explain_recommendation not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: explain_recommendation live call failed: explain_recommendation returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool explain_recommendation not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-012",
-        "tool": "validate_finance_advice",
-        "errors": [
-          "unexpected tool error: ValueError: validate_finance_advice live call failed: validate_finance_advice returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool validate_finance_advice not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: validate_finance_advice live call failed: validate_finance_advice returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool validate_finance_advice not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-013",
-        "tool": "get_finance_summary",
-        "errors": [
-          "unexpected tool error: ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "personal_finance-014",
-        "tool": "calculate_finance_metrics",
-        "errors": [
-          "unexpected tool error: ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "stale_conflict-001",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010345.hk00012",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0055",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0059",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0061",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0081",
-          "comparison candidate missing object version: finance.deposit.deposit.0010345.hk00012",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0055",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0059",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0061",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0081",
-          "comparison response missing comparison_basis",
-          "comparison response missing limitations",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing limitations"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "stale_conflict-002",
-        "tool": "opentax_recommend",
-        "errors": [
-          "unexpected tool error: ValueError: recommend live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: recommend live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "stale_conflict-003",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "stale_conflict-004",
-        "tool": "opentax_recommend",
-        "errors": [
-          "expected status blocked, got None",
-          "recommendation response missing assumptions",
-          "recommendation response missing audit_id",
-          "recommendation response missing data_as_of",
-          "recommendation response missing decision_owner",
-          "recommendation response missing financial_needs",
-          "recommendation response missing limitations",
-          "recommendation response missing missing_information",
-          "recommendation response missing mode",
-          "recommendation response missing profile_as_of",
-          "recommendation response missing reason_codes",
-          "recommendation response missing status"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "stale_conflict-005",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "stale_conflict-006",
-        "tool": "opentax_recommend",
-        "errors": [
-          "expected status blocked, got None",
-          "recommendation response missing assumptions",
-          "recommendation response missing audit_id",
-          "recommendation response missing data_as_of",
-          "recommendation response missing decision_owner",
-          "recommendation response missing financial_needs",
-          "recommendation response missing limitations",
-          "recommendation response missing missing_information",
-          "recommendation response missing mode",
-          "recommendation response missing profile_as_of",
-          "recommendation response missing reason_codes",
-          "recommendation response missing status"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "stale_conflict-007",
-        "tool": "opentax_compare",
-        "errors": [
-          "unexpected tool error: ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-        ],
-        "error": "ValueError: compare live call failed: HTTP Error 503: Service Unavailable"
-      },
-      {
-        "case_id": "stale_conflict-008",
-        "tool": "opentax_recommend",
-        "errors": [
-          "expected status blocked, got None",
-          "recommendation response missing assumptions",
-          "recommendation response missing audit_id",
-          "recommendation response missing data_as_of",
-          "recommendation response missing decision_owner",
-          "recommendation response missing financial_needs",
-          "recommendation response missing limitations",
-          "recommendation response missing missing_information",
-          "recommendation response missing mode",
-          "recommendation response missing profile_as_of",
-          "recommendation response missing reason_codes",
-          "recommendation response missing status"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "stale_conflict-009",
-        "tool": "opentax_compare",
-        "errors": [
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010345.hk00012",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0055",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0059",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0061",
-          "comparison candidate missing data_as_of: finance.deposit.deposit.0010471.24-0081",
-          "comparison candidate missing object version: finance.deposit.deposit.0010345.hk00012",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0055",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0059",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0061",
-          "comparison candidate missing object version: finance.deposit.deposit.0010471.24-0081",
-          "comparison response missing comparison_basis",
-          "comparison response missing limitations",
-          "comparison statistics are not tied to the final comparison object",
-          "response missing comparison_basis",
-          "response missing limitations"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "stale_conflict-010",
-        "tool": "opentax_recommend",
-        "errors": [
-          "expected status blocked, got None",
-          "recommendation response missing assumptions",
-          "recommendation response missing audit_id",
-          "recommendation response missing data_as_of",
-          "recommendation response missing decision_owner",
-          "recommendation response missing financial_needs",
-          "recommendation response missing limitations",
-          "recommendation response missing missing_information",
-          "recommendation response missing mode",
-          "recommendation response missing profile_as_of",
-          "recommendation response missing reason_codes",
-          "recommendation response missing status"
-        ],
-        "error": null
-      },
-      {
-        "case_id": "security_auth-001",
-        "tool": "update_finance_snapshot",
-        "errors": [
-          "unexpected tool error: ValueError: update_finance_snapshot live call failed: update_finance_snapshot returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool update_finance_snapshot not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: update_finance_snapshot live call failed: update_finance_snapshot returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool update_finance_snapshot not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "security_auth-002",
-        "tool": "update_finance_snapshot",
-        "errors": [
-          "unexpected tool error: ValueError: update_finance_snapshot live call failed: update_finance_snapshot returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool update_finance_snapshot not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: update_finance_snapshot live call failed: update_finance_snapshot returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool update_finance_snapshot not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "security_auth-003",
-        "tool": "get_finance_summary",
-        "errors": [
-          "error does not contain 'sensitive': ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: get_finance_summary live call failed: get_finance_summary returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool get_finance_summary not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "security_auth-004",
-        "tool": "calculate_finance_metrics",
-        "errors": [
-          "error does not contain 'sensitive': ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
-        ],
-        "error": "ValueError: calculate_finance_metrics live call failed: calculate_finance_metrics returned an MCP error or TypeError: {\"content\": [{\"type\": \"text\", \"text\": \"MCP error -32602: Tool calculate_finance_metrics not found\"}], \"isError\": true}"
-      },
-      {
-        "case_id": "security_auth-005",
-        "tool": "opentax_recommend",
-        "errors": [
-          "expected an error containing 'sensitive'"
-        ],
-        "error": null
-      }
-    ],
-    "category_counts": {
-      "exact_product": 30,
-      "alias_ambiguity": 20,
-      "comparison": 20,
-      "support": 20,
-      "personal_finance": 15,
-      "stale_conflict": 10,
-      "security_auth": 5
-    },
-    "fixture_output_is_not_live_evidence": false,
-    "status": "stale"
+    "evidence_path": null,
+    "evidence_checksum": null
   },
   "domain_readiness": {
     "deposit": {
@@ -4574,11 +2547,20 @@
         "join_channel",
         "sales_verification_status"
       ],
+      "structural_candidate_count": 430,
+      "value_complete_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "public_candidate_count": 0,
       "complete_field_count": 0,
       "verified_candidate_count": 0,
-      "comparison_data": "limited_public_ready",
+      "comparison_data": "domain_coverage_incomplete",
       "recommendation": "blocked",
+      "recommendation_mode": "blocked",
       "status": "domain_coverage_incomplete",
+      "blockers": [
+        "FIELD_ASSERTIONS_INCOMPLETE"
+      ],
       "missing_required_fields": {
         "base_rate_percent": 0,
         "maximum_rate_percent": 0,
@@ -4624,11 +2606,20 @@
         "join_channel",
         "sales_verification_status"
       ],
+      "structural_candidate_count": 335,
+      "value_complete_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "public_candidate_count": 0,
       "complete_field_count": 0,
       "verified_candidate_count": 0,
-      "comparison_data": "limited_public_ready",
+      "comparison_data": "domain_coverage_incomplete",
       "recommendation": "blocked",
+      "recommendation_mode": "blocked",
       "status": "domain_coverage_incomplete",
+      "blockers": [
+        "FIELD_ASSERTIONS_INCOMPLETE"
+      ],
       "missing_required_fields": {
         "base_rate_percent": 0,
         "maximum_rate_percent": 0,
@@ -4661,11 +2652,18 @@
     "card": {
       "item_count": 1007,
       "required_fields": [],
+      "structural_candidate_count": 1007,
+      "value_complete_candidate_count": 1007,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "public_candidate_count": 0,
       "complete_field_count": 1007,
-      "verified_candidate_count": 11,
-      "comparison_data": "domain_coverage_incomplete",
+      "verified_candidate_count": 0,
+      "comparison_data": "engine_ready",
       "recommendation": "blocked",
+      "recommendation_mode": "blocked",
       "status": "engine_ready",
+      "blockers": [],
       "missing_required_fields": {},
       "data_layers": {
         "raw": {
@@ -4677,19 +2675,26 @@
           "status": "available"
         },
         "verified": {
-          "item_count": 11,
-          "status": "available"
+          "item_count": 0,
+          "status": "blocked"
         }
       }
     },
     "loan": {
       "item_count": 598,
       "required_fields": [],
+      "structural_candidate_count": 598,
+      "value_complete_candidate_count": 598,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "public_candidate_count": 0,
       "complete_field_count": 598,
-      "verified_candidate_count": 20,
-      "comparison_data": "domain_coverage_incomplete",
+      "verified_candidate_count": 0,
+      "comparison_data": "engine_ready",
       "recommendation": "blocked",
+      "recommendation_mode": "blocked",
       "status": "engine_ready",
+      "blockers": [],
       "missing_required_fields": {},
       "data_layers": {
         "raw": {
@@ -4701,19 +2706,26 @@
           "status": "available"
         },
         "verified": {
-          "item_count": 20,
-          "status": "available"
+          "item_count": 0,
+          "status": "blocked"
         }
       }
     },
     "insurance": {
       "item_count": 1071,
       "required_fields": [],
+      "structural_candidate_count": 1071,
+      "value_complete_candidate_count": 1071,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "public_candidate_count": 0,
       "complete_field_count": 1071,
-      "verified_candidate_count": 20,
-      "comparison_data": "domain_coverage_incomplete",
+      "verified_candidate_count": 0,
+      "comparison_data": "engine_ready",
       "recommendation": "blocked",
+      "recommendation_mode": "blocked",
       "status": "engine_ready",
+      "blockers": [],
       "missing_required_fields": {},
       "data_layers": {
         "raw": {
@@ -4725,19 +2737,26 @@
           "status": "available"
         },
         "verified": {
-          "item_count": 20,
-          "status": "available"
+          "item_count": 0,
+          "status": "blocked"
         }
       }
     },
     "pension": {
       "item_count": 0,
       "required_fields": [],
+      "structural_candidate_count": 0,
+      "value_complete_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "public_candidate_count": 0,
       "complete_field_count": 0,
       "verified_candidate_count": 0,
       "comparison_data": "blocked",
       "recommendation": "blocked",
+      "recommendation_mode": "blocked",
       "status": "blocked",
+      "blockers": [],
       "missing_required_fields": {},
       "data_layers": {
         "raw": {
@@ -4755,5 +2774,20 @@
       }
     }
   },
-  "manifest_checksum": "08dd9b74da1a1931ce237bc7edcdbc10c531bc0947cb34a90fb5428c564d9291"
+  "platform_release_status": "ready",
+  "comparison_release_status": "blocked",
+  "recommendation_release_status": "blocked",
+  "recommendation_blocking_reasons": [
+    "live_regression_missing",
+    "no_public_recommendation_domain",
+    "public_recommendation_policy_blocked",
+    "public_approval_receipt_missing"
+  ],
+  "quality_hash": "4f6cec4475a2ef57b9374d0c6d001534c337bd3b33618b5a98720457d6f2ba88",
+  "live_regression_policy": {
+    "required_count": 120,
+    "required_mode": "live",
+    "freshness_ttl_hours": 24
+  },
+  "manifest_checksum": "b711368fd9b915b89914306004247bac12f027038daaf744ed752a8d7061b069"
 }

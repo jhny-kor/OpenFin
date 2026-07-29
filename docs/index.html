@@ -193,7 +193,7 @@
         </article>
         <article>
           <h3>discover / compare</h3>
-          <p>상품 후보를 구조화하고 예금·적금의 검증된 금리·기간·한도 필드를 기준으로 비교합니다.</p>
+          <p>예금·적금 비교 엔진은 존재하지만, 공개 필드 출처 검증 계층이 준비되기 전에는 구조화 후보를 비교 추천으로 표현하지 않습니다.</p>
         </article>
         <article>
           <h3>recommend</h3>
@@ -216,7 +216,7 @@
         </article>
         <article>
           <h3>상품 비교</h3>
-          <p>예금·적금은 기간, 금리, 한도, 우대조건 등 비교 필드를 구조화하고 출처·판매상태·freshness가 현재인 후보만 비교 결과에 사용합니다.</p>
+          <p>예금·적금은 비교 필드를 구조화합니다. 공개 비교는 필수 필드별 출처 검증·판매상태·freshness가 모두 current인 후보에만 제한됩니다.</p>
           <span>반영: compare · comparison completeness · sales verification evidence</span>
         </article>
         <article>
@@ -241,7 +241,7 @@
         </article>
         <article>
           <h3>검증 표면</h3>
-          <p>로컬 릴리스 검증과 실제 MCP smoke/regression 결과를 함께 기록해 화면에 표시되는 데이터 계약을 추적할 수 있습니다.</p>
+          <p>provenance 연결률은 필드 출처 검증률과 다릅니다. 현재 세대의 120건 live regression이 없으면 추천은 계속 차단됩니다.</p>
           <span>반영: canonical validation · source receipts · 120/120 미충족 시 추천 fail-closed</span>
         </article>
       </div>

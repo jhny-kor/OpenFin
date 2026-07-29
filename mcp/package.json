@@ -9,7 +9,10 @@
     "predeploy": "npm run typecheck",
     "deploy": "wrangler deploy",
     "smoke": "node scripts/smoke.mjs",
-    "verify:release": "node --experimental-strip-types scripts/verify-release.mjs",
+    "verify:release": "npm run verify:integrity",
+    "verify:integrity": "node --experimental-strip-types scripts/verify-release.mjs",
+    "verify:recommendation": "node --experimental-strip-types scripts/verify-release.mjs --recommendation",
+    "live-regression": "node scripts/live-regression.mjs",
     "test": "npm run typecheck && node --experimental-strip-types --test tests/*.test.mjs",
     "typecheck": "tsc --noEmit"
   },

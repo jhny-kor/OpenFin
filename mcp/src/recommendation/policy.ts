@@ -36,8 +36,12 @@ export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
     if (expected === undefined || expected === null || expected === "") return;
     const actual = value(item, ...itemKeys);
     if (actual === undefined || actual === null || actual === "") unknown_conditions.push(`${label}_unknown`);
-    else if (Array.isArray(expected) ? expected.includes(actual) : String(actual) === String(expected)) matched_conditions.push(`${label}_matched`);
-    else failed_conditions.push(`${label}_failed`);
+    else {
+      const expectedValues = Array.isArray(expected) ? expected.map(String) : [String(expected)];
+      const actualValues = Array.isArray(actual) ? actual.map(String) : [String(actual)];
+      if (expectedValues.some(value => actualValues.includes(value))) matched_conditions.push(`${label}_matched`);
+      else failed_conditions.push(`${label}_failed`);
+    }
   };
   addExact("provider", ["provider"], "provider");
   addExact("term_months", ["term_months"], "term");
@@ -61,8 +65,9 @@ export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
 
   const requiredConditions = asArray(constraints.eligible_conditions);
   if (requiredConditions.length) {
-    const available = new Set(asArray(item.preferential_rate_conditions).concat(asArray(item.eligible_conditions)));
-    const missing = requiredConditions.filter((condition) => !available.has(condition));
+    const normalize = (condition: string) => condition.trim().toLocaleLowerCase("ko-KR").replace(/[^\p{L}\p{N}]+/gu, "");
+    const available = new Set(asArray(item.preferential_rate_conditions).concat(asArray(item.eligible_conditions)).map(normalize));
+    const missing = requiredConditions.filter((condition) => !available.has(normalize(condition)));
     if (missing.length) unknown_conditions.push(...missing.map((condition) => `condition_unknown:${condition}`));
     else matched_conditions.push("eligible_conditions_matched");
   }

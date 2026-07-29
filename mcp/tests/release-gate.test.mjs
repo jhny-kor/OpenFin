@@ -6,7 +6,8 @@ const readyManifest = {
   release_status: "ready",
   recommendation_enabled: true,
   openfin_120_live_regression: { status: "current", mode: "live", test_count: 120, passed_count: 120, failed_count: 0, skipped_count: 0 },
-  domain_readiness: { deposit: { status: "limited_public_ready" } },
+  live_regression_policy: { required_count: 120, required_mode: "live" },
+  domain_readiness: { deposit: { status: "limited_public_ready", recommendation_mode: "public" } },
 };
 
 test("release gate is data-driven and requires a verified manifest checksum", () => {

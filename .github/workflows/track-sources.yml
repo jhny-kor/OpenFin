@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 concurrency:
   group: source-tracking
@@ -17,7 +18,7 @@ jobs:
   track:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Prepare review branch and retain prior receipts
@@ -35,7 +36,7 @@ jobs:
             exit "$remote_status"
           fi
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -71,7 +72,7 @@ jobs:
           if-no-files-found: ignore
       - name: Commit review artifacts
         id: commit-review
-        if: steps.source-check.outcome == 'success'
+        if: steps.source-check.outcome == 'success' && steps.source-check.outputs.review_count != '0'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -86,14 +87,38 @@ jobs:
       - name: Open or update review pull request
         if: steps.commit-review.outputs.committed == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.OPENFIN_SOURCE_TRACKING_TOKEN || github.token }}
         run: |
-          pr_number="$(gh pr list --head automation/source-tracking --base main --state open --json number --jq '.[0].number // empty')"
-          if [ -z "$pr_number" ]; then
-            gh pr create --base main --head automation/source-tracking --title "chore: review OpenFin source changes" --body "자동 점검에서 검토가 필요한 출처 변경을 감지했습니다. source status, checksum 관측값, 영향받는 canonical ID와 필드는 evidence/source-receipts 아래 보고서에서 확인하세요. 이 PR은 원본 지식이나 추천 자격을 자동 승격하지 않습니다."
+          {
+            echo "## Source delivery diagnostics"
+            echo "- Repository: $GITHUB_REPOSITORY"
+            echo "- Base branch: main"
+            echo "- Review branch: automation/source-tracking"
+            gh auth status 2>&1 | sed -E 's/token[^ ]*/token [REDACTED]/Ig' || true
+          } >> "$GITHUB_STEP_SUMMARY"
+          pr_number="$(gh pr list --repo "$GITHUB_REPOSITORY" --head automation/source-tracking --base main --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$pr_number" ]; then
+            test -n "$impact_file"
+            gh pr comment "$pr_number" --repo "$GITHUB_REPOSITORY" --body "새 출처 점검 결과와 영향 보고서를 반영했습니다: $impact_file"
+            echo "delivery=REVIEW_REQUIRED" >> "$GITHUB_ENV"
+          elif [ -n "${{ secrets.OPENFIN_SOURCE_TRACKING_TOKEN }}" ]; then
+            if ! gh pr create --repo "$GITHUB_REPOSITORY" --base main --head automation/source-tracking --title "chore: review OpenFin source changes" --body "자동 점검에서 검토가 필요한 출처 변경을 감지했습니다. 영향 보고서: $impact_file" 2>pr-create.stderr; then
+              cp pr-create.stderr "${{ steps.source-check.outputs.report_dir }}/pr-create.stderr"
+              echo "delivery=DELIVERY_FAILED" >> "$GITHUB_ENV"
+              exit 1
+            fi
+            echo "delivery=REVIEW_REQUIRED" >> "$GITHUB_ENV"
           else
-            gh pr comment "$pr_number" --body "새 출처 점검 결과와 영향 보고서를 반영했습니다: $impact_file"
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "review required: OpenFin source tracking" --body "GitHub Actions cannot create PRs with github.token. Review branch: https://github.com/$GITHUB_REPOSITORY/tree/automation/source-tracking\nImpact report: $impact_file\nConfigure OPENFIN_SOURCE_TRACKING_TOKEN to create a PR automatically."
+            echo "delivery=REVIEW_REQUIRED" >> "$GITHUB_ENV"
           fi
+      - name: Upload delivery diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openfin-source-delivery-${{ github.run_id }}
+          path: ${{ steps.source-check.outputs.report_dir }}/pr-create.stderr
+          if-no-files-found: ignore
       - name: Summarize source tracking result
         if: always()
         run: |
@@ -101,6 +126,8 @@ jobs:
             echo "## OpenFin source tracking"
             echo "- Exit status: ${{ steps.source-check.outcome }}"
             echo "- Review-required sources: ${{ steps.source-check.outputs.review_count || 'unknown' }}"
+            echo "- Delivery: ${delivery:-SOURCE_CHECK_FAILED}"
+            echo "- Review branch: https://github.com/$GITHUB_REPOSITORY/tree/automation/source-tracking"
             echo "- Reports: uploaded as workflow artifact"
             echo "- Canonical knowledge and recommendation eligibility were not auto-promoted"
           } >> "$GITHUB_STEP_SUMMARY"

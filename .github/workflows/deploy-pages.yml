@@ -21,24 +21,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Validate canonical knowledge
-        run: npm run knowledge:validate
       - name: Validate JSON Schemas and type registry
         run: npm run knowledge:schema-validate
       - name: Build deterministic public exports
         run: npm run knowledge:build
+      - name: Validate canonical knowledge
+        run: npm run knowledge:validate
       - name: Verify derived quality gate
         run: npm run knowledge:derive-quality:check
       - name: Run regression tests
         run: npm test
+      - name: Verify generated export drift
+        run: git diff --exit-code -- docs/opentax
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

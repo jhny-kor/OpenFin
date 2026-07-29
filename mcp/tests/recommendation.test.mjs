@@ -19,3 +19,9 @@ test("ranking is deterministic with stable tie breaking", () => {
   assert.deepEqual(result.map((candidate) => candidate.item_id), ["a", "b"]);
   assert.equal(result[0].score, result[1].score);
 });
+
+test("array join channels use intersection for a hard constraint", () => {
+  const result = evaluateEligibility({ ...item, join_channels: ["web", "mobile"] }, { constraints: { join_channel: "web" } });
+  assert.equal(result.eligible, true);
+  assert.ok(result.matched_conditions.includes("join_channel_matched"));
+});

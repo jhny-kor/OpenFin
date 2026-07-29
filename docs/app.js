@@ -970,12 +970,9 @@ function renderOperationalSummary() {
   if (!container) return;
   const apiRequired = state.manifest.api_required_sources || [];
   const webCandidates = state.manifest.public_web_collection_candidates || [];
-  const financeExports = (state.manifest.exports || []).filter((entry) => entry.domain.endsWith("products"));
-  const qualityLines = financeExports
-    .map((entry) => {
-      const summary = qualityLine(entry.quality_summary);
-      return summary ? `<span>${escapeHtml(domainMeta(entry.domain).label)} ${escapeHtml(summary)}</span>` : "";
-    })
+  const readiness = state.manifest.domain_readiness || {};
+  const qualityLines = Object.entries(readiness)
+    .map(([domain, summary]) => `<span>${escapeHtml(domain)} 구조화 ${formatNumber(summary.structural_candidate_count || 0)} · 값 완결 ${formatNumber(summary.value_complete_candidate_count || 0)} · 필드 출처 검증 ${formatNumber(summary.field_verified_candidate_count || 0)} · runtime 비교 ${formatNumber(summary.runtime_eligible_candidate_count || 0)} · 공개 ${formatNumber(summary.public_candidate_count || 0)} (${escapeHtml(summary.status || "blocked")})</span>`)
     .filter((line) => line.trim())
     .join("");
   const sourceStatusCounts = [...state.sourceStatus.values()].reduce((counts, entry) => {
@@ -1009,6 +1006,7 @@ function renderOperationalSummary() {
       <h3>품질 요약</h3>
       <p class="quality-summary-list">${qualityLines || "품질 요약 로딩 전입니다."}</p>
       <p class="source-status-summary">출처 상태: ${escapeHtml(statusLine || "확인 불가")}</p>
+      <p class="source-status-summary">빌드: ${escapeHtml(state.manifest.built_at || "미기록")} · 출처 검토: ${escapeHtml(state.manifest.source_review_date || "미기록")} · live 확인: ${escapeHtml(state.manifest.openfin_120_live_regression?.checked_at || "현재 세대 evidence 없음")}</p>
     </article>
   `;
 }

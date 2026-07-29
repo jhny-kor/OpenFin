@@ -8,13 +8,14 @@ const schemaDir = path.join(ROOT, 'schemas');
 const typeRegistry = json(path.join(schemaDir, 'types/type-registry.json'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
-for (const file of ['provenance.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json']) {
+for (const file of ['provenance.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json']) {
   const schema = json(path.join(schemaDir, file));
   ajv.addSchema(schema, file);
 }
 const validateEntity = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/entity.schema.json');
 const validateSource = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/source.schema.json');
 const relationValidator = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/relation.schema.json');
+const validateManifest = ajv.getSchema('finance-ontology-manifest.schema.json');
 const failures = [];
 const entities = [];
 const walk = dir => {
@@ -55,6 +56,15 @@ const entityEnum = entitySchema.properties?.type?.enum ?? [];
 const authorityEnum = sourceSchema.properties?.authority_class?.enum ?? [];
 if (JSON.stringify(entityEnum) !== JSON.stringify(typeRegistry.entity_types)) failures.push('entity registry drift: schemas/types/type-registry.json differs from entity.schema.json');
 if (JSON.stringify(authorityEnum) !== JSON.stringify(typeRegistry.authority_classes)) failures.push('authority registry drift: schemas/types/type-registry.json differs from source.schema.json');
+const manifestPath = path.join(ROOT, 'docs/opentax/finance-ontology-manifest.json');
+if (fs.existsSync(manifestPath)) {
+  const manifest = json(manifestPath);
+  if (!validateManifest(manifest)) failures.push(`manifest: ${ajv.errorsText(validateManifest.errors)}`);
+  for (const [domain, state] of Object.entries(manifest.domain_readiness || {})) {
+    const counts = ['structural_candidate_count', 'value_complete_candidate_count', 'field_verified_candidate_count', 'runtime_eligible_candidate_count', 'public_candidate_count'].map(key => Number(state[key] || 0));
+    if (!(counts[2] <= counts[1] && counts[1] <= counts[0] && counts[4] <= counts[3] && counts[3] <= counts[2])) failures.push(`manifest: domain count invariant ${domain}`);
+  }
+}
 const result = { ok: failures.length === 0, entity_count: entities.length, failures: failures.slice(0, 100) };
 console.log(JSON.stringify(result, null, 2));
 if (failures.length) process.exitCode = 1;

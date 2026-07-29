@@ -1745,17 +1745,6 @@ function recommendationBlocker(item: FinanceItem, artifacts?: FinanceArtifacts):
   return verificationEvidenceBlocker(item);
 }
 
-function recommendationScore(item: FinanceItem, profile: Record<string, unknown>): { score: number; components: Record<string, number> } {
-  const components: Record<string, number> = { verification: 50 };
-  if (typeof profile.provider === "string" && profile.provider === item.provider) {
-    components.provider_match = 10;
-  }
-  if (item.freshness_status === "current") {
-    components.freshness = 10;
-  }
-  return { score: Object.values(components).reduce((total, value) => total + value, 0), components };
-}
-
 function reasonCounts(excluded: readonly { readonly reason: string }[]): Record<string, number> {
   const counts: Record<string, number> = {};
   for (const item of excluded) {
@@ -2522,6 +2511,7 @@ function createServer(env: Env): McpServer {
       const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), domain });
       const maxResults = limit ?? 5;
       const context = normalizeFinanceSnapshot(decision_context);
+      const rankingPreferences = { ...(isRecord(profile) && typeof profile.provider === "string" ? { provider: profile.provider } : {}), ...(isRecord(profile) && profile.term_months !== undefined ? { term_months: profile.term_months } : {}), ...(preferences ?? {}) };
       const contextMetrics = financeMetrics(context);
       const contextNeeds = financeNeeds(context, contextMetrics);
       const contextMissing = ["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => context[key] === null || context[key] === undefined || context[key] === "");
@@ -2588,21 +2578,21 @@ function createServer(env: Env): McpServer {
           excluded.push({ item_id: item.id, reason: blocker });
           continue;
         }
-        const score = recommendationScore(item, profile ?? {});
+        const ranking = rankCandidates([item as unknown as Record<string, unknown>], rankingPreferences)[0];
         candidates.push({
           item_id: item.id,
           title: item.title,
           provider: item.provider,
           eligible: true,
-          ...explainCandidate(item as unknown as Record<string, unknown>, eligibility, score),
-          score: score.score,
-          score_components: score.components,
+          ...explainCandidate(item as unknown as Record<string, unknown>, eligibility, ranking),
+          score: ranking.score,
+          score_components: ranking.score_components,
           warnings: [],
           source_basis_dates: item.source_basis_dates ?? [],
           last_verified_at: item.last_verified_at,
           recommendation_status: item.recommendation_status,
           recommendation_scope: item.recommendation_scope,
-          recommendation_model_version: item.recommendation_model_version,
+          recommendation_model_version: ranking.recommendation_model_version,
           sources: item.source_urls ?? [],
           source_assertions: item.source_assertions ?? [],
           verification_status: item.verification_status ?? "unknown",
@@ -2949,7 +2939,6 @@ function healthResponse(env: Env): Response {
 }
 
 async function readyResponse(env: Env): Promise<Response> {
-  const startedAt = Date.now();
   let manifest: FinanceManifest | undefined;
   let metadata: SearchIndexFile | undefined;
   let artifactsLoaded = false;
@@ -2963,8 +2952,9 @@ async function readyResponse(env: Env): Promise<Response> {
   } catch (error) {
     financeArtifactErrors.set("ready", { error: error instanceof Error ? error.message : String(error), failed_at: new Date().toISOString() });
   }
-  const payload = readinessPayload({ env, manifest: manifest as unknown as Record<string, unknown> | undefined, metadata: metadata as unknown as Record<string, unknown> | undefined, artifactsLoaded, checksumVerified, cacheAgeMs: Date.now() - startedAt, manifestUrl: financeManifestUrl(env) });
-  return Response.json({ ...payload, artifact_errors: artifactErrors() }, { status: payload.ready ? 200 : 503, headers: { "cache-control": "no-store" } });
+  const loadedAt = [cachedManifest?.loadedAt, cachedSearchIndexMetadata?.loadedAt].filter((value): value is number => typeof value === "number");
+  const payload = readinessPayload({ env, manifest: manifest as unknown as Record<string, unknown> | undefined, metadata: metadata as unknown as Record<string, unknown> | undefined, artifactsLoaded, checksumVerified, cacheAgeMs: loadedAt.length ? Date.now() - Math.min(...loadedAt) : undefined, manifestUrl: financeManifestUrl(env) });
+  return Response.json({ ...payload, artifact_errors: artifactErrors() }, { status: payload.capabilities.core === "ready" ? 200 : 503, headers: { "cache-control": "no-store" } });
 }
 
 function openAiAppsChallengeResponse(env: Env): Response {

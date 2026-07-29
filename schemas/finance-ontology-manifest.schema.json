@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["release_status", "platform_release_status", "comparison_release_status", "recommendation_release_status", "domain_readiness"],
+  "properties": {
+    "release_status": { "enum": ["ready", "degraded"] },
+    "platform_release_status": { "enum": ["ready", "degraded"] },
+    "comparison_release_status": { "enum": ["blocked", "limited"] },
+    "recommendation_release_status": { "enum": ["ready", "blocked"] },
+    "domain_readiness": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["structural_candidate_count", "value_complete_candidate_count", "field_verified_candidate_count", "runtime_eligible_candidate_count", "public_candidate_count", "status"],
+        "properties": {
+          "structural_candidate_count": { "type": "integer", "minimum": 0 },
+          "value_complete_candidate_count": { "type": "integer", "minimum": 0 },
+          "field_verified_candidate_count": { "type": "integer", "minimum": 0 },
+          "runtime_eligible_candidate_count": { "type": "integer", "minimum": 0 },
+          "public_candidate_count": { "type": "integer", "minimum": 0 },
+          "status": { "enum": ["blocked", "engine_ready", "structural_only", "pilot_verified", "limited_public_ready", "domain_coverage_incomplete"] }
+        }
+      }
+    }
+  }
+}

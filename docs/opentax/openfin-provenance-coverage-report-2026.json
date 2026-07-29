@@ -12,5 +12,5 @@
   "invalid_legacy_url_count": 0,
   "invalid_legacy_urls": [],
   "recommendation_enabled": false,
-  "status": "degraded"
+  "status": "ready"
 }

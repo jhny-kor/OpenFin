@@ -39,9 +39,9 @@ npm test
 
 `main`에 푸시하면 Pages workflow가 의존성 설치 → 지식 검증 → 결정적 export 빌드 → 회귀 테스트를 통과한 뒤 `docs/`를 GitHub Pages에 배포합니다. 데이터 변경은 Pages 산출물만 갱신합니다.
 
-Pages manifest의 release status, domain readiness, source coverage, live regression 결과는 빌드 입력에서 계산됩니다. 고정된 행 수·기준일·추천 플래그를 품질 판정에 사용하지 않습니다.
+Pages manifest는 구조화 수, 값 완결 수, 필드 출처 검증 수, runtime 비교 가능 수, 공개 가능 수를 구분합니다. provenance 연결률은 필드 출처 검증률이 아니며, 현재 세대 120/120 live regression과 공개 승인 receipt가 없으면 추천은 활성화되지 않습니다.
 
-매일 실행되는 `Track OpenFin Sources` workflow와 수동 `workflow_dispatch`는 SLA가 도래한 출처를 점검하고 결과를 artifact로 업로드합니다. `changed`, `stale`, `unreachable`, `conflict`, `retired` 상태가 감지되면 상태 영수증과 영향받는 canonical ID·필드 보고서만 `automation/source-tracking` 검토 PR로 올립니다. 원본 지식과 추천 자격은 자동 수정하지 않으며, 일시적인 원본 오류가 있어도 마지막 정상 데이터는 보존됩니다.
+매일 실행되는 `Track OpenFin Sources` workflow와 수동 `workflow_dispatch`는 SLA가 도래한 출처를 점검하고 결과를 artifact로 업로드합니다. `changed`, `stale`, `unreachable`, `conflict`, `retired` 상태가 감지되면 상태 영수증과 영향받는 canonical ID·필드 보고서를 `automation/source-tracking` 검토 브랜치에 남깁니다. PR 생성이 repository 정책상 막힌 경우에는 review issue로 같은 branch와 report 경로를 남깁니다. 원본 지식과 추천 자격은 자동 수정하지 않으며, 일시적인 원본 오류가 있어도 마지막 정상 데이터는 보존됩니다.
 
 Cloudflare Worker는 별도 배포 대상이며 데이터만 변경된 경우 재배포하지 않습니다. Worker 코드를 바꿀 때만 다음을 실행합니다.
 

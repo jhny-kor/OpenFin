@@ -8,7 +8,13 @@
     "required_mode": "live",
     "allow_skipped": false,
     "allow_failed": false,
-    "freshness": "current"
+    "freshness": "current",
+    "freshness_ttl_hours": 24
+  },
+  "recommendation": {
+    "public_enabled": false,
+    "public_approval_receipt": null,
+    "owner_pilot_enabled": false
   },
   "release": {
     "ready_requires": [

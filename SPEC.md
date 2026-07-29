@@ -108,9 +108,11 @@ These flows remain tool-only. Their inputs are naturally conversational and the 
 ## Safety and Quality Gates
 
 - Public recommendation remains disabled and the current degraded release state is preserved.
+- Core retrieval readiness is separate from comparison and recommendation readiness: a healthy manifest, index, and checksum keep `/ready` available even when recommendation is intentionally blocked.
 - Release status, recommendation status, domain readiness, counts, and built-at values are derived from canonical records, source artifacts, search/relationship indexes, and the current live regression report.
+- A reproducible 120-case live regression fixture and runner record the exact endpoint, deployment commit, manifest checksum, index checksum, and fixture checksum. Evidence from another deployment generation is stale.
 - The MCP exposes liveness at `/health` and data/readiness at `/ready`; a degraded readiness response is HTTP 503 and includes manifest, checksum, cache-age, and blocker metadata.
-- Recommendation policy is deterministic: eligibility, ranking, and explanation consume explicit constraints, preferences, and decision context. Missing, stale, or unverified fields become unknown and are excluded.
+- Recommendation policy is deterministic: hard constraints determine eligibility, preferences affect ranking only, and explanation returns score components plus matched, failed, and unknown conditions. Missing, stale, or unverified fields become unknown and are excluded.
 - A missing, stale, conflicting, or non-official assertion remains `reference_only` or `listing_only`.
 - Generated artifacts are deterministic and never edited as canonical input.
 - Publication requires schema, ID, relation, source URL, provenance, deterministic-build, compatibility, Pages, and MCP regression checks.

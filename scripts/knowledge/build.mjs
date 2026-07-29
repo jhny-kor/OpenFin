@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, DOCS, KNOWLEDGE, PUBLIC_BASE, RELATION_KEYS, json, writeJson, stable, sha256, publicProjection, restoreCompatibilityDates, validUrl, isoDate } from './common.mjs';
-import { deriveQuality } from './derive-quality.mjs';
+import { deriveQuality, readReleasePolicy } from './derive-quality.mjs';
 
 const loadCanonical = () => {
   const records = [];
@@ -231,7 +231,7 @@ Object.assign(manifest, artifactEntries); Object.assign(manifest.artifacts, arti
 manifest.quality_exports = [...(manifest.quality_exports || []).filter(entry => entry.id !== 'openfin-provenance-coverage'), {id:'openfin-provenance-coverage', domain:'quality', ...artifactEntries.provenance_coverage, description:'Canonical provenance coverage and source URL validation report.'}]
   .map(entry => entry.path ? {...entry, path:`opentax/${path.basename(entry.path)}`} : entry);
 for(const m of manifest.exports||[]) { const file=path.basename(m.path||m.url||''); const generated=generatedExports[file]; if(m.url) m.url=`${PUBLIC_BASE}/${file}`; if(m.web_url) m.web_url=`${PUBLIC_BASE}/${file}`; if(m.path) m.path=`opentax/${file}`; if(generated){m.item_count=generated.items.length+(generated.reference_items?.length||0);m.reference_item_count=generated.reference_items?.length||0;m.export_checksum=generated.export_checksum;} }
-const quality = deriveQuality(catalog, { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length });
+const quality = deriveQuality(catalog, { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length, sourceStatusChecksum: sourceStatusArtifact ? sha256(sourceStatusArtifact).slice(7) : null });
 provenanceCoverageArtifact.status = quality.release_status;
 provenanceCoverageArtifact.recommendation_enabled = quality.recommendation_enabled;
 writeJson(path.join(DOCS,'openfin-provenance-coverage-report-2026.json'), provenanceCoverageArtifact);
@@ -274,6 +274,9 @@ const qualityManifest = {
   generated_at: now,
   built_at: now,
   release_status: quality.release_status,
+  platform_release_status: quality.platform_release_status,
+  comparison_release_status: quality.comparison_release_status,
+  recommendation_release_status: quality.recommendation_release_status,
   recommendation_enabled: quality.recommendation_enabled,
   blocking_reasons: quality.blocking_reasons,
   degraded_domains: quality.degraded_domains,
@@ -287,8 +290,9 @@ const qualityManifest = {
   quality_hash: quality.quality_hash,
 };
 writeJson(qualityManifestPath, qualityManifest);
-manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.blocking_reasons=quality.blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains;
-manifest.quality_summary={...(manifest.quality_summary||{}), release_status:quality.release_status, recommendation_enabled:quality.recommendation_enabled, blocking_reasons:quality.blocking_reasons, export_audit:dynamicExportAudit};
+manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash;
+manifest.live_regression_policy={required_count:readReleasePolicy().live_regression.required_count,required_mode:readReleasePolicy().live_regression.required_mode,freshness_ttl_hours:readReleasePolicy().live_regression.freshness_ttl_hours};
+manifest.quality_summary={...(manifest.quality_summary||{}), deprecated:true, replacement_path:'domain_readiness', release_status:quality.release_status, recommendation_enabled:quality.recommendation_enabled, blocking_reasons:quality.blocking_reasons, export_audit:dynamicExportAudit, finance_exports:Object.fromEntries(Object.entries(quality.domains).map(([name, state])=>[name,{deprecated:true,replacement_path:`domain_readiness.${name}`,readiness:state}]))};
 for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-quality-manifest') {
   entry.generated_at = now;
   entry.export_checksum = sha256(qualityManifest).slice(7);

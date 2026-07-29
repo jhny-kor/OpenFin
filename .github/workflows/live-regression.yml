@@ -1,0 +1,39 @@
+name: OpenFin Live Regression
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Deploy OpenFin MCP]
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  live-regression:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - name: Validate checked-in 120-case fixture
+        run: npm run live-regression -- --validate-fixture
+      - name: Run current deployment suite
+        continue-on-error: true
+        run: npm run live-regression > ../live-regression-report.json
+        env:
+          MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: openfin-live-regression-${{ github.sha }}
+          path: live-regression-report.json
+          if-no-files-found: warn

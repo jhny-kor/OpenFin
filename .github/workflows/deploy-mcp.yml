@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - "mcp/**"
+      - "contracts/**"
+      - "schemas/**"
+      - "scripts/knowledge/derive-quality.mjs"
       - ".github/workflows/deploy-mcp.yml"
   workflow_dispatch:
 
@@ -33,12 +36,17 @@ jobs:
         run: npm ci
       - name: Test Worker
         run: npm test
-      - name: Verify release gate
-        run: npm run verify:release
+      - name: Verify release integrity
+        run: npm run verify:integrity
+      - name: Verify recommendation gate
+        run: npm run verify:recommendation
       - name: Deploy Worker
-        run: npx wrangler deploy
+        run: npx wrangler deploy --var DEPLOYMENT_COMMIT:"$DEPLOYMENT_COMMIT"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DEPLOYMENT_COMMIT: ${{ github.sha }}
       - name: Smoke test health and readiness
         run: npm run smoke
+        env:
+          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
