@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/assertion.schema.json",
+  "title": "OpenFin field-level provenance assertion",
+  "type": "object",
+  "required": ["field", "source_id", "original_url", "locator", "observed_at", "value_hash", "verification_status"],
+  "properties": {
+    "field": { "type": "string", "minLength": 1 },
+    "source_id": { "type": "string", "pattern": "^source\\." },
+    "original_url": { "type": "string", "format": "uri", "pattern": "^https?://" },
+    "locator": { "type": "object", "required": ["kind", "value"], "properties": { "kind": { "type": "string", "minLength": 1 }, "value": { "type": "string", "minLength": 1 } }, "additionalProperties": false },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "valid_from": { "type": ["string", "null"], "format": "date-time" },
+    "valid_to": { "type": ["string", "null"], "format": "date-time" },
+    "value_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "verification_status": { "enum": ["verified", "reference_only", "listing_only", "conflict", "unverified"] },
+    "verification_method": { "type": "string" }
+  },
+  "additionalProperties": false
+}

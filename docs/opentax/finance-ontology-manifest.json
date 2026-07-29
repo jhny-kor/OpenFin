@@ -2373,7 +2373,7 @@
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
       "item_count": 1,
       "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "8915d1ada036dcd724244f009dd771f3e8de5f936df35e56774c144dabca502f"
+      "export_checksum": "6edbd98fee09a11e947a8b082da8984409c2c5f967a7e5c217eeb121a0138ac5"
     }
   },
   "source_registry_count": 145,
@@ -2519,7 +2519,7 @@
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
     "item_count": 1,
     "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "8915d1ada036dcd724244f009dd771f3e8de5f936df35e56774c144dabca502f"
+    "export_checksum": "6edbd98fee09a11e947a8b082da8984409c2c5f967a7e5c217eeb121a0138ac5"
   },
   "openfin_120_live_regression": {
     "status": "missing",
@@ -2789,5 +2789,5 @@
     "required_mode": "live",
     "freshness_ttl_hours": 24
   },
-  "manifest_checksum": "b711368fd9b915b89914306004247bac12f027038daaf744ed752a8d7061b069"
+  "manifest_checksum": "d80d57793b18043412a89ca7bacb0f0364642d9f68a27adc955fcf81c8479699"
 }

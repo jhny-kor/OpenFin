@@ -7,7 +7,7 @@ on:
     types: [completed]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   live-regression:
@@ -31,6 +31,28 @@ jobs:
         run: node scripts/live-regression.mjs > ../live-regression-report.json
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
+      - name: Publish current-generation evidence
+        if: always()
+        working-directory: .
+        run: |
+          set -euo pipefail
+          test -s live-regression-report.json || exit 0
+          status="$(jq -r '.status // "missing"' live-regression-report.json)"
+          test "$status" = current || exit 0
+          test "$(jq -r '.test_count // 0' live-regression-report.json)" = "$(jq -r '.passed_count // 0' live-regression-report.json)"
+          test "$(jq -r '.failed_count // 0' live-regression-report.json)" = 0
+          test "$(jq -r '.skipped_count // 0' live-regression-report.json)" = 0
+          deployment_commit="$(jq -r '.deployment_commit // empty' live-regression-report.json)"
+          test "$deployment_commit" != ""
+          mkdir -p evidence/live-regression
+          cp live-regression-report.json "evidence/live-regression/${deployment_commit}.json"
+          cp live-regression-report.json evidence/live-regression/current.json
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add evidence/live-regression
+          git diff --cached --quiet && exit 0
+          git commit -m "ci: record live regression evidence ${deployment_commit:0:12}"
+          git push
       - uses: actions/upload-artifact@v5
         if: always()
         with:

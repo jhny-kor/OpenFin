@@ -7,7 +7,8 @@
     "unique_id_count": 21266,
     "source_row_count": 204,
     "unique_source_count": 144,
-    "invalid_source_url_count": 62
+    "invalid_source_url_count": 62,
+    "contract_version": "openfin-data-baseline-v1"
   },
   "result": {
     "export_count": 10,

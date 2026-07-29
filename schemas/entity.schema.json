@@ -19,11 +19,22 @@
     "available_in": { "type": "array", "items": { "type": "string" } },
     "provided_by": { "type": "array", "items": { "type": "string" } },
     "reference_items": { "type": "array", "items": { "type": "string" } },
-    "provenance": { "type": "array", "items": { "$ref": "provenance.schema.json" } }
+    "provenance": { "type": "array", "items": { "$ref": "provenance.schema.json" } },
+    "field_assertions": { "type": "array", "items": { "$ref": "assertion.schema.json" } },
+    "decision_critical": { "type": "boolean" }
   },
   "allOf": [
     { "if": { "properties": { "type": { "const": "source" } } }, "then": { "$ref": "source.schema.json" } },
-    { "if": { "properties": { "type": { "enum": ["category", "domain"] } } }, "then": { "required": ["canonical_folder", "population_status"] } }
+    { "if": { "properties": { "type": { "enum": ["category", "domain"] } } }, "then": { "required": ["canonical_folder", "population_status"] } },
+    {
+      "if": { "required": ["decision_critical"], "properties": { "decision_critical": { "const": true } } },
+      "then": { "oneOf": [
+        { "$ref": "types/bank-product.schema.json" },
+        { "$ref": "types/card-product.schema.json" },
+        { "$ref": "types/insurance-product.schema.json" },
+        { "$ref": "types/support-program.schema.json" }
+      ] }
+    }
   ],
   "additionalProperties": true
 }

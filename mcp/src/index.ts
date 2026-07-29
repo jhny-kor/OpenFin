@@ -6,7 +6,8 @@ import { resolveSourceStatus } from "./source-status";
 import { evaluateReleaseGate } from "./release-gate";
 import { evaluateEligibility, productDomain, recommendationFields } from "./recommendation/policy";
 import { explainCandidate } from "./recommendation/explanation";
-import { rankCandidates } from "./recommendation/ranking";
+import { rankCandidate } from "./recommendation/ranking";
+import { buildRecommendationCandidates } from "./tools/recommend";
 import { livenessPayload, readinessPayload } from "./health";
 
 type FinanceItem = {
@@ -2568,18 +2569,17 @@ function createServer(env: Env): McpServer {
       const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       const domainItems = items.filter((item) => domainMatches(item, domain) && sourceHealth(item, artifacts).freshness_status === "current");
       const readiness = recommendationReadiness(domain, domainItems);
-      const excluded = [];
-      const candidates = [];
-      for (const item of domainItems) {
-        const eligibility = evaluateEligibility(item, { profile: profile as Record<string, unknown> | undefined, constraints: constraints as Record<string, unknown> | undefined, decision_context: decision_context as Record<string, unknown> | undefined });
-        const itemGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), domain, item: item as unknown as Record<string, unknown> });
-        const blocker = recommendationBlocker(item, artifacts) ?? (eligibility.eligible ? undefined : eligibility.reason_codes[0] ?? "eligibility_unknown") ?? (itemGate.status === "ready" ? undefined : itemGate.reasons[0]);
-        if (blocker) {
-          excluded.push({ item_id: item.id, reason: blocker });
-          continue;
-        }
-        const ranking = rankCandidates([item as unknown as Record<string, unknown>], rankingPreferences)[0];
-        candidates.push({
+      const recommendation = buildRecommendationCandidates(domainItems as unknown as Array<Record<string, unknown>>, {
+        profile: profile as Record<string, unknown> | undefined,
+        constraints: constraints as Record<string, unknown> | undefined,
+        decision_context: decision_context as Record<string, unknown> | undefined,
+        preferences: rankingPreferences,
+        evaluateEligibility: (item, inputs) => evaluateEligibility(item, inputs),
+        rankCandidate,
+        explainCandidate,
+        recommendationBlocker: (item) => recommendationBlocker(item as FinanceItem, artifacts),
+        itemGate: (item) => evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), domain, item }),
+        toCandidate: (item, eligibility, ranking) => ({
           item_id: item.id,
           title: item.title,
           provider: item.provider,
@@ -2599,10 +2599,10 @@ function createServer(env: Env): McpServer {
           promotion_receipt: item.promotion_receipt ?? null,
           data_as_of: eligibility.data_as_of ?? item.last_verified_at ?? item.verified_at ?? null,
           structured_summary: item.structured_summary ?? {},
-          url: itemUrl(env, item.id),
-        });
-      }
-      candidates.sort((a, b) => Number(b.score ?? 0) - Number(a.score ?? 0) || a.item_id.localeCompare(b.item_id, "ko-KR"));
+          url: itemUrl(env, String(item.id)),
+        }),
+      });
+      const { candidates, excluded } = recommendation;
       const results = candidates.slice(0, maxResults);
       const payload = {
         mode: "recommendation",

@@ -81,6 +81,7 @@ These flows remain tool-only. Their inputs are naturally conversational and the 
 - Every classification node declares `population_status`. A `planned` class has no instances yet and must state a `population_reason`; a `populated` class must have at least one. Declared-but-empty classes never inflate the published counts silently.
 - Relations are typed. `requires`, `conflicts_with`, and `available_in` carry eligibility rules, required documents, conflict rules, and application channels; `related` remains the untyped compatibility superset.
 - Every relation target resolves to a canonical node. Baseline record, source, and export counts are floors, not equalities: curation may add rows, never drop them.
+- Baseline floors live in versioned `contracts/data-baseline.json`; an intentional reduction requires a reviewed receipt.
 - Curated knowledge is authored as Markdown with strict JSON frontmatter.
 - Homogeneous high-volume records are canonical JSONL within domain `_records/` folders.
 - Stable IDs, explicit properties, typed relations, source nodes, and provenance assertions form the semantic model.
@@ -93,6 +94,7 @@ These flows remain tool-only. Their inputs are naturally conversational and the 
 - Every unique source is authored once under `knowledge/90-sources/`.
 - Source documents define publisher, authority class, domains, canonical/API/documentation URLs, access method, parser, refresh SLA, terms, recommendation eligibility, and lifecycle status.
 - Record provenance defines source ID, original URL, source record ID, locator, supported fields, source dates, collection/review dates, checksum, and verification status.
+- Decision-critical entities opt into strict type schemas with `decision_critical: true` and must carry field-level `field_assertions`; legacy catalog rows remain reference-compatible until migrated.
 - Secrets are never committed. Credential-bearing URLs use placeholders and runtime secrets.
 - Source checks run on a daily schedule but only inspect sources that are due by their individual SLA.
 - Failed, stale, changed, or conflicting sources never delete the last known-good record and never promote recommendation eligibility.
@@ -111,12 +113,13 @@ These flows remain tool-only. Their inputs are naturally conversational and the 
 - Core retrieval readiness is separate from comparison and recommendation readiness: a healthy manifest, index, and checksum keep `/ready` available even when recommendation is intentionally blocked.
 - Release status, recommendation status, domain readiness, counts, and built-at values are derived from canonical records, source artifacts, search/relationship indexes, and the current live regression report.
 - A reproducible 120-case live regression fixture and runner record the exact endpoint, deployment commit, manifest checksum, index checksum, and fixture checksum. Evidence from another deployment generation is stale.
-- The MCP exposes liveness at `/health` and data/readiness at `/ready`; a degraded readiness response is HTTP 503 and includes manifest, checksum, cache-age, and blocker metadata.
+- The MCP exposes liveness at `/health` and capability readiness at `/ready`; core artifact failure is HTTP 503, while a healthy search/fetch core returns HTTP 200 with blocked comparison/recommendation capabilities explicitly listed.
 - Recommendation policy is deterministic: hard constraints determine eligibility, preferences affect ranking only, and explanation returns score components plus matched, failed, and unknown conditions. Missing, stale, or unverified fields become unknown and are excluded.
 - A missing, stale, conflicting, or non-official assertion remains `reference_only` or `listing_only`.
 - Generated artifacts are deterministic and never edited as canonical input.
 - Publication requires schema, ID, relation, source URL, provenance, deterministic-build, compatibility, Pages, and MCP regression checks.
 - Recommendation cannot be enabled before a current-runtime 120/120 live regression succeeds.
+- `evidence/vertical-slice/vertical-slice-report.json` audits the first 20-deposit/20-saving target without promoting products; value completeness, official assertions, field verification, and runtime eligibility are separate counts.
 
 ## Deployment Context
 

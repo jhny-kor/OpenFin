@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "openfin-data-baseline-v1",
+  "effective_from": "2026-07-29T00:00:00Z",
+  "migration_ticket": "openfin-remediation-2026-07-29",
+  "approver": "openfin-maintainers",
+  "expiry": "2026-12-31T00:00:00Z",
+  "floors": {
+    "records": 21266,
+    "sources": 144,
+    "public_rows": 21374,
+    "reference_items": 108,
+    "provenance_covered": 21122
+  },
+  "exports": {
+    "korea-card-products-ontology-2026.json": 1030,
+    "korea-deposit-products-ontology-2026.json": 474,
+    "korea-finance-reference-ontology-2026.json": 9654,
+    "korea-insurance-products-ontology-2026.json": 1089,
+    "korea-loan-products-ontology-2026.json": 642,
+    "korea-local-government-supports-ontology-2026.json": 7718,
+    "korea-pension-products-ontology-2026.json": 5,
+    "korea-saving-products-ontology-2026.json": 379,
+    "korea-tax-advantaged-accounts-ontology-2026.json": 9,
+    "korea-tax-ontology-2026.json": 374
+  },
+  "migration_baseline": {
+    "source_rows": 204,
+    "invalid_source_url_count": 62
+  },
+  "approval": {
+    "intentional_reduction_requires_receipt": true,
+    "receipt_path": "evidence/data-baseline/"
+  }
+}

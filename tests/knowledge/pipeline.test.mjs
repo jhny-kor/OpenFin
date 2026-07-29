@@ -9,6 +9,7 @@ import { execFile, execFileSync } from 'node:child_process';
 import { promisify } from 'node:util';
 
 const root = new URL('../..', import.meta.url).pathname;
+const baseline = JSON.parse(fs.readFileSync(path.join(root, 'contracts/data-baseline.json')));
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const execFileAsync = promisify(execFile);
 
@@ -17,10 +18,10 @@ test('canonical knowledge validation passes', () => {
   const result = JSON.parse(output);
   assert.equal(result.ok, true);
   // Floors, matching the validator: curation may add records, never drop them.
-  assert.ok(result.records >= 21266, `records ${result.records}`);
-  assert.ok(result.sources >= 144, `sources ${result.sources}`);
-  assert.ok(result.public_rows >= 21374, `public_rows ${result.public_rows}`);
-  assert.ok(result.reference_items >= 108, `reference_items ${result.reference_items}`);
+  assert.ok(result.records >= baseline.floors.records, `records ${result.records}`);
+  assert.ok(result.sources >= baseline.floors.sources, `sources ${result.sources}`);
+  assert.ok(result.public_rows >= baseline.floors.public_rows, `public_rows ${result.public_rows}`);
+  assert.ok(result.reference_items >= baseline.floors.reference_items, `reference_items ${result.reference_items}`);
   assert.equal(result.public_rows, result.records + result.reference_items);
 });
 

@@ -8,9 +8,12 @@ const schemaDir = path.join(ROOT, 'schemas');
 const typeRegistry = json(path.join(schemaDir, 'types/type-registry.json'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
-for (const file of ['provenance.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json']) {
+for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json']) {
   const schema = json(path.join(schemaDir, file));
   ajv.addSchema(schema, file);
+}
+for (const file of ['bank-product.schema.json', 'card-product.schema.json', 'insurance-product.schema.json', 'support-program.schema.json']) {
+  ajv.addSchema(json(path.join(schemaDir, 'types', file)), `types/${file}`);
 }
 const validateEntity = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/entity.schema.json');
 const validateSource = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/source.schema.json');

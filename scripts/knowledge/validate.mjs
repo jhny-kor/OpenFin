@@ -4,6 +4,8 @@ import { spawnSync } from 'node:child_process';
 import { KNOWLEDGE, DOCS, ROOT, RELATION_KEYS, json, validUrl, sha256 } from './common.mjs';
 import { deriveQuality } from './derive-quality.mjs';
 
+const BASELINE_CONTRACT = json(path.join(ROOT, 'contracts/data-baseline.json'));
+
 const failures = [];
 const records = [];
 const sources = [];
@@ -119,7 +121,7 @@ for (const { value: item, file } of records) {
 
 // Baselines are floors, not equalities: the gate must catch data loss without
 // blocking curation. Cross-artifact agreement is asserted relationally below.
-const BASELINE = {records:21266, sources:144, public_rows:21374, reference_items:108, provenance_covered:21122};
+const BASELINE = BASELINE_CONTRACT.floors;
 if (records.length < BASELINE.records) fail(`canonical records ${records.length} < ${BASELINE.records}`);
 if (sources.length < BASELINE.sources) fail(`sources ${sources.length} < ${BASELINE.sources}`);
 for (const source of sources) {
@@ -188,18 +190,7 @@ for (const status of sourceStatuses.statuses || []) {
 const coverage = json(path.join(DOCS, 'openfin-provenance-coverage-report-2026.json'));
 if (coverage.external_provenance_coverage_ratio !== 1 || coverage.invalid_legacy_url_count !== 0) fail('provenance coverage gate failed');
 
-const minimumCounts = {
-  'korea-card-products-ontology-2026.json':1030,
-  'korea-deposit-products-ontology-2026.json':474,
-  'korea-finance-reference-ontology-2026.json':9654,
-  'korea-insurance-products-ontology-2026.json':1089,
-  'korea-loan-products-ontology-2026.json':642,
-  'korea-local-government-supports-ontology-2026.json':7718,
-  'korea-pension-products-ontology-2026.json':5,
-  'korea-saving-products-ontology-2026.json':379,
-  'korea-tax-advantaged-accounts-ontology-2026.json':9,
-  'korea-tax-ontology-2026.json':374,
-};
+const minimumCounts = BASELINE_CONTRACT.exports;
 let publicRows = 0; let referenceRows = 0; const publicOwnerIds = new Set(); const publicReferenceIds = [];
 for (const [file, minimum] of Object.entries(minimumCounts)) {
   const payload = json(path.join(DOCS, file));
