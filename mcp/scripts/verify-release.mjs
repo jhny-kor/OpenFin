@@ -18,7 +18,7 @@ const manifestChecksumVerified = typeof manifest.manifest_checksum === "string" 
 const entries = [manifest.search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, ...(manifest.exports || [])];
 const checksumsPresent = entries.length > 0 && entries.every((entry) => typeof entry?.export_checksum === "string" && entry.export_checksum.length > 0);
 const checksumVerified = manifestChecksumVerified && checksumsPresent;
-const gate = evaluateReleaseGate({ manifest, checksumVerified });
+const gate = evaluateReleaseGate({ manifest, checksumVerified, deploymentCommit: process.env.DEPLOYMENT_COMMIT });
 const recommendationOnly = process.argv.includes('--recommendation');
 const result = { manifest_url: manifestUrl, release_status: manifest.release_status, recommendation_enabled: manifest.recommendation_enabled === true, manifest_checksum_verified: manifestChecksumVerified, checksums_present: checksumsPresent, gate, check: recommendationOnly ? 'recommendation' : 'integrity' };
 console.log(JSON.stringify(result, null, 2));

@@ -2298,7 +2298,7 @@ function createServer(env: Env): McpServer {
     const live = manifest.openfin_120_live_regression ?? {};
     const releaseStatus = manifest.release_status ?? "unknown";
     const blockingReasons = manifest.blocking_reasons ?? [];
-    const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest) });
+    const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: env.DEPLOYMENT_COMMIT });
     return financeResult(financeSafety({
       status: releaseGate.status === "ready" ? "ready" : "blocked",
       reason_codes: releaseGate.status === "ready" ? [] : ["QUALITY_RELEASE_BLOCKED", ...releaseGate.reasons],
@@ -2509,7 +2509,7 @@ function createServer(env: Env): McpServer {
       assertFinanceSafe(preferences, "preferences");
       assertFinanceSafe(decision_context, "decision_context");
       const manifest = await loadFinanceManifest(env);
-      const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), domain });
+      const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: env.DEPLOYMENT_COMMIT, domain });
       const maxResults = limit ?? 5;
       const context = normalizeFinanceSnapshot(decision_context);
       const rankingPreferences = { ...(isRecord(profile) && typeof profile.provider === "string" ? { provider: profile.provider } : {}), ...(isRecord(profile) && profile.term_months !== undefined ? { term_months: profile.term_months } : {}), ...(preferences ?? {}) };
@@ -2578,7 +2578,7 @@ function createServer(env: Env): McpServer {
         rankCandidate,
         explainCandidate,
         recommendationBlocker: (item) => recommendationBlocker(item as FinanceItem, artifacts),
-        itemGate: (item) => evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), domain, item }),
+        itemGate: (item) => evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: env.DEPLOYMENT_COMMIT, domain, item }),
         toCandidate: (item, eligibility, ranking) => ({
           item_id: item.id,
           title: item.title,

@@ -47,12 +47,24 @@ const liveRegressionEvidence = () => {
   const live = json(file);
   return { ...live, evidence_path: 'evidence/live-regression/current.json', evidence_checksum: shaFile(file) };
 };
-const liveCurrent = (live, policy) => live.status === 'current'
-  && live.mode === policy.live_regression.required_mode
-  && live.test_count === policy.live_regression.required_count
-  && live.passed_count === policy.live_regression.required_count
-  && live.failed_count === 0
-  && (live.skipped_count || 0) === 0;
+export const liveRegressionCurrent = (live, policy, now = Date.now()) => {
+  const checkedAt = Date.parse(live.checked_at || '');
+  const ttlMs = Number(policy.live_regression.freshness_ttl_hours || 24) * 60 * 60 * 1000;
+  const ageMs = now - checkedAt;
+  return live.status === 'current'
+    && live.mode === policy.live_regression.required_mode
+    && live.test_count === policy.live_regression.required_count
+    && live.passed_count === policy.live_regression.required_count
+    && live.failed_count === 0
+    && (live.skipped_count || 0) === 0
+    && Number.isFinite(checkedAt)
+    && ageMs >= 0
+    && ageMs <= ttlMs
+    && typeof live.manifest_checksum === 'string'
+    && typeof live.loaded_index_checksum === 'string'
+    && typeof live.deployment_commit === 'string'
+    && live.deployment_commit !== 'unknown';
+};
 
 export const deriveQuality = (records, { sourceCount, exportCount, searchItemCount, relationshipCount, invalidUrlCount = 0, sourceStatusLoaded = true, sourceStatusChecksum = null } = {}) => {
   const policy = readReleasePolicy();
@@ -106,7 +118,7 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
   if (!relationshipCount) platformReasons.push('relationship_index_missing');
   const platformReleaseStatus = platformReasons.length ? 'degraded' : 'ready';
   const comparisonReleaseStatus = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready') ? 'limited' : 'blocked';
-  const liveReady = liveCurrent(live, policy);
+  const liveReady = liveRegressionCurrent(live, policy);
   const publicDomain = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready' && state.recommendation_mode === 'public');
   const recommendationEnabled = platformReleaseStatus === 'ready' && policy.recommendation?.public_enabled === true && Boolean(policy.recommendation?.public_approval_receipt) && liveReady && publicDomain;
   const recommendationReasons = [...platformReasons];

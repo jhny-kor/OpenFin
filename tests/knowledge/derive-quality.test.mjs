@@ -1,8 +1,17 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { deriveQuality } from '../../scripts/knowledge/derive-quality.mjs';
+import { deriveQuality, liveRegressionCurrent } from '../../scripts/knowledge/derive-quality.mjs';
 
 const base = { id: 'product.deposit.a', type: 'bank-product', search_type: 'deposit', base_rate_percent: 3, maximum_rate_percent: 4, term_months: 12, interest_method: 'simple', preferential_rate_conditions: ['x'], minimum_deposit_krw: 1, maximum_deposit_krw: 10, early_termination_condition: 'x', deposit_protection_status: 'protected', join_member: 'all', join_channel: ['web'], sales_verification_status: 'verified_active', sales_status: 'active', freshness_status: 'current' };
+const livePolicy = { live_regression: { required_count: 120, required_mode: 'live', freshness_ttl_hours: 24 } };
+
+test('live evidence must be current, complete, and attributable to a deployment', () => {
+  const checkedAt = Date.parse('2026-07-30T00:00:00Z');
+  const live = { status: 'current', mode: 'live', checked_at: '2026-07-30T00:00:00Z', manifest_checksum: 'manifest', loaded_index_checksum: 'index', deployment_commit: 'commit', test_count: 120, passed_count: 120, failed_count: 0, skipped_count: 0 };
+  assert.equal(liveRegressionCurrent(live, livePolicy, checkedAt + 60 * 60 * 1000), true);
+  assert.equal(liveRegressionCurrent({ ...live, deployment_commit: 'unknown' }, livePolicy, checkedAt), false);
+  assert.equal(liveRegressionCurrent(live, livePolicy, checkedAt + 25 * 60 * 60 * 1000), false);
+});
 
 test('field values alone never become field-verified candidates', () => {
   const result = deriveQuality([base], { sourceCount: 1, exportCount: 10, searchItemCount: 1, relationshipCount: 1 });
