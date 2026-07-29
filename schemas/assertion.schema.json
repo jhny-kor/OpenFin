@@ -14,6 +14,8 @@
     "valid_to": { "type": ["string", "null"], "format": "date-time" },
     "value_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "verification_status": { "enum": ["verified", "reference_only", "listing_only", "conflict", "unverified"] },
+    "freshness_status": { "enum": ["current", "stale", "unreachable", "retired", "conflict", "unknown"] },
+    "conflict": { "type": "boolean" },
     "verification_method": { "type": "string" }
   },
   "additionalProperties": false

@@ -1,0 +1,26 @@
+{
+  "targets": {
+    "deposit": 20,
+    "saving": 20
+  },
+  "selected": {
+    "deposit": [
+      "finance.deposit.deposit.0010356.1001",
+      "finance.deposit.deposit.0013166.240001"
+    ],
+    "saving": [
+      "finance.saving.saving.0010345.hk00104",
+      "finance.saving.saving.0010356.2002",
+      "finance.saving.saving.0010388.310005",
+      "finance.saving.saving.0010388.310006",
+      "finance.saving.saving.0010388.310011",
+      "finance.saving.saving.0010388.310012",
+      "finance.saving.saving.0013166.240010",
+      "finance.saving.saving.0013166.310001"
+    ]
+  },
+  "candidates": {
+    "deposit": 2,
+    "saving": 8
+  }
+}

@@ -17,6 +17,7 @@
     "knowledge:track-sources:dry-run": "node scripts/knowledge/track-sources.mjs --dry-run",
     "knowledge:source-impact-report": "node scripts/knowledge/source-impact-report.mjs",
     "knowledge:vertical-slice": "node scripts/knowledge/vertical-slice-report.mjs",
+    "knowledge:prepare-vertical-slice": "node scripts/knowledge/prepare-vertical-slice.mjs",
     "test": "npm run test:knowledge",
     "test:knowledge": "node --test tests/knowledge/*.test.mjs"
   },

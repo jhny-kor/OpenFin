@@ -74,6 +74,18 @@ These flows remain tool-only. Their inputs are naturally conversational and the 
 - Continues reporting the release gate.
 - Adds provenance coverage and source-health blockers without enabling recommendation.
 
+### MCP module boundaries
+
+`mcp/src/index.ts` owns Worker routing, environment wiring, shared artifact dependencies, and tool registration orchestration. Tool behavior is kept in independently testable modules:
+
+- `mcp/src/tools/personal-finance.ts`: summary, metrics, fit, scenario, explanation, and advice-contract validation.
+- `mcp/src/tools/search.ts` and `mcp/src/tools/discover.ts`: public lookup and source-backed exploration.
+- `mcp/src/tools/fetch.ts` and `mcp/src/tools/exports.ts`: item graph/provenance and publication artifact inspection.
+- `mcp/src/tools/compare.ts`: deterministic deposit/saving comparison with capability gates.
+- `mcp/src/tools/recommend-handler.ts`: recommendation release-gate, eligibility, ranking, and explanation integration. The reusable candidate builder remains in `mcp/src/tools/recommend.ts`.
+
+Modules receive a runtime dependency context from `createServer`; they do not load secrets or mutate canonical artifacts. A blocked recommendation returns before loading the detailed product shard.
+
 ## Canonical Knowledge Model
 
 - Domain folders under `knowledge/` embody the primary taxonomy. There are no `taxonomy/`, `ontology/`, or `topology/` top-level folders.
@@ -120,6 +132,7 @@ These flows remain tool-only. Their inputs are naturally conversational and the 
 - Publication requires schema, ID, relation, source URL, provenance, deterministic-build, compatibility, Pages, and MCP regression checks.
 - Recommendation cannot be enabled before a current-runtime 120/120 live regression succeeds.
 - `evidence/vertical-slice/vertical-slice-report.json` audits the first 20-deposit/20-saving target without promoting products; value completeness, official assertions, field verification, and runtime eligibility are separate counts.
+- `npm run knowledge:prepare-vertical-slice` only promotes rows whose FSS and KDIC locators support every required field; rows with missing limits or early-termination text remain blocked rather than receiving inferred values. The current checked-in audit is 2 deposit and 8 saving runtime-eligible rows toward the 20+20 target.
 
 ## Deployment Context
 
