@@ -649,7 +649,7 @@
         "relationship_count": 102523,
         "collection_failure_sources": 51
       },
-      "export_checksum": "99e8357e00efafaf1bce72a011da0cddf6d49fa6a2b9fe9251a41aa80af7f70d",
+      "export_checksum": "099c6273f4c647c5269e4e473956a68a133d2df9ff80180a18d30e6d020594a9",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -2522,13 +2522,505 @@
     "export_checksum": "6edbd98fee09a11e947a8b082da8984409c2c5f967a7e5c217eeb121a0138ac5"
   },
   "openfin_120_live_regression": {
-    "status": "missing",
-    "test_count": 0,
-    "passed_count": 0,
+    "status": "current",
+    "mode": "live",
+    "checked_at": "2026-07-29T21:57:39.611Z",
+    "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
+    "runtime_version": "openfin-mcp-2026.07.28.2",
+    "deployment_commit": "65034ffb2564af438c2146766d499f2cce5228e6",
+    "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+    "manifest_checksum": "b711368fd9b915b89914306004247bac12f027038daaf744ed752a8d7061b069",
+    "loaded_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
+    "loaded_item_count": 21279,
+    "fixture_checksum": "sha256:24ebfa39bf9260f5cc2d9caaa47cfd2591639f91b467acad171de78d523fdda0",
+    "test_count": 120,
+    "passed_count": 120,
     "failed_count": 0,
     "skipped_count": 0,
-    "evidence_path": null,
-    "evidence_checksum": null
+    "results": [
+      {
+        "case_id": "live-001",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-002",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-003",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-004",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-005",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-006",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-007",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-008",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-009",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-010",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-011",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-012",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-013",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-014",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-015",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-016",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-017",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-018",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-019",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-020",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-021",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-022",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-023",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-024",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-025",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-026",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-027",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-028",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-029",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-030",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-031",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-032",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-033",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-034",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-035",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-036",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-037",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-038",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-039",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-040",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-041",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-042",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-043",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-044",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-045",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-046",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-047",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-048",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-049",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-050",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-051",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-052",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-053",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-054",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-055",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-056",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-057",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-058",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-059",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-060",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-061",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-062",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-063",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-064",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-065",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-066",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-067",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-068",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-069",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-070",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-071",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-072",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-073",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-074",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-075",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-076",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-077",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-078",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-079",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-080",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-081",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-082",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-083",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-084",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-085",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-086",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-087",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-088",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-089",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-090",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-091",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-092",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-093",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-094",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-095",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-096",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-097",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-098",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-099",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-100",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-101",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-102",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-103",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-104",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-105",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-106",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-107",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-108",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-109",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-110",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-111",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-112",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-113",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-114",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-115",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-116",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-117",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-118",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-119",
+        "status": "passed"
+      },
+      {
+        "case_id": "live-120",
+        "status": "passed"
+      }
+    ],
+    "evidence_path": "evidence/live-regression/current.json",
+    "evidence_checksum": "304f05695171dda3d54f43b923549bb8795200b9d9040993785f2f799114071a"
   },
   "domain_readiness": {
     "deposit": {
@@ -2778,16 +3270,15 @@
   "comparison_release_status": "blocked",
   "recommendation_release_status": "blocked",
   "recommendation_blocking_reasons": [
-    "live_regression_missing",
     "no_public_recommendation_domain",
     "public_recommendation_policy_blocked",
     "public_approval_receipt_missing"
   ],
-  "quality_hash": "4f6cec4475a2ef57b9374d0c6d001534c337bd3b33618b5a98720457d6f2ba88",
+  "quality_hash": "3406ac6aaa6360408ceb87eddcc28fbb15a9f255faefde0997adfdfa7a1bfcf5",
   "live_regression_policy": {
     "required_count": 120,
     "required_mode": "live",
     "freshness_ttl_hours": 24
   },
-  "manifest_checksum": "d80d57793b18043412a89ca7bacb0f0364642d9f68a27adc955fcf81c8479699"
+  "manifest_checksum": "2c57a70af0a34bf86f28282beb2cc36a723cb60c6d585a5b0a6779dab91cf254"
 }
