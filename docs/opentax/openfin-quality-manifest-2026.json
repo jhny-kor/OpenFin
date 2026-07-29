@@ -523,12 +523,12 @@
   "openfin_120_live_regression": {
     "status": "current",
     "mode": "live",
-    "checked_at": "2026-07-29T21:57:39.611Z",
+    "checked_at": "2026-07-29T22:21:56.617Z",
     "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
     "runtime_version": "openfin-mcp-2026.07.28.2",
-    "deployment_commit": "65034ffb2564af438c2146766d499f2cce5228e6",
+    "deployment_commit": "408ddc90accf32b1591d744784b2d22201f6801f",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-    "manifest_checksum": "b711368fd9b915b89914306004247bac12f027038daaf744ed752a8d7061b069",
+    "manifest_checksum": "2c57a70af0a34bf86f28282beb2cc36a723cb60c6d585a5b0a6779dab91cf254",
     "loaded_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
     "loaded_item_count": 21279,
     "fixture_checksum": "sha256:24ebfa39bf9260f5cc2d9caaa47cfd2591639f91b467acad171de78d523fdda0",
@@ -1019,7 +1019,7 @@
       }
     ],
     "evidence_path": "evidence/live-regression/current.json",
-    "evidence_checksum": "304f05695171dda3d54f43b923549bb8795200b9d9040993785f2f799114071a"
+    "evidence_checksum": "a1707fe55b79171ba08b13c437fe772c9d563abb17fd06d2f72751255e66e8fc"
   },
   "quality_reports": [
     {
@@ -1378,7 +1378,7 @@
     }
   },
   "quality_policy_version": "openfin-release-policy-v1",
-  "quality_hash": "3406ac6aaa6360408ceb87eddcc28fbb15a9f255faefde0997adfdfa7a1bfcf5",
+  "quality_hash": "2784d7e456a373b0d205c80a564ecb328a6b5ceb07cc42d52f741319f0b90d97",
   "platform_release_status": "ready",
   "comparison_release_status": "blocked",
   "recommendation_release_status": "blocked"

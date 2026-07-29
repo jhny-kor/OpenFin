@@ -1,7 +1,7 @@
 {
   "status": "current",
   "mode": "live",
-  "checked_at": "2026-07-29T22:15:05.567Z",
+  "checked_at": "2026-07-29T22:21:56.617Z",
   "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
   "runtime_version": "openfin-mcp-2026.07.28.2",
   "deployment_commit": "408ddc90accf32b1591d744784b2d22201f6801f",
