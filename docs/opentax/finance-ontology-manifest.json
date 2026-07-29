@@ -645,7 +645,7 @@
         "relationship_count": 102523,
         "collection_failure_sources": 51
       },
-      "export_checksum": "27cd47f8f8021121b9257264025917eb2829f4376d25699f69a816dab05f37bc",
+      "export_checksum": "0402af15b713c23555d18886db902549cc9821615e4324591a4e7105f4bfd157",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -2520,12 +2520,12 @@
   "openfin_120_live_regression": {
     "status": "current",
     "mode": "live",
-    "checked_at": "2026-07-29T22:21:56.617Z",
+    "checked_at": "2026-07-29T23:16:42.430Z",
     "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
     "runtime_version": "openfin-mcp-2026.07.28.2",
-    "deployment_commit": "408ddc90accf32b1591d744784b2d22201f6801f",
+    "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-    "manifest_checksum": "2c57a70af0a34bf86f28282beb2cc36a723cb60c6d585a5b0a6779dab91cf254",
+    "manifest_checksum": "2778b57a829676e7c7b7059aa3bfe6600de7d3b8c6c3d8f6329b30b445628a0b",
     "loaded_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
     "loaded_item_count": 21279,
     "fixture_checksum": "sha256:24ebfa39bf9260f5cc2d9caaa47cfd2591639f91b467acad171de78d523fdda0",
@@ -3016,7 +3016,7 @@
       }
     ],
     "evidence_path": "evidence/live-regression/current.json",
-    "evidence_checksum": "a1707fe55b79171ba08b13c437fe772c9d563abb17fd06d2f72751255e66e8fc"
+    "evidence_checksum": "5d5c5dc446543877583376b8cf593174461460e09537cdfe8a9e7335540d19bd"
   },
   "domain_readiness": {
     "deposit": {
@@ -3266,11 +3266,11 @@
     "public_recommendation_policy_blocked",
     "public_approval_receipt_missing"
   ],
-  "quality_hash": "6f077f708931e36e8a049de4bd589126556f91e717381a8a1e4b082d4a3ea9fb",
+  "quality_hash": "9107336112f8a5af6162f80f3615588d5c849a02265ffe93d06fe4d8d5c9b8a6",
   "live_regression_policy": {
     "required_count": 120,
     "required_mode": "live",
     "freshness_ttl_hours": 24
   },
-  "manifest_checksum": "2778b57a829676e7c7b7059aa3bfe6600de7d3b8c6c3d8f6329b30b445628a0b"
+  "manifest_checksum": "bbc1901072c90d3591a8d6417bdcf10ecc582f7c3c2425f4f582326a2c3acde3"
 }
