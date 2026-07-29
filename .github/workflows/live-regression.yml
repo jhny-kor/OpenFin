@@ -28,7 +28,7 @@ jobs:
         run: npm run live-regression -- --validate-fixture
       - name: Run current deployment suite
         continue-on-error: true
-        run: npm run live-regression > ../live-regression-report.json
+        run: node scripts/live-regression.mjs > ../live-regression-report.json
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
       - uses: actions/upload-artifact@v4
