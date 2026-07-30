@@ -29,7 +29,21 @@ jobs:
       - name: Bind build to deployed Worker generation
         run: |
           set -euo pipefail
+          changed_files="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA")"
+          worker_changed=false
+          while IFS= read -r changed_file; do
+            case "$changed_file" in
+              mcp/*|contracts/*|schemas/*|scripts/knowledge/derive-quality.mjs|.github/workflows/deploy-mcp.yml)
+                worker_changed=true
+                ;;
+            esac
+          done <<< "$changed_files"
           if [ "${{ github.event_name }}" = "workflow_run" ] && [ -s evidence/live-regression/current.json ]; then
+            deployment_commit="$(jq -r '.deployment_commit // empty' evidence/live-regression/current.json)"
+            test -n "$deployment_commit"
+          elif [ "$worker_changed" = true ]; then
+            deployment_commit="$GITHUB_SHA"
+          elif [ -s evidence/live-regression/current.json ]; then
             deployment_commit="$(jq -r '.deployment_commit // empty' evidence/live-regression/current.json)"
             test -n "$deployment_commit"
           else
