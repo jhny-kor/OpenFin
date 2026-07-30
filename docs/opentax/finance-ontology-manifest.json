@@ -378,15 +378,30 @@
     "live_regression": {
       "status": "current",
       "mode": "live",
-      "checked_at": "2026-07-29T23:16:42.430Z",
+      "checked_at": "2026-07-30T01:39:13.911Z",
       "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
       "runtime_version": "openfin-mcp-2026.07.28.2",
-      "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
+      "deployment_commit": "190b1c15465c7ce2b3d5c29b548ac26563131db3",
+      "generation_id": "4f42adc4323395b87a054c95dabe0815789f592712408d272c68036e915e54b2",
       "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-      "manifest_checksum": "2778b57a829676e7c7b7059aa3bfe6600de7d3b8c6c3d8f6329b30b445628a0b",
+      "manifest_checksum": "b5dcc67b307d98a33d26fa2da85505aab80ff284f1dedda7e862d470ac48f0fa",
       "loaded_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
+      "source_status_checksum": "ead4f882caf2b7cd0ff5c350ac61dfb4d2844aa4e0429592f9abb4fd9ad6c774",
       "loaded_item_count": 21279,
-      "fixture_checksum": "sha256:24ebfa39bf9260f5cc2d9caaa47cfd2591639f91b467acad171de78d523fdda0",
+      "fixture_checksum": "sha256:c43512d6683261ea1e1c1a2f7e2d471c9ab62d6e925231cd12ea00ea7e0fff66",
+      "semantic_unique_case_count": 120,
+      "category_counts": {
+        "exact_search": 20,
+        "alias_search": 10,
+        "ambiguous_query": 10,
+        "comparison": 15,
+        "eligibility": 15,
+        "freshness": 10,
+        "recommendation_gate": 15,
+        "security": 10,
+        "unknown": 10,
+        "deployment": 5
+      },
       "test_count": 120,
       "passed_count": 120,
       "failed_count": 0,
@@ -394,488 +409,728 @@
       "results": [
         {
           "case_id": "live-001",
+          "category": "exact_search",
+          "semantic_hash": "228fc552225e8857543ba978f694daa07b2cd08695427d9155d6fad8d4eb509b",
           "status": "passed"
         },
         {
           "case_id": "live-002",
+          "category": "exact_search",
+          "semantic_hash": "af278bcde464744d648b7a4eb02ff024b73b07cb0145ce9803ef20a1cb6ba7b8",
           "status": "passed"
         },
         {
           "case_id": "live-003",
+          "category": "exact_search",
+          "semantic_hash": "5e8d1dd8aa9edb9a92bc1ef7f9f301ab5f2cfeafec2e812c2dc8ba26b824ca08",
           "status": "passed"
         },
         {
           "case_id": "live-004",
+          "category": "exact_search",
+          "semantic_hash": "6c38a8c1963903801abc29a49d797fb8415f5852344332680d97d8da67684060",
           "status": "passed"
         },
         {
           "case_id": "live-005",
+          "category": "exact_search",
+          "semantic_hash": "8fe1b68fcf81f03099f38853dfff5aa588e2a3114adbe60c916bd8da3b7379ba",
           "status": "passed"
         },
         {
           "case_id": "live-006",
+          "category": "exact_search",
+          "semantic_hash": "b76ccf904ed1e831554baa254aa98e04097aab37e3db5e35ed119bb5b6e404ed",
           "status": "passed"
         },
         {
           "case_id": "live-007",
+          "category": "exact_search",
+          "semantic_hash": "3e61a6c387b08302ad00a05f582d58134ae221a0352da2f839169f4d3a99a8dc",
           "status": "passed"
         },
         {
           "case_id": "live-008",
+          "category": "exact_search",
+          "semantic_hash": "5ab128113f19f6de4537d31af337f8df5d109953de9217cb8024a67b8ea40b6b",
           "status": "passed"
         },
         {
           "case_id": "live-009",
+          "category": "exact_search",
+          "semantic_hash": "4dee76e52f5515ab6f3410484c7e770bd73c30896d794c7108133b0c8c15fced",
           "status": "passed"
         },
         {
           "case_id": "live-010",
+          "category": "exact_search",
+          "semantic_hash": "73fa968a18d8ee0ae565e627243099467d743269aa53d10efd8ddbd3910566ab",
           "status": "passed"
         },
         {
           "case_id": "live-011",
+          "category": "exact_search",
+          "semantic_hash": "a445d31ab0e4eed736c257716fb27b640a2643e63d16d4909ca4a4ec30f4aece",
           "status": "passed"
         },
         {
           "case_id": "live-012",
+          "category": "exact_search",
+          "semantic_hash": "783fa447b30e0d3a120f117051761010fb9fa9bf0a9166eb5f7ed1c143dc071c",
           "status": "passed"
         },
         {
           "case_id": "live-013",
+          "category": "exact_search",
+          "semantic_hash": "7e0ea0619a3be03457fb70d4e1f9fca4ae2c557911ae84aec79d2dd2f697da5b",
           "status": "passed"
         },
         {
           "case_id": "live-014",
+          "category": "exact_search",
+          "semantic_hash": "522fc58a1857cfa2999a1a3afb82271be300940b5c7be746e6386fa1a3c28e34",
           "status": "passed"
         },
         {
           "case_id": "live-015",
+          "category": "exact_search",
+          "semantic_hash": "d106e17e1c04ccbcde0b2a897cc96d172fbb8d35004afe0b78bab3572d27e123",
           "status": "passed"
         },
         {
           "case_id": "live-016",
+          "category": "exact_search",
+          "semantic_hash": "e8b30540f0802b89d18061586983e2b82b61e699d245f76e9f64a4810d2c25db",
           "status": "passed"
         },
         {
           "case_id": "live-017",
+          "category": "exact_search",
+          "semantic_hash": "eec10f3b483c19a50aba961205b0306689473c9426a13c56d2a19c9f9bde6c8f",
           "status": "passed"
         },
         {
           "case_id": "live-018",
+          "category": "exact_search",
+          "semantic_hash": "134560fb989fa5adde93b7e534bda31936e3642058dc34493572c603ec5eeb9c",
           "status": "passed"
         },
         {
           "case_id": "live-019",
+          "category": "exact_search",
+          "semantic_hash": "5087c34e057476fecc846b9fb1278467daa7910b007088f1c47c0570f79e197c",
           "status": "passed"
         },
         {
           "case_id": "live-020",
+          "category": "exact_search",
+          "semantic_hash": "dbff9be0c18202ad0d4235ab85d2d895f3bd50de2d870e51be071ecd6f683ab3",
           "status": "passed"
         },
         {
           "case_id": "live-021",
+          "category": "alias_search",
+          "semantic_hash": "5445eb45ce9bb9bb62fe6249be18c86d81eb2e9533795e29882c11a615bb6472",
           "status": "passed"
         },
         {
           "case_id": "live-022",
+          "category": "alias_search",
+          "semantic_hash": "2e329da4fdefcf634472a7bb49310ceed712e12abe472e913b19bf758dd71ac7",
           "status": "passed"
         },
         {
           "case_id": "live-023",
+          "category": "alias_search",
+          "semantic_hash": "8f873a5b2118cefe4e4dc5e8b0d9fc632a290962557c79f671e34dddfea2c86b",
           "status": "passed"
         },
         {
           "case_id": "live-024",
+          "category": "alias_search",
+          "semantic_hash": "8c503faaf1a355798c2561672676a647f7d7df65ff0c46ff07d550cf4e755096",
           "status": "passed"
         },
         {
           "case_id": "live-025",
+          "category": "alias_search",
+          "semantic_hash": "5aed9cc4d9842475e57c5e019cf00fed3e444c186328ebbfa9b5be985ca06160",
           "status": "passed"
         },
         {
           "case_id": "live-026",
+          "category": "alias_search",
+          "semantic_hash": "0181b9728ab65a4f962bd9e5c2a16e164aa230373f54337b6d05f6d1efffae61",
           "status": "passed"
         },
         {
           "case_id": "live-027",
+          "category": "alias_search",
+          "semantic_hash": "f39b8e86c55cf38d47fd6c69141fa692571349e7d69169791e6c801eebcd3faa",
           "status": "passed"
         },
         {
           "case_id": "live-028",
+          "category": "alias_search",
+          "semantic_hash": "d59114717fde0ebe59537082a35da8aa75e42f2f7f90260357f206ed04e7431c",
           "status": "passed"
         },
         {
           "case_id": "live-029",
+          "category": "alias_search",
+          "semantic_hash": "da33899fc0425f5c3ddcbfead7de54467dfa7d3f6dec0154108079efd9a5bc09",
           "status": "passed"
         },
         {
           "case_id": "live-030",
+          "category": "alias_search",
+          "semantic_hash": "37d3b15bc11a4087e4fdeda53ee94d13cc5de38d761082977a3015587a6d8b52",
           "status": "passed"
         },
         {
           "case_id": "live-031",
+          "category": "ambiguous_query",
+          "semantic_hash": "971f61a60ed69ed8275a8b8473598d38aea9fe33f628f28701be2be45e3b5430",
           "status": "passed"
         },
         {
           "case_id": "live-032",
+          "category": "ambiguous_query",
+          "semantic_hash": "f67b014e704e6c196688e9a6b0dbb6aadfd217e26def56858ed116c6260d2cc4",
           "status": "passed"
         },
         {
           "case_id": "live-033",
+          "category": "ambiguous_query",
+          "semantic_hash": "302f69bcaf7f2a9f1abec58f600623ccfedc9885f00851123da1f1aa2af3910d",
           "status": "passed"
         },
         {
           "case_id": "live-034",
+          "category": "ambiguous_query",
+          "semantic_hash": "c217f2044cbbc88de9e8597fd9aeffc7d1281fbfb582341d932025e784415ba2",
           "status": "passed"
         },
         {
           "case_id": "live-035",
+          "category": "ambiguous_query",
+          "semantic_hash": "a3e2c913c209cb4829efe445685dc6706a084c6fcf735c8ba54f99fe60a75051",
           "status": "passed"
         },
         {
           "case_id": "live-036",
+          "category": "ambiguous_query",
+          "semantic_hash": "c1f3771adff0b0c2c6adaf15d8937f7d589b3a9e6abd48215f4c00d143dcf8b3",
           "status": "passed"
         },
         {
           "case_id": "live-037",
+          "category": "ambiguous_query",
+          "semantic_hash": "21927fe0802c72aca737131d020efe1c03373d9dd5fa72858a37ca2a19e95a0a",
           "status": "passed"
         },
         {
           "case_id": "live-038",
+          "category": "ambiguous_query",
+          "semantic_hash": "37ebd7bc09d4c740ed46ef13c2b395e02bda6d1162c2bcfd48b769834d42b808",
           "status": "passed"
         },
         {
           "case_id": "live-039",
+          "category": "ambiguous_query",
+          "semantic_hash": "d2e5a66a32d0ef4999489c8aac3322a5febae06e04a2f68b7b5017f49b696865",
           "status": "passed"
         },
         {
           "case_id": "live-040",
+          "category": "ambiguous_query",
+          "semantic_hash": "6bf5d08b3ef0d6a70ae99aaa7868e511b27b37475a2831b39940920a900717ee",
           "status": "passed"
         },
         {
           "case_id": "live-041",
+          "category": "comparison",
+          "semantic_hash": "b205f98acea927515fa46cedc6c984e0c46d58bc5d5e38b07c029b5ac9d27866",
           "status": "passed"
         },
         {
           "case_id": "live-042",
+          "category": "comparison",
+          "semantic_hash": "7a380b2a7f74a3568355f4ad735549212da76bd21870d8bd18148443eddb9f98",
           "status": "passed"
         },
         {
           "case_id": "live-043",
+          "category": "comparison",
+          "semantic_hash": "626198b2308daba868c27390fa7f912df0c116352a08adfaa79f8b62e10f7f85",
           "status": "passed"
         },
         {
           "case_id": "live-044",
+          "category": "comparison",
+          "semantic_hash": "b6f06bee656a17e481e659d8d0caee2d04e72a6bddcaa2627915bdbc1a7724f3",
           "status": "passed"
         },
         {
           "case_id": "live-045",
+          "category": "comparison",
+          "semantic_hash": "f944a188762cf436a2d8e1aedd64e73b1ec6e1298d9df1718d9cb483841e4330",
           "status": "passed"
         },
         {
           "case_id": "live-046",
+          "category": "comparison",
+          "semantic_hash": "232229e91f0f7dac55e1653ac3128bd5451fd667cef3802b9fcbfc2873c7286e",
           "status": "passed"
         },
         {
           "case_id": "live-047",
+          "category": "comparison",
+          "semantic_hash": "03b1fe10641a9a7497977a477db6d8fd31807f11d79fe9e5967bb2c33ea28ed1",
           "status": "passed"
         },
         {
           "case_id": "live-048",
+          "category": "comparison",
+          "semantic_hash": "67d399912e2a3f64aa181adbf0f5db2f051a62bb92691a1ac4e97db634b39779",
           "status": "passed"
         },
         {
           "case_id": "live-049",
+          "category": "comparison",
+          "semantic_hash": "a0790a6dbbc1246b0f501b04c73e0d47c62afa714bf760b8662561ca9a9ea4fa",
           "status": "passed"
         },
         {
           "case_id": "live-050",
+          "category": "comparison",
+          "semantic_hash": "d1442786f4c0c4c81d6c41a8558dbf5b5c71ca596fbd4b366b8228e4bb41bd25",
           "status": "passed"
         },
         {
           "case_id": "live-051",
+          "category": "comparison",
+          "semantic_hash": "46776d694d60f2f9630e2aa29fd0ccf2a5023648c9631d80f102a99b8b021b49",
           "status": "passed"
         },
         {
           "case_id": "live-052",
+          "category": "comparison",
+          "semantic_hash": "274a30b5674299867cf4169ab7515f6043bf216847e1dbc7be984eaf85b103e0",
           "status": "passed"
         },
         {
           "case_id": "live-053",
+          "category": "comparison",
+          "semantic_hash": "1844c6add317285201f915edfcbe25d338fa3cf835de0f00e8718cb4e24c84bd",
           "status": "passed"
         },
         {
           "case_id": "live-054",
+          "category": "comparison",
+          "semantic_hash": "3177cef669e5b0415cce9ea721cb62673e36371b33c9bea44bf821ac78c0f419",
           "status": "passed"
         },
         {
           "case_id": "live-055",
+          "category": "comparison",
+          "semantic_hash": "bb0e2589ed204ba0218ebc5aea0a4216e96b035094f20f4ceb0d6df956620eb2",
           "status": "passed"
         },
         {
           "case_id": "live-056",
+          "category": "eligibility",
+          "semantic_hash": "272a11e1bc96f6715554e4ce2b458838b19fafe24faff59ea1d95cb87dfba000",
           "status": "passed"
         },
         {
           "case_id": "live-057",
+          "category": "eligibility",
+          "semantic_hash": "dc6d0bd6f02adf526d69c6239a3661de6c6c9e8c12ade3422633865f6b68879a",
           "status": "passed"
         },
         {
           "case_id": "live-058",
+          "category": "eligibility",
+          "semantic_hash": "34832c925dd9463e33c315726ebbf6aa053f636f34194f2e892ff46859a19801",
           "status": "passed"
         },
         {
           "case_id": "live-059",
+          "category": "eligibility",
+          "semantic_hash": "c48541124142880dc330f3f7875c17f082cea223e745cda9b2fe4640285c0084",
           "status": "passed"
         },
         {
           "case_id": "live-060",
+          "category": "eligibility",
+          "semantic_hash": "c7fd17a1bd35a29fcb3a99bbb52402bd47f0be4a4dcbe29d9c92211a21e5480a",
           "status": "passed"
         },
         {
           "case_id": "live-061",
+          "category": "eligibility",
+          "semantic_hash": "91cf955404beb7af159f22b7bd25174b1a923554dd32a46912bf5dab12ccfa0c",
           "status": "passed"
         },
         {
           "case_id": "live-062",
+          "category": "eligibility",
+          "semantic_hash": "39a4aa85c5f358a3ee5e312fc6c59ce70b46a0cbeec4ec8ba8605ad4b7673d34",
           "status": "passed"
         },
         {
           "case_id": "live-063",
+          "category": "eligibility",
+          "semantic_hash": "4364556307673a815f4700775b2afc767a2f76edd087fdfd0032db1b32f50312",
           "status": "passed"
         },
         {
           "case_id": "live-064",
+          "category": "eligibility",
+          "semantic_hash": "13e690e809f4ebcb4408b92b1396b1b572201c8deb71015f229fdb9f38e0b76b",
           "status": "passed"
         },
         {
           "case_id": "live-065",
+          "category": "eligibility",
+          "semantic_hash": "8350108b733af8163696c343fc99196803b496fb823a0fd931380546cca9aa07",
           "status": "passed"
         },
         {
           "case_id": "live-066",
+          "category": "eligibility",
+          "semantic_hash": "df1ebea43a3f1025d685a5a790850dcf404cdd371924ee3ecfcd2265a342f43c",
           "status": "passed"
         },
         {
           "case_id": "live-067",
+          "category": "eligibility",
+          "semantic_hash": "4d193fa1779cbd83c75b915e66c85ae16692269a67cee8d49dede24f8cc60c26",
           "status": "passed"
         },
         {
           "case_id": "live-068",
+          "category": "eligibility",
+          "semantic_hash": "83f2a9d15dda8a13f909f53f0b139d8df6d876febf17c5c1b8259ccada145801",
           "status": "passed"
         },
         {
           "case_id": "live-069",
+          "category": "eligibility",
+          "semantic_hash": "bf99689d48ab01a438c9c7404deaef08e2a7a6a0c7d5b568435c2db33231f22c",
           "status": "passed"
         },
         {
           "case_id": "live-070",
+          "category": "eligibility",
+          "semantic_hash": "84e71337585e959eba8671c0fd3464a1ccd9418408928e43f1666d7f0f9c83e7",
           "status": "passed"
         },
         {
           "case_id": "live-071",
+          "category": "freshness",
+          "semantic_hash": "0cd759922c35f0df95daad0dff33dbe16d42f55851328279eb8290389eca55db",
           "status": "passed"
         },
         {
           "case_id": "live-072",
+          "category": "freshness",
+          "semantic_hash": "0c07cad822a62e8dfde61b99525ef88409c5c4cd96b08131ddd8cbce93c1532d",
           "status": "passed"
         },
         {
           "case_id": "live-073",
+          "category": "freshness",
+          "semantic_hash": "9490ecf3579d5af8f34fd6f9fa1e97928960ccaf149aefca1d84ef789f03bc26",
           "status": "passed"
         },
         {
           "case_id": "live-074",
+          "category": "freshness",
+          "semantic_hash": "c0e1acab0d7a97a5b2ac076baa99ce51fa9fd2895c393481af1759202a94c8d8",
           "status": "passed"
         },
         {
           "case_id": "live-075",
+          "category": "freshness",
+          "semantic_hash": "abe624711bdda47674de685dc13c6d5052a384924fd2323ac359d6bccc614770",
           "status": "passed"
         },
         {
           "case_id": "live-076",
+          "category": "freshness",
+          "semantic_hash": "81b2d2bbf0fea4694a0a948bec8b0b3c5c92a85c887ef67397bdff916741f142",
           "status": "passed"
         },
         {
           "case_id": "live-077",
+          "category": "freshness",
+          "semantic_hash": "fa07bafd3bebba525aefba42d1a5c498c506055b3003c2aa3ec319b46407de0d",
           "status": "passed"
         },
         {
           "case_id": "live-078",
+          "category": "freshness",
+          "semantic_hash": "8a5d301fc3a2174350398211ae55095fca9336b9a528cbe43ac52b25970f509d",
           "status": "passed"
         },
         {
           "case_id": "live-079",
+          "category": "freshness",
+          "semantic_hash": "1c74b731187229dd618e2855fc9f67693043772344b9e778f6a92cc65a9888e8",
           "status": "passed"
         },
         {
           "case_id": "live-080",
+          "category": "freshness",
+          "semantic_hash": "36fe5d510c2d2f45bd9bc99a90c35e429c8aad88c141c6416b01f0df279d1e29",
           "status": "passed"
         },
         {
           "case_id": "live-081",
+          "category": "recommendation_gate",
+          "semantic_hash": "b7034af56b9e9f675ef23c8c032d2e7d82370323c2bec5e819a798e5e761dadb",
           "status": "passed"
         },
         {
           "case_id": "live-082",
+          "category": "recommendation_gate",
+          "semantic_hash": "d92d0f6c6d23f5350a386e2d886afd4d15e4740e440aac9591ab4436b2f20aed",
           "status": "passed"
         },
         {
           "case_id": "live-083",
+          "category": "recommendation_gate",
+          "semantic_hash": "d35a77094c10c6286eb07acc591e47347aaa4d957d913a3f571a134f9d330594",
           "status": "passed"
         },
         {
           "case_id": "live-084",
+          "category": "recommendation_gate",
+          "semantic_hash": "c9c4861ca27f912377349c334dbbb73d8a3d1f62378ccffdbf5a33cbe7d5ab33",
           "status": "passed"
         },
         {
           "case_id": "live-085",
+          "category": "recommendation_gate",
+          "semantic_hash": "df40d8be608e319346c0ccd0a383ebaa5e8a7522f08a4bf6a81d98dd404bd349",
           "status": "passed"
         },
         {
           "case_id": "live-086",
+          "category": "recommendation_gate",
+          "semantic_hash": "00e4905f49222caffccbaa34698465dc69481795d9ac52001692a2bec29a5b49",
           "status": "passed"
         },
         {
           "case_id": "live-087",
+          "category": "recommendation_gate",
+          "semantic_hash": "4d4e1fe40d3e92ab1e1e19c5824549be5eac498db3f669bbc26662be9830192d",
           "status": "passed"
         },
         {
           "case_id": "live-088",
+          "category": "recommendation_gate",
+          "semantic_hash": "aae690611c2b4c13806e0edd0af5c313a22af9ec419189537550eee2ba6f9dda",
           "status": "passed"
         },
         {
           "case_id": "live-089",
+          "category": "recommendation_gate",
+          "semantic_hash": "ba4cbd1a76cd44ae20c0eab743243b527d8082d340ed01bad04443d8f8813616",
           "status": "passed"
         },
         {
           "case_id": "live-090",
+          "category": "recommendation_gate",
+          "semantic_hash": "ef4b6bf330a8c72790fbf645b6eef97c0ab26fed8c40e9df0d53a84c53a73521",
           "status": "passed"
         },
         {
           "case_id": "live-091",
+          "category": "recommendation_gate",
+          "semantic_hash": "78d147292a56d8ed5142e6e66c537ccdc78a38df18bc1449e0b9a4a210caafb2",
           "status": "passed"
         },
         {
           "case_id": "live-092",
+          "category": "recommendation_gate",
+          "semantic_hash": "bd5de9b772d1b0a50ad73c9c76a589bb6e70cd3490431daab7c030470ddde938",
           "status": "passed"
         },
         {
           "case_id": "live-093",
+          "category": "recommendation_gate",
+          "semantic_hash": "c0c7e531c92e5061b4c8757577c6ad684f5f6168af73ef00e71548da2169750c",
           "status": "passed"
         },
         {
           "case_id": "live-094",
+          "category": "recommendation_gate",
+          "semantic_hash": "7653a874ef9b9a367c37b91635d48370bff41fe466b68c70094240d394b5d301",
           "status": "passed"
         },
         {
           "case_id": "live-095",
+          "category": "recommendation_gate",
+          "semantic_hash": "41ed8904b3b5786acb1f9c7e12f77031eff6fd09d07f1b5c32b60eab820b0893",
           "status": "passed"
         },
         {
           "case_id": "live-096",
+          "category": "security",
+          "semantic_hash": "ef5d37d9f3db42672e31dd3e3440b6d4bd76bdb44ca3ecc1ff2e0b95a6bda03b",
           "status": "passed"
         },
         {
           "case_id": "live-097",
+          "category": "security",
+          "semantic_hash": "c3b9f73aa6a87b19293eaa98ccf728dc9521aca0ee83a6d4fcb9215b06c3b6b8",
           "status": "passed"
         },
         {
           "case_id": "live-098",
+          "category": "security",
+          "semantic_hash": "9c2d15895719ac3f52ab1da63df82ecccb95ae5f9bf6a82af1bf6a7e5e61db58",
           "status": "passed"
         },
         {
           "case_id": "live-099",
+          "category": "security",
+          "semantic_hash": "4f684d264596bfe439eefe18dbf7f0e0a440094380b3d99258298119825f1a93",
           "status": "passed"
         },
         {
           "case_id": "live-100",
+          "category": "security",
+          "semantic_hash": "20cbe9227959fa4fa9a6a4f51cfdb550ac7e31c6c7b20e23ce31fefc68d8cb32",
           "status": "passed"
         },
         {
           "case_id": "live-101",
+          "category": "security",
+          "semantic_hash": "3641ed66ed10d56405c479a69dc7815c744247d4be36047b4b7004551bedc77f",
           "status": "passed"
         },
         {
           "case_id": "live-102",
+          "category": "security",
+          "semantic_hash": "a69d2289cb6aca7908af24f2a2057722499ce72fbc360ffe33f4a7912f1810eb",
           "status": "passed"
         },
         {
           "case_id": "live-103",
+          "category": "security",
+          "semantic_hash": "9fb10972deb91d926e3f3a2974db96b80ce4fc8d3e3326c042c316e7c54bdc92",
           "status": "passed"
         },
         {
           "case_id": "live-104",
+          "category": "security",
+          "semantic_hash": "f3cc02838d8527bb0456576e4649e3318c1631b8b98026db8d4602c701e9defe",
           "status": "passed"
         },
         {
           "case_id": "live-105",
+          "category": "security",
+          "semantic_hash": "2a95ff080aa394ea1f319453173dd1eeeba2a8d267600c4dca3963d4ca516fce",
           "status": "passed"
         },
         {
           "case_id": "live-106",
+          "category": "unknown",
+          "semantic_hash": "cbfb7fd708f07f6ef58d5aecc840068394bbe0446ae4ccab0662c0a74d07da42",
           "status": "passed"
         },
         {
           "case_id": "live-107",
+          "category": "unknown",
+          "semantic_hash": "979b66fce967b0812e7d6b2108664e8a70fd9819d7d9fca9bdfe2e2bce7497b8",
           "status": "passed"
         },
         {
           "case_id": "live-108",
+          "category": "unknown",
+          "semantic_hash": "5ef08d7e0f20d891db787d41be1dac43b7c2cd97129c7ef455214378e0f7bd4a",
           "status": "passed"
         },
         {
           "case_id": "live-109",
+          "category": "unknown",
+          "semantic_hash": "97d2e757c12a0e1c46246079f099a212ddcb3b0ffb224c8bd05d6241fed89ca8",
           "status": "passed"
         },
         {
           "case_id": "live-110",
+          "category": "unknown",
+          "semantic_hash": "43deeb2d366d39b705f444388332a343c1ae46ba5d0328df9207b927f02e229d",
           "status": "passed"
         },
         {
           "case_id": "live-111",
+          "category": "unknown",
+          "semantic_hash": "e2c417bdc91925cfe9d6cfba1b48aef4ac1570376d1c505d49dcbd726a58c196",
           "status": "passed"
         },
         {
           "case_id": "live-112",
+          "category": "unknown",
+          "semantic_hash": "64e3ab60c02915731a351cb4a1569a5968a6c9dc6a0fbe4881513473d9cf7a33",
           "status": "passed"
         },
         {
           "case_id": "live-113",
+          "category": "unknown",
+          "semantic_hash": "7676c313c18f837d0b0f554f022d0b5a3cbd776027045e313cca3ed538029787",
           "status": "passed"
         },
         {
           "case_id": "live-114",
+          "category": "unknown",
+          "semantic_hash": "e998659fd78956f9a115a77a8a961c72cc0da8830012da0c189e41d00281c424",
           "status": "passed"
         },
         {
           "case_id": "live-115",
+          "category": "unknown",
+          "semantic_hash": "5e125face8d117524f47f34dca35677bd52ec6b5eca05af9cd79d341e86bcc0c",
           "status": "passed"
         },
         {
           "case_id": "live-116",
+          "category": "deployment",
+          "semantic_hash": "75b7143dc817dee742e1b7dee1721f44269abfee432d32c41f4cc5a46c2a69bf",
           "status": "passed"
         },
         {
           "case_id": "live-117",
+          "category": "deployment",
+          "semantic_hash": "65bf68120b22bcf6f1c3b750df10583d315902231a73dc61266a6b3bf18fbb9f",
           "status": "passed"
         },
         {
           "case_id": "live-118",
+          "category": "deployment",
+          "semantic_hash": "28b35f2b7231b395fc850bf8d99ff668685b9116ddb77cf5b23e4ed9b4cea6cf",
           "status": "passed"
         },
         {
           "case_id": "live-119",
+          "category": "deployment",
+          "semantic_hash": "61bbe293cbc4bddadc9ba5cebe24fd7d4088c0a23be3f2c328b525e0e5552449",
           "status": "passed"
         },
         {
           "case_id": "live-120",
+          "category": "deployment",
+          "semantic_hash": "0a24c23cf65508c0871737a2170c6d46d9f2937303831cd45faefc6d40c1c871",
           "status": "passed"
         }
       ],
       "evidence_path": "evidence/live-regression/current.json",
-      "evidence_checksum": "5d5c5dc446543877583376b8cf593174461460e09537cdfe8a9e7335540d19bd",
-      "expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c",
+      "evidence_checksum": "146828f032d06f8f0ec505bc11e2ffa5291359a0212d1d63538dafd621abed6e",
+      "expected_generation_id": "4f42adc4323395b87a054c95dabe0815789f592712408d272c68036e915e54b2",
       "validation_status": "stale_generation"
     }
   },
@@ -1201,7 +1456,7 @@
         "relationship_count": 102523,
         "collection_failure_sources": 51
       },
-      "export_checksum": "9682fac8368191fc9d054d0477eda70ad68ed4368b43def2b7ab53137af52e66",
+      "export_checksum": "b542e992b691eab61135ab9c030f911fb612202c7592e47063f9a03317e5fa77",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1223,7 +1478,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "698d7b8c84bc39b5fa9ef2790283f61c176727ab5342e74ea891319800519900",
+      "export_checksum": "e6b52b61e08544236b61fa19461f452ae20e2a29f81a419088e9dcf1c0075ed1",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1245,7 +1500,7 @@
         "live_failure_count": 105,
         "report_kind": "verification-coverage"
       },
-      "export_checksum": "dfa341654f6bfa0abe4618409217acd7d8774c6bdd2f32fcc77d631a49bc4d16",
+      "export_checksum": "199d8f78a6965c78dc29ec827c1158f18e23122088a45f46fd05413f7a34f063",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1275,7 +1530,7 @@
         "duplicate_canonical_product_count": 0,
         "canonical_merge_count": 11
       },
-      "export_checksum": "8792ab186a0e625aced6dbc3ac8cc80319e092eb04571b0c6d80ada3ce97aedb",
+      "export_checksum": "9aa51e4c067079b43f87b1c327b3861400419ff81ccc5bca08831e4425668271",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1299,7 +1554,7 @@
         "failed_count": 0,
         "search_regression_failed_count": 0
       },
-      "export_checksum": "13043dfd8a85acde40999beada5f6480760fa4d6ce68383b59805c8fa525c29f",
+      "export_checksum": "29415455ed349719994dc35686e7e60b65539ceb52054365b265df3363d26009",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1321,7 +1576,7 @@
         "live_failure_count": 105,
         "report_kind": "recommendation-safety"
       },
-      "export_checksum": "7b8de202db1bcf6d686d26700166828048217a5023e5533bfd1767afb475bb66",
+      "export_checksum": "b78cf0ce1f3306ba903c1cbae55c9f0fb7925bb0d362809ef6e62e0ef62835d3",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1346,7 +1601,7 @@
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0
       },
-      "export_checksum": "995976a04739f14020e5eb9d6676c08f4291e8ae7b5d98ca0ea8581d830fcdcd",
+      "export_checksum": "ce20992bf79f9a8f5b1be68e7385fd4bc045871b84c659ee133b31b6dd00be5e",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1368,7 +1623,7 @@
         "live_failure_count": 105,
         "report_kind": "data-drift"
       },
-      "export_checksum": "58f44633f8462a17d867356de4671fa8c7e0361a71e52a15e6d42e3a9c196809",
+      "export_checksum": "2d0817b428c4d041fb52d7d034366bd83a0773bc2a8dd42ee10601472f0fdb6d",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1391,7 +1646,7 @@
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0
       },
-      "export_checksum": "7380b7d4c3c1da76817ea0334aececf47b86001b39b6ce86096d47fb5845b747",
+      "export_checksum": "45f3f8f2c51648ae5c83cf488e048deb7bf7592167d8f4e944ff47145269f6b3",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -3084,15 +3339,30 @@
   "openfin_120_live_regression": {
     "status": "current",
     "mode": "live",
-    "checked_at": "2026-07-29T23:16:42.430Z",
+    "checked_at": "2026-07-30T01:39:13.911Z",
     "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
     "runtime_version": "openfin-mcp-2026.07.28.2",
-    "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
+    "deployment_commit": "190b1c15465c7ce2b3d5c29b548ac26563131db3",
+    "generation_id": "4f42adc4323395b87a054c95dabe0815789f592712408d272c68036e915e54b2",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-    "manifest_checksum": "2778b57a829676e7c7b7059aa3bfe6600de7d3b8c6c3d8f6329b30b445628a0b",
+    "manifest_checksum": "b5dcc67b307d98a33d26fa2da85505aab80ff284f1dedda7e862d470ac48f0fa",
     "loaded_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
+    "source_status_checksum": "ead4f882caf2b7cd0ff5c350ac61dfb4d2844aa4e0429592f9abb4fd9ad6c774",
     "loaded_item_count": 21279,
-    "fixture_checksum": "sha256:24ebfa39bf9260f5cc2d9caaa47cfd2591639f91b467acad171de78d523fdda0",
+    "fixture_checksum": "sha256:c43512d6683261ea1e1c1a2f7e2d471c9ab62d6e925231cd12ea00ea7e0fff66",
+    "semantic_unique_case_count": 120,
+    "category_counts": {
+      "exact_search": 20,
+      "alias_search": 10,
+      "ambiguous_query": 10,
+      "comparison": 15,
+      "eligibility": 15,
+      "freshness": 10,
+      "recommendation_gate": 15,
+      "security": 10,
+      "unknown": 10,
+      "deployment": 5
+    },
     "test_count": 120,
     "passed_count": 120,
     "failed_count": 0,
@@ -3100,488 +3370,728 @@
     "results": [
       {
         "case_id": "live-001",
+        "category": "exact_search",
+        "semantic_hash": "228fc552225e8857543ba978f694daa07b2cd08695427d9155d6fad8d4eb509b",
         "status": "passed"
       },
       {
         "case_id": "live-002",
+        "category": "exact_search",
+        "semantic_hash": "af278bcde464744d648b7a4eb02ff024b73b07cb0145ce9803ef20a1cb6ba7b8",
         "status": "passed"
       },
       {
         "case_id": "live-003",
+        "category": "exact_search",
+        "semantic_hash": "5e8d1dd8aa9edb9a92bc1ef7f9f301ab5f2cfeafec2e812c2dc8ba26b824ca08",
         "status": "passed"
       },
       {
         "case_id": "live-004",
+        "category": "exact_search",
+        "semantic_hash": "6c38a8c1963903801abc29a49d797fb8415f5852344332680d97d8da67684060",
         "status": "passed"
       },
       {
         "case_id": "live-005",
+        "category": "exact_search",
+        "semantic_hash": "8fe1b68fcf81f03099f38853dfff5aa588e2a3114adbe60c916bd8da3b7379ba",
         "status": "passed"
       },
       {
         "case_id": "live-006",
+        "category": "exact_search",
+        "semantic_hash": "b76ccf904ed1e831554baa254aa98e04097aab37e3db5e35ed119bb5b6e404ed",
         "status": "passed"
       },
       {
         "case_id": "live-007",
+        "category": "exact_search",
+        "semantic_hash": "3e61a6c387b08302ad00a05f582d58134ae221a0352da2f839169f4d3a99a8dc",
         "status": "passed"
       },
       {
         "case_id": "live-008",
+        "category": "exact_search",
+        "semantic_hash": "5ab128113f19f6de4537d31af337f8df5d109953de9217cb8024a67b8ea40b6b",
         "status": "passed"
       },
       {
         "case_id": "live-009",
+        "category": "exact_search",
+        "semantic_hash": "4dee76e52f5515ab6f3410484c7e770bd73c30896d794c7108133b0c8c15fced",
         "status": "passed"
       },
       {
         "case_id": "live-010",
+        "category": "exact_search",
+        "semantic_hash": "73fa968a18d8ee0ae565e627243099467d743269aa53d10efd8ddbd3910566ab",
         "status": "passed"
       },
       {
         "case_id": "live-011",
+        "category": "exact_search",
+        "semantic_hash": "a445d31ab0e4eed736c257716fb27b640a2643e63d16d4909ca4a4ec30f4aece",
         "status": "passed"
       },
       {
         "case_id": "live-012",
+        "category": "exact_search",
+        "semantic_hash": "783fa447b30e0d3a120f117051761010fb9fa9bf0a9166eb5f7ed1c143dc071c",
         "status": "passed"
       },
       {
         "case_id": "live-013",
+        "category": "exact_search",
+        "semantic_hash": "7e0ea0619a3be03457fb70d4e1f9fca4ae2c557911ae84aec79d2dd2f697da5b",
         "status": "passed"
       },
       {
         "case_id": "live-014",
+        "category": "exact_search",
+        "semantic_hash": "522fc58a1857cfa2999a1a3afb82271be300940b5c7be746e6386fa1a3c28e34",
         "status": "passed"
       },
       {
         "case_id": "live-015",
+        "category": "exact_search",
+        "semantic_hash": "d106e17e1c04ccbcde0b2a897cc96d172fbb8d35004afe0b78bab3572d27e123",
         "status": "passed"
       },
       {
         "case_id": "live-016",
+        "category": "exact_search",
+        "semantic_hash": "e8b30540f0802b89d18061586983e2b82b61e699d245f76e9f64a4810d2c25db",
         "status": "passed"
       },
       {
         "case_id": "live-017",
+        "category": "exact_search",
+        "semantic_hash": "eec10f3b483c19a50aba961205b0306689473c9426a13c56d2a19c9f9bde6c8f",
         "status": "passed"
       },
       {
         "case_id": "live-018",
+        "category": "exact_search",
+        "semantic_hash": "134560fb989fa5adde93b7e534bda31936e3642058dc34493572c603ec5eeb9c",
         "status": "passed"
       },
       {
         "case_id": "live-019",
+        "category": "exact_search",
+        "semantic_hash": "5087c34e057476fecc846b9fb1278467daa7910b007088f1c47c0570f79e197c",
         "status": "passed"
       },
       {
         "case_id": "live-020",
+        "category": "exact_search",
+        "semantic_hash": "dbff9be0c18202ad0d4235ab85d2d895f3bd50de2d870e51be071ecd6f683ab3",
         "status": "passed"
       },
       {
         "case_id": "live-021",
+        "category": "alias_search",
+        "semantic_hash": "5445eb45ce9bb9bb62fe6249be18c86d81eb2e9533795e29882c11a615bb6472",
         "status": "passed"
       },
       {
         "case_id": "live-022",
+        "category": "alias_search",
+        "semantic_hash": "2e329da4fdefcf634472a7bb49310ceed712e12abe472e913b19bf758dd71ac7",
         "status": "passed"
       },
       {
         "case_id": "live-023",
+        "category": "alias_search",
+        "semantic_hash": "8f873a5b2118cefe4e4dc5e8b0d9fc632a290962557c79f671e34dddfea2c86b",
         "status": "passed"
       },
       {
         "case_id": "live-024",
+        "category": "alias_search",
+        "semantic_hash": "8c503faaf1a355798c2561672676a647f7d7df65ff0c46ff07d550cf4e755096",
         "status": "passed"
       },
       {
         "case_id": "live-025",
+        "category": "alias_search",
+        "semantic_hash": "5aed9cc4d9842475e57c5e019cf00fed3e444c186328ebbfa9b5be985ca06160",
         "status": "passed"
       },
       {
         "case_id": "live-026",
+        "category": "alias_search",
+        "semantic_hash": "0181b9728ab65a4f962bd9e5c2a16e164aa230373f54337b6d05f6d1efffae61",
         "status": "passed"
       },
       {
         "case_id": "live-027",
+        "category": "alias_search",
+        "semantic_hash": "f39b8e86c55cf38d47fd6c69141fa692571349e7d69169791e6c801eebcd3faa",
         "status": "passed"
       },
       {
         "case_id": "live-028",
+        "category": "alias_search",
+        "semantic_hash": "d59114717fde0ebe59537082a35da8aa75e42f2f7f90260357f206ed04e7431c",
         "status": "passed"
       },
       {
         "case_id": "live-029",
+        "category": "alias_search",
+        "semantic_hash": "da33899fc0425f5c3ddcbfead7de54467dfa7d3f6dec0154108079efd9a5bc09",
         "status": "passed"
       },
       {
         "case_id": "live-030",
+        "category": "alias_search",
+        "semantic_hash": "37d3b15bc11a4087e4fdeda53ee94d13cc5de38d761082977a3015587a6d8b52",
         "status": "passed"
       },
       {
         "case_id": "live-031",
+        "category": "ambiguous_query",
+        "semantic_hash": "971f61a60ed69ed8275a8b8473598d38aea9fe33f628f28701be2be45e3b5430",
         "status": "passed"
       },
       {
         "case_id": "live-032",
+        "category": "ambiguous_query",
+        "semantic_hash": "f67b014e704e6c196688e9a6b0dbb6aadfd217e26def56858ed116c6260d2cc4",
         "status": "passed"
       },
       {
         "case_id": "live-033",
+        "category": "ambiguous_query",
+        "semantic_hash": "302f69bcaf7f2a9f1abec58f600623ccfedc9885f00851123da1f1aa2af3910d",
         "status": "passed"
       },
       {
         "case_id": "live-034",
+        "category": "ambiguous_query",
+        "semantic_hash": "c217f2044cbbc88de9e8597fd9aeffc7d1281fbfb582341d932025e784415ba2",
         "status": "passed"
       },
       {
         "case_id": "live-035",
+        "category": "ambiguous_query",
+        "semantic_hash": "a3e2c913c209cb4829efe445685dc6706a084c6fcf735c8ba54f99fe60a75051",
         "status": "passed"
       },
       {
         "case_id": "live-036",
+        "category": "ambiguous_query",
+        "semantic_hash": "c1f3771adff0b0c2c6adaf15d8937f7d589b3a9e6abd48215f4c00d143dcf8b3",
         "status": "passed"
       },
       {
         "case_id": "live-037",
+        "category": "ambiguous_query",
+        "semantic_hash": "21927fe0802c72aca737131d020efe1c03373d9dd5fa72858a37ca2a19e95a0a",
         "status": "passed"
       },
       {
         "case_id": "live-038",
+        "category": "ambiguous_query",
+        "semantic_hash": "37ebd7bc09d4c740ed46ef13c2b395e02bda6d1162c2bcfd48b769834d42b808",
         "status": "passed"
       },
       {
         "case_id": "live-039",
+        "category": "ambiguous_query",
+        "semantic_hash": "d2e5a66a32d0ef4999489c8aac3322a5febae06e04a2f68b7b5017f49b696865",
         "status": "passed"
       },
       {
         "case_id": "live-040",
+        "category": "ambiguous_query",
+        "semantic_hash": "6bf5d08b3ef0d6a70ae99aaa7868e511b27b37475a2831b39940920a900717ee",
         "status": "passed"
       },
       {
         "case_id": "live-041",
+        "category": "comparison",
+        "semantic_hash": "b205f98acea927515fa46cedc6c984e0c46d58bc5d5e38b07c029b5ac9d27866",
         "status": "passed"
       },
       {
         "case_id": "live-042",
+        "category": "comparison",
+        "semantic_hash": "7a380b2a7f74a3568355f4ad735549212da76bd21870d8bd18148443eddb9f98",
         "status": "passed"
       },
       {
         "case_id": "live-043",
+        "category": "comparison",
+        "semantic_hash": "626198b2308daba868c27390fa7f912df0c116352a08adfaa79f8b62e10f7f85",
         "status": "passed"
       },
       {
         "case_id": "live-044",
+        "category": "comparison",
+        "semantic_hash": "b6f06bee656a17e481e659d8d0caee2d04e72a6bddcaa2627915bdbc1a7724f3",
         "status": "passed"
       },
       {
         "case_id": "live-045",
+        "category": "comparison",
+        "semantic_hash": "f944a188762cf436a2d8e1aedd64e73b1ec6e1298d9df1718d9cb483841e4330",
         "status": "passed"
       },
       {
         "case_id": "live-046",
+        "category": "comparison",
+        "semantic_hash": "232229e91f0f7dac55e1653ac3128bd5451fd667cef3802b9fcbfc2873c7286e",
         "status": "passed"
       },
       {
         "case_id": "live-047",
+        "category": "comparison",
+        "semantic_hash": "03b1fe10641a9a7497977a477db6d8fd31807f11d79fe9e5967bb2c33ea28ed1",
         "status": "passed"
       },
       {
         "case_id": "live-048",
+        "category": "comparison",
+        "semantic_hash": "67d399912e2a3f64aa181adbf0f5db2f051a62bb92691a1ac4e97db634b39779",
         "status": "passed"
       },
       {
         "case_id": "live-049",
+        "category": "comparison",
+        "semantic_hash": "a0790a6dbbc1246b0f501b04c73e0d47c62afa714bf760b8662561ca9a9ea4fa",
         "status": "passed"
       },
       {
         "case_id": "live-050",
+        "category": "comparison",
+        "semantic_hash": "d1442786f4c0c4c81d6c41a8558dbf5b5c71ca596fbd4b366b8228e4bb41bd25",
         "status": "passed"
       },
       {
         "case_id": "live-051",
+        "category": "comparison",
+        "semantic_hash": "46776d694d60f2f9630e2aa29fd0ccf2a5023648c9631d80f102a99b8b021b49",
         "status": "passed"
       },
       {
         "case_id": "live-052",
+        "category": "comparison",
+        "semantic_hash": "274a30b5674299867cf4169ab7515f6043bf216847e1dbc7be984eaf85b103e0",
         "status": "passed"
       },
       {
         "case_id": "live-053",
+        "category": "comparison",
+        "semantic_hash": "1844c6add317285201f915edfcbe25d338fa3cf835de0f00e8718cb4e24c84bd",
         "status": "passed"
       },
       {
         "case_id": "live-054",
+        "category": "comparison",
+        "semantic_hash": "3177cef669e5b0415cce9ea721cb62673e36371b33c9bea44bf821ac78c0f419",
         "status": "passed"
       },
       {
         "case_id": "live-055",
+        "category": "comparison",
+        "semantic_hash": "bb0e2589ed204ba0218ebc5aea0a4216e96b035094f20f4ceb0d6df956620eb2",
         "status": "passed"
       },
       {
         "case_id": "live-056",
+        "category": "eligibility",
+        "semantic_hash": "272a11e1bc96f6715554e4ce2b458838b19fafe24faff59ea1d95cb87dfba000",
         "status": "passed"
       },
       {
         "case_id": "live-057",
+        "category": "eligibility",
+        "semantic_hash": "dc6d0bd6f02adf526d69c6239a3661de6c6c9e8c12ade3422633865f6b68879a",
         "status": "passed"
       },
       {
         "case_id": "live-058",
+        "category": "eligibility",
+        "semantic_hash": "34832c925dd9463e33c315726ebbf6aa053f636f34194f2e892ff46859a19801",
         "status": "passed"
       },
       {
         "case_id": "live-059",
+        "category": "eligibility",
+        "semantic_hash": "c48541124142880dc330f3f7875c17f082cea223e745cda9b2fe4640285c0084",
         "status": "passed"
       },
       {
         "case_id": "live-060",
+        "category": "eligibility",
+        "semantic_hash": "c7fd17a1bd35a29fcb3a99bbb52402bd47f0be4a4dcbe29d9c92211a21e5480a",
         "status": "passed"
       },
       {
         "case_id": "live-061",
+        "category": "eligibility",
+        "semantic_hash": "91cf955404beb7af159f22b7bd25174b1a923554dd32a46912bf5dab12ccfa0c",
         "status": "passed"
       },
       {
         "case_id": "live-062",
+        "category": "eligibility",
+        "semantic_hash": "39a4aa85c5f358a3ee5e312fc6c59ce70b46a0cbeec4ec8ba8605ad4b7673d34",
         "status": "passed"
       },
       {
         "case_id": "live-063",
+        "category": "eligibility",
+        "semantic_hash": "4364556307673a815f4700775b2afc767a2f76edd087fdfd0032db1b32f50312",
         "status": "passed"
       },
       {
         "case_id": "live-064",
+        "category": "eligibility",
+        "semantic_hash": "13e690e809f4ebcb4408b92b1396b1b572201c8deb71015f229fdb9f38e0b76b",
         "status": "passed"
       },
       {
         "case_id": "live-065",
+        "category": "eligibility",
+        "semantic_hash": "8350108b733af8163696c343fc99196803b496fb823a0fd931380546cca9aa07",
         "status": "passed"
       },
       {
         "case_id": "live-066",
+        "category": "eligibility",
+        "semantic_hash": "df1ebea43a3f1025d685a5a790850dcf404cdd371924ee3ecfcd2265a342f43c",
         "status": "passed"
       },
       {
         "case_id": "live-067",
+        "category": "eligibility",
+        "semantic_hash": "4d193fa1779cbd83c75b915e66c85ae16692269a67cee8d49dede24f8cc60c26",
         "status": "passed"
       },
       {
         "case_id": "live-068",
+        "category": "eligibility",
+        "semantic_hash": "83f2a9d15dda8a13f909f53f0b139d8df6d876febf17c5c1b8259ccada145801",
         "status": "passed"
       },
       {
         "case_id": "live-069",
+        "category": "eligibility",
+        "semantic_hash": "bf99689d48ab01a438c9c7404deaef08e2a7a6a0c7d5b568435c2db33231f22c",
         "status": "passed"
       },
       {
         "case_id": "live-070",
+        "category": "eligibility",
+        "semantic_hash": "84e71337585e959eba8671c0fd3464a1ccd9418408928e43f1666d7f0f9c83e7",
         "status": "passed"
       },
       {
         "case_id": "live-071",
+        "category": "freshness",
+        "semantic_hash": "0cd759922c35f0df95daad0dff33dbe16d42f55851328279eb8290389eca55db",
         "status": "passed"
       },
       {
         "case_id": "live-072",
+        "category": "freshness",
+        "semantic_hash": "0c07cad822a62e8dfde61b99525ef88409c5c4cd96b08131ddd8cbce93c1532d",
         "status": "passed"
       },
       {
         "case_id": "live-073",
+        "category": "freshness",
+        "semantic_hash": "9490ecf3579d5af8f34fd6f9fa1e97928960ccaf149aefca1d84ef789f03bc26",
         "status": "passed"
       },
       {
         "case_id": "live-074",
+        "category": "freshness",
+        "semantic_hash": "c0e1acab0d7a97a5b2ac076baa99ce51fa9fd2895c393481af1759202a94c8d8",
         "status": "passed"
       },
       {
         "case_id": "live-075",
+        "category": "freshness",
+        "semantic_hash": "abe624711bdda47674de685dc13c6d5052a384924fd2323ac359d6bccc614770",
         "status": "passed"
       },
       {
         "case_id": "live-076",
+        "category": "freshness",
+        "semantic_hash": "81b2d2bbf0fea4694a0a948bec8b0b3c5c92a85c887ef67397bdff916741f142",
         "status": "passed"
       },
       {
         "case_id": "live-077",
+        "category": "freshness",
+        "semantic_hash": "fa07bafd3bebba525aefba42d1a5c498c506055b3003c2aa3ec319b46407de0d",
         "status": "passed"
       },
       {
         "case_id": "live-078",
+        "category": "freshness",
+        "semantic_hash": "8a5d301fc3a2174350398211ae55095fca9336b9a528cbe43ac52b25970f509d",
         "status": "passed"
       },
       {
         "case_id": "live-079",
+        "category": "freshness",
+        "semantic_hash": "1c74b731187229dd618e2855fc9f67693043772344b9e778f6a92cc65a9888e8",
         "status": "passed"
       },
       {
         "case_id": "live-080",
+        "category": "freshness",
+        "semantic_hash": "36fe5d510c2d2f45bd9bc99a90c35e429c8aad88c141c6416b01f0df279d1e29",
         "status": "passed"
       },
       {
         "case_id": "live-081",
+        "category": "recommendation_gate",
+        "semantic_hash": "b7034af56b9e9f675ef23c8c032d2e7d82370323c2bec5e819a798e5e761dadb",
         "status": "passed"
       },
       {
         "case_id": "live-082",
+        "category": "recommendation_gate",
+        "semantic_hash": "d92d0f6c6d23f5350a386e2d886afd4d15e4740e440aac9591ab4436b2f20aed",
         "status": "passed"
       },
       {
         "case_id": "live-083",
+        "category": "recommendation_gate",
+        "semantic_hash": "d35a77094c10c6286eb07acc591e47347aaa4d957d913a3f571a134f9d330594",
         "status": "passed"
       },
       {
         "case_id": "live-084",
+        "category": "recommendation_gate",
+        "semantic_hash": "c9c4861ca27f912377349c334dbbb73d8a3d1f62378ccffdbf5a33cbe7d5ab33",
         "status": "passed"
       },
       {
         "case_id": "live-085",
+        "category": "recommendation_gate",
+        "semantic_hash": "df40d8be608e319346c0ccd0a383ebaa5e8a7522f08a4bf6a81d98dd404bd349",
         "status": "passed"
       },
       {
         "case_id": "live-086",
+        "category": "recommendation_gate",
+        "semantic_hash": "00e4905f49222caffccbaa34698465dc69481795d9ac52001692a2bec29a5b49",
         "status": "passed"
       },
       {
         "case_id": "live-087",
+        "category": "recommendation_gate",
+        "semantic_hash": "4d4e1fe40d3e92ab1e1e19c5824549be5eac498db3f669bbc26662be9830192d",
         "status": "passed"
       },
       {
         "case_id": "live-088",
+        "category": "recommendation_gate",
+        "semantic_hash": "aae690611c2b4c13806e0edd0af5c313a22af9ec419189537550eee2ba6f9dda",
         "status": "passed"
       },
       {
         "case_id": "live-089",
+        "category": "recommendation_gate",
+        "semantic_hash": "ba4cbd1a76cd44ae20c0eab743243b527d8082d340ed01bad04443d8f8813616",
         "status": "passed"
       },
       {
         "case_id": "live-090",
+        "category": "recommendation_gate",
+        "semantic_hash": "ef4b6bf330a8c72790fbf645b6eef97c0ab26fed8c40e9df0d53a84c53a73521",
         "status": "passed"
       },
       {
         "case_id": "live-091",
+        "category": "recommendation_gate",
+        "semantic_hash": "78d147292a56d8ed5142e6e66c537ccdc78a38df18bc1449e0b9a4a210caafb2",
         "status": "passed"
       },
       {
         "case_id": "live-092",
+        "category": "recommendation_gate",
+        "semantic_hash": "bd5de9b772d1b0a50ad73c9c76a589bb6e70cd3490431daab7c030470ddde938",
         "status": "passed"
       },
       {
         "case_id": "live-093",
+        "category": "recommendation_gate",
+        "semantic_hash": "c0c7e531c92e5061b4c8757577c6ad684f5f6168af73ef00e71548da2169750c",
         "status": "passed"
       },
       {
         "case_id": "live-094",
+        "category": "recommendation_gate",
+        "semantic_hash": "7653a874ef9b9a367c37b91635d48370bff41fe466b68c70094240d394b5d301",
         "status": "passed"
       },
       {
         "case_id": "live-095",
+        "category": "recommendation_gate",
+        "semantic_hash": "41ed8904b3b5786acb1f9c7e12f77031eff6fd09d07f1b5c32b60eab820b0893",
         "status": "passed"
       },
       {
         "case_id": "live-096",
+        "category": "security",
+        "semantic_hash": "ef5d37d9f3db42672e31dd3e3440b6d4bd76bdb44ca3ecc1ff2e0b95a6bda03b",
         "status": "passed"
       },
       {
         "case_id": "live-097",
+        "category": "security",
+        "semantic_hash": "c3b9f73aa6a87b19293eaa98ccf728dc9521aca0ee83a6d4fcb9215b06c3b6b8",
         "status": "passed"
       },
       {
         "case_id": "live-098",
+        "category": "security",
+        "semantic_hash": "9c2d15895719ac3f52ab1da63df82ecccb95ae5f9bf6a82af1bf6a7e5e61db58",
         "status": "passed"
       },
       {
         "case_id": "live-099",
+        "category": "security",
+        "semantic_hash": "4f684d264596bfe439eefe18dbf7f0e0a440094380b3d99258298119825f1a93",
         "status": "passed"
       },
       {
         "case_id": "live-100",
+        "category": "security",
+        "semantic_hash": "20cbe9227959fa4fa9a6a4f51cfdb550ac7e31c6c7b20e23ce31fefc68d8cb32",
         "status": "passed"
       },
       {
         "case_id": "live-101",
+        "category": "security",
+        "semantic_hash": "3641ed66ed10d56405c479a69dc7815c744247d4be36047b4b7004551bedc77f",
         "status": "passed"
       },
       {
         "case_id": "live-102",
+        "category": "security",
+        "semantic_hash": "a69d2289cb6aca7908af24f2a2057722499ce72fbc360ffe33f4a7912f1810eb",
         "status": "passed"
       },
       {
         "case_id": "live-103",
+        "category": "security",
+        "semantic_hash": "9fb10972deb91d926e3f3a2974db96b80ce4fc8d3e3326c042c316e7c54bdc92",
         "status": "passed"
       },
       {
         "case_id": "live-104",
+        "category": "security",
+        "semantic_hash": "f3cc02838d8527bb0456576e4649e3318c1631b8b98026db8d4602c701e9defe",
         "status": "passed"
       },
       {
         "case_id": "live-105",
+        "category": "security",
+        "semantic_hash": "2a95ff080aa394ea1f319453173dd1eeeba2a8d267600c4dca3963d4ca516fce",
         "status": "passed"
       },
       {
         "case_id": "live-106",
+        "category": "unknown",
+        "semantic_hash": "cbfb7fd708f07f6ef58d5aecc840068394bbe0446ae4ccab0662c0a74d07da42",
         "status": "passed"
       },
       {
         "case_id": "live-107",
+        "category": "unknown",
+        "semantic_hash": "979b66fce967b0812e7d6b2108664e8a70fd9819d7d9fca9bdfe2e2bce7497b8",
         "status": "passed"
       },
       {
         "case_id": "live-108",
+        "category": "unknown",
+        "semantic_hash": "5ef08d7e0f20d891db787d41be1dac43b7c2cd97129c7ef455214378e0f7bd4a",
         "status": "passed"
       },
       {
         "case_id": "live-109",
+        "category": "unknown",
+        "semantic_hash": "97d2e757c12a0e1c46246079f099a212ddcb3b0ffb224c8bd05d6241fed89ca8",
         "status": "passed"
       },
       {
         "case_id": "live-110",
+        "category": "unknown",
+        "semantic_hash": "43deeb2d366d39b705f444388332a343c1ae46ba5d0328df9207b927f02e229d",
         "status": "passed"
       },
       {
         "case_id": "live-111",
+        "category": "unknown",
+        "semantic_hash": "e2c417bdc91925cfe9d6cfba1b48aef4ac1570376d1c505d49dcbd726a58c196",
         "status": "passed"
       },
       {
         "case_id": "live-112",
+        "category": "unknown",
+        "semantic_hash": "64e3ab60c02915731a351cb4a1569a5968a6c9dc6a0fbe4881513473d9cf7a33",
         "status": "passed"
       },
       {
         "case_id": "live-113",
+        "category": "unknown",
+        "semantic_hash": "7676c313c18f837d0b0f554f022d0b5a3cbd776027045e313cca3ed538029787",
         "status": "passed"
       },
       {
         "case_id": "live-114",
+        "category": "unknown",
+        "semantic_hash": "e998659fd78956f9a115a77a8a961c72cc0da8830012da0c189e41d00281c424",
         "status": "passed"
       },
       {
         "case_id": "live-115",
+        "category": "unknown",
+        "semantic_hash": "5e125face8d117524f47f34dca35677bd52ec6b5eca05af9cd79d341e86bcc0c",
         "status": "passed"
       },
       {
         "case_id": "live-116",
+        "category": "deployment",
+        "semantic_hash": "75b7143dc817dee742e1b7dee1721f44269abfee432d32c41f4cc5a46c2a69bf",
         "status": "passed"
       },
       {
         "case_id": "live-117",
+        "category": "deployment",
+        "semantic_hash": "65bf68120b22bcf6f1c3b750df10583d315902231a73dc61266a6b3bf18fbb9f",
         "status": "passed"
       },
       {
         "case_id": "live-118",
+        "category": "deployment",
+        "semantic_hash": "28b35f2b7231b395fc850bf8d99ff668685b9116ddb77cf5b23e4ed9b4cea6cf",
         "status": "passed"
       },
       {
         "case_id": "live-119",
+        "category": "deployment",
+        "semantic_hash": "61bbe293cbc4bddadc9ba5cebe24fd7d4088c0a23be3f2c328b525e0e5552449",
         "status": "passed"
       },
       {
         "case_id": "live-120",
+        "category": "deployment",
+        "semantic_hash": "0a24c23cf65508c0871737a2170c6d46d9f2937303831cd45faefc6d40c1c871",
         "status": "passed"
       }
     ],
     "evidence_path": "evidence/live-regression/current.json",
-    "evidence_checksum": "5d5c5dc446543877583376b8cf593174461460e09537cdfe8a9e7335540d19bd",
-    "expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c",
+    "evidence_checksum": "146828f032d06f8f0ec505bc11e2ffa5291359a0212d1d63538dafd621abed6e",
+    "expected_generation_id": "4f42adc4323395b87a054c95dabe0815789f592712408d272c68036e915e54b2",
     "validation_status": "stale_generation"
   },
   "domain_readiness": {
@@ -3883,7 +4393,7 @@
     "public_recommendation_policy_blocked",
     "public_approval_receipt_missing"
   ],
-  "quality_hash": "fbfc465540ebe9c77f954240f4f0b9b6cac108166865f2a1fc2ed95983872186",
+  "quality_hash": "c958a028d8b8a453327d66c3f6c427093ffceea76e8aaf96ddc01d2baf01347b",
   "live_regression_policy": {
     "required_count": 120,
     "required_mode": "live",
@@ -3894,6 +4404,7 @@
   "core_search_status": "ready",
   "comparison_status": "blocked",
   "recommendation_status": "blocked",
-  "generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c",
-  "manifest_checksum": "b2629e46d59233b1efcde476562588f0031f78e15a84e4ab1f92bb0bf05b9c89"
+  "generation_id": "4f42adc4323395b87a054c95dabe0815789f592712408d272c68036e915e54b2",
+  "deployment_commit": "190b1c15465c7ce2b3d5c29b548ac26563131db3",
+  "manifest_checksum": "e4b311795a93caa1006620987152080f5582b502b2622a046ebdda934678bc09"
 }
