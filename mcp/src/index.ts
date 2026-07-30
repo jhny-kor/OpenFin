@@ -2275,6 +2275,7 @@ async function healthResponse(env: Env): Promise<Response> {
     const manifest = await loadFinanceManifest(env);
     return Response.json(livenessPayload(env, financeManifestUrl(env), {
       generation_id: manifest.generation_id ?? null,
+      manifest_deployment_commit: manifest.deployment_commit ?? null,
       core_search_status: manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown",
       comparison_status: manifest.comparison_status ?? manifest.comparison_release_status ?? "unknown",
       recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status ?? "unknown",
