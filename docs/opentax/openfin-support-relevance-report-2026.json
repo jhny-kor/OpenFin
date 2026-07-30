@@ -2,9 +2,9 @@
   "version": "openfin-support-relevance-report-2026.07.18.1",
   "basis_date": "2026-07-10",
   "live_status": "current",
-  "live_tested_at": "2026-07-30T09:41:00.446Z",
+  "live_tested_at": "2026-07-30T09:50:42.812Z",
   "runtime_version": "openfin-mcp-2026.07.28.2",
-  "deployment_commit": "76ebd35d6f1f9b947a74e47f30ede8229ad207b8",
+  "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
   "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "live_case_count": 120,
   "live_passed_count": 120,
@@ -15,12 +15,12 @@
   "support_category_violation_count": 0,
   "unknown_constraint_false_match_count": 0,
   "export_checksum": "67389d58f571f86cc1c2fda2523d8a3da788c616041b436fa289eb279eeac101",
-  "live_evidence_generation_id": "62f711ad45a89bb7d571014b13d295a0a918c4f532bf125063187fb5d55b5c0e",
-  "live_expected_generation_id": "62f711ad45a89bb7d571014b13d295a0a918c4f532bf125063187fb5d55b5c0e",
+  "live_evidence_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
+  "live_expected_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
-    "checksum": "ebca2b6b37230564cc23c3ea85293192a83bda13c23956633eed9e00edd013b4",
-    "generation_id": "62f711ad45a89bb7d571014b13d295a0a918c4f532bf125063187fb5d55b5c0e",
+    "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
+    "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
     "validation_status": "current"
   }
 }
