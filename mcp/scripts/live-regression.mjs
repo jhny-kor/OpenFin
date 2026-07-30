@@ -23,16 +23,28 @@ const base = endpoint.replace(/\/mcp$/, "");
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const metadataAttempts = Number(process.env.LIVE_METADATA_ATTEMPTS || 10);
 const metadataDelayMs = Number(process.env.LIVE_METADATA_DELAY_MS || 3000);
+const requestTimeoutMs = Number(process.env.LIVE_REQUEST_TIMEOUT_MS || 10000);
+const caseAttempts = Number(process.env.LIVE_CASE_ATTEMPTS || 2);
+const caseRetryDelayMs = Number(process.env.LIVE_CASE_RETRY_DELAY_MS || 500);
+const fetchWithTimeout = async (url, options = {}) => {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), requestTimeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+};
 let healthPayload;
 let manifest;
 let metadataError;
 for (let attempt = 1; attempt <= metadataAttempts; attempt += 1) {
   try {
     const cacheBust = `live=${Date.now()}-${attempt}`;
-    const health = await fetch(`${base}/health?${cacheBust}`, { headers: { "cache-control": "no-cache" } });
+    const health = await fetchWithTimeout(`${base}/health?${cacheBust}`, { headers: { "cache-control": "no-cache" } });
     if (!health.ok) throw new Error(`health failed: ${health.status}`);
     const candidateHealth = await health.json();
-    const manifestResponse = await fetch(`${candidateHealth.finance_manifest_url}?${cacheBust}`, { headers: { "cache-control": "no-cache" } });
+    const manifestResponse = await fetchWithTimeout(`${candidateHealth.finance_manifest_url}?${cacheBust}`, { headers: { "cache-control": "no-cache" } });
     if (!manifestResponse.ok) throw new Error(`manifest failed: ${manifestResponse.status}`);
     const candidateManifest = await manifestResponse.json();
     if (typeof candidateManifest.generation_id !== "string" || candidateHealth.deployment_commit === "unknown") throw new Error("deployment/manifest generation metadata is missing or inconsistent");
@@ -48,7 +60,7 @@ for (let attempt = 1; attempt <= metadataAttempts; attempt += 1) {
 if (!healthPayload || !manifest) throw metadataError || new Error("live deployment metadata unavailable");
 let id = 0;
 const rpc = async (method, params = {}) => {
-  const response = await fetch(endpoint, { method: "POST", headers: { "content-type": "application/json", accept: "application/json, text/event-stream", "MCP-Protocol-Version": "2025-06-18" }, body: JSON.stringify({ jsonrpc: "2.0", id: ++id, method, params }) });
+  const response = await fetchWithTimeout(endpoint, { method: "POST", headers: { "content-type": "application/json", accept: "application/json, text/event-stream", "MCP-Protocol-Version": "2025-06-18" }, body: JSON.stringify({ jsonrpc: "2.0", id: ++id, method, params }) });
   let body; try { body = await response.json(); } catch { body = { error: { message: `${method}: ${response.status}` } }; }
   if (body.error) return { isError: true, error: body.error, http_status: response.status };
   if (!response.ok) return { isError: true, error: { message: `${method}: ${response.status}` }, http_status: response.status };
@@ -78,12 +90,18 @@ const sourceIds = (payload) => [...new Set([
 const results = [];
 for (const entry of fixture) {
   try {
-    const result = await rpc("tools/call", { name: entry.tool, arguments: entry.arguments });
+    let result;
+    for (let attempt = 1; attempt <= caseAttempts; attempt += 1) {
+      result = await rpc("tools/call", { name: entry.tool, arguments: entry.arguments });
+      const retryable = result?.isError && Number(result.http_status) >= 500;
+      if (!retryable || attempt === caseAttempts) break;
+      await wait(caseRetryDelayMs);
+    }
     const text = result.content?.find((value) => value.type === "text")?.text;
     const payload = typeof text === "string" ? JSON.parse(text) : null;
     const expectedError = entry.expected_status === "error" || entry.expect_error === true;
     const actualStatus = result.isError ? "error" : payload?.status ?? "ok";
-    if (actualStatus !== entry.expected_status) throw new Error(`status=${actualStatus}; expected=${entry.expected_status}`);
+    if (actualStatus !== entry.expected_status) throw new Error(`status=${actualStatus}; expected=${entry.expected_status}; http_status=${result?.http_status ?? "n/a"}; error=${result?.error?.message ?? "n/a"}`);
     if (expectedError) {
       if (!result.isError) throw new Error("expected tool error but received a success response");
       results.push({ case_id: entry.case_id, category: entry.category, semantic_hash: semanticHash(entry), status: "passed" });
@@ -107,7 +125,7 @@ for (const entry of fixture) {
     const missingUnknown = asArray(entry.expected_unknown_conditions).filter((condition) => !actualUnknown.includes(String(condition)));
     if (missing.length || forbidden.length || missingReasons.length || pathMismatches.length || missingResultIds.length || forbiddenResultIds.length || orderMismatch || missingSources.length || freshnessMismatch || missingUnknown.length || result.isError) throw new Error(JSON.stringify({ missing, forbidden, missingReasons, pathMismatches, missingResultIds, forbiddenResultIds, orderMismatch, missingSources, freshnessMismatch, missingUnknown }));
     results.push({ case_id: entry.case_id, category: entry.category, semantic_hash: semanticHash(entry), status: "passed" });
-  } catch (error) { results.push({ case_id: entry.case_id, status: "failed", error: error instanceof Error ? error.message : String(error) }); }
+  } catch (error) { results.push({ case_id: entry.case_id, category: entry.category, status: "failed", error: error instanceof Error ? error.message : String(error) }); }
 }
 const passed = results.filter((result) => result.status === "passed").length;
 const report = { status: passed === fixture.length ? "current" : "failed", mode: "live", checked_at: new Date().toISOString(), endpoint, runtime_version: healthPayload.runtime_version ?? null, deployment_commit: healthPayload.deployment_commit ?? null, generation_id: manifest.generation_id ?? null, manifest_version: manifest.version ?? null, manifest_checksum: manifest.manifest_checksum ?? null, loaded_index_checksum: manifest.search_index?.export_checksum ?? null, source_status_checksum: manifest.source_status?.export_checksum ?? null, loaded_item_count: manifest.search_index?.item_count ?? null, fixture_checksum: `sha256:${checksum}`, semantic_unique_case_count: new Set(semanticHashes).size, category_counts: categoryCounts, test_count: fixture.length, passed_count: passed, failed_count: fixture.length - passed, skipped_count: 0, results };

@@ -1579,7 +1579,10 @@ async function loadSearchItemsForQuery(
   const manifest = await loadFinanceManifest(env);
   const metadata = await loadSearchIndexMetadata(env);
   const shardId = searchShardForQuery(query, type, searchType, productKind);
-  if (!shardId) return loadSearchItems(env);
+  if (!shardId) {
+    const reference = (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference");
+    return reference ? loadSearchShard(env, reference) : loadSearchItems(env);
+  }
   const shard = (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
 }
@@ -1683,6 +1686,9 @@ function directExportIdForItem(rawId: string): string | undefined {
   if (itemId.startsWith("finance.bank.saving.")) return "saving-products-ontology";
   if (itemId.startsWith("finance.bank.loan.")) return "loan-products-ontology";
   if (itemId.startsWith("finance.insurance.")) return "insurance-products-ontology";
+  if (itemId.startsWith("finance.pension.")) return "pension-products-ontology";
+  if (itemId.startsWith("finance.account.")) return "tax-advantaged-accounts-ontology";
+  if (itemId.startsWith("finance.reference.") || itemId.startsWith("finance.term.")) return "finance-reference-ontology";
   return undefined;
 }
 
@@ -1963,7 +1969,7 @@ async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceI
   const manifestUrl = financeManifestUrl(env);
   const manifest = await loadFinanceManifest(env);
   const directExportId = directExportIdForItem(rawId);
-  const indexedItem = directExportId ? undefined : resolveCanonicalItemId(rawId, await loadSearchItems(env));
+  const indexedItem = directExportId || rawId.startsWith("missing.") ? undefined : resolveCanonicalItemId(rawId, await loadSearchItems(env));
   const itemId = indexedItem?.id ?? resolveItemId(rawId);
   // Non-product nodes are fully represented in the compact index when no
   // detail shard is declared; avoid loading every ontology export.

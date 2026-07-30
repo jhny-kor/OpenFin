@@ -4,7 +4,7 @@ import { z } from "zod";
 type ToolContext = Record<string, any>;
 
 export function registerDiscoverTool(ctx: ToolContext): void {
-  const { server, env, mcpResult, discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain, loadSearchItems, loadFinanceArtifacts, isNamedProductQuery, strictNamedProductPayload, enrichSearchPayload, discoveryPayload, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
+  const { server, env, mcpResult, discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain, loadSearchItemsForQuery, loadFinanceArtifacts, isNamedProductQuery, strictNamedProductPayload, enrichSearchPayload, discoveryPayload, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
   server.registerTool(
     "discover",
     {
@@ -19,7 +19,7 @@ export function registerDiscoverTool(ctx: ToolContext): void {
     },
     async ({ query, limit }) => {
       const detailDomain = discoveryDomainForQuery(query) ?? (SUPPORT_INTENT_RE.test(query) ? "support" : undefined);
-      const items = dedupeProductItems(detailDomain ? await loadDetailedItemsForDomain(env, detailDomain) : await loadSearchItems(env));
+      const items = dedupeProductItems(detailDomain ? await loadDetailedItemsForDomain(env, detailDomain) : await loadSearchItemsForQuery(env, query));
       const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       if (isNamedProductQuery(query)) {
         const payload = strictNamedProductPayload(query, items, limit ?? 10, env);
