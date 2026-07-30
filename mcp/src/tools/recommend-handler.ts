@@ -87,9 +87,9 @@ export function registerRecommendTool(rawContext: unknown): void {
         ...Object.fromEntries(["tax_rate_percent", "monthly_budget_krw", "monthly_contribution_krw", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => mappedDecisionContext[key] !== undefined).map((key) => [key, mappedDecisionContext[key]])),
         ...(preferences ?? {}),
       };
-      const contextMetrics = financeMetrics(context);
+      const contextMetrics = financeMetrics(mappedDecisionContext);
       const contextNeeds = financeNeeds(mappedDecisionContext, contextMetrics);
-      const contextMissing = ["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => context[key] === null || context[key] === undefined || context[key] === "");
+      const contextMissing = ["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => mappedDecisionContext[key] === null || mappedDecisionContext[key] === undefined || mappedDecisionContext[key] === "");
       if (releaseGate.status !== "ready") {
         // A blocked release must be cheap and deterministic. Do not hydrate
         // the large product shard or source artifacts just to return an empty
