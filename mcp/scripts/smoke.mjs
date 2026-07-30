@@ -1,6 +1,7 @@
 const base = (process.env.MCP_URL || "https://openfin-mcp.y2kthr.workers.dev").replace(/\/$/, "");
-const attempts = Number(process.env.SMOKE_ATTEMPTS || 20);
-const delayMs = Number(process.env.SMOKE_DELAY_MS || 3000);
+// Pages and the Worker deploy independently; allow their manifests to converge.
+const attempts = Number(process.env.SMOKE_ATTEMPTS || 60);
+const delayMs = Number(process.env.SMOKE_DELAY_MS || 5000);
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 let healthPayload;
 let ready;
