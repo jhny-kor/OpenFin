@@ -35,6 +35,17 @@ const fetchWithTimeout = async (url, options = {}) => {
     clearTimeout(timer);
   }
 };
+const readJsonWithTimeout = async response => {
+  let timer;
+  try {
+    return await Promise.race([
+      response.json(),
+      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(`response body timeout after ${requestTimeoutMs}ms`)), requestTimeoutMs); }),
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
+};
 let healthPayload;
 let manifest;
 let metadataError;
@@ -43,10 +54,10 @@ for (let attempt = 1; attempt <= metadataAttempts; attempt += 1) {
     const cacheBust = `live=${Date.now()}-${attempt}`;
     const health = await fetchWithTimeout(`${base}/health?${cacheBust}`, { headers: { "cache-control": "no-cache" } });
     if (!health.ok) throw new Error(`health failed: ${health.status}`);
-    const candidateHealth = await health.json();
+    const candidateHealth = await readJsonWithTimeout(health);
     const manifestResponse = await fetchWithTimeout(`${candidateHealth.finance_manifest_url}?${cacheBust}`, { headers: { "cache-control": "no-cache" } });
     if (!manifestResponse.ok) throw new Error(`manifest failed: ${manifestResponse.status}`);
-    const candidateManifest = await manifestResponse.json();
+    const candidateManifest = await readJsonWithTimeout(manifestResponse);
     if (typeof candidateManifest.generation_id !== "string" || candidateHealth.deployment_commit === "unknown" || candidateManifest.deployment_commit !== candidateHealth.deployment_commit) throw new Error("deployment/manifest generation metadata is missing or inconsistent");
     if (candidateHealth.generation_id !== candidateManifest.generation_id) throw new Error("health/manifest generation mismatch");
     healthPayload = candidateHealth;
@@ -61,7 +72,7 @@ if (!healthPayload || !manifest) throw metadataError || new Error("live deployme
 let id = 0;
 const rpc = async (method, params = {}) => {
   const response = await fetchWithTimeout(endpoint, { method: "POST", headers: { "content-type": "application/json", accept: "application/json, text/event-stream", "MCP-Protocol-Version": "2025-06-18" }, body: JSON.stringify({ jsonrpc: "2.0", id: ++id, method, params }) });
-  let body; try { body = await response.json(); } catch { body = { error: { message: `${method}: ${response.status}` } }; }
+  let body; try { body = await readJsonWithTimeout(response); } catch { body = { error: { message: `${method}: ${response.status}` } }; }
   if (body.error) return { isError: true, error: body.error, http_status: response.status };
   if (!response.ok) return { isError: true, error: { message: `${method}: ${response.status}` }, http_status: response.status };
   return body.result;
