@@ -29,13 +29,8 @@ jobs:
         run: npm run live-regression -- --validate-fixture
       - name: Run current deployment suite
         id: live
-        continue-on-error: true
         run: |
-          set +e
           node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log
-          exit_code=$?
-          echo "exit_code=${exit_code}" >> "$GITHUB_OUTPUT"
-          exit "$exit_code"
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
       - name: Publish current-generation evidence
