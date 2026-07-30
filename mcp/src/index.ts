@@ -2283,6 +2283,7 @@ async function healthResponse(env: Env): Promise<Response> {
       core_search_status: manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown",
       comparison_status: manifest.comparison_status ?? manifest.comparison_release_status ?? "unknown",
       recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status ?? "unknown",
+      source_freshness_status: manifest.source_freshness_status ?? "degraded",
       artifact_contract: manifest.artifact_contract ?? null,
     }));
   } catch {

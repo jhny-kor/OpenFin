@@ -1,6 +1,8 @@
 name: OpenFin Live Regression
 
 on:
+  schedule:
+    - cron: '17 18 * * *'
   workflow_dispatch:
   workflow_run:
     workflows: [Deploy OpenFin MCP]

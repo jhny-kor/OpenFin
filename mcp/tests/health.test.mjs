@@ -11,3 +11,11 @@ test("blocked recommendation does not make healthy core unready", () => {
   assert.equal(payload.capabilities.source_freshness, "degraded");
   assert.equal(payload.manifest_checksum, "abc123");
 });
+
+test("health exposes source freshness separately from core availability", () => {
+  const payload = livenessPayload({ RUNTIME_VERSION: "v1" }, "https://example.test/manifest", {
+    source_freshness_status: "degraded",
+  });
+  assert.equal(payload.status, "ok");
+  assert.equal(payload.source_freshness_status, "degraded");
+});
