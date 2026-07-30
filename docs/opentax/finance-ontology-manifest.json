@@ -378,13 +378,13 @@
     "live_regression": {
       "status": "current",
       "mode": "live",
-      "checked_at": "2026-07-30T02:20:14.394Z",
+      "checked_at": "2026-07-30T02:36:30.684Z",
       "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
       "runtime_version": "openfin-mcp-2026.07.28.2",
-      "deployment_commit": "eb4964f831d3814cf509f649d76c64bc5c787182",
-      "generation_id": "ed3580cfff1d952dd440f0bd51f765c67f1e442afe1bdef73d8d5b75a9eaea57",
+      "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
+      "generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
       "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-      "manifest_checksum": "7b084dceb86bc5e52228de5b2a75928150f52a80fafd240d04e01862463fa4a3",
+      "manifest_checksum": "e48577e5fbef17c36b1f7aacfc4f532ad97bc78fc9add7d6df0636a6612958f7",
       "loaded_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
       "source_status_checksum": "ead4f882caf2b7cd0ff5c350ac61dfb4d2844aa4e0429592f9abb4fd9ad6c774",
       "loaded_item_count": 21279,
@@ -1129,8 +1129,8 @@
         }
       ],
       "evidence_path": "evidence/live-regression/current.json",
-      "evidence_checksum": "7b5d6f39847dbe4418ead7078cf44b8b2df5074f6c78410e935ac16fea6b58fe",
-      "expected_generation_id": "ed3580cfff1d952dd440f0bd51f765c67f1e442afe1bdef73d8d5b75a9eaea57",
+      "evidence_checksum": "0e0163127350a1c664a9db71b6b99e4e4f93ce9528dd9dd0ad944ad3be91c6d0",
+      "expected_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
       "validation_status": "current"
     }
   },
@@ -1456,7 +1456,7 @@
         "relationship_count": 102523,
         "collection_failure_sources": 51
       },
-      "export_checksum": "00bc5281c5fc1c169351eae81cb75796ec45d7507b2aeff3c3d39458434a0f44",
+      "export_checksum": "6ce0d4adceafacd85c4b1ab5a22fc15118eda62f283d28e0589bf849f20ef923",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1478,7 +1478,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "cc27fe9ef5de94fcc00ab85fa91afdb88960ecda777af2f030858fdda7fe8de4",
+      "export_checksum": "83ed676274d8678e1bf14df4ba4213d5529e76211adbdb9a1dbdacb162cfcb3c",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1500,7 +1500,7 @@
         "live_failure_count": 105,
         "report_kind": "verification-coverage"
       },
-      "export_checksum": "2205b4b6b6790a522d8eb9782db2dd0c7796c2ffa27074647b06667704309e84",
+      "export_checksum": "091702f517889160a760b85cf3bbdc0339928b5227f1b2294b4cfd4010194215",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1530,7 +1530,7 @@
         "duplicate_canonical_product_count": 0,
         "canonical_merge_count": 11
       },
-      "export_checksum": "c60f66bc1e7ef4f695ecf47772503f26a54fe2d4a932f6bcce16e17249661387",
+      "export_checksum": "375f8caefd6e875c61fa308c503cbd88d62ca5c47ba824bd14745740486a3b96",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1554,7 +1554,7 @@
         "failed_count": 0,
         "search_regression_failed_count": 0
       },
-      "export_checksum": "cb97521de32ab32cb788c2dd24458d47042f65d6f30636c710265ccdbe60ca7a",
+      "export_checksum": "8ef43c6aeb0c611f6b657e34025797472ea7c5abe939fc1396a9f6c579ae362b",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1576,7 +1576,7 @@
         "live_failure_count": 105,
         "report_kind": "recommendation-safety"
       },
-      "export_checksum": "bd578d15416bc509c6557c8965b84addbf0c6d788ea09d1e3f9c2cec407dd54e",
+      "export_checksum": "be38fec225039e88ec1eae1e523a9311b6d11b289287f05f9bb54c806044256e",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1601,7 +1601,7 @@
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0
       },
-      "export_checksum": "ac1c815115481681aaca4e2d970c62a5c645b4f329c2dbba75cb828a13854018",
+      "export_checksum": "9c0c71beff5f76e24721a5473e1438174ed604b7d7e5bedc4bd4e800e4dc7b5d",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1623,7 +1623,7 @@
         "live_failure_count": 105,
         "report_kind": "data-drift"
       },
-      "export_checksum": "20ab55da0a1aaa9755f6a8bb585ba579d6ca5eb24d1e4052052fc332c61c02c2",
+      "export_checksum": "d7fdcb6910458dc95a2d2013737b6cdbc56f3a35ce9ad95ca2e82cc557ca48f4",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1646,7 +1646,7 @@
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0
       },
-      "export_checksum": "f8fca58eedc56fb57c6e8d90d9093f589803d8d454a8dc9c3b97004b19a820fb",
+      "export_checksum": "33a36a70c24dd9ad96f7f3f20a926c8892d7be464ee04cf45a4556ac22313f03",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -3339,13 +3339,13 @@
   "openfin_120_live_regression": {
     "status": "current",
     "mode": "live",
-    "checked_at": "2026-07-30T02:20:14.394Z",
+    "checked_at": "2026-07-30T02:36:30.684Z",
     "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
     "runtime_version": "openfin-mcp-2026.07.28.2",
-    "deployment_commit": "eb4964f831d3814cf509f649d76c64bc5c787182",
-    "generation_id": "ed3580cfff1d952dd440f0bd51f765c67f1e442afe1bdef73d8d5b75a9eaea57",
+    "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
+    "generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-    "manifest_checksum": "7b084dceb86bc5e52228de5b2a75928150f52a80fafd240d04e01862463fa4a3",
+    "manifest_checksum": "e48577e5fbef17c36b1f7aacfc4f532ad97bc78fc9add7d6df0636a6612958f7",
     "loaded_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
     "source_status_checksum": "ead4f882caf2b7cd0ff5c350ac61dfb4d2844aa4e0429592f9abb4fd9ad6c774",
     "loaded_item_count": 21279,
@@ -4090,8 +4090,8 @@
       }
     ],
     "evidence_path": "evidence/live-regression/current.json",
-    "evidence_checksum": "7b5d6f39847dbe4418ead7078cf44b8b2df5074f6c78410e935ac16fea6b58fe",
-    "expected_generation_id": "ed3580cfff1d952dd440f0bd51f765c67f1e442afe1bdef73d8d5b75a9eaea57",
+    "evidence_checksum": "0e0163127350a1c664a9db71b6b99e4e4f93ce9528dd9dd0ad944ad3be91c6d0",
+    "expected_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
     "validation_status": "current"
   },
   "domain_readiness": {
@@ -4392,7 +4392,7 @@
     "public_recommendation_policy_blocked",
     "public_approval_receipt_missing"
   ],
-  "quality_hash": "ee31a1ffef62c8433e14791bd7086881edcc9c2a67030c615bf31726aba87437",
+  "quality_hash": "1c5b09caa656523d4508ca6a2c567d378683ab12bc58c51ed3ee85e40637def9",
   "live_regression_policy": {
     "required_count": 120,
     "required_mode": "live",
@@ -4403,7 +4403,7 @@
   "core_search_status": "ready",
   "comparison_status": "blocked",
   "recommendation_status": "blocked",
-  "generation_id": "ed3580cfff1d952dd440f0bd51f765c67f1e442afe1bdef73d8d5b75a9eaea57",
-  "deployment_commit": "eb4964f831d3814cf509f649d76c64bc5c787182",
-  "manifest_checksum": "6c4231074ef41763926657200211f002d70e4478b0c2efa2488739204b3e0ad3"
+  "generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
+  "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
+  "manifest_checksum": "dd3ef26d638e54491e807c5d6a8f3beaec9e7d195acd444b95b004545878dec1"
 }
