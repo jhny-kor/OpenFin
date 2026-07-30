@@ -1,3 +1,5 @@
+import { isVerifiedActive } from "./product-status.ts";
+
 export type ReleaseGateResult = {
   status: "ready" | "blocked";
   recommendation_enabled: boolean;
@@ -23,7 +25,7 @@ function liveReady(value: unknown, policy: unknown, now = Date.now(), deployment
 
 function currentItem(item: Record<string, unknown>): boolean {
   const provenance = Array.isArray(item.provenance) ? item.provenance : [];
-  return item.verification_status === "verified" && item.recommendation_status === "verified_recommendation_candidate" && item.recommendation_scope === "public_recommendation" && item.sales_status === "active" && item.sales_verification_status === "verified_active" && item.freshness_status === "current" && provenance.length > 0 && provenance.every((entry) => {
+  return item.verification_status === "verified" && item.recommendation_status === "verified_recommendation_candidate" && item.recommendation_scope === "public_recommendation" && item.sales_status === "active" && isVerifiedActive(item.sales_verification_status) && item.freshness_status === "current" && provenance.length > 0 && provenance.every((entry) => {
     const value = record(entry);
     return value.verification_status === "verified" && value.freshness_status === "current" && typeof value.source_id === "string" && typeof value.checksum === "string";
   });

@@ -81,3 +81,6 @@ jobs:
           path: docs
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify repository, Pages, Worker, and live evidence parity
+        if: github.event_name != 'push'
+        run: npm run knowledge:verify-public-parity -- --expected-deployment-commit "$OPENFIN_DEPLOYMENT_COMMIT"

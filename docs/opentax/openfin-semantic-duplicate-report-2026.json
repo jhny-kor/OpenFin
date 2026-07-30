@@ -2,7 +2,6 @@
   "version": "openfin-semantic-duplicate-report-2026.07.18.1",
   "basis_date": "2026-07-10",
   "live_status": "current",
-  "live_not_executed_reason": null,
   "live_tested_at": "2026-07-30T02:48:30.309Z",
   "runtime_version": "openfin-mcp-2026.07.28.2",
   "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
@@ -11,88 +10,6 @@
   "live_passed_count": 120,
   "live_failed_count": 0,
   "live_failure_count": 0,
-  "live_failure_sample": [
-    {
-      "case_id": "exact_product-001",
-      "tool": "opentax_search",
-      "errors": [
-        "named product was not resolved as exact"
-      ],
-      "error": null
-    },
-    {
-      "case_id": "exact_product-002",
-      "tool": "opentax_search",
-      "errors": [
-        "named product was not resolved as exact"
-      ],
-      "error": null
-    },
-    {
-      "case_id": "exact_product-003",
-      "tool": "opentax_search",
-      "errors": [
-        "named product was not resolved as exact"
-      ],
-      "error": null
-    },
-    {
-      "case_id": "exact_product-004",
-      "tool": "opentax_search",
-      "errors": [
-        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      ],
-      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-    },
-    {
-      "case_id": "exact_product-005",
-      "tool": "opentax_search",
-      "errors": [
-        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      ],
-      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-    },
-    {
-      "case_id": "exact_product-006",
-      "tool": "opentax_search",
-      "errors": [
-        "named product was not resolved as exact"
-      ],
-      "error": null
-    },
-    {
-      "case_id": "exact_product-007",
-      "tool": "opentax_search",
-      "errors": [
-        "named product was not resolved as exact"
-      ],
-      "error": null
-    },
-    {
-      "case_id": "exact_product-008",
-      "tool": "opentax_search",
-      "errors": [
-        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      ],
-      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-    },
-    {
-      "case_id": "exact_product-009",
-      "tool": "opentax_search",
-      "errors": [
-        "named product was not resolved as exact"
-      ],
-      "error": null
-    },
-    {
-      "case_id": "exact_product-010",
-      "tool": "opentax_search",
-      "errors": [
-        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-      ],
-      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
-    }
-  ],
   "report_kind": "semantic-duplicate",
   "exact_id_duplicate_count": 0,
   "external_id_duplicate_count": 0,
@@ -104,5 +21,11 @@
   "canonical_merge_count": 11,
   "export_checksum": "56f3fd44f3fd25068f732c91432c054af46e01c1acdb567a8b4086d5768607f9",
   "live_evidence_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
-  "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
+  "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+  "live_evidence": {
+    "path": "evidence/live-regression/current.json",
+    "checksum": "40f2edc7896672f0a4c26409c4ebeb8c1c4978c5501f77d0e0ba7592aac7df70",
+    "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+    "validation_status": "current"
+  }
 }

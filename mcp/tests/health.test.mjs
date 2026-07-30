@@ -8,5 +8,6 @@ test("blocked recommendation does not make healthy core unready", () => {
   assert.equal(payload.status, "ready");
   assert.equal(payload.ready, true);
   assert.equal(payload.capabilities.recommendation, "blocked");
+  assert.equal(payload.capabilities.source_freshness, "degraded");
   assert.equal(payload.manifest_checksum, "abc123");
 });

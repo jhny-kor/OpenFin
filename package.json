@@ -12,6 +12,7 @@
     "knowledge:schema-validate": "node scripts/knowledge/schema-validate.mjs",
     "knowledge:derive-quality": "node scripts/knowledge/derive-quality.mjs",
     "knowledge:derive-quality:check": "node scripts/knowledge/derive-quality.mjs --check",
+    "knowledge:verify-public-parity": "node scripts/knowledge/verify-public-parity.mjs",
     "knowledge:track-sources": "node scripts/knowledge/track-sources.mjs --dry-run",
     "knowledge:track-sources:write": "node scripts/knowledge/track-sources.mjs --write",
     "knowledge:track-sources:dry-run": "node scripts/knowledge/track-sources.mjs --dry-run",

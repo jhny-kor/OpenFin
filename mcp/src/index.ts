@@ -16,6 +16,9 @@ import { registerCompareTool } from "./tools/compare";
 import { registerFetchTool } from "./tools/fetch";
 import { registerExportsTool } from "./tools/exports";
 import { livenessPayload, readinessPayload } from "./health";
+import { isVerifiedActive } from "./product-status";
+import { calculateDepositReturn } from "./calculators/deposit";
+import { calculateSavingReturn } from "./calculators/saving";
 
 type FinanceItem = {
   id: string;
@@ -184,6 +187,8 @@ type FinanceManifest = {
   recommendation_status?: string;
   generation_id?: string;
   deployment_commit?: string;
+  source_freshness_status?: string;
+  artifact_contract?: Record<string, unknown>;
   recommendation_enabled?: boolean;
   blocking_reasons?: string[];
   openfin_120_live_regression?: Record<string, unknown>;
@@ -962,12 +967,12 @@ function discoveryPayload(query: string, items: readonly FinanceItem[], limit: n
       + (item.source_freshness_status === "current" ? 5 : 0);
     const eligibility = failed.length ? (["product_kind", "provider", "product_name_tokens"].some((field) => failed.includes(field)) ? "related_candidate" : "excluded") : (unknown.length ? "partial_candidate" : "exact_candidate");
     const relevance = eligibility === "exact_candidate" ? "A" : eligibility === "partial_candidate" ? "B" : "D";
-    const verification = item.sales_verification_status === "verified_active" && item.verification_status === "verified" && item.verified_completeness_ratio === 1 ? "A" : item.verification_status === "verified" ? "B" : item.source_urls?.length ? "C" : "D";
+    const verification = isVerifiedActive(item.sales_verification_status) && item.verification_status === "verified" && item.verified_completeness_ratio === 1 ? "A" : item.verification_status === "verified" ? "B" : item.source_urls?.length ? "C" : "D";
     const dataGrade = discoveryConfidence(item);
     let overall: "A" | "B" | "C" | "D" = relevance;
     if (verification > overall) overall = verification;
     if (dataGrade > overall) overall = dataGrade;
-    if (item.sales_verification_status === "listed_unverified" || !item.domain_gate_passed || ratio === 0) {
+    if (!isVerifiedActive(item.sales_verification_status) || !item.domain_gate_passed || ratio === 0) {
       overall = overall > "C" ? overall : "C";
     }
     const decision = { mode: "discovery", eligibility, decision_scope: "discovery_only", score, relevance_grade: relevance, data_completeness_grade: dataGrade, verification_grade: verification, overall_candidate_grade: overall, matched_constraints: matchedConstraints, unknown_constraints: unknown, failed_constraints: failed, decision_reasons: matchedConstraints.map((field) => discoveryDecisionReason(item, field)), limitations: item.discovery_limitations ?? ["sales_status_unverified"] };
@@ -1765,7 +1770,7 @@ function recommendationBlocker(item: FinanceItem, artifacts?: FinanceArtifacts):
   if (item.public_recommendation_exclusion_reasons?.length) return "public_recommendation_excluded";
   if (item.recommendation_status !== "verified_recommendation_candidate") return "not_verified_recommendation_candidate";
   if (item.recommendation_scope !== "public_recommendation") return "not_public_recommendation_scope";
-  if (item.sales_status !== "active" || item.sales_verification_status !== "verified_active") return "sales_not_verified";
+  if (item.sales_status !== "active" || !isVerifiedActive(item.sales_verification_status)) return "sales_not_verified";
   if (artifacts && sourceHealth(item, artifacts).freshness_status !== "current") return "stale_source";
   return verificationEvidenceBlocker(item);
 }
@@ -1780,7 +1785,7 @@ function reasonCounts(excluded: readonly { readonly reason: string }[]): Record<
 
 function productQualityScore(item: FinanceItem): number {
   return (item.verification_status === "verified" ? 1000 : 0)
-    + (item.sales_verification_status === "verified_active" ? 500 : 0)
+    + (isVerifiedActive(item.sales_verification_status) ? 500 : 0)
     + Math.round((item.verified_completeness_ratio ?? item.completeness_ratio ?? 0) * 100)
     + (item.source_records?.length ?? 0)
     + (item.source_urls?.length ?? 0);
@@ -1883,7 +1888,7 @@ function comparisonBlocker(item: FinanceItem, artifacts?: FinanceArtifacts): str
   if (item.comparison_exclusion_reasons?.length) return "comparison_excluded";
   if (item.recommendation_scope !== "comparison_only") return "not_comparison_scope";
   if (item.source_listing_status !== "listed") return "source_not_listed";
-  if (item.sales_verification_status !== "verified_active") return "sales_not_verified";
+  if (!isVerifiedActive(item.sales_verification_status)) return "sales_not_verified";
   if ((artifacts ? sourceHealth(item, artifacts).freshness_status : item.source_freshness_status) !== "current") return "stale_source";
   const verifiedAt = Date.parse(`${item.sales_verified_at ?? ""}T00:00:00Z`);
   if (!Number.isFinite(verifiedAt) || verifiedAt > Date.now() || Date.now() - verifiedAt > 31 * 24 * 60 * 60 * 1000) return "stale_source";
@@ -1925,11 +1930,10 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
   const termMonths = typeof option.term_months === "number" ? option.term_months : 0;
   const isDeposit = item.search_type === "deposit";
   const amountMissing = isDeposit ? depositAmount === undefined : monthlyPayment === undefined;
-  const principal = amountMissing ? null : isDeposit ? depositAmount : monthlyPayment! * termMonths;
-  const grossInterest = amountMissing ? null : isDeposit
-    ? principal! * achievableRate / 100 * termMonths / 12
-    : monthlyPayment! * achievableRate / 100 * (termMonths * (termMonths + 1) / 2) / 12;
-  const taxWithheld = grossInterest === null ? null : grossInterest * taxRatePercent / 100;
+  const outcome = amountMissing ? null : isDeposit
+    ? calculateDepositReturn({ principal_krw: depositAmount, annual_rate_percent: achievableRate, term_months: termMonths, tax_rate_percent: taxRatePercent, interest_method: option.interest_method })
+    : calculateSavingReturn({ monthly_payment_krw: monthlyPayment, annual_rate_percent: achievableRate, term_months: termMonths, tax_rate_percent: taxRatePercent });
+  const principal = outcome?.principal_krw ?? null;
   return {
     item_id: item.id,
     title: item.title,
@@ -1948,7 +1952,7 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
     sales_verified_at: item.sales_verified_at,
     data_as_of: item.sales_verified_at ?? item.last_verified_at ?? item.source_basis_dates?.[0] ?? null,
     source: option.source_urls ?? item.source_urls ?? [],
-    confidence: item.sales_verification_status === "verified_active" ? "verified" : "insufficient_information",
+    confidence: isVerifiedActive(item.sales_verification_status) ? "verified" : "insufficient_information",
     score_components: { achievable_rate_percent: achievableRate, source_verified: 1 },
     source_urls: option.source_urls,
     source_basis_dates: item.source_basis_dates ?? [],
@@ -1958,11 +1962,11 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
     comparison_field_verification: item.comparison_field_verification ?? {},
     missing_required_fields: (item.missing_required_fields ?? []).filter((field) => !(field === "sales_verification_status" && item.sales_verification_status === "verified_active")),
     principal_krw: principal,
-    gross_interest_krw: grossInterest === null ? null : Math.round(grossInterest),
+    gross_interest_krw: outcome?.gross_interest_krw ?? null,
     tax_rate_percent: taxRatePercent,
-    tax_withheld_krw: taxWithheld === null ? null : Math.round(taxWithheld),
-    net_interest_krw: grossInterest === null || taxWithheld === null ? null : Math.round(grossInterest - taxWithheld),
-    calculation_assumption: amountMissing ? (isDeposit ? "deposit_amount_required" : "monthly_payment_required") : isDeposit ? "simple_interest_for_full_term_deposit" : "simple_interest_with_each_month_paid_at_month_start",
+    tax_withheld_krw: outcome?.tax_withheld_krw ?? null,
+    net_interest_krw: outcome?.net_interest_krw ?? null,
+    calculation_assumption: amountMissing ? (isDeposit ? "deposit_amount_required" : "monthly_payment_required") : outcome?.calculation_assumption,
   };
 }
 
@@ -2279,6 +2283,7 @@ async function healthResponse(env: Env): Promise<Response> {
       core_search_status: manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown",
       comparison_status: manifest.comparison_status ?? manifest.comparison_release_status ?? "unknown",
       recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status ?? "unknown",
+      artifact_contract: manifest.artifact_contract ?? null,
     }));
   } catch {
     return Response.json(livenessPayload(env, financeManifestUrl(env), { generation_id: null }));

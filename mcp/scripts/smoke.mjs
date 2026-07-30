@@ -21,6 +21,8 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
     if (readyPayload.capabilities?.recommendation !== "blocked") throw new Error("recommendation must remain blocked by current policy");
     if (healthPayload.deployment_commit === "unknown") throw new Error("/health deployment_commit is unknown");
     if (!healthPayload.generation_id || healthPayload.generation_id !== readyPayload.generation_id) throw new Error("health/ready generation_id mismatch");
+    if (!healthPayload.artifact_contract || healthPayload.artifact_contract.generation_id !== healthPayload.generation_id || healthPayload.artifact_contract.deployment_commit !== healthPayload.manifest_deployment_commit) throw new Error("health artifact contract is incomplete");
+    if (!readyPayload.artifact_contract || readyPayload.artifact_contract.generation_id !== readyPayload.generation_id || readyPayload.artifact_contract.search_index_checksum !== readyPayload.loaded_index_checksum) throw new Error("ready artifact contract is incomplete");
     if (readyPayload.capabilities?.recommendation === "ready" && readyPayload.live_regression?.generation_id && readyPayload.live_regression.generation_id !== healthPayload.generation_id) throw new Error("live evidence generation mismatch");
     if (process.env.EXPECTED_DEPLOYMENT_COMMIT && healthPayload.deployment_commit !== process.env.EXPECTED_DEPLOYMENT_COMMIT) throw new Error(`/health deployment_commit mismatch: ${healthPayload.deployment_commit}`);
     break;

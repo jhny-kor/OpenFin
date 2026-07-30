@@ -75,8 +75,9 @@
           ],
           "structural_candidate_count": 430,
           "value_complete_candidate_count": 2,
-          "field_verified_candidate_count": 2,
-          "runtime_eligible_candidate_count": 2,
+          "strict_type_schema_candidate_count": 0,
+          "field_verified_candidate_count": 0,
+          "runtime_eligible_candidate_count": 0,
           "public_candidate_count": 0,
           "schema_defined": true,
           "decision_field_completeness": 0.004651162790697674,
@@ -86,12 +87,14 @@
           "value_field_coverage": 0.763953488372093,
           "field_verification_coverage": 0.004651162790697674,
           "complete_field_count": 2,
-          "verified_candidate_count": 2,
-          "comparison_data": "pilot_verified",
+          "verified_candidate_count": 0,
+          "comparison_data": "structural_only",
           "recommendation": "blocked",
           "recommendation_mode": "blocked",
-          "status": "pilot_verified",
-          "blockers": [],
+          "status": "structural_only",
+          "blockers": [
+            "STRICT_SCHEMA_NOT_APPLIED"
+          ],
           "missing_required_fields": {
             "base_rate_percent": 0,
             "maximum_rate_percent": 0,
@@ -116,8 +119,8 @@
               "status": "available"
             },
             "verified": {
-              "item_count": 2,
-              "status": "available"
+              "item_count": 0,
+              "status": "blocked"
             }
           }
         }
@@ -143,8 +146,9 @@
           ],
           "structural_candidate_count": 335,
           "value_complete_candidate_count": 8,
-          "field_verified_candidate_count": 8,
-          "runtime_eligible_candidate_count": 8,
+          "strict_type_schema_candidate_count": 0,
+          "field_verified_candidate_count": 0,
+          "runtime_eligible_candidate_count": 0,
           "public_candidate_count": 0,
           "schema_defined": true,
           "decision_field_completeness": 0.023880597014925373,
@@ -154,12 +158,14 @@
           "value_field_coverage": 0.7800995024875622,
           "field_verification_coverage": 0.023880597014925373,
           "complete_field_count": 8,
-          "verified_candidate_count": 8,
-          "comparison_data": "pilot_verified",
+          "verified_candidate_count": 0,
+          "comparison_data": "structural_only",
           "recommendation": "blocked",
           "recommendation_mode": "blocked",
-          "status": "pilot_verified",
-          "blockers": [],
+          "status": "structural_only",
+          "blockers": [
+            "STRICT_SCHEMA_NOT_APPLIED"
+          ],
           "missing_required_fields": {
             "base_rate_percent": 0,
             "maximum_rate_percent": 0,
@@ -184,8 +190,8 @@
               "status": "available"
             },
             "verified": {
-              "item_count": 8,
-              "status": "available"
+              "item_count": 0,
+              "status": "blocked"
             }
           }
         }
@@ -198,6 +204,7 @@
           "required_fields": [],
           "structural_candidate_count": 1007,
           "value_complete_candidate_count": 1007,
+          "strict_type_schema_candidate_count": 0,
           "field_verified_candidate_count": 0,
           "runtime_eligible_candidate_count": 0,
           "public_candidate_count": 0,
@@ -242,6 +249,7 @@
           "required_fields": [],
           "structural_candidate_count": 598,
           "value_complete_candidate_count": 598,
+          "strict_type_schema_candidate_count": 0,
           "field_verified_candidate_count": 0,
           "runtime_eligible_candidate_count": 0,
           "public_candidate_count": 0,
@@ -286,6 +294,7 @@
           "required_fields": [],
           "structural_candidate_count": 1071,
           "value_complete_candidate_count": 1071,
+          "strict_type_schema_candidate_count": 0,
           "field_verified_candidate_count": 0,
           "runtime_eligible_candidate_count": 0,
           "public_candidate_count": 0,
@@ -330,6 +339,7 @@
           "required_fields": [],
           "structural_candidate_count": 0,
           "value_complete_candidate_count": 0,
+          "strict_type_schema_candidate_count": 0,
           "field_verified_candidate_count": 0,
           "runtime_eligible_candidate_count": 0,
           "public_candidate_count": 0,
@@ -1456,7 +1466,7 @@
         "relationship_count": 102523,
         "collection_failure_sources": 51
       },
-      "export_checksum": "b507cd4d0c23ebb2d1f6d333287fc3031e626ea4288efae33e006d6ce146dc43",
+      "export_checksum": "df74500999bd2a26fce92bde763f36e675d5832fe1608d0e9001490f277506d3",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1478,7 +1488,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "122835a30a10fcc726ba7bd5506324797de0ad1d59de74207942c5aa91620c07",
+      "export_checksum": "a4c22736f7e77f47c6bf6299154425161500e465cb8ad14e90873a809797435d",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1500,7 +1510,7 @@
         "live_failure_count": 105,
         "report_kind": "verification-coverage"
       },
-      "export_checksum": "3390cef5bf2aacc155a29d88194aacd2bae4be58bac2fc30d50716749cc9a55c",
+      "export_checksum": "4bda9f6efca8b0589d875af6d8b3355451947f395e2fca6b7803448ab2ce6400",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1530,7 +1540,7 @@
         "duplicate_canonical_product_count": 0,
         "canonical_merge_count": 11
       },
-      "export_checksum": "6e472264489185ddd1c91d17f3c282c284c3b5c9ff274b56a8ab22f5fb57aa78",
+      "export_checksum": "83794b183ce3859023d0dfd7576f3a35874f781ba5de7fe840805abac18c0e70",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1554,7 +1564,7 @@
         "failed_count": 0,
         "search_regression_failed_count": 0
       },
-      "export_checksum": "0887e0e3f2a6f6e711005fae9a73d2dc271524d9e8198f00e43c32be6b1a60aa",
+      "export_checksum": "0e73d8cd227b213f98363e659466f56d2b28f020878ea25395f7f43a47db4099",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1576,7 +1586,7 @@
         "live_failure_count": 105,
         "report_kind": "recommendation-safety"
       },
-      "export_checksum": "4241c71bbe5a1684c9bdbcaaaf9554460433f63221d071dc203f191724e4559d",
+      "export_checksum": "bc45d67ff59079c0b15291adb8bd0b278b13657d26d9e4f263cd62268a38cfe6",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1601,7 +1611,7 @@
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0
       },
-      "export_checksum": "2bc6da72fff91f321c3e8c41086324f4b71c40d795b792a35d1d05dac387558a",
+      "export_checksum": "db802fd507f9bb2aedd59d5744edca0db4db4e5ae9156cc6716df55479a3f221",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1623,7 +1633,7 @@
         "live_failure_count": 105,
         "report_kind": "data-drift"
       },
-      "export_checksum": "b5675722a69e1ef884096f61bc2b5388745abf2e99851e4f16e320ece039a94f",
+      "export_checksum": "13819891c4cd35a80b8be6ef2a4457f8a7f59c46ea1f358bfca70b9e0a8ad4b7",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1646,7 +1656,7 @@
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0
       },
-      "export_checksum": "3438e5c64dfc99d10eb468460e2034cf9b64cecce94e5d8ba58df3764cf91b68",
+      "export_checksum": "0aae89338245eee8b97674e4f8c81abd99fd4597e5605cc894e65a54318d1e10",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1658,7 +1668,7 @@
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "item_count": 1,
       "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "68a1d3bd590245a44750647bdb5c8aed36493f2439e82808574157d622802f31",
+      "export_checksum": "c8501f095b3f83cc03751a66c14c037f32cb28d78082245b00ae990eba2c19cc",
       "coverage": {
         "external_provenance_coverage_ratio": 1,
         "status": "ready"
@@ -1778,7 +1788,6 @@
         "manual_review_candidate_products": 11,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 652,
-        "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1007,
         "recommendation_status_counts": {
@@ -1789,21 +1798,7 @@
         "recommendation_scope_counts": {
           "listing_only": 1007
         },
-        "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 11,
-        "products_with_verification_evidence": 11,
-        "comparison_overlay_quality": {
-          "candidate_count": 0,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 0,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 0,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {},
-          "sales_verification_status_missing_count": 0
-        },
         "average_completeness_ratio": 0.1812,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -1913,13 +1908,10 @@
           "previous_month_spend_min_krw": 0
         },
         "structural_comparison_candidate_count": 0,
-        "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
-        "public_comparison_candidate_count": 0,
         "readiness": {
           "discovery": "ready",
-          "comparison_engine": "ready",
-          "comparison_data": "blocked",
+          "comparison_engine": "schema_not_defined",
+          "comparison_data": "schema_not_defined",
           "public_recommendation": "blocked"
         },
         "blockers": {
@@ -1932,7 +1924,28 @@
           "active_products_without_conditions_must_be_zero": true,
           "active_products_without_related_must_be_zero": true,
           "stale_active_disclosure_products_must_be_zero": true
-        }
+        },
+        "legacy_overlay": {
+          "deprecated": true,
+          "replacement_path": "quality_summary",
+          "candidate_count": 0,
+          "statistics_candidate_count": 0
+        },
+        "legacy_overlay_comparison_candidate_products": 0,
+        "legacy_overlay_products_with_complete_comparison_fields": 0,
+        "legacy_overlay_products_with_verified_sales_status": 11,
+        "legacy_overlay_products_with_verification_evidence": 11,
+        "legacy_overlay_complete_comparison_data_count": 0,
+        "legacy_overlay_verified_comparison_candidate_count": 0,
+        "legacy_overlay_public_comparison_candidate_count": 0,
+        "deprecated": true,
+        "replacement_path": "domain_readiness.card",
+        "structural_candidate_count": 1007,
+        "value_complete_candidate_count": 1007,
+        "field_verified_candidate_count": 0,
+        "runtime_eligible_candidate_count": 0,
+        "public_candidate_count": 0,
+        "comparison_data": "schema_not_defined"
       },
       "export_checksum": "186fa7cb938c72c0ce72fc9ee08b97050575b9aab7cd1fae2e95493e94c17ba2",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다.",
@@ -1977,7 +1990,6 @@
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 430,
-        "comparison_candidate_products": 430,
         "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
         "recommendation_status_counts": {
@@ -1986,38 +1998,7 @@
         "recommendation_scope_counts": {
           "comparison_only": 430
         },
-        "products_with_complete_comparison_fields": 30,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 30,
-        "products_with_verification_evidence": 30,
-        "comparison_overlay_quality": {
-          "candidate_count": 30,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 30,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 30,
-          "missing_required_fields_by_field_name": {
-            "deposit_protection_status": 8,
-            "early_termination_condition": 30,
-            "maximum_deposit_krw": 16,
-            "minimum_deposit_krw": 22,
-            "preferential_rate_conditions": 4
-          },
-          "unverified_fields_by_field_name": {
-            "base_rate_percent": 30,
-            "deposit_protection_status": 22,
-            "interest_method": 30,
-            "join_channel": 30,
-            "join_member": 30,
-            "maximum_deposit_krw": 14,
-            "maximum_rate_percent": 30,
-            "minimum_deposit_krw": 8,
-            "preferential_rate_conditions": 26,
-            "term_months": 30
-          },
-          "sales_verification_status_missing_count": 0
-        },
         "average_completeness_ratio": 0.6126,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -2115,13 +2096,10 @@
           "term_months": 0
         },
         "structural_comparison_candidate_count": 430,
-        "complete_comparison_data_count": 30,
-        "verified_comparison_candidate_count": 30,
-        "public_comparison_candidate_count": 30,
         "readiness": {
           "discovery": "ready",
-          "comparison_engine": "ready",
-          "comparison_data": "ready",
+          "comparison_engine": "structural_only",
+          "comparison_data": "structural_only",
           "public_recommendation": "blocked"
         },
         "blockers": {
@@ -2134,7 +2112,28 @@
           "active_products_without_conditions_must_be_zero": true,
           "active_products_without_related_must_be_zero": true,
           "stale_active_disclosure_products_must_be_zero": true
-        }
+        },
+        "legacy_overlay": {
+          "deprecated": true,
+          "replacement_path": "quality_summary",
+          "candidate_count": 30,
+          "statistics_candidate_count": 30
+        },
+        "legacy_overlay_comparison_candidate_products": 430,
+        "legacy_overlay_products_with_complete_comparison_fields": 30,
+        "legacy_overlay_products_with_verified_sales_status": 30,
+        "legacy_overlay_products_with_verification_evidence": 30,
+        "legacy_overlay_complete_comparison_data_count": 30,
+        "legacy_overlay_verified_comparison_candidate_count": 30,
+        "legacy_overlay_public_comparison_candidate_count": 30,
+        "deprecated": true,
+        "replacement_path": "domain_readiness.deposit",
+        "structural_candidate_count": 430,
+        "value_complete_candidate_count": 2,
+        "field_verified_candidate_count": 0,
+        "runtime_eligible_candidate_count": 0,
+        "public_candidate_count": 0,
+        "comparison_data": "structural_only"
       },
       "export_checksum": "23e27147e6feda4d344130fa72e04283b58c54cd1037716e0f8b0f099fc628bd",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다.",
@@ -2179,7 +2178,6 @@
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 335,
-        "comparison_candidate_products": 335,
         "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
         "recommendation_status_counts": {
@@ -2188,38 +2186,7 @@
         "recommendation_scope_counts": {
           "comparison_only": 335
         },
-        "products_with_complete_comparison_fields": 30,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 30,
-        "products_with_verification_evidence": 30,
-        "comparison_overlay_quality": {
-          "candidate_count": 30,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 30,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 30,
-          "missing_required_fields_by_field_name": {
-            "deposit_protection_status": 1,
-            "early_termination_condition": 30,
-            "monthly_payment_max_krw": 3,
-            "monthly_payment_min_krw": 28,
-            "preferential_rate_conditions": 1
-          },
-          "unverified_fields_by_field_name": {
-            "base_rate_percent": 30,
-            "deposit_protection_status": 29,
-            "join_channel": 30,
-            "join_member": 30,
-            "maximum_rate_percent": 30,
-            "monthly_payment_max_krw": 27,
-            "monthly_payment_min_krw": 2,
-            "preferential_rate_conditions": 29,
-            "saving_method": 30,
-            "term_months": 30
-          },
-          "sales_verification_status_missing_count": 0
-        },
         "average_completeness_ratio": 0.6316,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -2318,13 +2285,10 @@
           "term_months": 0
         },
         "structural_comparison_candidate_count": 335,
-        "complete_comparison_data_count": 30,
-        "verified_comparison_candidate_count": 30,
-        "public_comparison_candidate_count": 30,
         "readiness": {
           "discovery": "ready",
-          "comparison_engine": "ready",
-          "comparison_data": "ready",
+          "comparison_engine": "structural_only",
+          "comparison_data": "structural_only",
           "public_recommendation": "blocked"
         },
         "blockers": {
@@ -2337,7 +2301,28 @@
           "active_products_without_conditions_must_be_zero": true,
           "active_products_without_related_must_be_zero": true,
           "stale_active_disclosure_products_must_be_zero": true
-        }
+        },
+        "legacy_overlay": {
+          "deprecated": true,
+          "replacement_path": "quality_summary",
+          "candidate_count": 30,
+          "statistics_candidate_count": 30
+        },
+        "legacy_overlay_comparison_candidate_products": 335,
+        "legacy_overlay_products_with_complete_comparison_fields": 30,
+        "legacy_overlay_products_with_verified_sales_status": 30,
+        "legacy_overlay_products_with_verification_evidence": 30,
+        "legacy_overlay_complete_comparison_data_count": 30,
+        "legacy_overlay_verified_comparison_candidate_count": 30,
+        "legacy_overlay_public_comparison_candidate_count": 30,
+        "deprecated": true,
+        "replacement_path": "domain_readiness.saving",
+        "structural_candidate_count": 335,
+        "value_complete_candidate_count": 8,
+        "field_verified_candidate_count": 0,
+        "runtime_eligible_candidate_count": 0,
+        "public_candidate_count": 0,
+        "comparison_data": "structural_only"
       },
       "export_checksum": "68dfee94759e3d86aee0704573d89d0cd5d2b32ed2c8017481578f4283348b33",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다.",
@@ -2385,7 +2370,6 @@
         "manual_review_candidate_products": 11,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 587,
-        "comparison_candidate_products": 13,
         "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 574,
         "recommendation_status_counts": {
@@ -2397,30 +2381,7 @@
           "internal_verification_candidate": 11,
           "listing_only": 574
         },
-        "products_with_complete_comparison_fields": 20,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 20,
-        "products_with_verification_evidence": 20,
-        "comparison_overlay_quality": {
-          "candidate_count": 20,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 20,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 20,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {
-            "collateral_type": 20,
-            "early_repayment_fee": 20,
-            "eligible_borrower": 20,
-            "loan_limit_krw": 20,
-            "loan_rate_max_percent": 20,
-            "loan_rate_min_percent": 20,
-            "rate_type": 20,
-            "repayment_method": 20
-          },
-          "sales_verification_status_missing_count": 0
-        },
         "average_completeness_ratio": 0.6885,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -2502,13 +2463,10 @@
           "repayment_method": 0
         },
         "structural_comparison_candidate_count": 13,
-        "complete_comparison_data_count": 20,
-        "verified_comparison_candidate_count": 20,
-        "public_comparison_candidate_count": 13,
         "readiness": {
           "discovery": "ready",
-          "comparison_engine": "ready",
-          "comparison_data": "ready",
+          "comparison_engine": "schema_not_defined",
+          "comparison_data": "schema_not_defined",
           "public_recommendation": "blocked"
         },
         "blockers": {
@@ -2521,7 +2479,28 @@
           "active_products_without_conditions_must_be_zero": true,
           "active_products_without_related_must_be_zero": true,
           "stale_active_disclosure_products_must_be_zero": true
-        }
+        },
+        "legacy_overlay": {
+          "deprecated": true,
+          "replacement_path": "quality_summary",
+          "candidate_count": 20,
+          "statistics_candidate_count": 20
+        },
+        "legacy_overlay_comparison_candidate_products": 13,
+        "legacy_overlay_products_with_complete_comparison_fields": 20,
+        "legacy_overlay_products_with_verified_sales_status": 20,
+        "legacy_overlay_products_with_verification_evidence": 20,
+        "legacy_overlay_complete_comparison_data_count": 20,
+        "legacy_overlay_verified_comparison_candidate_count": 20,
+        "legacy_overlay_public_comparison_candidate_count": 13,
+        "deprecated": true,
+        "replacement_path": "domain_readiness.loan",
+        "structural_candidate_count": 598,
+        "value_complete_candidate_count": 598,
+        "field_verified_candidate_count": 0,
+        "runtime_eligible_candidate_count": 0,
+        "public_candidate_count": 0,
+        "comparison_data": "schema_not_defined"
       },
       "export_checksum": "0305729dc2deebb8fbd899193a1e676d4a33ccfd651a2fd36332b38ed01ab5bf",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다.",
@@ -2566,7 +2545,6 @@
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 1071,
-        "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1071,
         "recommendation_status_counts": {
@@ -2575,21 +2553,7 @@
         "recommendation_scope_counts": {
           "listing_only": 1071
         },
-        "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 20,
-        "products_with_verification_evidence": 20,
-        "comparison_overlay_quality": {
-          "candidate_count": 0,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 0,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 0,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {},
-          "sales_verification_status_missing_count": 0
-        },
         "average_completeness_ratio": 0.424,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -2696,13 +2660,10 @@
           "waiting_period_days": 0
         },
         "structural_comparison_candidate_count": 0,
-        "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
-        "public_comparison_candidate_count": 0,
         "readiness": {
           "discovery": "ready",
-          "comparison_engine": "ready",
-          "comparison_data": "blocked",
+          "comparison_engine": "schema_not_defined",
+          "comparison_data": "schema_not_defined",
           "public_recommendation": "blocked"
         },
         "blockers": {
@@ -2715,7 +2676,28 @@
           "active_products_without_conditions_must_be_zero": true,
           "active_products_without_related_must_be_zero": true,
           "stale_active_disclosure_products_must_be_zero": true
-        }
+        },
+        "legacy_overlay": {
+          "deprecated": true,
+          "replacement_path": "quality_summary",
+          "candidate_count": 0,
+          "statistics_candidate_count": 0
+        },
+        "legacy_overlay_comparison_candidate_products": 0,
+        "legacy_overlay_products_with_complete_comparison_fields": 0,
+        "legacy_overlay_products_with_verified_sales_status": 20,
+        "legacy_overlay_products_with_verification_evidence": 20,
+        "legacy_overlay_complete_comparison_data_count": 0,
+        "legacy_overlay_verified_comparison_candidate_count": 0,
+        "legacy_overlay_public_comparison_candidate_count": 0,
+        "deprecated": true,
+        "replacement_path": "domain_readiness.insurance",
+        "structural_candidate_count": 1071,
+        "value_complete_candidate_count": 1071,
+        "field_verified_candidate_count": 0,
+        "runtime_eligible_candidate_count": 0,
+        "public_candidate_count": 0,
+        "comparison_data": "schema_not_defined"
       },
       "export_checksum": "4f35c4966f7ed2d9c316ae2aa53c0c594fba4bf11be9d0be4271056471493eff",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다.",
@@ -3164,7 +3146,7 @@
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "item_count": 1,
       "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "68a1d3bd590245a44750647bdb5c8aed36493f2439e82808574157d622802f31",
+      "export_checksum": "c8501f095b3f83cc03751a66c14c037f32cb28d78082245b00ae990eba2c19cc",
       "coverage": {
         "external_provenance_coverage_ratio": 1,
         "status": "ready"
@@ -3200,7 +3182,7 @@
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
     "item_count": 1,
     "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "68a1d3bd590245a44750647bdb5c8aed36493f2439e82808574157d622802f31",
+    "export_checksum": "c8501f095b3f83cc03751a66c14c037f32cb28d78082245b00ae990eba2c19cc",
     "coverage": {
       "external_provenance_coverage_ratio": 1,
       "status": "ready"
@@ -4113,8 +4095,9 @@
       ],
       "structural_candidate_count": 430,
       "value_complete_candidate_count": 2,
-      "field_verified_candidate_count": 2,
-      "runtime_eligible_candidate_count": 2,
+      "strict_type_schema_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
       "schema_defined": true,
       "decision_field_completeness": 0.004651162790697674,
@@ -4124,12 +4107,14 @@
       "value_field_coverage": 0.763953488372093,
       "field_verification_coverage": 0.004651162790697674,
       "complete_field_count": 2,
-      "verified_candidate_count": 2,
-      "comparison_data": "pilot_verified",
+      "verified_candidate_count": 0,
+      "comparison_data": "structural_only",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "pilot_verified",
-      "blockers": [],
+      "status": "structural_only",
+      "blockers": [
+        "STRICT_SCHEMA_NOT_APPLIED"
+      ],
       "missing_required_fields": {
         "base_rate_percent": 0,
         "maximum_rate_percent": 0,
@@ -4154,8 +4139,8 @@
           "status": "available"
         },
         "verified": {
-          "item_count": 2,
-          "status": "available"
+          "item_count": 0,
+          "status": "blocked"
         }
       }
     },
@@ -4177,8 +4162,9 @@
       ],
       "structural_candidate_count": 335,
       "value_complete_candidate_count": 8,
-      "field_verified_candidate_count": 8,
-      "runtime_eligible_candidate_count": 8,
+      "strict_type_schema_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
       "schema_defined": true,
       "decision_field_completeness": 0.023880597014925373,
@@ -4188,12 +4174,14 @@
       "value_field_coverage": 0.7800995024875622,
       "field_verification_coverage": 0.023880597014925373,
       "complete_field_count": 8,
-      "verified_candidate_count": 8,
-      "comparison_data": "pilot_verified",
+      "verified_candidate_count": 0,
+      "comparison_data": "structural_only",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "pilot_verified",
-      "blockers": [],
+      "status": "structural_only",
+      "blockers": [
+        "STRICT_SCHEMA_NOT_APPLIED"
+      ],
       "missing_required_fields": {
         "base_rate_percent": 0,
         "maximum_rate_percent": 0,
@@ -4218,8 +4206,8 @@
           "status": "available"
         },
         "verified": {
-          "item_count": 8,
-          "status": "available"
+          "item_count": 0,
+          "status": "blocked"
         }
       }
     },
@@ -4228,6 +4216,7 @@
       "required_fields": [],
       "structural_candidate_count": 1007,
       "value_complete_candidate_count": 1007,
+      "strict_type_schema_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
@@ -4268,6 +4257,7 @@
       "required_fields": [],
       "structural_candidate_count": 598,
       "value_complete_candidate_count": 598,
+      "strict_type_schema_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
@@ -4308,6 +4298,7 @@
       "required_fields": [],
       "structural_candidate_count": 1071,
       "value_complete_candidate_count": 1071,
+      "strict_type_schema_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
@@ -4348,6 +4339,7 @@
       "required_fields": [],
       "structural_candidate_count": 0,
       "value_complete_candidate_count": 0,
+      "strict_type_schema_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
@@ -4392,7 +4384,7 @@
     "public_recommendation_policy_blocked",
     "public_approval_receipt_missing"
   ],
-  "quality_hash": "edd5e8b0c23a61210b8cb806cbc4e4ebcd4ed0e725dea4fe07f43e841b9f9d09",
+  "quality_hash": "e131f6ed41cb4071eb73b7491e1612dc2ae367b5d2dc0bcdf20db35a16ada8f0",
   "live_regression_policy": {
     "required_count": 120,
     "required_mode": "live",
@@ -4405,5 +4397,17 @@
   "recommendation_status": "blocked",
   "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
   "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
-  "manifest_checksum": "16e53814fed1d14e95ca7c10d1b1a538bf864dc2de48390f4d2c529c41958532"
+  "artifact_contract": {
+    "version": "openfin-artifact-contract-v1",
+    "readiness_schema_version": "openfin-readiness-v2",
+    "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+    "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
+    "canonical_content_checksum": "42f33b0e6a2877a8937809fcfd4fa1b923560fa0d0e67f0ae2c107f9143cb0ff",
+    "search_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
+    "source_status_checksum": "ead4f882caf2b7cd0ff5c350ac61dfb4d2844aa4e0429592f9abb4fd9ad6c774",
+    "release_policy_checksum": "4bc618cf894698429da31d5b91b56fc3cfacdc73afe26de326ebde8f99fbc6c5",
+    "fixture_checksum": "sha256:c43512d6683261ea1e1c1a2f7e2d471c9ab62d6e925231cd12ea00ea7e0fff66"
+  },
+  "source_freshness_status": "degraded",
+  "manifest_checksum": "27def9093120fd18c1368ff0a0e6f5f4e84721e7402673814ea9fda5055c25b4"
 }

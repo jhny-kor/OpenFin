@@ -42,7 +42,6 @@
     "manual_review_candidate_products": 11,
     "verified_recommendation_candidate_products": 0,
     "discovery_candidate_products": 587,
-    "comparison_candidate_products": 13,
     "public_recommendation_candidate_products": 0,
     "recommendation_listing_only_products": 574,
     "recommendation_status_counts": {
@@ -54,30 +53,7 @@
       "internal_verification_candidate": 11,
       "listing_only": 574
     },
-    "products_with_complete_comparison_fields": 20,
     "products_with_complete_recommendation_fields": 0,
-    "products_with_verified_sales_status": 20,
-    "products_with_verification_evidence": 20,
-    "comparison_overlay_quality": {
-      "candidate_count": 20,
-      "statistics_basis": "final_comparison_object",
-      "statistics_candidate_count": 20,
-      "raw_unverified_candidate_count": 0,
-      "raw_unverified_excluded_from_statistics_count": 0,
-      "verified_candidate_count": 20,
-      "missing_required_fields_by_field_name": {},
-      "unverified_fields_by_field_name": {
-        "collateral_type": 20,
-        "early_repayment_fee": 20,
-        "eligible_borrower": 20,
-        "loan_limit_krw": 20,
-        "loan_rate_max_percent": 20,
-        "loan_rate_min_percent": 20,
-        "rate_type": 20,
-        "repayment_method": 20
-      },
-      "sales_verification_status_missing_count": 0
-    },
     "average_completeness_ratio": 0.6885,
     "products_with_unmapped_existing_fields": 0,
     "products_with_missing_search_type": 0,
@@ -159,13 +135,10 @@
       "repayment_method": 0
     },
     "structural_comparison_candidate_count": 13,
-    "complete_comparison_data_count": 20,
-    "verified_comparison_candidate_count": 20,
-    "public_comparison_candidate_count": 13,
     "readiness": {
       "discovery": "ready",
-      "comparison_engine": "ready",
-      "comparison_data": "ready",
+      "comparison_engine": "schema_not_defined",
+      "comparison_data": "schema_not_defined",
       "public_recommendation": "blocked"
     },
     "blockers": {
@@ -178,7 +151,28 @@
       "active_products_without_conditions_must_be_zero": true,
       "active_products_without_related_must_be_zero": true,
       "stale_active_disclosure_products_must_be_zero": true
-    }
+    },
+    "legacy_overlay": {
+      "deprecated": true,
+      "replacement_path": "quality_summary",
+      "candidate_count": 20,
+      "statistics_candidate_count": 20
+    },
+    "legacy_overlay_comparison_candidate_products": 13,
+    "legacy_overlay_products_with_complete_comparison_fields": 20,
+    "legacy_overlay_products_with_verified_sales_status": 20,
+    "legacy_overlay_products_with_verification_evidence": 20,
+    "legacy_overlay_complete_comparison_data_count": 20,
+    "legacy_overlay_verified_comparison_candidate_count": 20,
+    "legacy_overlay_public_comparison_candidate_count": 13,
+    "deprecated": true,
+    "replacement_path": "domain_readiness.loan",
+    "structural_candidate_count": 598,
+    "value_complete_candidate_count": 598,
+    "field_verified_candidate_count": 0,
+    "runtime_eligible_candidate_count": 0,
+    "public_candidate_count": 0,
+    "comparison_data": "schema_not_defined"
   },
   "item_count": 643,
   "reference_item_count": 45,

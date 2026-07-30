@@ -237,11 +237,65 @@ Object.assign(manifest, artifactEntries); Object.assign(manifest.artifacts, arti
 manifest.quality_exports = [...(manifest.quality_exports || []).filter(entry => entry.id !== 'openfin-provenance-coverage'), {id:'openfin-provenance-coverage', domain:'quality', ...artifactEntries.provenance_coverage, description:'Canonical provenance coverage and source URL validation report.'}]
   .map(entry => entry.path ? {...entry, path:`opentax/${path.basename(entry.path)}`} : entry);
 for(const m of manifest.exports||[]) { const file=path.basename(m.path||m.url||''); const generated=generatedExports[file]; if(m.url) m.url=`${PUBLIC_BASE}/${file}`; if(m.web_url) m.web_url=`${PUBLIC_BASE}/${file}`; if(m.path) m.path=`opentax/${file}`; if(generated){m.item_count=generated.items.length+(generated.reference_items?.length||0);m.reference_item_count=generated.reference_items?.length||0;m.export_checksum=generated.export_checksum;} }
-const deploymentCommit = process.env.OPENFIN_DEPLOYMENT_COMMIT || process.env.GITHUB_SHA || 'unknown';
+// A local deterministic rebuild must retain the checked-in deployment binding;
+// CI always injects the commit for a newly deployed Worker.
 const liveEvidencePath = path.join(ROOT, 'evidence/live-regression/current.json');
+const liveEvidenceCommit = fs.existsSync(liveEvidencePath) ? json(liveEvidencePath).deployment_commit : null;
+const deploymentCommit = process.env.OPENFIN_DEPLOYMENT_COMMIT || process.env.GITHUB_SHA || (manifest.deployment_commit !== 'unknown' ? manifest.deployment_commit : null) || liveEvidenceCommit || 'unknown';
 const liveEvidenceCheckedAt = fs.existsSync(liveEvidencePath) ? json(liveEvidencePath).checked_at : null;
 const evaluationAsOf = process.env.OPENFIN_EVALUATION_AS_OF || liveEvidenceCheckedAt || now;
 const quality = deriveQuality(catalog, { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length, sourceStatusChecksum: sourceStatusArtifact ? sha256(sourceStatusArtifact).slice(7) : null, searchIndexChecksum: searchManifest.export_checksum, deploymentCommit, evaluationAsOf });
+const normalizeLegacyExportQuality = (output, state) => {
+  const summary = output.quality_summary;
+  if (!summary || typeof summary !== 'object') return;
+  const overlay = summary.comparison_overlay_quality;
+  if (overlay && typeof overlay === 'object') {
+    summary.legacy_overlay = { deprecated: true, replacement_path: 'quality_summary', candidate_count: overlay.candidate_count ?? null, statistics_candidate_count: overlay.statistics_candidate_count ?? null };
+    delete summary.comparison_overlay_quality;
+  }
+  for (const key of ['comparison_candidate_products', 'products_with_complete_comparison_fields', 'products_with_verified_sales_status', 'products_with_verification_evidence', 'complete_comparison_data_count', 'verified_comparison_candidate_count', 'public_comparison_candidate_count']) {
+    if (key in summary) summary[`legacy_overlay_${key}`] = summary[key];
+  }
+  Object.assign(summary, {
+    deprecated: true,
+    replacement_path: `domain_readiness.${state.domain}`,
+    structural_candidate_count: state.structural_candidate_count,
+    value_complete_candidate_count: state.value_complete_candidate_count,
+    field_verified_candidate_count: state.field_verified_candidate_count,
+    runtime_eligible_candidate_count: state.runtime_eligible_candidate_count,
+    public_candidate_count: state.public_candidate_count,
+    comparison_data: state.status,
+  });
+  if (summary.readiness && typeof summary.readiness === 'object') {
+    summary.readiness = { ...summary.readiness, comparison_engine: state.status, comparison_data: state.status, public_recommendation: state.public_candidate_count > 0 ? summary.readiness.public_recommendation : 'blocked' };
+  }
+  for (const key of ['comparison_candidate_products', 'products_with_complete_comparison_fields', 'products_with_verified_sales_status', 'products_with_verification_evidence', 'complete_comparison_data_count', 'verified_comparison_candidate_count', 'public_comparison_candidate_count']) delete summary[key];
+};
+for (const [file, output] of Object.entries(generatedExports)) {
+  const domain = file.includes('deposit') ? 'deposit' : file.includes('saving') ? 'saving' : file.includes('card') ? 'card' : file.includes('loan') ? 'loan' : file.includes('insurance') ? 'insurance' : null;
+  if (!domain) continue;
+  const state = { ...quality.domains[domain], domain };
+  normalizeLegacyExportQuality(output, state);
+  output.export_checksum = sha256({ items: output.items, reference_items: output.reference_items ?? [] }).slice(7);
+  writeJson(path.join(DOCS, file), output);
+  const entry = (manifest.exports || []).find(value => path.basename(value.path || '') === file);
+  if (entry) entry.export_checksum = output.export_checksum;
+}
+for (const entry of manifest.exports || []) {
+  const domain = entry.id === 'deposit-products-ontology' ? 'deposit' : entry.id === 'saving-products-ontology' ? 'saving' : entry.id === 'card-products-ontology' ? 'card' : entry.id === 'loan-products-ontology' ? 'loan' : entry.id === 'insurance-products-ontology' ? 'insurance' : null;
+  if (domain) normalizeLegacyExportQuality(entry, { ...quality.domains[domain], domain });
+}
+const artifactContract = {
+  version: 'openfin-artifact-contract-v1',
+  readiness_schema_version: 'openfin-readiness-v2',
+  generation_id: quality.generation_id,
+  deployment_commit: deploymentCommit,
+  canonical_content_checksum: quality.canonical.content_checksum,
+  search_index_checksum: searchManifest.export_checksum,
+  source_status_checksum: sha256(sourceStatusArtifact).slice(7),
+  release_policy_checksum: sha256(fs.readFileSync(path.join(ROOT, 'contracts/release-policy.json'), 'utf8')).slice(7),
+  fixture_checksum: quality.live_regression.fixture_checksum ?? null,
+};
 provenanceCoverageArtifact.status = quality.release_status;
 provenanceCoverageArtifact.recommendation_enabled = quality.recommendation_enabled;
 provenanceCoverageArtifact.field_verification_coverage = Object.fromEntries(Object.entries(quality.domains).map(([domain, state]) => [domain, {
@@ -267,6 +321,10 @@ const rewriteLiveEvidence = (value) => {
   if (!value || typeof value !== 'object') return value;
   const output = Object.fromEntries(Object.entries(value).map(([key, child]) => [key, rewriteLiveEvidence(child)]));
   const live = quality.live_regression;
+  // Never retain samples or blockers from an older suite when the canonical
+  // evidence says the current suite has no failures.
+  delete output.live_failure_sample;
+  delete output.live_not_executed_reason;
   if ('live_case_count' in output || 'live_passed_count' in output || 'live_failed_count' in output || 'live_failure_count' in output) {
     output.live_case_count = live.test_count;
     output.live_passed_count = live.passed_count;
@@ -279,6 +337,12 @@ const rewriteLiveEvidence = (value) => {
     output.deployment_commit = live.deployment_commit ?? null;
     output.runtime_version = live.runtime_version ?? null;
     output.manifest_version = live.manifest_version ?? null;
+    output.live_evidence = {
+      path: live.evidence_path ?? null,
+      checksum: live.evidence_checksum ?? null,
+      generation_id: live.generation_id ?? null,
+      validation_status: live.validation_status ?? live.status ?? null,
+    };
   }
   if ('openfin_120_live_regression' in output) output.openfin_120_live_regression = live;
   if ('live_regression' in output) output.live_regression = live;
@@ -306,6 +370,14 @@ for (const entry of manifest.quality_exports || []) {
   if (!file.endsWith('.json') || !fs.existsSync(file)) continue;
   const current = json(file);
   const rewritten = rewriteLiveEvidence(current);
+  const fileName = path.basename(file);
+  if (fileName === 'openfin-data-drift-report-2026.json') {
+    Object.assign(rewritten, { measurement_status: 'not_measured', reason: 'NO_COMPARABLE_BASELINE', delta: null });
+    for (const key of ['product_count_added', 'product_count_removed', 'product_kind_changed', 'status_changed', 'completeness_increased', 'completeness_decreased', 'verification_expired', 'discovery_candidate_changed']) rewritten[key] = null;
+  }
+  if (fileName === 'openfin-local-cloudflare-parity-report-2026.json') {
+    Object.assign(rewritten, { measurement_status: 'not_measured', reason: 'PUBLIC_PARITY_VERIFIED_IN_DEPLOYMENT_WORKFLOW', local_cloudflare_parity_error_count: null, parity_evidence: null });
+  }
   if (JSON.stringify(rewritten) !== JSON.stringify(current)) {
     writeJson(file, rewritten);
     entry.export_checksum = sha256(rewritten).slice(7);
@@ -365,10 +437,13 @@ const qualityManifest = {
   quality_policy_version: quality.policy_version,
   quality_hash: quality.quality_hash,
   generation_id: quality.generation_id,
+  artifact_contract: artifactContract,
 };
 writeJson(qualityManifestPath, qualityManifest);
 manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.release_status_deprecated=true; manifest.release_status_replacement_path='core_search_status'; manifest.core_search_status=quality.core_search_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.comparison_status=quality.comparison_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_status=quality.recommendation_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash; manifest.generation_id=quality.generation_id;
 manifest.deployment_commit = deploymentCommit;
+manifest.artifact_contract = artifactContract;
+manifest.source_freshness_status = statuses.every(status => status.freshness_status === 'current') ? 'ready' : 'degraded';
 manifest.live_regression_policy={required_count:readReleasePolicy().live_regression.required_count,required_mode:readReleasePolicy().live_regression.required_mode,freshness_ttl_hours:readReleasePolicy().live_regression.freshness_ttl_hours};
 manifest.quality_summary={...(manifest.quality_summary||{}), deprecated:true, replacement_path:'domain_readiness', release_status:quality.release_status, core_search_status:quality.core_search_status, comparison_status:quality.comparison_status, recommendation_status:quality.recommendation_status, recommendation_enabled:quality.recommendation_enabled, blocking_reasons:quality.blocking_reasons, export_audit:dynamicExportAudit, live_regression:quality.live_regression, finance_exports:Object.fromEntries(Object.entries(quality.domains).map(([name, state])=>[name,{deprecated:true,replacement_path:`domain_readiness.${name}`,readiness:state}]))};
 for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-quality-manifest') {

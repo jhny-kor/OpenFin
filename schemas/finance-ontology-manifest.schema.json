@@ -8,6 +8,7 @@
     "platform_release_status": { "enum": ["ready", "degraded"] },
     "comparison_release_status": { "enum": ["blocked", "limited"] },
     "recommendation_release_status": { "enum": ["ready", "blocked"] },
+    "source_freshness_status": { "enum": ["ready", "degraded"] },
     "domain_readiness": {
       "type": "object",
       "additionalProperties": {
@@ -32,6 +33,22 @@
       }
     },
     "generation_id": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "artifact_contract": {
+      "type": "object",
+      "required": ["version", "readiness_schema_version", "generation_id", "deployment_commit", "canonical_content_checksum", "search_index_checksum", "source_status_checksum", "release_policy_checksum", "fixture_checksum"],
+      "properties": {
+        "version": { "const": "openfin-artifact-contract-v1" },
+        "readiness_schema_version": { "const": "openfin-readiness-v2" },
+        "generation_id": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "deployment_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$|^unknown$" },
+        "canonical_content_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "search_index_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "source_status_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "release_policy_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "fixture_checksum": { "type": ["string", "null"], "pattern": "^(sha256:)?[a-f0-9]{64}$" }
+      },
+      "additionalProperties": false
+    },
     "deployment_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$|^unknown$" },
     "release_status_deprecated": { "const": true },
     "release_status_replacement_path": { "const": "core_search_status" }

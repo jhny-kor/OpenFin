@@ -21,7 +21,7 @@ const valid = {
   provider: '공식은행', product_kind: 'deposit', term_months: 12, base_rate_percent: 2, maximum_rate_percent: 3,
   interest_method: 'simple', preferential_rate_conditions: [], minimum_deposit_krw: 1, maximum_deposit_krw: null,
   early_termination_condition: '공시 기준', deposit_protection_status: 'protected', join_member: 'all', join_channel: ['web'],
-  sales_verification_status: 'verified',
+  sales_verification_status: 'verified_active',
   field_assertions: [{ field: 'base_rate_percent', source_id: 'source.test.bank', original_url: 'https://example.com/product', locator: { kind: 'jsonpath', value: '$.rate' }, observed_at: '2026-07-29T00:00:00Z', value_hash: 'sha256:' + 'a'.repeat(64), verification_status: 'verified' }],
   provenance: [{ source_id: 'source.test.bank', original_url: 'https://example.com/product', source_record_id: 'p1', locator: { kind: 'jsonpath', value: '$.rate' }, collected_at: '2026-07-29T00:00:00Z', reviewed_at: '2026-07-29T00:00:00Z', supported_fields: ['base_rate_percent'], verification_status: 'verified' }],
 };

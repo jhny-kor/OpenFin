@@ -28,8 +28,9 @@
         ],
         "structural_candidate_count": 430,
         "value_complete_candidate_count": 2,
-        "field_verified_candidate_count": 2,
-        "runtime_eligible_candidate_count": 2,
+        "strict_type_schema_candidate_count": 0,
+        "field_verified_candidate_count": 0,
+        "runtime_eligible_candidate_count": 0,
         "public_candidate_count": 0,
         "schema_defined": true,
         "decision_field_completeness": 0.004651162790697674,
@@ -39,12 +40,14 @@
         "value_field_coverage": 0.763953488372093,
         "field_verification_coverage": 0.004651162790697674,
         "complete_field_count": 2,
-        "verified_candidate_count": 2,
-        "comparison_data": "pilot_verified",
+        "verified_candidate_count": 0,
+        "comparison_data": "structural_only",
         "recommendation": "blocked",
         "recommendation_mode": "blocked",
-        "status": "pilot_verified",
-        "blockers": [],
+        "status": "structural_only",
+        "blockers": [
+          "STRICT_SCHEMA_NOT_APPLIED"
+        ],
         "missing_required_fields": {
           "base_rate_percent": 0,
           "maximum_rate_percent": 0,
@@ -69,8 +72,8 @@
             "status": "available"
           },
           "verified": {
-            "item_count": 2,
-            "status": "available"
+            "item_count": 0,
+            "status": "blocked"
           }
         }
       }
@@ -98,8 +101,9 @@
         ],
         "structural_candidate_count": 335,
         "value_complete_candidate_count": 8,
-        "field_verified_candidate_count": 8,
-        "runtime_eligible_candidate_count": 8,
+        "strict_type_schema_candidate_count": 0,
+        "field_verified_candidate_count": 0,
+        "runtime_eligible_candidate_count": 0,
         "public_candidate_count": 0,
         "schema_defined": true,
         "decision_field_completeness": 0.023880597014925373,
@@ -109,12 +113,14 @@
         "value_field_coverage": 0.7800995024875622,
         "field_verification_coverage": 0.023880597014925373,
         "complete_field_count": 8,
-        "verified_candidate_count": 8,
-        "comparison_data": "pilot_verified",
+        "verified_candidate_count": 0,
+        "comparison_data": "structural_only",
         "recommendation": "blocked",
         "recommendation_mode": "blocked",
-        "status": "pilot_verified",
-        "blockers": [],
+        "status": "structural_only",
+        "blockers": [
+          "STRICT_SCHEMA_NOT_APPLIED"
+        ],
         "missing_required_fields": {
           "base_rate_percent": 0,
           "maximum_rate_percent": 0,
@@ -139,8 +145,8 @@
             "status": "available"
           },
           "verified": {
-            "item_count": 8,
-            "status": "available"
+            "item_count": 0,
+            "status": "blocked"
           }
         }
       }
@@ -155,6 +161,7 @@
         "required_fields": [],
         "structural_candidate_count": 1007,
         "value_complete_candidate_count": 1007,
+        "strict_type_schema_candidate_count": 0,
         "field_verified_candidate_count": 0,
         "runtime_eligible_candidate_count": 0,
         "public_candidate_count": 0,
@@ -201,6 +208,7 @@
         "required_fields": [],
         "structural_candidate_count": 598,
         "value_complete_candidate_count": 598,
+        "strict_type_schema_candidate_count": 0,
         "field_verified_candidate_count": 0,
         "runtime_eligible_candidate_count": 0,
         "public_candidate_count": 0,
@@ -247,6 +255,7 @@
         "required_fields": [],
         "structural_candidate_count": 1071,
         "value_complete_candidate_count": 1071,
+        "strict_type_schema_candidate_count": 0,
         "field_verified_candidate_count": 0,
         "runtime_eligible_candidate_count": 0,
         "public_candidate_count": 0,
@@ -293,6 +302,7 @@
         "required_fields": [],
         "structural_candidate_count": 0,
         "value_complete_candidate_count": 0,
+        "strict_type_schema_candidate_count": 0,
         "field_verified_candidate_count": 0,
         "runtime_eligible_candidate_count": 0,
         "public_candidate_count": 0,
@@ -1341,7 +1351,13 @@
         "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+        "live_evidence": {
+          "path": "evidence/live-regression/current.json",
+          "checksum": "40f2edc7896672f0a4c26409c4ebeb8c1c4978c5501f77d0e0ba7592aac7df70",
+          "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+          "validation_status": "current"
+        }
       }
     },
     {
@@ -1368,7 +1384,13 @@
         "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+        "live_evidence": {
+          "path": "evidence/live-regression/current.json",
+          "checksum": "40f2edc7896672f0a4c26409c4ebeb8c1c4978c5501f77d0e0ba7592aac7df70",
+          "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+          "validation_status": "current"
+        }
       }
     },
     {
@@ -1389,7 +1411,13 @@
         "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+        "live_evidence": {
+          "path": "evidence/live-regression/current.json",
+          "checksum": "40f2edc7896672f0a4c26409c4ebeb8c1c4978c5501f77d0e0ba7592aac7df70",
+          "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+          "validation_status": "current"
+        }
       }
     },
     {
@@ -1408,7 +1436,13 @@
         "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+        "live_evidence": {
+          "path": "evidence/live-regression/current.json",
+          "checksum": "40f2edc7896672f0a4c26409c4ebeb8c1c4978c5501f77d0e0ba7592aac7df70",
+          "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+          "validation_status": "current"
+        }
       }
     },
     {
@@ -1430,7 +1464,13 @@
         "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+        "live_evidence": {
+          "path": "evidence/live-regression/current.json",
+          "checksum": "40f2edc7896672f0a4c26409c4ebeb8c1c4978c5501f77d0e0ba7592aac7df70",
+          "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+          "validation_status": "current"
+        }
       }
     },
     {
@@ -1449,7 +1489,13 @@
         "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+        "live_evidence": {
+          "path": "evidence/live-regression/current.json",
+          "checksum": "40f2edc7896672f0a4c26409c4ebeb8c1c4978c5501f77d0e0ba7592aac7df70",
+          "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+          "validation_status": "current"
+        }
       }
     },
     {
@@ -1469,7 +1515,13 @@
         "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+        "live_evidence": {
+          "path": "evidence/live-regression/current.json",
+          "checksum": "40f2edc7896672f0a4c26409c4ebeb8c1c4978c5501f77d0e0ba7592aac7df70",
+          "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+          "validation_status": "current"
+        }
       }
     }
   ],
@@ -1504,8 +1556,9 @@
       ],
       "structural_candidate_count": 430,
       "value_complete_candidate_count": 2,
-      "field_verified_candidate_count": 2,
-      "runtime_eligible_candidate_count": 2,
+      "strict_type_schema_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
       "schema_defined": true,
       "decision_field_completeness": 0.004651162790697674,
@@ -1515,12 +1568,14 @@
       "value_field_coverage": 0.763953488372093,
       "field_verification_coverage": 0.004651162790697674,
       "complete_field_count": 2,
-      "verified_candidate_count": 2,
-      "comparison_data": "pilot_verified",
+      "verified_candidate_count": 0,
+      "comparison_data": "structural_only",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "pilot_verified",
-      "blockers": [],
+      "status": "structural_only",
+      "blockers": [
+        "STRICT_SCHEMA_NOT_APPLIED"
+      ],
       "missing_required_fields": {
         "base_rate_percent": 0,
         "maximum_rate_percent": 0,
@@ -1545,8 +1600,8 @@
           "status": "available"
         },
         "verified": {
-          "item_count": 2,
-          "status": "available"
+          "item_count": 0,
+          "status": "blocked"
         }
       }
     },
@@ -1568,8 +1623,9 @@
       ],
       "structural_candidate_count": 335,
       "value_complete_candidate_count": 8,
-      "field_verified_candidate_count": 8,
-      "runtime_eligible_candidate_count": 8,
+      "strict_type_schema_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
       "schema_defined": true,
       "decision_field_completeness": 0.023880597014925373,
@@ -1579,12 +1635,14 @@
       "value_field_coverage": 0.7800995024875622,
       "field_verification_coverage": 0.023880597014925373,
       "complete_field_count": 8,
-      "verified_candidate_count": 8,
-      "comparison_data": "pilot_verified",
+      "verified_candidate_count": 0,
+      "comparison_data": "structural_only",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "pilot_verified",
-      "blockers": [],
+      "status": "structural_only",
+      "blockers": [
+        "STRICT_SCHEMA_NOT_APPLIED"
+      ],
       "missing_required_fields": {
         "base_rate_percent": 0,
         "maximum_rate_percent": 0,
@@ -1609,8 +1667,8 @@
           "status": "available"
         },
         "verified": {
-          "item_count": 8,
-          "status": "available"
+          "item_count": 0,
+          "status": "blocked"
         }
       }
     },
@@ -1619,6 +1677,7 @@
       "required_fields": [],
       "structural_candidate_count": 1007,
       "value_complete_candidate_count": 1007,
+      "strict_type_schema_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
@@ -1659,6 +1718,7 @@
       "required_fields": [],
       "structural_candidate_count": 598,
       "value_complete_candidate_count": 598,
+      "strict_type_schema_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
@@ -1699,6 +1759,7 @@
       "required_fields": [],
       "structural_candidate_count": 1071,
       "value_complete_candidate_count": 1071,
+      "strict_type_schema_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
@@ -1739,6 +1800,7 @@
       "required_fields": [],
       "structural_candidate_count": 0,
       "value_complete_candidate_count": 0,
+      "strict_type_schema_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
@@ -1776,12 +1838,23 @@
     }
   },
   "quality_policy_version": "openfin-release-policy-v1",
-  "quality_hash": "edd5e8b0c23a61210b8cb806cbc4e4ebcd4ed0e725dea4fe07f43e841b9f9d09",
+  "quality_hash": "e131f6ed41cb4071eb73b7491e1612dc2ae367b5d2dc0bcdf20db35a16ada8f0",
   "platform_release_status": "ready",
   "comparison_release_status": "blocked",
   "recommendation_release_status": "blocked",
   "core_search_status": "ready",
   "comparison_status": "blocked",
   "recommendation_status": "blocked",
-  "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
+  "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+  "artifact_contract": {
+    "version": "openfin-artifact-contract-v1",
+    "readiness_schema_version": "openfin-readiness-v2",
+    "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
+    "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
+    "canonical_content_checksum": "42f33b0e6a2877a8937809fcfd4fa1b923560fa0d0e67f0ae2c107f9143cb0ff",
+    "search_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
+    "source_status_checksum": "ead4f882caf2b7cd0ff5c350ac61dfb4d2844aa4e0429592f9abb4fd9ad6c774",
+    "release_policy_checksum": "4bc618cf894698429da31d5b91b56fc3cfacdc73afe26de326ebde8f99fbc6c5",
+    "fixture_checksum": "sha256:c43512d6683261ea1e1c1a2f7e2d471c9ab62d6e925231cd12ea00ea7e0fff66"
+  }
 }

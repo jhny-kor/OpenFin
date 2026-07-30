@@ -1,4 +1,7 @@
 import { RECOMMENDATION_POLICY_VERSION } from "./policy.ts";
+import { isVerifiedActive } from "../product-status.ts";
+import { calculateDepositReturn } from "../calculators/deposit.ts";
+import { calculateSavingReturn } from "../calculators/saving.ts";
 
 type Candidate = Record<string, unknown>;
 
@@ -14,12 +17,13 @@ export function rankCandidate(item: Candidate, preferences: Candidate = {}) {
     provider_preference: 0,
     freshness_confidence: 0,
   };
-  const rate = numeric(item.maximum_rate_percent ?? item.base_rate_percent);
   const taxRate = Math.min(100, Math.max(0, numeric(preferences.tax_rate_percent ?? preferences.tax_rate ?? 15.4)));
-  const principal = numeric(preferences.principal_krw ?? preferences.deposit_amount_krw);
-  if (rate && principal && numeric(item.term_months)) {
-    components.after_tax_return = rounded((rate / 100) * principal * (numeric(item.term_months) / 12) * (1 - taxRate / 100) / 100000);
-  } else if (rate) components.after_tax_return = rounded(rate * (1 - taxRate / 100) * 10);
+  const rate = numeric(item.maximum_rate_percent ?? item.base_rate_percent);
+  const financial_outcome = item.product_kind === "saving" || item.search_type === "saving"
+    ? calculateSavingReturn({ monthly_payment_krw: preferences.monthly_payment_krw ?? preferences.monthly_contribution_krw, annual_rate_percent: rate, term_months: item.term_months, tax_rate_percent: taxRate })
+    : calculateDepositReturn({ principal_krw: preferences.principal_krw ?? preferences.deposit_amount_krw, annual_rate_percent: rate, term_months: item.term_months, tax_rate_percent: taxRate, interest_method: item.interest_method });
+  if (financial_outcome) components.after_tax_return = rounded(Math.min(10, financial_outcome.net_interest_krw / 100000));
+  else if (rate) components.after_tax_return = rounded(rate * (1 - taxRate / 100) * 10);
   if (preferences.provider && preferences.provider === item.provider) components.provider_preference = 2;
   if (preferences.term_months !== undefined && String(preferences.term_months) === String(item.term_months)) components.term_fit = 7;
   const horizon = numeric(preferences.liquidity_horizon_months ?? preferences.max_term_months);
@@ -39,9 +43,9 @@ export function rankCandidate(item: Candidate, preferences: Candidate = {}) {
     components.condition_attainability = 3;
   }
   if (item.freshness_status === "current") components.freshness_confidence += 5;
-  if (item.sales_verification_status === "verified_active") components.freshness_confidence += 5;
+  if (isVerifiedActive(item.sales_verification_status)) components.freshness_confidence += 5;
   const score = Object.values(components).reduce((sum, value) => sum + value, 0);
-  return { score, score_components: components, recommendation_model_version: RECOMMENDATION_POLICY_VERSION };
+  return { score, score_components: components, financial_outcome, recommendation_model_version: RECOMMENDATION_POLICY_VERSION };
 }
 
 export function rankCandidates<T extends Candidate>(items: readonly T[], preferences: Candidate = {}): Array<T & ReturnType<typeof rankCandidate>> {

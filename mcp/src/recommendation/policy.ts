@@ -1,3 +1,5 @@
+import { isVerifiedActive } from "../product-status.ts";
+
 export const RECOMMENDATION_POLICY_VERSION = "openfin-recommendation-policy-v1";
 
 type Product = Record<string, unknown>;
@@ -20,7 +22,7 @@ function currentAndVerified(item: Product): string[] {
   const reasons: string[] = [];
   if (item.verification_status !== "verified") reasons.push("verification_not_verified");
   if (item.freshness_status !== "current") reasons.push(item.freshness_status === "stale" ? "stale_source" : "freshness_unknown");
-  if (item.sales_status !== "active" || item.sales_verification_status !== "verified_active") reasons.push("sales_not_verified");
+  if (item.sales_status !== "active" || !isVerifiedActive(item.sales_verification_status)) reasons.push("sales_not_verified");
   if (item.recommendation_status !== "verified_recommendation_candidate") reasons.push("not_verified_recommendation_candidate");
   if (item.recommendation_scope !== "public_recommendation") reasons.push("not_public_recommendation_scope");
   return reasons;

@@ -3,7 +3,9 @@ import path from 'node:path';
 import { ROOT, KNOWLEDGE, DOCS, json, sha256 } from './common.mjs';
 
 export const RELEASE_POLICY_PATH = path.join(ROOT, 'contracts/release-policy.json');
+export const PRODUCT_STATUS_PATH = path.join(ROOT, 'contracts/product-status.json');
 export const readReleasePolicy = () => json(RELEASE_POLICY_PATH);
+export const readProductStatus = () => json(PRODUCT_STATUS_PATH);
 
 export const readCanonicalRecords = (root = KNOWLEDGE) => {
   const records = [];
@@ -24,6 +26,11 @@ export const readCanonicalRecords = (root = KNOWLEDGE) => {
 };
 
 const PRODUCT_TYPES = new Set(['account-product', 'bank-product', 'card-product', 'financial-product', 'insurance-product']);
+const normalizeSalesStatus = value => {
+  const contract = readProductStatus();
+  if (contract.sales_verification_status.includes(value)) return value;
+  return contract.legacy_aliases?.[value] || 'unknown';
+};
 const domainFor = item => item.search_type === 'deposit' || item.product_kind === 'deposit' ? 'deposit'
   : item.search_type === 'saving' || item.product_kind === 'saving' ? 'saving'
   : item.type === 'card-product' ? 'card'
@@ -44,6 +51,7 @@ const verifiedField = (item, field, evaluationAsOf = null) => assertionFor(item,
     && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
 });
 const fieldVerified = (item, fields) => fields.every(field => present(item[field]) && verifiedField(item, field));
+const strictDecisionCandidate = item => item.decision_critical === true;
 const shaFile = file => fs.existsSync(file) ? sha256(fs.readFileSync(file, 'utf8')).slice(7) : null;
 export const generationId = ({ canonicalContentChecksum, searchIndexChecksum, sourceStatusChecksum, releasePolicyChecksum, deploymentCommit }) => sha256({
   canonical_content_checksum: canonicalContentChecksum,
@@ -92,7 +100,9 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
     const schemaDefined = required.length > 0;
     const requiredFieldTotal = schemaDefined ? items.length * required.length : null;
     const valueCompleteFieldCount = schemaDefined ? items.reduce((total, item) => total + required.filter(field => present(item[field])).length, 0) : null;
-    const fieldVerifiedItems = required.length ? valueComplete.filter(item => required.every(field => present(item[field]) && assertionFor(item, field).some(assertion => {
+    // Entity schema validation runs before this build. decision_critical marks
+    // the records to which its strict type discriminator was successfully applied.
+    const fieldVerifiedItems = required.length ? valueComplete.filter(item => strictDecisionCandidate(item) && required.every(field => present(item[field]) && assertionFor(item, field).some(assertion => {
       const validTo = assertion.valid_to ? Date.parse(assertion.valid_to) : NaN;
       const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : NaN;
       return assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
@@ -102,7 +112,7 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : NaN;
       return assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
     })).length, 0) : null;
-    const runtimeEligible = fieldVerifiedItems.filter(item => item.sales_verification_status === 'verified_active' && (item.sales_status === undefined || item.sales_status === 'active') && item.freshness_status === 'current');
+    const runtimeEligible = fieldVerifiedItems.filter(item => normalizeSalesStatus(item.sales_verification_status) === 'verified_active' && item.sales_status === 'active' && item.freshness_status === 'current');
     const threshold = config.required_verified_candidates || Infinity;
     const status = !items.length ? 'blocked'
       : !schemaDefined ? 'schema_not_defined'
@@ -116,6 +126,7 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       required_fields: required,
       structural_candidate_count: items.length,
       value_complete_candidate_count: valueComplete.length,
+      strict_type_schema_candidate_count: valueComplete.filter(strictDecisionCandidate).length,
       field_verified_candidate_count: fieldVerifiedItems.length,
       runtime_eligible_candidate_count: runtimeEligible.length,
       public_candidate_count: publicCount,
@@ -133,7 +144,7 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       recommendation: config.recommendation,
       recommendation_mode: config.recommendation === 'blocked' ? 'blocked' : 'owner_pilot',
       status,
-      blockers: !schemaDefined ? ['SCHEMA_NOT_DEFINED'] : !fieldVerifiedItems.length ? ['FIELD_ASSERTIONS_INCOMPLETE'] : [],
+      blockers: !schemaDefined ? ['SCHEMA_NOT_DEFINED'] : !valueComplete.some(strictDecisionCandidate) ? ['STRICT_SCHEMA_NOT_APPLIED'] : !fieldVerifiedItems.length ? ['FIELD_ASSERTIONS_INCOMPLETE'] : [],
       missing_required_fields: schemaDefined ? Object.fromEntries(required.map(field => [field, items.filter(item => !present(item[field])).length])) : null,
       data_layers: {
         raw: { item_count: items.filter(item => Array.isArray(item.source_records) && item.source_records.length).length, status: items.some(item => Array.isArray(item.source_records) && item.source_records.length) ? 'available' : 'missing' },

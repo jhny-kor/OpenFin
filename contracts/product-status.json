@@ -1,0 +1,14 @@
+{
+  "version": "openfin-product-status-v1",
+  "sales_verification_status": [
+    "verified_active",
+    "verified_suspended",
+    "verified_ended",
+    "unverified",
+    "unknown"
+  ],
+  "legacy_aliases": {
+    "verified": "verified_active",
+    "listed_unverified": "unverified"
+  }
+}
