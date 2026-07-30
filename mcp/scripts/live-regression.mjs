@@ -24,7 +24,7 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const metadataAttempts = Number(process.env.LIVE_METADATA_ATTEMPTS || 10);
 const metadataDelayMs = Number(process.env.LIVE_METADATA_DELAY_MS || 3000);
 const requestTimeoutMs = Number(process.env.LIVE_REQUEST_TIMEOUT_MS || 10000);
-const caseAttempts = Number(process.env.LIVE_CASE_ATTEMPTS || 2);
+const caseAttempts = Number(process.env.LIVE_CASE_ATTEMPTS || 3);
 const caseRetryDelayMs = Number(process.env.LIVE_CASE_RETRY_DELAY_MS || 500);
 const fetchWithTimeout = async (url, options = {}) => {
   const controller = new AbortController();
