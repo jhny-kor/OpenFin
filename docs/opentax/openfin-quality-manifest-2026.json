@@ -569,13 +569,13 @@
   "openfin_120_live_regression": {
     "status": "current",
     "mode": "live",
-    "checked_at": "2026-07-30T02:36:30.684Z",
+    "checked_at": "2026-07-30T02:48:30.309Z",
     "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
     "runtime_version": "openfin-mcp-2026.07.28.2",
-    "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
-    "generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
+    "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
+    "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-    "manifest_checksum": "e48577e5fbef17c36b1f7aacfc4f532ad97bc78fc9add7d6df0636a6612958f7",
+    "manifest_checksum": "8d009192cc330fb06f10299761bcbf1ae4d9813dfd882a3e262676d525dd3888",
     "loaded_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
     "source_status_checksum": "ead4f882caf2b7cd0ff5c350ac61dfb4d2844aa4e0429592f9abb4fd9ad6c774",
     "loaded_item_count": 21279,
@@ -1320,8 +1320,8 @@
       }
     ],
     "evidence_path": "evidence/live-regression/current.json",
-    "evidence_checksum": "0e0163127350a1c664a9db71b6b99e4e4f93ce9528dd9dd0ad944ad3be91c6d0",
-    "expected_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
+    "evidence_checksum": "40f2edc7896672f0a4c26409c4ebeb8c1c4978c5501f77d0e0ba7592aac7df70",
+    "expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
     "validation_status": "current"
   },
   "quality_reports": [
@@ -1335,13 +1335,13 @@
         "live_failed_count": 0,
         "live_failure_count": 0,
         "report_kind": "verification-coverage",
-        "live_evidence_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
+        "live_evidence_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
         "live_status": "current",
-        "live_tested_at": "2026-07-30T02:36:30.684Z",
-        "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
+        "live_tested_at": "2026-07-30T02:48:30.309Z",
+        "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
       }
     },
     {
@@ -1362,13 +1362,13 @@
         "duplicate_candidate_response_count": 0,
         "duplicate_canonical_product_count": 0,
         "canonical_merge_count": 11,
-        "live_evidence_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
+        "live_evidence_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
         "live_status": "current",
-        "live_tested_at": "2026-07-30T02:36:30.684Z",
-        "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
+        "live_tested_at": "2026-07-30T02:48:30.309Z",
+        "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
       }
     },
     {
@@ -1383,13 +1383,13 @@
         "report_kind": "comparison-regression",
         "failed_count": 0,
         "search_regression_failed_count": 0,
-        "live_evidence_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
+        "live_evidence_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
         "live_status": "current",
-        "live_tested_at": "2026-07-30T02:36:30.684Z",
-        "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
+        "live_tested_at": "2026-07-30T02:48:30.309Z",
+        "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
       }
     },
     {
@@ -1402,13 +1402,13 @@
         "live_failed_count": 0,
         "live_failure_count": 0,
         "report_kind": "recommendation-safety",
-        "live_evidence_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
+        "live_evidence_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
         "live_status": "current",
-        "live_tested_at": "2026-07-30T02:36:30.684Z",
-        "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
+        "live_tested_at": "2026-07-30T02:48:30.309Z",
+        "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
       }
     },
     {
@@ -1424,13 +1424,13 @@
         "jurisdiction_violation_count": 0,
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0,
-        "live_evidence_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
+        "live_evidence_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
         "live_status": "current",
-        "live_tested_at": "2026-07-30T02:36:30.684Z",
-        "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
+        "live_tested_at": "2026-07-30T02:48:30.309Z",
+        "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
       }
     },
     {
@@ -1443,13 +1443,13 @@
         "live_failed_count": 0,
         "live_failure_count": 0,
         "report_kind": "data-drift",
-        "live_evidence_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
+        "live_evidence_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
         "live_status": "current",
-        "live_tested_at": "2026-07-30T02:36:30.684Z",
-        "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
+        "live_tested_at": "2026-07-30T02:48:30.309Z",
+        "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
       }
     },
     {
@@ -1463,13 +1463,13 @@
         "live_failure_count": 0,
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0,
-        "live_evidence_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3",
+        "live_evidence_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737",
         "live_status": "current",
-        "live_tested_at": "2026-07-30T02:36:30.684Z",
-        "deployment_commit": "abe9f0fbeb15bc3b7a7f0049efa1bc3b48bee48a",
+        "live_tested_at": "2026-07-30T02:48:30.309Z",
+        "deployment_commit": "181a087b2572d908335bc33daf76930bb4eb344d",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3"
+        "live_expected_generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
       }
     }
   ],
@@ -1776,12 +1776,12 @@
     }
   },
   "quality_policy_version": "openfin-release-policy-v1",
-  "quality_hash": "1c5b09caa656523d4508ca6a2c567d378683ab12bc58c51ed3ee85e40637def9",
+  "quality_hash": "edd5e8b0c23a61210b8cb806cbc4e4ebcd4ed0e725dea4fe07f43e841b9f9d09",
   "platform_release_status": "ready",
   "comparison_release_status": "blocked",
   "recommendation_release_status": "blocked",
   "core_search_status": "ready",
   "comparison_status": "blocked",
   "recommendation_status": "blocked",
-  "generation_id": "0f1149cd58f8d088e522e320a23ea344dbc0c6c2423e68af600df325ff05bee3"
+  "generation_id": "5433ce9545fbc45fd9bcd4c834f6f7e7faa08e24d89966dc2e7a69c43451a737"
 }
