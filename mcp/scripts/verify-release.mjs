@@ -20,6 +20,6 @@ const checksumsPresent = entries.length > 0 && entries.every((entry) => typeof e
 const checksumVerified = manifestChecksumVerified && checksumsPresent;
 const gate = evaluateReleaseGate({ manifest, checksumVerified, deploymentCommit: process.env.DEPLOYMENT_COMMIT });
 const recommendationOnly = process.argv.includes('--recommendation');
-const result = { manifest_url: manifestUrl, release_status: manifest.release_status, recommendation_enabled: manifest.recommendation_enabled === true, manifest_checksum_verified: manifestChecksumVerified, checksums_present: checksumsPresent, gate, check: recommendationOnly ? 'recommendation' : 'integrity' };
+const result = { manifest_url: manifestUrl, generation_id: manifest.generation_id ?? null, live_generation_id: manifest.openfin_120_live_regression?.generation_id ?? null, core_search_status: manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status, comparison_status: manifest.comparison_status ?? manifest.comparison_release_status, recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status, release_status: manifest.release_status, recommendation_enabled: manifest.recommendation_enabled === true, manifest_checksum_verified: manifestChecksumVerified, checksums_present: checksumsPresent, gate, check: recommendationOnly ? 'recommendation' : 'integrity' };
 console.log(JSON.stringify(result, null, 2));
 if (!checksumVerified || (recommendationOnly && manifest.recommendation_enabled === true && gate.status !== "ready")) process.exit(1);

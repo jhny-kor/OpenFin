@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/types/insurance.schema.json",
+  "title": "OpenFin decision-critical insurance",
+  "$ref": "insurance-product.schema.json"
+}

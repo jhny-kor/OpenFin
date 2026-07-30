@@ -12,7 +12,7 @@ const validator = () => {
   const ajv = new Ajv2020({ allErrors: true, strict: false });
   addFormats(ajv);
   for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'entity.schema.json']) ajv.addSchema(JSON.parse(fs.readFileSync(path.join(schemaDir, file))), file);
-  for (const file of ['bank-product.schema.json', 'card-product.schema.json', 'insurance-product.schema.json', 'support-program.schema.json']) ajv.addSchema(JSON.parse(fs.readFileSync(path.join(schemaDir, 'types', file))), `types/${file}`);
+  for (const file of ['bank-product.schema.json', 'deposit.schema.json', 'saving.schema.json', 'loan.schema.json', 'card.schema.json', 'card-product.schema.json', 'insurance.schema.json', 'insurance-product.schema.json', 'support-program.schema.json']) ajv.addSchema(JSON.parse(fs.readFileSync(path.join(schemaDir, 'types', file))), `types/${file}`);
   return ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/entity.schema.json');
 };
 

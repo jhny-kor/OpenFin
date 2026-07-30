@@ -6,11 +6,83 @@
   "provenance_covered_count": 21133,
   "external_provenance_covered_count": 21133,
   "external_provenance_coverage_ratio": 1,
+  "official_primary_source_ratio": 0.9846685278947618,
   "source_registry_count": 145,
   "collected_record_count": 20543,
   "deterministic_checksum_count": 20543,
+  "freshness_sla_coverage_ratio": 0.6482758620689655,
+  "sales_status_current_ratio": 0.00935672514619883,
+  "unresolved_assertion_conflict_count": 0,
   "invalid_legacy_url_count": 0,
   "invalid_legacy_urls": [],
   "recommendation_enabled": false,
-  "status": "ready"
+  "status": "ready",
+  "field_verification_coverage": {
+    "deposit": {
+      "schema_defined": true,
+      "required_field_total": 5160,
+      "value_complete_field_count": 3942,
+      "field_verified_count": 24,
+      "value_field_coverage": 0.763953488372093,
+      "field_verification_coverage": 0.004651162790697674,
+      "value_complete_candidate_count": 2,
+      "field_verified_candidate_count": 2,
+      "ratio": 0.004651162790697674
+    },
+    "saving": {
+      "schema_defined": true,
+      "required_field_total": 4020,
+      "value_complete_field_count": 3136,
+      "field_verified_count": 96,
+      "value_field_coverage": 0.7800995024875622,
+      "field_verification_coverage": 0.023880597014925373,
+      "value_complete_candidate_count": 8,
+      "field_verified_candidate_count": 8,
+      "ratio": 0.023880597014925373
+    },
+    "card": {
+      "schema_defined": false,
+      "required_field_total": null,
+      "value_complete_field_count": null,
+      "field_verified_count": null,
+      "value_field_coverage": null,
+      "field_verification_coverage": null,
+      "value_complete_candidate_count": 1007,
+      "field_verified_candidate_count": 0,
+      "ratio": null
+    },
+    "loan": {
+      "schema_defined": false,
+      "required_field_total": null,
+      "value_complete_field_count": null,
+      "field_verified_count": null,
+      "value_field_coverage": null,
+      "field_verification_coverage": null,
+      "value_complete_candidate_count": 598,
+      "field_verified_candidate_count": 0,
+      "ratio": null
+    },
+    "insurance": {
+      "schema_defined": false,
+      "required_field_total": null,
+      "value_complete_field_count": null,
+      "field_verified_count": null,
+      "value_field_coverage": null,
+      "field_verification_coverage": null,
+      "value_complete_candidate_count": 1071,
+      "field_verified_candidate_count": 0,
+      "ratio": null
+    },
+    "pension": {
+      "schema_defined": false,
+      "required_field_total": null,
+      "value_complete_field_count": null,
+      "field_verified_count": null,
+      "value_field_coverage": null,
+      "field_verification_coverage": null,
+      "value_complete_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "ratio": null
+    }
+  }
 }

@@ -1,9 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["release_status", "platform_release_status", "comparison_release_status", "recommendation_release_status", "domain_readiness"],
+  "required": ["release_status", "core_search_status", "platform_release_status", "comparison_release_status", "recommendation_release_status", "domain_readiness", "generation_id"],
   "properties": {
     "release_status": { "enum": ["ready", "degraded"] },
+    "core_search_status": { "enum": ["ready", "degraded"] },
     "platform_release_status": { "enum": ["ready", "degraded"] },
     "comparison_release_status": { "enum": ["blocked", "limited"] },
     "recommendation_release_status": { "enum": ["ready", "blocked"] },
@@ -18,9 +19,20 @@
           "field_verified_candidate_count": { "type": "integer", "minimum": 0 },
           "runtime_eligible_candidate_count": { "type": "integer", "minimum": 0 },
           "public_candidate_count": { "type": "integer", "minimum": 0 },
-          "status": { "enum": ["blocked", "engine_ready", "structural_only", "pilot_verified", "limited_public_ready", "domain_coverage_incomplete"] }
+        "schema_defined": { "type": "boolean" },
+        "required_field_total": { "type": ["integer", "null"], "minimum": 0 },
+        "value_complete_field_count": { "type": ["integer", "null"], "minimum": 0 },
+        "field_verified_count": { "type": ["integer", "null"], "minimum": 0 },
+        "value_field_coverage": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "field_verification_coverage": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "decision_field_completeness": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "complete_field_count": { "type": ["integer", "null"], "minimum": 0 },
+          "status": { "enum": ["blocked", "engine_ready", "structural_only", "pilot_verified", "limited_public_ready", "domain_coverage_incomplete", "schema_not_defined"] }
         }
       }
-    }
+    },
+    "generation_id": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "release_status_deprecated": { "const": true },
+    "release_status_replacement_path": { "const": "core_search_status" }
   }
 }

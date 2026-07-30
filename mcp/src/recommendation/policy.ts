@@ -28,6 +28,7 @@ function currentAndVerified(item: Product): string[] {
 
 export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
   const constraints = inputs.constraints ?? {};
+  const context = inputs.decision_context ?? {};
   const matched_conditions: string[] = [];
   const failed_conditions: string[] = currentAndVerified(item);
   const unknown_conditions: string[] = [];
@@ -48,6 +49,24 @@ export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
   addExact("saving_method", ["saving_method"], "saving_method");
   addExact("join_channel", ["join_channel", "join_channels"], "join_channel");
 
+  // Only explicitly named decision-context constraints become hard checks;
+  // profile preferences stay in ranking and never silently change eligibility.
+  const liquidity = context.liquidity_requirement;
+  const liquidityMonths = liquidity && typeof liquidity === "object" && !Array.isArray(liquidity) ? number((liquidity as Product).months) : undefined;
+  if (liquidityMonths !== undefined) {
+    const term = number(value(item, "term_months"));
+    if (term === undefined) unknown_conditions.push("term_months");
+    else if (term > liquidityMonths) failed_conditions.push("term_exceeds_liquidity_horizon");
+    else matched_conditions.push("liquidity_horizon_matched");
+  }
+  const riskCapacity = typeof context.risk_capacity === "string" ? context.risk_capacity : undefined;
+  if (riskCapacity) {
+    const risk = typeof item.risk_level === "string" ? item.risk_level : undefined;
+    if (!risk) unknown_conditions.push("product_risk_level");
+    else if (riskCapacity !== risk) failed_conditions.push("risk_capacity_failed");
+    else matched_conditions.push("risk_capacity_matched");
+  }
+
   const minAmount = number(constraints.minimum_amount_krw ?? constraints.min_amount_krw);
   const maxAmount = number(constraints.maximum_amount_krw ?? constraints.max_amount_krw);
   const productMin = number(value(item, "minimum_deposit_krw", "monthly_payment_min_krw"));
@@ -65,7 +84,11 @@ export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
 
   const requiredConditions = asArray(constraints.eligible_conditions);
   if (requiredConditions.length) {
-    const normalize = (condition: string) => condition.trim().toLocaleLowerCase("ko-KR").replace(/[^\p{L}\p{N}]+/gu, "");
+    const aliases: Record<string, string> = { salarytransfer: "급여이체", salarydeposit: "급여이체", autopay: "자동이체", cardspend: "카드실적" };
+    const normalize = (condition: string) => {
+      const compact = condition.trim().toLocaleLowerCase("ko-KR").replace(/[^\p{L}\p{N}]+/gu, "");
+      return aliases[compact] ?? compact;
+    };
     const available = new Set(asArray(item.preferential_rate_conditions).concat(asArray(item.eligible_conditions)).map(normalize));
     const missing = requiredConditions.filter((condition) => !available.has(normalize(condition)));
     if (missing.length) unknown_conditions.push(...missing.map((condition) => `condition_unknown:${condition}`));

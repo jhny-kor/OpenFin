@@ -215,7 +215,12 @@ const covered = catalog.filter(i=>Array.isArray(i.provenance)&&i.provenance.leng
 const collected = catalog.filter(i=>i.source_record_id!=null).length;
 const checksummed = catalog.filter(i=>i.provenance?.some(p=>p.checksum)).length;
 const invalidUrls = catalog.flatMap(i=>i.source_urls||[]).filter(v=>!validUrl(v));
-const provenanceCoverageArtifact = {version:'OPENFIN-PROVENANCE-COVERAGE-2026.07.28.1', generated_at:now, item_count:catalog.length, external_item_count:externalItems.length, provenance_covered_count:covered, external_provenance_covered_count:externalItems.filter(i=>i.provenance?.length).length, external_provenance_coverage_ratio:externalItems.length?externalItems.filter(i=>i.provenance?.length).length/externalItems.length:1, source_registry_count:catalog.filter(i=>i.type==='source').length, collected_record_count:collected, deterministic_checksum_count:checksummed, invalid_legacy_url_count:invalidUrls.length, invalid_legacy_urls:[...new Set(invalidUrls)].sort(), recommendation_enabled:null, status:'unknown'};
+const sourceById = new Map(sourceRegistry.map(source => [source.id, source]));
+const officialExternal = externalItems.filter(item => (item.sources || []).some(id => ['law_official', 'government_official', 'regulator_official', 'association_official', 'provider_official'].includes(sourceById.get(id)?.authority_class)));
+const assertionConflicts = catalog.reduce((count, item) => count + (item.source_assertions || []).filter(assertion => assertion.conflict === true || assertion.verification_status === 'conflict').length, 0);
+const freshnessCurrent = statuses.filter(status => status.freshness_status === 'current').length;
+const salesCurrent = productNodes.filter(item => item.sales_verification_status === 'verified_active' && item.freshness_status === 'current').length;
+const provenanceCoverageArtifact = {version:'OPENFIN-PROVENANCE-COVERAGE-2026.07.28.1', generated_at:now, item_count:catalog.length, external_item_count:externalItems.length, provenance_covered_count:covered, external_provenance_covered_count:externalItems.filter(i=>i.provenance?.length).length, external_provenance_coverage_ratio:externalItems.length?externalItems.filter(i=>i.provenance?.length).length/externalItems.length:1, official_primary_source_ratio:externalItems.length?officialExternal.length/externalItems.length:1, source_registry_count:catalog.filter(i=>i.type==='source').length, collected_record_count:collected, deterministic_checksum_count:checksummed, freshness_sla_coverage_ratio:statuses.length?freshnessCurrent/statuses.length:1, sales_status_current_ratio:productNodes.length?salesCurrent/productNodes.length:1, unresolved_assertion_conflict_count:assertionConflicts, invalid_legacy_url_count:invalidUrls.length, invalid_legacy_urls:[...new Set(invalidUrls)].sort(), recommendation_enabled:null, status:'unknown'};
 writeJson(path.join(DOCS,'openfin-provenance-coverage-report-2026.json'), provenanceCoverageArtifact);
 const relations=[];
 for(const item of catalog){for(const relation of RELATION_KEYS){const values = Array.isArray(item[relation]) ? item[relation] : item[relation] == null ? [] : [item[relation]]; for(const to of values){relations.push({from:item.id,relation,to:String(to)})}}}
@@ -232,14 +237,79 @@ Object.assign(manifest, artifactEntries); Object.assign(manifest.artifacts, arti
 manifest.quality_exports = [...(manifest.quality_exports || []).filter(entry => entry.id !== 'openfin-provenance-coverage'), {id:'openfin-provenance-coverage', domain:'quality', ...artifactEntries.provenance_coverage, description:'Canonical provenance coverage and source URL validation report.'}]
   .map(entry => entry.path ? {...entry, path:`opentax/${path.basename(entry.path)}`} : entry);
 for(const m of manifest.exports||[]) { const file=path.basename(m.path||m.url||''); const generated=generatedExports[file]; if(m.url) m.url=`${PUBLIC_BASE}/${file}`; if(m.web_url) m.web_url=`${PUBLIC_BASE}/${file}`; if(m.path) m.path=`opentax/${file}`; if(generated){m.item_count=generated.items.length+(generated.reference_items?.length||0);m.reference_item_count=generated.reference_items?.length||0;m.export_checksum=generated.export_checksum;} }
-const quality = deriveQuality(catalog, { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length, sourceStatusChecksum: sourceStatusArtifact ? sha256(sourceStatusArtifact).slice(7) : null });
+const deploymentCommit = process.env.OPENFIN_DEPLOYMENT_COMMIT || process.env.GITHUB_SHA || 'unknown';
+const evaluationAsOf = process.env.OPENFIN_EVALUATION_AS_OF || now;
+const quality = deriveQuality(catalog, { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length, sourceStatusChecksum: sourceStatusArtifact ? sha256(sourceStatusArtifact).slice(7) : null, searchIndexChecksum: searchManifest.export_checksum, deploymentCommit, evaluationAsOf });
 provenanceCoverageArtifact.status = quality.release_status;
 provenanceCoverageArtifact.recommendation_enabled = quality.recommendation_enabled;
+provenanceCoverageArtifact.field_verification_coverage = Object.fromEntries(Object.entries(quality.domains).map(([domain, state]) => [domain, {
+  schema_defined: state.schema_defined,
+  required_field_total: state.required_field_total,
+  value_complete_field_count: state.value_complete_field_count,
+  field_verified_count: state.field_verified_count,
+  value_field_coverage: state.value_field_coverage,
+  field_verification_coverage: state.field_verification_coverage,
+  value_complete_candidate_count: state.value_complete_candidate_count,
+  field_verified_candidate_count: state.field_verified_candidate_count,
+  ratio: state.schema_defined && state.item_count ? state.field_verified_candidate_count / state.item_count : null,
+}]));
 writeJson(path.join(DOCS,'openfin-provenance-coverage-report-2026.json'), provenanceCoverageArtifact);
 artifactEntries.provenance_coverage = artifactEntry('openfin-provenance-coverage','quality','openfin-provenance-coverage-report-2026.json',provenanceCoverageArtifact,1,{coverage:{external_provenance_coverage_ratio:provenanceCoverageArtifact.external_provenance_coverage_ratio,status:provenanceCoverageArtifact.status}});
 manifest.provenance_coverage = artifactEntries.provenance_coverage;
 manifest.artifacts.provenance_coverage = artifactEntries.provenance_coverage;
 for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-provenance-coverage') Object.assign(entry, artifactEntries.provenance_coverage);
+// Legacy quality exports remain addressable, but their live counters must be
+// projections of the one current evidence file rather than stale snapshots.
+const rewriteLiveEvidence = (value) => {
+  if (Array.isArray(value)) return value.map(rewriteLiveEvidence);
+  if (!value || typeof value !== 'object') return value;
+  const output = Object.fromEntries(Object.entries(value).map(([key, child]) => [key, rewriteLiveEvidence(child)]));
+  const live = quality.live_regression;
+  if ('live_case_count' in output || 'live_passed_count' in output || 'live_failed_count' in output || 'live_failure_count' in output) {
+    output.live_case_count = live.test_count;
+    output.live_passed_count = live.passed_count;
+    output.live_failed_count = live.failed_count;
+    output.live_failure_count = live.failed_count;
+    output.live_evidence_generation_id = live.generation_id ?? null;
+    output.live_expected_generation_id = live.expected_generation_id ?? quality.generation_id;
+    output.live_status = live.validation_status;
+    output.live_tested_at = live.checked_at ?? null;
+    output.deployment_commit = live.deployment_commit ?? null;
+    output.runtime_version = live.runtime_version ?? null;
+    output.manifest_version = live.manifest_version ?? null;
+  }
+  if ('openfin_120_live_regression' in output) output.openfin_120_live_regression = live;
+  if ('live_regression' in output) output.live_regression = live;
+  if (output.live_summary && typeof output.live_summary === 'object' && !Array.isArray(output.live_summary)) {
+    output.live_summary = {
+      ...output.live_summary,
+      endpoint: live.endpoint ?? output.live_summary.endpoint ?? null,
+      live_status: live.validation_status ?? live.status ?? null,
+      checked_at: live.checked_at ?? null,
+      runtime_version: live.runtime_version ?? null,
+      deployment_commit: live.deployment_commit ?? null,
+      manifest_version: live.manifest_version ?? null,
+      manifest_checksum: live.manifest_checksum ?? null,
+      search_index_checksum: live.loaded_index_checksum ?? null,
+      test_count: live.test_count ?? 0,
+      passed_count: live.passed_count ?? 0,
+      failed_count: live.failed_count ?? 0,
+      generation_id: live.generation_id ?? null,
+    };
+  }
+  return output;
+};
+for (const entry of manifest.quality_exports || []) {
+  const file = path.join(DOCS, path.basename(entry.path || ''));
+  if (!file.endsWith('.json') || !fs.existsSync(file)) continue;
+  const current = json(file);
+  const rewritten = rewriteLiveEvidence(current);
+  if (JSON.stringify(rewritten) !== JSON.stringify(current)) {
+    writeJson(file, rewritten);
+    entry.export_checksum = sha256(rewritten).slice(7);
+    entry.generated_at = now;
+  }
+}
 const qualityManifestPath = path.join(DOCS, 'openfin-quality-manifest-2026.json');
 const existingQualityManifest = fs.existsSync(qualityManifestPath) ? json(qualityManifestPath) : {};
 const dynamicQualitySummaries = Object.entries(quality.domains).map(([domain, readiness]) => ({
@@ -275,9 +345,12 @@ const qualityManifest = {
   generated_at: now,
   built_at: now,
   release_status: quality.release_status,
+  core_search_status: quality.core_search_status,
   platform_release_status: quality.platform_release_status,
   comparison_release_status: quality.comparison_release_status,
+  comparison_status: quality.comparison_status,
   recommendation_release_status: quality.recommendation_release_status,
+  recommendation_status: quality.recommendation_status,
   recommendation_enabled: quality.recommendation_enabled,
   blocking_reasons: quality.blocking_reasons,
   degraded_domains: quality.degraded_domains,
@@ -289,11 +362,12 @@ const qualityManifest = {
   openfin_120_live_regression: quality.live_regression,
   quality_policy_version: quality.policy_version,
   quality_hash: quality.quality_hash,
+  generation_id: quality.generation_id,
 };
 writeJson(qualityManifestPath, qualityManifest);
-manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash;
+manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.release_status_deprecated=true; manifest.release_status_replacement_path='core_search_status'; manifest.core_search_status=quality.core_search_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.comparison_status=quality.comparison_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_status=quality.recommendation_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash; manifest.generation_id=quality.generation_id;
 manifest.live_regression_policy={required_count:readReleasePolicy().live_regression.required_count,required_mode:readReleasePolicy().live_regression.required_mode,freshness_ttl_hours:readReleasePolicy().live_regression.freshness_ttl_hours};
-manifest.quality_summary={...(manifest.quality_summary||{}), deprecated:true, replacement_path:'domain_readiness', release_status:quality.release_status, recommendation_enabled:quality.recommendation_enabled, blocking_reasons:quality.blocking_reasons, export_audit:dynamicExportAudit, finance_exports:Object.fromEntries(Object.entries(quality.domains).map(([name, state])=>[name,{deprecated:true,replacement_path:`domain_readiness.${name}`,readiness:state}]))};
+manifest.quality_summary={...(manifest.quality_summary||{}), deprecated:true, replacement_path:'domain_readiness', release_status:quality.release_status, core_search_status:quality.core_search_status, comparison_status:quality.comparison_status, recommendation_status:quality.recommendation_status, recommendation_enabled:quality.recommendation_enabled, blocking_reasons:quality.blocking_reasons, export_audit:dynamicExportAudit, live_regression:quality.live_regression, finance_exports:Object.fromEntries(Object.entries(quality.domains).map(([name, state])=>[name,{deprecated:true,replacement_path:`domain_readiness.${name}`,readiness:state}]))};
 for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-quality-manifest') {
   entry.generated_at = now;
   entry.export_checksum = sha256(qualityManifest).slice(7);

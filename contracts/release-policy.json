@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": "openfin-release-policy-v1",
   "scope": "personal-finance-platform",
-  "quality_statuses": ["engine_ready", "pilot_data_ready", "limited_public_ready", "domain_coverage_incomplete", "blocked"],
+  "quality_statuses": ["pilot_verified", "structural_only", "limited_public_ready", "domain_coverage_incomplete", "schema_not_defined", "blocked"],
   "live_regression": {
     "required_count": 120,
     "required_mode": "live",

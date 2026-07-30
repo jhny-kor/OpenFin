@@ -31,6 +31,13 @@
         "field_verified_candidate_count": 2,
         "runtime_eligible_candidate_count": 2,
         "public_candidate_count": 0,
+        "schema_defined": true,
+        "decision_field_completeness": 0.004651162790697674,
+        "required_field_total": 5160,
+        "value_complete_field_count": 3942,
+        "field_verified_count": 24,
+        "value_field_coverage": 0.763953488372093,
+        "field_verification_coverage": 0.004651162790697674,
         "complete_field_count": 2,
         "verified_candidate_count": 2,
         "comparison_data": "pilot_verified",
@@ -94,6 +101,13 @@
         "field_verified_candidate_count": 8,
         "runtime_eligible_candidate_count": 8,
         "public_candidate_count": 0,
+        "schema_defined": true,
+        "decision_field_completeness": 0.023880597014925373,
+        "required_field_total": 4020,
+        "value_complete_field_count": 3136,
+        "field_verified_count": 96,
+        "value_field_coverage": 0.7800995024875622,
+        "field_verification_coverage": 0.023880597014925373,
         "complete_field_count": 8,
         "verified_candidate_count": 8,
         "comparison_data": "pilot_verified",
@@ -144,14 +158,23 @@
         "field_verified_candidate_count": 0,
         "runtime_eligible_candidate_count": 0,
         "public_candidate_count": 0,
-        "complete_field_count": 1007,
+        "schema_defined": false,
+        "decision_field_completeness": null,
+        "required_field_total": null,
+        "value_complete_field_count": null,
+        "field_verified_count": null,
+        "value_field_coverage": null,
+        "field_verification_coverage": null,
+        "complete_field_count": null,
         "verified_candidate_count": 0,
-        "comparison_data": "engine_ready",
+        "comparison_data": "schema_not_defined",
         "recommendation": "blocked",
         "recommendation_mode": "blocked",
-        "status": "engine_ready",
-        "blockers": [],
-        "missing_required_fields": {},
+        "status": "schema_not_defined",
+        "blockers": [
+          "SCHEMA_NOT_DEFINED"
+        ],
+        "missing_required_fields": null,
         "data_layers": {
           "raw": {
             "item_count": 1007,
@@ -181,14 +204,23 @@
         "field_verified_candidate_count": 0,
         "runtime_eligible_candidate_count": 0,
         "public_candidate_count": 0,
-        "complete_field_count": 598,
+        "schema_defined": false,
+        "decision_field_completeness": null,
+        "required_field_total": null,
+        "value_complete_field_count": null,
+        "field_verified_count": null,
+        "value_field_coverage": null,
+        "field_verification_coverage": null,
+        "complete_field_count": null,
         "verified_candidate_count": 0,
-        "comparison_data": "engine_ready",
+        "comparison_data": "schema_not_defined",
         "recommendation": "blocked",
         "recommendation_mode": "blocked",
-        "status": "engine_ready",
-        "blockers": [],
-        "missing_required_fields": {},
+        "status": "schema_not_defined",
+        "blockers": [
+          "SCHEMA_NOT_DEFINED"
+        ],
+        "missing_required_fields": null,
         "data_layers": {
           "raw": {
             "item_count": 598,
@@ -218,14 +250,23 @@
         "field_verified_candidate_count": 0,
         "runtime_eligible_candidate_count": 0,
         "public_candidate_count": 0,
-        "complete_field_count": 1071,
+        "schema_defined": false,
+        "decision_field_completeness": null,
+        "required_field_total": null,
+        "value_complete_field_count": null,
+        "field_verified_count": null,
+        "value_field_coverage": null,
+        "field_verification_coverage": null,
+        "complete_field_count": null,
         "verified_candidate_count": 0,
-        "comparison_data": "engine_ready",
+        "comparison_data": "schema_not_defined",
         "recommendation": "blocked",
         "recommendation_mode": "blocked",
-        "status": "engine_ready",
-        "blockers": [],
-        "missing_required_fields": {},
+        "status": "schema_not_defined",
+        "blockers": [
+          "SCHEMA_NOT_DEFINED"
+        ],
+        "missing_required_fields": null,
         "data_layers": {
           "raw": {
             "item_count": 1071,
@@ -255,14 +296,23 @@
         "field_verified_candidate_count": 0,
         "runtime_eligible_candidate_count": 0,
         "public_candidate_count": 0,
-        "complete_field_count": 0,
+        "schema_defined": false,
+        "decision_field_completeness": null,
+        "required_field_total": null,
+        "value_complete_field_count": null,
+        "field_verified_count": null,
+        "value_field_coverage": null,
+        "field_verification_coverage": null,
+        "complete_field_count": null,
         "verified_candidate_count": 0,
         "comparison_data": "blocked",
         "recommendation": "blocked",
         "recommendation_mode": "blocked",
         "status": "blocked",
-        "blockers": [],
-        "missing_required_fields": {},
+        "blockers": [
+          "SCHEMA_NOT_DEFINED"
+        ],
+        "missing_required_fields": null,
         "data_layers": {
           "raw": {
             "item_count": 0,
@@ -1015,7 +1065,9 @@
       }
     ],
     "evidence_path": "evidence/live-regression/current.json",
-    "evidence_checksum": "5d5c5dc446543877583376b8cf593174461460e09537cdfe8a9e7335540d19bd"
+    "evidence_checksum": "5d5c5dc446543877583376b8cf593174461460e09537cdfe8a9e7335540d19bd",
+    "expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c",
+    "validation_status": "stale_generation"
   },
   "quality_reports": [
     {
@@ -1024,10 +1076,17 @@
       "export_checksum": "9aabf23f3ce7686b284b27815ba1c7a86eee4709e9bbf6be9bd7e0cc5d33a990",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
-        "report_kind": "verification-coverage"
+        "live_passed_count": 120,
+        "live_failed_count": 0,
+        "live_failure_count": 0,
+        "report_kind": "verification-coverage",
+        "live_evidence_generation_id": null,
+        "live_status": "stale_generation",
+        "live_tested_at": "2026-07-29T23:16:42.430Z",
+        "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
+        "runtime_version": "openfin-mcp-2026.07.28.2",
+        "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+        "live_expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c"
       }
     },
     {
@@ -1036,9 +1095,9 @@
       "export_checksum": "56f3fd44f3fd25068f732c91432c054af46e01c1acdb567a8b4086d5768607f9",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
+        "live_passed_count": 120,
+        "live_failed_count": 0,
+        "live_failure_count": 0,
         "report_kind": "semantic-duplicate",
         "exact_id_duplicate_count": 0,
         "external_id_duplicate_count": 0,
@@ -1047,7 +1106,14 @@
         "unresolved_semantic_duplicate_count": 0,
         "duplicate_candidate_response_count": 0,
         "duplicate_canonical_product_count": 0,
-        "canonical_merge_count": 11
+        "canonical_merge_count": 11,
+        "live_evidence_generation_id": null,
+        "live_status": "stale_generation",
+        "live_tested_at": "2026-07-29T23:16:42.430Z",
+        "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
+        "runtime_version": "openfin-mcp-2026.07.28.2",
+        "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+        "live_expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c"
       }
     },
     {
@@ -1056,12 +1122,19 @@
       "export_checksum": "f12f3dde4c6d66a9217fcee9b8d2dc5c861173df3e747819a56406e4415c6178",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
+        "live_passed_count": 120,
+        "live_failed_count": 0,
+        "live_failure_count": 0,
         "report_kind": "comparison-regression",
         "failed_count": 0,
-        "search_regression_failed_count": 0
+        "search_regression_failed_count": 0,
+        "live_evidence_generation_id": null,
+        "live_status": "stale_generation",
+        "live_tested_at": "2026-07-29T23:16:42.430Z",
+        "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
+        "runtime_version": "openfin-mcp-2026.07.28.2",
+        "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+        "live_expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c"
       }
     },
     {
@@ -1070,10 +1143,17 @@
       "export_checksum": "b2df8a635006349727aa4b87fcbcfd18478c51f15bb0a5ff494f82d8ec217310",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
-        "report_kind": "recommendation-safety"
+        "live_passed_count": 120,
+        "live_failed_count": 0,
+        "live_failure_count": 0,
+        "report_kind": "recommendation-safety",
+        "live_evidence_generation_id": null,
+        "live_status": "stale_generation",
+        "live_tested_at": "2026-07-29T23:16:42.430Z",
+        "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
+        "runtime_version": "openfin-mcp-2026.07.28.2",
+        "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+        "live_expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c"
       }
     },
     {
@@ -1082,13 +1162,20 @@
       "export_checksum": "67389d58f571f86cc1c2fda2523d8a3da788c616041b436fa289eb279eeac101",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
+        "live_passed_count": 120,
+        "live_failed_count": 0,
+        "live_failure_count": 0,
         "report_kind": "support-relevance",
         "jurisdiction_violation_count": 0,
         "support_category_violation_count": 0,
-        "unknown_constraint_false_match_count": 0
+        "unknown_constraint_false_match_count": 0,
+        "live_evidence_generation_id": null,
+        "live_status": "stale_generation",
+        "live_tested_at": "2026-07-29T23:16:42.430Z",
+        "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
+        "runtime_version": "openfin-mcp-2026.07.28.2",
+        "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+        "live_expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c"
       }
     },
     {
@@ -1097,10 +1184,17 @@
       "export_checksum": "6d0680f31f943a68f96f5f6c340b7aa3278d91327f0d3d897b7126b6a90d4f8c",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
-        "report_kind": "data-drift"
+        "live_passed_count": 120,
+        "live_failed_count": 0,
+        "live_failure_count": 0,
+        "report_kind": "data-drift",
+        "live_evidence_generation_id": null,
+        "live_status": "stale_generation",
+        "live_tested_at": "2026-07-29T23:16:42.430Z",
+        "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
+        "runtime_version": "openfin-mcp-2026.07.28.2",
+        "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+        "live_expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c"
       }
     },
     {
@@ -1109,11 +1203,18 @@
       "export_checksum": "5ec437823e07221157988dffa0b54e496614df8ca3b503fefe7a05e5f54cf922",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
+        "live_passed_count": 120,
+        "live_failed_count": 0,
+        "live_failure_count": 0,
         "report_kind": "local-cloudflare-parity",
-        "local_cloudflare_parity_error_count": 0
+        "local_cloudflare_parity_error_count": 0,
+        "live_evidence_generation_id": null,
+        "live_status": "stale_generation",
+        "live_tested_at": "2026-07-29T23:16:42.430Z",
+        "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
+        "runtime_version": "openfin-mcp-2026.07.28.2",
+        "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+        "live_expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c"
       }
     }
   ],
@@ -1151,6 +1252,13 @@
       "field_verified_candidate_count": 2,
       "runtime_eligible_candidate_count": 2,
       "public_candidate_count": 0,
+      "schema_defined": true,
+      "decision_field_completeness": 0.004651162790697674,
+      "required_field_total": 5160,
+      "value_complete_field_count": 3942,
+      "field_verified_count": 24,
+      "value_field_coverage": 0.763953488372093,
+      "field_verification_coverage": 0.004651162790697674,
       "complete_field_count": 2,
       "verified_candidate_count": 2,
       "comparison_data": "pilot_verified",
@@ -1208,6 +1316,13 @@
       "field_verified_candidate_count": 8,
       "runtime_eligible_candidate_count": 8,
       "public_candidate_count": 0,
+      "schema_defined": true,
+      "decision_field_completeness": 0.023880597014925373,
+      "required_field_total": 4020,
+      "value_complete_field_count": 3136,
+      "field_verified_count": 96,
+      "value_field_coverage": 0.7800995024875622,
+      "field_verification_coverage": 0.023880597014925373,
       "complete_field_count": 8,
       "verified_candidate_count": 8,
       "comparison_data": "pilot_verified",
@@ -1252,14 +1367,23 @@
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
-      "complete_field_count": 1007,
+      "schema_defined": false,
+      "decision_field_completeness": null,
+      "required_field_total": null,
+      "value_complete_field_count": null,
+      "field_verified_count": null,
+      "value_field_coverage": null,
+      "field_verification_coverage": null,
+      "complete_field_count": null,
       "verified_candidate_count": 0,
-      "comparison_data": "engine_ready",
+      "comparison_data": "schema_not_defined",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "engine_ready",
-      "blockers": [],
-      "missing_required_fields": {},
+      "status": "schema_not_defined",
+      "blockers": [
+        "SCHEMA_NOT_DEFINED"
+      ],
+      "missing_required_fields": null,
       "data_layers": {
         "raw": {
           "item_count": 1007,
@@ -1283,14 +1407,23 @@
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
-      "complete_field_count": 598,
+      "schema_defined": false,
+      "decision_field_completeness": null,
+      "required_field_total": null,
+      "value_complete_field_count": null,
+      "field_verified_count": null,
+      "value_field_coverage": null,
+      "field_verification_coverage": null,
+      "complete_field_count": null,
       "verified_candidate_count": 0,
-      "comparison_data": "engine_ready",
+      "comparison_data": "schema_not_defined",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "engine_ready",
-      "blockers": [],
-      "missing_required_fields": {},
+      "status": "schema_not_defined",
+      "blockers": [
+        "SCHEMA_NOT_DEFINED"
+      ],
+      "missing_required_fields": null,
       "data_layers": {
         "raw": {
           "item_count": 598,
@@ -1314,14 +1447,23 @@
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
-      "complete_field_count": 1071,
+      "schema_defined": false,
+      "decision_field_completeness": null,
+      "required_field_total": null,
+      "value_complete_field_count": null,
+      "field_verified_count": null,
+      "value_field_coverage": null,
+      "field_verification_coverage": null,
+      "complete_field_count": null,
       "verified_candidate_count": 0,
-      "comparison_data": "engine_ready",
+      "comparison_data": "schema_not_defined",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "engine_ready",
-      "blockers": [],
-      "missing_required_fields": {},
+      "status": "schema_not_defined",
+      "blockers": [
+        "SCHEMA_NOT_DEFINED"
+      ],
+      "missing_required_fields": null,
       "data_layers": {
         "raw": {
           "item_count": 1071,
@@ -1345,14 +1487,23 @@
       "field_verified_candidate_count": 0,
       "runtime_eligible_candidate_count": 0,
       "public_candidate_count": 0,
-      "complete_field_count": 0,
+      "schema_defined": false,
+      "decision_field_completeness": null,
+      "required_field_total": null,
+      "value_complete_field_count": null,
+      "field_verified_count": null,
+      "value_field_coverage": null,
+      "field_verification_coverage": null,
+      "complete_field_count": null,
       "verified_candidate_count": 0,
       "comparison_data": "blocked",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
       "status": "blocked",
-      "blockers": [],
-      "missing_required_fields": {},
+      "blockers": [
+        "SCHEMA_NOT_DEFINED"
+      ],
+      "missing_required_fields": null,
       "data_layers": {
         "raw": {
           "item_count": 0,
@@ -1370,8 +1521,12 @@
     }
   },
   "quality_policy_version": "openfin-release-policy-v1",
-  "quality_hash": "9107336112f8a5af6162f80f3615588d5c849a02265ffe93d06fe4d8d5c9b8a6",
+  "quality_hash": "fbfc465540ebe9c77f954240f4f0b9b6cac108166865f2a1fc2ed95983872186",
   "platform_release_status": "ready",
   "comparison_release_status": "blocked",
-  "recommendation_release_status": "blocked"
+  "recommendation_release_status": "blocked",
+  "core_search_status": "ready",
+  "comparison_status": "blocked",
+  "recommendation_status": "blocked",
+  "generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c"
 }

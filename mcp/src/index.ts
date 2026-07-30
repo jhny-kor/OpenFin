@@ -176,6 +176,13 @@ type FinanceManifest = {
   name: string;
   description?: string;
   release_status?: string;
+  core_search_status?: string;
+  platform_release_status?: string;
+  comparison_release_status?: string;
+  comparison_status?: string;
+  recommendation_release_status?: string;
+  recommendation_status?: string;
+  generation_id?: string;
   recommendation_enabled?: boolean;
   blocking_reasons?: string[];
   openfin_120_live_regression?: Record<string, unknown>;
@@ -253,7 +260,10 @@ type SearchFilters = {
   readonly freshnessStatus?: string;
 };
 
-const CACHE_TTL_MS = 5 * 60 * 1000;
+// Keep deployment manifest changes visible well before the five-minute public
+// freshness promise; a short metadata cache also prevents Pages/MCP workflow
+// races from pinning a Worker isolate to the previous generation.
+const CACHE_TTL_MS = 30 * 1000;
 const DEFAULT_FINANCE_MANIFEST_URL =
   "https://jhny-kor.github.io/OpenFin/opentax/finance-ontology-manifest.json";
 const DEFAULT_FINANCE_WEB_BASE_URL = "https://jhny-kor.github.io/OpenFin/opentax/";
@@ -2214,7 +2224,7 @@ function createServer(env: Env): McpServer {
     ]);
     const coverage = coverageReport(coverageArtifact);
     const live = manifest.openfin_120_live_regression ?? {};
-    const releaseStatus = manifest.release_status ?? "unknown";
+    const releaseStatus = manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown";
     const blockingReasons = manifest.blocking_reasons ?? [];
     const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: env.DEPLOYMENT_COMMIT });
     return financeResult(financeSafety({
@@ -2223,7 +2233,7 @@ function createServer(env: Env): McpServer {
       data_as_of: manifest.basis_date,
       missing_information: blockingReasons,
       assumptions: ["quality status reflects the loaded manifest and search index"],
-      quality_status: { manifest_version: manifest.version, release_status: releaseStatus, basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: Boolean(manifest.recommendation_enabled), release_gate: releaseGate, provenance_artifacts: { source_registry: manifest.source_registry ?? null, source_status: manifest.source_status ?? null, provenance_index: manifest.provenance_index ?? null, provenance_coverage: manifest.provenance_coverage ?? null, relationship_index: manifest.relationship_index ?? null }, source_health: { registry_loaded: sourceRegistry !== undefined, status_loaded: sourceStatus !== undefined, provenance_loaded: false, coverage_loaded: coverageArtifact !== undefined, relationships_loaded: false, coverage, artifact_errors: artifactErrors() } },
+      quality_status: { manifest_version: manifest.version, generation_id: manifest.generation_id ?? null, core_search_status: releaseStatus, comparison_status: manifest.comparison_status ?? manifest.comparison_release_status ?? "unknown", recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status ?? "unknown", release_status: releaseStatus, release_status_deprecated: true, basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: Boolean(manifest.recommendation_enabled), release_gate: releaseGate, provenance_artifacts: { source_registry: manifest.source_registry ?? null, source_status: manifest.source_status ?? null, provenance_index: manifest.provenance_index ?? null, provenance_coverage: manifest.provenance_coverage ?? null, relationship_index: manifest.relationship_index ?? null }, source_health: { registry_loaded: sourceRegistry !== undefined, status_loaded: sourceStatus !== undefined, provenance_loaded: false, coverage_loaded: coverageArtifact !== undefined, relationships_loaded: false, coverage, artifact_errors: artifactErrors() } },
       limitations: ["quality status is not a product recommendation", ...blockingReasons],
     }));
   });
@@ -2253,8 +2263,18 @@ function createServer(env: Env): McpServer {
   return server;
 }
 
-function healthResponse(env: Env): Response {
-  return Response.json(livenessPayload(env, financeManifestUrl(env)));
+async function healthResponse(env: Env): Promise<Response> {
+  try {
+    const manifest = await loadFinanceManifest(env);
+    return Response.json(livenessPayload(env, financeManifestUrl(env), {
+      generation_id: manifest.generation_id ?? null,
+      core_search_status: manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown",
+      comparison_status: manifest.comparison_status ?? manifest.comparison_release_status ?? "unknown",
+      recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status ?? "unknown",
+    }));
+  } catch {
+    return Response.json(livenessPayload(env, financeManifestUrl(env), { generation_id: null }));
+  }
 }
 
 async function readyResponse(env: Env): Promise<Response> {

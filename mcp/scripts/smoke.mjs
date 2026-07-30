@@ -19,6 +19,8 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
     if (readyPayload.status !== "ready" || readyPayload.capabilities?.core !== "ready" || readyPayload.capabilities?.search !== "ready") throw new Error("/ready core capabilities are not ready");
     if (readyPayload.capabilities?.recommendation !== "blocked") throw new Error("recommendation must remain blocked by current policy");
     if (healthPayload.deployment_commit === "unknown") throw new Error("/health deployment_commit is unknown");
+    if (!healthPayload.generation_id || healthPayload.generation_id !== readyPayload.generation_id) throw new Error("health/ready generation_id mismatch");
+    if (readyPayload.live_regression?.generation_id && readyPayload.live_regression.generation_id !== healthPayload.generation_id) throw new Error("live evidence generation mismatch");
     if (process.env.EXPECTED_DEPLOYMENT_COMMIT && healthPayload.deployment_commit !== process.env.EXPECTED_DEPLOYMENT_COMMIT) throw new Error(`/health deployment_commit mismatch: ${healthPayload.deployment_commit}`);
     break;
   } catch (error) {
@@ -66,6 +68,7 @@ const initialized = await rpc("initialize", {
 if (initialized.serverInfo?.name !== "finance") throw new Error("initialize returned an unexpected server");
 const quality = toolPayload(await rpc("tools/call", { name: "get_openfin_quality_status", arguments: {} }), "get_openfin_quality_status");
 if (!quality.quality_status || typeof quality.quality_status.release_status !== "string") throw new Error("quality status is incomplete");
+if (quality.quality_status.core_search_status !== "ready" || quality.quality_status.recommendation_status !== "blocked") throw new Error("quality capability status is incomplete");
 const search = toolPayload(await rpc("tools/call", { name: "search", arguments: { query: "청년 주택드림 청약통장", limit: 1 } }), "search");
 if (!Array.isArray(search.results) || typeof search.result_count !== "number") throw new Error("representative search is incomplete");
 const fetched = toolPayload(await rpc("tools/call", { name: "fetch", arguments: { id: "finance.account.housing-subscription.nhuf.youth-dream" } }), "fetch");

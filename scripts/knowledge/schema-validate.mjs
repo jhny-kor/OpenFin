@@ -8,18 +8,34 @@ const schemaDir = path.join(ROOT, 'schemas');
 const typeRegistry = json(path.join(schemaDir, 'types/type-registry.json'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
-for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json']) {
+for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json', 'live-regression.schema.json']) {
   const schema = json(path.join(schemaDir, file));
   ajv.addSchema(schema, file);
 }
-for (const file of ['bank-product.schema.json', 'card-product.schema.json', 'insurance-product.schema.json', 'support-program.schema.json']) {
+const liveFixtureSchema = json(path.join(ROOT, 'tests/golden/openfin-120.schema.json'));
+ajv.addSchema(liveFixtureSchema);
+for (const file of ['bank-product.schema.json', 'deposit.schema.json', 'saving.schema.json', 'loan.schema.json', 'card-product.schema.json', 'card.schema.json', 'insurance-product.schema.json', 'insurance.schema.json', 'support-program.schema.json']) {
   ajv.addSchema(json(path.join(schemaDir, 'types', file)), `types/${file}`);
 }
 const validateEntity = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/entity.schema.json');
 const validateSource = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/source.schema.json');
 const relationValidator = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/relation.schema.json');
 const validateManifest = ajv.getSchema('finance-ontology-manifest.schema.json');
+const validateLiveCase = ajv.getSchema(liveFixtureSchema.$id);
 const failures = [];
+const liveFixturePath = path.join(ROOT, 'tests/golden/openfin-120.jsonl');
+if (fs.existsSync(liveFixturePath)) {
+  const liveCases = fs.readFileSync(liveFixturePath, 'utf8').split('\n').filter(Boolean).map((line, index) => {
+    try { return { value: JSON.parse(line), line: index + 1 }; } catch (error) { failures.push(`${liveFixturePath}:${index + 1}: ${error.message}`); return null; }
+  }).filter(Boolean);
+  const liveIds = new Set();
+  for (const { value, line } of liveCases) {
+    if (!validateLiveCase(value)) failures.push(`${liveFixturePath}:${line}: ${ajv.errorsText(validateLiveCase.errors)}`);
+    if (liveIds.has(value.case_id)) failures.push(`${liveFixturePath}:${line}: duplicate case_id ${value.case_id}`);
+    liveIds.add(value.case_id);
+  }
+  if (liveCases.length !== 120) failures.push(`${liveFixturePath}: expected 120 cases, got ${liveCases.length}`);
+}
 const entities = [];
 const walk = dir => {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {

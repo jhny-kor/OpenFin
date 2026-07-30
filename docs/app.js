@@ -985,8 +985,13 @@ function renderOperationalSummary() {
     .map(([key, value]) => `${key} ${formatNumber(value)}`)
     .join(" · ");
   const evidenceWarnings = [...new Set(state.evidenceErrors.values())];
+  const liveEvidence = state.manifest.openfin_120_live_regression || {};
+  const liveWarning = liveEvidence.validation_status && liveEvidence.validation_status !== "current"
+    ? `<div class="evidence-warning operational-evidence-warning" role="alert"><strong>현재 배포 세대 live evidence 차단</strong><span>${escapeHtml(liveEvidence.validation_status)} · generation_id가 현재 manifest와 일치해야 추천 승격이 가능합니다.</span></div>`
+    : "";
   container.innerHTML = `
     ${evidenceWarnings.length ? `<div class="evidence-warning operational-evidence-warning" role="status"><strong>출처 정보 확인 불가</strong><span>${evidenceWarnings.map(escapeHtml).join(" ")}</span></div>` : ""}
+    ${liveWarning}
     <article>
       <h3>API 필요</h3>
       <div class="operational-source-group">
@@ -1004,9 +1009,11 @@ function renderOperationalSummary() {
     </article>
     <article>
       <h3>품질 요약</h3>
+      <p class="source-status-summary">core/search: <strong>${escapeHtml(state.manifest.core_search_status || state.manifest.platform_release_status || "unknown")}</strong> · 비교: <strong>${escapeHtml(state.manifest.comparison_status || state.manifest.comparison_release_status || "unknown")}</strong> · 추천: <strong>${escapeHtml(state.manifest.recommendation_status || state.manifest.recommendation_release_status || "blocked")}</strong></p>
       <p class="quality-summary-list">${qualityLines || "품질 요약 로딩 전입니다."}</p>
+      <p class="source-status-summary">provenance 연결률은 필드 출처 검증률과 다릅니다. 위의 ‘필드 출처 검증’ 수치는 필수 필드 assertion까지 확인된 상품만 포함합니다.</p>
       <p class="source-status-summary">출처 상태: ${escapeHtml(statusLine || "확인 불가")}</p>
-      <p class="source-status-summary">빌드: ${escapeHtml(state.manifest.built_at || "미기록")} · 출처 검토: ${escapeHtml(state.manifest.source_review_date || "미기록")} · live 확인: ${escapeHtml(state.manifest.openfin_120_live_regression?.checked_at || "현재 세대 evidence 없음")}</p>
+      <p class="source-status-summary">빌드: ${escapeHtml(state.manifest.built_at || "미기록")} · 출처 검토: ${escapeHtml(state.manifest.source_review_date || "미기록")} · live 확인: ${escapeHtml(liveEvidence.checked_at || "현재 세대 evidence 없음")}</p>
     </article>
   `;
 }

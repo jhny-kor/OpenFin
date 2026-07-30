@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/types/deposit.schema.json",
+  "title": "OpenFin decision-critical deposit",
+  "allOf": [
+    { "$ref": "bank-product.schema.json" },
+    { "properties": { "product_kind": { "const": "deposit" } }, "required": ["product_kind", "minimum_deposit_krw", "maximum_deposit_krw", "early_termination_condition", "deposit_protection_status"] }
+  ]
+}

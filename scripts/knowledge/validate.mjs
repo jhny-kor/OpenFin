@@ -211,6 +211,29 @@ const derivedQuality = deriveQuality([...byId.values()], { sourceCount: sources.
 if (search.item_count !== records.length || search.canonical_product_count !== derivedQuality.canonical.canonical_product_count) fail(`search index counts changed: ${search.item_count}/${search.canonical_product_count} vs ${records.length}/${derivedQuality.canonical.canonical_product_count}`);
 if (manifest.release_status !== derivedQuality.release_status || manifest.recommendation_enabled !== derivedQuality.recommendation_enabled) fail('manifest release gate does not match derived quality policy');
 if (JSON.stringify(manifest.blocking_reasons || []) !== JSON.stringify(derivedQuality.blocking_reasons)) fail('manifest blocking reasons do not match derived quality policy');
+const liveEvidence = manifest.openfin_120_live_regression || {};
+const liveProjections = (payload, source) => {
+  const projections = [];
+  if (payload && typeof payload === 'object') {
+    if ('live_status' in payload || 'live_case_count' in payload || 'live_evidence_generation_id' in payload) projections.push([payload, source]);
+    if (payload.live_summary && typeof payload.live_summary === 'object') projections.push([payload.live_summary, `${source}.live_summary`]);
+    if (payload.openfin_120_live_regression && typeof payload.openfin_120_live_regression === 'object') projections.push([payload.openfin_120_live_regression, `${source}.openfin_120_live_regression`]);
+    if (payload.live_regression && typeof payload.live_regression === 'object') projections.push([payload.live_regression, `${source}.live_regression`]);
+  }
+  return projections;
+};
+for (const entry of manifest.quality_exports || []) {
+  const file = path.join(DOCS, path.basename(entry.path || ''));
+  if (!fs.existsSync(file)) continue;
+  for (const [projection, source] of liveProjections(json(file), file)) {
+    const status = projection.live_status ?? projection.validation_status ?? projection.status ?? null;
+    const count = projection.live_case_count ?? projection.test_count ?? null;
+    const passed = projection.live_passed_count ?? projection.passed_count ?? null;
+    const failed = projection.live_failed_count ?? projection.failed_count ?? null;
+    const generation = projection.live_evidence_generation_id ?? projection.generation_id ?? null;
+    if (status !== (liveEvidence.validation_status ?? liveEvidence.status ?? null) || count !== (liveEvidence.test_count ?? null) || passed !== (liveEvidence.passed_count ?? null) || failed !== (liveEvidence.failed_count ?? null) || generation !== (liveEvidence.generation_id ?? null)) fail(`live evidence projection mismatch: ${source}`);
+  }
+}
 if (!Array.isArray(search.items) || search.items.length !== search.item_count || search.compact_item_count !== search.item_count) fail('compact search root missing or incomplete');
 if (search.export_checksum !== sha256(JSON.stringify(search.items)).slice(7)) fail('compact search root checksum mismatch');
 if (search.content_checksum && search.content_checksum !== sha256(fs.readFileSync(path.join(DOCS, 'finance-search-index-2026.json'), 'utf8')).slice(7)) fail('compact search root content checksum mismatch');

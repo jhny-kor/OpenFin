@@ -1,16 +1,16 @@
 {
   "version": "openfin-data-drift-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_status": "executed",
+  "live_status": "stale_generation",
   "live_not_executed_reason": null,
-  "live_tested_at": "2026-07-26T11:37:00+00:00",
-  "runtime_version": "openfin-mcp-2026.07.22.1",
-  "deployment_commit": "40215ba9c",
+  "live_tested_at": "2026-07-29T23:16:42.430Z",
+  "runtime_version": "openfin-mcp-2026.07.28.2",
+  "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
   "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "live_case_count": 120,
-  "live_passed_count": 15,
-  "live_failed_count": 105,
-  "live_failure_count": 105,
+  "live_passed_count": 120,
+  "live_failed_count": 0,
+  "live_failure_count": 0,
   "live_failure_sample": [
     {
       "case_id": "exact_product-001",
@@ -103,5 +103,7 @@
   "discovery_candidate_changed": 0,
   "verification_expired": 0,
   "note": "Previous comparable export snapshot is not retained in this build; drift is recorded as zero-change baseline.",
-  "export_checksum": "6d0680f31f943a68f96f5f6c340b7aa3278d91327f0d3d897b7126b6a90d4f8c"
+  "export_checksum": "6d0680f31f943a68f96f5f6c340b7aa3278d91327f0d3d897b7126b6a90d4f8c",
+  "live_evidence_generation_id": null,
+  "live_expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c"
 }

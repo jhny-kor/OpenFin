@@ -20,6 +20,16 @@ test('field values alone never become field-verified candidates', () => {
   assert.equal(result.recommendation_enabled, false);
 });
 
+test('generation binding and explicit evaluation time are deterministic', () => {
+  const options = { sourceCount: 1, exportCount: 10, searchItemCount: 1, relationshipCount: 1, searchIndexChecksum: 'index', sourceStatusChecksum: 'sources', deploymentCommit: 'commit', evaluationAsOf: '2026-07-30T00:00:00Z' };
+  const first = deriveQuality([base], options);
+  const second = deriveQuality([base], options);
+  assert.equal(first.generation_id, second.generation_id);
+  assert.equal(first.quality_hash, second.quality_hash);
+  assert.equal(liveRegressionCurrent({ status: 'current', mode: 'live', checked_at: '2026-07-30T00:00:00Z', manifest_checksum: 'manifest', loaded_index_checksum: 'index', generation_id: first.generation_id, deployment_commit: 'commit', test_count: 120, passed_count: 120, failed_count: 0, skipped_count: 0 }, livePolicy, Date.parse('2026-07-30T01:00:00Z'), first.generation_id), true);
+  assert.equal(liveRegressionCurrent({ status: 'current', mode: 'live', checked_at: '2026-07-30T00:00:00Z', manifest_checksum: 'manifest', loaded_index_checksum: 'index', generation_id: 'other', deployment_commit: 'commit', test_count: 120, passed_count: 120, failed_count: 0, skipped_count: 0 }, livePolicy, Date.parse('2026-07-30T01:00:00Z'), first.generation_id), false);
+});
+
 test('a verified deposit subset opens comparison without claiming public recommendation', () => {
   const fields = ['base_rate_percent', 'maximum_rate_percent', 'term_months', 'interest_method', 'preferential_rate_conditions', 'minimum_deposit_krw', 'maximum_deposit_krw', 'early_termination_condition', 'deposit_protection_status', 'join_member', 'join_channel', 'sales_verification_status'];
   const records = Array.from({ length: 20 }, (_, index) => ({ ...base, id: `product.deposit.${index}`, source_assertions: fields.map(field => ({ field, verification_status: 'verified', freshness_status: 'current', source_id: 'source.test' })) }));
@@ -27,4 +37,12 @@ test('a verified deposit subset opens comparison without claiming public recomme
   assert.equal(result.domains.deposit.status, 'limited_public_ready');
   assert.equal(result.comparison_release_status, 'limited');
   assert.equal(result.recommendation_enabled, false);
+});
+
+test('domains without a decision-field contract are explicitly schema-not-defined', () => {
+  const result = deriveQuality([{ id: 'product.card.a', type: 'card-product', title: 'Card A' }], { sourceCount: 1, exportCount: 10, searchItemCount: 1, relationshipCount: 1, evaluationAsOf: '2026-07-30T00:00:00Z' });
+  assert.equal(result.domains.card.schema_defined, false);
+  assert.equal(result.domains.card.decision_field_completeness, null);
+  assert.equal(result.domains.card.complete_field_count, null);
+  assert.equal(result.domains.card.status, 'schema_not_defined');
 });

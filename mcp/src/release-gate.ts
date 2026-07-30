@@ -10,7 +10,7 @@ export type ReleaseGateResult = {
 type GateInput = { manifest: Record<string, unknown>; checksumVerified?: boolean; domain?: string | null; item?: Record<string, unknown> | null; deploymentCommit?: string; now?: number };
 const record = (value: unknown): Record<string, unknown> => value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : {};
 
-function liveReady(value: unknown, policy: unknown, now = Date.now(), deploymentCommit?: string): boolean {
+function liveReady(value: unknown, policy: unknown, now = Date.now(), deploymentCommit?: string, expectedGenerationId?: string): boolean {
   const live = record(value);
   const contract = record(policy);
   const required = typeof contract.required_count === "number" ? contract.required_count : 120;
@@ -18,7 +18,7 @@ function liveReady(value: unknown, policy: unknown, now = Date.now(), deployment
   const ttlHours = typeof contract.freshness_ttl_hours === "number" ? contract.freshness_ttl_hours : 24;
   const checkedAt = Date.parse(String(live.checked_at ?? ""));
   const age = now - checkedAt;
-  return live.status === "current" && live.mode === mode && live.test_count === required && live.passed_count === required && live.failed_count === 0 && (live.skipped_count ?? 0) === 0 && Number.isFinite(checkedAt) && age >= 0 && age <= ttlHours * 60 * 60 * 1000 && typeof live.manifest_checksum === "string" && typeof live.loaded_index_checksum === "string" && typeof live.deployment_commit === "string" && live.deployment_commit !== "unknown" && (!deploymentCommit || live.deployment_commit === deploymentCommit);
+  return live.status === "current" && live.mode === mode && live.test_count === required && live.passed_count === required && live.failed_count === 0 && (live.skipped_count ?? 0) === 0 && Number.isFinite(checkedAt) && age >= 0 && age <= ttlHours * 60 * 60 * 1000 && typeof live.manifest_checksum === "string" && typeof live.loaded_index_checksum === "string" && typeof live.deployment_commit === "string" && live.deployment_commit !== "unknown" && (!deploymentCommit || live.deployment_commit === deploymentCommit) && (!expectedGenerationId || live.generation_id === expectedGenerationId);
 }
 
 function currentItem(item: Record<string, unknown>): boolean {
@@ -34,7 +34,7 @@ export function evaluateReleaseGate({ manifest, checksumVerified = false, domain
   if (!checksumVerified) reasons.push("MANIFEST_CHECKSUM_MISMATCH");
   if (manifest.platform_release_status !== "ready" && manifest.release_status !== "ready") reasons.push(`RELEASE_STATUS_${String(manifest.platform_release_status ?? manifest.release_status ?? "MISSING").toUpperCase()}`);
   if (!manifest.recommendation_enabled) reasons.push("MANIFEST_RECOMMENDATION_DISABLED");
-  if (!liveReady(manifest.openfin_120_live_regression, manifest.live_regression_policy, now, deploymentCommit)) reasons.push("LIVE_REGRESSION_NOT_CURRENT");
+  if (!liveReady(manifest.openfin_120_live_regression, manifest.live_regression_policy, now, deploymentCommit, typeof manifest.generation_id === "string" ? manifest.generation_id : undefined)) reasons.push("LIVE_REGRESSION_NOT_CURRENT");
   const domainState = domain ? record(record(manifest.domain_readiness)[domain]) : {};
   const domainReady = !domain || (domainState.status === "limited_public_ready" && domainState.recommendation_mode === "public");
   if (domain && !domainReady) reasons.push(`DOMAIN_NOT_READY:${domain}`);

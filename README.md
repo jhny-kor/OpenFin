@@ -2,7 +2,7 @@
 
 OpenFin은 금융 도메인 지식과 상품 데이터를 같은 출처·관계 계약으로 공개하는 읽기 전용 탐색기와 Cloudflare Remote MCP입니다.
 
-범위 결정은 개인 금융 플랫폼 전체를 하나의 추천기로 만드는 것이 아니라, `tax`, `public-support`, `financial-products`, `financial-reference`, `life-context` bounded context를 각각 출처·신선도·공개등급으로 운영하는 방식입니다. 현재 공개 기능은 조회·탐색·비교 중심이며 추천은 release gate와 최신 120/120 live regression을 통과하기 전까지 fail-closed입니다.
+범위 결정은 개인 금융 플랫폼 전체를 하나의 추천기로 만드는 것이 아니라, `tax`, `public-support`, `financial-products`, `financial-reference`, `life-context` bounded context를 각각 출처·신선도·공개등급으로 운영하는 방식입니다. 현재 공개 기능은 조회·탐색 중심이며 예금·적금 비교는 제한 파일럿, 추천은 release gate와 현재 배포 세대 generation-bound 120/120 live regression을 통과하기 전까지 fail-closed입니다. 최상위 `release_status`는 호환용 deprecated alias이고, 외부 상태 판단은 `core_search_status`, `comparison_status`, `recommendation_status`를 사용합니다.
 
 - 사이트: <https://jhny-kor.github.io/OpenFin/>
 - MCP: <https://openfin-mcp.y2kthr.workers.dev/mcp>

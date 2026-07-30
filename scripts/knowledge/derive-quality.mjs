@@ -35,10 +35,23 @@ const assertionFor = (item, field) => [
   ...(item.source_assertions || []).filter(value => value?.field === field),
   ...(item.provenance || []).filter(value => (value?.supported_fields || []).includes(field)).map(value => ({ ...value, field })),
 ];
-const verifiedField = (item, field) => assertionFor(item, field).some(assertion =>
-  assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict && (!assertion.valid_to || Date.parse(assertion.valid_to) >= Date.now()));
+const verifiedField = (item, field, evaluationAsOf = null) => assertionFor(item, field).some(assertion => {
+  const validTo = assertion.valid_to ? Date.parse(assertion.valid_to) : NaN;
+  const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : NaN;
+  return assertion.verification_status === 'verified'
+    && assertion.freshness_status === 'current'
+    && !assertion.conflict
+    && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
+});
 const fieldVerified = (item, fields) => fields.every(field => present(item[field]) && verifiedField(item, field));
 const shaFile = file => fs.existsSync(file) ? sha256(fs.readFileSync(file, 'utf8')).slice(7) : null;
+export const generationId = ({ canonicalContentChecksum, searchIndexChecksum, sourceStatusChecksum, releasePolicyChecksum, deploymentCommit }) => sha256({
+  canonical_content_checksum: canonicalContentChecksum,
+  search_index_checksum: searchIndexChecksum,
+  source_status_checksum: sourceStatusChecksum,
+  release_policy_checksum: releasePolicyChecksum,
+  deployment_commit: deploymentCommit || 'unknown',
+}).slice(7);
 
 // Evidence is produced by CI or checked in under evidence/, never copied from docs output.
 const liveRegressionEvidence = () => {
@@ -47,7 +60,7 @@ const liveRegressionEvidence = () => {
   const live = json(file);
   return { ...live, evidence_path: 'evidence/live-regression/current.json', evidence_checksum: shaFile(file) };
 };
-export const liveRegressionCurrent = (live, policy, now = Date.now()) => {
+export const liveRegressionCurrent = (live, policy, now = Date.now(), expectedGenerationId = null) => {
   const checkedAt = Date.parse(live.checked_at || '');
   const ttlMs = Number(policy.live_regression.freshness_ttl_hours || 24) * 60 * 60 * 1000;
   const ageMs = now - checkedAt;
@@ -63,10 +76,11 @@ export const liveRegressionCurrent = (live, policy, now = Date.now()) => {
     && typeof live.manifest_checksum === 'string'
     && typeof live.loaded_index_checksum === 'string'
     && typeof live.deployment_commit === 'string'
-    && live.deployment_commit !== 'unknown';
+    && live.deployment_commit !== 'unknown'
+    && (!expectedGenerationId || live.generation_id === expectedGenerationId);
 };
 
-export const deriveQuality = (records, { sourceCount, exportCount, searchItemCount, relationshipCount, invalidUrlCount = 0, sourceStatusLoaded = true, sourceStatusChecksum = null } = {}) => {
+export const deriveQuality = (records, { sourceCount, exportCount, searchItemCount, relationshipCount, invalidUrlCount = 0, sourceStatusLoaded = true, sourceStatusChecksum = null, searchIndexChecksum = null, deploymentCommit = 'unknown', evaluationAsOf = null } = {}) => {
   const policy = readReleasePolicy();
   const products = records.filter(item => PRODUCT_TYPES.has(item.type));
   const canonicalProducts = new Set(products.map(item => item.canonical_product_id || item.id));
@@ -75,11 +89,23 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
     const items = products.filter(item => domainFor(item) === name);
     const required = config.required_fields || [];
     const valueComplete = items.filter(item => required.every(field => present(item[field])));
-    const fieldVerifiedItems = required.length ? valueComplete.filter(item => fieldVerified(item, required)) : [];
+    const schemaDefined = required.length > 0;
+    const requiredFieldTotal = schemaDefined ? items.length * required.length : null;
+    const valueCompleteFieldCount = schemaDefined ? items.reduce((total, item) => total + required.filter(field => present(item[field])).length, 0) : null;
+    const fieldVerifiedItems = required.length ? valueComplete.filter(item => required.every(field => present(item[field]) && assertionFor(item, field).some(assertion => {
+      const validTo = assertion.valid_to ? Date.parse(assertion.valid_to) : NaN;
+      const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : NaN;
+      return assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
+    }))) : [];
+    const fieldVerifiedCount = schemaDefined ? items.reduce((total, item) => total + required.filter(field => present(item[field]) && assertionFor(item, field).some(assertion => {
+      const validTo = assertion.valid_to ? Date.parse(assertion.valid_to) : NaN;
+      const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : NaN;
+      return assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
+    })).length, 0) : null;
     const runtimeEligible = fieldVerifiedItems.filter(item => item.sales_verification_status === 'verified_active' && (item.sales_status === undefined || item.sales_status === 'active') && item.freshness_status === 'current');
     const threshold = config.required_verified_candidates || Infinity;
     const status = !items.length ? 'blocked'
-      : !required.length ? 'engine_ready'
+      : !schemaDefined ? 'schema_not_defined'
       : runtimeEligible.length >= threshold ? 'limited_public_ready'
       : fieldVerifiedItems.length ? 'pilot_verified'
       : valueComplete.length ? 'structural_only'
@@ -94,14 +120,21 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       runtime_eligible_candidate_count: runtimeEligible.length,
       public_candidate_count: publicCount,
       // Compatibility projections. "verified" means field-level verified only.
-      complete_field_count: valueComplete.length,
+      schema_defined: schemaDefined,
+      decision_field_completeness: schemaDefined ? valueComplete.length / items.length : null,
+      required_field_total: requiredFieldTotal,
+      value_complete_field_count: valueCompleteFieldCount,
+      field_verified_count: fieldVerifiedCount,
+      value_field_coverage: schemaDefined && requiredFieldTotal ? valueCompleteFieldCount / requiredFieldTotal : null,
+      field_verification_coverage: schemaDefined && requiredFieldTotal ? fieldVerifiedCount / requiredFieldTotal : null,
+      complete_field_count: schemaDefined ? valueComplete.length : null,
       verified_candidate_count: fieldVerifiedItems.length,
       comparison_data: status === 'limited_public_ready' ? 'limited_public_ready' : status,
       recommendation: config.recommendation,
       recommendation_mode: config.recommendation === 'blocked' ? 'blocked' : 'owner_pilot',
       status,
-      blockers: required.length && !fieldVerifiedItems.length ? ['FIELD_ASSERTIONS_INCOMPLETE'] : [],
-      missing_required_fields: Object.fromEntries(required.map(field => [field, items.filter(item => !present(item[field])).length])),
+      blockers: !schemaDefined ? ['SCHEMA_NOT_DEFINED'] : !fieldVerifiedItems.length ? ['FIELD_ASSERTIONS_INCOMPLETE'] : [],
+      missing_required_fields: schemaDefined ? Object.fromEntries(required.map(field => [field, items.filter(item => !present(item[field])).length])) : null,
       data_layers: {
         raw: { item_count: items.filter(item => Array.isArray(item.source_records) && item.source_records.length).length, status: items.some(item => Array.isArray(item.source_records) && item.source_records.length) ? 'available' : 'missing' },
         normalized: { item_count: items.filter(item => item.normalized_at || item.normalized_completeness_ratio !== undefined).length, status: items.some(item => item.normalized_at || item.normalized_completeness_ratio !== undefined) ? 'available' : 'missing' },
@@ -118,7 +151,12 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
   if (!relationshipCount) platformReasons.push('relationship_index_missing');
   const platformReleaseStatus = platformReasons.length ? 'degraded' : 'ready';
   const comparisonReleaseStatus = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready') ? 'limited' : 'blocked';
-  const liveReady = liveRegressionCurrent(live, policy);
+  const canonicalContentChecksum = sha256(records).slice(7);
+  const releasePolicyChecksum = shaFile(RELEASE_POLICY_PATH);
+  const generation_id = generationId({ canonicalContentChecksum, searchIndexChecksum, sourceStatusChecksum, releasePolicyChecksum, deploymentCommit });
+  const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : Date.now();
+  const liveReady = liveRegressionCurrent(live, policy, evaluationTime, generation_id);
+  const liveForManifest = { ...live, expected_generation_id: generation_id, validation_status: liveReady ? 'current' : live.status === 'current' ? 'stale_generation' : live.status };
   const publicDomain = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready' && state.recommendation_mode === 'public');
   const recommendationEnabled = platformReleaseStatus === 'ready' && policy.recommendation?.public_enabled === true && Boolean(policy.recommendation?.public_approval_receipt) && liveReady && publicDomain;
   const recommendationReasons = [...platformReasons];
@@ -127,22 +165,25 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
   if (!policy.recommendation?.public_enabled) recommendationReasons.push('public_recommendation_policy_blocked');
   if (!policy.recommendation?.public_approval_receipt) recommendationReasons.push('public_approval_receipt_missing');
   const recommendationReleaseStatus = recommendationEnabled ? 'ready' : 'blocked';
-  const canonicalContentChecksum = sha256(records).slice(7);
   return {
     policy_version: policy.version,
     canonical: { item_count: records.length, source_count: sourceCount, product_count: products.length, canonical_product_count: canonicalProducts.size, export_count: exportCount, search_item_count: searchItemCount, relationship_count: relationshipCount, content_checksum: canonicalContentChecksum },
     domains,
-    live_regression: live,
+    live_regression: liveForManifest,
     live_regression_ready: liveReady,
     platform_release_status: platformReleaseStatus,
+    core_search_status: platformReleaseStatus,
     comparison_release_status: comparisonReleaseStatus,
+    comparison_status: comparisonReleaseStatus,
     recommendation_release_status: recommendationReleaseStatus,
+    recommendation_status: recommendationReleaseStatus,
     release_status: platformReleaseStatus,
     recommendation_enabled: recommendationEnabled,
     blocking_reasons: platformReasons,
     recommendation_blocking_reasons: [...new Set(recommendationReasons)],
     degraded_domains: Object.entries(domains).filter(([, state]) => state.status !== 'limited_public_ready').map(([name]) => name).sort(),
-    quality_hash: sha256({ canonicalContentChecksum, policy_checksum: shaFile(RELEASE_POLICY_PATH), sourceStatusChecksum, live_evidence_checksum: live.evidence_checksum, domains, platformReasons, recommendationReasons }).slice(7),
+    generation_id,
+    quality_hash: sha256({ canonicalContentChecksum, policy_checksum: releasePolicyChecksum, sourceStatusChecksum, searchIndexChecksum, deploymentCommit, live_evidence_checksum: live.evidence_checksum, domains, platformReasons, recommendationReasons }).slice(7),
   };
 };
 

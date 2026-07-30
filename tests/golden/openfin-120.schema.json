@@ -1,5 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/tests/golden/openfin-120.schema.json",
+  "title": "OpenFin live regression case",
   "type": "object",
   "required": ["case_id", "category", "tool", "arguments", "expected_status", "required_fields", "forbidden_claims", "expected_reason_codes"],
   "properties": {

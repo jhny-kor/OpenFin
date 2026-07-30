@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/types/saving.schema.json",
+  "title": "OpenFin decision-critical saving",
+  "allOf": [
+    { "$ref": "bank-product.schema.json" },
+    { "properties": { "product_kind": { "const": "saving" } }, "required": ["product_kind", "monthly_payment_min_krw", "monthly_payment_max_krw", "saving_method", "early_termination_condition", "deposit_protection_status"] }
+  ]
+}

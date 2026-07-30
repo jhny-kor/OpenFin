@@ -1,16 +1,16 @@
 {
   "version": "openfin-local-cloudflare-parity-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_status": "executed",
+  "live_status": "stale_generation",
   "live_not_executed_reason": null,
-  "live_tested_at": "2026-07-26T11:37:00+00:00",
-  "runtime_version": "openfin-mcp-2026.07.22.1",
-  "deployment_commit": "40215ba9c",
+  "live_tested_at": "2026-07-29T23:16:42.430Z",
+  "runtime_version": "openfin-mcp-2026.07.28.2",
+  "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
   "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "live_case_count": 120,
-  "live_passed_count": 15,
-  "live_failed_count": 105,
-  "live_failure_count": 105,
+  "live_passed_count": 120,
+  "live_failed_count": 0,
+  "live_failure_count": 0,
   "live_failure_sample": [
     {
       "case_id": "exact_product-001",
@@ -96,5 +96,7 @@
   "report_kind": "local-cloudflare-parity",
   "local_cloudflare_parity_error_count": 0,
   "live_search_regression": {},
-  "export_checksum": "5ec437823e07221157988dffa0b54e496614df8ca3b503fefe7a05e5f54cf922"
+  "export_checksum": "5ec437823e07221157988dffa0b54e496614df8ca3b503fefe7a05e5f54cf922",
+  "live_evidence_generation_id": null,
+  "live_expected_generation_id": "5a012bb8ed6589e20f7e3fbea4a6d7a834c92b970dd6f66da146d03a041f796c"
 }

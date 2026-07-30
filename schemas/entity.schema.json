@@ -29,9 +29,11 @@
     {
       "if": { "required": ["decision_critical"], "properties": { "decision_critical": { "const": true } } },
       "then": { "oneOf": [
-        { "$ref": "types/bank-product.schema.json" },
-        { "$ref": "types/card-product.schema.json" },
-        { "$ref": "types/insurance-product.schema.json" },
+        { "$ref": "types/deposit.schema.json" },
+        { "$ref": "types/saving.schema.json" },
+        { "$ref": "types/loan.schema.json" },
+        { "$ref": "types/card.schema.json" },
+        { "$ref": "types/insurance.schema.json" },
         { "$ref": "types/support-program.schema.json" }
       ] }
     }

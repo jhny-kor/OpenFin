@@ -16562,20 +16562,23 @@
   ],
   "live_summary": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "live_status": "executed",
+    "live_status": "stale_generation",
     "live_not_executed_reason": null,
-    "checked_at": "2026-07-26T08:41:25+00:00",
-    "runtime_version": "openfin-mcp-2026.07.22.1",
-    "deployment_commit": "40215ba9c",
+    "checked_at": "2026-07-29T23:16:42.430Z",
+    "runtime_version": "openfin-mcp-2026.07.28.2",
+    "deployment_commit": "ef830877b3f783968c058ed49cca34fe70a21a3f",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
-    "search_index_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
+    "search_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
     "runtime_search_index_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
-    "test_count": 47,
-    "passed_count": 47,
+    "test_count": 120,
+    "passed_count": 120,
     "failed_count": 0,
     "failures": [],
-    "last_failed_at": null
+    "last_failed_at": null,
+    "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
+    "manifest_checksum": "2778b57a829676e7c7b7059aa3bfe6600de7d3b8c6c3d8f6329b30b445628a0b",
+    "generation_id": null
   },
   "export_checksum": "881b6d03070b5d8382056cf3ae48928346ed755d70c2fb225aca926acda55860"
 }

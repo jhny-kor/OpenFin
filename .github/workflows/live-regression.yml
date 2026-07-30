@@ -27,37 +27,57 @@ jobs:
       - name: Validate checked-in 120-case fixture
         run: npm run live-regression -- --validate-fixture
       - name: Run current deployment suite
+        id: live
         continue-on-error: true
-        run: node scripts/live-regression.mjs > ../live-regression-report.json
+        run: |
+          set +e
+          node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log
+          exit_code=$?
+          echo "exit_code=${exit_code}" >> "$GITHUB_OUTPUT"
+          exit "$exit_code"
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
       - name: Publish current-generation evidence
+        id: publish
         if: always()
         working-directory: .
         run: |
           set -euo pipefail
-          test -s live-regression-report.json || exit 0
+          test -s live-regression-report.json
           status="$(jq -r '.status // "missing"' live-regression-report.json)"
-          test "$status" = current || exit 0
+          test "$status" = current
           test "$(jq -r '.test_count // 0' live-regression-report.json)" = "$(jq -r '.passed_count // 0' live-regression-report.json)"
           test "$(jq -r '.failed_count // 0' live-regression-report.json)" = 0
           test "$(jq -r '.skipped_count // 0' live-regression-report.json)" = 0
           deployment_commit="$(jq -r '.deployment_commit // empty' live-regression-report.json)"
           test "$deployment_commit" != ""
+          generation_id="$(jq -r '.generation_id // empty' live-regression-report.json)"
+          test "${#generation_id}" = 64
+          test "$(jq -r '.semantic_unique_case_count // 0' live-regression-report.json)" = "$(jq -r '.test_count // 0' live-regression-report.json)"
           mkdir -p evidence/live-regression
           cp live-regression-report.json "evidence/live-regression/${deployment_commit}.json"
           cp live-regression-report.json evidence/live-regression/current.json
           npm ci --ignore-scripts
-          npm run knowledge:build
+          OPENFIN_DEPLOYMENT_COMMIT="$deployment_commit" npm run knowledge:build
+          test "$(jq -r '.generation_id // empty' docs/opentax/finance-ontology-manifest.json)" = "$generation_id"
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add evidence/live-regression docs/opentax
           git diff --cached --quiet && exit 0
           git commit -m "ci: record live regression evidence ${deployment_commit:0:12}"
           git push
+      - name: Fail workflow when live evidence is not valid
+        if: always()
+        working-directory: .
+        run: |
+          set -euo pipefail
+          test "${{ steps.live.outcome }}" = success
+          test "${{ steps.publish.outcome }}" = success
       - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: openfin-live-regression-${{ github.sha }}
-          path: live-regression-report.json
+          path: |
+            live-regression-report.json
+            live-regression-error.log
           if-no-files-found: warn

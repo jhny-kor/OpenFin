@@ -1,10 +1,48 @@
-// @ts-nocheck
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { AnySchema } from "@modelcontextprotocol/sdk/server/zod-compat.js";
 import { z } from "zod";
 
-type ToolContext = Record<string, any>;
+type FinanceRecord = Record<string, unknown>;
+type FinanceItem = FinanceRecord & { id?: string; title?: string; provider?: string; source_urls?: string[]; source_assertions?: FinanceRecord[]; provenance?: FinanceRecord[] };
+type ToolResult = { structuredContent: FinanceRecord; content: [{ type: "text"; text: string }] };
+type ReleaseGate = { status: "ready" | "blocked"; reasons: string[]; [key: string]: unknown };
+type ToolContext = {
+  server: McpServer;
+  env: FinanceRecord;
+  mcpResult: (payload: FinanceRecord) => ToolResult;
+  assertFinanceSafe: (...values: unknown[]) => void;
+  isRecord: (value: unknown) => value is FinanceRecord;
+  loadFinanceManifest: (env: FinanceRecord) => Promise<FinanceRecord & { domain_readiness?: Record<string, FinanceRecord> }>;
+  evaluateReleaseGate: (input: FinanceRecord) => ReleaseGate;
+  manifestChecksumContract: (manifest: FinanceRecord) => boolean;
+  minimumVerifiedCount: (domain: string) => number;
+  normalizeFinanceSnapshot: (value: unknown) => FinanceRecord;
+  financeMetrics: (value: FinanceRecord) => unknown;
+  financeNeeds: (value: FinanceRecord, metrics: unknown) => unknown;
+  recommendationReadinessStates: (domain: string, readiness: FinanceRecord) => unknown;
+  nextRecommendationActions: (domain: string, readiness: FinanceRecord) => unknown;
+  nextRecommendationAction: (domain: string, readiness: FinanceRecord) => unknown;
+  financeAuditId: (...values: unknown[]) => string;
+  dedupeProductItems: (items: readonly FinanceItem[]) => FinanceItem[];
+  loadDetailedItemsForDomain: (env: FinanceRecord, domain: string) => Promise<FinanceItem[]>;
+  loadFinanceArtifacts: (env: FinanceRecord, keys: readonly string[]) => Promise<FinanceRecord>;
+  domainMatches: (item: FinanceItem, domain: string) => boolean;
+  sourceHealth: (item: FinanceItem, artifacts: FinanceRecord) => FinanceRecord;
+  recommendationReadiness: (domain: string, items: readonly FinanceItem[]) => FinanceRecord;
+  buildRecommendationCandidates: (items: readonly FinanceItem[], input: FinanceRecord) => { candidates: FinanceItem[]; excluded: FinanceRecord[] };
+  evaluateEligibility: (item: FinanceItem, inputs: FinanceRecord) => FinanceRecord;
+  rankCandidate: (item: FinanceItem, preferences: FinanceRecord) => FinanceRecord;
+  explainCandidate: (item: FinanceItem, eligibility: FinanceRecord, ranking: FinanceRecord) => FinanceRecord;
+  recommendationBlocker: (item: FinanceItem, artifacts: FinanceRecord) => string | null;
+  EXCLUDED_SAMPLE_LIMIT: number;
+  reasonCounts: (values: readonly FinanceRecord[]) => FinanceRecord;
+  itemUrl: (env: FinanceRecord, id: string) => string;
+  READ_ONLY_TOOL_ANNOTATIONS: FinanceRecord;
+  STANDARD_OUTPUT_SCHEMA: AnySchema;
+};
 
-export function registerRecommendTool(ctx: ToolContext): void {
-  const { server, env, mcpResult, assertFinanceSafe, isRecord, loadFinanceManifest, evaluateReleaseGate, manifestChecksumContract, minimumVerifiedCount, normalizeFinanceSnapshot, financeMetrics, financeNeeds, recommendationReadinessStates, nextRecommendationActions, nextRecommendationAction, financeAuditId, dedupeProductItems, loadDetailedItemsForDomain, loadFinanceArtifacts, domainMatches, sourceHealth, recommendationReadiness, buildRecommendationCandidates, evaluateEligibility, rankCandidate, explainCandidate, recommendationBlocker, EXCLUDED_SAMPLE_LIMIT, reasonCounts, itemUrl, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
+export function registerRecommendTool(rawContext: unknown): void {
+  const { server, env, mcpResult, assertFinanceSafe, isRecord, loadFinanceManifest, evaluateReleaseGate, manifestChecksumContract, minimumVerifiedCount, normalizeFinanceSnapshot, financeMetrics, financeNeeds, recommendationReadinessStates, nextRecommendationActions, nextRecommendationAction, financeAuditId, dedupeProductItems, loadDetailedItemsForDomain, loadFinanceArtifacts, domainMatches, sourceHealth, recommendationReadiness, buildRecommendationCandidates, evaluateEligibility, rankCandidate, explainCandidate, recommendationBlocker, EXCLUDED_SAMPLE_LIMIT, reasonCounts, itemUrl, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = rawContext as ToolContext;
   server.registerTool(
     "recommend",
     {
@@ -31,7 +69,7 @@ export function registerRecommendTool(ctx: ToolContext): void {
       assertFinanceSafe(preferences, "preferences");
       assertFinanceSafe(decision_context, "decision_context");
       const manifest = await loadFinanceManifest(env);
-      const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: env.DEPLOYMENT_COMMIT, domain });
+      const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: typeof env.DEPLOYMENT_COMMIT === "string" ? env.DEPLOYMENT_COMMIT : undefined, domain });
       const maxResults = limit ?? 5;
       const context = normalizeFinanceSnapshot(decision_context);
       const rankingPreferences = { ...(isRecord(profile) && typeof profile.provider === "string" ? { provider: profile.provider } : {}), ...(isRecord(profile) && profile.term_months !== undefined ? { term_months: profile.term_months } : {}), ...(preferences ?? {}) };
@@ -44,11 +82,11 @@ export function registerRecommendTool(ctx: ToolContext): void {
         // fail-closed response.
         const manifestReadiness = manifest.domain_readiness?.[domain] ?? {};
         const readiness = {
-          verified_active_product_count: Number(manifestReadiness.verified_candidate_count ?? 0),
-          verification_evidence_product_count: Number(manifestReadiness.verified_candidate_count ?? 0),
-          comparison_engine_product_count: Number(manifestReadiness.complete_field_count ?? 0),
-          verified_completeness_product_count: Number(manifestReadiness.complete_field_count ?? 0),
-          public_recommendation_candidate_count: Number(manifestReadiness.verified_candidate_count ?? 0),
+          verified_active_product_count: Number(manifestReadiness.runtime_eligible_candidate_count ?? 0),
+          verification_evidence_product_count: Number(manifestReadiness.field_verified_candidate_count ?? 0),
+          comparison_engine_product_count: Number(manifestReadiness.value_complete_candidate_count ?? 0),
+          verified_completeness_product_count: Number(manifestReadiness.field_verified_candidate_count ?? 0),
+          public_recommendation_candidate_count: Number(manifestReadiness.public_candidate_count ?? 0),
           minimum_required_count: minimumVerifiedCount(domain),
         };
         const blockerCounts = {
@@ -96,12 +134,12 @@ export function registerRecommendTool(ctx: ToolContext): void {
         constraints: constraints as Record<string, unknown> | undefined,
         decision_context: decision_context as Record<string, unknown> | undefined,
         preferences: rankingPreferences,
-        evaluateEligibility: (item, inputs) => evaluateEligibility(item, inputs),
+        evaluateEligibility: (item: FinanceItem, inputs: FinanceRecord) => evaluateEligibility(item, inputs),
         rankCandidate,
         explainCandidate,
-        recommendationBlocker: (item) => recommendationBlocker(item as FinanceItem, artifacts),
-        itemGate: (item) => evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: env.DEPLOYMENT_COMMIT, domain, item }),
-        toCandidate: (item, eligibility, ranking) => ({
+        recommendationBlocker: (item: FinanceItem) => recommendationBlocker(item, artifacts),
+        itemGate: (item: FinanceItem) => evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: typeof env.DEPLOYMENT_COMMIT === "string" ? env.DEPLOYMENT_COMMIT : undefined, domain, item }),
+        toCandidate: (item: FinanceItem, eligibility: FinanceRecord, ranking: FinanceRecord) => ({
           item_id: item.id,
           title: item.title,
           provider: item.provider,

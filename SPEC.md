@@ -123,8 +123,8 @@ Modules receive a runtime dependency context from `createServer`; they do not lo
 
 - Public recommendation remains disabled and the current degraded release state is preserved.
 - Core retrieval readiness is separate from comparison and recommendation readiness: a healthy manifest, index, and checksum keep `/ready` available even when recommendation is intentionally blocked.
-- Release status, recommendation status, domain readiness, counts, and built-at values are derived from canonical records, source artifacts, search/relationship indexes, and the current live regression report.
-- A reproducible 120-case live regression fixture and runner record the exact endpoint, deployment commit, manifest checksum, index checksum, and fixture checksum. Evidence from another deployment generation is stale.
+- `core_search_status`, `comparison_status`, `recommendation_status`, domain readiness, counts, and built-at values are derived from canonical records, source artifacts, search/relationship indexes, and the current live regression report. The compatibility `release_status` field is deprecated and aliases core search only.
+- A reproducible 120-case semantic live regression fixture and runner record the exact endpoint, deployment commit, generation ID, manifest checksum, index checksum, source-status checksum, and fixture checksum. Evidence from another deployment generation is stale and cannot satisfy the recommendation gate.
 - The MCP exposes liveness at `/health` and capability readiness at `/ready`; core artifact failure is HTTP 503, while a healthy search/fetch core returns HTTP 200 with blocked comparison/recommendation capabilities explicitly listed.
 - Recommendation policy is deterministic: hard constraints determine eligibility, preferences affect ranking only, and explanation returns score components plus matched, failed, and unknown conditions. Missing, stale, or unverified fields become unknown and are excluded.
 - A missing, stale, conflicting, or non-official assertion remains `reference_only` or `listing_only`.
