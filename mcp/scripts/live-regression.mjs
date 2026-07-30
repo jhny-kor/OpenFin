@@ -21,8 +21,8 @@ if (process.argv.includes("--validate-fixture")) { console.log(JSON.stringify({ 
 const endpoint = (process.env.MCP_URL || "https://openfin-mcp.y2kthr.workers.dev/mcp").replace(/\/$/, "");
 const base = endpoint.replace(/\/mcp$/, "");
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const metadataAttempts = Number(process.env.LIVE_METADATA_ATTEMPTS || 10);
-const metadataDelayMs = Number(process.env.LIVE_METADATA_DELAY_MS || 3000);
+const metadataAttempts = Number(process.env.LIVE_METADATA_ATTEMPTS || 60);
+const metadataDelayMs = Number(process.env.LIVE_METADATA_DELAY_MS || 5000);
 const requestTimeoutMs = Number(process.env.LIVE_REQUEST_TIMEOUT_MS || 10000);
 const caseAttempts = Number(process.env.LIVE_CASE_ATTEMPTS || 3);
 const caseRetryDelayMs = Number(process.env.LIVE_CASE_RETRY_DELAY_MS || 500);
