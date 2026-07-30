@@ -64,3 +64,12 @@ test("ranking score equals score component sum", () => {
   const ranking = rankCandidate(item("a", "A", 12), { provider: "A", term_months: 12 });
   assert.equal(ranking.score, Object.values(ranking.score_components).reduce((sum, value) => sum + value, 0));
 });
+
+test("cashflow, liquidity, and principal context affect deterministic ranking", () => {
+  const product = { ...item("a", "A", 12), minimum_deposit_krw: 300000, monthly_payment_min_krw: 300000 };
+  const supported = rankCandidate(product, { monthly_net_income_krw: 2500000, essential_monthly_expenses_krw: 1500000, liquid_assets_krw: 1000000, principal_krw: 1000000 });
+  const constrained = rankCandidate(product, { monthly_net_income_krw: 1200000, essential_monthly_expenses_krw: 1100000, liquid_assets_krw: 100000, principal_krw: 1000000 });
+  assert.ok(supported.score_components.condition_attainability > constrained.score_components.condition_attainability);
+  assert.ok(supported.score_components.liquidity_fit > constrained.score_components.liquidity_fit);
+  assert.notEqual(supported.score_components.after_tax_return, 0);
+});

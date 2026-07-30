@@ -16,13 +16,21 @@ export function rankCandidate(item: Candidate, preferences: Candidate = {}) {
   };
   const rate = numeric(item.maximum_rate_percent ?? item.base_rate_percent);
   const taxRate = Math.min(100, Math.max(0, numeric(preferences.tax_rate_percent ?? preferences.tax_rate ?? 15.4)));
-  if (rate) components.after_tax_return = rounded(rate * (1 - taxRate / 100) * 10);
+  const principal = numeric(preferences.principal_krw ?? preferences.deposit_amount_krw);
+  if (rate && principal && numeric(item.term_months)) {
+    components.after_tax_return = rounded((rate / 100) * principal * (numeric(item.term_months) / 12) * (1 - taxRate / 100) / 100000);
+  } else if (rate) components.after_tax_return = rounded(rate * (1 - taxRate / 100) * 10);
   if (preferences.provider && preferences.provider === item.provider) components.provider_preference = 2;
   if (preferences.term_months !== undefined && String(preferences.term_months) === String(item.term_months)) components.term_fit = 7;
   const horizon = numeric(preferences.liquidity_horizon_months ?? preferences.max_term_months);
   const term = numeric(item.term_months);
   if (horizon && term) components.liquidity_fit = term <= horizon ? 8 : -8;
-  const budget = numeric(preferences.monthly_budget_krw ?? preferences.monthly_contribution_krw);
+  const liquidAssets = numeric(preferences.liquid_assets_krw);
+  const requiredLiquidity = numeric(item.minimum_deposit_krw ?? item.monthly_payment_min_krw);
+  if (liquidAssets && requiredLiquidity) components.liquidity_fit += requiredLiquidity <= liquidAssets ? 4 : -8;
+  const explicitBudget = numeric(preferences.monthly_budget_krw ?? preferences.monthly_contribution_krw);
+  const disposableIncome = numeric(preferences.monthly_net_income_krw) - numeric(preferences.essential_monthly_expenses_krw);
+  const budget = explicitBudget || (disposableIncome > 0 ? disposableIncome : 0);
   if (budget) {
     const minimum = numeric(item.monthly_payment_min_krw);
     const maximum = numeric(item.monthly_payment_max_krw) || Infinity;

@@ -72,9 +72,23 @@ export function registerRecommendTool(rawContext: unknown): void {
       const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: typeof env.DEPLOYMENT_COMMIT === "string" ? env.DEPLOYMENT_COMMIT : undefined, domain });
       const maxResults = limit ?? 5;
       const context = normalizeFinanceSnapshot(decision_context);
-      const rankingPreferences = { ...(isRecord(profile) && typeof profile.provider === "string" ? { provider: profile.provider } : {}), ...(isRecord(profile) && profile.term_months !== undefined ? { term_months: profile.term_months } : {}), ...(preferences ?? {}) };
+      const profileRecord = isRecord(profile) ? profile : {};
+      const mappedDecisionContext: FinanceRecord = {
+        ...context,
+        ...(context.risk_capacity === undefined && typeof profileRecord.risk_capacity === "string" ? { risk_capacity: profileRecord.risk_capacity } : {}),
+        ...(context.liquidity_requirement === undefined && typeof profileRecord.liquidity_horizon_months === "number" ? { liquidity_requirement: { months: profileRecord.liquidity_horizon_months } } : {}),
+      };
+      const mappedLiquidity = isRecord(mappedDecisionContext.liquidity_requirement) && typeof mappedDecisionContext.liquidity_requirement.months === "number" ? mappedDecisionContext.liquidity_requirement.months : undefined;
+      const rankingPreferences = {
+        ...(typeof profileRecord.provider === "string" ? { provider: profileRecord.provider } : {}),
+        ...(profileRecord.term_months !== undefined ? { term_months: profileRecord.term_months } : {}),
+        ...Object.fromEntries(["tax_rate_percent", "tax_rate", "liquidity_horizon_months", "max_term_months", "monthly_budget_krw", "monthly_contribution_krw", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => profileRecord[key] !== undefined).map((key) => [key, profileRecord[key]])),
+        ...(mappedLiquidity !== undefined ? { liquidity_horizon_months: mappedLiquidity } : {}),
+        ...Object.fromEntries(["tax_rate_percent", "monthly_budget_krw", "monthly_contribution_krw", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => mappedDecisionContext[key] !== undefined).map((key) => [key, mappedDecisionContext[key]])),
+        ...(preferences ?? {}),
+      };
       const contextMetrics = financeMetrics(context);
-      const contextNeeds = financeNeeds(context, contextMetrics);
+      const contextNeeds = financeNeeds(mappedDecisionContext, contextMetrics);
       const contextMissing = ["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => context[key] === null || context[key] === undefined || context[key] === "");
       if (releaseGate.status !== "ready") {
         // A blocked release must be cheap and deterministic. Do not hydrate
@@ -132,7 +146,7 @@ export function registerRecommendTool(rawContext: unknown): void {
       const recommendation = buildRecommendationCandidates(domainItems as unknown as Array<Record<string, unknown>>, {
         profile: profile as Record<string, unknown> | undefined,
         constraints: constraints as Record<string, unknown> | undefined,
-        decision_context: decision_context as Record<string, unknown> | undefined,
+        decision_context: mappedDecisionContext,
         preferences: rankingPreferences,
         evaluateEligibility: (item: FinanceItem, inputs: FinanceRecord) => evaluateEligibility(item, inputs),
         rankCandidate,
