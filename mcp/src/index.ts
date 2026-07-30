@@ -183,6 +183,7 @@ type FinanceManifest = {
   recommendation_release_status?: string;
   recommendation_status?: string;
   generation_id?: string;
+  deployment_commit?: string;
   recommendation_enabled?: boolean;
   blocking_reasons?: string[];
   openfin_120_live_regression?: Record<string, unknown>;

@@ -47,7 +47,7 @@ for (let attempt = 1; attempt <= metadataAttempts; attempt += 1) {
     const manifestResponse = await fetchWithTimeout(`${candidateHealth.finance_manifest_url}?${cacheBust}`, { headers: { "cache-control": "no-cache" } });
     if (!manifestResponse.ok) throw new Error(`manifest failed: ${manifestResponse.status}`);
     const candidateManifest = await manifestResponse.json();
-    if (typeof candidateManifest.generation_id !== "string" || candidateHealth.deployment_commit === "unknown") throw new Error("deployment/manifest generation metadata is missing or inconsistent");
+    if (typeof candidateManifest.generation_id !== "string" || candidateHealth.deployment_commit === "unknown" || candidateManifest.deployment_commit !== candidateHealth.deployment_commit) throw new Error("deployment/manifest generation metadata is missing or inconsistent");
     if (candidateHealth.generation_id !== candidateManifest.generation_id) throw new Error("health/manifest generation mismatch");
     healthPayload = candidateHealth;
     manifest = candidateManifest;
