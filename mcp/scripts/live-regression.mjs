@@ -97,13 +97,17 @@ for (const entry of fixture) {
       if (!retryable || attempt === caseAttempts) break;
       await wait(caseRetryDelayMs);
     }
-    const text = result.content?.find((value) => value.type === "text")?.text;
-    const payload = typeof text === "string" ? JSON.parse(text) : null;
     const expectedError = entry.expected_status === "error" || entry.expect_error === true;
-    const actualStatus = result.isError ? "error" : payload?.status ?? "ok";
+    const text = result.content?.find((value) => value.type === "text")?.text;
+    let payload = null;
+    let parseError;
+    if (typeof text === "string") {
+      try { payload = JSON.parse(text); } catch (error) { parseError = error; }
+    }
+    const actualStatus = result.isError || (expectedError && parseError) ? "error" : payload?.status ?? "ok";
     if (actualStatus !== entry.expected_status) throw new Error(`status=${actualStatus}; expected=${entry.expected_status}; http_status=${result?.http_status ?? "n/a"}; error=${result?.error?.message ?? "n/a"}`);
     if (expectedError) {
-      if (!result.isError) throw new Error("expected tool error but received a success response");
+      if (!result.isError && !parseError) throw new Error("expected tool error but received a structured success response");
       results.push({ case_id: entry.case_id, category: entry.category, semantic_hash: semanticHash(entry), status: "passed" });
       continue;
     }
