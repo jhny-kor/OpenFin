@@ -514,17 +514,17 @@
     "live_regression": {
       "status": "current",
       "mode": "live",
-      "checked_at": "2026-07-30T09:50:42.812Z",
+      "checked_at": "2026-07-31T19:52:41.027Z",
       "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
       "runtime_version": "openfin-mcp-2026.07.28.2",
-      "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
-      "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
+      "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
+      "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
       "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-      "manifest_checksum": "552fb4bf95eba9732957fc9a13a4aff8b7fba351e08c5effd0d7116f82a77aad",
-      "loaded_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
-      "source_status_checksum": "ead4f882caf2b7cd0ff5c350ac61dfb4d2844aa4e0429592f9abb4fd9ad6c774",
-      "loaded_item_count": 21279,
-      "fixture_checksum": "sha256:c43512d6683261ea1e1c1a2f7e2d471c9ab62d6e925231cd12ea00ea7e0fff66",
+      "manifest_checksum": "c02888764afbe71b11c2a599ec18a2d98385cbb92917dcdfcad8ba1e7e7e38f4",
+      "loaded_index_checksum": "369cbc7ec7fa6b611f814df7a13ee279f7483c7a12e20d4966c2e46f2abf6432",
+      "source_status_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789",
+      "loaded_item_count": 21289,
+      "fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf",
       "semantic_unique_case_count": 120,
       "category_counts": {
         "exact_search": 20,
@@ -786,91 +786,91 @@
         {
           "case_id": "live-041",
           "category": "comparison",
-          "semantic_hash": "b205f98acea927515fa46cedc6c984e0c46d58bc5d5e38b07c029b5ac9d27866",
+          "semantic_hash": "35b53033240d04f6b1e1cc5ddfd206ae084033ed6d20c19fefd014a2fd7ad329",
           "status": "passed"
         },
         {
           "case_id": "live-042",
           "category": "comparison",
-          "semantic_hash": "7a380b2a7f74a3568355f4ad735549212da76bd21870d8bd18148443eddb9f98",
+          "semantic_hash": "c5b0a67c7049d1c232506d7d82e353693438b0aac27820c041280bd09d5884f3",
           "status": "passed"
         },
         {
           "case_id": "live-043",
           "category": "comparison",
-          "semantic_hash": "626198b2308daba868c27390fa7f912df0c116352a08adfaa79f8b62e10f7f85",
+          "semantic_hash": "43aca62af143ecc586f03f8f1797ccfcfbe934d37f2c1abdde81948ba93dba83",
           "status": "passed"
         },
         {
           "case_id": "live-044",
           "category": "comparison",
-          "semantic_hash": "b6f06bee656a17e481e659d8d0caee2d04e72a6bddcaa2627915bdbc1a7724f3",
+          "semantic_hash": "0613a9d282b9f35d3e478ceece3e10c531f2125afc4bb224da4a824f83ed7733",
           "status": "passed"
         },
         {
           "case_id": "live-045",
           "category": "comparison",
-          "semantic_hash": "f944a188762cf436a2d8e1aedd64e73b1ec6e1298d9df1718d9cb483841e4330",
+          "semantic_hash": "be9c03d21b0724665e6377e6035dafc788a272d1c4bbae1f637a09f9fe80413a",
           "status": "passed"
         },
         {
           "case_id": "live-046",
           "category": "comparison",
-          "semantic_hash": "232229e91f0f7dac55e1653ac3128bd5451fd667cef3802b9fcbfc2873c7286e",
+          "semantic_hash": "1855b53a3d5dc9756fd48ea14151979d6bd16bba65478c55298cdd663c91c42e",
           "status": "passed"
         },
         {
           "case_id": "live-047",
           "category": "comparison",
-          "semantic_hash": "03b1fe10641a9a7497977a477db6d8fd31807f11d79fe9e5967bb2c33ea28ed1",
+          "semantic_hash": "cdb721a367157b10a103984ecdeb049a1cff8c050e6f25606ab692d0801773da",
           "status": "passed"
         },
         {
           "case_id": "live-048",
           "category": "comparison",
-          "semantic_hash": "67d399912e2a3f64aa181adbf0f5db2f051a62bb92691a1ac4e97db634b39779",
+          "semantic_hash": "7a27300749466c7e5e757ca74fa4c876685bf253a4452c1c08c627dfe45e6789",
           "status": "passed"
         },
         {
           "case_id": "live-049",
           "category": "comparison",
-          "semantic_hash": "a0790a6dbbc1246b0f501b04c73e0d47c62afa714bf760b8662561ca9a9ea4fa",
+          "semantic_hash": "66b62d8a84c4ab27f1fc3d07dec53f467080dee6d60850b07c1e334102bdbc85",
           "status": "passed"
         },
         {
           "case_id": "live-050",
           "category": "comparison",
-          "semantic_hash": "d1442786f4c0c4c81d6c41a8558dbf5b5c71ca596fbd4b366b8228e4bb41bd25",
+          "semantic_hash": "64b90096df7514d250571fe9c247e258193afe4d666a5c9c2103dd26e3c615d9",
           "status": "passed"
         },
         {
           "case_id": "live-051",
           "category": "comparison",
-          "semantic_hash": "46776d694d60f2f9630e2aa29fd0ccf2a5023648c9631d80f102a99b8b021b49",
+          "semantic_hash": "4b8359f04a5e8792d1b94a9bbf6f8b08865e4c05ee6988cce8fee4f9d13e5121",
           "status": "passed"
         },
         {
           "case_id": "live-052",
           "category": "comparison",
-          "semantic_hash": "274a30b5674299867cf4169ab7515f6043bf216847e1dbc7be984eaf85b103e0",
+          "semantic_hash": "f407bb33cdda7acaec667f3d599e153dfaf06e1ad7fe1e19f31767b2a8570164",
           "status": "passed"
         },
         {
           "case_id": "live-053",
           "category": "comparison",
-          "semantic_hash": "1844c6add317285201f915edfcbe25d338fa3cf835de0f00e8718cb4e24c84bd",
+          "semantic_hash": "6e0171905c47eda2a436ad739a5d9e63414b49c67351e2f60dd993f1370136ac",
           "status": "passed"
         },
         {
           "case_id": "live-054",
           "category": "comparison",
-          "semantic_hash": "3177cef669e5b0415cce9ea721cb62673e36371b33c9bea44bf821ac78c0f419",
+          "semantic_hash": "ddadd0e314e69df3ff7284c88ec46db0a67e0424403bb4015f9e80bd858f41b6",
           "status": "passed"
         },
         {
           "case_id": "live-055",
           "category": "comparison",
-          "semantic_hash": "bb0e2589ed204ba0218ebc5aea0a4216e96b035094f20f4ceb0d6df956620eb2",
+          "semantic_hash": "7c372feffb1d0546722edbe98186e1bde9ec5392c91768dd615172337d58700b",
           "status": "passed"
         },
         {
@@ -888,7 +888,7 @@
         {
           "case_id": "live-058",
           "category": "eligibility",
-          "semantic_hash": "34832c925dd9463e33c315726ebbf6aa053f636f34194f2e892ff46859a19801",
+          "semantic_hash": "428846af871a02752740a2363950271f0f14d7b643c2c8d3b0d270aabcd5d95e",
           "status": "passed"
         },
         {
@@ -906,7 +906,7 @@
         {
           "case_id": "live-061",
           "category": "eligibility",
-          "semantic_hash": "91cf955404beb7af159f22b7bd25174b1a923554dd32a46912bf5dab12ccfa0c",
+          "semantic_hash": "aa12f6891499490b563ef345901ac4cbe4e6916789aaca07a74cd961b0bbb5e4",
           "status": "passed"
         },
         {
@@ -924,7 +924,7 @@
         {
           "case_id": "live-064",
           "category": "eligibility",
-          "semantic_hash": "13e690e809f4ebcb4408b92b1396b1b572201c8deb71015f229fdb9f38e0b76b",
+          "semantic_hash": "e1449e52a59d84aa07ae59ac9900ea58a5848f7c65c6805d4ed8f2db21768c71",
           "status": "passed"
         },
         {
@@ -942,7 +942,7 @@
         {
           "case_id": "live-067",
           "category": "eligibility",
-          "semantic_hash": "4d193fa1779cbd83c75b915e66c85ae16692269a67cee8d49dede24f8cc60c26",
+          "semantic_hash": "0b181114f3d89e4fea249c9e51cdfd1b88951704a06c91526e09b4890bf0e5a8",
           "status": "passed"
         },
         {
@@ -960,7 +960,7 @@
         {
           "case_id": "live-070",
           "category": "eligibility",
-          "semantic_hash": "84e71337585e959eba8671c0fd3464a1ccd9418408928e43f1666d7f0f9c83e7",
+          "semantic_hash": "3eb40fb6375114d6277d418d0b5a253ad9b805f0ab86964872bc833902187deb",
           "status": "passed"
         },
         {
@@ -1056,7 +1056,7 @@
         {
           "case_id": "live-086",
           "category": "recommendation_gate",
-          "semantic_hash": "00e4905f49222caffccbaa34698465dc69481795d9ac52001692a2bec29a5b49",
+          "semantic_hash": "20f13dac40f91eeb90d70b83fed5e4a2100c60ec54144688ebbc05d2a2435edd",
           "status": "passed"
         },
         {
@@ -1092,7 +1092,7 @@
         {
           "case_id": "live-092",
           "category": "recommendation_gate",
-          "semantic_hash": "bd5de9b772d1b0a50ad73c9c76a589bb6e70cd3490431daab7c030470ddde938",
+          "semantic_hash": "1ba4ea9d42b7bae52f848f3be7ea0c20a8389e14604ae042904765832e4a5ca2",
           "status": "passed"
         },
         {
@@ -1265,10 +1265,10 @@
         }
       ],
       "evidence_path": "evidence/live-regression/current.json",
-      "evidence_checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
-      "expected_generation_id": "cfc95eeea28f1bbe45b6aedfc9711e2de471c0d1e5ff66f849ee90cc829f403e",
+      "evidence_checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
+      "expected_generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
       "expected_fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf",
-      "validation_status": "stale_fixture"
+      "validation_status": "current"
     }
   },
   "operating_policy": {
@@ -1593,7 +1593,7 @@
         "relationship_count": 102523,
         "collection_failure_sources": 49
       },
-      "export_checksum": "90e3d7d9d05a342f91853a8d035e0a2f14297cc7b8203546c1bc52b5257e340f",
+      "export_checksum": "2556270b533fdd30ea4daa9dbe65d7658a99461630efee8de3641980ea50c48e",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1615,7 +1615,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "a56283b9064c1cd16b81ed9ad531cab61ddc96db1824aa7be66de8f22625b371",
+      "export_checksum": "e301e222d49b0c366217514e066b2a70c2e7b3485c238b8ec6fc459866ddff5e",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1637,7 +1637,7 @@
         "live_failure_count": 105,
         "report_kind": "verification-coverage"
       },
-      "export_checksum": "f8c0459619dfbe97765945bcd208aae45586606edb79ca8d09db756d298a3c3e",
+      "export_checksum": "fbceb88cfbc449389a380334b04774c88183caa63f47857ba05a5bb83ac9ea6f",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1667,7 +1667,7 @@
         "duplicate_canonical_product_count": 0,
         "canonical_merge_count": 11
       },
-      "export_checksum": "4b33c618328db108630c693e70d37a09a85f6beaf2db62886a99165f2976cd20",
+      "export_checksum": "c0a7f8a695194774f6f15ab0c9a19f3f22794dd7ce223cf92a90c1e3dd8f7ad3",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1691,7 +1691,7 @@
         "failed_count": 0,
         "search_regression_failed_count": 0
       },
-      "export_checksum": "0bee5d56c7bf41fe4ba102d5dad99e6426aa1f2f4bd359d3e905a7688c872c2f",
+      "export_checksum": "f210d5fe3af390e0817c5e43e534acca72d61ca34bd157053f6436a41163ac37",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1713,7 +1713,7 @@
         "live_failure_count": 105,
         "report_kind": "recommendation-safety"
       },
-      "export_checksum": "c37ea1914de6b96de2f23f7b0144bcdd13456bdbb717b33ab01cc5c83a0f8d25",
+      "export_checksum": "fd1ef674954c8862050509100136adba3c6bdf3aa7a93638a52c056710efac1e",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1738,7 +1738,7 @@
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0
       },
-      "export_checksum": "54ada59ddb6fdc4a0753271e854c05e5be9f9a59c69ff515849c2a7e6cef065d",
+      "export_checksum": "d00aa760db054440f814a34d36e26dbe3ca93bee2a23fb56c25844d6ab17bd4f",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1760,7 +1760,7 @@
         "live_failure_count": 105,
         "report_kind": "data-drift"
       },
-      "export_checksum": "9f0af625d057c9fed906cf2d6ebbbeb6e474fe2f01497386b9129b836d9c5158",
+      "export_checksum": "51a47e947b162cf492ca979b87344b517028b185ae1b456558c4c073b89381d6",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1783,7 +1783,7 @@
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0
       },
-      "export_checksum": "2b3dfa6c97844c8b66e55ecd241db51dc377c0cece1e1b608249caa7ff021c78",
+      "export_checksum": "65a12ee47237d2cd1fd8da9608251e712c5b4e985673e5eca31ef82cf0507145",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -3480,17 +3480,17 @@
   "openfin_120_live_regression": {
     "status": "current",
     "mode": "live",
-    "checked_at": "2026-07-30T09:50:42.812Z",
+    "checked_at": "2026-07-31T19:52:41.027Z",
     "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
     "runtime_version": "openfin-mcp-2026.07.28.2",
-    "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
-    "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
+    "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
+    "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-    "manifest_checksum": "552fb4bf95eba9732957fc9a13a4aff8b7fba351e08c5effd0d7116f82a77aad",
-    "loaded_index_checksum": "a05a50c6351cdb59b145b82dd5d8f6566e2fab760404f4030f5fd5549f7fbd44",
-    "source_status_checksum": "ead4f882caf2b7cd0ff5c350ac61dfb4d2844aa4e0429592f9abb4fd9ad6c774",
-    "loaded_item_count": 21279,
-    "fixture_checksum": "sha256:c43512d6683261ea1e1c1a2f7e2d471c9ab62d6e925231cd12ea00ea7e0fff66",
+    "manifest_checksum": "c02888764afbe71b11c2a599ec18a2d98385cbb92917dcdfcad8ba1e7e7e38f4",
+    "loaded_index_checksum": "369cbc7ec7fa6b611f814df7a13ee279f7483c7a12e20d4966c2e46f2abf6432",
+    "source_status_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789",
+    "loaded_item_count": 21289,
+    "fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf",
     "semantic_unique_case_count": 120,
     "category_counts": {
       "exact_search": 20,
@@ -3752,91 +3752,91 @@
       {
         "case_id": "live-041",
         "category": "comparison",
-        "semantic_hash": "b205f98acea927515fa46cedc6c984e0c46d58bc5d5e38b07c029b5ac9d27866",
+        "semantic_hash": "35b53033240d04f6b1e1cc5ddfd206ae084033ed6d20c19fefd014a2fd7ad329",
         "status": "passed"
       },
       {
         "case_id": "live-042",
         "category": "comparison",
-        "semantic_hash": "7a380b2a7f74a3568355f4ad735549212da76bd21870d8bd18148443eddb9f98",
+        "semantic_hash": "c5b0a67c7049d1c232506d7d82e353693438b0aac27820c041280bd09d5884f3",
         "status": "passed"
       },
       {
         "case_id": "live-043",
         "category": "comparison",
-        "semantic_hash": "626198b2308daba868c27390fa7f912df0c116352a08adfaa79f8b62e10f7f85",
+        "semantic_hash": "43aca62af143ecc586f03f8f1797ccfcfbe934d37f2c1abdde81948ba93dba83",
         "status": "passed"
       },
       {
         "case_id": "live-044",
         "category": "comparison",
-        "semantic_hash": "b6f06bee656a17e481e659d8d0caee2d04e72a6bddcaa2627915bdbc1a7724f3",
+        "semantic_hash": "0613a9d282b9f35d3e478ceece3e10c531f2125afc4bb224da4a824f83ed7733",
         "status": "passed"
       },
       {
         "case_id": "live-045",
         "category": "comparison",
-        "semantic_hash": "f944a188762cf436a2d8e1aedd64e73b1ec6e1298d9df1718d9cb483841e4330",
+        "semantic_hash": "be9c03d21b0724665e6377e6035dafc788a272d1c4bbae1f637a09f9fe80413a",
         "status": "passed"
       },
       {
         "case_id": "live-046",
         "category": "comparison",
-        "semantic_hash": "232229e91f0f7dac55e1653ac3128bd5451fd667cef3802b9fcbfc2873c7286e",
+        "semantic_hash": "1855b53a3d5dc9756fd48ea14151979d6bd16bba65478c55298cdd663c91c42e",
         "status": "passed"
       },
       {
         "case_id": "live-047",
         "category": "comparison",
-        "semantic_hash": "03b1fe10641a9a7497977a477db6d8fd31807f11d79fe9e5967bb2c33ea28ed1",
+        "semantic_hash": "cdb721a367157b10a103984ecdeb049a1cff8c050e6f25606ab692d0801773da",
         "status": "passed"
       },
       {
         "case_id": "live-048",
         "category": "comparison",
-        "semantic_hash": "67d399912e2a3f64aa181adbf0f5db2f051a62bb92691a1ac4e97db634b39779",
+        "semantic_hash": "7a27300749466c7e5e757ca74fa4c876685bf253a4452c1c08c627dfe45e6789",
         "status": "passed"
       },
       {
         "case_id": "live-049",
         "category": "comparison",
-        "semantic_hash": "a0790a6dbbc1246b0f501b04c73e0d47c62afa714bf760b8662561ca9a9ea4fa",
+        "semantic_hash": "66b62d8a84c4ab27f1fc3d07dec53f467080dee6d60850b07c1e334102bdbc85",
         "status": "passed"
       },
       {
         "case_id": "live-050",
         "category": "comparison",
-        "semantic_hash": "d1442786f4c0c4c81d6c41a8558dbf5b5c71ca596fbd4b366b8228e4bb41bd25",
+        "semantic_hash": "64b90096df7514d250571fe9c247e258193afe4d666a5c9c2103dd26e3c615d9",
         "status": "passed"
       },
       {
         "case_id": "live-051",
         "category": "comparison",
-        "semantic_hash": "46776d694d60f2f9630e2aa29fd0ccf2a5023648c9631d80f102a99b8b021b49",
+        "semantic_hash": "4b8359f04a5e8792d1b94a9bbf6f8b08865e4c05ee6988cce8fee4f9d13e5121",
         "status": "passed"
       },
       {
         "case_id": "live-052",
         "category": "comparison",
-        "semantic_hash": "274a30b5674299867cf4169ab7515f6043bf216847e1dbc7be984eaf85b103e0",
+        "semantic_hash": "f407bb33cdda7acaec667f3d599e153dfaf06e1ad7fe1e19f31767b2a8570164",
         "status": "passed"
       },
       {
         "case_id": "live-053",
         "category": "comparison",
-        "semantic_hash": "1844c6add317285201f915edfcbe25d338fa3cf835de0f00e8718cb4e24c84bd",
+        "semantic_hash": "6e0171905c47eda2a436ad739a5d9e63414b49c67351e2f60dd993f1370136ac",
         "status": "passed"
       },
       {
         "case_id": "live-054",
         "category": "comparison",
-        "semantic_hash": "3177cef669e5b0415cce9ea721cb62673e36371b33c9bea44bf821ac78c0f419",
+        "semantic_hash": "ddadd0e314e69df3ff7284c88ec46db0a67e0424403bb4015f9e80bd858f41b6",
         "status": "passed"
       },
       {
         "case_id": "live-055",
         "category": "comparison",
-        "semantic_hash": "bb0e2589ed204ba0218ebc5aea0a4216e96b035094f20f4ceb0d6df956620eb2",
+        "semantic_hash": "7c372feffb1d0546722edbe98186e1bde9ec5392c91768dd615172337d58700b",
         "status": "passed"
       },
       {
@@ -3854,7 +3854,7 @@
       {
         "case_id": "live-058",
         "category": "eligibility",
-        "semantic_hash": "34832c925dd9463e33c315726ebbf6aa053f636f34194f2e892ff46859a19801",
+        "semantic_hash": "428846af871a02752740a2363950271f0f14d7b643c2c8d3b0d270aabcd5d95e",
         "status": "passed"
       },
       {
@@ -3872,7 +3872,7 @@
       {
         "case_id": "live-061",
         "category": "eligibility",
-        "semantic_hash": "91cf955404beb7af159f22b7bd25174b1a923554dd32a46912bf5dab12ccfa0c",
+        "semantic_hash": "aa12f6891499490b563ef345901ac4cbe4e6916789aaca07a74cd961b0bbb5e4",
         "status": "passed"
       },
       {
@@ -3890,7 +3890,7 @@
       {
         "case_id": "live-064",
         "category": "eligibility",
-        "semantic_hash": "13e690e809f4ebcb4408b92b1396b1b572201c8deb71015f229fdb9f38e0b76b",
+        "semantic_hash": "e1449e52a59d84aa07ae59ac9900ea58a5848f7c65c6805d4ed8f2db21768c71",
         "status": "passed"
       },
       {
@@ -3908,7 +3908,7 @@
       {
         "case_id": "live-067",
         "category": "eligibility",
-        "semantic_hash": "4d193fa1779cbd83c75b915e66c85ae16692269a67cee8d49dede24f8cc60c26",
+        "semantic_hash": "0b181114f3d89e4fea249c9e51cdfd1b88951704a06c91526e09b4890bf0e5a8",
         "status": "passed"
       },
       {
@@ -3926,7 +3926,7 @@
       {
         "case_id": "live-070",
         "category": "eligibility",
-        "semantic_hash": "84e71337585e959eba8671c0fd3464a1ccd9418408928e43f1666d7f0f9c83e7",
+        "semantic_hash": "3eb40fb6375114d6277d418d0b5a253ad9b805f0ab86964872bc833902187deb",
         "status": "passed"
       },
       {
@@ -4022,7 +4022,7 @@
       {
         "case_id": "live-086",
         "category": "recommendation_gate",
-        "semantic_hash": "00e4905f49222caffccbaa34698465dc69481795d9ac52001692a2bec29a5b49",
+        "semantic_hash": "20f13dac40f91eeb90d70b83fed5e4a2100c60ec54144688ebbc05d2a2435edd",
         "status": "passed"
       },
       {
@@ -4058,7 +4058,7 @@
       {
         "case_id": "live-092",
         "category": "recommendation_gate",
-        "semantic_hash": "bd5de9b772d1b0a50ad73c9c76a589bb6e70cd3490431daab7c030470ddde938",
+        "semantic_hash": "1ba4ea9d42b7bae52f848f3be7ea0c20a8389e14604ae042904765832e4a5ca2",
         "status": "passed"
       },
       {
@@ -4231,10 +4231,10 @@
       }
     ],
     "evidence_path": "evidence/live-regression/current.json",
-    "evidence_checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
-    "expected_generation_id": "cfc95eeea28f1bbe45b6aedfc9711e2de471c0d1e5ff66f849ee90cc829f403e",
+    "evidence_checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
+    "expected_generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
     "expected_fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf",
-    "validation_status": "stale_fixture"
+    "validation_status": "current"
   },
   "domain_readiness": {
     "deposit": {
@@ -4624,13 +4624,12 @@
   "comparison_release_status": "blocked",
   "recommendation_release_status": "blocked",
   "recommendation_blocking_reasons": [
-    "live_regression_current",
     "no_public_recommendation_domain",
     "public_recommendation_policy_blocked",
     "public_approval_receipt_missing",
     "recommendation_state_blocked"
   ],
-  "quality_hash": "ecf82362526db81101707dee2666ab03b8d8ec0a793e388396e152069c2bdfb9",
+  "quality_hash": "0f4d714ff4d2779198a0b10418195f50bce2038046419d3f7fc07d58a7e844b9",
   "live_regression_policy": {
     "required_count": 120,
     "required_mode": "live",
@@ -4641,13 +4640,13 @@
   "core_search_status": "ready",
   "comparison_status": "blocked",
   "recommendation_status": "blocked",
-  "generation_id": "cfc95eeea28f1bbe45b6aedfc9711e2de471c0d1e5ff66f849ee90cc829f403e",
-  "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
+  "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
+  "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
   "artifact_contract": {
     "version": "openfin-artifact-contract-v1",
     "readiness_schema_version": "openfin-readiness-v2",
-    "generation_id": "cfc95eeea28f1bbe45b6aedfc9711e2de471c0d1e5ff66f849ee90cc829f403e",
-    "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
+    "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
+    "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
     "canonical_content_checksum": "bbedb7012616b11179c4d86a8803a005b3de7b5ad06dfa9fcb265ce0572adb10",
     "search_index_checksum": "369cbc7ec7fa6b611f814df7a13ee279f7483c7a12e20d4966c2e46f2abf6432",
     "source_status_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789",
@@ -4726,5 +4725,5 @@
       "public_recommendation_candidate_count": 0
     }
   },
-  "manifest_checksum": "3a0b5a73da53c736c16af10a30a35157df7d896e768e162a541d30ab8b47b2ed"
+  "manifest_checksum": "9f1d33ddc6ba149f2ae8f2ce9533d6dd31f681e0055c2ddb4886651607636804"
 }
