@@ -102,13 +102,18 @@ const results = [];
 for (const entry of fixture) {
   try {
     let result;
+    const expectedError = entry.expected_status === "error" || entry.expect_error === true;
     for (let attempt = 1; attempt <= caseAttempts; attempt += 1) {
-      result = await rpc("tools/call", { name: entry.tool, arguments: entry.arguments });
-      const retryable = result?.isError && Number(result.http_status) >= 500;
+      try {
+        result = await rpc("tools/call", { name: entry.tool, arguments: entry.arguments });
+      } catch (error) {
+        result = { isError: true, http_status: 503, error: { message: error instanceof Error ? error.message : String(error) } };
+      }
+      const retryable = !expectedError && result?.isError;
       if (!retryable || attempt === caseAttempts) break;
+      try { await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "openfin-live-regression", version: "1" } }); } catch {}
       await wait(caseRetryDelayMs);
     }
-    const expectedError = entry.expected_status === "error" || entry.expect_error === true;
     const text = result.content?.find((value) => value.type === "text")?.text;
     let payload = null;
     let parseError;
