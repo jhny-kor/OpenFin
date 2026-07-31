@@ -595,6 +595,22 @@ function structuredSearchText(value: unknown[] | undefined): string {
   return (value ?? []).map((entry) => JSON.stringify(entry)).join(" ");
 }
 
+function sourceFreshnessStatus(item: FinanceItem, artifacts: FinanceArtifacts): string | null {
+  if ((item.provenance?.length ?? 0) > 0 || (item.source_assertions?.length ?? 0) > 0) {
+    return (sourceHealth(item, artifacts).freshness_status as string | null | undefined) ?? null;
+  }
+  const sourceIds = [...new Set([...(item.sources ?? []), ...(item.source_ids ?? [])])];
+  if (!sourceIds.length) {
+    return (sourceHealth(item, artifacts).freshness_status as string | null | undefined) ?? null;
+  }
+  return resolveSourceStatus({
+    sourceIds,
+    sourceUrlCount: item.source_urls?.length ?? 0,
+    sourceStatusArtifact: artifacts.source_status,
+    staticFreshness: item.freshness_status ?? item.source_freshness_status,
+  }).freshnessStatus;
+}
+
 function matchesRecommendationDomain(item: FinanceItem, query: string, searchType: string): boolean {
   if (query.includes("보험")) {
     return item.type === "insurance-product";
@@ -618,6 +634,11 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters, artifac
   const equals = (value: string | undefined, expected: string | undefined): boolean =>
     expected === undefined || normalizeQuery(value ?? "") === normalizeQuery(expected);
   const region = normalizeQuery(filters.region ?? "");
+  const freshness = filters.freshnessStatus === undefined
+    ? item.freshness_status
+    : artifacts
+      ? sourceFreshnessStatus(item, artifacts)
+      : item.freshness_status;
   return (
     equals(item.search_type, filters.searchType) &&
     equals(item.product_kind, filters.productKind) &&
@@ -626,7 +647,7 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters, artifac
     equals(item.sales_status, filters.salesStatus) &&
     equals(item.application_status, filters.applicationStatus) &&
     equals(item.provider, filters.provider) &&
-    equals(artifacts ? (sourceHealth(item, artifacts).freshness_status as string | null ?? undefined) : item.freshness_status, filters.freshnessStatus) &&
+    equals(freshness ?? undefined, filters.freshnessStatus) &&
     (!region || [item.jurisdiction, item.jurisdiction_code, ...(item.jurisdiction_aliases ?? [])]
       .some((value) => normalizeQuery(value ?? "").includes(region)))
   );
