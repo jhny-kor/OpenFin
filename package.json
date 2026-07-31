@@ -8,10 +8,12 @@
   "scripts": {
     "knowledge:bootstrap": "node scripts/knowledge/bootstrap.mjs",
     "knowledge:build": "node scripts/knowledge/build-decision-snapshots.mjs && node scripts/knowledge/build.mjs",
-    "knowledge:validate": "node scripts/knowledge/validate.mjs",
+    "knowledge:validate": "node scripts/knowledge/validate.mjs && node scripts/knowledge/validate-rule-facts.mjs",
+    "knowledge:validate-facts": "node scripts/knowledge/validate-rule-facts.mjs",
     "knowledge:schema-validate": "node scripts/knowledge/schema-validate.mjs",
     "knowledge:derive-quality": "node scripts/knowledge/derive-quality.mjs",
     "knowledge:derive-quality:check": "node scripts/knowledge/derive-quality.mjs --check",
+    "knowledge:verify-recommendation-approval": "node scripts/knowledge/verify-recommendation-approval.mjs",
     "knowledge:verify-public-parity": "node scripts/knowledge/verify-public-parity.mjs",
     "knowledge:track-sources": "node scripts/knowledge/track-sources.mjs --dry-run",
     "knowledge:track-sources:write": "node scripts/knowledge/track-sources.mjs --write",

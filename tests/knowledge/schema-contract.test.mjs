@@ -11,7 +11,7 @@ const schemaDir = path.join(root, 'schemas');
 const validator = () => {
   const ajv = new Ajv2020({ allErrors: true, strict: false });
   addFormats(ajv);
-  for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'entity.schema.json']) ajv.addSchema(JSON.parse(fs.readFileSync(path.join(schemaDir, file))), file);
+  for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'entity.schema.json', 'candidate-promotion-receipt.schema.json']) ajv.addSchema(JSON.parse(fs.readFileSync(path.join(schemaDir, file))), file);
   for (const file of ['bank-product.schema.json', 'deposit.schema.json', 'saving.schema.json', 'loan.schema.json', 'card.schema.json', 'card-product.schema.json', 'insurance.schema.json', 'insurance-product.schema.json', 'support-program.schema.json', 'eligibility-rule.schema.json', 'bonus-rate-rule.schema.json', 'early-termination-rule.schema.json', 'offer-option.schema.json', 'financial-offer.schema.json', 'deposit-offer.schema.json', 'saving-offer.schema.json']) ajv.addSchema(JSON.parse(fs.readFileSync(path.join(schemaDir, 'types', file))), `types/${file}`);
   return ajv;
 };

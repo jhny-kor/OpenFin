@@ -39,7 +39,7 @@ const sourceSnapshotDates = catalog.flatMap(item => [item.source_collected_at, i
 const now = process.env.OPENFIN_BUILD_AT || sourceSnapshotDates.at(-1) || 'unknown';
 const artifactEntry = (id, domain, file, payload, itemCount, extra = {}) => ({id, domain, path:`opentax/${file}`, url:`${PUBLIC_BASE}/${file}`, web_url:`${PUBLIC_BASE}/${file}`, item_count:itemCount, generated_at:now, export_checksum:sha256(payload).slice(7), ...extra});
 const writeCompact = (file, payload) => { fs.mkdirSync(path.dirname(file), {recursive:true}); fs.writeFileSync(file, JSON.stringify(payload) + '\n'); };
-const decisionOfferPayload = { version: 'OPENFIN-DECISION-OFFERS-2026.07.30.1', generated_at: now, item_count: decisionOffers.length, items: decisionOffers };
+const decisionOfferPayload = { version: 'OPENFIN-DECISION-OFFERS-2026.07.31.1', generated_at: now, item_count: decisionOffers.length, items: decisionOffers };
 const decisionOfferPath = path.join(DOCS, 'openfin-decision-offers-2026.json');
 writeCompact(decisionOfferPath, decisionOfferPayload);
 const decisionOfferEntry = {
@@ -288,10 +288,15 @@ const normalizeLegacyExportQuality = (output, state) => {
     field_verified_candidate_count: state.field_verified_candidate_count,
     runtime_eligible_candidate_count: state.runtime_eligible_candidate_count,
     public_candidate_count: state.public_candidate_count,
+    comparison_eligible_candidate_count: state.comparison_eligible_candidate_count,
+    public_comparison_candidate_count: state.public_comparison_candidate_count,
+    shadow_recommendation_candidate_count: state.shadow_recommendation_candidate_count,
+    owner_pilot_candidate_count: state.owner_pilot_candidate_count,
+    public_recommendation_candidate_count: state.public_recommendation_candidate_count,
     comparison_data: state.status,
   });
   if (summary.readiness && typeof summary.readiness === 'object') {
-    summary.readiness = { ...summary.readiness, comparison_engine: state.status, comparison_data: state.status, public_recommendation: state.public_candidate_count > 0 ? summary.readiness.public_recommendation : 'blocked' };
+    summary.readiness = { ...summary.readiness, comparison_engine: state.status, comparison_data: state.status, public_recommendation: state.public_recommendation_candidate_count > 0 ? summary.readiness.public_recommendation : 'blocked' };
   }
   for (const key of ['comparison_candidate_products', 'products_with_complete_comparison_fields', 'products_with_verified_sales_status', 'products_with_verification_evidence', 'complete_comparison_data_count', 'verified_comparison_candidate_count', 'public_comparison_candidate_count']) delete summary[key];
 };
@@ -329,6 +334,7 @@ const artifactContract = {
   search_index_checksum: searchManifest.export_checksum,
   source_status_checksum: sha256(sourceStatusArtifact).slice(7),
   release_policy_checksum: sha256(fs.readFileSync(path.join(ROOT, 'contracts/release-policy.json'), 'utf8')).slice(7),
+  capability_policy_checksum: sha256(fs.readFileSync(path.join(ROOT, 'contracts/capability-policy.json'), 'utf8')).slice(7),
   fixture_checksum: quality.fixture_checksum,
 };
 provenanceCoverageArtifact.status = quality.release_status;
@@ -421,6 +427,12 @@ for (const entry of manifest.quality_exports || []) {
       structural_candidate_count: state.structural_candidate_count,
       value_complete_candidate_count: state.value_complete_candidate_count,
       strict_type_schema_candidate_count: state.strict_type_schema_candidate_count,
+      strict_offer_count: state.strict_offer_count,
+      comparison_eligible_candidate_count: state.comparison_eligible_candidate_count,
+      public_comparison_candidate_count: state.public_comparison_candidate_count,
+      shadow_recommendation_candidate_count: state.shadow_recommendation_candidate_count,
+      owner_pilot_candidate_count: state.owner_pilot_candidate_count,
+      public_recommendation_candidate_count: state.public_recommendation_candidate_count,
       field_verified_candidate_count: state.field_verified_candidate_count,
       runtime_eligible_candidate_count: state.runtime_eligible_candidate_count,
       public_candidate_count: state.public_candidate_count,
@@ -431,7 +443,8 @@ for (const entry of manifest.quality_exports || []) {
     rewritten.domain_readiness = domainRows;
     rewritten.strict_field_verified_candidate_count = domainRows.reduce((n, row) => n + row.field_verified_candidate_count, 0);
     rewritten.runtime_eligible_candidate_count = domainRows.reduce((n, row) => n + row.runtime_eligible_candidate_count, 0);
-    rewritten.public_recommendation_candidate_count = domainRows.reduce((n, row) => n + row.public_candidate_count, 0);
+    rewritten.public_comparison_candidate_count = domainRows.reduce((n, row) => n + row.public_comparison_candidate_count, 0);
+    rewritten.public_recommendation_candidate_count = domainRows.reduce((n, row) => n + row.public_recommendation_candidate_count, 0);
     if (fileName === 'openfin-verification-coverage-report-2026.json') rewritten.field_verification_coverage = Object.fromEntries(domainRows.map(row => [row.domain, quality.domains[row.domain].field_verification_coverage]));
     if (fileName === 'openfin-comparison-regression-report-2026.json') rewritten.comparison_data_status = quality.comparison_release_status;
     if (fileName === 'openfin-recommendation-safety-report-2026.json') {
@@ -488,6 +501,8 @@ const qualityManifest = {
   recommendation_release_status: quality.recommendation_release_status,
   recommendation_status: quality.recommendation_status,
   recommendation_enabled: quality.recommendation_enabled,
+  capabilities: quality.capabilities,
+  candidate_counts: quality.candidate_counts,
   blocking_reasons: quality.blocking_reasons,
   degraded_domains: quality.degraded_domains,
   canonical: quality.canonical,
@@ -502,7 +517,7 @@ const qualityManifest = {
   artifact_contract: artifactContract,
 };
 writeJson(qualityManifestPath, qualityManifest);
-manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.release_status_deprecated=true; manifest.release_status_replacement_path='core_search_status'; manifest.core_search_status=quality.core_search_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.comparison_status=quality.comparison_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_status=quality.recommendation_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash; manifest.generation_id=quality.generation_id;
+manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.release_status_deprecated=true; manifest.release_status_replacement_path='core_search_status'; manifest.core_search_status=quality.core_search_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.comparison_status=quality.comparison_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_status=quality.recommendation_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.capabilities=quality.capabilities; manifest.candidate_counts=quality.candidate_counts; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash; manifest.generation_id=quality.generation_id;
 manifest.recommendation_state=quality.recommendation_state; manifest.recommendation_state_contract_version=quality.recommendation_state_contract_version; manifest.recommendation_approval_receipt=quality.recommendation_approval_receipt;
 manifest.decision_offers = decisionOfferEntry;
 manifest.deployment_commit = deploymentCommit;

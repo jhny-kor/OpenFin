@@ -3,7 +3,7 @@
   "$id": "https://jhny-kor.github.io/OpenFin/schemas/recommendation-approval-receipt.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["approval_id", "domain", "mode", "generation_id", "candidate_set_checksum", "policy_version", "ranking_version", "calculator_version", "quality_suite_checksum", "approved_at", "expires_at", "reviewer", "rollback_generation_id"],
+  "required": ["approval_id", "domain", "mode", "generation_id", "candidate_set_checksum", "policy_version", "ranking_version", "calculator_version", "quality_suite_checksum", "approved_at", "expires_at", "reviewer", "reviewer_signature", "rollback_generation_id"],
   "properties": {
     "approval_id": { "type": "string", "minLength": 1 },
     "domain": { "enum": ["deposit", "saving", "card", "loan", "insurance", "pension"] },
@@ -17,6 +17,7 @@
     "approved_at": { "type": "string", "format": "date-time" },
     "expires_at": { "type": "string", "format": "date-time" },
     "reviewer": { "type": "string", "minLength": 1 },
+    "reviewer_signature": { "type": "string", "minLength": 1 },
     "rollback_generation_id": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
   }
 }

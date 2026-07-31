@@ -34,6 +34,8 @@ export const readCanonicalRecords = (root = KNOWLEDGE) => {
 
 const PRODUCT_TYPES = new Set(['account-product', 'bank-product', 'card-product', 'financial-product', 'insurance-product']);
 const DECISION_OFFER_TYPES = new Set(['deposit-offer', 'saving-offer']);
+const CAPABILITY_POLICY_PATH = path.join(ROOT, 'contracts/capability-policy.json');
+const readCapabilityPolicy = () => json(CAPABILITY_POLICY_PATH);
 const normalizeSalesStatus = value => {
   const contract = readProductStatus();
   if (contract.sales_verification_status.includes(value)) return value;
@@ -75,7 +77,27 @@ const rulesVerified = (item, evaluationAsOf) => ['eligibility_rules', 'bonus_rat
     return assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict
       && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
     });
-  }));
+      }));
+const optionVerified = (offer, option, domain, evaluationAsOf) => optionFields(domain).every(field => {
+  const value = field === 'minimum_deposit_krw' ? option.amount_limit?.minimum_krw
+    : field === 'maximum_deposit_krw' ? option.amount_limit?.maximum_krw
+    : field === 'monthly_payment_min_krw' ? option.monthly_payment_limit?.minimum_krw
+    : field === 'monthly_payment_max_krw' ? option.monthly_payment_limit?.maximum_krw
+    : option[field];
+  return present(value) && (option.field_assertions || []).some(assertion => {
+    const validTo = assertion.valid_to ? Date.parse(assertion.valid_to) : NaN;
+    const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : NaN;
+    return String(assertion.field || '').endsWith(`.${field}`) && assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
+  });
+}) && strictOfferVerified(offer, domain, ['deposit_protection_status', 'join_channels', 'eligibility_rules', 'bonus_rate_rules', 'early_termination_rules', 'sales_verification_status'], evaluationAsOf);
+const optionComplete = (option, domain) => optionFields(domain).every(field => {
+  const value = field === 'minimum_deposit_krw' ? option.amount_limit?.minimum_krw
+    : field === 'maximum_deposit_krw' ? option.amount_limit?.maximum_krw
+    : field === 'monthly_payment_min_krw' ? option.monthly_payment_limit?.minimum_krw
+    : field === 'monthly_payment_max_krw' ? option.monthly_payment_limit?.maximum_krw
+    : option[field];
+  return present(value) && (option.field_assertions || []).some(assertion => String(assertion.field || '').endsWith(`.${field}`));
+});
 const strictOfferComplete = (item, domain, fields) => strictDecisionCandidate(item)
   && fields.every(field => present(item[field]) && assertionFor(item, field).length > 0)
   && item.options.every(option => optionFields(domain).every(field =>
@@ -94,6 +116,18 @@ const strictOfferVerified = (item, domain, fields, evaluationAsOf) => strictOffe
         && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
     })));
 const shaFile = file => fs.existsSync(file) ? sha256(fs.readFileSync(file, 'utf8')).slice(7) : null;
+const promotionReceipts = () => {
+  const receipts = new Map();
+  const directory = path.join(ROOT, 'evidence/candidate-promotions');
+  if (!fs.existsSync(directory)) return receipts;
+  for (const file of fs.readdirSync(directory).filter(name => name.endsWith('.jsonl'))) {
+    for (const line of fs.readFileSync(path.join(directory, file), 'utf8').split('\n').filter(Boolean)) {
+      const value = JSON.parse(line);
+      if (value.option_id) receipts.set(value.option_id, value);
+    }
+  }
+  return receipts;
+};
 export const generationId = ({ canonicalContentChecksum, searchIndexChecksum, sourceStatusChecksum, releasePolicyChecksum, deploymentCommit }) => sha256({
   canonical_content_checksum: canonicalContentChecksum,
   search_index_checksum: searchIndexChecksum,
@@ -132,6 +166,8 @@ export const liveRegressionCurrent = (live, policy, now = Date.now(), expectedGe
 
 export const deriveQuality = (records, { sourceCount, exportCount, searchItemCount, relationshipCount, invalidUrlCount = 0, sourceStatusLoaded = true, sourceStatusChecksum = null, searchIndexChecksum = null, deploymentCommit = 'unknown', evaluationAsOf = null } = {}) => {
   const policy = readReleasePolicy();
+  const capabilityPolicy = readCapabilityPolicy();
+  const promotions = promotionReceipts();
   const recommendationState = readRecommendationState();
   const catalogRecords = records.filter(item => !DECISION_OFFER_TYPES.has(item.type) && item.type !== 'offer-option');
   const products = catalogRecords.filter(item => PRODUCT_TYPES.has(item.type));
@@ -165,6 +201,11 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       return assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
     })).length, 0) : null;
     const runtimeEligible = fieldVerifiedItems.filter(item => normalizeSalesStatus(item.sales_verification_status) === 'verified_active' && (usingOffers || (item.sales_status === 'active' && item.freshness_status === 'current')));
+    const optionRows = usingOffers ? items.flatMap(offer => (offer.options || []).map(option => ({ offer, option }))) : [];
+    const comparisonEligibleCandidateCount = optionRows.filter(({ offer, option }) => optionVerified(offer, option, name, evaluationAsOf) && promotions.get(option.option_id)?.comparison_approved === true).length;
+    const shadowRecommendationCandidateCount = optionRows.filter(({ offer, option }) => optionComplete(option, name) && strictDecisionCandidate(offer)).length;
+    const ownerPilotCandidateCount = optionRows.filter(({ offer, option }) => promotions.get(option.option_id)?.recommendation_approved === true && promotions.get(option.option_id)?.mode === 'owner_pilot').length;
+    const publicRecommendationCandidateCount = optionRows.filter(({ offer, option }) => promotions.get(option.option_id)?.recommendation_approved === true && optionVerified(offer, option, name, evaluationAsOf)).length;
     const threshold = config.required_verified_candidates || Infinity;
     const status = !items.length ? 'blocked'
       : !schemaDefined ? 'schema_not_defined'
@@ -172,7 +213,7 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       : fieldVerifiedItems.length ? 'pilot_verified'
       : valueComplete.length ? 'structural_only'
       : 'domain_coverage_incomplete';
-    const publicCount = config.comparison === 'limited_public_ready' && status === 'limited_public_ready' ? runtimeEligible.length : 0;
+    const publicCount = config.comparison === 'limited_public_ready' && status === 'limited_public_ready' ? comparisonEligibleCandidateCount : 0;
     domains[name] = {
       item_count: items.length,
       catalog_item_count: catalogItems.length,
@@ -185,6 +226,11 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       field_verified_candidate_count: fieldVerifiedItems.length,
       runtime_eligible_candidate_count: runtimeEligible.length,
       public_candidate_count: publicCount,
+      comparison_eligible_candidate_count: comparisonEligibleCandidateCount,
+      public_comparison_candidate_count: publicCount,
+      shadow_recommendation_candidate_count: shadowRecommendationCandidateCount,
+      owner_pilot_candidate_count: ownerPilotCandidateCount,
+      public_recommendation_candidate_count: publicRecommendationCandidateCount,
       // Compatibility projections. "verified" means field-level verified only.
       schema_defined: schemaDefined,
       decision_field_completeness: schemaDefined ? valueComplete.length / items.length : null,
@@ -227,7 +273,7 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
   const configuredReceipt = policy.recommendation?.public_approval_receipt;
   const receiptPath = configuredReceipt ? path.join(ROOT, configuredReceipt) : null;
   const receipt = receiptPath && fs.existsSync(receiptPath) ? json(receiptPath) : null;
-  const publicDomain = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready' && state.public_candidate_count >= (policy.domains[name].required_verified_candidates || Infinity));
+  const publicDomain = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready' && state.public_recommendation_candidate_count >= (policy.domains[name].required_verified_candidates || Infinity));
   const receiptValid = Boolean(receipt && receipt.mode === 'public' && receipt.generation_id === generation_id && receipt.policy_version === policy.version && Date.parse(receipt.expires_at || '') > evaluationTime);
   const recommendationEnabled = platformReleaseStatus === 'ready' && policy.recommendation?.public_enabled === true && policy.recommendation?.state === 'public' && receiptValid && liveReady && publicDomain;
   const recommendationReasons = [...platformReasons];
@@ -238,10 +284,26 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
   if (policy.recommendation?.state !== 'public') recommendationReasons.push(`recommendation_state_${policy.recommendation?.state || 'missing'}`);
   if (!receiptValid && policy.recommendation?.public_approval_receipt) recommendationReasons.push('public_approval_receipt_invalid');
   const recommendationReleaseStatus = recommendationEnabled ? 'ready' : 'blocked';
+  const candidate_counts = Object.fromEntries(Object.entries(domains).map(([name, state]) => [name, {
+    strict_offer_count: Number(state.strict_offer_count || 0),
+    comparison_eligible_candidate_count: Number(state.comparison_eligible_candidate_count || 0),
+    public_comparison_candidate_count: Number(state.public_comparison_candidate_count || 0),
+    shadow_recommendation_candidate_count: Number(state.shadow_recommendation_candidate_count || 0),
+    owner_pilot_candidate_count: Number(state.owner_pilot_candidate_count || 0),
+    public_recommendation_candidate_count: Number(state.public_recommendation_candidate_count || 0),
+  }]));
+  const capabilities = {
+    discovery: platformReleaseStatus === 'ready' ? 'ready' : 'blocked',
+    comparison: comparisonReleaseStatus === 'limited' ? 'limited_public' : 'blocked',
+    recommendation: recommendationEnabled ? 'public' : 'blocked',
+  };
   return {
     policy_version: policy.version,
     canonical: { item_count: catalogRecords.length, decision_snapshot_count: decisionOffers.length, source_count: sourceCount, product_count: products.length, canonical_product_count: canonicalProducts.size, export_count: exportCount, search_item_count: searchItemCount, relationship_count: relationshipCount, content_checksum: canonicalContentChecksum },
     domains,
+    candidate_counts,
+    capability_policy_version: capabilityPolicy.version,
+    capabilities,
     live_regression: liveForManifest,
     live_regression_ready: liveReady,
     platform_release_status: platformReleaseStatus,
@@ -271,7 +333,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(im
   const mismatches = [];
   for (const [name, state] of Object.entries(domains)) {
     const value = state || {};
-    if (!(Number(value.field_verified_candidate_count ?? 0) <= Number(value.value_complete_candidate_count ?? 0) && Number(value.value_complete_candidate_count ?? 0) <= Number(value.structural_candidate_count ?? 0) && Number(value.runtime_eligible_candidate_count ?? 0) <= Number(value.field_verified_candidate_count ?? 0) && Number(value.public_candidate_count ?? 0) <= Number(value.runtime_eligible_candidate_count ?? 0))) mismatches.push(`domain_count_invariant:${name}`);
+    if (!(Number(value.field_verified_candidate_count ?? 0) <= Number(value.value_complete_candidate_count ?? 0) && Number(value.value_complete_candidate_count ?? 0) <= Number(value.structural_candidate_count ?? 0) && Number(value.runtime_eligible_candidate_count ?? 0) <= Number(value.field_verified_candidate_count ?? 0) && Number(value.public_candidate_count ?? 0) <= Number(value.runtime_eligible_candidate_count ?? 0) && Number(value.public_comparison_candidate_count ?? 0) <= Number(value.comparison_eligible_candidate_count ?? 0) && Number(value.public_recommendation_candidate_count ?? 0) <= Number(value.shadow_recommendation_candidate_count ?? 0))) mismatches.push(`domain_count_invariant:${name}`);
     if (Number(value.field_verified_candidate_count ?? 0) > 0 && value.data_layers?.verified?.status === 'blocked') mismatches.push(`verified_layer_invariant:${name}`);
   }
   if (manifest.release_status !== manifest.platform_release_status) mismatches.push('release_status_alias');

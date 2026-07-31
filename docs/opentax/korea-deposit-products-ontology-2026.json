@@ -147,8 +147,8 @@
     "structural_comparison_candidate_count": 430,
     "readiness": {
       "discovery": "ready",
-      "comparison_engine": "limited_public_ready",
-      "comparison_data": "limited_public_ready",
+      "comparison_engine": "structural_only",
+      "comparison_data": "structural_only",
       "public_recommendation": "blocked"
     },
     "blockers": {
@@ -179,10 +179,14 @@
     "replacement_path": "domain_readiness.deposit",
     "structural_candidate_count": 20,
     "value_complete_candidate_count": 20,
-    "field_verified_candidate_count": 20,
-    "runtime_eligible_candidate_count": 20,
-    "public_candidate_count": 20,
-    "comparison_data": "limited_public_ready"
+    "field_verified_candidate_count": 0,
+    "runtime_eligible_candidate_count": 0,
+    "public_candidate_count": 0,
+    "comparison_eligible_candidate_count": 0,
+    "shadow_recommendation_candidate_count": 69,
+    "owner_pilot_candidate_count": 0,
+    "public_recommendation_candidate_count": 0,
+    "comparison_data": "structural_only"
   },
   "item_count": 475,
   "reference_item_count": 2,

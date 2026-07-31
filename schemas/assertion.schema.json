@@ -5,6 +5,7 @@
   "type": "object",
   "required": ["field", "source_id", "original_url", "locator", "observed_at", "valid_from", "valid_to", "value_hash", "verification_status", "freshness_status", "conflict", "verification_method"],
   "properties": {
+    "assertion_id": { "type": "string", "pattern": "^assertion\\.", "minLength": 1 },
     "field": { "type": "string", "minLength": 1 },
     "source_id": { "type": "string", "pattern": "^source\\." },
     "original_url": { "type": "string", "format": "uri", "pattern": "^https?://" },
@@ -16,7 +17,11 @@
     "verification_status": { "enum": ["verified", "reference_only", "listing_only", "conflict", "unverified"] },
     "freshness_status": { "enum": ["current", "stale", "unreachable", "retired", "conflict", "unknown"] },
     "conflict": { "type": "boolean" },
-    "verification_method": { "type": "string" }
+    "verification_method": { "type": "string" },
+    "reviewer": { "type": ["string", "null"], "minLength": 1 },
+    "reviewed_at": { "type": ["string", "null"], "format": "date-time" },
+    "receipt_checksum": { "type": ["string", "null"], "pattern": "^sha256:[a-f0-9]{64}$" },
+    "receipt_id": { "type": ["string", "null"], "minLength": 1 }
   },
   "additionalProperties": false
 }

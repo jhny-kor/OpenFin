@@ -1,5 +1,6 @@
 import { isVerifiedActive } from "../product-status.ts";
 import { evaluateRules, type StructuredRule } from "./rule-engine.ts";
+import { contextFacts, type RecommendationContext } from "./context.ts";
 
 export const RECOMMENDATION_POLICY_VERSION = "openfin-recommendation-policy-v1";
 
@@ -10,6 +11,8 @@ const value = (item: Product, ...keys: string[]): unknown => keys.map((key) => i
 const number = (candidate: unknown): number | undefined => typeof candidate === "number" && Number.isFinite(candidate) ? candidate : undefined;
 
 export function productDomain(item: Product): string | null {
+  if (item.type === "deposit-offer" || (item.type === "offer-option" && (item.search_type === "deposit" || item.product_kind === "deposit"))) return "deposit";
+  if (item.type === "saving-offer" || (item.type === "offer-option" && (item.search_type === "saving" || item.product_kind === "saving"))) return "saving";
   if (item.search_type === "deposit" || item.product_kind === "deposit") return "deposit";
   if (item.search_type === "saving" || item.product_kind === "saving") return "saving";
   if (item.type === "card-product") return "card";
@@ -23,8 +26,11 @@ function currentAndVerified(item: Product): string[] {
   if (item.verification_status !== "verified") reasons.push("verification_not_verified");
   if (item.freshness_status !== "current") reasons.push(item.freshness_status === "stale" ? "stale_source" : "freshness_unknown");
   if (item.sales_status !== "active" || !isVerifiedActive(item.sales_verification_status)) reasons.push("sales_not_verified");
-  if (item.recommendation_status !== "verified_recommendation_candidate") reasons.push("not_verified_recommendation_candidate");
-  if (item.recommendation_scope !== "public_recommendation") reasons.push("not_public_recommendation_scope");
+  const capabilities = item.capabilities && typeof item.capabilities === "object" && !Array.isArray(item.capabilities) ? item.capabilities as Product : {};
+  if (item.recommendation_approved !== true && capabilities.recommendation !== "public") {
+    if (item.recommendation_status !== "verified_recommendation_candidate") reasons.push("not_verified_recommendation_candidate");
+    if (item.recommendation_scope !== "public_recommendation") reasons.push("not_public_recommendation_scope");
+  }
   return reasons;
 }
 
@@ -85,7 +91,8 @@ export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
   }
 
   const rules = (Array.isArray(item.eligibility_rules) ? item.eligibility_rules : []).filter((rule): rule is StructuredRule => Boolean(rule && typeof rule === "object" && typeof (rule as Product).rule_id === "string" && (rule as Product).predicate && typeof (rule as Product).predicate === "object"));
-  const ruleResult = evaluateRules(rules, { ...(inputs.profile ?? {}), ...context });
+  const factContext: RecommendationContext = { as_of: typeof context.as_of === "string" ? context.as_of : null, goal: {}, facts: { ...(inputs.profile ?? {}), ...context }, hard_constraints: {}, preferences: {}, assumptions: [], consent: { transient_only: true } };
+  const ruleResult = evaluateRules(rules, contextFacts(factContext));
   matched_conditions.push(...ruleResult.matched.map((id) => `rule_matched:${id}`));
   failed_conditions.push(...ruleResult.failed.map((id) => `rule_failed:${id}`));
   unknown_conditions.push(...ruleResult.unknown.map((id) => `rule_unknown:${id}`));

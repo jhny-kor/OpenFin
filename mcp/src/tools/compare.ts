@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { FinanceItem, FinanceRecord, ToolContext } from "../types/tool-context.ts";
+import { compareRankingKeys } from "../recommendation/ranking-v2.ts";
 
 export function registerCompareTool(ctx: ToolContext): void {
   const { server, env, mcpResult, COMPARISON_ENGINE_VERSION, dedupeProductItems, loadDetailedItemsForDomain, loadSearchIndexMetadata, loadFinanceManifest, manifestChecksumContract, comparisonReleaseGate, loadFinanceArtifacts, normalizeQuery, comparisonBlocker, comparisonOptionCandidates, comparisonOptionBlocker, comparisonCandidate, reasonCounts, EXCLUDED_SAMPLE_LIMIT, comparisonBlockers, domainMatches, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
@@ -66,6 +67,10 @@ export function registerCompareTool(ctx: ToolContext): void {
         candidates.push(...usableOptions.map((option) => comparisonCandidate(item, option, facts, deposit_amount_krw, monthly_payment_krw, tax_rate_percent ?? 15.4)));
       }
       candidates.sort((left, right) => {
+        if (Array.isArray(left.ranking_key) && Array.isArray(right.ranking_key)) {
+          const ranked = compareRankingKeys(left.ranking_key, right.ranking_key);
+          if (ranked) return ranked;
+        }
         const leftNet = typeof left.net_interest_krw === "number" ? left.net_interest_krw : null;
         const rightNet = typeof right.net_interest_krw === "number" ? right.net_interest_krw : null;
         if (leftNet !== null && rightNet !== null && leftNet !== rightNet) return rightNet - leftNet;

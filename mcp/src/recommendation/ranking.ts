@@ -1,7 +1,6 @@
 import { RECOMMENDATION_POLICY_VERSION } from "./policy.ts";
-import { isVerifiedActive } from "../product-status.ts";
-import { calculateFinancialOutcome } from "./outcome.ts";
-import { compareRankingKeys, rankingKey } from "./ranking-v2.ts";
+import { calculateFinancialOutcome, CALCULATOR_VERSION } from "./outcome.ts";
+import { compareRankingKeys, rankingKey, RANKING_VERSION } from "./ranking-v2.ts";
 
 type Candidate = Record<string, unknown>;
 
@@ -41,15 +40,17 @@ export function rankCandidate(item: Candidate, preferences: Candidate = {}) {
   } else if (Array.isArray(item.bonus_rate_rules) && item.bonus_rate_rules.length === 0) {
     components.condition_attainability = 3;
   }
-  if (item.freshness_status === "current") components.freshness_confidence += 5;
-  if (isVerifiedActive(item.sales_verification_status)) components.freshness_confidence += 5;
+  // Freshness and sales verification are release gates, never score bonuses.
   const score = Object.values(components).reduce((sum, value) => sum + value, 0);
   return {
     score,
     score_components: components,
     financial_outcome,
+    financial_outcomes: outcomeResult.financial_outcomes,
     financial_outcome_detail: outcomeResult,
     ranking_key: rankingKey(item, { ...preferences, tax_rate_percent: taxRate }),
+    ranking_version: RANKING_VERSION,
+    calculator_version: outcomeResult.calculator_version ?? CALCULATOR_VERSION,
     recommendation_model_version: RECOMMENDATION_POLICY_VERSION,
   };
 }

@@ -21,6 +21,7 @@ import { isVerifiedActive } from "./product-status";
 import { calculateDepositReturn } from "./calculators/deposit";
 import { calculateSavingReturn } from "./calculators/saving";
 import { resolveAttainableRate } from "./recommendation/attainable-rate";
+import { adaptDecisionOfferOptions, comparisonCandidateAdapter, recommendationCandidateAdapter } from "./decision/candidate-adapter.ts";
 
 type FinanceItem = {
   id: string;
@@ -63,6 +64,13 @@ type FinanceItem = {
   status_reason?: string;
   recommendation_status?: string;
   recommendation_scope?: string;
+  capabilities?: { comparison?: string; recommendation?: string };
+  comparison_approved?: boolean;
+  recommendation_approved?: boolean;
+  candidate_id?: string;
+  option_id?: string;
+  offer_id?: string;
+  evidence_gate?: Record<string, unknown>;
   catalog_recommendation_status?: string;
   catalog_recommendation_scope?: string;
   canonical_product_id?: string;
@@ -134,6 +142,7 @@ type FinanceItem = {
   verified_at?: string | null;
   published_at?: string | null;
   source_assertions?: Record<string, unknown>[];
+  source_assertion_ids?: string[];
   provenance?: Record<string, unknown>[];
   provenance_shard?: string;
   shard_id?: string;
@@ -191,6 +200,7 @@ type FinanceManifest = {
   comparison_status?: string;
   recommendation_release_status?: string;
   recommendation_status?: string;
+  capabilities?: { discovery?: string; comparison?: string; recommendation?: string };
   generation_id?: string;
   deployment_commit?: string;
   source_freshness_status?: string;
@@ -1576,7 +1586,7 @@ async function loadDetailedItemsForDomain(env: Env, domain: string): Promise<rea
   const manifest = await loadFinanceManifest(env);
   if ((domain === "deposit" || domain === "saving") && manifest.decision_offers) {
     const offers = await loadSearchShard(env, manifest.decision_offers);
-    return offers.flatMap((offer) => decisionOptionItems(offer, domain));
+    return offers.flatMap((offer) => adaptDecisionOfferOptions(offer, domain) as FinanceItem[]);
   }
   const metadata = await loadSearchIndexMetadata(env);
   const shardId = SEARCH_SHARD_BY_DOMAIN[domain];
@@ -1585,54 +1595,7 @@ async function loadDetailedItemsForDomain(env: Env, domain: string): Promise<rea
 }
 
 function decisionOptionItems(offer: FinanceItem, domain: "deposit" | "saving"): FinanceItem[] {
-  if (offer.type !== `${domain}-offer` || !Array.isArray(offer.options)) return [];
-  const verifiedAt = typeof offer.observed_at === "string" ? offer.observed_at.slice(0, 10) : undefined;
-  const sourceUrls = Array.isArray(offer.provenance) ? offer.provenance.flatMap((entry) => typeof entry.original_url === "string" ? [entry.original_url] : []).filter((url, index, values) => values.indexOf(url) === index) : [];
-  const sourceIds = Array.isArray(offer.field_assertions) ? offer.field_assertions.flatMap((entry) => typeof entry.source_id === "string" ? [entry.source_id] : []).filter((id, index, values) => values.indexOf(id) === index) : [];
-  return offer.options.flatMap((value): FinanceItem[] => {
-    if (!isRecord(value) || typeof value.option_id !== "string") return [];
-    const amount = isRecord(value.amount_limit) ? value.amount_limit : {};
-    const monthly = isRecord(value.monthly_payment_limit) ? value.monthly_payment_limit : {};
-    return [{
-      ...offer,
-      ...value,
-      id: value.option_id,
-      item_id: value.option_id,
-      offer_id: offer.id,
-      product_id: offer.product_id,
-      title: `${offer.title} (${value.term_months}개월)`,
-      type: "offer-option",
-      search_type: domain,
-      product_kind: domain,
-      provider: typeof offer.provider_id === "string" ? offer.provider_id : offer.provider,
-      sales_status: "active",
-      source_listing_status: "listed",
-      sales_verification_status: "verified_active",
-      sales_verified_at: verifiedAt,
-      freshness_status: "current",
-      source_freshness_status: "current",
-      verification_status: "verified",
-      recommendation_status: "verified_recommendation_candidate",
-      recommendation_scope: "public_recommendation",
-      decision_critical: true,
-      strict_schema_valid: true,
-      required_field_assertion_coverage: 1,
-      official_source_assertion_coverage: 1,
-      unresolved_conflict_count: 0,
-      source_urls: sourceUrls,
-      source_ids: sourceIds,
-      comparison_engine_gate_passed: true,
-      comparison_field_verification_status: "verified",
-      comparison_options: [{
-        ...value,
-        minimum_deposit_krw: amount.minimum_krw,
-        maximum_deposit_krw: amount.maximum_krw,
-        monthly_payment_min_krw: monthly.minimum_krw,
-        monthly_payment_max_krw: monthly.maximum_krw,
-        source_urls: sourceUrls,
-      }],
-    } as FinanceItem];
-  });
+  return adaptDecisionOfferOptions(offer, domain) as FinanceItem[];
 }
 
 async function loadSearchItemsForQuery(
@@ -1780,21 +1743,10 @@ function matchReasons(item: FinanceItem, query: string): string[] {
 
 function domainMatches(item: FinanceItem, domain: string): boolean {
   const normalizedDomain = normalizeQuery(domain);
-  if (normalizedDomain === "deposit") {
-    return item.type === "bank-product" && item.search_type === "deposit";
-  }
-  if (normalizedDomain === "saving") {
-    return item.type === "bank-product" && item.search_type === "saving";
-  }
-  if (normalizedDomain === "loan") {
-    return item.type === "bank-product" && item.search_type === "loan";
-  }
-  if (normalizedDomain === "card") {
-    return item.type === "card-product";
-  }
-  if (normalizedDomain === "insurance") {
-    return item.type === "insurance-product";
-  }
+  const itemDomain = productDomain(item);
+  if (normalizedDomain === "deposit" || normalizedDomain === "saving") return item.type === "offer-option" && itemDomain === normalizedDomain;
+  if (normalizedDomain === "loan") return item.type === "bank-product" && itemDomain === normalizedDomain;
+  if (normalizedDomain === "card" || normalizedDomain === "insurance") return itemDomain === normalizedDomain;
   if (normalizedDomain === "support") {
     return item.type === "support-program";
   }
@@ -1828,10 +1780,10 @@ function verificationEvidenceBlocker(item: FinanceItem): string | undefined {
 
 function recommendationBlocker(item: FinanceItem, artifacts?: FinanceArtifacts): string | undefined {
   if (item.public_recommendation_exclusion_reasons?.length) return "public_recommendation_excluded";
-  if (item.recommendation_status !== "verified_recommendation_candidate") return "not_verified_recommendation_candidate";
-  if (item.recommendation_scope !== "public_recommendation") return "not_public_recommendation_scope";
+  if (item.recommendation_approved !== true && item.capabilities?.recommendation !== "public") return "recommendation_capability_blocked";
   if (item.sales_status !== "active" || !isVerifiedActive(item.sales_verification_status)) return "sales_not_verified";
   if (artifacts && sourceHealth(item, artifacts).freshness_status !== "current") return "stale_source";
+  if (item.type === "offer-option") return isRecord(item.evidence_gate) && item.evidence_gate.status === "eligible" ? undefined : "candidate_evidence_not_approved";
   return verificationEvidenceBlocker(item);
 }
 
@@ -1871,8 +1823,10 @@ function requiredVerifiedCount(manifest: FinanceManifest | undefined, domain: st
 function comparisonReleaseGate(manifest: FinanceManifest, domain: string): { status: "ready" | "blocked"; reasons: string[] } {
   const state = manifest.domain_readiness?.[domain];
   const required = requiredVerifiedCount(manifest, domain);
-  const publicCount = typeof state?.public_candidate_count === "number" ? state.public_candidate_count : 0;
-  const ready = state?.status === "limited_public_ready" && publicCount >= required;
+  const capabilities = isRecord(manifest.capabilities) ? manifest.capabilities : {};
+  const publicCount = typeof state?.public_comparison_candidate_count === "number" ? state.public_comparison_candidate_count : Number(state?.public_candidate_count ?? 0);
+  const comparisonCapability = capabilities.comparison === undefined || capabilities.comparison === "limited_public" || capabilities.comparison === "public";
+  const ready = comparisonCapability && state?.status === "limited_public_ready" && publicCount >= required;
   return { status: ready ? "ready" : "blocked", reasons: ready ? [] : [`COMPARISON_DOMAIN_NOT_READY:${domain}`] };
 }
 
@@ -1953,16 +1907,19 @@ function isPastOrCurrentIsoDate(value: unknown): value is string {
 
 function comparisonBlocker(item: FinanceItem, artifacts: FinanceArtifacts | undefined, salesVerificationTtlHours: number): string | undefined {
   if (item.comparison_exclusion_reasons?.length) return "comparison_excluded";
-  if (item.recommendation_scope !== "comparison_only") return "not_comparison_scope";
+  if (item.comparison_approved !== true && item.capabilities?.comparison !== "limited_public" && item.capabilities?.comparison !== "public") return "comparison_capability_blocked";
   if (item.source_listing_status !== "listed") return "source_not_listed";
   if (!isVerifiedActive(item.sales_verification_status)) return "sales_not_verified";
-  if ((artifacts ? sourceHealth(item, artifacts).freshness_status : item.source_freshness_status) !== "current") return "stale_source";
-  const verifiedAt = Date.parse(`${item.sales_verified_at ?? ""}T00:00:00Z`);
+  if ((artifacts && item.type !== "offer-option" ? sourceHealth(item, artifacts).freshness_status : item.source_freshness_status ?? item.freshness_status) !== "current") return "stale_source";
+  const rawVerifiedAt = item.sales_verified_at;
+  const verifiedAt = typeof rawVerifiedAt === "string" ? Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(rawVerifiedAt) ? `${rawVerifiedAt}T00:00:00Z` : rawVerifiedAt) : Number.NaN;
   const ttlMs = salesVerificationTtlHours * 60 * 60 * 1000;
   if (!Number.isFinite(verifiedAt) || !Number.isFinite(ttlMs) || ttlMs <= 0 || verifiedAt > Date.now() || Date.now() - verifiedAt > ttlMs) return "stale_source";
   if (item.verification_status !== "verified") return "not_verified";
-  const evidenceBlocker = verificationEvidenceBlocker(item);
-  if (evidenceBlocker) return evidenceBlocker;
+  if (item.type !== "offer-option") {
+    const evidenceBlocker = verificationEvidenceBlocker(item);
+    if (evidenceBlocker) return evidenceBlocker;
+  } else if (!isRecord(item.evidence_gate) || item.evidence_gate.status !== "eligible") return "candidate_evidence_not_approved";
   if (item.comparison_engine_gate_passed !== true) return "comparison_fields_not_verified";
   if (["closed", "ended", "unknown", "suspended"].includes(item.status ?? "")) return `status_${item.status}`;
   return undefined;
@@ -1993,14 +1950,23 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
   const attainable = resolveAttainableRate({ ...item, ...option }, facts);
   const achievableRate = attainable.rate_percent ?? baseRate;
   const termMonths = typeof option.term_months === "number" ? option.term_months : 0;
-  const isDeposit = item.search_type === "deposit";
+  const isDeposit = productDomain(item) === "deposit";
   const amountMissing = isDeposit ? depositAmount === undefined : monthlyPayment === undefined;
   const outcome = amountMissing ? null : isDeposit
     ? calculateDepositReturn({ principal_krw: depositAmount, annual_rate_percent: achievableRate, term_months: termMonths, tax_rate_percent: taxRatePercent, interest_method: option.interest_method })
     : calculateSavingReturn({ monthly_payment_krw: monthlyPayment, annual_rate_percent: achievableRate, term_months: termMonths, tax_rate_percent: taxRatePercent });
+  const calculateScenario = (rate: number | undefined) => amountMissing || rate === undefined ? null : isDeposit
+    ? calculateDepositReturn({ principal_krw: depositAmount, annual_rate_percent: rate, term_months: termMonths, tax_rate_percent: taxRatePercent, interest_method: option.interest_method })
+    : calculateSavingReturn({ monthly_payment_krw: monthlyPayment, annual_rate_percent: rate, term_months: termMonths, tax_rate_percent: taxRatePercent });
+  const baseOutcome = calculateScenario(baseRate);
+  const optimisticOutcome = calculateScenario(maximumRate);
+  const ranking = rankCandidate({ ...item, ...option, id: option.option_id ?? item.id, product_kind: isDeposit ? "deposit" : "saving" }, { ...facts, principal_krw: depositAmount, monthly_payment_krw: monthlyPayment, tax_rate_percent: taxRatePercent });
   const principal = outcome?.principal_krw ?? null;
-  return {
+  return comparisonCandidateAdapter({
     item_id: item.id,
+    candidate_id: option.candidate_id ?? option.option_id ?? item.id,
+    option_id: option.option_id ?? item.option_id,
+    offer_id: item.offer_id,
     title: item.title,
     provider: item.provider,
     base_rate_percent: baseRate,
@@ -2020,6 +1986,8 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
     confidence: isVerifiedActive(item.sales_verification_status) ? "verified" : "insufficient_information",
     score_components: { achievable_rate_percent: achievableRate, source_verified: 1 },
     source_urls: option.source_urls,
+    source_assertion_ids: item.source_assertion_ids ?? option.source_assertion_ids ?? [],
+    source_assertions: item.source_assertions ?? option.source_assertions ?? [],
     source_basis_dates: item.source_basis_dates ?? [],
     comparison_basis_fields: item.comparison_basis_fields ?? [],
     comparison_object_version: COMPARISON_ENGINE_VERSION,
@@ -2032,7 +2000,16 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
     tax_withheld_krw: outcome?.tax_withheld_krw ?? null,
     net_interest_krw: outcome?.net_interest_krw ?? null,
     calculation_assumption: amountMissing ? (isDeposit ? "deposit_amount_required" : "monthly_payment_required") : outcome?.calculation_assumption,
-  };
+    financial_outcomes: {
+      attainable: { annual_rate_percent: achievableRate, outcome },
+      base: { annual_rate_percent: option.base_rate_percent, outcome: baseOutcome },
+      optimistic: { annual_rate_percent: maximumRate, outcome: optimisticOutcome },
+      early_termination: { annual_rate_percent: null, outcome: null, limitations: ["verified early-termination rate is unavailable"] },
+    },
+    ranking_key: ranking.ranking_key,
+    ranking_version: "openfin-ranking-v2",
+    policy_version: "openfin-comparison-policy-v1",
+  });
 }
 
 async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {

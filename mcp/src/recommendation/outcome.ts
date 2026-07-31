@@ -4,6 +4,7 @@ import { resolveAttainableRate } from "./attainable-rate.ts";
 
 type RecordLike = Record<string, unknown>;
 const finite = (value: unknown): number | null => typeof value === "number" && Number.isFinite(value) ? value : null;
+export const CALCULATOR_VERSION = "openfin-calculator-v1";
 
 export function calculateFinancialOutcome(item: RecordLike, preferences: RecordLike = {}) {
   const rate = resolveAttainableRate(item, preferences);
@@ -19,6 +20,7 @@ export function calculateFinancialOutcome(item: RecordLike, preferences: RecordL
   const earlyTermination = calculate(earlyTerminationRate);
   const raw = attainable;
   return {
+    calculator_version: CALCULATOR_VERSION,
     ...rate,
     attainable_rate_percent: rate.rate_percent,
     product_kind: isSaving ? "saving" : "deposit",

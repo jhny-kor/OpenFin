@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "openfin-capability-policy-v1",
+  "capabilities": {
+    "discovery": { "states": ["ready", "blocked"], "source": "canonical_catalog_and_search_index" },
+    "comparison": { "states": ["blocked", "limited_public", "public"], "candidate_count": "public_comparison_candidate_count", "requires": ["comparison_eligible_candidate_count", "current_source_receipts", "verified_sales_status"] },
+    "recommendation": { "states": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public"], "candidate_count": "public_recommendation_candidate_count", "requires": ["approval_receipt", "candidate_set_checksum", "live_financial_suite"] }
+  },
+  "candidate_count_fields": [
+    "strict_offer_count",
+    "comparison_eligible_candidate_count",
+    "public_comparison_candidate_count",
+    "shadow_recommendation_candidate_count",
+    "owner_pilot_candidate_count",
+    "public_recommendation_candidate_count"
+  ],
+  "legacy_catalog_types": ["bank-product"],
+  "legacy_catalog_scope": "discovery_only",
+  "public_recommendation_default": false
+}

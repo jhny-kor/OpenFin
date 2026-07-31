@@ -43,6 +43,7 @@ jobs:
           npm ci
           npm test
           npm run financial-quality
+          npm run financial-quality-live
           npm run test:mutation
           npm run live-regression -- --validate-fixture
       - name: Verify approval remains fail-closed
@@ -52,7 +53,7 @@ jobs:
       - name: Write release contract
         run: |
           mkdir -p release-artifact
-          jq '{generation_id, deployment_commit, manifest_checksum, artifact_contract, recommendation_state, recommendation_enabled}' docs/opentax/finance-ontology-manifest.json > release-artifact/release-contract.json
+          jq '{generation_id, deployment_commit, manifest_checksum, artifact_contract, capabilities, candidate_counts, recommendation_state, recommendation_enabled}' docs/opentax/finance-ontology-manifest.json > release-artifact/release-contract.json
           sha256sum docs/opentax/finance-ontology-manifest.json release-artifact/release-contract.json > release-artifact/SHA256SUMS
       - uses: actions/upload-artifact@v5
         with:
@@ -60,7 +61,9 @@ jobs:
           path: |
             docs
             release-artifact
-          retention-days: 7
+            evidence/candidate-promotions
+            evidence/recommendation-approvals
+          retention-days: 365
 
   deploy-pages:
     needs: canonical-artifact

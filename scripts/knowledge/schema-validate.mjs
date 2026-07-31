@@ -8,7 +8,7 @@ const schemaDir = path.join(ROOT, 'schemas');
 const typeRegistry = json(path.join(schemaDir, 'types/type-registry.json'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
-for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json', 'live-regression.schema.json', 'recommendation-approval-receipt.schema.json']) {
+for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json', 'manifest.schema.json', 'candidate-promotion-receipt.schema.json', 'live-regression.schema.json', 'recommendation-approval-receipt.schema.json']) {
   const schema = json(path.join(schemaDir, file));
   ajv.addSchema(schema, file);
 }
@@ -21,9 +21,45 @@ const validateEntity = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas
 const validateSource = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/source.schema.json');
 const relationValidator = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/relation.schema.json');
 const validateManifest = ajv.getSchema('finance-ontology-manifest.schema.json');
+const validateCapabilityManifest = ajv.getSchema('manifest.schema.json');
 const validateApproval = ajv.getSchema('recommendation-approval-receipt.schema.json');
+const validatePromotion = ajv.getSchema('candidate-promotion-receipt.schema.json');
 const validateLiveCase = ajv.getSchema(liveFixtureSchema.$id);
 const failures = [];
+const validateQualityDescriptors = (descriptorName, expectedStatus) => {
+  const descriptorPath = path.join(ROOT, 'tests/golden', descriptorName);
+  if (!fs.existsSync(descriptorPath)) { failures.push(`${descriptorPath}: missing quality descriptor`); return; }
+  const descriptors = fs.readFileSync(descriptorPath, 'utf8').split('\n').filter(Boolean).map((line, index) => {
+    try { return { value: JSON.parse(line), line: index + 1 }; }
+    catch (error) { failures.push(`${descriptorPath}:${index + 1}: ${error.message}`); return null; }
+  }).filter(Boolean);
+  const suiteIds = new Set();
+  for (const { value, line } of descriptors) {
+    if (!value.suite_id || suiteIds.has(value.suite_id)) failures.push(`${descriptorPath}:${line}: duplicate or missing suite_id`);
+    suiteIds.add(value.suite_id);
+    if (value.expected_status !== expectedStatus || !Number.isInteger(value.expected_case_count) || value.expected_case_count < 1 || typeof value.source_fixture !== 'string') {
+      failures.push(`${descriptorPath}:${line}: invalid quality descriptor contract`);
+      continue;
+    }
+    const sourcePath = path.join(ROOT, 'tests/golden', value.source_fixture);
+    if (!fs.existsSync(sourcePath)) { failures.push(`${descriptorPath}:${line}: missing source fixture ${value.source_fixture}`); continue; }
+    const rows = fs.readFileSync(sourcePath, 'utf8').split('\n').filter(Boolean).map((row, rowIndex) => {
+      try { return { value: JSON.parse(row), line: rowIndex + 1 }; }
+      catch (error) { failures.push(`${sourcePath}:${rowIndex + 1}: ${error.message}`); return null; }
+    }).filter(Boolean);
+    if (rows.length !== value.expected_case_count) failures.push(`${descriptorPath}:${line}: expected ${value.expected_case_count} rows in ${value.source_fixture}, got ${rows.length}`);
+    const ids = rows.map(({ value: row }) => row.case_id).filter(Boolean);
+    if (ids.length !== rows.length || new Set(ids).size !== ids.length) failures.push(`${sourcePath}: case identifiers must be present and unique`);
+    const candidateIds = rows.map(({ value: row }) => row.item?.id ?? row.candidate_id).filter(Boolean).map(String);
+    const expectedOrder = value.expected_candidate_order;
+    const validOrder = !Array.isArray(expectedOrder) || (expectedOrder.length === value.expected_case_count && new Set(expectedOrder).size === expectedOrder.length && expectedOrder.every((id) => candidateIds.includes(String(id))));
+    if (!validOrder) {
+      failures.push(`${descriptorPath}:${line}: expected candidate order does not match source fixture`);
+    }
+  }
+};
+validateQualityDescriptors('openfin-comparison-live.jsonl', 'positive_compare');
+validateQualityDescriptors('openfin-recommendation-shadow-live.jsonl', 'shadow_rank');
 const liveFixturePath = path.join(ROOT, 'tests/golden/openfin-runtime-contract-120.jsonl');
 if (fs.existsSync(liveFixturePath)) {
   const liveCases = fs.readFileSync(liveFixturePath, 'utf8').split('\n').filter(Boolean).map((line, index) => {
@@ -80,6 +116,7 @@ const manifestPath = path.join(ROOT, 'docs/opentax/finance-ontology-manifest.jso
 if (fs.existsSync(manifestPath)) {
   const manifest = json(manifestPath);
   if (!validateManifest(manifest)) failures.push(`manifest: ${ajv.errorsText(validateManifest.errors)}`);
+  if (!validateCapabilityManifest(manifest)) failures.push(`capability manifest: ${ajv.errorsText(validateCapabilityManifest.errors)}`);
   for (const [domain, state] of Object.entries(manifest.domain_readiness || {})) {
     const counts = ['structural_candidate_count', 'value_complete_candidate_count', 'field_verified_candidate_count', 'runtime_eligible_candidate_count', 'public_candidate_count'].map(key => Number(state[key] || 0));
     if (!(counts[2] <= counts[1] && counts[1] <= counts[0] && counts[4] <= counts[3] && counts[3] <= counts[2])) failures.push(`manifest: domain count invariant ${domain}`);
@@ -89,6 +126,14 @@ const approvalDir = path.join(ROOT, 'evidence/recommendation-approvals');
 if (fs.existsSync(approvalDir)) for (const file of fs.readdirSync(approvalDir).filter(name => name.endsWith('.json'))) {
   const value = json(path.join(approvalDir, file));
   if (!validateApproval(value)) failures.push(`${path.join(approvalDir, file)}: ${ajv.errorsText(validateApproval.errors)}`);
+}
+const promotionDir = path.join(ROOT, 'evidence/candidate-promotions');
+if (fs.existsSync(promotionDir)) for (const file of fs.readdirSync(promotionDir).filter(name => name.endsWith('.jsonl'))) {
+  for (const [index, line] of fs.readFileSync(path.join(promotionDir, file), 'utf8').split('\n').entries()) {
+    if (!line.trim()) continue;
+    try { const value = JSON.parse(line); if (!validatePromotion(value)) failures.push(`${path.join(promotionDir, file)}:${index + 1}: ${ajv.errorsText(validatePromotion.errors)}`); }
+    catch (error) { failures.push(`${path.join(promotionDir, file)}:${index + 1}: ${error.message}`); }
+  }
 }
 const result = { ok: failures.length === 0, entity_count: entities.length, failures: failures.slice(0, 100) };
 console.log(JSON.stringify(result, null, 2));

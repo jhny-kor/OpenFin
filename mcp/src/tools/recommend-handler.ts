@@ -6,7 +6,7 @@ import { assertRecommendationContextSafe, recommendationAuditMetadata } from "..
 import { evaluateRecommendationNeedGate } from "../recommendation/need-gate.ts";
 
 type FinanceRecord = Record<string, unknown>;
-type FinanceItem = FinanceRecord & { id?: string; title?: string; provider?: string; source_urls?: string[]; source_assertions?: FinanceRecord[]; provenance?: FinanceRecord[] };
+type FinanceItem = FinanceRecord & { id?: string; title?: string; provider?: string; source_urls?: string[]; source_assertions?: FinanceRecord[]; source_assertion_ids?: string[]; provenance?: FinanceRecord[] };
 type ToolResult = { structuredContent: FinanceRecord; content: [{ type: "text"; text: string }] };
 type ReleaseGate = { status: "ready" | "blocked"; reasons: string[]; [key: string]: unknown };
 type ToolContext = {
@@ -53,7 +53,7 @@ export function registerRecommendTool(rawContext: unknown): void {
         "Use this only when the user asks which finance product fits their current needs. It returns deterministic recommendations only from verified public recommendation candidates with source evidence; otherwise it returns an empty result with structured blockers.",
       inputSchema: {
         domain: z.enum(["deposit", "saving", "card", "loan", "insurance"]).describe("Recommendation domain."),
-        context: z.object({ as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), goal: z.object({ purpose: z.enum(["save", "preserve_liquidity", "income", "compare", "education"]).optional(), target_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), liquidity_horizon_months: z.number().int().nonnegative().nullable().optional() }).strict().optional(), facts: z.object({ as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), monthly_net_income_krw: z.number().nonnegative().nullable().optional(), essential_monthly_expenses_krw: z.number().nonnegative().nullable().optional(), liquid_assets_krw: z.number().nonnegative().nullable().optional(), investment_assets_krw: z.number().nonnegative().nullable().optional(), tax_rate_percent: z.number().min(0).max(100).nullable().optional(), can_transfer_salary: z.boolean().nullable().optional(), can_use_card: z.boolean().nullable().optional(), can_set_auto_transfer: z.boolean().nullable().optional(), is_new_customer: z.boolean().nullable().optional() }).strict().optional(), hard_constraints: z.object({ provider: z.union([z.string(), z.array(z.string())]).nullable().optional(), term_months: z.union([z.number().int(), z.array(z.number().int())]).nullable().optional(), join_channel: z.union([z.string(), z.array(z.string())]).nullable().optional(), minimum_amount_krw: z.number().nonnegative().nullable().optional(), maximum_amount_krw: z.number().nonnegative().nullable().optional(), eligible_rule_ids: z.array(z.string()).optional() }).strict().optional(), preferences: z.object({ provider: z.string().optional(), term_months: z.number().int().positive().optional(), liquidity_horizon_months: z.number().int().nonnegative().optional(), max_term_months: z.number().int().nonnegative().optional(), monthly_budget_krw: z.number().nonnegative().optional(), monthly_contribution_krw: z.number().nonnegative().optional(), principal_krw: z.number().nonnegative().optional(), deposit_amount_krw: z.number().nonnegative().optional(), tax_rate_percent: z.number().min(0).max(100).optional(), risk_capacity: z.enum(["low", "medium", "high"]).optional() }).strict().optional(), assumptions: z.array(z.string().max(240)).max(20).optional(), consent: z.object({ transient_only: z.literal(true) }).strict().optional() }).strict().optional(),
+        context: z.object({ as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), goal: z.object({ purpose: z.enum(["save", "preserve_liquidity", "income", "compare", "education"]).optional(), target_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), liquidity_horizon_months: z.number().int().nonnegative().nullable().optional() }).strict().optional(), facts: z.object({ as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), monthly_net_income_krw: z.number().nonnegative().nullable().optional(), essential_monthly_expenses_krw: z.number().nonnegative().nullable().optional(), liquid_assets_krw: z.number().nonnegative().nullable().optional(), investment_assets_krw: z.number().nonnegative().nullable().optional(), tax_rate_percent: z.number().min(0).max(100).nullable().optional(), can_transfer_salary: z.boolean().nullable().optional(), can_use_card: z.boolean().nullable().optional(), can_set_auto_transfer: z.boolean().nullable().optional(), is_new_customer: z.boolean().nullable().optional(), age_years: z.number().nonnegative().nullable().optional(), residency_code: z.string().nullable().optional(), customer_segment: z.string().nullable().optional(), employment_type: z.string().nullable().optional(), monthly_contribution_krw: z.number().nonnegative().nullable().optional() }).strict().optional(), hard_constraints: z.object({ provider: z.union([z.string(), z.array(z.string())]).nullable().optional(), term_months: z.union([z.number().int(), z.array(z.number().int())]).nullable().optional(), join_channel: z.union([z.string(), z.array(z.string())]).nullable().optional(), minimum_amount_krw: z.number().nonnegative().nullable().optional(), maximum_amount_krw: z.number().nonnegative().nullable().optional(), eligible_rule_ids: z.array(z.string()).optional() }).strict().optional(), preferences: z.object({ provider: z.string().optional(), term_months: z.number().int().positive().optional(), liquidity_horizon_months: z.number().int().nonnegative().optional(), max_term_months: z.number().int().nonnegative().optional(), monthly_budget_krw: z.number().nonnegative().optional(), monthly_contribution_krw: z.number().nonnegative().optional(), principal_krw: z.number().nonnegative().optional(), deposit_amount_krw: z.number().nonnegative().optional(), tax_rate_percent: z.number().min(0).max(100).optional(), risk_capacity: z.enum(["low", "medium", "high"]).optional() }).strict().optional(), assumptions: z.array(z.string().max(240)).max(20).optional(), consent: z.object({ transient_only: z.literal(true) }).strict().optional() }).strict().optional(),
         profile: z.object({ provider: z.string().optional(), term_months: z.number().int().positive().optional(), risk_capacity: z.enum(["low", "medium", "high"]).optional(), liquidity_horizon_months: z.number().int().nonnegative().optional(), tax_rate_percent: z.number().min(0).max(100).optional() }).strict().optional().describe("Allowlisted user facts only; never persisted."),
         constraints: z.object({ provider: z.union([z.string(), z.array(z.string())]).nullable().optional(), term_months: z.union([z.number().int(), z.array(z.number().int())]).nullable().optional(), join_channel: z.union([z.string(), z.array(z.string())]).nullable().optional(), minimum_amount_krw: z.number().nonnegative().nullable().optional(), maximum_amount_krw: z.number().nonnegative().nullable().optional(), eligible_rule_ids: z.array(z.string()).optional() }).strict().optional().describe("Allowlisted hard constraints."),
         preferences: z.object({ provider: z.string().optional(), term_months: z.number().int().positive().optional(), liquidity_horizon_months: z.number().int().nonnegative().optional(), max_term_months: z.number().int().nonnegative().optional(), monthly_budget_krw: z.number().nonnegative().optional(), monthly_contribution_krw: z.number().nonnegative().optional(), principal_krw: z.number().nonnegative().optional(), deposit_amount_krw: z.number().nonnegative().optional(), tax_rate_percent: z.number().min(0).max(100).optional(), risk_capacity: z.enum(["low", "medium", "high"]).optional() }).strict().optional().describe("Allowlisted soft preferences."),
@@ -111,7 +111,7 @@ export function registerRecommendTool(rawContext: unknown): void {
           verification_evidence_product_count: Number(manifestReadiness.field_verified_candidate_count ?? 0),
           comparison_engine_product_count: Number(manifestReadiness.value_complete_candidate_count ?? 0),
           verified_completeness_product_count: Number(manifestReadiness.field_verified_candidate_count ?? 0),
-          public_recommendation_candidate_count: Number(manifestReadiness.public_candidate_count ?? 0),
+          public_recommendation_candidate_count: Number(manifestReadiness.public_recommendation_candidate_count ?? manifestReadiness.public_candidate_count ?? 0),
           minimum_required_count: requiredVerifiedCount,
         };
         const blockerCounts = {
@@ -123,7 +123,7 @@ export function registerRecommendTool(rawContext: unknown): void {
         const payload = {
           mode: "decision_support",
           status: "blocked",
-          reason_codes: [...releaseGate.reasons.map((reason) => `RELEASE_GATE_${reason}`), "NO_VERIFIED_RECOMMENDATION_CANDIDATE"],
+          reason_codes: [...releaseGate.reasons.map((reason) => `RELEASE_GATE_${reason}`), ...(contextMissing.length ? ["CONTEXT_AS_OF_REQUIRED"] : []), "NO_VERIFIED_RECOMMENDATION_CANDIDATE"],
           profile_as_of: recommendationContext.as_of,
           data_as_of: null,
           assumptions: ["the manifest release gate is evaluated at request time", "only verified recommendation candidates could qualify"],
@@ -156,7 +156,7 @@ export function registerRecommendTool(rawContext: unknown): void {
       }
       const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain));
       const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
-      const domainItems = items.filter((item) => domainMatches(item, domain) && sourceHealth(item, artifacts).freshness_status === "current");
+      const domainItems = items.filter((item) => domainMatches(item, domain) && (item.type === "offer-option" ? item.freshness_status === "current" : sourceHealth(item, artifacts).freshness_status === "current"));
       const readiness = recommendationReadiness(domain, domainItems, requiredVerifiedCount);
       const recommendation = buildRecommendationCandidates(domainItems as unknown as Array<Record<string, unknown>>, {
         profile: { ...recommendationContext.facts, ...recommendationContext.preferences },
@@ -176,14 +176,21 @@ export function registerRecommendTool(rawContext: unknown): void {
           ...explainCandidate(item as unknown as Record<string, unknown>, eligibility, ranking),
           score: ranking.score,
           score_components: ranking.score_components,
+          ranking_key: ranking.ranking_key ?? null,
+          candidate_id: item.candidate_id ?? item.option_id ?? item.id,
+          offer_id: item.offer_id ?? null,
           warnings: [],
           source_basis_dates: item.source_basis_dates ?? [],
           last_verified_at: item.last_verified_at,
           recommendation_status: item.recommendation_status,
           recommendation_scope: item.recommendation_scope,
+          capabilities: item.capabilities ?? { comparison: "blocked", recommendation: "blocked" },
+          comparison_approved: item.comparison_approved ?? false,
+          recommendation_approved: item.recommendation_approved ?? false,
           recommendation_model_version: ranking.recommendation_model_version,
           sources: item.source_urls ?? [],
           source_assertions: item.source_assertions ?? [],
+          source_assertion_ids: item.source_assertion_ids ?? [],
           verification_status: item.verification_status ?? "unknown",
           promotion_receipt: item.promotion_receipt ?? null,
           data_as_of: eligibility.data_as_of ?? item.last_verified_at ?? item.verified_at ?? null,
@@ -196,7 +203,7 @@ export function registerRecommendTool(rawContext: unknown): void {
       const payload = {
         mode: "recommendation",
         status: results.length ? "ready" : "blocked",
-        reason_codes: results.length ? [] : ["NO_VERIFIED_RECOMMENDATION_CANDIDATE"],
+        reason_codes: results.length ? [] : [...(contextMissing.length ? ["CONTEXT_AS_OF_REQUIRED"] : []), "NO_VERIFIED_RECOMMENDATION_CANDIDATE"],
         profile_as_of: recommendationContext.as_of,
         data_as_of: null,
         assumptions: ["only verified public recommendation candidates are eligible"],

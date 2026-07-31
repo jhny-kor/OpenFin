@@ -14,6 +14,13 @@ export type FinanceItem = FinanceRecord & {
   sources?: string[];
   source_urls?: string[];
   source_basis_dates?: string[];
+  capabilities?: { comparison?: string; recommendation?: string };
+  comparison_approved?: boolean;
+  recommendation_approved?: boolean;
+  candidate_id?: string;
+  option_id?: string;
+  offer_id?: string;
+  evidence_gate?: FinanceRecord;
 };
 export type FinanceArtifactSet = Partial<Record<string, unknown>>;
 export type FinanceArtifactKey = "source_registry" | "source_status" | "provenance_index" | "provenance_coverage" | "relationship_index";
@@ -41,6 +48,7 @@ export type FinanceManifest = FinanceRecord & {
   provenance_coverage?: unknown;
   relationship_index?: unknown;
   domain_readiness?: Record<string, FinanceRecord>;
+  capabilities?: { discovery?: string; comparison?: string; recommendation?: string };
 };
 
 export type ToolContext = {

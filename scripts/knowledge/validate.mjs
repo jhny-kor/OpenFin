@@ -203,8 +203,9 @@ for (const [name, key] of qualityReportChecks) {
 }
 const comparisonReport = json(path.join(DOCS, 'openfin-comparison-regression-report-2026.json'));
 const recommendationReport = json(path.join(DOCS, 'openfin-recommendation-safety-report-2026.json'));
-const publicCount = Object.values(canonicalQuality).reduce((sum, state) => sum + Number(state.public_candidate_count || 0), 0);
-if (Number(comparisonReport.public_recommendation_candidate_count || 0) !== publicCount || Number(recommendationReport.public_recommendation_candidate_count || 0) !== publicCount) fail('public quality report projection mismatch');
+const publicComparisonCount = Object.values(canonicalQuality).reduce((sum, state) => sum + Number(state.public_comparison_candidate_count || 0), 0);
+const publicRecommendationCount = Object.values(canonicalQuality).reduce((sum, state) => sum + Number(state.public_recommendation_candidate_count || 0), 0);
+if (Number(comparisonReport.public_comparison_candidate_count || 0) !== publicComparisonCount || Number(recommendationReport.public_recommendation_candidate_count || 0) !== publicRecommendationCount) fail('public quality report projection mismatch');
 if (manifest.openfin_120_live_regression?.passed_count === manifest.openfin_120_live_regression?.test_count && manifest.openfin_120_live_regression?.failed_count === 0 && (manifest.openfin_120_live_regression?.validation_status === 'current' || manifest.openfin_120_live_regression?.status === 'current') && (manifest.recommendation_blocking_reasons || []).some(reason => String(reason) === 'LIVE_REGRESSION_NOT_READY')) fail('current live evidence cannot retain LIVE_REGRESSION_NOT_READY blocker');
 
 const minimumCounts = BASELINE_CONTRACT.exports;

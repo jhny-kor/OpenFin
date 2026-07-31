@@ -21,7 +21,7 @@
   "canonical_merge_count": 11,
   "export_checksum": "56f3fd44f3fd25068f732c91432c054af46e01c1acdb567a8b4086d5768607f9",
   "live_evidence_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-  "live_expected_generation_id": "ba8ce8f10083fdb1df56b13546dfd9c33ec1822d4bb4016a7bc43420f0464075",
+  "live_expected_generation_id": "cfc95eeea28f1bbe45b6aedfc9711e2de471c0d1e5ff66f849ee90cc829f403e",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
     "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",

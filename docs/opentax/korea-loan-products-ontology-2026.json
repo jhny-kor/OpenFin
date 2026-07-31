@@ -172,6 +172,10 @@
     "field_verified_candidate_count": 0,
     "runtime_eligible_candidate_count": 0,
     "public_candidate_count": 0,
+    "comparison_eligible_candidate_count": 0,
+    "shadow_recommendation_candidate_count": 0,
+    "owner_pilot_candidate_count": 0,
+    "public_recommendation_candidate_count": 0,
     "comparison_data": "domain_coverage_incomplete"
   },
   "item_count": 643,

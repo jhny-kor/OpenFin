@@ -3,6 +3,12 @@
   "version": "openfin-release-policy-v1",
   "scope": "personal-finance-platform",
   "quality_statuses": ["pilot_verified", "structural_only", "limited_public_ready", "domain_coverage_incomplete", "schema_not_defined", "blocked"],
+  "capabilities": {
+    "discovery": ["ready", "blocked"],
+    "comparison": ["blocked", "limited_public", "public"],
+    "recommendation": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public"]
+  },
+  "candidate_count_fields": ["strict_offer_count", "comparison_eligible_candidate_count", "public_comparison_candidate_count", "shadow_recommendation_candidate_count", "owner_pilot_candidate_count", "public_recommendation_candidate_count"],
   "live_regression": {
     "required_count": 120,
     "required_mode": "live",
@@ -34,7 +40,13 @@
       "live_regression",
       "domain_readiness",
       "item_readiness"
-    ]
+    ],
+    "two_phase": {
+      "staging_requires": ["candidate_artifact", "quality_suite", "approval_receipt"],
+      "production_requires": ["same_generation", "same_candidate_set", "same_policy", "same_calculator", "same_quality_suite", "rollback_generation"],
+      "artifact_retention_days": 365,
+      "debug_cache_retention_days": 7
+    }
   },
   "domains": {
     "deposit": {

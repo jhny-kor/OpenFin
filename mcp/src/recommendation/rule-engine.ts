@@ -2,7 +2,11 @@ export type RuleStatus = "matched" | "failed" | "unknown";
 export type Predicate = { fact?: string; operator: string; expected?: unknown; conditions?: Predicate[] };
 export type StructuredRule = { rule_id: string; rule_type: string; predicate: Predicate; effect?: Record<string, unknown>; unknown_policy?: "not_applied" | "exclude" | "review"; valid_from?: string | null; valid_to?: string | null; field_assertions?: unknown[] };
 
-const has = (facts: Record<string, unknown>, key: string): boolean => Object.prototype.hasOwnProperty.call(facts, key) && facts[key] !== null && facts[key] !== undefined;
+const read = (facts: Record<string, unknown>, key: string): unknown => {
+  if (Object.prototype.hasOwnProperty.call(facts, key)) return facts[key];
+  return key.split(".").reduce<unknown>((value, segment) => value && typeof value === "object" ? (value as Record<string, unknown>)[segment] : undefined, facts);
+};
+const has = (facts: Record<string, unknown>, key: string): boolean => read(facts, key) !== null && read(facts, key) !== undefined;
 function compare(actual: unknown, operator: string, expected: unknown): RuleStatus {
   if (actual === undefined || actual === null) return "unknown";
   if (operator === "eq") return actual === expected ? "matched" : "failed";
@@ -23,14 +27,17 @@ export function evaluatePredicate(predicate: Predicate, facts: Record<string, un
     if (predicate.operator === "or") return statuses.includes("matched") ? "matched" : statuses.includes("unknown") ? "unknown" : "failed";
     return statuses[0] === "matched" ? "failed" : statuses[0] === "failed" ? "matched" : "unknown";
   }
-  return predicate.fact && has(facts, predicate.fact) ? compare(facts[predicate.fact], predicate.operator, predicate.expected) : "unknown";
+  return predicate.fact && has(facts, predicate.fact) ? compare(read(facts, predicate.fact), predicate.operator, predicate.expected) : "unknown";
 }
 export function evaluateRules(rules: readonly StructuredRule[], facts: Record<string, unknown>) {
   const matched: string[] = []; const failed: string[] = []; const unknown: string[] = []; const effects: Record<string, unknown>[] = [];
   for (const rule of rules) {
     if (!Array.isArray(rule.field_assertions) || rule.field_assertions.length === 0) { unknown.push(rule.rule_id); continue; }
-    const asOf = typeof facts.as_of === "string" ? facts.as_of : new Date().toISOString();
-    if ((rule.valid_from && asOf < rule.valid_from) || (rule.valid_to && asOf > rule.valid_to)) { unknown.push(rule.rule_id); continue; }
+    const asOfValue = typeof facts.as_of === "string" ? facts.as_of : new Date().toISOString();
+    const asOf = Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(asOfValue) ? `${asOfValue}T23:59:59Z` : asOfValue);
+    const from = rule.valid_from ? Date.parse(rule.valid_from) : Number.NEGATIVE_INFINITY;
+    const to = rule.valid_to ? Date.parse(rule.valid_to) : Number.POSITIVE_INFINITY;
+    if (!Number.isFinite(asOf) || asOf < from || asOf > to) { unknown.push(rule.rule_id); continue; }
     const status = evaluatePredicate(rule.predicate, facts);
     if (status === "matched") { matched.push(rule.rule_id); if (rule.effect) effects.push(rule.effect); }
     else if (status === "failed") failed.push(rule.rule_id);

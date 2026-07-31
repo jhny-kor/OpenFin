@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/candidate-promotion-receipt.schema.json",
+  "title": "OpenFin candidate promotion receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["offer_id", "option_id", "strict_schema_checksum", "required_assertion_checksum", "source_set_checksum", "source_authority_summary", "freshness_evaluation_as_of", "conflict_count", "sales_verification_receipt_id", "comparison_approved", "recommendation_approved", "reviewer", "approved_at", "expires_at"],
+  "properties": {
+    "offer_id": { "type": "string", "minLength": 1 },
+    "option_id": { "type": "string", "minLength": 1 },
+    "strict_schema_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+    "required_assertion_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+    "source_set_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+    "source_authority_summary": { "type": "object", "additionalProperties": true },
+    "freshness_evaluation_as_of": { "type": "string", "format": "date-time" },
+    "conflict_count": { "type": "integer", "minimum": 0 },
+    "sales_verification_receipt_id": { "type": "string", "minLength": 1 },
+    "comparison_approved": { "type": "boolean" },
+    "recommendation_approved": { "type": "boolean" },
+    "mode": { "enum": ["shadow", "owner_pilot", "review_ready", "limited_public", "public"] },
+    "reviewer": { "type": "string", "minLength": 1 },
+    "approved_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "reason_codes": { "type": "array", "items": { "type": "string" } }
+  }
+}
