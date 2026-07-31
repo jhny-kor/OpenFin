@@ -83,13 +83,40 @@ const searchProjection = item => item.search_projection || (item.type === 'sourc
   source_urls: [item.urls?.canonical].filter(Boolean), source_basis_dates: [],
   search_text: `${item.id} ${item.title} ${item.publisher || ''}`.toLowerCase(),
 } : null);
+const compactSearchFields = [
+  'id', 'title', 'type', 'description', 'search_text',
+  'provider', 'product_kind', 'search_type', 'product_status', 'sales_status',
+  'source_listing_status', 'sales_verification_status', 'sales_verified_at',
+  'source_freshness_status', 'status', 'recommendation_status', 'recommendation_scope',
+  'canonical_product_id', 'resolved_canonical_product_id',
+  'application_status', 'is_currently_applicable', 'application_open_to',
+  'jurisdiction', 'jurisdiction_code', 'jurisdiction_aliases', 'parent_jurisdiction_code',
+  'target_group', 'support_category', 'freshness_status', 'last_verified_at',
+  'last_source_checked_at', 'last_reviewed_at',
+  'search_aliases', 'aliases', 'source_ids',
+  'provenance_shard', 'export_id',
+];
+const hasCompactValue = value => value !== undefined && value !== null && value !== ''
+  && (!Array.isArray(value) || value.length > 0)
+  && (!(value && typeof value === 'object' && !Array.isArray(value)) || Object.keys(value).length > 0);
+// Support-program rows carry a large set of unused provenance and catalog
+// fields. Keep only the search/output contract so a public Worker can parse
+// the shard within its CPU limit.
+const supportSearchFields = [...compactSearchFields, 'application_window', 'structured_summary', 'search_facets', 'source_urls', 'source_basis_dates'];
 const shardOutputs = [];
 for (const [file, meta] of Object.entries(searchFiles).sort(([a],[b])=>a.localeCompare(b))) {
-  const items = catalog.filter(i => i.search_shard === meta.shard_id || (!i.search_shard && i.type === 'source' && meta.shard_id === 'reference')).sort((a,b)=>(a.search_position ?? 0)-(b.search_position ?? 0) || a.id.localeCompare(b.id)).map(i=>searchProjection(i) ? {
-    ...searchProjection(restoreCompatibilityDates(i)),
-    source_ids:[...new Set(i.sources || [])],
-    provenance_shard:i.search_shard || (i.type === 'source' ? 'reference' : undefined),
-  } : null).filter(Boolean);
+  const items = catalog.filter(i => i.search_shard === meta.shard_id || (!i.search_shard && i.type === 'source' && meta.shard_id === 'reference')).sort((a,b)=>(a.search_position ?? 0)-(b.search_position ?? 0) || a.id.localeCompare(b.id)).map(i=>{
+    const projection = searchProjection(restoreCompatibilityDates(i));
+    if (!projection) return null;
+    const shardProjection = meta.shard_id === 'support'
+      ? Object.fromEntries(supportSearchFields.filter(field => hasCompactValue(projection[field])).map(field => [field, projection[field]]))
+      : projection;
+    return {
+      ...shardProjection,
+      source_ids:[...new Set(i.sources || [])],
+      provenance_shard:i.search_shard || (i.type === 'source' ? 'reference' : undefined),
+    };
+  }).filter(Boolean);
   // Search shards are verified over their JSON array payload. The search
   // index is a hot path in the Worker, so avoid recursively sorting every
   // object key at request time while keeping the emitted ordering stable.
@@ -111,22 +138,6 @@ for (const file of fs.readdirSync(DOCS).filter(f=>/^finance-search-index-2026-.+
   shardOutputs.push({id:`finance-search-index-${data.shard_id}`, shard_id:data.shard_id, path:`opentax/${file}`, url:`${PUBLIC_BASE}/${file}`, web_url:`${PUBLIC_BASE}/${file}`, item_count:0, export_checksum:output.export_checksum, content_checksum});
 }
 const allSearchItems = shardOutputs.flatMap(s => json(path.join(DOCS, path.basename(s.path))).items);
-const compactSearchFields = [
-  'id', 'title', 'type', 'description', 'search_text',
-  'provider', 'product_kind', 'search_type', 'product_status', 'sales_status',
-  'source_listing_status', 'sales_verification_status', 'sales_verified_at',
-  'source_freshness_status', 'status', 'recommendation_status', 'recommendation_scope',
-  'canonical_product_id', 'resolved_canonical_product_id',
-  'application_status', 'is_currently_applicable', 'application_open_to',
-  'jurisdiction', 'jurisdiction_code', 'jurisdiction_aliases', 'parent_jurisdiction_code',
-  'target_group', 'support_category', 'freshness_status', 'last_verified_at',
-  'last_source_checked_at', 'last_reviewed_at',
-  'search_aliases', 'aliases', 'source_ids',
-  'provenance_shard', 'export_id',
-];
-const hasCompactValue = value => value !== undefined && value !== null && value !== ''
-  && (!Array.isArray(value) || value.length > 0)
-  && (!(value && typeof value === 'object' && !Array.isArray(value)) || Object.keys(value).length > 0);
 const compactSearchItems = allSearchItems.map(item => {
   const compact = Object.fromEntries(compactSearchFields.filter(field => hasCompactValue(item[field])).map(field => [field, item[field]]));
   // Keep the field present even for source nodes, whose dependency set is

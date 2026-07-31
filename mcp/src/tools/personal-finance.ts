@@ -23,7 +23,7 @@ const ADVICE_SCHEMA = z.object({ mode: z.enum(["decision_support", "recommendati
 export const PERSONAL_FINANCE_SNAPSHOT_SCHEMA = SNAPSHOT_SCHEMA;
 
 export function registerPersonalFinanceTools(ctx: ToolContext): void {
-  const { server, env, mcpResult, financeResult, financeSafety, normalizeFinanceSnapshot, financeMetrics, financeNeeds, assertFinanceSafe, financeNumber, isRecord, evaluateEligibility, productDomain, financeAuditId, loadSearchItems, hydrateSearchItem, PERSONAL_FINANCE_POLICY_VERSION, ADVICE_POLICY_VERSION, STANDARD_OUTPUT_SCHEMA, READ_ONLY_TOOL_ANNOTATIONS } = ctx;
+  const { server, env, mcpResult, financeResult, financeSafety, normalizeFinanceSnapshot, financeMetrics, financeNeeds, assertFinanceSafe, financeNumber, isRecord, evaluateEligibility, productDomain, financeAuditId, loadSearchItems, loadSearchItemsForQuery, hydrateSearchItem, PERSONAL_FINANCE_POLICY_VERSION, ADVICE_POLICY_VERSION, STANDARD_OUTPUT_SCHEMA, READ_ONLY_TOOL_ANNOTATIONS } = ctx;
   server.registerTool("get_finance_summary", {
     title: "Get Personal Finance Summary",
     description: "Summarize a transient user-supplied finance snapshot and prioritize needs. This is decision support, not a recommendation.",
@@ -57,7 +57,10 @@ export function registerPersonalFinanceTools(ctx: ToolContext): void {
     assertFinanceSafe(item);
     const normalized = normalizeFinanceSnapshot(snapshot);
     const requestedId = typeof item.id === "string" ? item.id : typeof item.item_id === "string" ? item.item_id : undefined;
-    const catalogRootItem = (await loadSearchItems(env)).find((candidate) => candidate.id === requestedId || candidate.canonical_product_id === requestedId || candidate.resolved_canonical_product_id === requestedId);
+    const catalogItems = requestedId?.startsWith("finance.account.")
+      ? await loadSearchItemsForQuery(env, requestedId, "account-product")
+      : await loadSearchItems(env);
+    const catalogRootItem = catalogItems.find((candidate) => candidate.id === requestedId || candidate.canonical_product_id === requestedId || candidate.resolved_canonical_product_id === requestedId);
     const catalogItem = catalogRootItem ? await hydrateSearchItem(env, catalogRootItem) : undefined;
     const candidateItem: FinanceItem | Record<string, unknown> = catalogItem ?? {
       id: requestedId ?? "unresolved-product",

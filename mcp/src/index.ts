@@ -1594,7 +1594,7 @@ function searchShardForQuery(
   productKind?: string,
 ): string | undefined {
   const normalized = normalizeQuery(query);
-  if (type === "account-product" || productKind === "housing-subscription" || /청약통장|주택드림|isa|개인종합자산관리/.test(normalized)) return "account-products";
+  if (type === "account-product" || productKind === "housing-subscription" || /^finance\.account\./.test(normalized) || /청약통장|주택드림|isa|개인종합자산관리/.test(normalized)) return "account-products";
   if (type === "support-program" || SUPPORT_INTENT_RE.test(normalized)) return "support";
   if (type === "card-product" || /카드|마일리지|전월실적|연회비/.test(normalized)) return "card-products";
   if (type === "insurance-product" || /보험|실손|실비/.test(normalized)) return "insurance-products";
@@ -1611,9 +1611,8 @@ async function loadDetailedItemsForDomain(env: Env, domain: string): Promise<rea
     const offers = await loadSearchShard(env, manifest.decision_offers);
     return offers.flatMap((offer) => adaptDecisionOfferOptions(offer, domain) as FinanceItem[]);
   }
-  const metadata = await loadSearchIndexMetadata(env);
   const shardId = SEARCH_SHARD_BY_DOMAIN[domain];
-  const shard = (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  const shard = manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
 }
 
@@ -1629,13 +1628,12 @@ async function loadSearchItemsForQuery(
   productKind?: string,
 ): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
-  const metadata = await loadSearchIndexMetadata(env);
   const shardId = searchShardForQuery(query, type, searchType, productKind);
   if (!shardId) {
-    const reference = (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference");
+    const reference = manifest.search_index?.shards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference");
     return reference ? loadSearchShard(env, reference) : loadSearchItems(env);
   }
-  const shard = (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  const shard = manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
 }
 

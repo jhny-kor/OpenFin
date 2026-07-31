@@ -1267,7 +1267,7 @@
       "evidence_path": "evidence/live-regression/current.json",
       "evidence_checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
       "expected_generation_id": "cfc95eeea28f1bbe45b6aedfc9711e2de471c0d1e5ff66f849ee90cc829f403e",
-      "expected_fixture_checksum": "sha256:3ff07ef6b8ad0773aaa297e1568d0b34425ae0b19c9bba2ef74a236a62913c75",
+      "expected_fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf",
       "validation_status": "stale_fixture"
     }
   },
@@ -1560,14 +1560,14 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-support.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/finance-search-index-2026-support.json",
         "item_count": 7739,
-        "export_checksum": "e666e8aef62e88b1870b0ca4c8278ac05f4c08b21841a554f05d83ba6f98d18d",
-        "content_checksum": "9578a2cec7834180a23cc1ce250871c9ba65492622fc4f3b7560e89381027ee7"
+        "export_checksum": "8c01b5735d4981084634c751aa44bfb47d3f8a22b1b30952a939b3ffa69d6bfa",
+        "content_checksum": "e9e6bebee35f7d58963d4796a16f3892bc9ff6405c4fc77f0b0a65a005833b53"
       }
     ],
     "canonical_product_count": 12825,
     "duplicate_canonical_product_count": 0,
     "canonical_merge_count": 49,
-    "content_checksum": "016cc0a880e3fbbc9ba855f36268f2c0203a133cec23946fe69585107d9ff5e8"
+    "content_checksum": "37576a7b58834f8589665d542283654234e243cce987bd713c254bd80e24ebf4"
   },
   "quality_exports": [
     {
@@ -1593,7 +1593,7 @@
         "relationship_count": 102523,
         "collection_failure_sources": 49
       },
-      "export_checksum": "bd5e47493b79c936c110bc8f7a7205d252b36dbc4c090c06953af23fe8aefc8d",
+      "export_checksum": "90e3d7d9d05a342f91853a8d035e0a2f14297cc7b8203546c1bc52b5257e340f",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -4233,7 +4233,7 @@
     "evidence_path": "evidence/live-regression/current.json",
     "evidence_checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
     "expected_generation_id": "cfc95eeea28f1bbe45b6aedfc9711e2de471c0d1e5ff66f849ee90cc829f403e",
-    "expected_fixture_checksum": "sha256:3ff07ef6b8ad0773aaa297e1568d0b34425ae0b19c9bba2ef74a236a62913c75",
+    "expected_fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf",
     "validation_status": "stale_fixture"
   },
   "domain_readiness": {
@@ -4630,7 +4630,7 @@
     "public_approval_receipt_missing",
     "recommendation_state_blocked"
   ],
-  "quality_hash": "7a98608db2677efa7214a08d41cd6f2e8420ca617283c0e6cd0b8dbc32d6514a",
+  "quality_hash": "ecf82362526db81101707dee2666ab03b8d8ec0a793e388396e152069c2bdfb9",
   "live_regression_policy": {
     "required_count": 120,
     "required_mode": "live",
@@ -4653,7 +4653,7 @@
     "source_status_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789",
     "release_policy_checksum": "4f013eda708dc8774c260c8cbb04004f217d66300b28b1df4463aa97081d1b72",
     "capability_policy_checksum": "ae2faa43270dbf513d419b4b815adae3e7fb89e8ea85be39c7416bc99e740606",
-    "fixture_checksum": "sha256:3ff07ef6b8ad0773aaa297e1568d0b34425ae0b19c9bba2ef74a236a62913c75"
+    "fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf"
   },
   "source_freshness_status": "degraded",
   "recommendation_state": "blocked",
@@ -4726,5 +4726,5 @@
       "public_recommendation_candidate_count": 0
     }
   },
-  "manifest_checksum": "945c46f6151efc85f8e3b667d73dd5579b0654cd9b196603cdb43cca5b55a285"
+  "manifest_checksum": "3a0b5a73da53c736c16af10a30a35157df7d896e768e162a541d30ab8b47b2ed"
 }

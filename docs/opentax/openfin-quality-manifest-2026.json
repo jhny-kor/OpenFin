@@ -1416,7 +1416,7 @@
     "evidence_path": "evidence/live-regression/current.json",
     "evidence_checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
     "expected_generation_id": "cfc95eeea28f1bbe45b6aedfc9711e2de471c0d1e5ff66f849ee90cc829f403e",
-    "expected_fixture_checksum": "sha256:3ff07ef6b8ad0773aaa297e1568d0b34425ae0b19c9bba2ef74a236a62913c75",
+    "expected_fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf",
     "validation_status": "stale_fixture"
   },
   "quality_reports": [
@@ -2008,7 +2008,7 @@
     }
   },
   "quality_policy_version": "openfin-release-policy-v1",
-  "quality_hash": "7a98608db2677efa7214a08d41cd6f2e8420ca617283c0e6cd0b8dbc32d6514a",
+  "quality_hash": "ecf82362526db81101707dee2666ab03b8d8ec0a793e388396e152069c2bdfb9",
   "platform_release_status": "ready",
   "comparison_release_status": "blocked",
   "recommendation_release_status": "blocked",
@@ -2026,7 +2026,7 @@
     "source_status_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789",
     "release_policy_checksum": "4f013eda708dc8774c260c8cbb04004f217d66300b28b1df4463aa97081d1b72",
     "capability_policy_checksum": "ae2faa43270dbf513d419b4b815adae3e7fb89e8ea85be39c7416bc99e740606",
-    "fixture_checksum": "sha256:3ff07ef6b8ad0773aaa297e1568d0b34425ae0b19c9bba2ef74a236a62913c75"
+    "fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf"
   },
   "capabilities": {
     "discovery": "ready",
