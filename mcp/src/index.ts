@@ -512,18 +512,20 @@ function supportExcludedSummary(
   allowedTypes: ReadonlySet<string> | null,
   returnedIds: ReadonlySet<string>,
   maxResults: number,
+  scoreCache?: ReadonlyMap<string, number>,
 ): Record<string, number> {
   if (!SUPPORT_INTENT_RE.test(query)) return {};
   const counts: Record<string, number> = {};
   const add = (reason: string) => { counts[reason] = (counts[reason] ?? 0) + 1; };
-  for (const item of items.filter((candidate) => candidate.type === "support-program")) {
+  for (const item of items) {
+    if (item.type !== "support-program") continue;
     if (returnedIds.has(item.id)) continue;
     if (!isPubliclySearchable(item)) { add("not_publicly_searchable"); continue; }
     if (allowedTypes && !allowedTypes.has(item.type)) { add("type_filter"); continue; }
     if (!matchesSearchFilters(item, filters)) { add("filter_mismatch"); continue; }
     if (!matchesSupportRegion(item, supportRegion)) { add("region_mismatch"); continue; }
     if (!matchesSupportIntent(item, query)) { add("support_intent_mismatch"); continue; }
-    if (scoreItem(item, query) <= 0) { add("query_mismatch"); continue; }
+    if ((scoreCache?.get(item.id) ?? scoreItem(item, query)) <= 0) { add("query_mismatch"); continue; }
     if (maxResults > 0) add("result_limit");
   }
   return counts;

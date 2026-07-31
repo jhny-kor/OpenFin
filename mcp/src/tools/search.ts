@@ -62,9 +62,17 @@ export function registerSearchTool(ctx: ToolContext): void {
         region,
         freshnessStatus: freshness_status,
       };
+      const scoreCache = new Map<string, number>();
+      const cachedScore = (item: Parameters<typeof scoreItem>[0]): number => {
+        const cached = scoreCache.get(item.id);
+        if (cached !== undefined) return cached;
+        const score = scoreItem(item, normalizedQuery);
+        scoreCache.set(item.id, score);
+        return score;
+      };
       const results = items
         .filter((item) => isPubliclySearchable(item) && (!allowedTypes || allowedTypes.has(item.type)) && matchesSearchFilters(item, filters, artifacts) && matchesSupportRegion(item, supportRegion) && matchesSupportIntent(item, normalizedQuery))
-        .map((item) => ({ item, score: scoreItem(item, normalizedQuery) }))
+        .map((item) => ({ item, score: cachedScore(item) }))
         .filter((result) => result.score > 0)
         .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR"))
         .slice(0, maxResults)
@@ -134,6 +142,7 @@ export function registerSearchTool(ctx: ToolContext): void {
           allowedTypes,
           new Set(results.map((item) => item.id)),
           maxResults,
+          scoreCache,
         ),
       };
 
