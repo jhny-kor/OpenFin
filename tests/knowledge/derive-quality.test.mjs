@@ -20,6 +20,7 @@ test('live evidence must be current, complete, and attributable to a deployment'
   assert.equal(liveRegressionCurrent(live, livePolicy, checkedAt + 60 * 60 * 1000), true);
   assert.equal(liveRegressionCurrent({ ...live, deployment_commit: 'unknown' }, livePolicy, checkedAt), false);
   assert.equal(liveRegressionCurrent(live, livePolicy, checkedAt + 25 * 60 * 60 * 1000), false);
+  assert.equal(liveRegressionCurrent(live, livePolicy, checkedAt, null, 'sha256:other'), false);
 });
 
 test('field values alone never become field-verified candidates', () => {

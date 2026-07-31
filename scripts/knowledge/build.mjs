@@ -329,7 +329,7 @@ const artifactContract = {
   search_index_checksum: searchManifest.export_checksum,
   source_status_checksum: sha256(sourceStatusArtifact).slice(7),
   release_policy_checksum: sha256(fs.readFileSync(path.join(ROOT, 'contracts/release-policy.json'), 'utf8')).slice(7),
-  fixture_checksum: quality.live_regression.fixture_checksum ?? null,
+  fixture_checksum: quality.fixture_checksum,
 };
 provenanceCoverageArtifact.status = quality.release_status;
 provenanceCoverageArtifact.recommendation_enabled = quality.recommendation_enabled;

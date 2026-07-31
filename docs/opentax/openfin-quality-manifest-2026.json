@@ -1380,7 +1380,8 @@
     "evidence_path": "evidence/live-regression/current.json",
     "evidence_checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
     "expected_generation_id": "ba8ce8f10083fdb1df56b13546dfd9c33ec1822d4bb4016a7bc43420f0464075",
-    "validation_status": "stale_generation"
+    "expected_fixture_checksum": "sha256:3ff07ef6b8ad0773aaa297e1568d0b34425ae0b19c9bba2ef74a236a62913c75",
+    "validation_status": "stale_fixture"
   },
   "quality_reports": [
     {
@@ -1394,7 +1395,7 @@
         "live_failure_count": 0,
         "report_kind": "verification-coverage",
         "live_evidence_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-        "live_status": "stale_generation",
+        "live_status": "stale_fixture",
         "live_tested_at": "2026-07-30T09:50:42.812Z",
         "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
         "runtime_version": "openfin-mcp-2026.07.28.2",
@@ -1404,7 +1405,7 @@
           "path": "evidence/live-regression/current.json",
           "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
           "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-          "validation_status": "stale_generation"
+          "validation_status": "stale_fixture"
         }
       }
     },
@@ -1427,7 +1428,7 @@
         "duplicate_canonical_product_count": 0,
         "canonical_merge_count": 11,
         "live_evidence_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-        "live_status": "stale_generation",
+        "live_status": "stale_fixture",
         "live_tested_at": "2026-07-30T09:50:42.812Z",
         "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
         "runtime_version": "openfin-mcp-2026.07.28.2",
@@ -1437,7 +1438,7 @@
           "path": "evidence/live-regression/current.json",
           "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
           "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-          "validation_status": "stale_generation"
+          "validation_status": "stale_fixture"
         }
       }
     },
@@ -1454,7 +1455,7 @@
         "failed_count": 0,
         "search_regression_failed_count": 0,
         "live_evidence_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-        "live_status": "stale_generation",
+        "live_status": "stale_fixture",
         "live_tested_at": "2026-07-30T09:50:42.812Z",
         "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
         "runtime_version": "openfin-mcp-2026.07.28.2",
@@ -1464,7 +1465,7 @@
           "path": "evidence/live-regression/current.json",
           "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
           "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-          "validation_status": "stale_generation"
+          "validation_status": "stale_fixture"
         }
       }
     },
@@ -1479,7 +1480,7 @@
         "live_failure_count": 0,
         "report_kind": "recommendation-safety",
         "live_evidence_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-        "live_status": "stale_generation",
+        "live_status": "stale_fixture",
         "live_tested_at": "2026-07-30T09:50:42.812Z",
         "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
         "runtime_version": "openfin-mcp-2026.07.28.2",
@@ -1489,7 +1490,7 @@
           "path": "evidence/live-regression/current.json",
           "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
           "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-          "validation_status": "stale_generation"
+          "validation_status": "stale_fixture"
         }
       }
     },
@@ -1507,7 +1508,7 @@
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0,
         "live_evidence_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-        "live_status": "stale_generation",
+        "live_status": "stale_fixture",
         "live_tested_at": "2026-07-30T09:50:42.812Z",
         "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
         "runtime_version": "openfin-mcp-2026.07.28.2",
@@ -1517,7 +1518,7 @@
           "path": "evidence/live-regression/current.json",
           "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
           "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-          "validation_status": "stale_generation"
+          "validation_status": "stale_fixture"
         }
       }
     },
@@ -1532,7 +1533,7 @@
         "live_failure_count": 0,
         "report_kind": "data-drift",
         "live_evidence_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-        "live_status": "stale_generation",
+        "live_status": "stale_fixture",
         "live_tested_at": "2026-07-30T09:50:42.812Z",
         "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
         "runtime_version": "openfin-mcp-2026.07.28.2",
@@ -1542,7 +1543,7 @@
           "path": "evidence/live-regression/current.json",
           "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
           "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-          "validation_status": "stale_generation"
+          "validation_status": "stale_fixture"
         }
       }
     },
@@ -1558,7 +1559,7 @@
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0,
         "live_evidence_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-        "live_status": "stale_generation",
+        "live_status": "stale_fixture",
         "live_tested_at": "2026-07-30T09:50:42.812Z",
         "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
         "runtime_version": "openfin-mcp-2026.07.28.2",
@@ -1568,7 +1569,7 @@
           "path": "evidence/live-regression/current.json",
           "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
           "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-          "validation_status": "stale_generation"
+          "validation_status": "stale_fixture"
         }
       }
     }
@@ -1937,7 +1938,7 @@
     }
   },
   "quality_policy_version": "openfin-release-policy-v1",
-  "quality_hash": "e053a14d9dcd863044672291d8a0637f47e1f1f724453b1dbfadca6fed4c9ab6",
+  "quality_hash": "ac381c13253833dd569eccdd9b4ca0212cb64ee995bc197a27c0884fb11c899c",
   "platform_release_status": "ready",
   "comparison_release_status": "limited",
   "recommendation_release_status": "blocked",
@@ -1954,6 +1955,6 @@
     "search_index_checksum": "369cbc7ec7fa6b611f814df7a13ee279f7483c7a12e20d4966c2e46f2abf6432",
     "source_status_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789",
     "release_policy_checksum": "87d8d68c395aa8dc61aa52159fb3af36c70aa16ce6d1d1a256329ff22e852434",
-    "fixture_checksum": "sha256:c43512d6683261ea1e1c1a2f7e2d471c9ab62d6e925231cd12ea00ea7e0fff66"
+    "fixture_checksum": "sha256:3ff07ef6b8ad0773aaa297e1568d0b34425ae0b19c9bba2ef74a236a62913c75"
   }
 }

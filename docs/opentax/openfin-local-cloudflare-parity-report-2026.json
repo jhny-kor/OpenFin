@@ -1,7 +1,7 @@
 {
   "version": "openfin-local-cloudflare-parity-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_status": "stale_generation",
+  "live_status": "stale_fixture",
   "live_tested_at": "2026-07-30T09:50:42.812Z",
   "runtime_version": "openfin-mcp-2026.07.28.2",
   "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
@@ -20,7 +20,7 @@
     "path": "evidence/live-regression/current.json",
     "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
     "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-    "validation_status": "stale_generation"
+    "validation_status": "stale_fixture"
   },
   "measurement_status": "not_measured",
   "reason": "PUBLIC_PARITY_VERIFIED_IN_DEPLOYMENT_WORKFLOW",

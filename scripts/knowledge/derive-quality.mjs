@@ -5,6 +5,7 @@ import { ROOT, KNOWLEDGE, DOCS, json, sha256 } from './common.mjs';
 export const RELEASE_POLICY_PATH = path.join(ROOT, 'contracts/release-policy.json');
 export const PRODUCT_STATUS_PATH = path.join(ROOT, 'contracts/product-status.json');
 export const RECOMMENDATION_STATE_PATH = path.join(ROOT, 'contracts/recommendation-state.json');
+const LIVE_FIXTURE_PATH = path.join(ROOT, 'tests/golden/openfin-runtime-contract-120.jsonl');
 export const readReleasePolicy = () => json(RELEASE_POLICY_PATH);
 export const readProductStatus = () => json(PRODUCT_STATUS_PATH);
 export const readRecommendationState = () => json(RECOMMENDATION_STATE_PATH);
@@ -108,7 +109,7 @@ const liveRegressionEvidence = () => {
   const live = json(file);
   return { ...live, evidence_path: 'evidence/live-regression/current.json', evidence_checksum: shaFile(file) };
 };
-export const liveRegressionCurrent = (live, policy, now = Date.now(), expectedGenerationId = null) => {
+export const liveRegressionCurrent = (live, policy, now = Date.now(), expectedGenerationId = null, expectedFixtureChecksum = null) => {
   const checkedAt = Date.parse(live.checked_at || '');
   const ttlMs = Number(policy.live_regression.freshness_ttl_hours || 24) * 60 * 60 * 1000;
   const ageMs = now - checkedAt;
@@ -125,7 +126,8 @@ export const liveRegressionCurrent = (live, policy, now = Date.now(), expectedGe
     && typeof live.loaded_index_checksum === 'string'
     && typeof live.deployment_commit === 'string'
     && live.deployment_commit !== 'unknown'
-    && (!expectedGenerationId || live.generation_id === expectedGenerationId);
+    && (!expectedGenerationId || live.generation_id === expectedGenerationId)
+    && (!expectedFixtureChecksum || live.fixture_checksum === expectedFixtureChecksum);
 };
 
 export const deriveQuality = (records, { sourceCount, exportCount, searchItemCount, relationshipCount, invalidUrlCount = 0, sourceStatusLoaded = true, sourceStatusChecksum = null, searchIndexChecksum = null, deploymentCommit = 'unknown', evaluationAsOf = null } = {}) => {
@@ -218,9 +220,10 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
   const canonicalContentChecksum = sha256(records).slice(7);
   const releasePolicyChecksum = shaFile(RELEASE_POLICY_PATH);
   const generation_id = generationId({ canonicalContentChecksum, searchIndexChecksum, sourceStatusChecksum, releasePolicyChecksum, deploymentCommit });
+  const fixtureChecksum = shaFile(LIVE_FIXTURE_PATH) ? `sha256:${shaFile(LIVE_FIXTURE_PATH)}` : null;
   const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : Date.now();
-  const liveReady = liveRegressionCurrent(live, policy, evaluationTime, generation_id);
-  const liveForManifest = { ...live, expected_generation_id: generation_id, validation_status: liveReady ? 'current' : live.status === 'current' ? 'stale_generation' : live.status };
+  const liveReady = liveRegressionCurrent(live, policy, evaluationTime, generation_id, fixtureChecksum);
+  const liveForManifest = { ...live, expected_generation_id: generation_id, expected_fixture_checksum: fixtureChecksum, validation_status: liveReady ? 'current' : live.status === 'current' && live.fixture_checksum !== fixtureChecksum ? 'stale_fixture' : live.status === 'current' ? 'stale_generation' : live.status };
   const configuredReceipt = policy.recommendation?.public_approval_receipt;
   const receiptPath = configuredReceipt ? path.join(ROOT, configuredReceipt) : null;
   const receipt = receiptPath && fs.existsSync(receiptPath) ? json(receiptPath) : null;
@@ -256,7 +259,8 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
     recommendation_blocking_reasons: [...new Set(recommendationReasons)],
     degraded_domains: Object.entries(domains).filter(([, state]) => state.status !== 'limited_public_ready').map(([name]) => name).sort(),
     generation_id,
-    quality_hash: sha256({ canonicalContentChecksum, policy_checksum: releasePolicyChecksum, sourceStatusChecksum, searchIndexChecksum, deploymentCommit, live_evidence_checksum: live.evidence_checksum, domains, platformReasons, recommendationReasons }).slice(7),
+    fixture_checksum: fixtureChecksum,
+    quality_hash: sha256({ canonicalContentChecksum, policy_checksum: releasePolicyChecksum, sourceStatusChecksum, searchIndexChecksum, deploymentCommit, fixtureChecksum, live_evidence_checksum: live.evidence_checksum, domains, platformReasons, recommendationReasons }).slice(7),
   };
 };
 
