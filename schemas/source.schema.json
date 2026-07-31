@@ -28,7 +28,11 @@
       "properties": {
         "method": { "enum": ["api", "web", "pdf", "law", "notice", "product-page", "public_web_scrape", "public_web_reference", "public_web_or_excel_scrape", "public_web_scrape_or_future_api"] },
         "parser_id": { "type": ["string", "null"] },
-        "requires_secret": { "type": "boolean" }
+        "requires_secret": { "type": "boolean" },
+        "request_url": { "type": "string", "pattern": "^https?://" },
+        "request_query": { "type": "object", "additionalProperties": { "type": ["string", "number", "boolean"] } },
+        "credential_env": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+        "credential_query_param": { "type": "string", "minLength": 1 }
       },
       "additionalProperties": true
     },

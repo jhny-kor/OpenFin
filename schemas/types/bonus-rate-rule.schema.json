@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/types/bonus-rate-rule.schema.json",
+  "title": "OpenFin attainable bonus-rate rule",
+  "type": "object",
+  "required": ["rule_id", "rule_type", "predicate", "effect", "unknown_policy", "valid_from", "valid_to", "field_assertions"],
+  "properties": { "rule_id": { "type": "string" }, "rule_type": { "const": "bonus-rate" }, "predicate": { "$ref": "eligibility-rule.schema.json#/definitions/predicate" }, "effect": { "type": "object", "required": ["additional_rate_percent"], "properties": { "additional_rate_percent": { "type": "number", "minimum": 0, "maximum": 100 } }, "additionalProperties": false }, "unknown_policy": { "enum": ["not_applied", "exclude", "review"] }, "valid_from": { "type": ["string", "null"], "format": "date-time" }, "valid_to": { "type": ["string", "null"], "format": "date-time" }, "field_assertions": { "type": "array", "minItems": 4, "items": { "$ref": "../assertion.schema.json" }, "allOf": [{ "contains": { "properties": { "field": { "pattern": "(^|\\.)predicate$" } }, "required": ["field"] } }, { "contains": { "properties": { "field": { "pattern": "(^|\\.)effect$" } }, "required": ["field"] } }, { "contains": { "properties": { "field": { "pattern": "(^|\\.)valid_from$" } }, "required": ["field"] } }, { "contains": { "properties": { "field": { "pattern": "(^|\\.)valid_to$" } }, "required": ["field"] } }] } },
+  "additionalProperties": false
+}

@@ -6,6 +6,7 @@ mcp/.omc/
 mcp/node_modules/
 mcp/.wrangler/
 mcp/.env
+.env
 mcp/.dev.vars
 knowledge.backup-*/
 knowledge.staging-*/

@@ -37,7 +37,15 @@
   "access": {
     "method": "api",
     "parser_id": "api:source-kdic-insured-products",
-    "requires_secret": true
+    "requires_secret": true,
+    "request_url": "https://apis.data.go.kr/B190017/service/GetInsuredProductService202008/getProductList202008",
+    "request_query": {
+      "pageNo": 1,
+      "numOfRows": 1,
+      "_type": "json"
+    },
+    "credential_env": "DATA_GO_KR_SERVICE_KEY",
+    "credential_query_param": "serviceKey"
   },
   "refresh": {
     "sla_hours": 168,
@@ -180,7 +188,7 @@
       "value": "2026-07-03 확인"
     }
   ],
-  "record_checksum": "sha256:e7698ae1efddc5d7ad854156406f741c436fb296e72b22df99a6d69a359b0afb"
+  "record_checksum": "sha256:b1671ba75eb0c0d24e3bc97c0bedcd6f6476006d46c5d9dfe760250ce09b6445"
 }
 ---
 

@@ -1,14 +1,30 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["release_status", "core_search_status", "platform_release_status", "comparison_release_status", "recommendation_release_status", "domain_readiness", "generation_id"],
+  "required": ["release_status", "core_search_status", "platform_release_status", "comparison_release_status", "recommendation_release_status", "domain_readiness", "generation_id", "decision_offers"],
   "properties": {
     "release_status": { "enum": ["ready", "degraded"] },
     "core_search_status": { "enum": ["ready", "degraded"] },
     "platform_release_status": { "enum": ["ready", "degraded"] },
     "comparison_release_status": { "enum": ["blocked", "limited"] },
     "recommendation_release_status": { "enum": ["ready", "blocked"] },
+    "recommendation_state": { "enum": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public", "suspended"] },
+    "recommendation_state_contract_version": { "type": "string" },
+    "recommendation_approval_receipt": { "type": ["object", "null"] },
     "source_freshness_status": { "enum": ["ready", "degraded"] },
+    "decision_offers": {
+      "type": "object",
+      "required": ["id", "path", "url", "item_count", "export_checksum", "content_checksum"],
+      "properties": {
+        "id": { "const": "openfin-decision-offers" },
+        "path": { "type": "string", "pattern": "^opentax/" },
+        "url": { "type": "string", "format": "uri" },
+        "item_count": { "type": "integer", "minimum": 0 },
+        "export_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "content_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      },
+      "additionalProperties": true
+    },
     "domain_readiness": {
       "type": "object",
       "additionalProperties": {

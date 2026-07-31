@@ -7,7 +7,7 @@
   },
   "scripts": {
     "knowledge:bootstrap": "node scripts/knowledge/bootstrap.mjs",
-    "knowledge:build": "node scripts/knowledge/build.mjs",
+    "knowledge:build": "node scripts/knowledge/build-decision-snapshots.mjs && node scripts/knowledge/build.mjs",
     "knowledge:validate": "node scripts/knowledge/validate.mjs",
     "knowledge:schema-validate": "node scripts/knowledge/schema-validate.mjs",
     "knowledge:derive-quality": "node scripts/knowledge/derive-quality.mjs",
@@ -16,11 +16,15 @@
     "knowledge:track-sources": "node scripts/knowledge/track-sources.mjs --dry-run",
     "knowledge:track-sources:write": "node scripts/knowledge/track-sources.mjs --write",
     "knowledge:track-sources:dry-run": "node scripts/knowledge/track-sources.mjs --dry-run",
+    "knowledge:collect-finlife-candidates": "node --env-file-if-exists=.env scripts/knowledge/collect-finlife-candidates.mjs",
+    "knowledge:collect-finlife-candidates:self-check": "node scripts/knowledge/collect-finlife-candidates.mjs --self-check",
     "knowledge:source-impact-report": "node scripts/knowledge/source-impact-report.mjs",
     "knowledge:vertical-slice": "node scripts/knowledge/vertical-slice-report.mjs",
+    "knowledge:decision-snapshots": "node scripts/knowledge/build-decision-snapshots.mjs",
+    "knowledge:migrate-assertion-validity": "node scripts/knowledge/migrate-assertion-validity.mjs",
     "knowledge:prepare-vertical-slice": "node scripts/knowledge/prepare-vertical-slice.mjs",
     "test": "npm run test:knowledge",
-    "test:knowledge": "node --test tests/knowledge/*.test.mjs"
+    "test:knowledge": "node --test --test-concurrency=1 tests/knowledge/*.test.mjs"
   },
   "devDependencies": {
     "ajv": "^8.20.0",

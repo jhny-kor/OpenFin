@@ -1,4 +1,5 @@
 import { isVerifiedActive } from "../product-status.ts";
+import { evaluateRules, type StructuredRule } from "./rule-engine.ts";
 
 export const RECOMMENDATION_POLICY_VERSION = "openfin-recommendation-policy-v1";
 
@@ -7,7 +8,6 @@ type Inputs = { profile?: Product; constraints?: Product; decision_context?: Pro
 
 const value = (item: Product, ...keys: string[]): unknown => keys.map((key) => item[key]).find((candidate) => candidate !== undefined && candidate !== null);
 const number = (candidate: unknown): number | undefined => typeof candidate === "number" && Number.isFinite(candidate) ? candidate : undefined;
-const asArray = (candidate: unknown): string[] => Array.isArray(candidate) ? candidate.filter((value): value is string => typeof value === "string") : [];
 
 export function productDomain(item: Product): string | null {
   if (item.search_type === "deposit" || item.product_kind === "deposit") return "deposit";
@@ -65,7 +65,7 @@ export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
   if (riskCapacity) {
     const risk = typeof item.risk_level === "string" ? item.risk_level : undefined;
     if (!risk) unknown_conditions.push("product_risk_level");
-    else if (riskCapacity !== risk) failed_conditions.push("risk_capacity_failed");
+    else if (!riskCapacityAllows(riskCapacity, risk)) failed_conditions.push("risk_capacity_failed");
     else matched_conditions.push("risk_capacity_matched");
   }
 
@@ -84,19 +84,11 @@ export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
     else matched_conditions.push("maximum_amount_matched");
   }
 
-  const requiredConditions = asArray(constraints.eligible_conditions);
-  if (requiredConditions.length) {
-    const aliases: Record<string, string> = { salarytransfer: "급여이체", salarydeposit: "급여이체", autopay: "자동이체", cardspend: "카드실적" };
-    const normalize = (condition: string) => {
-      const compact = condition.trim().toLocaleLowerCase("ko-KR").replace(/[^\p{L}\p{N}]+/gu, "");
-      return aliases[compact] ?? compact;
-    };
-    const available = new Set(asArray(item.preferential_rate_conditions).concat(asArray(item.eligible_conditions)).map(normalize));
-    const missing = requiredConditions.filter((condition) => !available.has(normalize(condition)));
-    if (missing.length) unknown_conditions.push(...missing.map((condition) => `condition_unknown:${condition}`));
-    else matched_conditions.push("eligible_conditions_matched");
-  }
-
+  const rules = (Array.isArray(item.eligibility_rules) ? item.eligibility_rules : []).filter((rule): rule is StructuredRule => Boolean(rule && typeof rule === "object" && typeof (rule as Product).rule_id === "string" && (rule as Product).predicate && typeof (rule as Product).predicate === "object"));
+  const ruleResult = evaluateRules(rules, { ...(inputs.profile ?? {}), ...context });
+  matched_conditions.push(...ruleResult.matched.map((id) => `rule_matched:${id}`));
+  failed_conditions.push(...ruleResult.failed.map((id) => `rule_failed:${id}`));
+  unknown_conditions.push(...ruleResult.unknown.map((id) => `rule_unknown:${id}`));
   const data_as_of = value(item, "last_verified_at", "verified_at", "sales_verified_at", "source_modified_at") ?? null;
   const eligible = failed_conditions.length === 0 && unknown_conditions.length === 0;
   return {
@@ -108,6 +100,13 @@ export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
     data_as_of,
     policy_version: RECOMMENDATION_POLICY_VERSION,
   };
+}
+
+function riskCapacityAllows(capacity: string, productRisk: string): boolean {
+  const level = { low: 0, medium: 1, high: 2 } as const;
+  const allowed = level[capacity as keyof typeof level];
+  const required = level[productRisk as keyof typeof level];
+  return allowed !== undefined && required !== undefined && required <= allowed;
 }
 
 export function recommendationFields(item: Product): string[] {

@@ -1,6 +1,6 @@
 {
-  "entity_types": [
-    "account-product", "application-channel", "bank-product", "benchmark-rate", "card-product", "category", "concept", "conflict-rule", "corporate-tax-support", "deduction", "deadline", "domain", "eligibility-rule", "filing", "financial-product", "financial-provider", "insurance-product", "life-event", "life-expense", "life-income", "required-document", "risk-signal", "scenario", "source", "support-program", "tax", "tax-credit", "tax-reduction", "term"
+    "entity_types": [
+    "account-product", "application-channel", "bank-product", "benchmark-rate", "card-product", "category", "concept", "conflict-rule", "corporate-tax-support", "deduction", "deadline", "deposit-offer", "domain", "eligibility-rule", "filing", "financial-product", "financial-provider", "insurance-product", "life-event", "life-expense", "life-income", "offer-option", "required-document", "risk-signal", "saving-offer", "scenario", "source", "support-program", "tax", "tax-credit", "tax-reduction", "term"
   ],
   "relation_types": [
     "parents", "children", "related", "terms", "deadlines", "sources", "requires", "conflicts_with", "available_in", "provided_by", "reference_items"

@@ -137,8 +137,8 @@
     "structural_comparison_candidate_count": 13,
     "readiness": {
       "discovery": "ready",
-      "comparison_engine": "schema_not_defined",
-      "comparison_data": "schema_not_defined",
+      "comparison_engine": "domain_coverage_incomplete",
+      "comparison_data": "domain_coverage_incomplete",
       "public_recommendation": "blocked"
     },
     "blockers": {
@@ -168,11 +168,11 @@
     "deprecated": true,
     "replacement_path": "domain_readiness.loan",
     "structural_candidate_count": 598,
-    "value_complete_candidate_count": 598,
+    "value_complete_candidate_count": 0,
     "field_verified_candidate_count": 0,
     "runtime_eligible_candidate_count": 0,
     "public_candidate_count": 0,
-    "comparison_data": "schema_not_defined"
+    "comparison_data": "domain_coverage_incomplete"
   },
   "item_count": 643,
   "reference_item_count": 45,

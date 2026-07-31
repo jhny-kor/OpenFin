@@ -8,22 +8,23 @@ const schemaDir = path.join(ROOT, 'schemas');
 const typeRegistry = json(path.join(schemaDir, 'types/type-registry.json'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
-for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json', 'live-regression.schema.json']) {
+for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json', 'live-regression.schema.json', 'recommendation-approval-receipt.schema.json']) {
   const schema = json(path.join(schemaDir, file));
   ajv.addSchema(schema, file);
 }
 const liveFixtureSchema = json(path.join(ROOT, 'tests/golden/openfin-120.schema.json'));
 ajv.addSchema(liveFixtureSchema);
-for (const file of ['bank-product.schema.json', 'deposit.schema.json', 'saving.schema.json', 'loan.schema.json', 'card-product.schema.json', 'card.schema.json', 'insurance-product.schema.json', 'insurance.schema.json', 'support-program.schema.json']) {
+for (const file of ['bank-product.schema.json', 'deposit.schema.json', 'saving.schema.json', 'loan.schema.json', 'card-product.schema.json', 'card.schema.json', 'insurance-product.schema.json', 'insurance.schema.json', 'support-program.schema.json', 'eligibility-rule.schema.json', 'bonus-rate-rule.schema.json', 'early-termination-rule.schema.json', 'offer-option.schema.json', 'financial-offer.schema.json', 'deposit-offer.schema.json', 'saving-offer.schema.json']) {
   ajv.addSchema(json(path.join(schemaDir, 'types', file)), `types/${file}`);
 }
 const validateEntity = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/entity.schema.json');
 const validateSource = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/source.schema.json');
 const relationValidator = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/relation.schema.json');
 const validateManifest = ajv.getSchema('finance-ontology-manifest.schema.json');
+const validateApproval = ajv.getSchema('recommendation-approval-receipt.schema.json');
 const validateLiveCase = ajv.getSchema(liveFixtureSchema.$id);
 const failures = [];
-const liveFixturePath = path.join(ROOT, 'tests/golden/openfin-120.jsonl');
+const liveFixturePath = path.join(ROOT, 'tests/golden/openfin-runtime-contract-120.jsonl');
 if (fs.existsSync(liveFixturePath)) {
   const liveCases = fs.readFileSync(liveFixturePath, 'utf8').split('\n').filter(Boolean).map((line, index) => {
     try { return { value: JSON.parse(line), line: index + 1 }; } catch (error) { failures.push(`${liveFixturePath}:${index + 1}: ${error.message}`); return null; }
@@ -83,6 +84,11 @@ if (fs.existsSync(manifestPath)) {
     const counts = ['structural_candidate_count', 'value_complete_candidate_count', 'field_verified_candidate_count', 'runtime_eligible_candidate_count', 'public_candidate_count'].map(key => Number(state[key] || 0));
     if (!(counts[2] <= counts[1] && counts[1] <= counts[0] && counts[4] <= counts[3] && counts[3] <= counts[2])) failures.push(`manifest: domain count invariant ${domain}`);
   }
+}
+const approvalDir = path.join(ROOT, 'evidence/recommendation-approvals');
+if (fs.existsSync(approvalDir)) for (const file of fs.readdirSync(approvalDir).filter(name => name.endsWith('.json'))) {
+  const value = json(path.join(approvalDir, file));
+  if (!validateApproval(value)) failures.push(`${path.join(approvalDir, file)}: ${ajv.errorsText(validateApproval.errors)}`);
 }
 const result = { ok: failures.length === 0, entity_count: entities.length, failures: failures.slice(0, 100) };
 console.log(JSON.stringify(result, null, 2));

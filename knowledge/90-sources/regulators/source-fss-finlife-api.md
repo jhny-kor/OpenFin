@@ -41,7 +41,14 @@
   "access": {
     "method": "api",
     "parser_id": "api:source-fss-finlife-api",
-    "requires_secret": true
+    "requires_secret": true,
+    "request_url": "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+    "request_query": {
+      "topFinGrpNo": "020000",
+      "pageNo": 1
+    },
+    "credential_env": "FINLIFE_API_KEY",
+    "credential_query_param": "auth"
   },
   "refresh": {
     "sla_hours": 168,
@@ -188,7 +195,7 @@
       "value": "2026-07-03 확인"
     }
   ],
-  "record_checksum": "sha256:bc335e1812d15b2a645d4b68ef9deeebbeb49ff9b83fc2acf03910073d189ef7"
+  "record_checksum": "sha256:ca568b070027528c208260b9efa3ada83918c96edbb3b0882abfb33a876389ce"
 }
 ---
 

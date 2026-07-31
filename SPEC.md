@@ -106,8 +106,8 @@ Modules receive a runtime dependency context from `createServer`; they do not lo
 - Every unique source is authored once under `knowledge/90-sources/`.
 - Source documents define publisher, authority class, domains, canonical/API/documentation URLs, access method, parser, refresh SLA, terms, recommendation eligibility, and lifecycle status.
 - Record provenance defines source ID, original URL, source record ID, locator, supported fields, source dates, collection/review dates, checksum, and verification status.
-- Decision-critical entities opt into strict type schemas with `decision_critical: true` and must carry field-level `field_assertions`; legacy catalog rows remain reference-compatible until migrated.
-- Secrets are never committed. Credential-bearing URLs use placeholders and runtime secrets.
+- Decision-critical catalog entities remain reference-compatible until migrated. Deposit/saving decisions use immutable `ProductIdentity -> OfferSnapshot -> OfferOption` records; each Offer carries structured eligibility, bonus-rate, early-termination, channel, protection, option-limit, validity, and field-level assertion data.
+- Secrets are never committed or written to receipts. Source documents name the runtime environment variable and query parameter separately from the public request URL; the tracker remains `secret-required` when a credential is absent.
 - Source checks run on a daily schedule but only inspect sources that are due by their individual SLA.
 - Failed, stale, changed, or conflicting sources never delete the last known-good record and never promote recommendation eligibility.
 
@@ -115,8 +115,8 @@ Modules receive a runtime dependency context from `createServer`; they do not lo
 
 - Keep the existing ten `korea-*-ontology-2026.json` exports, search indexes, `finance-ontology-manifest.json`, and `/OpenFin/opentax/*.json` URLs.
 - Keep MCP tool names `search`, `fetch`, and `exports`.
-- Add source registry, source status, provenance index, provenance coverage, and relationship index public artifacts.
-- GitHub Pages publishes validated generated artifacts from `main`.
+- Add source registry, source status, provenance index, provenance coverage, relationship index, and strict decision-offer public artifacts. The release integrity check verifies the decision artifact item count plus export and content checksums.
+- `OpenFin Immutable Release` builds the generated artifact once, deploys that exact `docs` artifact to Pages, deploys the Worker with the same commit binding, then runs live regression and parity. Individual Pages/MCP workflows are manual recovery paths only.
 - The Cloudflare Worker reads the Pages manifest and observes data-only changes after its five-minute cache expires.
 
 ## Safety and Quality Gates
@@ -126,7 +126,7 @@ Modules receive a runtime dependency context from `createServer`; they do not lo
 - `core_search_status`, `comparison_status`, `recommendation_status`, domain readiness, counts, and built-at values are derived from canonical records, source artifacts, search/relationship indexes, and the current live regression report. The compatibility `release_status` field is deprecated and aliases core search only.
 - A reproducible 120-case semantic live regression fixture and runner record the exact endpoint, deployment commit, generation ID, manifest checksum, index checksum, source-status checksum, and fixture checksum. Evidence from another deployment generation is stale and cannot satisfy the recommendation gate.
 - The deployment workflow cache-busts and compares the repository manifest, GitHub Pages manifest, Worker health payload, and current live evidence through one artifact contract. Any generation, deployment, checksum, fixture, or readiness-schema mismatch fails deployment parity verification.
-- Product sales verification uses the versioned `contracts/product-status.json` vocabulary. Only strict `decision_critical` records with current verified assertions and `verified_active` sales status can contribute to comparison readiness.
+- Product sales verification uses the versioned `contracts/product-status.json` vocabulary. Only strict OfferSnapshots with current official assertions, current rule assertions, verified source provenance, verified option limits, and `verified_active` sales status can contribute to comparison readiness.
 - Decision-critical card, loan, and insurance records have explicit financial-field contracts before those domains can leave reference-only status. Missing fields cannot be treated as a comparison default.
 - Deposit and saving calculations use separate cash-flow models; tax is applied through one deterministic helper. Early termination is calculated only when an official product field provides the applicable early-termination rate.
 - Deposit and saving monetary outcomes use separate deterministic calculators; the returned cash-flow outcome remains separate from non-monetary fit scores.
@@ -137,7 +137,7 @@ Modules receive a runtime dependency context from `createServer`; they do not lo
 - Publication requires schema, ID, relation, source URL, provenance, deterministic-build, compatibility, Pages, and MCP regression checks.
 - Recommendation cannot be enabled before a current-runtime 120/120 live regression succeeds.
 - `evidence/vertical-slice/vertical-slice-report.json` audits the first 20-deposit/20-saving target without promoting products; value completeness, official assertions, field verification, and runtime eligibility are separate counts.
-- `npm run knowledge:prepare-vertical-slice` only promotes rows whose FSS and KDIC locators support every required field; rows with missing limits or early-termination text remain blocked rather than receiving inferred values. The current checked-in audit is 2 deposit and 8 saving runtime-eligible rows toward the 20+20 target.
+- `npm run knowledge:prepare-vertical-slice` only promotes rows whose FSS and KDIC locators support every required field; rows with missing limits or early-termination text remain blocked rather than receiving inferred values. The current strict audit is 0 deposit and 0 saving Offers toward the 20+20 target because both official source-status records are stale/secret-required; this is a deliberate fail-closed state, not a data claim.
 
 ## Deployment Context
 

@@ -7,7 +7,7 @@
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 1 },
-    "type": { "enum": ["account-product", "application-channel", "bank-product", "benchmark-rate", "card-product", "category", "concept", "conflict-rule", "corporate-tax-support", "deduction", "deadline", "domain", "eligibility-rule", "filing", "financial-product", "financial-provider", "insurance-product", "life-event", "life-expense", "life-income", "required-document", "risk-signal", "scenario", "source", "support-program", "tax", "tax-credit", "tax-reduction", "term"] },
+    "type": { "enum": ["account-product", "application-channel", "bank-product", "benchmark-rate", "card-product", "category", "concept", "conflict-rule", "corporate-tax-support", "deduction", "deadline", "deposit-offer", "domain", "eligibility-rule", "filing", "financial-product", "financial-provider", "insurance-product", "life-event", "life-expense", "life-income", "offer-option", "required-document", "risk-signal", "saving-offer", "scenario", "source", "support-program", "tax", "tax-credit", "tax-reduction", "term"] },
     "parents": { "type": "array", "items": { "type": "string" } },
     "children": { "type": "array", "items": { "type": "string" } },
     "related": { "type": "array", "items": { "type": "string" } },
@@ -36,6 +36,18 @@
         { "$ref": "types/insurance.schema.json" },
         { "$ref": "types/support-program.schema.json" }
       ] }
+    },
+    {
+      "if": { "properties": { "type": { "const": "deposit-offer" } } },
+      "then": { "$ref": "types/deposit-offer.schema.json" }
+    },
+    {
+      "if": { "properties": { "type": { "const": "saving-offer" } } },
+      "then": { "$ref": "types/saving-offer.schema.json" }
+    },
+    {
+      "if": { "properties": { "type": { "const": "offer-option" } } },
+      "then": { "$ref": "types/offer-option.schema.json" }
     }
   ],
   "additionalProperties": true

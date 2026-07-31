@@ -126,6 +126,9 @@ export const classifyPath = (item, exportFile) => {
     const s = `${item.product_kind||''} ${item.id} ${item.title||''}`.toLowerCase();
     return ['30-financial-products', 'banking', s.includes('loan') || s.includes('대출') ? 'loans' : s.includes('saving') || s.includes('적금') ? 'savings' : 'deposits'];
   }
+  if (t === 'deposit-offer') return ['30-financial-products', 'banking', 'deposits', '_decision'];
+  if (t === 'saving-offer') return ['30-financial-products', 'banking', 'savings', '_decision'];
+  if (t === 'offer-option') return ['30-financial-products', 'banking', 'offers', '_decision'];
   if (t === 'insurance-product') return ['30-financial-products', 'insurance'];
   if (t === 'account-product') return ['30-financial-products', 'tax-advantaged-accounts'];
   if (t === 'financial-product') return ['30-financial-products', 'protected-products'];

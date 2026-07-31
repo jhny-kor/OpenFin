@@ -1,0 +1,214 @@
+[
+  {
+    "product_code": "TD11300027000",
+    "provider": "광주은행",
+    "product": "미즈월복리정기예금",
+    "source_urls": ["https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20110819001"],
+    "fields": {
+      "deposit_krw": {"value": {"minimum": 5000000, "maximum": 50000000, "limit_scope": "고객당"}, "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20110819001", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "신규가입일 당시 고시한 예치기간별 중도해지금리. 1개월 미만 연 0.01%; 1개월 이상은 계약기간 경과비율에 따라 공시 기본금리(우대 제외)의 10%, 20%, 40%, 60%, 80%를 적용.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20110819001", "locator": "상품안내 > 중도해지금리 (2025.12.31. 기준)", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "신규 채널(영업점, 인터넷뱅킹, 스마트뱅킹, 모바일웹뱅킹)과 공시 유효기간 2026.01.01.~2026.12.31.이 은행 상품 페이지에 함께 표시됨.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20110819001", "locator": "상품안내 > 거래방법 (판매·해지 채널); 본 공시내용의 유효기간", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "TD11300035000",
+    "provider": "광주은행",
+    "product": "굿스타트예금",
+    "source_urls": ["https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230209001"],
+    "fields": {
+      "deposit_krw": {"value": {"minimum": 1000000, "maximum": 100000000, "limit_scope": "1인 1계좌"}, "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230209001", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "신규가입일 당시 고시한 예치기간별 중도해지금리. 1개월 미만 연 0.01%; 1개월 이상은 계약기간 경과비율에 따라 공시 기본금리(우대 제외)의 10%, 20%, 40%, 60%, 80%를 적용. 중도해지 시 우대금리는 적용되지 않음.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230209001", "locator": "상품안내 > 중도해지금리 (2025.12.31. 기준); 우대금리", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "신규 채널(스마트뱅킹, 모바일웹뱅킹)과 공시 유효기간 2026.01.01.~2026.12.31.이 은행 상품 페이지에 함께 표시됨.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230209001", "locator": "상품안내 > 거래방법 (판매·해지 채널); 본 공시내용의 유효기간", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "TD11300036000",
+    "provider": "광주은행",
+    "product": "The플러스예금",
+    "source_urls": ["https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230922001"],
+    "fields": {
+      "deposit_krw": {"value": {"minimum": 10000000, "maximum": 1000000000, "limit_scope": "고객당"}, "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230922001", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "신규가입일 당시 고시한 예치기간별 중도해지금리. 1개월 미만 연 0.01%; 1개월 이상은 계약기간 경과비율에 따라 공시 기본금리(우대 제외)의 10%, 20%, 40%, 60%, 80%를 적용.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230922001", "locator": "상품안내 > 중도해지금리 (2025.12.31. 기준)", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "신규 채널(영업점, 스마트뱅킹, 모바일웹뱅킹)과 공시 유효기간 2026.01.01.~2026.12.31.이 은행 상품 페이지에 함께 표시됨.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230922001", "locator": "상품안내 > 거래방법 (판매·해지 채널); 본 공시내용의 유효기간", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "TD11300031000",
+    "provider": "광주은행",
+    "product": "스마트모아Dream정기예금",
+    "source_urls": ["https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20101101026"],
+    "fields": {
+      "deposit_krw": {"value": {"minimum": 1000000, "maximum": null}, "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20101101026", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "신규가입일 당시 고시한 예치기간별 중도해지금리. 1개월 미만 연 0.01%; 1개월 이상은 계약기간 경과비율에 따라 공시 기본금리(우대 제외)의 10%, 20%, 40%, 60%, 80%를 적용.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20101101026", "locator": "상품안내 > 중도해지금리 (2025.12.31. 기준)", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "신규 채널(인터넷뱅킹, 스마트뱅킹, 모바일웹뱅킹)과 공시 유효기간 2026.01.01.~2026.12.31.이 은행 상품 페이지에 함께 표시됨.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20101101026", "locator": "상품안내 > 거래방법 (판매·해지 채널); 본 공시내용의 유효기간", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active_partial_amount",
+    "missing_fields": ["maximum_deposit_krw: 광주은행 공식 상품 페이지가 최소 100만원만 명시하고 상한을 명시하지 않음"]
+  },
+  {
+    "product_code": "TD11330030000",
+    "provider": "광주은행",
+    "product": "여행스케치_남도투어적금",
+    "source_urls": ["https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20220718001", "https://www.kjbank.com/ib20/mnu/FPMDPTR030001"],
+    "fields": {
+      "monthly_payment_krw": {"value": {"fixed_monthly": {"minimum": 50000, "maximum": 1000000}, "free_saving": {"initial_minimum": 50000, "additional_monthly_minimum": 1000, "monthly_maximum": 1000000}}, "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20220718001", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "신규가입일 당시 고시한 예치기간별 중도해지금리. 1개월 미만 연 0.1%; 1개월 이상은 계약기간 경과비율에 따라 공시 기본금리(우대 제외)의 10%, 20%, 40%, 60%, 80%를 적용. 만기 전 해지 시 우대금리는 적용되지 않음.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20220718001", "locator": "상품안내 > 중도해지금리 (2026.05.21. 기준); 유의사항", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "신규 채널(영업점, 모바일뱅킹, 스마트뱅킹)과 공시 유효기간 2026.05.21.~2027.06.30.이 은행 상품 페이지에 함께 표시되고, 광주은행 예금전체상품에도 노출됨.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20220718001", "locator": "상품안내 > 거래방법 (판매·해지 채널); 본 공시내용의 유효기간; 예금전체상품 > 여행스케치_남도투어적금", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "TD11330031000",
+    "provider": "광주은행",
+    "product": "VIP플러스적금",
+    "source_urls": ["https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230906001"],
+    "fields": {
+      "monthly_payment_krw": {"value": {"fixed_monthly": {"minimum": 100000, "maximum": 5000000}, "free_saving": {"initial_minimum": 100000, "additional_minimum": 1000, "monthly_maximum": 5000000}}, "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230906001", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "신규가입일 당시 고시한 예치기간별 중도해지금리. 1개월 미만 연 0.1%; 1개월 이상은 계약기간 경과비율에 따라 공시 기본금리(우대 제외)의 10%, 20%, 40%, 60%, 80%를 적용.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230906001", "locator": "상품안내 > 중도해지금리 (2026.07.01. 기준)", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "신규 채널(영업점, 인터넷뱅킹, 스마트뱅킹, 모바일웹뱅킹)과 공시 유효기간 2026.07.01.~2027.06.30.이 은행 상품 페이지에 함께 표시됨.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230906001", "locator": "상품안내 > 거래방법 (판매·해지 채널); 본 공시내용의 유효기간", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "21001115",
+    "provider": "BNK경남은행",
+    "product": "BNK더조은정기예금",
+    "source_urls": ["https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000020177&historyIgnore=Y"],
+    "fields": {
+      "deposit_krw": {"value": {"minimum": 1000000, "maximum": 500000000, "limit_scope": "고객당"}, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000020177&historyIgnore=Y", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "가입일 당시 기본이율 × 적용률 × 경과일수/계약일수이며 최저 연 0.01%. 적용률은 6개월 미만 50%, 6개월 이상~9개월 미만 70%, 9개월 이상~11개월 미만 80%, 11개월 이상 90%; 중도해지 시 우대이율은 제공되지 않음.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000020177&historyIgnore=Y", "locator": "상품안내 > 중도해지이율; 중도해지 시 유의사항", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "은행 당일 상품 데이터(BAS_DT=20260731)가 개인 가입 가능(PRD_ENT_AVL_YN=Y) 및 인터넷·모바일·모바일웹 가입 가능으로 표시하며, 공시 유효기일은 2026.12.31.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000020177&historyIgnore=Y", "locator": "페이지 내 documentReady('frm', ...) > PRD_INFO (BAS_DT, PRD_ENT_AVL_YN, INET_BNKG_ENT_YN, MBL_BNKG_ENT_YN, MBL_WEB_PRD_ENT_AVL_YN, RVW_NO_DTL_TXT)", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "21001280",
+    "provider": "BNK경남은행",
+    "product": "The든든예금(시즌2)",
+    "source_urls": ["https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000210872&historyIgnore=Y"],
+    "fields": {
+      "deposit_krw": {"value": {"minimum": 1000000, "maximum": 1000000000, "limit_scope": "1인당"}, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000210872&historyIgnore=Y", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "가입일 당시 기본이율 × 적용률 × 경과일수/계약일수이며 최저 연 0.01%. 적용률은 6개월 미만 50%, 6개월 이상~9개월 미만 70%, 9개월 이상~11개월 미만 80%, 11개월 이상 90%; 중도해지 시 우대이율은 제공되지 않음.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000210872&historyIgnore=Y", "locator": "상품안내 > 중도해지이율; 중도해지 시 유의사항", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "은행 당일 상품 데이터(BAS_DT=20260731)는 PRD_ENT_AVL_YN=Y 및 모바일뱅킹 가입 가능으로 표시한다. 판매기간은 2025.01.02~2026.12.31.(한도소진 시 조기종료), 판매한도 6조원이며, 공시 유효기일은 2026.12.31.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000210872&historyIgnore=Y", "locator": "페이지 내 documentReady('frm', ...) > PRD_INFO 및 MAIN_ITM_LIST (BAS_DT, PRD_ENT_AVL_YN, MBL_BNKG_ENT_YN, 판매기간, 판매한도, RVW_NO_DTL_TXT)", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "21001285",
+    "provider": "BNK경남은행",
+    "product": "The파트너예금",
+    "source_urls": ["https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000211063&historyIgnore=Y"],
+    "fields": {
+      "deposit_krw": {"value": {"minimum": 1000000, "maximum": 1000000000, "limit_scope": "고객당"}, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000211063&historyIgnore=Y", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "가입일 당시 기본이율 × 적용률 × 경과일수/계약일수이며 최저 연 0.01%. 적용률은 6개월 미만 50%, 6개월 이상~9개월 미만 70%, 9개월 이상~11개월 미만 80%, 11개월 이상 90%; 중도해지 시 우대이율은 제공되지 않음.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000211063&historyIgnore=Y", "locator": "상품안내 > 중도해지이율; 중도해지 시 유의사항", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "은행 당일 상품 데이터(BAS_DT=20260731)는 PRD_ENT_AVL_YN=Y 및 모바일뱅킹 가입 가능으로 표시하고, 공시 유효기일은 2026.12.31.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000211063&historyIgnore=Y", "locator": "페이지 내 documentReady('frm', ...) > PRD_INFO (BAS_DT, PRD_ENT_AVL_YN, MBL_BNKG_ENT_YN, RVW_NO_DTL_TXT)", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "21001116",
+    "provider": "BNK경남은행",
+    "product": "BNK더조은자유적금",
+    "source_urls": ["https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000020178&historyIgnore=Y"],
+    "fields": {
+      "monthly_payment_krw": {"value": {"minimum": 10000, "maximum": 5000000, "method": "자유적립식", "maximum_saving_count": 999}, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000020178&historyIgnore=Y", "locator": "상품안내 > 저축방법", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "가입일 당시 기본이율 × 적용률 × 경과일수/계약일수이며 최저 연 0.01%. 적용률은 6개월 미만 50%, 6개월 이상~9개월 미만 70%, 9개월 이상~11개월 미만 80%, 11개월 이상 90%; 중도해지 시 우대이율은 제공되지 않음.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000020178&historyIgnore=Y", "locator": "상품안내 > 중도해지이율; 중도해지 시 유의사항", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "은행의 현행 상품 상세 페이지가 상품가입 진입을 제공하고, 공시심의 유효기일을 2026.07.31.로 표시한다. 관측일은 유효기일 당일이므로 이후 재검증이 필요함.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000020178&historyIgnore=Y", "locator": "상품 상세 > 상품가입; 하단 > 공시심의번호 (준법감시인 심의필 2025-H-2825, 유효기일 2026.07.31)", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active_expiring_today",
+    "missing_fields": []
+  },
+  {
+    "product_code": "21001236",
+    "provider": "BNK경남은행",
+    "product": "주거래 프리미엄 적금",
+    "source_urls": ["https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000203950&historyIgnore=Y"],
+    "fields": {
+      "monthly_payment_krw": {"value": {"minimum": 10000, "maximum": null, "maximum_text": "최고금액 제한 없음", "method": "정액적립식"}, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000203950&historyIgnore=Y", "locator": "상품안내 > 가입금액 및 저축방식", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "가입일 당시 기본이율 × 적용률 × 경과일수/계약일수이며 최저 연 0.01%. 적용률은 6개월 미만 50%, 6개월 이상~9개월 미만 70%, 9개월 이상~11개월 미만 80%, 11개월 이상 90%; 중도해지 시 우대이율은 제공되지 않음.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000203950&historyIgnore=Y", "locator": "상품안내 > 중도해지이율", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "은행 현행 상품 상세 페이지가 가입방법(영업점, 인터넷뱅킹, 모바일뱅킹, 모바일웹, 고객센터)과 상품가입 진입을 표시하며 공시 유효기일은 2026.12.31.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000203950&historyIgnore=Y", "locator": "상품안내 > 가입방법; 상품 상세 > 상품가입; 하단 > 공시심의번호", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "21001259",
+    "provider": "BNK경남은행",
+    "product": "오늘도세이브적금",
+    "source_urls": ["https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000209247&historyIgnore=Y"],
+    "fields": {
+      "daily_payment_krw": {"value": {"minimum": 1000, "maximum": 100000, "method": "자유적립식", "automatic_transfer": "최초가입 시 매영업일 자동이체 필수", "maximum_saving_count": 999}, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000209247&historyIgnore=Y", "locator": "상품안내 > 가입금액 및 저축방법", "observed_at": "2026-07-30T23:51:57Z"},
+      "early_termination": {"value": "가입일 당시 기본이율 × 적용률 × 경과일수/계약일수이며 최저 연 0.01%. 계약기간이 최대 6개월이므로 6개월 미만 적용률 50%; 중도해지 시 우대이율은 제공되지 않음.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000209247&historyIgnore=Y", "locator": "상품안내 > 중도해지이율; 중도해지 시 유의사항", "observed_at": "2026-07-30T23:51:57Z"},
+      "sales_active": {"value": "verified_active", "evidence": "은행 현행 상품 상세 페이지가 가입방법(개인 모바일뱅킹, 모바일웹)과 상품가입 진입을 표시하며 공시 유효기일은 2026.12.31.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000209247&historyIgnore=Y", "locator": "상품안내 > 가입방법; 상품 상세 > 상품가입; 하단 > 공시심의번호", "observed_at": "2026-07-30T23:51:57Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "TD11330029000",
+    "provider": "광주은행",
+    "product": "해피라이프_여행스케치적금Ⅴ",
+    "source_urls": ["https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20220520001"],
+    "fields": {
+      "monthly_payment_krw": {"value": {"fixed_monthly": {"minimum": 50000, "maximum": 5000000}, "free_saving": {"initial_minimum": 50000, "additional_minimum": 1000, "monthly_maximum": 5000000}}, "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20220520001", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-31T00:00:35Z"},
+      "deposit_protection": {"value": true, "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20220520001", "locator": "상품안내 > 예금자보호 (원금과 소정의 이자 합산 1인당 1억원까지)", "observed_at": "2026-07-31T00:10:40Z"},
+      "early_termination": {"value": "신규가입일 당시 영업점 또는 인터넷 홈페이지에 고시한 예치기간별 중도해지금리. 1개월 미만 연 0.1%; 1개월 이상은 계약기간 경과비율에 따라 공시 기본금리(우대 제외)의 10%, 20%, 40%, 60%, 80%를 적용.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20220520001", "locator": "상품안내 > 중도해지금리 (2026.07.01. 기준)", "observed_at": "2026-07-31T00:00:35Z"},
+      "sales_active": {"value": "verified_active", "evidence": "신규 채널(영업점, 모바일뱅킹, 스마트뱅킹)과 공시 유효기간 2026.07.01.~2027.06.30.이 광주은행 상품 페이지에 함께 표시됨.", "source_url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20220520001", "locator": "상품안내 > 거래방법 (판매·해지 채널); 본 공시내용의 유효기간", "observed_at": "2026-07-31T00:00:35Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "21000111",
+    "provider": "BNK경남은행",
+    "product": "행복Dream적금",
+    "source_urls": ["https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000017123&historyIgnore=Y"],
+    "fields": {
+      "monthly_payment_krw": {"value": {"minimum": 50000, "maximum": null, "maximum_text": "최고제한 없음"}, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000017123&historyIgnore=Y", "locator": "상품안내 > 가입금액 및 저축방식", "observed_at": "2026-07-31T00:00:35Z"},
+      "deposit_protection": {"value": true, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000017123&historyIgnore=Y", "locator": "상품 상세 > 하단 예금자보호 고지 (원금과 소정의 이자 합산 1인당 1억원까지)", "observed_at": "2026-07-31T00:10:40Z"},
+      "early_termination": {"value": "일반 중도해지: 가입일 당시 기본이율 × 적용률 × 경과일수/계약일수, 최저 연 0.01%; 적용률은 6개월 미만 50%, 6개월 이상~9개월 미만 70%, 9개월 이상~11개월 미만 80%, 11개월 이상 90%. 특별중도해지: 가입 후 1년 이상 및 납입지연 3회차 미만 계좌가 내집마련·해외여행·결혼·출산 사유를 증빙하면 가입 당시 경과기간별 이율 적용.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000017123&historyIgnore=Y", "locator": "상품안내 > 중도해지이율; 특별중도해지 > 행복DREAM 서비스", "observed_at": "2026-07-31T00:00:35Z"},
+      "sales_active": {"value": "verified_active", "evidence": "은행 현행 상품 상세 페이지에 가입방법(영업점, 인터넷뱅킹, 모바일뱅킹, 모바일웹), 상품가입 진입, 공시 유효기일 2026.12.31.이 표시됨.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000017123&historyIgnore=Y", "locator": "상품안내 > 가입방법; 상품 상세 > 상품가입; 하단 > 공시심의번호", "observed_at": "2026-07-31T00:00:35Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "21001199",
+    "provider": "BNK경남은행",
+    "product": "BNK 위더스WithUs 자유적금",
+    "source_urls": ["https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000202492&historyIgnore=Y"],
+    "fields": {
+      "monthly_payment_krw": {"value": {"minimum": 10000, "maximum": 1000000, "unit": "1000원", "method": "자유적립", "maximum_saving_count": 999}, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000202492&historyIgnore=Y", "locator": "상품안내 > 가입금액 및 저축방식", "observed_at": "2026-07-31T00:00:35Z"},
+      "deposit_protection": {"value": true, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000202492&historyIgnore=Y", "locator": "상품 상세 > 하단 예금자보호 고지 (원금과 소정의 이자 합산 1인당 1억원까지)", "observed_at": "2026-07-31T00:10:40Z"},
+      "early_termination": {"value": "가입일 당시 기본이율 × 적용률 × 경과일수/계약일수이며 최저 연 0.01%. 적용률은 6개월 미만 50%, 6개월 이상~9개월 미만 70%, 9개월 이상~11개월 미만 80%, 11개월 이상 90%.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000202492&historyIgnore=Y", "locator": "상품안내 > 중도해지이율", "observed_at": "2026-07-31T00:00:35Z"},
+      "sales_active": {"value": "verified_active", "evidence": "은행 현행 상품 상세 페이지의 상품가입 진입과 공시 유효기일 2026.12.31.을 확인함.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000202492&historyIgnore=Y", "locator": "상품 상세 > 상품가입; 하단 > 공시심의번호", "observed_at": "2026-07-31T00:00:35Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "21001292",
+    "provider": "BNK경남은행",
+    "product": "오면우대!하면우대! 정기적금",
+    "source_urls": ["https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000211818&historyIgnore=Y"],
+    "fields": {
+      "monthly_payment_krw": {"value": {"minimum": 100000, "maximum": 500000, "unit": "10000원"}, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000211818&historyIgnore=Y", "locator": "상품안내 > 가입금액", "observed_at": "2026-07-31T00:00:35Z"},
+      "deposit_protection": {"value": true, "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000211818&historyIgnore=Y", "locator": "상품안내 > 예금자보호 (원금과 소정의 이자 합산 1인당 1억원까지)", "observed_at": "2026-07-31T00:10:40Z"},
+      "early_termination": {"value": "가입일 당시 기본이율 × 적용률 × 경과일수/계약일수이며 최저 연 0.01%. 적용률은 6개월 미만 50%, 6개월 이상~9개월 미만 70%, 9개월 이상~11개월 미만 80%, 11개월 이상 90%. 우대이율은 만기 해지(만기 경과 해지 포함)에만 제공되고 중도해지 시 제공되지 않음.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000211818&historyIgnore=Y", "locator": "상품안내 > 중도해지이율; 금리안내 > 우대금리", "observed_at": "2026-07-31T00:00:35Z"},
+      "sales_active": {"value": "verified_active", "evidence": "은행 현행 상품 상세 페이지에 가입방법(영업점, 모바일뱅킹), 상품가입 진입, 공시 유효기일 2026.12.31.이 표시됨.", "source_url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000211818&historyIgnore=Y", "locator": "상품안내 > 가입방법; 상품 상세 > 상품가입; 하단 > 공시심의번호", "observed_at": "2026-07-31T00:00:35Z"}
+    },
+    "evidence_status": "official_bank_page_verified_active",
+    "missing_fields": []
+  }
+]

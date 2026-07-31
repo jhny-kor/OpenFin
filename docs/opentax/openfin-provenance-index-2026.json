@@ -1,7 +1,7 @@
 {
   "version": "OPENFIN-PROVENANCE-INDEX-2026.07.28.1",
   "generated_at": "2026-07-28T00:00:00.000Z",
-  "item_count": 21279,
+  "item_count": 21289,
   "covered_item_count": 21133,
   "shards": [
     {
@@ -23,7 +23,7 @@
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
       "item_count": 1363,
       "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "2b97ad63e789d4b4a260c40f7cbbbad2ba544a50babd2a4ff426ae180f7c521f",
+      "export_checksum": "c70aa2f72e4c8fd38847b31d84b49be0c5f044b7daf43103a0a0a4b842ce6580",
       "shard_id": "bank-products"
     },
     {

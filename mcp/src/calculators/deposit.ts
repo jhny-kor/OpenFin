@@ -4,7 +4,7 @@ const number = (value: unknown) => typeof value === "number" && Number.isFinite(
 
 export function calculateDepositReturn({ principal_krw, annual_rate_percent, term_months, tax_rate_percent = 15.4, interest_method = "simple" }: Record<string, unknown>) {
   const principal = number(principal_krw), rate = number(annual_rate_percent), months = number(term_months), tax = number(tax_rate_percent);
-  if (principal === null || rate === null || months === null || tax === null) return null;
+  if (principal === null || rate === null || months === null || tax === null || principal < 0 || rate < 0 || months <= 0 || !Number.isInteger(months)) return null;
   const years = months / 12;
   const gross_interest_krw = interest_method === "compound" ? principal * ((1 + rate / 100) ** years - 1) : principal * rate / 100 * years;
   const taxResult = calculateInterestTax(gross_interest_krw, tax);

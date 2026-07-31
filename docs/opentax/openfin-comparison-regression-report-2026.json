@@ -1,7 +1,7 @@
 {
   "version": "openfin-comparison-regression-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_status": "current",
+  "live_status": "stale_generation",
   "live_tested_at": "2026-07-30T09:50:42.812Z",
   "runtime_version": "openfin-mcp-2026.07.28.2",
   "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
@@ -16,11 +16,92 @@
   "search_regression_failed_count": 0,
   "export_checksum": "f12f3dde4c6d66a9217fcee9b8d2dc5c861173df3e747819a56406e4415c6178",
   "live_evidence_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-  "live_expected_generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
+  "live_expected_generation_id": "ba8ce8f10083fdb1df56b13546dfd9c33ec1822d4bb4016a7bc43420f0464075",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
     "checksum": "b61e75e6eb1012f7800ea596bf22035139ade52ee900786bdaf6b16470c0c663",
     "generation_id": "aa349ea9e32950931a7b517f53f9bfe475749fc9908af476820548176f7e1154",
-    "validation_status": "current"
-  }
+    "validation_status": "stale_generation"
+  },
+  "canonical_quality_source": "finance-ontology-manifest.domain_readiness",
+  "domain_readiness": [
+    {
+      "domain": "deposit",
+      "structural_candidate_count": 20,
+      "value_complete_candidate_count": 20,
+      "strict_type_schema_candidate_count": 20,
+      "field_verified_candidate_count": 20,
+      "runtime_eligible_candidate_count": 20,
+      "public_candidate_count": 20,
+      "status": "limited_public_ready",
+      "blockers": []
+    },
+    {
+      "domain": "saving",
+      "structural_candidate_count": 20,
+      "value_complete_candidate_count": 20,
+      "strict_type_schema_candidate_count": 20,
+      "field_verified_candidate_count": 20,
+      "runtime_eligible_candidate_count": 20,
+      "public_candidate_count": 20,
+      "status": "limited_public_ready",
+      "blockers": []
+    },
+    {
+      "domain": "card",
+      "structural_candidate_count": 1007,
+      "value_complete_candidate_count": 0,
+      "strict_type_schema_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "public_candidate_count": 0,
+      "status": "domain_coverage_incomplete",
+      "blockers": [
+        "STRICT_OFFER_SNAPSHOT_MISSING"
+      ]
+    },
+    {
+      "domain": "loan",
+      "structural_candidate_count": 598,
+      "value_complete_candidate_count": 0,
+      "strict_type_schema_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "public_candidate_count": 0,
+      "status": "domain_coverage_incomplete",
+      "blockers": [
+        "STRICT_OFFER_SNAPSHOT_MISSING"
+      ]
+    },
+    {
+      "domain": "insurance",
+      "structural_candidate_count": 1071,
+      "value_complete_candidate_count": 0,
+      "strict_type_schema_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "public_candidate_count": 0,
+      "status": "domain_coverage_incomplete",
+      "blockers": [
+        "STRICT_OFFER_SNAPSHOT_MISSING"
+      ]
+    },
+    {
+      "domain": "pension",
+      "structural_candidate_count": 0,
+      "value_complete_candidate_count": 0,
+      "strict_type_schema_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "public_candidate_count": 0,
+      "status": "blocked",
+      "blockers": [
+        "SCHEMA_NOT_DEFINED"
+      ]
+    }
+  ],
+  "strict_field_verified_candidate_count": 40,
+  "runtime_eligible_candidate_count": 40,
+  "public_recommendation_candidate_count": 40,
+  "comparison_data_status": "limited"
 }

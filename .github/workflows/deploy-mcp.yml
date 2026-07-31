@@ -1,14 +1,6 @@
 name: Deploy OpenFin MCP
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "mcp/**"
-      - "contracts/**"
-      - "schemas/**"
-      - "scripts/knowledge/derive-quality.mjs"
-      - ".github/workflows/deploy-mcp.yml"
   workflow_dispatch:
 
 permissions:

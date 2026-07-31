@@ -1,0 +1,167 @@
+name: OpenFin Immutable Release
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "docs/opentax/**"
+      - "evidence/live-regression/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: openfin-release
+  cancel-in-progress: false
+
+jobs:
+  canonical-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build canonical artifact once
+        run: npm run knowledge:build
+        env:
+          OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
+      - name: Validate canonical contracts
+        run: |
+          npm run knowledge:schema-validate
+          npm run knowledge:validate
+          npm run knowledge:derive-quality:check
+          npm test
+      - name: Validate Worker and financial quality contracts
+        working-directory: mcp
+        run: |
+          npm ci
+          npm test
+          npm run financial-quality
+          npm run test:mutation
+          npm run live-regression -- --validate-fixture
+      - name: Verify approval remains fail-closed
+        run: |
+          receipt="$(jq -r '.recommendation.public_approval_receipt // empty' contracts/release-policy.json)"
+          if [ -n "$receipt" ]; then npm run knowledge:verify-recommendation-approval -- "$receipt"; else echo '{"status":"blocked","reason":"APPROVAL_RECEIPT_MISSING"}'; fi
+      - name: Write release contract
+        run: |
+          mkdir -p release-artifact
+          jq '{generation_id, deployment_commit, manifest_checksum, artifact_contract, recommendation_state, recommendation_enabled}' docs/opentax/finance-ontology-manifest.json > release-artifact/release-contract.json
+          sha256sum docs/opentax/finance-ontology-manifest.json release-artifact/release-contract.json > release-artifact/SHA256SUMS
+      - uses: actions/upload-artifact@v5
+        with:
+          name: openfin-release-${{ github.sha }}
+          path: |
+            docs
+            release-artifact
+          retention-days: 7
+
+  deploy-pages:
+    needs: canonical-artifact
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          name: openfin-release-${{ github.sha }}
+          path: release
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: release/docs
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-mcp:
+    needs: deploy-pages
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - name: Verify deployed Pages release integrity
+        run: |
+          for attempt in {1..12}; do npm run verify:integrity && exit 0; sleep 10; done
+          exit 1
+      - name: Verify recommendation gate
+        run: npm run verify:recommendation
+      - name: Deploy Worker for the same release commit
+        run: npx wrangler deploy --var DEPLOYMENT_COMMIT:"$GITHUB_SHA"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Smoke deployed capabilities
+        run: npm run smoke
+        env:
+          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
+
+  live-regression:
+    needs: deploy-mcp
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - name: Run current-generation 120-case suite
+        run: node scripts/live-regression.mjs > ../live-regression-report.json
+        env:
+          MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
+      - name: Validate live evidence
+        working-directory: .
+        run: |
+          test "$(jq -r '.status' live-regression-report.json)" = current
+          test "$(jq -r '.test_count' live-regression-report.json)" = 120
+          test "$(jq -r '.passed_count' live-regression-report.json)" = 120
+          test "$(jq -r '.failed_count' live-regression-report.json)" = 0
+          test "$(jq -r '.skipped_count' live-regression-report.json)" = 0
+          test "$(jq -r '.deployment_commit' live-regression-report.json)" = "$GITHUB_SHA"
+      - uses: actions/upload-artifact@v5
+        with:
+          name: openfin-live-${{ github.sha }}
+          path: live-regression-report.json
+          retention-days: 7
+
+  public-parity:
+    needs: live-regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v5
+        with:
+          name: openfin-release-${{ github.sha }}
+          path: release
+      - uses: actions/download-artifact@v5
+        with:
+          name: openfin-live-${{ github.sha }}
+          path: live
+      - name: Verify repository artifact, Pages, Worker, and live evidence parity
+        run: node scripts/knowledge/verify-public-parity.mjs --expected-deployment-commit "$GITHUB_SHA"
+        env:
+          OPENFIN_LOCAL_MANIFEST_PATH: release/docs/opentax/finance-ontology-manifest.json
+          OPENFIN_LIVE_EVIDENCE_PATH: live/live-regression-report.json

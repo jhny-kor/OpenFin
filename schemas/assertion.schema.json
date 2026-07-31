@@ -3,7 +3,7 @@
   "$id": "https://jhny-kor.github.io/OpenFin/schemas/assertion.schema.json",
   "title": "OpenFin field-level provenance assertion",
   "type": "object",
-  "required": ["field", "source_id", "original_url", "locator", "observed_at", "value_hash", "verification_status"],
+  "required": ["field", "source_id", "original_url", "locator", "observed_at", "valid_from", "valid_to", "value_hash", "verification_status", "freshness_status", "conflict", "verification_method"],
   "properties": {
     "field": { "type": "string", "minLength": 1 },
     "source_id": { "type": "string", "pattern": "^source\\." },

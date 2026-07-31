@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = new URL("../..", import.meta.url).pathname;
-const fixturePath = path.join(root, "tests/golden/openfin-120.jsonl");
+const fixturePath = path.join(root, "tests/golden/openfin-runtime-contract-120.jsonl");
 const fixture = fs.readFileSync(fixturePath, "utf8").trim().split("\n").map((line) => JSON.parse(line));
 const checksum = crypto.createHash("sha256").update(fs.readFileSync(fixturePath)).digest("hex");
 const required = ["case_id", "category", "tool", "arguments", "expected_status", "required_fields", "forbidden_claims", "expected_reason_codes"];

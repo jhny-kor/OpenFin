@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/recommendation-context.schema.json",
+  "title": "OpenFin typed recommendation context",
+  "type": "object",
+  "required": ["as_of", "goal", "facts", "hard_constraints", "preferences", "assumptions", "consent"],
+  "properties": {
+    "as_of": { "type": ["string", "null"], "format": "date" },
+    "goal": { "$ref": "#/definitions/goal" },
+    "facts": { "$ref": "#/definitions/facts" },
+    "hard_constraints": { "$ref": "#/definitions/hard_constraints" },
+    "preferences": { "$ref": "#/definitions/preferences" },
+    "assumptions": { "type": "array", "items": { "type": "string", "maxLength": 240 } },
+    "consent": { "type": "object", "required": ["transient_only"], "properties": { "transient_only": { "const": true } }, "additionalProperties": false }
+  },
+  "definitions": {
+    "goal": { "type": "object", "properties": { "purpose": { "type": "string", "enum": ["save", "preserve_liquidity", "income", "compare", "education"] }, "target_date": { "type": ["string", "null"], "format": "date" }, "liquidity_horizon_months": { "type": ["integer", "null"], "minimum": 0 } }, "additionalProperties": false },
+    "facts": { "type": "object", "properties": { "as_of": { "type": ["string", "null"], "format": "date" }, "monthly_net_income_krw": { "type": ["number", "null"], "minimum": 0 }, "essential_monthly_expenses_krw": { "type": ["number", "null"], "minimum": 0 }, "liquid_assets_krw": { "type": ["number", "null"], "minimum": 0 }, "investment_assets_krw": { "type": ["number", "null"], "minimum": 0 }, "tax_rate_percent": { "type": ["number", "null"], "minimum": 0, "maximum": 100 }, "can_transfer_salary": { "type": ["boolean", "null"] }, "can_use_card": { "type": ["boolean", "null"] }, "can_set_auto_transfer": { "type": ["boolean", "null"] }, "is_new_customer": { "type": ["boolean", "null"] } }, "additionalProperties": false },
+    "hard_constraints": { "type": "object", "properties": { "provider": { "type": ["string", "array", "null"], "items": { "type": "string" } }, "term_months": { "type": ["integer", "array", "null"], "items": { "type": "integer" } }, "join_channel": { "type": ["string", "array", "null"], "items": { "type": "string" } }, "minimum_amount_krw": { "type": ["number", "null"], "minimum": 0 }, "maximum_amount_krw": { "type": ["number", "null"], "minimum": 0 }, "eligible_rule_ids": { "type": "array", "items": { "type": "string" } } }, "additionalProperties": false },
+    "preferences": { "type": "object", "properties": { "provider": { "type": "string" }, "term_months": { "type": "integer", "minimum": 1 }, "liquidity_horizon_months": { "type": "integer", "minimum": 0 }, "max_term_months": { "type": "integer", "minimum": 0 }, "monthly_budget_krw": { "type": "number", "minimum": 0 }, "monthly_contribution_krw": { "type": "number", "minimum": 0 }, "principal_krw": { "type": "number", "minimum": 0 }, "deposit_amount_krw": { "type": "number", "minimum": 0 }, "tax_rate_percent": { "type": "number", "minimum": 0, "maximum": 100 }, "risk_capacity": { "type": "string", "enum": ["low", "medium", "high"] } }, "additionalProperties": false }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,3 @@
+{"case_id":"privacy-01","context":{"as_of":"2026-07-30","monthly_net_income_krw":3000000,"essential_monthly_expenses_krw":3500000,"liquid_assets_krw":1000000},"expected_reason":"NO_PRODUCT_RECOMMENDED_NEGATIVE_CASHFLOW"}
+{"case_id":"privacy-02","context":{"monthly_net_income_krw":3000000},"expected_reason":"CONTEXT_INCOMPLETE"}
+{"case_id":"privacy-03","context":{"as_of":"2026-07-30","monthly_net_income_krw":3000000,"essential_monthly_expenses_krw":2000000,"liquid_assets_krw":5000000},"expected_reason":null}

@@ -1,60 +1,42 @@
 {
   "version": "openfin-vertical-slice-v1",
-  "generated_at": "2026-07-24",
-  "source_registry_checksum": "9c9088e43fc36c0d13a98d106b8409a1c5bade830bdd63aa27398ef9a8005c36",
-  "canonical_content_checksum": "774d90aa85f32a7ecaf606a06200e1f4ad86c4fc64b350669faf86ad549b8deb",
+  "generated_at": "2026-07-28",
+  "source_registry_checksum": "2951f6d90ff5b5b3499a4c09d4e38fdc44119dc97187e640118173cbeae07d58",
+  "canonical_content_checksum": "2b040f01354a248ae79c9178561882f9f76519c9326c8add143518d21124694d",
   "policy_version": "openfin-release-policy-v1",
   "domains": {
     "deposit": {
       "target_verified_candidates": 20,
       "required_fields": [
-        "base_rate_percent",
-        "maximum_rate_percent",
-        "term_months",
-        "interest_method",
-        "preferential_rate_conditions",
-        "minimum_deposit_krw",
-        "maximum_deposit_krw",
-        "early_termination_condition",
         "deposit_protection_status",
-        "join_member",
-        "join_channel",
+        "join_channels",
+        "eligibility_rules",
+        "bonus_rate_rules",
+        "early_termination_rules",
         "sales_verification_status"
       ],
       "structural_candidate_count": 430,
-      "value_complete_candidate_count": 2,
-      "field_assertion_candidate_count": 2,
-      "official_field_assertion_candidate_count": 2,
-      "field_verified_candidate_count": 2,
-      "runtime_eligible_candidate_count": 2,
-      "target_shortfall": 18,
+      "value_complete_candidate_count": 0,
+      "field_assertion_candidate_count": 0,
+      "official_field_assertion_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "target_shortfall": 20,
       "status": "blocked",
       "missing_value_counts": {
-        "base_rate_percent": 0,
-        "maximum_rate_percent": 0,
-        "term_months": 0,
-        "interest_method": 0,
-        "preferential_rate_conditions": 0,
-        "minimum_deposit_krw": 397,
-        "maximum_deposit_krw": 393,
-        "early_termination_condition": 428,
         "deposit_protection_status": 0,
-        "join_member": 0,
-        "join_channel": 0,
+        "join_channels": 430,
+        "eligibility_rules": 430,
+        "bonus_rate_rules": 430,
+        "early_termination_rules": 430,
         "sales_verification_status": 0
       },
       "missing_assertion_counts": {
-        "base_rate_percent": 0,
-        "maximum_rate_percent": 0,
-        "term_months": 0,
-        "interest_method": 0,
-        "preferential_rate_conditions": 0,
-        "minimum_deposit_krw": 0,
-        "maximum_deposit_krw": 0,
-        "early_termination_condition": 0,
         "deposit_protection_status": 0,
-        "join_member": 0,
-        "join_channel": 0,
+        "join_channels": 0,
+        "eligibility_rules": 0,
+        "bonus_rate_rules": 0,
+        "early_termination_rules": 0,
         "sales_verification_status": 0
       },
       "sample_blockers": [
@@ -62,12 +44,16 @@
           "id": "finance.deposit.deposit.0010001.wr0001b",
           "title": "우리은행 WON플러스예금",
           "missing_values": [
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -75,12 +61,16 @@
           "id": "finance.deposit.deposit.0010002.00320342",
           "title": "한국스탠다드차타드은행 e-그린세이브예금",
           "missing_values": [
-            "minimum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "minimum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -88,14 +78,16 @@
           "id": "finance.deposit.deposit.0010016.10511008001166004",
           "title": "아이엠뱅크 iM함께예금",
           "missing_values": [
-            "minimum_deposit_krw",
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "minimum_deposit_krw",
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -103,14 +95,16 @@
           "id": "finance.deposit.deposit.0010017.01030500510002",
           "title": "부산은행 LIVE정기예금",
           "missing_values": [
-            "minimum_deposit_krw",
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "minimum_deposit_krw",
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -118,14 +112,16 @@
           "id": "finance.deposit.deposit.0010017.01030500560002",
           "title": "부산은행 더(The) 특판 정기예금",
           "missing_values": [
-            "minimum_deposit_krw",
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "minimum_deposit_krw",
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -133,14 +129,16 @@
           "id": "finance.deposit.deposit.0010017.01030500600002",
           "title": "부산은행 더(The) 레벨업 정기예금",
           "missing_values": [
-            "minimum_deposit_krw",
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "minimum_deposit_krw",
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -148,12 +146,16 @@
           "id": "finance.deposit.deposit.0010019.td11300027000",
           "title": "광주은행 미즈월복리정기예금",
           "missing_values": [
-            "minimum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "minimum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -161,12 +163,16 @@
           "id": "finance.deposit.deposit.0010019.td11300031000",
           "title": "광주은행 스마트모아Dream정기예금",
           "missing_values": [
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "maximum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -174,12 +180,16 @@
           "id": "finance.deposit.deposit.0010019.td11300035000",
           "title": "광주은행 굿스타트예금",
           "missing_values": [
-            "minimum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "minimum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -187,67 +197,57 @@
           "id": "finance.deposit.deposit.0010019.td11300036000",
           "title": "광주은행 The플러스예금",
           "missing_values": [
-            "minimum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "minimum_deposit_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         }
-      ]
+      ],
+      "strict_offer_count": 20,
+      "strict_offer_target": 20,
+      "strict_offer_shortfall": 0,
+      "strict_offer_status": "ready_review_required"
     },
     "saving": {
       "target_verified_candidates": 20,
       "required_fields": [
-        "base_rate_percent",
-        "maximum_rate_percent",
-        "term_months",
-        "saving_method",
-        "preferential_rate_conditions",
-        "monthly_payment_min_krw",
-        "monthly_payment_max_krw",
-        "early_termination_condition",
         "deposit_protection_status",
-        "join_member",
-        "join_channel",
+        "join_channels",
+        "eligibility_rules",
+        "bonus_rate_rules",
+        "early_termination_rules",
         "sales_verification_status"
       ],
       "structural_candidate_count": 335,
-      "value_complete_candidate_count": 8,
-      "field_assertion_candidate_count": 8,
-      "official_field_assertion_candidate_count": 8,
-      "field_verified_candidate_count": 8,
-      "runtime_eligible_candidate_count": 8,
-      "target_shortfall": 12,
+      "value_complete_candidate_count": 0,
+      "field_assertion_candidate_count": 0,
+      "official_field_assertion_candidate_count": 0,
+      "field_verified_candidate_count": 0,
+      "runtime_eligible_candidate_count": 0,
+      "target_shortfall": 20,
       "status": "blocked",
       "missing_value_counts": {
-        "base_rate_percent": 0,
-        "maximum_rate_percent": 0,
-        "term_months": 0,
-        "saving_method": 0,
-        "preferential_rate_conditions": 0,
-        "monthly_payment_min_krw": 320,
-        "monthly_payment_max_krw": 237,
-        "early_termination_condition": 327,
         "deposit_protection_status": 0,
-        "join_member": 0,
-        "join_channel": 0,
+        "join_channels": 335,
+        "eligibility_rules": 335,
+        "bonus_rate_rules": 335,
+        "early_termination_rules": 335,
         "sales_verification_status": 0
       },
       "missing_assertion_counts": {
-        "base_rate_percent": 0,
-        "maximum_rate_percent": 0,
-        "term_months": 0,
-        "saving_method": 0,
-        "preferential_rate_conditions": 0,
-        "monthly_payment_min_krw": 0,
-        "monthly_payment_max_krw": 0,
-        "early_termination_condition": 0,
         "deposit_protection_status": 0,
-        "join_member": 0,
-        "join_channel": 0,
+        "join_channels": 0,
+        "eligibility_rules": 0,
+        "bonus_rate_rules": 0,
+        "early_termination_rules": 0,
         "sales_verification_status": 0
       },
       "sample_blockers": [
@@ -255,24 +255,19 @@
           "id": "finance.saving.saving.0010001.wr0001f",
           "title": "우리은행 우리SUPER주거래적금",
           "missing_values": [
-            "monthly_payment_min_krw",
-            "monthly_payment_max_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "monthly_payment_min_krw",
-            "monthly_payment_max_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": [
-            "base_rate_percent",
-            "maximum_rate_percent",
-            "term_months",
-            "saving_method",
-            "preferential_rate_conditions",
             "deposit_protection_status",
-            "join_member",
-            "join_channel",
             "sales_verification_status"
           ]
         },
@@ -280,24 +275,19 @@
           "id": "finance.saving.saving.0010001.wr0001l",
           "title": "우리은행 WON적금",
           "missing_values": [
-            "monthly_payment_min_krw",
-            "monthly_payment_max_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "monthly_payment_min_krw",
-            "monthly_payment_max_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": [
-            "base_rate_percent",
-            "maximum_rate_percent",
-            "term_months",
-            "saving_method",
-            "preferential_rate_conditions",
             "deposit_protection_status",
-            "join_member",
-            "join_channel",
             "sales_verification_status"
           ]
         },
@@ -305,12 +295,16 @@
           "id": "finance.saving.saving.0010002.00266451",
           "title": "한국스탠다드차타드은행 퍼스트가계적금",
           "missing_values": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -318,14 +312,16 @@
           "id": "finance.saving.saving.0010016.10521001001166004",
           "title": "아이엠뱅크 iM함께적금",
           "missing_values": [
-            "monthly_payment_min_krw",
-            "monthly_payment_max_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "monthly_payment_min_krw",
-            "monthly_payment_max_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -333,12 +329,16 @@
           "id": "finance.saving.saving.0010017.01020400490002",
           "title": "부산은행 펫 적금",
           "missing_values": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -346,12 +346,16 @@
           "id": "finance.saving.saving.0010017.01020400510001",
           "title": "부산은행 저탄소 실천 적금",
           "missing_values": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -359,14 +363,16 @@
           "id": "finance.saving.saving.0010017.01020400530001",
           "title": "부산은행 BNK내맘대로 \n적금",
           "missing_values": [
-            "monthly_payment_min_krw",
-            "monthly_payment_max_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "monthly_payment_min_krw",
-            "monthly_payment_max_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -374,12 +380,16 @@
           "id": "finance.saving.saving.0010017.01020400660001",
           "title": "부산은행 부산이라 좋다\nBig적금",
           "missing_values": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -387,12 +397,16 @@
           "id": "finance.saving.saving.0010017.01020400700001",
           "title": "부산은행 Only One 주거래 우대적금",
           "missing_values": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": []
         },
@@ -400,29 +414,38 @@
           "id": "finance.saving.saving.0010019.td11330029000",
           "title": "광주은행 해피라이프_여행스케치적금V",
           "missing_values": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "missing_assertions": [
-            "monthly_payment_min_krw",
-            "early_termination_condition"
+            "join_channels",
+            "eligibility_rules",
+            "bonus_rate_rules",
+            "early_termination_rules"
           ],
           "unverified_assertions": [
-            "base_rate_percent",
-            "maximum_rate_percent",
-            "term_months",
-            "saving_method",
-            "preferential_rate_conditions",
-            "monthly_payment_max_krw",
             "deposit_protection_status",
-            "join_member",
-            "join_channel",
             "sales_verification_status"
           ]
         }
-      ]
+      ],
+      "strict_offer_count": 20,
+      "strict_offer_target": 20,
+      "strict_offer_shortfall": 0,
+      "strict_offer_status": "ready_review_required"
     }
   },
   "recommendation_enabled": false,
-  "recommendation_note": "This audit never promotes products. Field-level official assertions and current runtime evidence are required before a pilot receipt can be issued."
+  "recommendation_note": "This audit never promotes products. Field-level official assertions, strict OfferSnapshot objects, and current runtime evidence are required before a pilot receipt can be issued.",
+  "strict_offer_targets": {
+    "deposit": 20,
+    "saving": 20
+  },
+  "strict_offer_counts": {
+    "deposit": 20,
+    "saving": 20
+  },
+  "strict_offer_blocker": null
 }

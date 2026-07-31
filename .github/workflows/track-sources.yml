@@ -45,6 +45,9 @@ jobs:
       - name: Check source freshness
         id: source-check
         continue-on-error: true
+        env:
+          FINLIFE_API_KEY: ${{ secrets.FINLIFE_API_KEY }}
+          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
         run: |
           report_dir="evidence/source-receipts/$(date -u +%Y-%m)"
           mkdir -p "$report_dir"

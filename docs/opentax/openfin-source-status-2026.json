@@ -1,7 +1,7 @@
 {
   "version": "OPENFIN-SOURCE-STATUS-2026.07.28.1",
   "generated_at": "2026-07-28T00:00:00.000Z",
-  "source_count": 145,
+  "source_count": 155,
   "statuses": [
     {
       "checked_at": "2026-07-28T03:07:39.976Z",
@@ -1468,17 +1468,26 @@
       "id": "source.fss.fine.portal"
     },
     {
-      "checked_at": "2026-07-28T03:07:39.976Z",
-      "status": "stale",
-      "canonical_url": "https://finlife.fss.or.kr/finlifeapi/",
-      "etag": "W/\"51-1679639116000\"",
-      "last_modified": "Fri, 24 Mar 2023 06:25:16 GMT",
-      "checksum": "sha256:cab6665257953c94d21c97a528411642dbf7d84140fea338cbb5202043470c2d",
-      "verification_status": "secret-required",
-      "needs_live_check": true,
+      "status": "unchanged",
+      "checked_at": "2026-07-30T23:48:01.405Z",
+      "last_successful_checked_at": "2026-07-30T23:48:01.405Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum": "sha256:a8f22d1410d885fec0654c07648c721a0852b8e79829d1457ccbc150553f2f39",
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 59413,
+      "checksum_truncated": false,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-30T23:48:01.405Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Authenticated official API response accepted after normalized-body checksum and parsed candidate collection review",
+      "id": "source.fss.finlife.api",
       "lifecycle_status": "active",
-      "last_successful_checked_at": null,
-      "freshness_status": "stale",
       "refresh": {
         "sla_hours": 168,
         "change_detection": "http-checksum"
@@ -1490,14 +1499,7 @@
         "all": [
           "https://finlife.fss.or.kr/finlifeapi/"
         ]
-      },
-      "stale": true,
-      "method": "HEAD",
-      "http_status": 304,
-      "checksum_scope": "normalized-body",
-      "checksum_bytes": 51,
-      "checksum_truncated": false,
-      "id": "source.fss.finlife.api"
+      }
     },
     {
       "checked_at": "2026-07-28T03:07:39.976Z",
@@ -1857,17 +1859,26 @@
       "id": "source.kbcard.card-list"
     },
     {
-      "checked_at": "2026-07-28T03:07:39.976Z",
-      "status": "stale",
-      "canonical_url": "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y",
-      "etag": null,
-      "last_modified": null,
-      "checksum": "sha256:5878b32cb4488dc4d5ad5cb781aa572df072e51111e0d48a6baf6c7b957297f3",
-      "verification_status": "secret-required",
-      "needs_live_check": true,
+      "status": "unchanged",
+      "checked_at": "2026-07-30T23:48:01.405Z",
+      "last_successful_checked_at": "2026-07-30T23:48:01.405Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "GET",
+      "http_status": 200,
+      "checksum": "sha256:0e046283501f056338443c252311913e72874f159782b1456534aab86adf8ee9",
+      "checksum_scope": "normalized-body",
+      "checksum_bytes": 457,
+      "checksum_truncated": false,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-30T23:48:01.405Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Authenticated official API response accepted after normalized-body checksum and exact product-match collection review",
+      "id": "source.kdic.insured-products",
       "lifecycle_status": "active",
-      "last_successful_checked_at": null,
-      "freshness_status": "stale",
       "refresh": {
         "sla_hours": 168,
         "change_detection": "http-checksum"
@@ -1879,14 +1890,7 @@
         "all": [
           "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
         ]
-      },
-      "stale": true,
-      "method": "GET",
-      "http_status": 200,
-      "checksum_scope": "normalized-body",
-      "checksum_bytes": 197741,
-      "checksum_truncated": false,
-      "id": "source.kdic.insured-products"
+      }
     },
     {
       "checked_at": "2026-07-28T03:07:39.976Z",
@@ -4676,6 +4680,336 @@
       "checksum_bytes": 207110,
       "checksum_truncated": false,
       "id": "source.nts.year-end-settlement.special-credit"
+    },
+    {
+      "status": "unchanged",
+      "checked_at": "2026-07-31T00:10:40Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "MANUAL_REVIEW",
+      "http_status": 200,
+      "checksum": "sha256:77c602598d7610f641a8c443cf2489f670197fde35c6677848288690e4f400f9",
+      "checksum_scope": "normalized-reviewed-field-evidence",
+      "checksum_bytes": 13570,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-31T00:10:40Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Official provider product pages and documents reviewed at field level",
+      "id": "source.provider.busanbank.product-documents",
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-31T00:10:40Z",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.busanbank.co.kr/ib20/mnu/BHPCSC320002002",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.busanbank.co.kr/ib20/mnu/BHPCSC320002002"
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "checked_at": "2026-07-31T00:10:40Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "MANUAL_REVIEW",
+      "http_status": 200,
+      "checksum": "sha256:0c5e4f1b1c5f0ddf48f4eb9a8c717efd58d8485a111de935165e2056089cb436",
+      "checksum_scope": "normalized-reviewed-field-evidence",
+      "checksum_bytes": 6116,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-31T00:10:40Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Official provider product pages and documents reviewed at field level",
+      "id": "source.provider.hana.product-documents",
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-31T00:10:40Z",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.kebhana.com/cont/mall/mall08/mall0801/index.jsp",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.kebhana.com/cont/mall/mall08/mall0801/index.jsp"
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "checked_at": "2026-07-31T00:10:40Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "MANUAL_REVIEW",
+      "http_status": 200,
+      "checksum": "sha256:ca83d3c9def2024078bb86999e4f59ef29a8579737bc92242573111050af3ea1",
+      "checksum_scope": "normalized-reviewed-field-evidence",
+      "checksum_bytes": 6486,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-31T00:10:40Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Official provider product pages and documents reviewed at field level",
+      "id": "source.provider.ibk.product-documents",
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-31T00:10:40Z",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "urls": {
+        "canonical": "https://mybank.ibk.co.kr/uib/jsp/guest/ntr/ntr70/ntr7015/PNTR701500_m.jsp",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://mybank.ibk.co.kr/uib/jsp/guest/ntr/ntr70/ntr7015/PNTR701500_m.jsp"
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "checked_at": "2026-07-31T00:10:40Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "MANUAL_REVIEW",
+      "http_status": 200,
+      "checksum": "sha256:3b2050d66ae5c5b03041f8d793f0e616a0eb23663cda68b7dbfb3a9ff60ddcf8",
+      "checksum_scope": "normalized-reviewed-field-evidence",
+      "checksum_bytes": 10906,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-31T00:10:40Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Official provider product pages and documents reviewed at field level",
+      "id": "source.provider.kjbank.product-documents",
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-31T00:10:40Z",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.kjbank.com/ib20/mnu/FPMDPTR030100"
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "checked_at": "2026-07-31T00:10:40Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "MANUAL_REVIEW",
+      "http_status": 200,
+      "checksum": "sha256:93abc2b902d6511fb1a5ca1866cf548a5b53b03495efe2790e26e18de2d47dff",
+      "checksum_scope": "normalized-reviewed-field-evidence",
+      "checksum_bytes": 16044,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-31T00:10:40Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Official provider product pages and documents reviewed at field level",
+      "id": "source.provider.knbank.product-documents",
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-31T00:10:40Z",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.knbank.co.kr/ib20/mnu/FPMDPT010000",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.knbank.co.kr/ib20/mnu/FPMDPT010000"
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "checked_at": "2026-07-31T00:10:40Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "MANUAL_REVIEW",
+      "http_status": 200,
+      "checksum": "sha256:63a187a4b13286f2fad7b9810cf1c8a20ae512d1947cab076de4a0de919488cd",
+      "checksum_scope": "normalized-reviewed-field-evidence",
+      "checksum_bytes": 13086,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-31T00:10:40Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Official provider product pages and documents reviewed at field level",
+      "id": "source.provider.nonghyup.product-documents",
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-31T00:10:40Z",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "urls": {
+        "canonical": "https://banking.nonghyup.com/servlet/content/ip/ne/ipne1011c.thtml",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://banking.nonghyup.com/servlet/content/ip/ne/ipne1011c.thtml"
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "checked_at": "2026-07-31T00:10:40Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "MANUAL_REVIEW",
+      "http_status": 200,
+      "checksum": "sha256:6d3083a80fab609a72a831efc243f07fba639829d3e19cf55ea6548309af20b3",
+      "checksum_scope": "normalized-reviewed-field-evidence",
+      "checksum_bytes": 5494,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-31T00:10:40Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Official provider product pages and documents reviewed at field level",
+      "id": "source.provider.sc.product-documents",
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-31T00:10:40Z",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.standardchartered.co.kr/np/kr/pl/se/SavingList.jsp",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.standardchartered.co.kr/np/kr/pl/se/SavingList.jsp"
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "checked_at": "2026-07-31T00:10:40Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "MANUAL_REVIEW",
+      "http_status": 200,
+      "checksum": "sha256:4e2120774401930c7533c30785bcf2e8d0b799b0fd60bb5ab8f22d1431e99f6a",
+      "checksum_scope": "normalized-reviewed-field-evidence",
+      "checksum_bytes": 4456,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-31T00:10:40Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Official provider product pages and documents reviewed at field level",
+      "id": "source.provider.shinhan.product-documents",
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-31T00:10:40Z",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "urls": {
+        "canonical": "https://bank.shinhan.com/index.jsp#020200000000",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://bank.shinhan.com/index.jsp#020200000000"
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "checked_at": "2026-07-31T00:10:40Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "MANUAL_REVIEW",
+      "http_status": 200,
+      "checksum": "sha256:5dae72e536ee14fae333e25f129f3f561be6b00b965c2e5c73397d6bc06e058b",
+      "checksum_scope": "normalized-reviewed-field-evidence",
+      "checksum_bytes": 8204,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-31T00:10:40Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Official provider product pages and documents reviewed at field level",
+      "id": "source.provider.suhyup.product-documents",
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-31T00:10:40Z",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.suhyup-bank.com/ib20/mnu/FPD00118",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.suhyup-bank.com/ib20/mnu/FPD00118"
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "checked_at": "2026-07-31T00:10:40Z",
+      "freshness_status": "current",
+      "verification_status": "verified",
+      "authenticated": true,
+      "method": "MANUAL_REVIEW",
+      "http_status": 200,
+      "checksum": "sha256:93fb7a26381885c1280a38898f354c822e10c2792a4486fb2794e0ef4e32c710",
+      "checksum_scope": "normalized-reviewed-field-evidence",
+      "checksum_bytes": 7910,
+      "stale": false,
+      "needs_live_check": false,
+      "needs_review": false,
+      "reviewed_at": "2026-07-31T00:10:40Z",
+      "reviewed_by": "openfin-maintainer",
+      "review_reason": "Official provider product pages and documents reviewed at field level",
+      "id": "source.provider.tossbank.product-documents",
+      "lifecycle_status": "active",
+      "last_successful_checked_at": "2026-07-31T00:10:40Z",
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "urls": {
+        "canonical": "https://www.tossbank.com/product-service/savings",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.tossbank.com/product-service/savings"
+        ]
+      }
     },
     {
       "checked_at": "2026-07-28T03:07:39.976Z",

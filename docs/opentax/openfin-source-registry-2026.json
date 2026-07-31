@@ -1,7 +1,7 @@
 {
   "version": "OPENFIN-SOURCE-REGISTRY-2026.07.28.1",
   "generated_at": "2026-07-28T00:00:00.000Z",
-  "source_count": 145,
+  "source_count": 155,
   "sources": [
     {
       "id": "source.bccard.check-card-list",
@@ -1698,7 +1698,14 @@
       "access": {
         "method": "api",
         "parser_id": "api:source-fss-finlife-api",
-        "requires_secret": true
+        "requires_secret": true,
+        "request_url": "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+        "request_query": {
+          "topFinGrpNo": "020000",
+          "pageNo": 1
+        },
+        "credential_env": "FINLIFE_API_KEY",
+        "credential_query_param": "auth"
       },
       "refresh": {
         "sla_hours": 168,
@@ -2161,7 +2168,15 @@
       "access": {
         "method": "api",
         "parser_id": "api:source-kdic-insured-products",
-        "requires_secret": true
+        "requires_secret": true,
+        "request_url": "https://apis.data.go.kr/B190017/service/GetInsuredProductService202008/getProductList202008",
+        "request_query": {
+          "pageNo": 1,
+          "numOfRows": 1,
+          "_type": "json"
+        },
+        "credential_env": "DATA_GO_KR_SERVICE_KEY",
+        "credential_query_param": "serviceKey"
       },
       "refresh": {
         "sla_hours": 168,
@@ -5459,6 +5474,374 @@
       "legacy_source_basis_dates": [
         "2026-05-02T00:00:00.000Z"
       ],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.provider.busanbank.product-documents",
+      "type": "source",
+      "title": "부산은행 금융상품 공식 문서",
+      "publisher": "부산은행",
+      "authority_class": "provider_official",
+      "domains": [
+        "deposit",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.busanbank.co.kr/ib20/mnu/BHPCSC320002002",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.busanbank.co.kr/ib20/mnu/BHPCSC320002002"
+        ]
+      },
+      "access": {
+        "method": "product-page",
+        "parser_id": "manual-reviewed-product-page",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "공식 상품 공시 열람",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.provider.hana.product-documents",
+      "type": "source",
+      "title": "하나은행 금융상품 공식 문서",
+      "publisher": "하나은행",
+      "authority_class": "provider_official",
+      "domains": [
+        "deposit",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.kebhana.com/cont/mall/mall08/mall0801/index.jsp",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.kebhana.com/cont/mall/mall08/mall0801/index.jsp"
+        ]
+      },
+      "access": {
+        "method": "product-page",
+        "parser_id": "manual-reviewed-product-page",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "공식 상품 공시 열람",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.provider.ibk.product-documents",
+      "type": "source",
+      "title": "IBK기업은행 금융상품 공식 문서",
+      "publisher": "IBK기업은행",
+      "authority_class": "provider_official",
+      "domains": [
+        "deposit"
+      ],
+      "urls": {
+        "canonical": "https://mybank.ibk.co.kr/uib/jsp/guest/ntr/ntr70/ntr7015/PNTR701500_m.jsp",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://mybank.ibk.co.kr/uib/jsp/guest/ntr/ntr70/ntr7015/PNTR701500_m.jsp"
+        ]
+      },
+      "access": {
+        "method": "product-page",
+        "parser_id": "manual-reviewed-product-page",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "공식 상품 공시 열람",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.provider.kjbank.product-documents",
+      "type": "source",
+      "title": "광주은행 금융상품 공식 문서",
+      "publisher": "광주은행",
+      "authority_class": "provider_official",
+      "domains": [
+        "deposit",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.kjbank.com/ib20/mnu/FPMDPTR030100"
+        ]
+      },
+      "access": {
+        "method": "product-page",
+        "parser_id": "manual-reviewed-product-page",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "공식 상품 공시 열람",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.provider.knbank.product-documents",
+      "type": "source",
+      "title": "경남은행 금융상품 공식 문서",
+      "publisher": "경남은행",
+      "authority_class": "provider_official",
+      "domains": [
+        "deposit",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.knbank.co.kr/ib20/mnu/FPMDPT010000",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.knbank.co.kr/ib20/mnu/FPMDPT010000"
+        ]
+      },
+      "access": {
+        "method": "product-page",
+        "parser_id": "manual-reviewed-product-page",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "공식 상품 공시 열람",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.provider.nonghyup.product-documents",
+      "type": "source",
+      "title": "NH농협은행 금융상품 공식 문서",
+      "publisher": "NH농협은행",
+      "authority_class": "provider_official",
+      "domains": [
+        "deposit",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://banking.nonghyup.com/servlet/content/ip/ne/ipne1011c.thtml",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://banking.nonghyup.com/servlet/content/ip/ne/ipne1011c.thtml"
+        ]
+      },
+      "access": {
+        "method": "product-page",
+        "parser_id": "manual-reviewed-product-page",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "공식 상품 공시 열람",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.provider.sc.product-documents",
+      "type": "source",
+      "title": "SC제일은행 금융상품 공식 문서",
+      "publisher": "SC제일은행",
+      "authority_class": "provider_official",
+      "domains": [
+        "deposit",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.standardchartered.co.kr/np/kr/pl/se/SavingList.jsp",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.standardchartered.co.kr/np/kr/pl/se/SavingList.jsp"
+        ]
+      },
+      "access": {
+        "method": "product-page",
+        "parser_id": "manual-reviewed-product-page",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "공식 상품 공시 열람",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.provider.shinhan.product-documents",
+      "type": "source",
+      "title": "신한은행 금융상품 공식 문서",
+      "publisher": "신한은행",
+      "authority_class": "provider_official",
+      "domains": [
+        "deposit"
+      ],
+      "urls": {
+        "canonical": "https://bank.shinhan.com/index.jsp#020200000000",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://bank.shinhan.com/index.jsp#020200000000"
+        ]
+      },
+      "access": {
+        "method": "product-page",
+        "parser_id": "manual-reviewed-product-page",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "공식 상품 공시 열람",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.provider.suhyup.product-documents",
+      "type": "source",
+      "title": "수협은행 금융상품 공식 문서",
+      "publisher": "수협은행",
+      "authority_class": "provider_official",
+      "domains": [
+        "deposit",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.suhyup-bank.com/ib20/mnu/FPD00118",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.suhyup-bank.com/ib20/mnu/FPD00118"
+        ]
+      },
+      "access": {
+        "method": "product-page",
+        "parser_id": "manual-reviewed-product-page",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "공식 상품 공시 열람",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [],
+      "source_row_count": 1
+    },
+    {
+      "id": "source.provider.tossbank.product-documents",
+      "type": "source",
+      "title": "토스뱅크 금융상품 공식 문서",
+      "publisher": "토스뱅크",
+      "authority_class": "provider_official",
+      "domains": [
+        "deposit",
+        "saving"
+      ],
+      "urls": {
+        "canonical": "https://www.tossbank.com/product-service/savings",
+        "api": null,
+        "documentation": null,
+        "all": [
+          "https://www.tossbank.com/product-service/savings"
+        ]
+      },
+      "access": {
+        "method": "product-page",
+        "parser_id": "manual-reviewed-product-page",
+        "requires_secret": false
+      },
+      "refresh": {
+        "sla_hours": 168,
+        "change_detection": "reviewed-document-checksum"
+      },
+      "usage_terms": {
+        "license_or_terms": "공식 상품 안내 열람",
+        "terms_status": "review_required",
+        "raw_snapshot_allowed": false
+      },
+      "recommendation_eligible": false,
+      "status": "active",
+      "legacy_source_basis_dates": [],
       "source_row_count": 1
     },
     {

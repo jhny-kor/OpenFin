@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, PUBLIC_BASE, json } from './common.mjs';
 
-const local = json(path.join(ROOT, 'docs/opentax/finance-ontology-manifest.json'));
+const local = json(process.env.OPENFIN_LOCAL_MANIFEST_PATH || path.join(ROOT, 'docs/opentax/finance-ontology-manifest.json'));
 const pagesUrl = process.env.OPENFIN_PAGES_MANIFEST_URL || `${PUBLIC_BASE}/finance-ontology-manifest.json`;
 const workerUrl = process.env.OPENFIN_WORKER_HEALTH_URL || 'https://openfin-mcp.y2kthr.workers.dev/health';
 const expectedCommit = process.argv.includes('--expected-deployment-commit') ? process.argv[process.argv.indexOf('--expected-deployment-commit') + 1] : process.env.OPENFIN_DEPLOYMENT_COMMIT;
@@ -23,7 +23,7 @@ let lastErrors = [];
 for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
     const [pages, health] = await Promise.all([getJson(pagesUrl, attempt), getJson(workerUrl, attempt)]);
-    const evidencePath = path.join(ROOT, 'evidence/live-regression/current.json');
+    const evidencePath = process.env.OPENFIN_LIVE_EVIDENCE_PATH || path.join(ROOT, 'evidence/live-regression/current.json');
     const live = fs.existsSync(evidencePath) ? json(evidencePath) : {};
     const errors = [...mismatch('pages', values(pages)), ...mismatch('worker', values(health))];
     if (expectedCommit && expected.deployment_commit !== expectedCommit) errors.push(`repository.deployment_commit: expected ${expectedCommit}, got ${expected.deployment_commit}`);

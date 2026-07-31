@@ -16562,7 +16562,7 @@
   ],
   "live_summary": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "live_status": "current",
+    "live_status": "stale_generation",
     "checked_at": "2026-07-30T09:50:42.812Z",
     "runtime_version": "openfin-mcp-2026.07.28.2",
     "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",

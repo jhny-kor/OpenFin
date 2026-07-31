@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/types/saving-offer.schema.json",
+  "title": "OpenFin strict saving offer snapshot",
+  "allOf": [
+    { "$ref": "financial-offer.schema.json" },
+    { "properties": { "type": { "const": "saving-offer" }, "options": { "items": { "allOf": [{ "$ref": "offer-option.schema.json" }, { "required": ["saving_method", "monthly_payment_limit"] }] } } } }
+  ]
+}

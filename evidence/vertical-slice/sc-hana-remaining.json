@@ -1,0 +1,240 @@
+[
+  {
+    "product_code": "00266451",
+    "provider": "한국스탠다드차타드은행",
+    "product": "퍼스트가계적금",
+    "source_urls": [
+      "https://opt2.standardchartered.co.kr/np/kr/pl/se/SavingDetail.jsp?id=36&menuId=HC02011200000000",
+      "https://opt2.standardchartered.co.kr/hp/file/ap/pd/1226018_1223272_FirstGagye_TD2_SMS_20250901.pdf"
+    ],
+    "fields": {
+      "monthly_payment_krw": {
+        "value": {
+          "fixed_monthly": {
+            "minimum": 100000,
+            "maximum": null
+          },
+          "free_saving": {
+            "minimum_per_deposit": 10000,
+            "maximum_per_month": 10000000,
+            "after_three_quarters_of_term": "Prior accumulated deposits × 50% or less"
+          }
+        },
+        "source_url": "https://opt2.standardchartered.co.kr/hp/file/ap/pd/1226018_1223272_FirstGagye_TD2_SMS_20250901.pdf",
+        "locator": "퍼스트가계적금 상품설명서, p. 1, 2. 거래 조건 > 가입 금액",
+        "observed_at": "2026-07-30T23:50:33Z"
+      },
+      "early_termination": {
+        "value": {
+          "basis": "Each monthly instalment is assessed by its elapsed period at the early-termination rate posted by the bank on the contract date.",
+          "term_at_most_12_months": {
+            "under_3_months": "contracted rate × 10%",
+            "3_months_to_under_10_months": "contracted rate × 50%",
+            "10_months_or_more": "contracted rate × 80%"
+          },
+          "term_over_12_months": {
+            "under_3_months": "contracted rate × 10%",
+            "3_months_to_under_10_months": "contracted rate × 30%",
+            "10_months_to_under_20_months": "contracted rate × 50%",
+            "20_months_or_more": "contracted rate × 80%"
+          }
+        },
+        "source_url": "https://opt2.standardchartered.co.kr/hp/file/ap/pd/1226018_1223272_FirstGagye_TD2_SMS_20250901.pdf",
+        "locator": "퍼스트가계적금 상품설명서, pp. 1-2, 2. 거래 조건 > 중도해지 이율",
+        "observed_at": "2026-07-30T23:50:33Z"
+      },
+      "sales_active": {
+        "value": "verified_active",
+        "evidence": "The official product-detail request identifies the product as 퍼스트가계적금 and returns SALE_FLG_CD=SE1001. The product page maps SE0001 to the sale-available flag and shows a mobile application entry point.",
+        "source_url": "https://opt2.standardchartered.co.kr/np/kr/pl/se/SavingDetail.jsp?id=36&menuId=HC02011200000000",
+        "locator": "페이지 script search() > POST /np/kr/prdctList with serviceID=Deposit.get and PRDCT_ID=36 > FNANCL_PRDCT_DPST (PRDCT_NM=퍼스트가계적금; SALE_FLG_CD=SE1001); page screen > 모바일 신청",
+        "observed_at": "2026-07-30T23:50:33Z"
+      }
+    },
+    "evidence_status": "official_bank_page_and_linked_pdf_verified_active",
+    "missing_fields": [
+      "fixed_monthly.maximum: the official linked product explanation states only '10만원 이상' and no maximum."
+    ]
+  },
+  {
+    "product_code": "53",
+    "provider": "주식회사 하나은행",
+    "product": "내맘적금",
+    "source_urls": [
+      "https://m.hanabank.com/cont/event/new/event01/1526008_152465.jsp",
+      "https://m.kebhana.com/cont/event/new/event01/1521257_152465.jsp",
+      "https://www.hanabank.com/cont/mall/mall11/mall1101/index.jsp"
+    ],
+    "fields": {
+      "monthly_payment_krw": {
+        "value": {
+          "minimum": 1000,
+          "maximum": 10000000,
+          "coupon_limited_offer": {
+            "maximum": 500000,
+            "condition": "1-year fixed-installment saving when the 2.20% rate-preference coupon is used"
+          }
+        },
+        "source_url": "https://m.kebhana.com/cont/event/new/event01/1521257_152465.jsp",
+        "locator": "상품 유의사항 > [내맘적금] > 가입금액; 금리우대쿠폰 > 내맘적금 금리우대쿠폰 (26.01.02 기준)",
+        "observed_at": "2026-07-30T23:50:33Z"
+      },
+      "early_termination": {
+        "value": {
+          "published_rule": "The early-termination rate posted at the branch and website on the account-opening date applies.",
+          "pre_maturity_effect": "A rate lower than the contracted rate applies when the account is closed before maturity.",
+          "preferential_rate_effect": "Preferential interest applies only to a maturity closure and does not apply to an early closure.",
+          "numeric_rate_schedule": null
+        },
+        "evidence": "The currently valid Hana Bank promotion (valid through 2026-08-19) states the product-specific rule but does not include the numeric schedule it incorporates by reference. No older schedule is represented as current.",
+        "source_url": "https://m.hanabank.com/cont/event/new/event01/1526008_152465.jsp",
+        "locator": "[내맘적금] > 중도해지이율; 만기 전 해지; 우대금리; 준법감시인 심의필 제2026-광고-08838호 (2026.07.13), 홍보물 유효기간 2026.08.19",
+        "observed_at": "2026-07-30T23:53:09Z"
+      },
+      "sales_active": {
+        "value": "verified_active",
+        "evidence": "Hana Bank's protected-financial-products register says it lists protected products sold by the bank. Its 2026-07-01 register includes 내맘적금 with sale start 2019-04-15 and a blank sale-end field. Separately, the bank's 2026-01-08 event offered a new-account rate-preference coupon for 내맘적금.",
+        "source_url": "https://www.hanabank.com/cont/mall/mall11/mall1101/index.jsp",
+        "locator": "보호금융상품등록부 > 예금/신탁 (기준일 2026년 7월 1일) > 정기적금 > 내맘적금 | 2019-04-15 | [판매종료일 공란]; https://m.kebhana.com/cont/event/new/event01/1521257_152465.jsp > 2026년 새출발 응원 금리우대쿠폰 3종 제공! > 내맘적금",
+        "observed_at": "2026-07-30T23:50:33Z"
+      }
+    },
+    "evidence_status": "official_bank_pages_verified_active_with_numeric_early_termination_rate_gap",
+    "missing_fields": [
+      "early_termination.numeric_rate_schedule: the current public Hana page incorporates the new-account-date schedule by reference but does not publish its numeric table. Required artifact: Hana Bank's current 내맘적금 product explanation/terms or the current public rate-table URL for the account-opening date."
+    ]
+  },
+  {
+    "product_code": "00320342",
+    "provider": "한국스탠다드차타드은행",
+    "product": "e-그린세이브예금",
+    "source_urls": [
+      "https://www.standardchartered.co.kr/np/kr/pl/se/SavingDetail.jsp?id=2345",
+      "https://www.standardchartered.co.kr/hp/file/ap/pd/1257617_eGreenTD_SMS_20260601.pdf"
+    ],
+    "fields": {
+      "deposit_krw": {
+        "value": {
+          "minimum": 1000000,
+          "maximum": 1000000000,
+          "limit_scope": "per account"
+        },
+        "source_url": "https://www.standardchartered.co.kr/hp/file/ap/pd/1257617_eGreenTD_SMS_20260601.pdf",
+        "locator": "e-그린세이브예금 상품설명서 (2026.06.01 적용), p. 1 > 2. 거래 조건 > 가입금액: 1백만원 이상 10억원 이하",
+        "observed_at": "2026-07-31T00:01:36Z"
+      },
+      "deposit_protection": {
+        "value": true,
+        "source_url": "https://www.standardchartered.co.kr/hp/file/ap/pd/1257617_eGreenTD_SMS_20260601.pdf",
+        "locator": "e-그린세이브예금 상품설명서 (2026.06.01 적용), p. 7 > 예금자보호 여부: 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지 (본 은행의 여타 보호상품과 합산) 보호",
+        "observed_at": "2026-07-31T00:10:19Z"
+      },
+      "early_termination": {
+        "value": {
+          "rate_schedule": [
+            {
+              "holding_period": "less than 3 months",
+              "annual_rate": "10% of the basic posted rate for the contracted term at account opening"
+            },
+            {
+              "holding_period": "3 months to less than 6 months",
+              "annual_rate": "30% of the basic posted rate for the contracted term at account opening"
+            },
+            {
+              "holding_period": "6 months to less than 10 months",
+              "annual_rate": "50% of the basic posted rate for the contracted term at account opening"
+            },
+            {
+              "holding_period": "10 months or longer",
+              "annual_rate": "80% of the basic posted rate for the contracted term at account opening"
+            }
+          ],
+          "calculation_basis": "Interest is calculated on the deposit from the deposit date through the day before early termination using the applicable period rate; rate is truncated below the third decimal place.",
+          "rate_exclusions": "The opening-date basic posted rate excludes preferential/additional rates; the opening-date early-termination-rate schedule continues to apply if rates change later."
+        },
+        "source_url": "https://www.standardchartered.co.kr/hp/file/ap/pd/1257617_eGreenTD_SMS_20260601.pdf",
+        "locator": "e-그린세이브예금 상품설명서 (2026.06.01 적용), p. 2 > 중도해지 이율",
+        "observed_at": "2026-07-31T00:01:36Z"
+      },
+      "sales_active": {
+        "value": "verified_active",
+        "evidence": "The live product-detail endpoint presents this product and links its current 2026-06-01 product explanation/terms. The bank's current product API response for that page returns SALE_FLG_CD=SE1001.",
+        "source_url": "https://www.standardchartered.co.kr/np/kr/pl/se/SavingDetail.jsp?id=2345",
+        "locator": "상품상세 페이지 > e-그린세이브예금 > 상품설명서 및 약관; page product API request (Deposit.get, PRDCT_ID=2345) > PRDCT_NM=e-그린세이브예금, SALE_FLG_CD=SE1001, ATTCHD_FILE1=1257617_eGreenTD_SMS_20260601.pdf",
+        "observed_at": "2026-07-31T00:01:36Z"
+      }
+    },
+    "evidence_status": "official_bank_page_and_linked_current_product_pdf_verified_active",
+    "missing_fields": []
+  },
+  {
+    "product_code": "4",
+    "provider": "주식회사 하나은행",
+    "product": "하나의정기예금",
+    "source_urls": [
+      "https://image.kebhana.com/cont/download/documents/manual/0100296000101_20250901_m.pdf",
+      "https://www.hanabank.com/cont/mall/mall11/mall1101/index.jsp"
+    ],
+    "fields": {
+      "deposit_krw": {
+        "value": {
+          "minimum": 1000000,
+          "maximum": null
+        },
+        "evidence": "The official product explanation says only '1백만원 이상' (KRW 1,000,000 or more); it does not state an upper limit. Null means no verified maximum, not unlimited.",
+        "source_url": "https://image.kebhana.com/cont/download/documents/manual/0100296000101_20250901_m.pdf",
+        "locator": "『하나의정기예금』 상품설명서 (2025.09.01 기준), p. 1 > 2. 거래 조건 > 가입금액: 1백만원 이상",
+        "observed_at": "2026-07-31T00:01:36Z"
+      },
+      "deposit_protection": {
+        "value": true,
+        "source_url": "https://image.kebhana.com/cont/download/documents/manual/0100296000101_20250901_m.pdf",
+        "locator": "『하나의정기예금』 상품설명서 (2025.09.01 기준), p. 1 > 예금자보호여부: 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지 (본 은행의 여타 보호상품과 합산) 보호",
+        "observed_at": "2026-07-31T00:10:19Z"
+      },
+      "early_termination": {
+        "value": {
+          "rate_schedule": [
+            {
+              "holding_period": "less than 1 month",
+              "annual_rate": "0.10%"
+            },
+            {
+              "holding_period": "1 month to less than 3 months",
+              "annual_rate": "0.15%"
+            },
+            {
+              "holding_period": "3 months to less than 6 months",
+              "annual_rate": "0.20%"
+            },
+            {
+              "holding_period": "6 months or longer",
+              "annual_rate": "base rate at account opening (or renewal) × differential rate × elapsed-rate factor, with a 0.20% annual minimum",
+              "differential_rate": {
+                "6 months to less than 9 months": "60%",
+                "9 months to less than 11 months": "70%",
+                "11 months or longer": "90%"
+              },
+              "elapsed_rate_factor": "elapsed days / contracted days, capped at 1"
+            }
+          ],
+          "calculation_basis": "Interest is calculated on the deposit from the opening date through the day before early termination using the applicable early-termination rate; won fractions are truncated and the rate is truncated below the third decimal place."
+        },
+        "source_url": "https://image.kebhana.com/cont/download/documents/manual/0100296000101_20250901_m.pdf",
+        "locator": "『하나의정기예금』 상품설명서 (2025.09.01 기준), p. 2 > 중도해지이율",
+        "observed_at": "2026-07-31T00:01:36Z"
+      },
+      "sales_active": {
+        "value": "verified_active",
+        "evidence": "Hana Bank's protected-financial-products register states that it lists protected products sold by the bank. Its register as of 2026-07-01 lists 하나의 정기예금 with sale start 2021-12-03 and no sale-end date.",
+        "source_url": "https://www.hanabank.com/cont/mall/mall11/mall1101/index.jsp",
+        "locator": "보호금융상품등록부 > 예금/신탁 (기준일 2026년 7월 1일) > 정기예금 > 하나의 정기예금 | 2021-12-03 | [판매종료일 공란]",
+        "observed_at": "2026-07-31T00:01:36Z"
+      }
+    },
+    "evidence_status": "official_bank_product_explanation_and_current_sales_register_verified_with_maximum_gap",
+    "missing_fields": [
+      "deposit_krw.maximum: The official product explanation says only '1백만원 이상' and no explicit maximum or '제한없음' statement was located; maximum is intentionally not inferred as unlimited."
+    ]
+  }
+]

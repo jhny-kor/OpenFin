@@ -1,5 +1,4 @@
-// @ts-nocheck
-type ToolContext = Record<string, any>;
+import type { FinanceArtifactSet, ToolContext } from "../types/tool-context.ts";
 
 export function registerExportsTool(ctx: ToolContext): void {
   const { server, env, loadFinanceManifest, loadSearchIndexMetadata, loadFinanceArtifact, coverageReport, artifactErrors, runtimeMetadata, jsonText, READ_ONLY_TOOL_ANNOTATIONS } = ctx;
@@ -23,7 +22,7 @@ export function registerExportsTool(ctx: ToolContext): void {
         loadFinanceArtifact(env, "source_registry", manifest),
         loadFinanceArtifact(env, "source_status", manifest),
       ]);
-      const artifacts: FinanceArtifacts = { source_registry: sourceRegistry, source_status: sourceStatus, provenance_coverage: coverageArtifact };
+      const artifacts: FinanceArtifactSet = { source_registry: sourceRegistry, source_status: sourceStatus, provenance_coverage: coverageArtifact };
       const payload = {
         version: manifest.version,
         basis_date: manifest.basis_date,

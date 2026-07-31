@@ -13,6 +13,8 @@
     "verify:integrity": "node --experimental-strip-types scripts/verify-release.mjs",
     "verify:recommendation": "node --experimental-strip-types scripts/verify-release.mjs --recommendation",
     "live-regression": "node scripts/live-regression.mjs",
+    "financial-quality": "node --experimental-strip-types scripts/financial-quality.mjs",
+    "test:mutation": "node --experimental-strip-types scripts/mutation-check.mjs",
     "test": "npm run typecheck && node --experimental-strip-types --test tests/*.test.mjs",
     "typecheck": "tsc --noEmit"
   },

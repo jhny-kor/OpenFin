@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, DOCS, KNOWLEDGE, PUBLIC_BASE, RELATION_KEYS, json, writeJson, stable, sha256, publicProjection, restoreCompatibilityDates, validUrl, isoDate } from './common.mjs';
-import { deriveQuality, readReleasePolicy } from './derive-quality.mjs';
+import { deriveQuality, readCanonicalRecords, readReleasePolicy } from './derive-quality.mjs';
 
 const loadCanonical = () => {
   const records = [];
@@ -24,9 +24,12 @@ const loadCanonical = () => {
   };
   walk(KNOWLEDGE);
   const dedup = new Map(); for (const record of records) if (!dedup.has(record.id)) dedup.set(record.id, record);
-  return [...dedup.values()].filter(record => !record.id.startsWith('folder.')).sort((a,b)=>a.id.localeCompare(b.id));
+  // Strict OfferSnapshot/OfferOption objects are a separate decision layer;
+  // legacy exports and search remain product-identity/catalog projections.
+  return [...dedup.values()].filter(record => !record.id.startsWith('folder.') && !['deposit-offer', 'saving-offer', 'offer-option'].includes(record.type)).sort((a,b)=>a.id.localeCompare(b.id));
 };
 const catalog = loadCanonical();
+const decisionOffers = readCanonicalRecords().filter(record => ['deposit-offer', 'saving-offer'].includes(record.type)).sort((a, b) => a.id.localeCompare(b.id));
 const manifests = json(path.join(KNOWLEDGE,'export-manifests.json'));
 const baselineContract = json(path.join(ROOT, 'contracts/data-baseline.json'));
 const byId = new Map(catalog.map(item => [item.id, item]));
@@ -36,6 +39,21 @@ const sourceSnapshotDates = catalog.flatMap(item => [item.source_collected_at, i
 const now = process.env.OPENFIN_BUILD_AT || sourceSnapshotDates.at(-1) || 'unknown';
 const artifactEntry = (id, domain, file, payload, itemCount, extra = {}) => ({id, domain, path:`opentax/${file}`, url:`${PUBLIC_BASE}/${file}`, web_url:`${PUBLIC_BASE}/${file}`, item_count:itemCount, generated_at:now, export_checksum:sha256(payload).slice(7), ...extra});
 const writeCompact = (file, payload) => { fs.mkdirSync(path.dirname(file), {recursive:true}); fs.writeFileSync(file, JSON.stringify(payload) + '\n'); };
+const decisionOfferPayload = { version: 'OPENFIN-DECISION-OFFERS-2026.07.30.1', generated_at: now, item_count: decisionOffers.length, items: decisionOffers };
+const decisionOfferPath = path.join(DOCS, 'openfin-decision-offers-2026.json');
+writeCompact(decisionOfferPath, decisionOfferPayload);
+const decisionOfferEntry = {
+  id: 'openfin-decision-offers',
+  shard_id: 'decision-offers',
+  domain: 'decision',
+  path: 'opentax/openfin-decision-offers-2026.json',
+  url: `${PUBLIC_BASE}/openfin-decision-offers-2026.json`,
+  web_url: `${PUBLIC_BASE}/openfin-decision-offers-2026.json`,
+  item_count: decisionOffers.length,
+  export_checksum: sha256(decisionOfferPayload).slice(7),
+  content_checksum: sha256(fs.readFileSync(decisionOfferPath, 'utf8')).slice(7),
+  generated_at: now,
+};
 const legacyFiles = Object.keys(manifests).sort();
 const exportIdToFile = new Map(legacyFiles.map(file => [manifests[file].root.id, file]));
 const ownerFileById = new Map(catalog.map(item => {
@@ -47,7 +65,8 @@ const generatedExports = {};
 for (const file of legacyFiles) {
   const meta = manifests[file];
   const items = []; const referenceItems = [];
-  for (const id of meta.item_ids) {
+  const ids = [...new Set([...meta.item_ids, ...catalog.filter(item => (item.publication_memberships || []).includes(file)).map(item => item.id)])];
+  for (const id of ids) {
     const item = byId.get(id); if (!item) continue;
     (ownerFileById.get(id) === file ? items : referenceItems).push(publicProjection(item));
   }
@@ -59,12 +78,17 @@ for (const file of legacyFiles) {
   writeJson(path.join(DOCS,file), output);
 }
 const searchFiles = fs.existsSync(path.join(KNOWLEDGE,'search-shards.json')) ? json(path.join(KNOWLEDGE,'search-shards.json')) : {};
+const searchProjection = item => item.search_projection || (item.type === 'source' ? {
+  id: item.id, title: item.title, type: item.type, description: item.description || '',
+  source_urls: [item.urls?.canonical].filter(Boolean), source_basis_dates: [],
+  search_text: `${item.id} ${item.title} ${item.publisher || ''}`.toLowerCase(),
+} : null);
 const shardOutputs = [];
 for (const [file, meta] of Object.entries(searchFiles).sort(([a],[b])=>a.localeCompare(b))) {
-  const items = catalog.filter(i => i.search_shard === meta.shard_id).sort((a,b)=>(a.search_position ?? 0)-(b.search_position ?? 0)).map(i=>i.search_projection ? {
-    ...restoreCompatibilityDates(i).search_projection,
+  const items = catalog.filter(i => i.search_shard === meta.shard_id || (!i.search_shard && i.type === 'source' && meta.shard_id === 'reference')).sort((a,b)=>(a.search_position ?? 0)-(b.search_position ?? 0) || a.id.localeCompare(b.id)).map(i=>searchProjection(i) ? {
+    ...searchProjection(restoreCompatibilityDates(i)),
     source_ids:[...new Set(i.sources || [])],
-    provenance_shard:i.search_shard,
+    provenance_shard:i.search_shard || (i.type === 'source' ? 'reference' : undefined),
   } : null).filter(Boolean);
   // Search shards are verified over their JSON array payload. The search
   // index is a hot path in the Worker, so avoid recursively sorting every
@@ -232,7 +256,7 @@ const migrationArtifact = {version:'OPENFIN-MIGRATION-2026.07.28.1', generated_a
 writeJson(path.join(DOCS,'openfin-migration-manifest-2026.json'), migrationArtifact);
 const manifest = json(path.join(DOCS,'finance-ontology-manifest.json'));
 manifest.built_at=now; manifest.operational_base_url=PUBLIC_BASE; manifest.artifacts={...(manifest.artifacts||{})};
-const artifactEntries={source_registry:artifactEntry('openfin-source-registry','sources','openfin-source-registry-2026.json',sourceRegistryArtifact,sourceRegistry.length),source_status:artifactEntry('openfin-source-status','sources','openfin-source-status-2026.json',sourceStatusArtifact,statuses.length),provenance_index:artifactEntry('openfin-provenance-index','provenance','openfin-provenance-index-2026.json',provenanceArtifact,provenanceRows.length,{shards:provenanceShards}),provenance_coverage:artifactEntry('openfin-provenance-coverage','quality','openfin-provenance-coverage-report-2026.json',provenanceCoverageArtifact,1,{coverage:{external_provenance_coverage_ratio:provenanceCoverageArtifact.external_provenance_coverage_ratio,status:provenanceCoverageArtifact.status}}),relationship_index:artifactEntry('openfin-relationship-index','relations','openfin-relationship-index-2026.json',relationshipArtifact,relations.length),migration_manifest:artifactEntry('openfin-migration-manifest','quality','openfin-migration-manifest-2026.json',migrationArtifact,1)};
+const artifactEntries={source_registry:artifactEntry('openfin-source-registry','sources','openfin-source-registry-2026.json',sourceRegistryArtifact,sourceRegistry.length),source_status:artifactEntry('openfin-source-status','sources','openfin-source-status-2026.json',sourceStatusArtifact,statuses.length),provenance_index:artifactEntry('openfin-provenance-index','provenance','openfin-provenance-index-2026.json',provenanceArtifact,provenanceRows.length,{shards:provenanceShards}),provenance_coverage:artifactEntry('openfin-provenance-coverage','quality','openfin-provenance-coverage-report-2026.json',provenanceCoverageArtifact,1,{coverage:{external_provenance_coverage_ratio:provenanceCoverageArtifact.external_provenance_coverage_ratio,status:provenanceCoverageArtifact.status}}),relationship_index:artifactEntry('openfin-relationship-index','relations','openfin-relationship-index-2026.json',relationshipArtifact,relations.length),migration_manifest:artifactEntry('openfin-migration-manifest','quality','openfin-migration-manifest-2026.json',migrationArtifact,1),decision_offers:decisionOfferEntry};
 Object.assign(manifest, artifactEntries); Object.assign(manifest.artifacts, artifactEntries);
 manifest.quality_exports = [...(manifest.quality_exports || []).filter(entry => entry.id !== 'openfin-provenance-coverage'), {id:'openfin-provenance-coverage', domain:'quality', ...artifactEntries.provenance_coverage, description:'Canonical provenance coverage and source URL validation report.'}]
   .map(entry => entry.path ? {...entry, path:`opentax/${path.basename(entry.path)}`} : entry);
@@ -244,7 +268,7 @@ const liveEvidenceCommit = fs.existsSync(liveEvidencePath) ? json(liveEvidencePa
 const deploymentCommit = process.env.OPENFIN_DEPLOYMENT_COMMIT || process.env.GITHUB_SHA || (manifest.deployment_commit !== 'unknown' ? manifest.deployment_commit : null) || liveEvidenceCommit || 'unknown';
 const liveEvidenceCheckedAt = fs.existsSync(liveEvidencePath) ? json(liveEvidencePath).checked_at : null;
 const evaluationAsOf = process.env.OPENFIN_EVALUATION_AS_OF || liveEvidenceCheckedAt || now;
-const quality = deriveQuality(catalog, { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length, sourceStatusChecksum: sourceStatusArtifact ? sha256(sourceStatusArtifact).slice(7) : null, searchIndexChecksum: searchManifest.export_checksum, deploymentCommit, evaluationAsOf });
+const quality = deriveQuality(readCanonicalRecords(), { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length, sourceStatusChecksum: sourceStatusArtifact ? sha256(sourceStatusArtifact).slice(7) : null, searchIndexChecksum: searchManifest.export_checksum, deploymentCommit, evaluationAsOf });
 const normalizeLegacyExportQuality = (output, state) => {
   const summary = output.quality_summary;
   if (!summary || typeof summary !== 'object') return;
@@ -271,6 +295,17 @@ const normalizeLegacyExportQuality = (output, state) => {
   }
   for (const key of ['comparison_candidate_products', 'products_with_complete_comparison_fields', 'products_with_verified_sales_status', 'products_with_verification_evidence', 'complete_comparison_data_count', 'verified_comparison_candidate_count', 'public_comparison_candidate_count']) delete summary[key];
 };
+const legacyQualityProjection = (state) => ({
+  deprecated: true,
+  replacement_path: `domain_readiness.${state.domain}`,
+  structural_candidate_count: state.structural_candidate_count,
+  value_complete_candidate_count: state.value_complete_candidate_count,
+  field_verified_candidate_count: state.field_verified_candidate_count,
+  runtime_eligible_candidate_count: state.runtime_eligible_candidate_count,
+  public_candidate_count: state.public_candidate_count,
+  comparison_data: state.status,
+  readiness: state,
+});
 for (const [file, output] of Object.entries(generatedExports)) {
   const domain = file.includes('deposit') ? 'deposit' : file.includes('saving') ? 'saving' : file.includes('card') ? 'card' : file.includes('loan') ? 'loan' : file.includes('insurance') ? 'insurance' : null;
   if (!domain) continue;
@@ -378,6 +413,33 @@ for (const entry of manifest.quality_exports || []) {
   if (fileName === 'openfin-local-cloudflare-parity-report-2026.json') {
     Object.assign(rewritten, { measurement_status: 'not_measured', reason: 'PUBLIC_PARITY_VERIFIED_IN_DEPLOYMENT_WORKFLOW', local_cloudflare_parity_error_count: null, parity_evidence: null });
   }
+  // All quality reports are projections of domain_readiness. Keep their
+  // legacy names for clients, but never let an old report invent readiness.
+  if (['openfin-verification-coverage-report-2026.json', 'openfin-comparison-regression-report-2026.json', 'openfin-recommendation-safety-report-2026.json'].includes(fileName)) {
+    const domainRows = Object.entries(quality.domains).map(([domain, state]) => ({
+      domain,
+      structural_candidate_count: state.structural_candidate_count,
+      value_complete_candidate_count: state.value_complete_candidate_count,
+      strict_type_schema_candidate_count: state.strict_type_schema_candidate_count,
+      field_verified_candidate_count: state.field_verified_candidate_count,
+      runtime_eligible_candidate_count: state.runtime_eligible_candidate_count,
+      public_candidate_count: state.public_candidate_count,
+      status: state.status,
+      blockers: state.blockers,
+    }));
+    rewritten.canonical_quality_source = 'finance-ontology-manifest.domain_readiness';
+    rewritten.domain_readiness = domainRows;
+    rewritten.strict_field_verified_candidate_count = domainRows.reduce((n, row) => n + row.field_verified_candidate_count, 0);
+    rewritten.runtime_eligible_candidate_count = domainRows.reduce((n, row) => n + row.runtime_eligible_candidate_count, 0);
+    rewritten.public_recommendation_candidate_count = domainRows.reduce((n, row) => n + row.public_candidate_count, 0);
+    if (fileName === 'openfin-verification-coverage-report-2026.json') rewritten.field_verification_coverage = Object.fromEntries(domainRows.map(row => [row.domain, quality.domains[row.domain].field_verification_coverage]));
+    if (fileName === 'openfin-comparison-regression-report-2026.json') rewritten.comparison_data_status = quality.comparison_release_status;
+    if (fileName === 'openfin-recommendation-safety-report-2026.json') {
+      rewritten.recommendation_state = quality.recommendation_state;
+      rewritten.recommendation_enabled = quality.recommendation_enabled;
+      rewritten.blocking_reasons = quality.recommendation_blocking_reasons;
+    }
+  }
   if (JSON.stringify(rewritten) !== JSON.stringify(current)) {
     writeJson(file, rewritten);
     entry.export_checksum = sha256(rewritten).slice(7);
@@ -441,11 +503,13 @@ const qualityManifest = {
 };
 writeJson(qualityManifestPath, qualityManifest);
 manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.release_status_deprecated=true; manifest.release_status_replacement_path='core_search_status'; manifest.core_search_status=quality.core_search_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.comparison_status=quality.comparison_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_status=quality.recommendation_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash; manifest.generation_id=quality.generation_id;
+manifest.recommendation_state=quality.recommendation_state; manifest.recommendation_state_contract_version=quality.recommendation_state_contract_version; manifest.recommendation_approval_receipt=quality.recommendation_approval_receipt;
+manifest.decision_offers = decisionOfferEntry;
 manifest.deployment_commit = deploymentCommit;
 manifest.artifact_contract = artifactContract;
 manifest.source_freshness_status = statuses.every(status => status.freshness_status === 'current') ? 'ready' : 'degraded';
 manifest.live_regression_policy={required_count:readReleasePolicy().live_regression.required_count,required_mode:readReleasePolicy().live_regression.required_mode,freshness_ttl_hours:readReleasePolicy().live_regression.freshness_ttl_hours};
-manifest.quality_summary={...(manifest.quality_summary||{}), deprecated:true, replacement_path:'domain_readiness', release_status:quality.release_status, core_search_status:quality.core_search_status, comparison_status:quality.comparison_status, recommendation_status:quality.recommendation_status, recommendation_enabled:quality.recommendation_enabled, blocking_reasons:quality.blocking_reasons, export_audit:dynamicExportAudit, live_regression:quality.live_regression, finance_exports:Object.fromEntries(Object.entries(quality.domains).map(([name, state])=>[name,{deprecated:true,replacement_path:`domain_readiness.${name}`,readiness:state}]))};
+manifest.quality_summary={...(manifest.quality_summary||{}), deprecated:true, replacement_path:'domain_readiness', release_status:quality.release_status, core_search_status:quality.core_search_status, comparison_status:quality.comparison_status, recommendation_status:quality.recommendation_status, recommendation_enabled:quality.recommendation_enabled, blocking_reasons:quality.blocking_reasons, export_audit:dynamicExportAudit, live_regression:quality.live_regression, finance_exports:Object.fromEntries(Object.entries(quality.domains).map(([name, state])=>[name,legacyQualityProjection({...state,domain:name})]))};
 for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-quality-manifest') {
   entry.generated_at = now;
   entry.export_checksum = sha256(qualityManifest).slice(7);

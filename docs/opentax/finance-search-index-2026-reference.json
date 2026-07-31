@@ -4,7 +4,7 @@
   "source_review_date": "2026-07-10",
   "ontology_kind": "finance-search-index-shard",
   "shard_id": "reference",
-  "item_count": 715,
+  "item_count": 725,
   "items": [
     {
       "id": "application-channel.bokjiro",
@@ -117,6 +117,136 @@
         "source.mohw.first-meeting-voucher",
         "source.korea.youth-monthly-rent.2026"
       ]
+    },
+    {
+      "id": "source.provider.busanbank.product-documents",
+      "title": "부산은행 금융상품 공식 문서",
+      "type": "source",
+      "description": "",
+      "source_urls": [
+        "https://www.busanbank.co.kr/ib20/mnu/BHPCSC320002002"
+      ],
+      "source_basis_dates": [],
+      "search_text": "source.provider.busanbank.product-documents 부산은행 금융상품 공식 문서 부산은행",
+      "source_ids": [],
+      "provenance_shard": "reference"
+    },
+    {
+      "id": "source.provider.hana.product-documents",
+      "title": "하나은행 금융상품 공식 문서",
+      "type": "source",
+      "description": "",
+      "source_urls": [
+        "https://www.kebhana.com/cont/mall/mall08/mall0801/index.jsp"
+      ],
+      "source_basis_dates": [],
+      "search_text": "source.provider.hana.product-documents 하나은행 금융상품 공식 문서 하나은행",
+      "source_ids": [],
+      "provenance_shard": "reference"
+    },
+    {
+      "id": "source.provider.ibk.product-documents",
+      "title": "IBK기업은행 금융상품 공식 문서",
+      "type": "source",
+      "description": "",
+      "source_urls": [
+        "https://mybank.ibk.co.kr/uib/jsp/guest/ntr/ntr70/ntr7015/PNTR701500_m.jsp"
+      ],
+      "source_basis_dates": [],
+      "search_text": "source.provider.ibk.product-documents ibk기업은행 금융상품 공식 문서 ibk기업은행",
+      "source_ids": [],
+      "provenance_shard": "reference"
+    },
+    {
+      "id": "source.provider.kjbank.product-documents",
+      "title": "광주은행 금융상품 공식 문서",
+      "type": "source",
+      "description": "",
+      "source_urls": [
+        "https://www.kjbank.com/ib20/mnu/FPMDPTR030100"
+      ],
+      "source_basis_dates": [],
+      "search_text": "source.provider.kjbank.product-documents 광주은행 금융상품 공식 문서 광주은행",
+      "source_ids": [],
+      "provenance_shard": "reference"
+    },
+    {
+      "id": "source.provider.knbank.product-documents",
+      "title": "경남은행 금융상품 공식 문서",
+      "type": "source",
+      "description": "",
+      "source_urls": [
+        "https://www.knbank.co.kr/ib20/mnu/FPMDPT010000"
+      ],
+      "source_basis_dates": [],
+      "search_text": "source.provider.knbank.product-documents 경남은행 금융상품 공식 문서 경남은행",
+      "source_ids": [],
+      "provenance_shard": "reference"
+    },
+    {
+      "id": "source.provider.nonghyup.product-documents",
+      "title": "NH농협은행 금융상품 공식 문서",
+      "type": "source",
+      "description": "",
+      "source_urls": [
+        "https://banking.nonghyup.com/servlet/content/ip/ne/ipne1011c.thtml"
+      ],
+      "source_basis_dates": [],
+      "search_text": "source.provider.nonghyup.product-documents nh농협은행 금융상품 공식 문서 nh농협은행",
+      "source_ids": [],
+      "provenance_shard": "reference"
+    },
+    {
+      "id": "source.provider.sc.product-documents",
+      "title": "SC제일은행 금융상품 공식 문서",
+      "type": "source",
+      "description": "",
+      "source_urls": [
+        "https://www.standardchartered.co.kr/np/kr/pl/se/SavingList.jsp"
+      ],
+      "source_basis_dates": [],
+      "search_text": "source.provider.sc.product-documents sc제일은행 금융상품 공식 문서 sc제일은행",
+      "source_ids": [],
+      "provenance_shard": "reference"
+    },
+    {
+      "id": "source.provider.shinhan.product-documents",
+      "title": "신한은행 금융상품 공식 문서",
+      "type": "source",
+      "description": "",
+      "source_urls": [
+        "https://bank.shinhan.com/index.jsp#020200000000"
+      ],
+      "source_basis_dates": [],
+      "search_text": "source.provider.shinhan.product-documents 신한은행 금융상품 공식 문서 신한은행",
+      "source_ids": [],
+      "provenance_shard": "reference"
+    },
+    {
+      "id": "source.provider.suhyup.product-documents",
+      "title": "수협은행 금융상품 공식 문서",
+      "type": "source",
+      "description": "",
+      "source_urls": [
+        "https://www.suhyup-bank.com/ib20/mnu/FPD00118"
+      ],
+      "source_basis_dates": [],
+      "search_text": "source.provider.suhyup.product-documents 수협은행 금융상품 공식 문서 수협은행",
+      "source_ids": [],
+      "provenance_shard": "reference"
+    },
+    {
+      "id": "source.provider.tossbank.product-documents",
+      "title": "토스뱅크 금융상품 공식 문서",
+      "type": "source",
+      "description": "",
+      "source_urls": [
+        "https://www.tossbank.com/product-service/savings"
+      ],
+      "source_basis_dates": [],
+      "search_text": "source.provider.tossbank.product-documents 토스뱅크 금융상품 공식 문서 토스뱅크",
+      "source_ids": [],
+      "provenance_shard": "reference"
     },
     {
       "id": "application-channel.company-year-end-settlement",
@@ -75887,5 +76017,5 @@
       "source_ids": []
     }
   ],
-  "export_checksum": "deeeee3b9f1bb1c6fb35997a94b9ccb6f27bdb29f8a7d1ad07c4693afba21f2a"
+  "export_checksum": "e6052b8c7353af53b27f4f89c687abb9f73277445359d7f2f5051b0b8c6ee27b"
 }

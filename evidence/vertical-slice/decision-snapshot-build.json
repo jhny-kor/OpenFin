@@ -1,0 +1,70 @@
+{
+  "version": "openfin-decision-snapshots-v2",
+  "generated_at": "2026-07-31T00:05:40Z",
+  "domains": {
+    "deposit": {
+      "structural_candidate_count": 20,
+      "strict_offer_count": 20,
+      "target": 20,
+      "shortfall": 0,
+      "ids": [
+        "offer.deposit.0010019.TD11300027000.20260731",
+        "offer.deposit.0010019.TD11300035000.20260731",
+        "offer.deposit.0010019.TD11300036000.20260731",
+        "offer.deposit.0010024.21001115.20260731",
+        "offer.deposit.0010024.21001280.20260731",
+        "offer.deposit.0010024.21001285.20260731",
+        "offer.deposit.0013175.10-003-1384-0001.20260731",
+        "offer.deposit.0013175.10-003-1387-0001.20260731",
+        "offer.deposit.0014807.10120114300011.20260731",
+        "offer.deposit.0014807.10120114700011.20260731",
+        "offer.deposit.0014807.10120116100011.20260731",
+        "offer.deposit.0017801.1001202000002.20260731",
+        "offer.deposit.0010002.00320342.20260731",
+        "offer.deposit.0013909.4.20260731",
+        "offer.deposit.0010017.01030500510002.20260731",
+        "offer.deposit.0010017.01030500560002.20260731",
+        "offer.deposit.0010017.01030500600002.20260731",
+        "offer.deposit.0010026.01211310121.20260731",
+        "offer.deposit.0010026.01211310142.20260731",
+        "offer.deposit.0011625.207-0134-16.20260731"
+      ]
+    },
+    "saving": {
+      "structural_candidate_count": 20,
+      "strict_offer_count": 20,
+      "target": 20,
+      "shortfall": 0,
+      "ids": [
+        "offer.saving.0010002.00266451.20260731",
+        "offer.saving.0010017.01020400490002.20260731",
+        "offer.saving.0010017.01020400510001.20260731",
+        "offer.saving.0010017.01020400660001.20260731",
+        "offer.saving.0010017.01020400700001.20260731",
+        "offer.saving.0010019.TD11330029000.20260731",
+        "offer.saving.0010019.TD11330030000.20260731",
+        "offer.saving.0010019.TD11330031000.20260731",
+        "offer.saving.0010024.21000111.20260731",
+        "offer.saving.0010024.21001116.20260731",
+        "offer.saving.0010024.21001199.20260731",
+        "offer.saving.0010024.21001236.20260731",
+        "offer.saving.0010024.21001292.20260731",
+        "offer.saving.0013175.10-047-1365-0001.20260731",
+        "offer.saving.0013175.10-047-1381-0001.20260731",
+        "offer.saving.0013909.53.20260731",
+        "offer.saving.0014807.10141109800021.20260731",
+        "offer.saving.0017801.1001303001003.20260731",
+        "offer.saving.0017801.1001303001004.20260731",
+        "offer.saving.0017801.1001303001005.20260731"
+      ]
+    }
+  },
+  "failures": {
+    "deposit": [],
+    "saving": []
+  },
+  "recommendation_enabled": false,
+  "blocker": null,
+  "candidate_collection_checksum": "dd0910e42db5dbdc8e9edccb8136aac79af6b6832d1a69461ef97030bd0d1b28",
+  "reviewed_selection_checksum": "02fd4508ea114b76dde35ed287970ed51beee497d6ecbd575a25fc3088b54ded"
+}

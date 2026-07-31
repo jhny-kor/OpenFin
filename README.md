@@ -25,15 +25,18 @@ OpenFin은 금융 도메인 지식과 상품 데이터를 같은 출처·관계 
 
 ```sh
 npm ci
-npm run knowledge:validate
 npm run knowledge:build
 npm run knowledge:schema-validate
+npm run knowledge:validate
 npm run knowledge:derive-quality:check
 npm run knowledge:track-sources -- --dry-run --report-dir .reports/source-tracking
 npm test
+cd mcp && npm run test:mutation
 ```
 
 `knowledge:track-sources`는 기본적으로 읽기 전용입니다. 로컬 상태·영수증을 저장하려면 `npm run knowledge:track-sources:write`를 명시적으로 사용합니다. 사람이 검토하기 전에는 원본 지식이나 추천 설정을 자동 변경하지 않습니다.
+
+인증형 공식 API는 로컬 `.env`와 GitHub Actions secret의 `FINLIFE_API_KEY`, `DATA_GO_KR_SERVICE_KEY`를 사용합니다. 키가 없으면 해당 출처는 `secret-required`로 남고, 키 값은 URL·상태·영수증에 저장되지 않습니다.
 
 ## Deployment
 
@@ -53,5 +56,7 @@ npm run smoke
 ```
 
 Worker는 OpenFin Pages의 manifest와 공개 JSON만 읽습니다. 캐시는 5분 이내 만료되므로 `main` 푸시 후 Pages가 갱신되면 MCP도 최신 manifest를 바라봅니다. 역사적 provenance URL은 출처 추적용으로 보존하며 Worker 런타임의 데이터 원본으로 사용하지 않습니다.
+
+일반 `main` 푸시는 `OpenFin Immutable Release` workflow가 canonical 산출물을 한 번만 빌드해 Pages에 배포하고, 같은 commit으로 Worker 배포·120건 live regression·public parity를 순서대로 검증합니다. 개별 Pages/MCP workflow는 장애 복구용 수동 실행만 허용합니다.
 
 기존 `/OpenFin/opentax/*.json`, `finance-ontology-manifest.json`, MCP `search`·`fetch`·`exports` 인터페이스는 호환성을 위해 유지합니다. 출처 registry, 상태, provenance coverage, 관계 인덱스는 추가 공개 산출물로 제공합니다. 추천 기능은 품질 게이트와 최신 전체 live regression을 통과하기 전까지 비활성 상태입니다.

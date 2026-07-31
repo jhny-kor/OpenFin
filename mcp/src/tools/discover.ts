@@ -1,7 +1,5 @@
-// @ts-nocheck
 import { z } from "zod";
-
-type ToolContext = Record<string, any>;
+import type { ToolContext } from "../types/tool-context.ts";
 
 export function registerDiscoverTool(ctx: ToolContext): void {
   const { server, env, mcpResult, discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain, loadSearchItemsForQuery, loadFinanceArtifacts, isNamedProductQuery, strictNamedProductPayload, enrichSearchPayload, discoveryPayload, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;

@@ -4,8 +4,10 @@ import { ROOT, KNOWLEDGE, DOCS, json, sha256 } from './common.mjs';
 
 export const RELEASE_POLICY_PATH = path.join(ROOT, 'contracts/release-policy.json');
 export const PRODUCT_STATUS_PATH = path.join(ROOT, 'contracts/product-status.json');
+export const RECOMMENDATION_STATE_PATH = path.join(ROOT, 'contracts/recommendation-state.json');
 export const readReleasePolicy = () => json(RELEASE_POLICY_PATH);
 export const readProductStatus = () => json(PRODUCT_STATUS_PATH);
+export const readRecommendationState = () => json(RECOMMENDATION_STATE_PATH);
 
 export const readCanonicalRecords = (root = KNOWLEDGE) => {
   const records = [];
@@ -13,7 +15,11 @@ export const readCanonicalRecords = (root = KNOWLEDGE) => {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const file = path.join(dir, entry.name);
       if (entry.isDirectory()) walk(file);
-      else if (entry.name.endsWith('.jsonl')) for (const line of fs.readFileSync(file, 'utf8').split('\n')) if (line.trim()) records.push(JSON.parse(line));
+      else if (entry.name.endsWith('.jsonl')) {
+        for (const line of fs.readFileSync(file, 'utf8').split('\n')) {
+          if (line.trim()) records.push(JSON.parse(line));
+        }
+      }
       else if (entry.name.endsWith('.md')) {
         const text = fs.readFileSync(file, 'utf8');
         const end = text.startsWith('---\n') ? text.indexOf('\n---\n', 4) : -1;
@@ -26,6 +32,7 @@ export const readCanonicalRecords = (root = KNOWLEDGE) => {
 };
 
 const PRODUCT_TYPES = new Set(['account-product', 'bank-product', 'card-product', 'financial-product', 'insurance-product']);
+const DECISION_OFFER_TYPES = new Set(['deposit-offer', 'saving-offer']);
 const normalizeSalesStatus = value => {
   const contract = readProductStatus();
   if (contract.sales_verification_status.includes(value)) return value;
@@ -39,6 +46,7 @@ const domainFor = item => item.search_type === 'deposit' || item.product_kind ==
   : item.type === 'account-product' ? 'account' : null;
 const present = value => value !== undefined && value !== null && value !== '';
 const assertionFor = (item, field) => [
+  ...(item.field_assertions || []).filter(value => value?.field === field),
   ...(item.source_assertions || []).filter(value => value?.field === field),
   ...(item.provenance || []).filter(value => (value?.supported_fields || []).includes(field)).map(value => ({ ...value, field })),
 ];
@@ -51,7 +59,39 @@ const verifiedField = (item, field, evaluationAsOf = null) => assertionFor(item,
     && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
 });
 const fieldVerified = (item, fields) => fields.every(field => present(item[field]) && verifiedField(item, field));
-const strictDecisionCandidate = item => item.decision_critical === true;
+const strictDecisionCandidate = item => DECISION_OFFER_TYPES.has(item.type)
+  && Array.isArray(item.options) && item.options.length > 0;
+const optionFields = domain => domain === 'deposit'
+  ? ['base_rate_percent', 'maximum_rate_percent', 'term_months', 'interest_method', 'minimum_deposit_krw', 'maximum_deposit_krw']
+  : ['base_rate_percent', 'maximum_rate_percent', 'term_months', 'saving_method', 'monthly_payment_min_krw', 'monthly_payment_max_krw'];
+const rulesVerified = (item, evaluationAsOf) => ['eligibility_rules', 'bonus_rate_rules', 'early_termination_rules'].every(field =>
+  Array.isArray(item[field]) && item[field].every(rule => {
+    const assertions = rule?.field_assertions || [];
+    const required = ['predicate', 'valid_from', 'valid_to', ...(['bonus-rate', 'early-termination'].includes(rule?.rule_type) ? ['effect'] : [])];
+    return required.every(name => assertions.some(assertion => String(assertion?.field || '').endsWith(`.${name}`) || assertion?.field === name)) && assertions.every(assertion => {
+    const validTo = assertion?.valid_to ? Date.parse(assertion.valid_to) : NaN;
+    const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : NaN;
+    return assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict
+      && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
+    });
+  }));
+const strictOfferComplete = (item, domain, fields) => strictDecisionCandidate(item)
+  && fields.every(field => present(item[field]) && assertionFor(item, field).length > 0)
+  && item.options.every(option => optionFields(domain).every(field =>
+    Array.isArray(option?.field_assertions) && option.field_assertions.some(assertion => String(assertion?.field || '').endsWith(`.${field}`))));
+const strictOfferVerified = (item, domain, fields, evaluationAsOf) => strictOfferComplete(item, domain, fields)
+  && fields.every(field => verifiedField(item, field, evaluationAsOf))
+  && rulesVerified(item, evaluationAsOf)
+  && item.options.every(option => optionFields(domain).every(field =>
+    Array.isArray(option?.field_assertions) && option.field_assertions.some(assertion => {
+      const validTo = assertion?.valid_to ? Date.parse(assertion.valid_to) : NaN;
+      const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : NaN;
+      return String(assertion?.field || '').endsWith(`.${field}`)
+        && assertion.verification_status === 'verified'
+        && assertion.freshness_status === 'current'
+        && !assertion.conflict
+        && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
+    })));
 const shaFile = file => fs.existsSync(file) ? sha256(fs.readFileSync(file, 'utf8')).slice(7) : null;
 export const generationId = ({ canonicalContentChecksum, searchIndexChecksum, sourceStatusChecksum, releasePolicyChecksum, deploymentCommit }) => sha256({
   canonical_content_checksum: canonicalContentChecksum,
@@ -90,29 +130,39 @@ export const liveRegressionCurrent = (live, policy, now = Date.now(), expectedGe
 
 export const deriveQuality = (records, { sourceCount, exportCount, searchItemCount, relationshipCount, invalidUrlCount = 0, sourceStatusLoaded = true, sourceStatusChecksum = null, searchIndexChecksum = null, deploymentCommit = 'unknown', evaluationAsOf = null } = {}) => {
   const policy = readReleasePolicy();
-  const products = records.filter(item => PRODUCT_TYPES.has(item.type));
+  const recommendationState = readRecommendationState();
+  const catalogRecords = records.filter(item => !DECISION_OFFER_TYPES.has(item.type) && item.type !== 'offer-option');
+  const products = catalogRecords.filter(item => PRODUCT_TYPES.has(item.type));
+  const decisionOffers = records.filter(item => DECISION_OFFER_TYPES.has(item.type));
   const canonicalProducts = new Set(products.map(item => item.canonical_product_id || item.id));
   const domains = {};
   for (const [name, config] of Object.entries(policy.domains)) {
-    const items = products.filter(item => domainFor(item) === name);
+    const catalogItems = products.filter(item => domainFor(item) === name);
+    const offers = decisionOffers.filter(item => item.type === `${name}-offer`);
+    // Once OfferSnapshots exist, only they can establish decision readiness.
+    // Legacy catalog rows remain searchable, but never become decision units.
+    const usingOffers = ['deposit', 'saving'].includes(name) && offers.length > 0;
+    const items = usingOffers ? offers : catalogItems;
     const required = config.required_fields || [];
-    const valueComplete = items.filter(item => required.every(field => present(item[field])));
+    const valueComplete = items.filter(item => usingOffers ? strictOfferComplete(item, name, required) : required.every(field => present(item[field])));
     const schemaDefined = required.length > 0;
     const requiredFieldTotal = schemaDefined ? items.length * required.length : null;
     const valueCompleteFieldCount = schemaDefined ? items.reduce((total, item) => total + required.filter(field => present(item[field])).length, 0) : null;
-    // Entity schema validation runs before this build. decision_critical marks
-    // the records to which its strict type discriminator was successfully applied.
-    const fieldVerifiedItems = required.length ? valueComplete.filter(item => strictDecisionCandidate(item) && required.every(field => present(item[field]) && assertionFor(item, field).some(assertion => {
+    const fieldVerifiedItems = required.length ? valueComplete.filter(item => usingOffers
+      ? strictOfferVerified(item, name, required, evaluationAsOf)
+      : strictDecisionCandidate(item) && required.every(field => present(item[field]) && assertionFor(item, field).some(assertion => {
       const validTo = assertion.valid_to ? Date.parse(assertion.valid_to) : NaN;
       const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : NaN;
       return assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
     }))) : [];
-    const fieldVerifiedCount = schemaDefined ? items.reduce((total, item) => total + required.filter(field => present(item[field]) && assertionFor(item, field).some(assertion => {
+    const fieldVerifiedCount = schemaDefined ? items.reduce((total, item) => total + required.filter(field => usingOffers
+      ? verifiedField(item, field, evaluationAsOf)
+      : present(item[field]) && assertionFor(item, field).some(assertion => {
       const validTo = assertion.valid_to ? Date.parse(assertion.valid_to) : NaN;
       const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : NaN;
       return assertion.verification_status === 'verified' && assertion.freshness_status === 'current' && !assertion.conflict && (!Number.isFinite(validTo) || !Number.isFinite(evaluationTime) || validTo >= evaluationTime);
     })).length, 0) : null;
-    const runtimeEligible = fieldVerifiedItems.filter(item => normalizeSalesStatus(item.sales_verification_status) === 'verified_active' && item.sales_status === 'active' && item.freshness_status === 'current');
+    const runtimeEligible = fieldVerifiedItems.filter(item => normalizeSalesStatus(item.sales_verification_status) === 'verified_active' && (usingOffers || (item.sales_status === 'active' && item.freshness_status === 'current')));
     const threshold = config.required_verified_candidates || Infinity;
     const status = !items.length ? 'blocked'
       : !schemaDefined ? 'schema_not_defined'
@@ -123,7 +173,10 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
     const publicCount = config.comparison === 'limited_public_ready' && status === 'limited_public_ready' ? runtimeEligible.length : 0;
     domains[name] = {
       item_count: items.length,
+      catalog_item_count: catalogItems.length,
+      strict_offer_count: usingOffers ? items.length : 0,
       required_fields: required,
+      sales_verification_ttl_hours: Number.isFinite(config.sales_verification_ttl_hours) ? config.sales_verification_ttl_hours : null,
       structural_candidate_count: items.length,
       value_complete_candidate_count: valueComplete.length,
       strict_type_schema_candidate_count: valueComplete.filter(strictDecisionCandidate).length,
@@ -144,7 +197,7 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       recommendation: config.recommendation,
       recommendation_mode: config.recommendation === 'blocked' ? 'blocked' : 'owner_pilot',
       status,
-      blockers: !schemaDefined ? ['SCHEMA_NOT_DEFINED'] : !valueComplete.some(strictDecisionCandidate) ? ['STRICT_SCHEMA_NOT_APPLIED'] : !fieldVerifiedItems.length ? ['FIELD_ASSERTIONS_INCOMPLETE'] : [],
+      blockers: !schemaDefined ? ['SCHEMA_NOT_DEFINED'] : !usingOffers ? ['STRICT_OFFER_SNAPSHOT_MISSING'] : !valueComplete.length ? ['STRICT_OFFER_FIELDS_INCOMPLETE'] : !fieldVerifiedItems.length ? ['FIELD_ASSERTIONS_INCOMPLETE'] : [],
       missing_required_fields: schemaDefined ? Object.fromEntries(required.map(field => [field, items.filter(item => !present(item[field])).length])) : null,
       data_layers: {
         raw: { item_count: items.filter(item => Array.isArray(item.source_records) && item.source_records.length).length, status: items.some(item => Array.isArray(item.source_records) && item.source_records.length) ? 'available' : 'missing' },
@@ -155,10 +208,10 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
   }
   const live = liveRegressionEvidence();
   const platformReasons = [];
-  if (!records.length) platformReasons.push('canonical_records_missing');
+  if (!catalogRecords.length) platformReasons.push('canonical_records_missing');
   if (!sourceCount || !sourceStatusLoaded) platformReasons.push('source_registry_or_status_missing');
   if (invalidUrlCount > 0) platformReasons.push('invalid_source_urls');
-  if (searchItemCount !== records.length) platformReasons.push('search_index_count_mismatch');
+  if (searchItemCount !== catalogRecords.length) platformReasons.push('search_index_count_mismatch');
   if (!relationshipCount) platformReasons.push('relationship_index_missing');
   const platformReleaseStatus = platformReasons.length ? 'degraded' : 'ready';
   const comparisonReleaseStatus = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready') ? 'limited' : 'blocked';
@@ -168,17 +221,23 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
   const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : Date.now();
   const liveReady = liveRegressionCurrent(live, policy, evaluationTime, generation_id);
   const liveForManifest = { ...live, expected_generation_id: generation_id, validation_status: liveReady ? 'current' : live.status === 'current' ? 'stale_generation' : live.status };
-  const publicDomain = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready' && state.recommendation_mode === 'public');
-  const recommendationEnabled = platformReleaseStatus === 'ready' && policy.recommendation?.public_enabled === true && Boolean(policy.recommendation?.public_approval_receipt) && liveReady && publicDomain;
+  const configuredReceipt = policy.recommendation?.public_approval_receipt;
+  const receiptPath = configuredReceipt ? path.join(ROOT, configuredReceipt) : null;
+  const receipt = receiptPath && fs.existsSync(receiptPath) ? json(receiptPath) : null;
+  const publicDomain = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready' && state.public_candidate_count >= (policy.domains[name].required_verified_candidates || Infinity));
+  const receiptValid = Boolean(receipt && receipt.mode === 'public' && receipt.generation_id === generation_id && receipt.policy_version === policy.version && Date.parse(receipt.expires_at || '') > evaluationTime);
+  const recommendationEnabled = platformReleaseStatus === 'ready' && policy.recommendation?.public_enabled === true && policy.recommendation?.state === 'public' && receiptValid && liveReady && publicDomain;
   const recommendationReasons = [...platformReasons];
   if (!liveReady) recommendationReasons.push(`live_regression_${live.status || 'missing'}`);
   if (!publicDomain) recommendationReasons.push('no_public_recommendation_domain');
   if (!policy.recommendation?.public_enabled) recommendationReasons.push('public_recommendation_policy_blocked');
   if (!policy.recommendation?.public_approval_receipt) recommendationReasons.push('public_approval_receipt_missing');
+  if (policy.recommendation?.state !== 'public') recommendationReasons.push(`recommendation_state_${policy.recommendation?.state || 'missing'}`);
+  if (!receiptValid && policy.recommendation?.public_approval_receipt) recommendationReasons.push('public_approval_receipt_invalid');
   const recommendationReleaseStatus = recommendationEnabled ? 'ready' : 'blocked';
   return {
     policy_version: policy.version,
-    canonical: { item_count: records.length, source_count: sourceCount, product_count: products.length, canonical_product_count: canonicalProducts.size, export_count: exportCount, search_item_count: searchItemCount, relationship_count: relationshipCount, content_checksum: canonicalContentChecksum },
+    canonical: { item_count: catalogRecords.length, decision_snapshot_count: decisionOffers.length, source_count: sourceCount, product_count: products.length, canonical_product_count: canonicalProducts.size, export_count: exportCount, search_item_count: searchItemCount, relationship_count: relationshipCount, content_checksum: canonicalContentChecksum },
     domains,
     live_regression: liveForManifest,
     live_regression_ready: liveReady,
@@ -190,6 +249,9 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
     recommendation_status: recommendationReleaseStatus,
     release_status: platformReleaseStatus,
     recommendation_enabled: recommendationEnabled,
+    recommendation_state: policy.recommendation?.state || recommendationState.initial_state,
+    recommendation_state_contract_version: recommendationState.version,
+    recommendation_approval_receipt: receipt ? { approval_id: receipt.approval_id, mode: receipt.mode, generation_id: receipt.generation_id, expires_at: receipt.expires_at } : null,
     blocking_reasons: platformReasons,
     recommendation_blocking_reasons: [...new Set(recommendationReasons)],
     degraded_domains: Object.entries(domains).filter(([, state]) => state.status !== 'limited_public_ready').map(([name]) => name).sort(),

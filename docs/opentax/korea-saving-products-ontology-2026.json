@@ -148,8 +148,8 @@
     "structural_comparison_candidate_count": 335,
     "readiness": {
       "discovery": "ready",
-      "comparison_engine": "structural_only",
-      "comparison_data": "structural_only",
+      "comparison_engine": "limited_public_ready",
+      "comparison_data": "limited_public_ready",
       "public_recommendation": "blocked"
     },
     "blockers": {
@@ -178,12 +178,12 @@
     "legacy_overlay_public_comparison_candidate_count": 30,
     "deprecated": true,
     "replacement_path": "domain_readiness.saving",
-    "structural_candidate_count": 335,
-    "value_complete_candidate_count": 8,
-    "field_verified_candidate_count": 0,
-    "runtime_eligible_candidate_count": 0,
-    "public_candidate_count": 0,
-    "comparison_data": "structural_only"
+    "structural_candidate_count": 20,
+    "value_complete_candidate_count": 20,
+    "field_verified_candidate_count": 20,
+    "runtime_eligible_candidate_count": 20,
+    "public_candidate_count": 20,
+    "comparison_data": "limited_public_ready"
   },
   "item_count": 380,
   "reference_item_count": 45,
@@ -30597,7 +30597,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "maximum_rate_percent",
@@ -30612,7 +30614,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "term_months",
@@ -30627,7 +30631,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "saving_method",
@@ -30642,7 +30648,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "preferential_rate_conditions",
@@ -30657,7 +30665,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_min_krw",
@@ -30672,7 +30682,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_max_krw",
@@ -30687,7 +30699,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "early_termination_condition",
@@ -30702,7 +30716,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_member",
@@ -30717,7 +30733,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_channel",
@@ -30732,7 +30750,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "sales_verification_status",
@@ -30747,7 +30767,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "deposit_protection_status",
@@ -30762,7 +30784,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         }
       ],
       "source_ids": [
@@ -45754,7 +45778,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "maximum_rate_percent",
@@ -45769,7 +45795,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "term_months",
@@ -45784,7 +45812,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "saving_method",
@@ -45799,7 +45829,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "preferential_rate_conditions",
@@ -45814,7 +45846,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_min_krw",
@@ -45829,7 +45863,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_max_krw",
@@ -45844,7 +45880,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "early_termination_condition",
@@ -45859,7 +45897,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_member",
@@ -45874,7 +45914,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_channel",
@@ -45889,7 +45931,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "sales_verification_status",
@@ -45904,7 +45948,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "deposit_protection_status",
@@ -45919,7 +45965,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         }
       ],
       "source_ids": [
@@ -61825,7 +61873,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "maximum_rate_percent",
@@ -61840,7 +61890,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "term_months",
@@ -61855,7 +61907,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "saving_method",
@@ -61870,7 +61924,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "preferential_rate_conditions",
@@ -61885,7 +61941,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_min_krw",
@@ -61900,7 +61958,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_max_krw",
@@ -61915,7 +61975,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "early_termination_condition",
@@ -61930,7 +61992,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_member",
@@ -61945,7 +62009,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_channel",
@@ -61960,7 +62026,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "sales_verification_status",
@@ -61975,7 +62043,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "deposit_protection_status",
@@ -61990,7 +62060,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         }
       ],
       "source_ids": [
@@ -62988,7 +63060,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "maximum_rate_percent",
@@ -63003,7 +63077,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "term_months",
@@ -63018,7 +63094,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "saving_method",
@@ -63033,7 +63111,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "preferential_rate_conditions",
@@ -63048,7 +63128,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_min_krw",
@@ -63063,7 +63145,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_max_krw",
@@ -63078,7 +63162,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "early_termination_condition",
@@ -63093,7 +63179,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_member",
@@ -63108,7 +63196,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_channel",
@@ -63123,7 +63213,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "sales_verification_status",
@@ -63138,7 +63230,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "deposit_protection_status",
@@ -63153,7 +63247,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         }
       ],
       "source_ids": [
@@ -64151,7 +64247,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "maximum_rate_percent",
@@ -64166,7 +64264,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "term_months",
@@ -64181,7 +64281,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "saving_method",
@@ -64196,7 +64298,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "preferential_rate_conditions",
@@ -64211,7 +64315,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_min_krw",
@@ -64226,7 +64332,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_max_krw",
@@ -64241,7 +64349,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "early_termination_condition",
@@ -64256,7 +64366,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_member",
@@ -64271,7 +64383,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_channel",
@@ -64286,7 +64400,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "sales_verification_status",
@@ -64301,7 +64417,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "deposit_protection_status",
@@ -64316,7 +64434,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         }
       ],
       "source_ids": [
@@ -65314,7 +65434,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "maximum_rate_percent",
@@ -65329,7 +65451,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "term_months",
@@ -65344,7 +65468,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "saving_method",
@@ -65359,7 +65485,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "preferential_rate_conditions",
@@ -65374,7 +65502,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_min_krw",
@@ -65389,7 +65519,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_max_krw",
@@ -65404,7 +65536,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "early_termination_condition",
@@ -65419,7 +65553,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_member",
@@ -65434,7 +65570,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_channel",
@@ -65449,7 +65587,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "sales_verification_status",
@@ -65464,7 +65604,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "deposit_protection_status",
@@ -65479,7 +65621,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         }
       ],
       "source_ids": [
@@ -253044,7 +253188,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "maximum_rate_percent",
@@ -253059,7 +253205,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "term_months",
@@ -253074,7 +253222,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "saving_method",
@@ -253089,7 +253239,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "preferential_rate_conditions",
@@ -253104,7 +253256,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_min_krw",
@@ -253119,7 +253273,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_max_krw",
@@ -253134,7 +253290,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "early_termination_condition",
@@ -253149,7 +253307,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_member",
@@ -253164,7 +253324,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_channel",
@@ -253179,7 +253341,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "sales_verification_status",
@@ -253194,7 +253358,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "deposit_protection_status",
@@ -253209,7 +253375,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         }
       ],
       "source_ids": [
@@ -254443,7 +254611,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "maximum_rate_percent",
@@ -254458,7 +254628,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "term_months",
@@ -254473,7 +254645,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "saving_method",
@@ -254488,7 +254662,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "preferential_rate_conditions",
@@ -254503,7 +254679,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_min_krw",
@@ -254518,7 +254696,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "monthly_payment_max_krw",
@@ -254533,7 +254713,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "early_termination_condition",
@@ -254548,7 +254730,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_member",
@@ -254563,7 +254747,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "join_channel",
@@ -254578,7 +254764,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "sales_verification_status",
@@ -254593,7 +254781,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         },
         {
           "field": "deposit_protection_status",
@@ -254608,7 +254798,9 @@
           "verification_status": "verified",
           "freshness_status": "current",
           "conflict": false,
-          "verification_method": "official_api_record_reviewed"
+          "verification_method": "official_api_record_reviewed",
+          "valid_from": "2026-07-18T00:00:00Z",
+          "valid_to": null
         }
       ],
       "source_ids": [
@@ -299428,5 +299620,5 @@
       "provenance_shard": "reference"
     }
   ],
-  "export_checksum": "68dfee94759e3d86aee0704573d89d0cd5d2b32ed2c8017481578f4283348b33"
+  "export_checksum": "9199d8886cc321982f863f48d7c1d25f03ea54da88fad4784f5d82def89554f7"
 }

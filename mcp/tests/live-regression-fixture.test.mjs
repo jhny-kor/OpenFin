@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import test from "node:test";
 
-const file = new URL("../../tests/golden/openfin-120.jsonl", import.meta.url);
+const file = new URL("../../tests/golden/openfin-runtime-contract-120.jsonl", import.meta.url);
 const cases = fs.readFileSync(file, "utf8").trim().split("\n").map(JSON.parse);
 const semanticHash = (entry) => crypto.createHash("sha256").update(JSON.stringify({
   tool: entry.tool,

@@ -1,0 +1,608 @@
+[
+  {
+    "product_code": "01030500510002",
+    "provider": "부산은행",
+    "product": "LIVE정기예금",
+    "source_urls": [
+      {
+        "url": "https://www.busanbank.co.kr/vupload/customer/fia/anns/LIVE%EC%A0%95%EA%B8%B0%EC%98%88%EA%B8%88_%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C(2026.07.23).pdf",
+        "source_type": "official_product_description_pdf",
+        "locator": "p.1 '가입금액'; p.2 '중도해지 이율 및 산출근거'",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.busanbank.co.kr/ib20/mnu/BHPCSC320002002",
+        "source_type": "official_disclosure_index",
+        "locator": "거치식예금 표의 'LIVE정기예금' 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_amount_krw": 10000000,
+        "maximum_amount": "제한없음",
+        "evidence": "최소 1천만원 이상 (제한없음)"
+      },
+      "early_termination": {
+        "rule": "신규가입일 당시 고시한 예치기간별 중도해지이율로 계산하며 최저이율은 연 0.01%이다. 특별판매 우대이율은 중도해지 시 적용하지 않는다.",
+        "rates": [
+          { "elapsed_period": "6개월 미만", "formula": "기본이율 × 40% × 경과일수/계약일수" },
+          { "elapsed_period": "6개월 이상 9개월 미만", "formula": "기본이율 × 70% × 경과일수/계약일수" },
+          { "elapsed_period": "9개월 이상 11개월 미만", "formula": "기본이율 × 80% × 경과일수/계약일수" },
+          { "elapsed_period": "11개월 이상 만기일 전일", "formula": "기본이율 × 90% × 경과일수/계약일수" }
+        ],
+        "minimum_rate_percent": 0.01
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "현재 공식 상품공시실 거치식예금 표에 상품과 2026.07.23 상품설명서가 게시되어 있다.",
+        "locator": "상품공시실 > 거치식예금 > LIVE정기예금 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": []
+  },
+  {
+    "product_code": "01030500560002",
+    "provider": "부산은행",
+    "product": "더(The) 특판 정기예금",
+    "source_urls": [
+      {
+        "url": "https://www.busanbank.co.kr/vupload/customer/fia/anns/(2026.07.14)_%EB%8D%94(The)%ED%8A%B9%ED%8C%90%EC%A0%95%EA%B8%B0%EC%98%88%EA%B8%88(10%ED%9A%8C%EC%B0%A8)_%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C(1).pdf",
+        "source_type": "official_product_description_pdf",
+        "locator": "p.1 '가입금액' 및 '판매기간'; p.3 '중도해지 이율 및 산출근거'",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.busanbank.co.kr/ib20/mnu/BHPCSC320002002",
+        "source_type": "official_disclosure_index",
+        "locator": "거치식예금 표의 '더(The) 특판 정기예금' 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_amount_krw": 1000000,
+        "maximum_amount": "제한없음",
+        "evidence": "최소 1백만원 이상 제한 없음 (원 단위)"
+      },
+      "early_termination": {
+        "rule": "신규가입일 당시 고시한 예치기간별 중도해지이율로 계산하며 최저이율은 연 0.01%이다.",
+        "rates": [
+          { "elapsed_period": "6개월 미만", "formula": "기본이율 × 40% × 경과일수/계약일수" },
+          { "elapsed_period": "6개월 이상 9개월 미만", "formula": "기본이율 × 70% × 경과일수/계약일수" },
+          { "elapsed_period": "9개월 이상 11개월 미만", "formula": "기본이율 × 80% × 경과일수/계약일수" },
+          { "elapsed_period": "11개월 이상 만기일 전일", "formula": "기본이율 × 90% × 경과일수/계약일수" }
+        ],
+        "minimum_rate_percent": 0.01
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "상품설명서에 판매기간이 2026.03.20~2027.07.12로 명시되어 있고, 현재 상품공시실에도 게시되어 있다. 단, 설명서는 시장상황 등에 따라 별도 고지 없이 사전 종료될 수 있다고 명시한다.",
+        "locator": "상품설명서 p.1 '판매기간'; 상품공시실 거치식예금 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": []
+  },
+  {
+    "product_code": "01030500600002",
+    "provider": "부산은행",
+    "product": "더(The) 레벨업 정기예금",
+    "source_urls": [
+      {
+        "url": "https://www.busanbank.co.kr/vupload/customer/fia/anns/(2026.07.08)_%EB%8D%94(The)%EB%A0%88%EB%B2%A8%EC%97%85%EC%A0%95%EA%B8%B0%EC%98%88%EA%B8%88_%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C.pdf",
+        "source_type": "official_product_description_pdf",
+        "locator": "p.1 '가입금액'; p.2 '중도해지 이율 및 산출근거'",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.busanbank.co.kr/ib20/mnu/BHPCSC320002002",
+        "source_type": "official_disclosure_index",
+        "locator": "거치식예금 표의 '더(The) 레벨업 정기예금' 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_amount_krw": 1000000,
+        "maximum_amount": "제한없음",
+        "evidence": "최소 1백만원 이상 제한 없음 (원 단위)"
+      },
+      "early_termination": {
+        "rule": "신규가입일 당시 고시한 예치기간별 중도해지이율로 계산하며 최저이율은 연 0.01%이다.",
+        "rates": [
+          { "elapsed_period": "6개월 미만", "formula": "기본이율 × 40% × 경과일수/계약일수" },
+          { "elapsed_period": "6개월 이상 9개월 미만", "formula": "기본이율 × 70% × 경과일수/계약일수" },
+          { "elapsed_period": "9개월 이상 11개월 미만", "formula": "기본이율 × 80% × 경과일수/계약일수" },
+          { "elapsed_period": "11개월 이상 만기일 전일", "formula": "기본이율 × 90% × 경과일수/계약일수" }
+        ],
+        "minimum_rate_percent": 0.01
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "현재 공식 상품공시실 거치식예금 표에 상품과 2026.07.08 상품설명서가 게시되어 있다.",
+        "locator": "상품공시실 > 거치식예금 > 더(The) 레벨업 정기예금 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": []
+  },
+  {
+    "product_code": "01020400700001",
+    "provider": "부산은행",
+    "product": "Only One 주거래 우대적금",
+    "source_urls": [
+      {
+        "url": "https://www.busanbank.co.kr/vupload/customer/fia/anns/OnlyOne%EC%A3%BC%EA%B1%B0%EB%9E%98%EC%9A%B0%EB%8C%80%EC%A0%81%EA%B8%88_%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C(2026.07.23).pdf",
+        "source_type": "official_product_description_pdf",
+        "locator": "p.1 '가입금액'; '중도해지 이율 및 산출근거' 절",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.busanbank.co.kr/ib20/mnu/BHPCSC319002001",
+        "source_type": "official_disclosure_index",
+        "locator": "적립식예금 표의 'Only One 주거래 우대적금' 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_monthly_amount_krw": 1000,
+        "maximum_monthly_amount_krw": 500000,
+        "evidence": "월 1천원 이상 50만원 이하"
+      },
+      "early_termination": {
+        "rule": "사망·상속에 의한 중도해지를 제외한 만기 전 해지는 신규가입일 당시 고시한 중도해지이율로 계산하며 최저이율은 연 0.01%이다.",
+        "rates": [
+          { "elapsed_period": "6개월 미만", "formula": "기본이율 × 40% × 경과일수/계약일수" },
+          { "elapsed_period": "6개월 이상 9개월 미만", "formula": "기본이율 × 70% × 경과일수/계약일수" },
+          { "elapsed_period": "9개월 이상 11개월 미만", "formula": "기본이율 × 80% × 경과일수/계약일수" },
+          { "elapsed_period": "11개월 이상 만기일 전일", "formula": "기본이율 × 90% × 경과일수/계약일수" }
+        ],
+        "minimum_rate_percent": 0.01
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "현재 공식 상품공시실 적립식예금 표에 상품과 2026.07.23 상품설명서가 게시되어 있다.",
+        "locator": "상품공시실 > 적립식예금 > Only One 주거래 우대적금 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": []
+  },
+  {
+    "product_code": "01020400510001",
+    "provider": "부산은행",
+    "product": "저탄소 실천 적금",
+    "source_urls": [
+      {
+        "url": "https://www.busanbank.co.kr/vupload/customer/fia/anns/%EC%A0%80%ED%83%84%EC%86%8C%EC%8B%A4%EC%B2%9C%EC%A0%81%EA%B8%88_%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C(2026.07.23).pdf",
+        "source_type": "official_product_description_pdf",
+        "locator": "p.1 '가입금액'; p.3 '중도해지 이율 및 산출근거'",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.busanbank.co.kr/ib20/mnu/BHPCSC319002001",
+        "source_type": "official_disclosure_index",
+        "locator": "적립식예금 표의 '저탄소 실천 적금' 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_monthly_amount_krw": 10000,
+        "maximum_monthly_amount_krw": 10000000,
+        "evidence": "1만원 이상 1천만원 이하 (원 단위), 월 1천만원 이하 적립 가능"
+      },
+      "early_termination": {
+        "rule": "신규가입일 당시 고시한 예치기간별 중도해지이율로 계산하며 최저이율은 연 0.01%이다.",
+        "rates": [
+          { "elapsed_period": "6개월 미만", "formula": "기본이율 × 40% × 경과일수/계약일수" },
+          { "elapsed_period": "6개월 이상 9개월 미만", "formula": "기본이율 × 70% × 경과일수/계약일수" },
+          { "elapsed_period": "9개월 이상 11개월 미만", "formula": "기본이율 × 80% × 경과일수/계약일수" },
+          { "elapsed_period": "11개월 이상 만기일 전일", "formula": "기본이율 × 90% × 경과일수/계약일수" }
+        ],
+        "minimum_rate_percent": 0.01
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "현재 공식 상품공시실 적립식예금 표에 상품과 2026.07.23 상품설명서가 게시되어 있다.",
+        "locator": "상품공시실 > 적립식예금 > 저탄소 실천 적금 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": []
+  },
+  {
+    "product_code": "01020400490002",
+    "provider": "부산은행",
+    "product": "펫 적금",
+    "source_urls": [
+      {
+        "url": "https://www.busanbank.co.kr/vupload/customer/fia/anns/%ED%8E%AB%EC%A0%81%EA%B8%88_%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C(2026.07.23).pdf",
+        "source_type": "official_product_description_pdf",
+        "locator": "p.1 '가입금액'; p.3 '중도해지 이율 및 산출근거'",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.busanbank.co.kr/ib20/mnu/BHPCSC319002001",
+        "source_type": "official_disclosure_index",
+        "locator": "적립식예금 표의 '펫 적금' 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_monthly_amount_krw": 10000,
+        "maximum_monthly_amount_krw": 500000,
+        "evidence": "정액적립식·자유적립식 모두 월 1만원 이상 50만원 이하; 자유적립식은 월 50만원 이하 적립 가능"
+      },
+      "early_termination": {
+        "rule": "신규가입일 당시 고시한 예치기간별 중도해지이율로 계산하며 최저이율은 연 0.01%이다.",
+        "rates": [
+          { "elapsed_period": "6개월 미만", "formula": "기본이율 × 40% × 경과일수/계약일수" },
+          { "elapsed_period": "6개월 이상 9개월 미만", "formula": "기본이율 × 70% × 경과일수/계약일수" },
+          { "elapsed_period": "9개월 이상 11개월 미만", "formula": "기본이율 × 80% × 경과일수/계약일수" },
+          { "elapsed_period": "11개월 이상 만기일 전일", "formula": "기본이율 × 90% × 경과일수/계약일수" }
+        ],
+        "minimum_rate_percent": 0.01
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "현재 공식 상품공시실 적립식예금 표에 상품과 2026.07.23 상품설명서가 게시되어 있다.",
+        "locator": "상품공시실 > 적립식예금 > 펫 적금 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": []
+  },
+  {
+    "product_code": "10511008001166004",
+    "provider": "iM뱅크",
+    "product": "iM함께예금",
+    "source_urls": [
+      {
+        "url": "https://www.imbank.co.kr/upload/newbbs/FNM001/202503041842584034974161.pdf",
+        "source_type": "official_product_description_pdf",
+        "locator": "p.1 '가입금액' 및 문서 적용기간(2025.03.05~2027.02.28); p.3 '중도해지이자율'",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.imbank.co.kr/cms/fnm/deposit/rate/02/sda_2322/1238351_2324.html",
+        "source_type": "official_early_termination_rate_page",
+        "locator": "정기예금 중도해지이자율 표의 'iM함께예금' (판매종료상품 표 앞)",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_amount_krw": 1000000,
+        "evidence": "가입금액 100만원 이상"
+      },
+      "early_termination": {
+        "rule": "기본이율에 경과기간별 적용률을 곱한 이율을 적용한다. 특별중도해지(본인 결혼, 출산, 주택구입 증빙)는 별도 표가 적용된다.",
+        "rates": [
+          { "elapsed_period": "약정기간의 20% 미만", "formula": "기본이율 × 10%" },
+          { "elapsed_period": "20% 이상 40% 미만", "formula": "기본이율 × 20%" },
+          { "elapsed_period": "40% 이상 60% 미만", "formula": "기본이율 × 40%" },
+          { "elapsed_period": "60% 이상 80% 미만", "formula": "기본이율 × 60%" },
+          { "elapsed_period": "80% 이상 100% 미만", "formula": "기본이율 × 80%" }
+        ],
+        "special_early_termination_rates": [
+          { "elapsed_period": "3개월 미만", "rate_percent": 1.35 },
+          { "elapsed_period": "3개월 이상 6개월 미만", "rate_percent": 1.47 },
+          { "elapsed_period": "6개월 이상 9개월 미만", "rate_percent": 1.87 },
+          { "elapsed_period": "9개월 이상", "rate_percent": 1.87 }
+        ]
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "공식 정기예금 중도해지이자율의 현행 상품 표에 iM함께예금이 있으며, 별도 판매종료상품 표보다 앞에 있다.",
+        "locator": "정기예금 중도해지이자율 > iM함께예금",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    },
+    "evidence_status": "official_terms_validity_window_and_current_rate_listing",
+    "missing_fields": ["maximum_amount_krw"]
+  },
+  {
+    "product_code": "10511008001278000",
+    "provider": "iM뱅크",
+    "product": "iM스마트예금",
+    "source_urls": [
+      {
+        "url": "https://www.imbank.co.kr/cms/fnm/deposit/product/03/1229001_2391.html",
+        "source_type": "official_product_page",
+        "locator": "상품안내 > 가입금액; 중도해지이자율 안내",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.imbank.co.kr/cms/fnm/deposit/rate/02/sda_2322/1238351_2324.html",
+        "source_type": "official_early_termination_rate_page",
+        "locator": "정기예금 중도해지이자율 표의 'iM스마트예금' (판매종료상품 표 앞)",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_amount_krw": 1000000,
+        "evidence": "가입금액 100만원 이상"
+      },
+      "early_termination": {
+        "rule": "만기 전 해지 시 기본이율보다 낮은 중도해지이율을 적용하고 우대이율은 적용하지 않는다.",
+        "rates": [
+          { "elapsed_period": "약정기간의 20% 미만", "formula": "기본이율 × 10%" },
+          { "elapsed_period": "20% 이상 40% 미만", "formula": "기본이율 × 20%" },
+          { "elapsed_period": "40% 이상 60% 미만", "formula": "기본이율 × 40%" },
+          { "elapsed_period": "60% 이상 80% 미만", "formula": "기본이율 × 60%" },
+          { "elapsed_period": "80% 이상 100% 미만", "formula": "기본이율 × 80%" }
+        ]
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "현재 공식 상품 페이지와 현행 정기예금 중도해지이자율 표 모두에 iM스마트예금이 게시되어 있다.",
+        "locator": "상품안내 페이지; 정기예금 중도해지이자율 > iM스마트예금",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": ["maximum_amount_krw"]
+  },
+  {
+    "product_code": "10521001001166004",
+    "provider": "iM뱅크",
+    "product": "iM함께적금",
+    "source_urls": [
+      {
+        "url": "https://www.imbank.co.kr/upload/newbbs/FNM001/202503041924527264929452.pdf",
+        "source_type": "official_product_description_pdf",
+        "locator": "p.1 '가입금액' 및 문서 적용기간(2025.03.05~2027.02.28); p.3 '중도해지이자율'",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.imbank.co.kr/cms/fnm/deposit/rate/01/0102/1236652_2321.html",
+        "source_type": "official_early_termination_rate_page",
+        "locator": "적립식예금 중도해지이자율 표의 'iM함께적금' (판매종료상품 표 앞)",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_monthly_amount_krw": 100000,
+        "evidence": "월 10만원 이상"
+      },
+      "early_termination": {
+        "rule": "각 회차별 납입금의 예치기간에 따라 기본이율에 적용률을 곱한 이율을 적용한다. 특별중도해지(본인 결혼, 출산, 주택구입 증빙)는 별도 표가 적용된다.",
+        "rates": [
+          { "elapsed_period": "각 회차별 약정기간의 20% 미만", "formula": "기본이율 × 10%" },
+          { "elapsed_period": "20% 이상 40% 미만", "formula": "기본이율 × 20%" },
+          { "elapsed_period": "40% 이상 60% 미만", "formula": "기본이율 × 40%" },
+          { "elapsed_period": "60% 이상 80% 미만", "formula": "기본이율 × 60%" },
+          { "elapsed_period": "80% 이상 100% 미만", "formula": "기본이율 × 80%" }
+        ],
+        "special_early_termination_rates": [
+          { "elapsed_period": "3개월 미만", "rate_percent": 1.35 },
+          { "elapsed_period": "3개월 이상 6개월 미만", "rate_percent": 1.47 },
+          { "elapsed_period": "6개월 이상 9개월 미만", "rate_percent": 1.87 },
+          { "elapsed_period": "9개월 이상", "rate_percent": 1.87 }
+        ]
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "공식 적립식예금 중도해지이자율의 현행 상품 표에 iM함께적금이 있으며, 별도 판매종료상품 표보다 앞에 있다.",
+        "locator": "적립식예금 중도해지이자율 > iM함께적금",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    },
+    "evidence_status": "official_terms_validity_window_and_current_rate_listing",
+    "missing_fields": ["maximum_monthly_amount_krw"]
+  },
+  {
+    "product_code": "01020400660001",
+    "provider": "부산은행",
+    "product": "부산이라 좋다 Big적금",
+    "source_urls": [
+      {
+        "url": "https://www.busanbank.co.kr/vupload/customer/fia/anns/%EB%B6%80%EC%82%B0%EC%9D%B4%EB%9D%BC%EC%A2%8B%EB%8B%A4Big%EC%A0%81%EA%B8%88_%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C(2026.07.23).pdf",
+        "source_type": "official_product_description_pdf",
+        "locator": "'거래 조건' > '가입금액'; '중도해지 이율 및 산출근거'",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.busanbank.co.kr/ib20/mnu/BHPCSC319002001",
+        "source_type": "official_disclosure_index",
+        "locator": "적립식예금 표의 '부산이라 좋다 Big적금' 행; 2026.07.23 상품설명서 다운로드",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_monthly_amount_krw": 1000,
+        "maximum_monthly_amount_krw": 1000000,
+        "evidence": "월 1천원 이상 ~ 월 100만원 이하 (원단위)"
+      },
+      "early_termination": {
+        "rule": "사망에 따른 상속 해지 외 만기 전 지급청구에는 신규가입일 당시 고시한 예치기간별 중도해지이율을 적용한다. 최저이율은 연 0.01%이며, 중도해지이율과 중도해지이자는 각각 가입일 당시 기본이율 및 가입 당시 약정 세전 이자금액을 초과할 수 없다.",
+        "rates": [
+          { "elapsed_period": "6개월 미만", "formula": "기본이율 × 40% × 경과일수/계약일수" },
+          { "elapsed_period": "6개월 이상 9개월 미만", "formula": "기본이율 × 70% × 경과일수/계약일수" },
+          { "elapsed_period": "9개월 이상 11개월 미만", "formula": "기본이율 × 80% × 경과일수/계약일수" },
+          { "elapsed_period": "11개월 이상 만기일 전일", "formula": "기본이율 × 90% × 경과일수/계약일수" }
+        ],
+        "minimum_rate_percent": 0.01
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "현재 공식 상품공시실 적립식예금 표에 상품과 2026.07.23 상품설명서가 게시되어 있다.",
+        "locator": "상품공시실 > 적립식예금 > 부산이라 좋다 Big적금 행",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      "deposit_protection": {
+        "value": true,
+        "source_url": "https://www.busanbank.co.kr/vupload/customer/fia/anns/%EB%B6%80%EC%82%B0%EC%9D%B4%EB%9D%BC%EC%A2%8B%EB%8B%A4Big%EC%A0%81%EA%B8%88_%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C(2026.07.23).pdf",
+        "locator": "'예금자보호여부' 항목: 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지 보호",
+        "observed_at": "2026-07-31T00:10:39Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": []
+  },
+  {
+    "product_code": "10-01-20-024-0063-0000",
+    "provider": "전북은행",
+    "product": "내맘 쏙 정기예금",
+    "source_urls": [
+      {
+        "url": "https://www.jbbank.co.kr/FILEDOWNLOAD.act",
+        "source_type": "official_product_description_pdf_download",
+        "request": { "method": "POST", "_COM_FILE_DP_": "GOODS_INFO", "_COM_FILE_NAME_": "10_99_0083_1804.pdf" },
+        "locator": "p.1 '가입금액'; p.2 '중도해지이자율'",
+        "observed_at": "2026-07-30T23:53:47Z"
+      },
+      {
+        "url": "https://www.jbbank.co.kr/EBCIB_GDSDT_I_R001.jct",
+        "source_type": "official_product_detail_endpoint",
+        "request": { "method": "POST", "GDS_WHOL_CD": "10012002400630000" },
+        "locator": "GDS_DTL_VAL 상품정보: OPNG_STRT_DTTM=20260522000000, OPNG_END_DTTM=29991231000000, UZ_YN=Y",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_amount_krw": 100000,
+        "evidence": "계좌당 10만원 이상"
+      },
+      "early_termination": {
+        "rule": "만기일 이전 해지는 입금일부터 해지일 전일까지의 기간에 아래 이율을 적용한다. 만기 전 부분인출은 2회 이내이며, 부분인출액에는 정해진 중도해지이자를 지급한다.",
+        "rates": [
+          { "elapsed_period": "1개월 미만", "rate_percent": 0.01 },
+          { "elapsed_period": "약정기간의 1개월 이상 20% 이내", "formula": "신규일 당시 계약기간별 기본이율의 1/10" },
+          { "elapsed_period": "약정기간의 20% 초과 40% 이내", "formula": "신규일 당시 계약기간별 기본이율의 2/10" },
+          { "elapsed_period": "약정기간의 40% 초과 60% 이내", "formula": "신규일 당시 계약기간별 기본이율의 4/10" },
+          { "elapsed_period": "약정기간의 60% 초과 80% 이내", "formula": "신규일 당시 계약기간별 기본이율의 6/10" },
+          { "elapsed_period": "약정기간의 80% 초과 100% 미만", "formula": "신규일 당시 계약기간별 기본이율의 8/10" }
+        ]
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "공식 상품상세 응답이 사용여부 UZ_YN=Y, 판매시작일 2026-05-22, 판매종료일 2999-12-31을 반환한다.",
+        "locator": "EBCIB_GDSDT_I_R001.jct 응답 GDS_DTL_VAL",
+        "observed_at": "2026-07-30T23:53:47Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": ["maximum_amount_krw"]
+  },
+  {
+    "product_code": "01211310121",
+    "provider": "IBK기업은행",
+    "product": "IBK평생한가족통장(실세금리정기예금)",
+    "source_urls": [
+      {
+        "url": "https://mybank.ibk.co.kr/uib/jsp/guest/ntr/ntr70/ntr7010/PNTR701000_i2.jsp?MENU_DIV=GNB&grcd=21&lncd=01&pdcd=0121&tmcd=131",
+        "source_type": "official_current_product_page",
+        "locator": "상품요약 > 가입금액; 금리정보 > 중도해지이율; 페이지 하단 '2026.07.31 현재 기준'",
+        "observed_at": "2026-07-31T00:04:54Z"
+      },
+      {
+        "url": "https://www.ibk.co.kr/common/download.ibk?seq=406013&fullName=/fup/customer/form/2025082714435312086099839593537.pdf&fileName=%28%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C%29IBK%ED%8F%89%EC%83%9D%ED%95%9C%EA%B0%80%EC%A1%B1%ED%86%B5%EC%9E%A5%28%EC%A0%95%EA%B8%B0%EC%98%88%EA%B8%88%29.pdf&category=link&prdcCd=01211310121***********&bswrcd=UIB02&espncd=",
+        "source_type": "official_product_description_pdf",
+        "locator": "IBK 현재 상품 페이지 > 약관 > 'IBK평생한가족통장(실세금리정기예금)_상품설명서' 다운로드 링크",
+        "observed_at": "2026-07-31T00:04:54Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_amount_krw": 1000000,
+        "maximum_amount_krw": 100000000,
+        "evidence": "최소 100만원 이상 통합한도 1억원 이내; 중금채·정기예금 합산 1인당 최대 1억원, 계좌수 제한 없음"
+      },
+      "early_termination": {
+        "rule": "신규가입일 당시 영업점 및 인터넷 홈페이지에 고시한 실세금리정기예금의 중도해지금리를 적용하며, 모든 구간 최저금리는 연 0.1%이다.",
+        "rates": [
+          { "elapsed_period": "납입기간 경과비율 10% 미만", "formula": "가입일 현재 계약기간별 기본금리 × 5%" },
+          { "elapsed_period": "10% 이상 20% 미만", "formula": "가입일 현재 계약기간별 기본금리 × 10%" },
+          { "elapsed_period": "20% 이상 40% 미만", "formula": "가입일 현재 계약기간별 기본금리 × 20%" },
+          { "elapsed_period": "40% 이상 60% 미만", "formula": "가입일 현재 계약기간별 기본금리 × 40%" },
+          { "elapsed_period": "60% 이상 80% 미만", "formula": "가입일 현재 계약기간별 기본금리 × 60%" },
+          { "elapsed_period": "80% 이상", "formula": "가입일 현재 계약기간별 기본금리 × 80%" }
+        ],
+        "minimum_rate_percent": 0.1,
+        "special_early_termination": "대학입학, 취업·창업, 결혼, 출산, 주택구입 또는 본인 사망 사유의 증빙서류를 발생 전후 3개월 이내에 제출하면 가입일 당시 실세금리정기예금의 경과기간 해당 고시금리를 적용한다."
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "공식 상품 페이지가 2026.07.31 현재 기준으로 게시되고 유효기간(2026.06.01~2027.05.28)을 표시한다.",
+        "locator": "상품 페이지 하단 > 준법감시인 심의필 및 기준일",
+        "observed_at": "2026-07-31T00:04:54Z"
+      },
+      "deposit_protection": {
+        "value": true,
+        "source_url": "https://www.ibk.co.kr/common/download.ibk?seq=406013&fullName=/fup/customer/form/2025082714435312086099839593537.pdf&fileName=%28%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C%29IBK%ED%8F%89%EC%83%9D%ED%95%9C%EA%B0%80%EC%A1%B1%ED%86%B5%EC%9E%A5%28%EC%A0%95%EA%B8%B0%EC%98%88%EA%B8%88%29.pdf&category=link&prdcCd=01211310121***********&bswrcd=UIB02&espncd=",
+        "locator": "상품설명서 '예금자보호여부' 항목: 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지 보호",
+        "observed_at": "2026-07-31T00:10:39Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": []
+  },
+  {
+    "product_code": "01211310142",
+    "provider": "IBK기업은행",
+    "product": "IBK굴리기통장(정기예금)",
+    "source_urls": [
+      {
+        "url": "https://mybank.ibk.co.kr/uib/jsp/guest/ntr/ntr70/ntr7010/PNTR701000_i2.jsp?grcd=21&lncd=01&pdcd=0142&tmcd=131",
+        "source_type": "official_current_product_page",
+        "locator": "상품요약 > 가입금액; 금리정보 > 중도해지이율; 페이지 하단 '2026.07.31 현재 기준'",
+        "observed_at": "2026-07-31T00:04:54Z"
+      },
+      {
+        "url": "https://www.ibk.co.kr/common/download.ibk?seq=411012&fullName=/fup/customer/form/2026042713054533075429329691574.pdf&fileName=%28%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C%29+IBK%EA%B5%B4%EB%A6%AC%EA%B8%B0%ED%86%B5%EC%9E%A5%28%EC%A0%95%EA%B8%B0%EC%98%88%EA%B8%88%29.pdf&category=link&prdcCd=01211310142***********&bswrcd=UIB02&espncd=",
+        "source_type": "official_product_description_pdf",
+        "locator": "IBK 현재 상품 페이지 > 약관 > '(상품설명서) IBK굴리기통장(정기예금)' 다운로드 링크",
+        "observed_at": "2026-07-31T00:04:54Z"
+      }
+    ],
+    "fields": {
+      "amount": {
+        "minimum_amount_krw": 1000000,
+        "maximum_amount_krw": 500000000,
+        "evidence": "최소 1백만원 이상 통합한도 5억원 이내(원단위); 단기중금채·정기예금 합산 1인당 최대 5억원"
+      },
+      "early_termination": {
+        "rule": "가입시점 인터넷 홈페이지에 고시한 예치기간별 중도해지금리를 적용하고, 기본금리는 가입시점 해당 상품의 기본금리이며 모든 구간 최저금리는 연 0.1%이다.",
+        "rates": [
+          { "elapsed_period": "납입기간 경과비율 10% 미만", "formula": "가입시점 계약기간별 기본금리 × 5%" },
+          { "elapsed_period": "10% 이상 20% 미만", "formula": "가입시점 계약기간별 기본금리 × 10%" },
+          { "elapsed_period": "20% 이상 40% 미만", "formula": "가입시점 계약기간별 기본금리 × 20%" },
+          { "elapsed_period": "40% 이상 60% 미만", "formula": "가입시점 계약기간별 기본금리 × 40%" },
+          { "elapsed_period": "60% 이상 80% 미만", "formula": "가입시점 계약기간별 기본금리 × 60%" },
+          { "elapsed_period": "80% 이상", "formula": "가입시점 계약기간별 기본금리 × 80%" }
+        ],
+        "minimum_rate_percent": 0.1
+      },
+      "sales_active": {
+        "value": true,
+        "evidence": "공식 상품 페이지가 2026.07.31 현재 기준으로 게시되고 유효기간(2026.04.17~2027.04.14)을 표시한다.",
+        "locator": "상품 페이지 하단 > 준법감시인 심의필 및 기준일",
+        "observed_at": "2026-07-31T00:04:54Z"
+      },
+      "deposit_protection": {
+        "value": true,
+        "source_url": "https://www.ibk.co.kr/common/download.ibk?seq=411012&fullName=/fup/customer/form/2026042713054533075429329691574.pdf&fileName=%28%EC%83%81%ED%92%88%EC%84%A4%EB%AA%85%EC%84%9C%29+IBK%EA%B5%B4%EB%A6%AC%EA%B8%B0%ED%86%B5%EC%9E%A5%28%EC%A0%95%EA%B8%B0%EC%98%88%EA%B8%88%29.pdf&category=link&prdcCd=01211310142***********&bswrcd=UIB02&espncd=",
+        "locator": "상품설명서 '예금자보호여부' 항목: 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지 보호",
+        "observed_at": "2026-07-31T00:10:39Z"
+      }
+    },
+    "evidence_status": "official_current_documented",
+    "missing_fields": []
+  }
+]

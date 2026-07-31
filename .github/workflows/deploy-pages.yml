@@ -1,12 +1,7 @@
 name: Deploy GitHub Pages
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
-  workflow_run:
-    workflows: [OpenFin Live Regression]
-    types: [completed]
 
 permissions:
   contents: read
@@ -82,5 +77,4 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
       - name: Verify repository, Pages, Worker, and live evidence parity
-        if: github.event_name != 'push'
         run: npm run knowledge:verify-public-parity -- --expected-deployment-commit "$OPENFIN_DEPLOYMENT_COMMIT"

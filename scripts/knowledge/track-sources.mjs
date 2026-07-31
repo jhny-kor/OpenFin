@@ -62,6 +62,18 @@ const isDue = (source, old) => {
   return nowMs - checkedAt >= slaHours * 60 * 60 * 1000;
 };
 
+const sourceRequest = source => {
+  const access = source.access || {};
+  const secret = access.credential_env ? process.env[access.credential_env] : null;
+  if (access.requires_secret && !secret) return { error: 'source requires a configured secret' };
+  const rawUrl = access.request_url || source.urls?.api || source.urls?.canonical;
+  if (!rawUrl) return { error: 'source has no request URL' };
+  const url = new URL(rawUrl);
+  for (const [key, value] of Object.entries(access.request_query || {})) url.searchParams.set(key, String(value));
+  if (secret) url.searchParams.set(access.credential_query_param || 'serviceKey', secret);
+  return { url: url.toString() };
+};
+
 async function fetchWithTimeout(url, options) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -128,11 +140,9 @@ async function checkSource(source) {
   if (!isDue(source, old)) {
     return { ...old, id: source.id, urls: source.urls, refresh: source.refresh, freshness_status: freshnessFor(old), skipped_not_due: true };
   }
-  if (source.access?.requires_secret) {
-    return failedStatus(source, old, 'stale', 'secret-required', { error: 'source requires a configured secret', skipped_secret: true });
-  }
-  const url = source.urls?.canonical;
-  if (!url) return failedStatus(source, old, 'unreachable', 'no-canonical-url');
+  const request = sourceRequest(source);
+  if (request.error) return failedStatus(source, old, source.access?.requires_secret ? 'stale' : 'unreachable', source.access?.requires_secret ? 'secret-required' : 'no-request-url', { error: request.error, skipped_secret: source.access?.requires_secret === true });
+  const url = request.url;
 
   checkedSources += 1;
   const conditionalHeaders = {};
@@ -226,7 +236,11 @@ const worker = async () => {
   while (true) {
     const index = cursor++;
     if (index >= registry.sources.length) return;
-    results[index] = await checkSource(registry.sources[index]);
+    const source = registry.sources[index];
+    const result = await checkSource(source);
+    const credentialConfigured = source.access?.credential_env && process.env[source.access.credential_env];
+    if (credentialConfigured && ['verified', 'not-modified', 'change-detected', 'checksum-validator-conflict'].includes(result.verification_status)) result.authenticated = true;
+    results[index] = result;
   }
 };
 await Promise.all(Array.from({ length: Math.min(concurrency, registry.sources.length) }, worker));

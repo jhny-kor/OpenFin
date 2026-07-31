@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/types/financial-offer.schema.json",
+  "title": "OpenFin strict financial offer snapshot",
+  "type": "object",
+  "required": ["id", "title", "type", "product_id", "provider_id", "observed_at", "valid_from", "valid_to", "sales_verification_status", "deposit_protection_status", "join_channels", "eligibility_rules", "bonus_rate_rules", "early_termination_rules", "options", "field_assertions", "provenance"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "type": { "enum": ["deposit-offer", "saving-offer"] },
+    "product_id": { "type": "string", "minLength": 1 },
+    "provider_id": { "type": "string", "minLength": 1 },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "valid_from": { "type": "string", "format": "date-time" },
+    "valid_to": { "type": ["string", "null"], "format": "date-time" },
+    "sales_verification_status": { "const": "verified_active" },
+    "deposit_protection_status": { "type": "string", "minLength": 1 },
+    "join_channels": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "eligibility_rules": { "type": "array", "items": { "$ref": "eligibility-rule.schema.json" } },
+    "bonus_rate_rules": { "type": "array", "items": { "$ref": "bonus-rate-rule.schema.json" } },
+    "early_termination_rules": { "type": "array", "minItems": 1, "items": { "$ref": "early-termination-rule.schema.json" } },
+    "options": { "type": "array", "minItems": 1, "items": { "$ref": "offer-option.schema.json" } },
+    "field_assertions": { "type": "array", "minItems": 1, "items": { "$ref": "../assertion.schema.json" } },
+    "provenance": { "type": "array", "minItems": 1, "items": { "$ref": "../provenance.schema.json" } },
+    "raw": { "type": "object" }
+  },
+  "additionalProperties": false
+}

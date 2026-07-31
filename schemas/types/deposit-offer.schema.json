@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/types/deposit-offer.schema.json",
+  "title": "OpenFin strict deposit offer snapshot",
+  "allOf": [
+    { "$ref": "financial-offer.schema.json" },
+    { "properties": { "type": { "const": "deposit-offer" }, "options": { "items": { "allOf": [{ "$ref": "offer-option.schema.json" }, { "required": ["amount_limit"] }] } } } }
+  ]
+}

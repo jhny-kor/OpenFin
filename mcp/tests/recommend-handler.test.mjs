@@ -55,9 +55,9 @@ test("hard constraints exclude candidates and unknown conditions stay explicit",
   assert.equal(failed.candidates.length, 0);
   assert.equal(failed.excluded[0].reason, "term_failed");
 
-  const unknown = evaluateEligibility(item("a", "A", 12), { constraints: { eligible_conditions: ["salary_transfer"] } });
+  const unknown = evaluateEligibility({ ...item("a", "A", 12), eligibility_rules: [{ rule_id: "salary_transfer", rule_type: "eligibility", predicate: { fact: "can_transfer_salary", operator: "eq", expected: true }, unknown_policy: "review", field_assertions: [{ field: "can_transfer_salary", verification_status: "verified" }] }] }, {});
   assert.equal(unknown.eligible, false);
-  assert.ok(unknown.unknown_conditions.includes("condition_unknown:salary_transfer"));
+  assert.ok(unknown.unknown_conditions.includes("rule_unknown:salary_transfer"));
 });
 
 test("ranking score equals score component sum", () => {

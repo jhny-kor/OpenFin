@@ -62,6 +62,7 @@ for (const record of records) {
   if (item.type === 'source') sources.push(item);
 }
 const sourceIds = new Set(sources.map(source => source.id));
+const legacyValues = [...byId.values()].filter(item => !['deposit-offer', 'saving-offer', 'offer-option'].includes(item.type));
 const instanceCount = new Map();
 for (const { value: item } of records) for (const parent of item.parents || []) instanceCount.set(parent, (instanceCount.get(parent) || 0) + 1);
 const decisionFields = ['criteria','eligibility','options','benefits','rates','interest_rates','limit','limits','amount','support_details','coverage','premium','application_deadline','application_open_from','application_open_to','term','period'];
@@ -109,7 +110,7 @@ for (const { value: item, file } of records) {
   }
   // Only ontology roots and provenance nodes stand outside the hierarchy.
   // Everything else must be reachable from a classification node.
-  if (!['domain','source'].includes(item.type) && !(item.parents || []).length) fail(`entity outside the hierarchy: ${item.id} (${item.type})`);
+  if (!['domain','source','deposit-offer','saving-offer','offer-option'].includes(item.type) && !(item.parents || []).length) fail(`entity outside the hierarchy: ${item.id} (${item.type})`);
   // `parents` is authoritative; `children` is a curated convenience list that
   // high-volume categories deliberately leave empty. Only the curated direction
   // is checked, so a hand-written child list cannot drift from the real edge.
@@ -185,10 +186,26 @@ for (const status of sourceStatuses.statuses || []) {
   if (!sourceIds.has(status.id) || !statusEnums.has(status.status)) fail(`invalid source status: ${status.id}`);
   if (status.freshness_status === 'active') fail(`lifecycle leaked into freshness: ${status.id}`);
   if (status.status === 'changed' && (status.freshness_status === 'current' || status.verification_status === 'verified' || status.stale !== true || status.needs_review !== true)) fail(`changed source auto-promoted: ${status.id}`);
-  if (registryById.get(status.id)?.access?.requires_secret === true && status.verification_status !== 'secret-required') fail(`secret source not fail-closed: ${status.id}`);
+  if (registryById.get(status.id)?.access?.requires_secret === true && status.verification_status !== 'secret-required' && status.authenticated !== true) fail(`secret source not fail-closed: ${status.id}`);
 }
 const coverage = json(path.join(DOCS, 'openfin-provenance-coverage-report-2026.json'));
 if (coverage.external_provenance_coverage_ratio !== 1 || coverage.invalid_legacy_url_count !== 0) fail('provenance coverage gate failed');
+const canonicalQuality = manifest.domain_readiness || {};
+const qualityReportChecks = [
+  ['openfin-verification-coverage-report-2026.json', 'strict_field_verified_candidate_count'],
+  ['openfin-comparison-regression-report-2026.json', 'strict_field_verified_candidate_count'],
+  ['openfin-recommendation-safety-report-2026.json', 'strict_field_verified_candidate_count'],
+];
+for (const [name, key] of qualityReportChecks) {
+  const report = json(path.join(DOCS, name));
+  const expected = Object.values(canonicalQuality).reduce((sum, state) => sum + Number(state.field_verified_candidate_count || 0), 0);
+  if (report.canonical_quality_source !== 'finance-ontology-manifest.domain_readiness' || Number(report[key] || 0) !== expected) fail(`quality report projection mismatch: ${name}`);
+}
+const comparisonReport = json(path.join(DOCS, 'openfin-comparison-regression-report-2026.json'));
+const recommendationReport = json(path.join(DOCS, 'openfin-recommendation-safety-report-2026.json'));
+const publicCount = Object.values(canonicalQuality).reduce((sum, state) => sum + Number(state.public_candidate_count || 0), 0);
+if (Number(comparisonReport.public_recommendation_candidate_count || 0) !== publicCount || Number(recommendationReport.public_recommendation_candidate_count || 0) !== publicCount) fail('public quality report projection mismatch');
+if (manifest.openfin_120_live_regression?.passed_count === manifest.openfin_120_live_regression?.test_count && manifest.openfin_120_live_regression?.failed_count === 0 && (manifest.openfin_120_live_regression?.validation_status === 'current' || manifest.openfin_120_live_regression?.status === 'current') && (manifest.recommendation_blocking_reasons || []).some(reason => String(reason) === 'LIVE_REGRESSION_NOT_READY')) fail('current live evidence cannot retain LIVE_REGRESSION_NOT_READY blocker');
 
 const minimumCounts = BASELINE_CONTRACT.exports;
 let publicRows = 0; let referenceRows = 0; const publicOwnerIds = new Set(); const publicReferenceIds = [];
@@ -202,13 +219,13 @@ for (const [file, minimum] of Object.entries(minimumCounts)) {
   for (const item of payload.reference_items || []) publicReferenceIds.push(item.id);
 }
 if (publicRows < BASELINE.public_rows || publicOwnerIds.size < BASELINE.records || referenceRows < BASELINE.reference_items) fail(`public compatibility rows lost: rows=${publicRows} owners=${publicOwnerIds.size} refs=${referenceRows}`);
-if (publicOwnerIds.size !== records.length) fail(`public owners ${publicOwnerIds.size} != canonical records ${records.length}`);
+if (publicOwnerIds.size !== legacyValues.length) fail(`public owners ${publicOwnerIds.size} != legacy canonical records ${legacyValues.length}`);
 if (publicRows !== publicOwnerIds.size + referenceRows) fail(`public row accounting invalid: ${publicRows} != ${publicOwnerIds.size} + ${referenceRows}`);
 for (const id of publicReferenceIds) if (!publicOwnerIds.has(id)) fail(`reference item without owner: ${id}`);
 
 const search = json(path.join(DOCS, 'finance-search-index-2026.json'));
-const derivedQuality = deriveQuality([...byId.values()], { sourceCount: sources.length, exportCount: (manifest.exports || []).length, searchItemCount: search.item_count, relationshipCount: manifest.relationship_index?.item_count || 0, invalidUrlCount: coverage.invalid_legacy_url_count, sourceStatusLoaded: sourceStatuses.statuses?.length === sources.length });
-if (search.item_count !== records.length || search.canonical_product_count !== derivedQuality.canonical.canonical_product_count) fail(`search index counts changed: ${search.item_count}/${search.canonical_product_count} vs ${records.length}/${derivedQuality.canonical.canonical_product_count}`);
+const derivedQuality = deriveQuality(legacyValues, { sourceCount: sources.length, exportCount: (manifest.exports || []).length, searchItemCount: search.item_count, relationshipCount: manifest.relationship_index?.item_count || 0, invalidUrlCount: coverage.invalid_legacy_url_count, sourceStatusLoaded: sourceStatuses.statuses?.length === sources.length });
+if (search.item_count !== legacyValues.length || search.canonical_product_count !== derivedQuality.canonical.canonical_product_count) fail(`search index counts changed: ${search.item_count}/${search.canonical_product_count} vs ${legacyValues.length}/${derivedQuality.canonical.canonical_product_count}`);
 if (manifest.release_status !== derivedQuality.release_status || manifest.recommendation_enabled !== derivedQuality.recommendation_enabled) fail('manifest release gate does not match derived quality policy');
 if (JSON.stringify(manifest.blocking_reasons || []) !== JSON.stringify(derivedQuality.blocking_reasons)) fail('manifest blocking reasons do not match derived quality policy');
 const liveEvidence = manifest.openfin_120_live_regression || {};

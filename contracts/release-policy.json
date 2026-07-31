@@ -14,7 +14,10 @@
   "recommendation": {
     "public_enabled": false,
     "public_approval_receipt": null,
-    "owner_pilot_enabled": false
+    "owner_pilot_enabled": false,
+    "state": "blocked",
+    "state_contract": "contracts/recommendation-state.json",
+    "approval_receipt_schema": "schemas/recommendation-approval-receipt.schema.json"
   },
   "release": {
     "ready_requires": [
@@ -38,18 +41,13 @@
       "comparison": "limited_public_ready",
       "recommendation": "blocked",
       "required_verified_candidates": 20,
+      "sales_verification_ttl_hours": 720,
       "required_fields": [
-        "base_rate_percent",
-        "maximum_rate_percent",
-        "term_months",
-        "interest_method",
-        "preferential_rate_conditions",
-        "minimum_deposit_krw",
-        "maximum_deposit_krw",
-        "early_termination_condition",
         "deposit_protection_status",
-        "join_member",
-        "join_channel",
+        "join_channels",
+        "eligibility_rules",
+        "bonus_rate_rules",
+        "early_termination_rules",
         "sales_verification_status"
       ]
     },
@@ -57,24 +55,28 @@
       "comparison": "limited_public_ready",
       "recommendation": "blocked",
       "required_verified_candidates": 20,
+      "sales_verification_ttl_hours": 720,
       "required_fields": [
-        "base_rate_percent",
-        "maximum_rate_percent",
-        "term_months",
-        "saving_method",
-        "preferential_rate_conditions",
-        "monthly_payment_min_krw",
-        "monthly_payment_max_krw",
-        "early_termination_condition",
         "deposit_protection_status",
-        "join_member",
-        "join_channel",
+        "join_channels",
+        "eligibility_rules",
+        "bonus_rate_rules",
+        "early_termination_rules",
         "sales_verification_status"
       ]
     },
-    "card": { "comparison": "domain_coverage_incomplete", "recommendation": "blocked" },
-    "loan": { "comparison": "domain_coverage_incomplete", "recommendation": "blocked" },
-    "insurance": { "comparison": "domain_coverage_incomplete", "recommendation": "blocked" },
+    "card": {
+      "comparison": "domain_coverage_incomplete", "recommendation": "blocked",
+      "required_fields": ["annual_fee_krw", "previous_month_spend_krw", "excluded_spend_conditions", "benefit_rate_percent", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "benefit_overlap_policy"]
+    },
+    "loan": {
+      "comparison": "domain_coverage_incomplete", "recommendation": "blocked",
+      "required_fields": ["base_rate_percent", "spread_rate_percent", "interest_rate_type", "credit_limit_krw", "repayment_method", "term_months", "early_repayment_fee_policy", "collateral_or_guarantee", "eligibility_conditions", "delinquency_rate_percent", "total_cost_basis"]
+    },
+    "insurance": {
+      "comparison": "domain_coverage_incomplete", "recommendation": "blocked",
+      "required_fields": ["coverage_items", "coverage_amount_krw", "exclusions", "waiting_period_days", "reduced_benefit_period_days", "renewable", "premium_payment_term_months", "insurance_term_months", "surrender_value_condition"]
+    },
     "pension": { "comparison": "blocked", "recommendation": "blocked" }
   },
   "public_surface": {

@@ -1,9 +1,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { DOCS, KNOWLEDGE, ROOT, json, sha256 } from './common.mjs';
 import { readCanonicalRecords, readReleasePolicy } from './derive-quality.mjs';
 
 const policy = readReleasePolicy();
+const decisionBuildRun = spawnSync(process.execPath, [path.join(ROOT, 'scripts/knowledge/build-decision-snapshots.mjs')], { cwd: ROOT, encoding: 'utf8' });
+if (decisionBuildRun.status !== 0) throw new Error(decisionBuildRun.stderr || 'decision snapshot build failed');
+const decisionBuildPath = path.join(ROOT, 'evidence/vertical-slice/decision-snapshot-build.json');
+const decisionBuild = fs.existsSync(decisionBuildPath) ? json(decisionBuildPath) : { domains: {} };
 const registryPath = path.join(DOCS, 'openfin-source-registry-2026.json');
 const registry = fs.existsSync(registryPath) ? json(registryPath) : { sources: [] };
 const sources = new Map((registry.sources || []).map(source => [source.id, source]));
@@ -57,6 +62,13 @@ for (const [domain, config] of Object.entries(policy.domains)) {
       unverified_assertions: fields.filter(field => present(item[field]) && hasAssertion(item, field) && !isVerified(item, field)),
     })),
   };
+  const strict = decisionBuild.domains?.[domain];
+  if (strict) {
+    domains[domain].strict_offer_count = strict.strict_offer_count;
+    domains[domain].strict_offer_target = strict.target;
+    domains[domain].strict_offer_shortfall = strict.shortfall;
+    domains[domain].strict_offer_status = strict.strict_offer_count >= strict.target ? 'ready_review_required' : 'blocked';
+  }
 }
 
 const report = {
@@ -67,7 +79,10 @@ const report = {
   policy_version: policy.version,
   domains,
   recommendation_enabled: false,
-  recommendation_note: 'This audit never promotes products. Field-level official assertions and current runtime evidence are required before a pilot receipt can be issued.',
+  recommendation_note: 'This audit never promotes products. Field-level official assertions, strict OfferSnapshot objects, and current runtime evidence are required before a pilot receipt can be issued.',
+  strict_offer_targets: { deposit: 20, saving: 20 },
+  strict_offer_counts: Object.fromEntries(Object.entries(domains).map(([domain, state]) => [domain, state.strict_offer_count ?? 0])),
+  strict_offer_blocker: Object.values(domains).some(state => (state.strict_offer_count ?? 0) < (state.strict_offer_target ?? 20)) ? 'INSUFFICIENT_SOURCE_BACKED_OFFERS' : null,
 };
 const output = process.env.OPENFIN_VERTICAL_SLICE_OUTPUT || path.join(ROOT, 'evidence/vertical-slice/vertical-slice-report.json');
 fs.mkdirSync(path.dirname(output), { recursive: true });

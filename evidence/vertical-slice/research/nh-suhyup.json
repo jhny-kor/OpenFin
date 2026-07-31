@@ -1,0 +1,195 @@
+[
+  {
+    "product_code": "10-003-1384-0001",
+    "provider": "농협은행주식회사",
+    "product": "NH올원e예금",
+    "source_urls": [
+      "https://img.nonghyup.com/file/ebank/product/guide/10001160_pi.pdf",
+      "https://nhlink.nonghyup.com/content/nhbank/html/sf/mk/dt/dt10001160_02.html"
+    ],
+    "fields": {
+      "minimum_deposit_krw": {"value": 100000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001160_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '10만원 이상 최대 10억원 이하로 가입 가능'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "maximum_deposit_krw": {"value": 1000000000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001160_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '10만원 이상 최대 10억원 이하로 가입 가능'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "early_termination_rules_rates": {"value": "3개월 미만 연 0.1%; 6개월 미만 기준이자율×50%×경과율; 9개월 미만 ×60%; 11개월 미만 ×70%; 11개월 이상 ×80%; 최저 연 0.1%; 기준이자율은 가입일 당시 고시 기본이자율.", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001160_pi.pdf", "locator": "PDF p.1, '큰만족실세예금 중도해지이자율 적용' 표 및 바로 아래 주석", "observed_at": "2026-07-30T23:52:24Z"}},
+      "sales_active": {"value": "not_explicitly_stated", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001160_pi.pdf", "locator": "PDF p.1, 준법감시인 심의필 2025-4336; 유효기간 2025.09.01~2027.08.31 (판매중이라는 명시 문구는 없음)", "observed_at": "2026-07-30T23:52:24Z"}}
+    },
+    "evidence_status": "official_verified_conditions_sales_unverified",
+    "missing_fields": ["explicit_sales_active_evidence"]
+  },
+  {
+    "product_code": "10-047-1365-0001",
+    "provider": "농협은행주식회사",
+    "product": "NH1934월복리적금",
+    "source_urls": [
+      "https://img.nonghyup.com/file/ebank/product/guide/10001011_pi.pdf",
+      "https://nhlink.nonghyup.com/content/nhbank/html/sf/mk/dt/dt10001011_02.html"
+    ],
+    "fields": {
+      "minimum_initial_and_recurring_payment_krw": {"value": 10000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001011_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '초입금 및 매회 1만원 이상'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "maximum_monthly_payment_krw": {"value": 500000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001011_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '월 50만원 이내 자유적립'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "early_termination_rules_rates": {"value": "3개월 미만 연 0.1%; 6개월 미만 기준이율×50%×경과월수÷계약월수; 9개월 미만 ×60%; 11개월 미만 ×70%; 11개월 이상 ×80%; 최저 연 0.1%; 기준이자율은 가입일 당시 고시 기본이율.", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001011_pi.pdf", "locator": "PDF p.2, '자유로우대적금 중도해지이자율 적용' 표 및 주석", "observed_at": "2026-07-30T23:52:24Z"}},
+      "sales_active": {"value": "not_explicitly_stated", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001011_pi.pdf", "locator": "PDF p.1, 준법감시인 심의필 2025-5604; 유효기간 2025.11.05~2027.11.03 (판매중이라는 명시 문구는 없음)", "observed_at": "2026-07-30T23:52:24Z"}}
+    },
+    "evidence_status": "official_verified_conditions_sales_unverified",
+    "missing_fields": ["explicit_sales_active_evidence"]
+  },
+  {
+    "product_code": "10-047-1381-0001",
+    "provider": "농협은행주식회사",
+    "product": "NH내가Green초록세상적금",
+    "source_urls": [
+      "https://img.nonghyup.com/file/ebank/product/guide/10001112_pi.pdf",
+      "https://nhlink.nonghyup.com/content/nhbank/html/sf/mk/dt/dt10001112_01.html",
+      "https://nhlink.nonghyup.com/content/nhbank/html/sf/mk/dt/dt10001112_02.html"
+    ],
+    "fields": {
+      "minimum_initial_payment_krw": {"value": 50000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001112_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '초입금 5만원 이상'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "minimum_recurring_payment_krw": {"value": 10000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001112_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '매월 1만원 이상'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "maximum_monthly_payment_krw": {"value": 500000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001112_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '50만원 이내 자유적립'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "early_termination_rules_rates": {"value": "3개월 미만 연 0.1%; 6개월 미만 기준이율×50%×경과월수÷계약월수; 9개월 미만 ×60%; 11개월 미만 ×70%; 11개월 이상 ×80%; 최저 연 0.1%; 기준이자율은 가입일 당시 고시 기본이율.", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001112_pi.pdf", "locator": "PDF p.2, '자유로우대적금 중도해지이자율 적용' 표 및 주석; 같은 내용은 상품상세 _02의 '중도해지금리' 표", "observed_at": "2026-07-30T23:52:24Z"}},
+      "sales_active": {"value": "not_explicitly_stated", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001112_pi.pdf", "locator": "PDF p.1, 준법감시인 심의필 2025-4336; 유효기간 2025.09.01~2027.08.31 (판매중이라는 명시 문구는 없음)", "observed_at": "2026-07-30T23:52:24Z"}}
+    },
+    "evidence_status": "official_verified_conditions_sales_unverified",
+    "missing_fields": ["explicit_sales_active_evidence"]
+  },
+  {
+    "product_code": "10-059-1264-0001",
+    "provider": "농협은행주식회사",
+    "product": "NH직장인월복리적금",
+    "source_urls": [
+      "https://img.nonghyup.com/file/ebank/product/guide/10000738_pi.pdf",
+      "https://nhlink.nonghyup.com/content/nhbank/html/sf/mk/dt/dt10000738_02.html",
+      "https://banking.nonghyup.com/content/html/ip/sd/ipsd0010c.html"
+    ],
+    "fields": {
+      "minimum_initial_and_recurring_payment_krw": {"value": 10000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10000738_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '초입금 및 매회 입금 1만원이상'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "maximum_contribution_per_quarter_krw": {"value": 3000000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10000738_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '분기당 3백만원 이내(1인당)'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "early_termination_rules_rates": {"value": "3개월 미만 연 0.1%; 6개월 미만 기준이율×50%×경과월수÷계약월수; 9개월 미만 ×60%; 11개월 미만 ×70%; 12개월 미만 ×80%; 12개월 이상 국고채 1년물 금리; 최저 연 0.1%; 기준이자율은 가입일 당시 고시 기본이율.", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10000738_pi.pdf", "locator": "PDF p.2, '채움적금 중도해지이자율 적용' 표 및 주석; 같은 규칙은 상품상세 _02의 '중도해지 기준금리'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "sales_active": {"value": true, "evidence": {"url": "https://banking.nonghyup.com/content/html/ip/sd/ipsd0010c.html", "locator": "농협은행 상품목록의 'NH직장인월복리적금' 카드: '가입하기' 링크 `lfRegisterJoinWrsDp('', '10000738', 'IPDT0061I')`", "observed_at": "2026-07-30T23:52:24Z"}}
+    },
+    "evidence_status": "official_verified",
+    "missing_fields": []
+  },
+  {
+    "product_code": "10120114700011",
+    "provider": "수협은행",
+    "product": "헤이(Hey)정기예금",
+    "source_urls": [
+      "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00175",
+      "https://www.suhyup-bank.com/ib20/wgt/WID07887"
+    ],
+    "fields": {
+      "minimum_deposit_krw": {"value": 100000, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00175", "locator": "상품상세 (상품코드 D00175) > 가입금액: '10만원 이상 10억원 이하'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "maximum_deposit_krw": {"value": 1000000000, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00175", "locator": "상품상세 (상품코드 D00175) > 가입금액: 다계좌 가능, 1인당 합산 최대 10억원", "observed_at": "2026-07-30T23:52:24Z"}},
+      "early_termination_rules_rates": {"value": "3개월 미만 연 0.1%; 3~6개월 미만 기본금리×3÷약정기간×50%; 6~10개월 미만 기본금리×경과월수÷약정기간×55%; 10~11개월 미만 ×80%; 11개월 이상 ×90%; 각 산식 최저 연 0.1%; 기본금리는 가입일 당시 계약기간별 고시금리.", "evidence": {"url": "https://www.suhyup-bank.com/ib20/wgt/WID07887", "locator": "POST widget request `{itemCode:10120114700011, productCode:D00175, category:3, compCode:1}` 응답의 '중도해지금리' 표 및 주석", "observed_at": "2026-07-30T23:52:24Z"}},
+      "sales_active": {"value": true, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00175", "locator": "상품상세 embedded script: `saleConf = \"1\"` (페이지 주석: 1=판매중, 3=판매중지); '인터넷가입' 링크도 표시", "observed_at": "2026-07-30T23:52:24Z"}}
+    },
+    "evidence_status": "official_verified",
+    "missing_fields": []
+  },
+  {
+    "product_code": "10120116100011",
+    "provider": "수협은행",
+    "product": "Sh첫만남우대예금",
+    "source_urls": [
+      "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00200",
+      "https://www.suhyup-bank.com/ib20/wgt/WID07887"
+    ],
+    "fields": {
+      "minimum_deposit_krw": {"value": 1000000, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00200", "locator": "상품상세 (상품코드 D00200) > 가입금액: '100만원이상 3,000만원이하'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "maximum_deposit_krw": {"value": 30000000, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00200", "locator": "상품상세 (상품코드 D00200) > 가입금액: '100만원이상 3,000만원이하'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "early_termination_rules_rates": {"value": "3개월 미만 연 0.1%; 3~6개월 미만 기본금리×3÷약정기간×55%; 6~10개월 미만 기본금리×경과월수÷약정기간×55%; 10~11개월 미만 ×80%; 11개월 이상 ×90%; 각 산식 최저 연 0.1%; 기준 기본금리는 신규가입일 당시 계약기간의 일반정기예금(만기일시지급식) 기본금리(우대 제외).", "evidence": {"url": "https://www.suhyup-bank.com/ib20/wgt/WID07887", "locator": "POST widget request `{itemCode:10120116100011, productCode:D00200, category:3, compCode:1}` 응답의 '중도해지금리' 표 및 주석", "observed_at": "2026-07-30T23:52:24Z"}},
+      "sales_active": {"value": true, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00200", "locator": "상품상세 embedded script: `saleConf = \"1\"` (페이지 주석: 1=판매중, 3=판매중지); '인터넷가입' 링크도 표시", "observed_at": "2026-07-30T23:52:24Z"}}
+    },
+    "evidence_status": "official_verified",
+    "missing_fields": []
+  },
+  {
+    "product_code": "10141109800021",
+    "provider": "수협은행",
+    "product": "Sh월복리자유적금",
+    "source_urls": [
+      "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00011",
+      "https://www.suhyup-bank.com/ib20/wgt/WID04825"
+    ],
+    "fields": {
+      "minimum_initial_payment_krw": {"value": 10000, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00011", "locator": "상품상세 (상품코드 D00011) > 가입금액 및 저축한도: '가입금액 : 1만원 이상'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "minimum_recurring_payment_krw": {"value": 10000, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00011", "locator": "상품상세 > 가입금액 및 저축한도: '1만원이상 ... 자유롭게 입금'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "maximum_monthly_payment_krw": {"value": 1000000, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00011", "locator": "상품상세 > 가입금액 및 저축한도: '월 100만원 한도'", "observed_at": "2026-07-30T23:52:24Z"}},
+      "early_termination_rules_rates": {"value": "1개월 미만 및 3개월 미만 연 0.1%; 3~6개월 미만 (기본금리×3÷약정기간)×70%; 6~10개월 미만 (기본금리×경과월수÷약정기간)×80%; 10~11개월 미만 ×80%; 11개월 이상 ×90%; 산식 최저 연 0.1%; 가입일 당시 고시 중도해지금리를 입금건별 적용. 가입일부터 6개월 경과 후 본인/가족의 정해진 경조사 발생을 증빙해 중도해지하면 가입 당시 기본이율(우대 제외) 적용.", "evidence": {"url": "https://www.suhyup-bank.com/ib20/wgt/WID04825", "locator": "POST widget request `{itemCode:10141109800021, productCode:D00011, category:2, compCode:1}` 응답의 '중도해지이율' 표 및 주석; 경조사 예외는 상품상세 > 부가서비스", "observed_at": "2026-07-30T23:52:24Z"}},
+      "sales_active": {"value": true, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00011", "locator": "상품상세 embedded script: `saleConf = \"1\"` (페이지 주석: 1=판매중, 3=판매중지); '인터넷가입' 링크도 표시", "observed_at": "2026-07-30T23:52:24Z"}}
+    },
+    "evidence_status": "official_verified",
+    "missing_fields": []
+  },
+  {
+    "product_code": "10-003-1225-0001",
+    "provider": "농협은행주식회사",
+    "product": "NH왈츠회전예금 II",
+    "source_urls": [
+      "https://img.nonghyup.com/file/ebank/product/guide/10000614_pi.pdf",
+      "https://nhlink.nonghyup.com/content/nhbank/html/sf/mk/dt/dt10000614_02.html"
+    ],
+    "fields": {
+      "minimum_deposit_krw": {"value": 3000000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10000614_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '3백만원 이상'", "observed_at": "2026-07-31T00:02:13Z"}},
+      "maximum_deposit_krw": {"value": "not_specified", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10000614_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액은 '3백만원 이상'만 명시하며 상한은 명시하지 않음", "observed_at": "2026-07-31T00:02:13Z"}},
+      "early_termination_rules_rates": {"value": "회전기간 충족분은 약정이율, 미충족분은 중도해지이율 적용; 3개월 미만 연 0.1%; 6개월 미만 기준이자율×50%×경과월수÷계약월수; 9개월 미만 ×60%; 11개월 미만 ×70%; 11개월 이상 ×80%; 최저 연 0.1%; 기준이자율은 본 상품 회전주기별 기본이자율.", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10000614_pi.pdf", "locator": "PDF pp.2-3, '중도해지이자율' 표 및 회전기간 충족·미충족분 적용 규칙", "observed_at": "2026-07-31T00:02:13Z"}},
+      "sales_active": {"value": "not_explicitly_stated", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10000614_pi.pdf", "locator": "PDF p.1, 준법감시인 심의필 2025-5604; 유효기간 2025.11.05~2027.11.03 (판매중이라는 명시 문구는 없음)", "observed_at": "2026-07-31T00:02:13Z"}}
+    },
+    "evidence_status": "official_verified_conditions_sales_unverified",
+    "missing_fields": ["explicit_sales_active_evidence"]
+  },
+  {
+    "product_code": "10-003-1381-0001",
+    "provider": "농협은행주식회사",
+    "product": "NH내가Green초록세상예금",
+    "source_urls": [
+      "https://img.nonghyup.com/file/ebank/product/guide/10001113_pi.pdf",
+      "https://nhlink.nonghyup.com/content/nhbank/html/sf/mk/dt/dt10001113_02.html"
+    ],
+    "fields": {
+      "minimum_deposit_krw": {"value": 1000000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001113_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '1백만원 이상'", "observed_at": "2026-07-31T00:02:13Z"}},
+      "maximum_deposit_krw": {"value": "not_specified", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001113_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액은 '1백만원 이상'만 명시하며 상한은 명시하지 않음", "observed_at": "2026-07-31T00:02:13Z"}},
+      "early_termination_rules_rates": {"value": "3개월 미만 연 0.1%; 6개월 미만 기준이자율×50%×경과월수÷계약월수; 9개월 미만 ×60%; 11개월 미만 ×70%; 11개월 이상 ×80%; 최저 연 0.1%; 기준이자율은 가입일 당시 고시 기본이자율.", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001113_pi.pdf", "locator": "PDF p.2, '중도해지이자율' 표 및 바로 아래 주석", "observed_at": "2026-07-31T00:02:13Z"}},
+      "sales_active": {"value": "not_explicitly_stated", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001113_pi.pdf", "locator": "PDF p.1, 준법감시인 심의필 2025-4336; 유효기간 2025.09.01~2027.08.31 (판매중이라는 명시 문구는 없음)", "observed_at": "2026-07-31T00:02:13Z"}}
+    },
+    "evidence_status": "official_verified_conditions_sales_unverified",
+    "missing_fields": ["explicit_sales_active_evidence"]
+  },
+  {
+    "product_code": "10-003-1387-0001",
+    "provider": "농협은행주식회사",
+    "product": "NH고향사랑기부예금",
+    "source_urls": [
+      "https://img.nonghyup.com/file/ebank/product/guide/10001196_pi.pdf",
+      "https://nhlink.nonghyup.com/content/nhbank/html/sf/mk/dt/dt10001196_02.html"
+    ],
+    "fields": {
+      "minimum_deposit_krw": {"value": 1000000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001196_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '계좌당 1백만원 이상 / 1인당 10억원 이내'", "observed_at": "2026-07-31T00:02:13Z"}},
+      "maximum_deposit_krw": {"value": 1000000000, "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001196_pi.pdf", "locator": "PDF p.1, 거래 조건 > 가입금액: '계좌당 1백만원 이상 / 1인당 10억원 이내'", "observed_at": "2026-07-31T00:02:13Z"}},
+      "early_termination_rules_rates": {"value": "3개월 미만 연 0.1%; 6개월 미만 기준이자율×50%×경과월수÷계약월수; 9개월 미만 ×60%; 11개월 미만 ×70%; 11개월 이상 ×80%; 최저 연 0.1%; 기준이자율은 가입일 당시 고시된 큰만족실세예금 기본이자율.", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001196_pi.pdf", "locator": "PDF p.2, '중도해지이자율' 표 및 바로 아래 주석", "observed_at": "2026-07-31T00:02:13Z"}},
+      "sales_active": {"value": "not_explicitly_stated", "evidence": {"url": "https://img.nonghyup.com/file/ebank/product/guide/10001196_pi.pdf", "locator": "PDF p.1, 준법감시인 심의필 2025-4323; 유효기간 2025.09.01~2027.08.31 (판매중이라는 명시 문구는 없음)", "observed_at": "2026-07-31T00:02:13Z"}},
+      "deposit_protection": {"value": true, "source_url": "https://img.nonghyup.com/file/ebank/product/guide/10001196_pi.pdf", "locator": "PDF p.4, 예금자보호: '이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(본 은행의 여타 보호상품과 합산) 보호됩니다.'", "observed_at": "2026-07-31T00:10:44Z"}
+    },
+    "evidence_status": "official_verified_conditions_sales_unverified",
+    "missing_fields": ["explicit_sales_active_evidence"]
+  },
+  {
+    "product_code": "10120114300011",
+    "provider": "수협은행",
+    "product": "Sh해양플라스틱Zero!예금",
+    "source_urls": [
+      "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00168",
+      "https://www.suhyup-bank.com/ib20/wgt/WID07887"
+    ],
+    "fields": {
+      "minimum_deposit_krw": {"value": 1000000, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00168", "locator": "상품상세 (상품코드 D00168) > 가입금액: '100만원 이상 5억원 이하'", "observed_at": "2026-07-31T00:02:13Z"}},
+      "maximum_deposit_krw": {"value": 500000000, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00168", "locator": "상품상세 (상품코드 D00168) > 가입금액: '100만원 이상 5억원 이하'", "observed_at": "2026-07-31T00:02:13Z"}},
+      "early_termination_rules_rates": {"value": "1개월 미만 및 1~3개월 미만 연 0.1%; 3~6개월 미만 기본금리×3÷약정기간×55%; 6~10개월 미만 기본금리×경과월수÷약정기간×55%; 10~11개월 미만 ×80%; 11개월 이상 ×90%; 각 산식 최저 연 0.1%; 기본금리는 가입일 당시 계약기간에 해당하는 일반정기예금(만기일시지급식) 기본금리(우대 제외).", "evidence": {"url": "https://www.suhyup-bank.com/ib20/wgt/WID07887", "locator": "POST widget request `{itemCode:10120114300011, productCode:D00168, category:3, compCode:1}` 응답의 '중도해지금리' 표 및 주석", "observed_at": "2026-07-31T00:02:13Z"}},
+      "sales_active": {"value": true, "evidence": {"url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00168", "locator": "상품상세 embedded script: `saleConf = \"1\"` (페이지 주석: 1=판매중, 3=판매중지); '인터넷가입' 링크도 표시", "observed_at": "2026-07-31T00:02:13Z"}},
+      "deposit_protection": {"value": true, "source_url": "https://www.suhyup-bank.com/ib20/mnu/FPD00118/_menuId/FPD00124/_productCode/D00168", "locator": "상품상세 (상품코드 D00168) > 예금자보호: '이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(본 은행의 여타 보호상품과 합산) 보호됩니다.'", "observed_at": "2026-07-31T00:10:44Z"}
+    },
+    "evidence_status": "official_verified",
+    "missing_fields": []
+  }
+]

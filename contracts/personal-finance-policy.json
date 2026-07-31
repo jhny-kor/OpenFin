@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "policy_id": "personal-finance-need-policy-v1",
+  "version": "openfin-personal-finance-need-v1",
+  "effective_from": "2026-07-30",
+  "reviewed_at": "2026-07-30",
+  "thresholds": { "emergency_fund_months": 3, "high_interest_debt_rate_percent": 15 },
+  "recommendation": { "cashflow_deficit_status": "abstained", "liquidity_gap_status": "abstained", "missing_context_status": "insufficient_information" },
+  "basis": ["openfin-personal-finance-policy-v1"],
+  "approval_receipt_id": null
+}

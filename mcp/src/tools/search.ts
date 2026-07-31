@@ -1,7 +1,5 @@
-// @ts-nocheck
 import { z } from "zod";
-
-type ToolContext = Record<string, any>;
+import type { SearchFilters, ToolContext } from "../types/tool-context.ts";
 
 export function registerSearchTool(ctx: ToolContext): void {
   const { server, env, mcpResult, discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain, loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, isNamedProductQuery, strictNamedProductPayload, enrichSearchPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery, supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion, matchesSupportIntent, isPubliclySearchable, scoreItem, matchReasons, supportMatchTier, itemUrl, sourceHealth, reasonCounts, supportParsedQuery, supportExcludedSummary, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;

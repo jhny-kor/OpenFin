@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "openfin-recommendation-state-v1",
+  "states": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public", "suspended"],
+  "initial_state": "blocked",
+  "transitions": {
+    "blocked": ["shadow"],
+    "shadow": ["owner_pilot", "blocked"],
+    "owner_pilot": ["review_ready", "suspended", "blocked"],
+    "review_ready": ["limited_public", "suspended", "blocked"],
+    "limited_public": ["public", "suspended", "blocked"],
+    "public": ["suspended", "blocked"],
+    "suspended": ["shadow", "blocked"]
+  },
+  "public_state_requires_receipt": true,
+  "receipt_ttl_hours": 168
+}

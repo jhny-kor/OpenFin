@@ -8,17 +8,19 @@ import { evaluateEligibility, productDomain, recommendationFields } from "./reco
 import { explainCandidate } from "./recommendation/explanation";
 import { rankCandidate } from "./recommendation/ranking";
 import { buildRecommendationCandidates } from "./tools/recommend";
-import { registerPersonalFinanceTools } from "./tools/personal-finance";
+import { PERSONAL_FINANCE_SNAPSHOT_SCHEMA, registerPersonalFinanceTools } from "./tools/personal-finance";
 import { registerSearchTool } from "./tools/search";
 import { registerDiscoverTool } from "./tools/discover";
 import { registerRecommendTool } from "./tools/recommend-handler";
 import { registerCompareTool } from "./tools/compare";
+import personalFinancePolicy from "../../contracts/personal-finance-policy.json" with { type: "json" };
 import { registerFetchTool } from "./tools/fetch";
 import { registerExportsTool } from "./tools/exports";
 import { livenessPayload, readinessPayload } from "./health";
 import { isVerifiedActive } from "./product-status";
 import { calculateDepositReturn } from "./calculators/deposit";
 import { calculateSavingReturn } from "./calculators/saving";
+import { resolveAttainableRate } from "./recommendation/attainable-rate";
 
 type FinanceItem = {
   id: string;
@@ -32,6 +34,10 @@ type FinanceItem = {
   law_reference?: string;
   criteria?: unknown[];
   options?: unknown[];
+  observed_at?: string;
+  product_id?: string;
+  provider_id?: string;
+  field_assertions?: Record<string, unknown>[];
   benefits?: unknown[];
   parents?: string[];
   children?: string[];
@@ -200,6 +206,7 @@ type FinanceManifest = {
   provenance_index?: ManifestEntry;
   provenance_coverage?: ManifestEntry;
   relationship_index?: ManifestEntry;
+  decision_offers?: SearchIndexShard;
   domain_readiness?: Record<string, Record<string, unknown>>;
   degraded_domains?: string[];
   exports: ManifestEntry[];
@@ -299,17 +306,15 @@ const READ_ONLY_TOOL_ANNOTATIONS = {
 const ENABLE_CARD_DISCOVERY = true;
 const ENABLE_LOAN_DISCOVERY = true;
 const ENABLE_INSURANCE_DISCOVERY = true;
-const ENABLE_DEPOSIT_COMPARISON = true;
-const ENABLE_SAVING_COMPARISON = true;
 const EXCLUDED_SAMPLE_LIMIT = 10;
 const QUERY_PARSER_VERSION = "openfin-query-parser-v1.3.0";
 const FIELD_EXTRACTOR_VERSION = "openfin-field-extractor-v1.1.0";
 const DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.3.0";
 const COMPARISON_ENGINE_VERSION = "openfin-comparison-v1.1.0";
-const PERSONAL_FINANCE_POLICY_VERSION = "openfin-personal-finance-v1.0.0";
+const PERSONAL_FINANCE_POLICY_VERSION = personalFinancePolicy.version;
 const ADVICE_POLICY_VERSION = "openfin-advice-policy-v1.0.0";
-const MINIMUM_EMERGENCY_FUND_MONTHS = 3;
-const HIGH_INTEREST_DEBT_RATE_PERCENT = 15;
+const MINIMUM_EMERGENCY_FUND_MONTHS = personalFinancePolicy.thresholds.emergency_fund_months;
+const HIGH_INTEREST_DEBT_RATE_PERCENT = personalFinancePolicy.thresholds.high_interest_debt_rate_percent;
 const SENSITIVE_KEY_TOKENS = new Set([
   "accountnumber", "bankaccount", "cardnumber", "creditcardnumber", "residentregistrationnumber",
   "rrn", "password", "passcode", "pin", "certificate", "privatekey", "apikey", "apitoken",
@@ -494,7 +499,7 @@ function supportExcludedSummary(
   query: string,
   supportRegion: string | undefined,
   filters: SearchFilters,
-  allowedTypes: Set<string> | null,
+  allowedTypes: ReadonlySet<string> | null,
   returnedIds: ReadonlySet<string>,
   maxResults: number,
 ): Record<string, number> {
@@ -1569,10 +1574,65 @@ function searchShardForQuery(
 
 async function loadDetailedItemsForDomain(env: Env, domain: string): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
+  if ((domain === "deposit" || domain === "saving") && manifest.decision_offers) {
+    const offers = await loadSearchShard(env, manifest.decision_offers);
+    return offers.flatMap((offer) => decisionOptionItems(offer, domain));
+  }
   const metadata = await loadSearchIndexMetadata(env);
   const shardId = SEARCH_SHARD_BY_DOMAIN[domain];
   const shard = (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
+}
+
+function decisionOptionItems(offer: FinanceItem, domain: "deposit" | "saving"): FinanceItem[] {
+  if (offer.type !== `${domain}-offer` || !Array.isArray(offer.options)) return [];
+  const verifiedAt = typeof offer.observed_at === "string" ? offer.observed_at.slice(0, 10) : undefined;
+  const sourceUrls = Array.isArray(offer.provenance) ? offer.provenance.flatMap((entry) => typeof entry.original_url === "string" ? [entry.original_url] : []).filter((url, index, values) => values.indexOf(url) === index) : [];
+  const sourceIds = Array.isArray(offer.field_assertions) ? offer.field_assertions.flatMap((entry) => typeof entry.source_id === "string" ? [entry.source_id] : []).filter((id, index, values) => values.indexOf(id) === index) : [];
+  return offer.options.flatMap((value): FinanceItem[] => {
+    if (!isRecord(value) || typeof value.option_id !== "string") return [];
+    const amount = isRecord(value.amount_limit) ? value.amount_limit : {};
+    const monthly = isRecord(value.monthly_payment_limit) ? value.monthly_payment_limit : {};
+    return [{
+      ...offer,
+      ...value,
+      id: value.option_id,
+      item_id: value.option_id,
+      offer_id: offer.id,
+      product_id: offer.product_id,
+      title: `${offer.title} (${value.term_months}개월)`,
+      type: "offer-option",
+      search_type: domain,
+      product_kind: domain,
+      provider: typeof offer.provider_id === "string" ? offer.provider_id : offer.provider,
+      sales_status: "active",
+      source_listing_status: "listed",
+      sales_verification_status: "verified_active",
+      sales_verified_at: verifiedAt,
+      freshness_status: "current",
+      source_freshness_status: "current",
+      verification_status: "verified",
+      recommendation_status: "verified_recommendation_candidate",
+      recommendation_scope: "public_recommendation",
+      decision_critical: true,
+      strict_schema_valid: true,
+      required_field_assertion_coverage: 1,
+      official_source_assertion_coverage: 1,
+      unresolved_conflict_count: 0,
+      source_urls: sourceUrls,
+      source_ids: sourceIds,
+      comparison_engine_gate_passed: true,
+      comparison_field_verification_status: "verified",
+      comparison_options: [{
+        ...value,
+        minimum_deposit_krw: amount.minimum_krw,
+        maximum_deposit_krw: amount.maximum_krw,
+        monthly_payment_min_krw: monthly.minimum_krw,
+        monthly_payment_max_krw: monthly.maximum_krw,
+        source_urls: sourceUrls,
+      }],
+    } as FinanceItem];
+  });
 }
 
 async function loadSearchItemsForQuery(
@@ -1803,20 +1863,27 @@ function dedupeProductItems(items: readonly FinanceItem[]): readonly FinanceItem
   return [...selected.values()];
 }
 
-function minimumVerifiedCount(domain: string): number {
-  if (domain === "deposit" || domain === "saving") return 30;
-  if (domain === "card" || domain === "loan" || domain === "insurance") return 20;
-  return 0;
+function requiredVerifiedCount(manifest: FinanceManifest | undefined, domain: string): number {
+  const value = manifest?.domain_readiness?.[domain]?.required_verified_candidates;
+  return typeof value === "number" && Number.isInteger(value) && value >= 0 ? value : 0;
 }
 
-function recommendationReadiness(domain: string, items: readonly FinanceItem[]): Record<string, number> {
+function comparisonReleaseGate(manifest: FinanceManifest, domain: string): { status: "ready" | "blocked"; reasons: string[] } {
+  const state = manifest.domain_readiness?.[domain];
+  const required = requiredVerifiedCount(manifest, domain);
+  const publicCount = typeof state?.public_candidate_count === "number" ? state.public_candidate_count : 0;
+  const ready = state?.status === "limited_public_ready" && publicCount >= required;
+  return { status: ready ? "ready" : "blocked", reasons: ready ? [] : [`COMPARISON_DOMAIN_NOT_READY:${domain}`] };
+}
+
+function recommendationReadiness(domain: string, items: readonly FinanceItem[], minimumRequiredCount = 0): Record<string, number> {
   return {
     verified_active_product_count: items.filter((item) => item.sales_verification_status === "verified_active").length,
     verification_evidence_product_count: items.filter((item) => isRecord(item.verification_evidence)).length,
     comparison_engine_product_count: items.filter((item) => item.comparison_engine_gate_passed === true).length,
     verified_completeness_product_count: items.filter((item) => item.verified_completeness_ratio === 1).length,
     public_recommendation_candidate_count: items.filter((item) => recommendationBlocker(item) === undefined).length,
-    minimum_required_count: minimumVerifiedCount(domain),
+    minimum_required_count: minimumRequiredCount,
   };
 }
 
@@ -1884,14 +1951,15 @@ function isPastOrCurrentIsoDate(value: unknown): value is string {
   return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value && value <= new Date().toISOString().slice(0, 10);
 }
 
-function comparisonBlocker(item: FinanceItem, artifacts?: FinanceArtifacts): string | undefined {
+function comparisonBlocker(item: FinanceItem, artifacts: FinanceArtifacts | undefined, salesVerificationTtlHours: number): string | undefined {
   if (item.comparison_exclusion_reasons?.length) return "comparison_excluded";
   if (item.recommendation_scope !== "comparison_only") return "not_comparison_scope";
   if (item.source_listing_status !== "listed") return "source_not_listed";
   if (!isVerifiedActive(item.sales_verification_status)) return "sales_not_verified";
   if ((artifacts ? sourceHealth(item, artifacts).freshness_status : item.source_freshness_status) !== "current") return "stale_source";
   const verifiedAt = Date.parse(`${item.sales_verified_at ?? ""}T00:00:00Z`);
-  if (!Number.isFinite(verifiedAt) || verifiedAt > Date.now() || Date.now() - verifiedAt > 31 * 24 * 60 * 60 * 1000) return "stale_source";
+  const ttlMs = salesVerificationTtlHours * 60 * 60 * 1000;
+  if (!Number.isFinite(verifiedAt) || !Number.isFinite(ttlMs) || ttlMs <= 0 || verifiedAt > Date.now() || Date.now() - verifiedAt > ttlMs) return "stale_source";
   if (item.verification_status !== "verified") return "not_verified";
   const evidenceBlocker = verificationEvidenceBlocker(item);
   if (evidenceBlocker) return evidenceBlocker;
@@ -1918,15 +1986,12 @@ function comparisonOptionBlocker(option: Record<string, unknown>, domain: string
   return undefined;
 }
 
-function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>, eligibleConditions: ReadonlySet<string>, depositAmount: number | undefined, monthlyPayment: number | undefined, taxRatePercent: number): Record<string, unknown> {
+function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>, facts: Record<string, unknown>, depositAmount: number | undefined, monthlyPayment: number | undefined, taxRatePercent: number): Record<string, unknown> {
   const baseRate = option.base_rate_percent;
   const maximumRate = typeof option.maximum_rate_percent === "number" ? option.maximum_rate_percent : baseRate;
   if (typeof baseRate !== "number" || typeof maximumRate !== "number") throw new Error("Comparison option has invalid rate fields");
-  const conditions = Array.isArray(option.preferential_rate_conditions) ? option.preferential_rate_conditions.filter(isRecord) : [];
-  const matched = conditions.filter((condition) => typeof condition.condition_id === "string" && eligibleConditions.has(condition.condition_id));
-  const unmatched = conditions.filter((condition) => typeof condition.condition_id === "string" && !eligibleConditions.has(condition.condition_id));
-  const additionalRate = matched.reduce((total, condition) => total + (typeof condition.additional_rate_percent === "number" ? condition.additional_rate_percent : 0), 0);
-  const achievableRate = Math.min(baseRate + additionalRate, maximumRate);
+  const attainable = resolveAttainableRate({ ...item, ...option }, facts);
+  const achievableRate = attainable.rate_percent ?? baseRate;
   const termMonths = typeof option.term_months === "number" ? option.term_months : 0;
   const isDeposit = item.search_type === "deposit";
   const amountMissing = isDeposit ? depositAmount === undefined : monthlyPayment === undefined;
@@ -1941,9 +2006,9 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
     base_rate_percent: baseRate,
     maximum_rate_percent: maximumRate,
     achievable_rate_percent: achievableRate,
-    matched_preferential_conditions: matched.map((condition) => condition.condition_id),
-    unmatched_preferential_conditions: unmatched.map((condition) => condition.condition_id),
-    unknown_preferential_conditions: conditions.filter((condition) => typeof condition.condition_id !== "string").map((condition) => condition.description ?? "unidentified_preferential_condition"),
+    matched_preferential_conditions: attainable.matched_conditions,
+    unmatched_preferential_conditions: [],
+    unknown_preferential_conditions: attainable.unknown_conditions,
     deposit_limit: option.maximum_deposit_krw,
     monthly_payment_limit: option.monthly_payment_max_krw,
     term_months: option.term_months,
@@ -2209,15 +2274,19 @@ function createServer(env: Env): McpServer {
     supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion,
     matchesSupportIntent, isPubliclySearchable, scoreItem, matchReasons, supportMatchTier,
     itemUrl, sourceHealth, reasonCounts, supportParsedQuery, supportExcludedSummary,
-    loadFinanceManifest, evaluateReleaseGate, manifestChecksumContract, minimumVerifiedCount,
+    loadFinanceManifest, evaluateReleaseGate,
+    manifestChecksumContract: (manifest: Record<string, unknown>) => manifestChecksumContract(manifest as FinanceManifest),
+    comparisonReleaseGate: (manifest: Record<string, unknown>, domain: string) => comparisonReleaseGate(manifest as FinanceManifest, domain),
     recommendationReadinessStates, nextRecommendationActions, nextRecommendationAction,
     buildRecommendationCandidates, domainMatches, recommendationReadiness, rankCandidate, explainCandidate,
     recommendationBlocker, EXCLUDED_SAMPLE_LIMIT,
-    ENABLE_DEPOSIT_COMPARISON, ENABLE_SAVING_COMPARISON, COMPARISON_ENGINE_VERSION,
+    COMPARISON_ENGINE_VERSION,
     loadSearchIndexMetadata, comparisonBlocker, comparisonOptionCandidates, comparisonOptionBlocker,
     comparisonCandidate, comparisonBlockers,
-    fetchItemGraph, resolveItemId, sourceItems, publicProvenance, loadProvenanceShard, artifactErrors,
-    loadFinanceArtifact, coverageReport, runtimeMetadata,
+    fetchItemGraph, resolveItemId, sourceItems, publicProvenance,
+    loadProvenanceShard: (requestEnv: Env, manifest: Record<string, unknown>, shardId: string) => loadProvenanceShard(requestEnv, manifest as FinanceManifest, shardId), artifactErrors,
+    loadFinanceArtifact: (requestEnv: Env, key: FinanceArtifactKey, manifest?: Record<string, unknown>) => loadFinanceArtifact(requestEnv, key, manifest as FinanceManifest | undefined), coverageReport,
+    runtimeMetadata: (requestEnv: Env, manifest: Record<string, unknown>, metadata: { basis_date?: string }) => runtimeMetadata(requestEnv, manifest as FinanceManifest, metadata as SearchIndexFile),
   };
 
   registerPersonalFinanceTools(toolContext);
@@ -2252,7 +2321,7 @@ function createServer(env: Env): McpServer {
   server.registerTool("update_finance_snapshot", {
     title: "Update Personal Finance Snapshot",
     description: "Persistence is fail-closed: owner authentication, explicit confirmation, and an enabled persistence binding are all required, and this public Worker never persists snapshots.",
-    inputSchema: { snapshot: z.record(z.string(), z.unknown()), owner_authenticated: z.boolean(), explicit_confirmation: z.boolean(), persistence_enabled: z.boolean() },
+    inputSchema: { snapshot: PERSONAL_FINANCE_SNAPSHOT_SCHEMA, owner_authenticated: z.boolean(), explicit_confirmation: z.boolean(), persistence_enabled: z.boolean() },
     annotations: { title: "Update Personal Finance Snapshot", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async ({ snapshot, owner_authenticated, explicit_confirmation, persistence_enabled }) => {
     assertFinanceSafe(snapshot); const reasons = [!owner_authenticated ? "OWNER_AUTH_REQUIRED" : null, !explicit_confirmation ? "EXPLICIT_CONFIRMATION_REQUIRED" : null, !persistence_enabled ? "PERSISTENCE_FLAG_REQUIRED" : null, "PERSISTENCE_BACKEND_NOT_CONFIGURED"].filter((value): value is string => Boolean(value));

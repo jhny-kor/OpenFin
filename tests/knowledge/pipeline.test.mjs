@@ -11,6 +11,7 @@ import { promisify } from 'node:util';
 const root = new URL('../..', import.meta.url).pathname;
 const baseline = JSON.parse(fs.readFileSync(path.join(root, 'contracts/data-baseline.json')));
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const stable = value => Array.isArray(value) ? `[${value.map(stable).join(',')}]` : value && typeof value === 'object' ? `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${stable(value[key])}`).join(',')}}` : JSON.stringify(value);
 const execFileAsync = promisify(execFile);
 
 test('canonical knowledge validation passes', () => {
@@ -22,7 +23,8 @@ test('canonical knowledge validation passes', () => {
   assert.ok(result.sources >= baseline.floors.sources, `sources ${result.sources}`);
   assert.ok(result.public_rows >= baseline.floors.public_rows, `public_rows ${result.public_rows}`);
   assert.ok(result.reference_items >= baseline.floors.reference_items, `reference_items ${result.reference_items}`);
-  assert.equal(result.public_rows, result.records + result.reference_items);
+  const decisionOffers = JSON.parse(fs.readFileSync(path.join(root, 'docs/opentax/openfin-decision-offers-2026.json'))).item_count;
+  assert.equal(result.public_rows + decisionOffers, result.records + result.reference_items);
 });
 
 test('source tracker detects change, conflict, and outage without mutating dry-run status', async () => {
@@ -91,6 +93,40 @@ test('source tracker detects change, conflict, and outage without mutating dry-r
   }
 });
 
+test('source tracker injects configured API credentials without persisting them', async () => {
+  let authenticated = false;
+  const server = http.createServer((request, response) => {
+    const url = new URL(request.url, 'http://127.0.0.1');
+    authenticated ||= url.searchParams.get('auth') === 'test-secret';
+    response.statusCode = 200;
+    response.end('{"ok":true}');
+  });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'openfin-secret-tracker-'));
+  try {
+    const registryPath = path.join(tempDir, 'registry.json');
+    const statusPath = path.join(tempDir, 'status.json');
+    const reportDir = path.join(tempDir, 'report');
+    fs.writeFileSync(registryPath, JSON.stringify({ sources: [{
+      id: 'source.test.secret',
+      urls: { canonical: 'https://example.invalid', all: ['https://example.invalid'] },
+      access: { method: 'api', requires_secret: true, request_url: `http://127.0.0.1:${server.address().port}/api`, credential_env: 'OPENFIN_TEST_API_KEY', credential_query_param: 'auth' },
+      refresh: { sla_hours: 1, change_detection: 'http-checksum' },
+    }] }));
+    fs.writeFileSync(statusPath, JSON.stringify({ statuses: [] }));
+    const { stdout } = await execFileAsync('node', ['scripts/knowledge/track-sources.mjs', '--dry-run', '--force', '--registry', registryPath, '--status-file', statusPath, '--report-dir', reportDir], { cwd: root, encoding: 'utf8', env: { ...process.env, OPENFIN_TEST_API_KEY: 'test-secret' } });
+    const result = JSON.parse(stdout);
+    assert.equal(authenticated, true);
+    assert.equal(result.status_counts.unchanged, 1);
+    const report = fs.readFileSync(path.join(reportDir, 'source-status-report.json'), 'utf8');
+    assert.equal(JSON.parse(report).results[0].authenticated, true);
+    assert.equal(report.includes('test-secret'), false);
+  } finally {
+    await new Promise(resolve => server.close(resolve));
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
 test('manifest keeps OpenFin URLs and fail-closed quality', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'docs/opentax/finance-ontology-manifest.json')));
   const derived = JSON.parse(execFileSync('node', ['scripts/knowledge/derive-quality.mjs', '--check'], { cwd: root, encoding: 'utf8' }));
@@ -100,6 +136,12 @@ test('manifest keeps OpenFin URLs and fail-closed quality', () => {
   assert.equal(manifest.recommendation_enabled, derived.recommendation_enabled);
   assert.equal(manifest.release_status, derived.release_status);
   assert.ok(manifest.quality_exports.some(entry => entry.id === 'openfin-provenance-coverage'));
+  assert.equal(manifest.decision_offers.id, 'openfin-decision-offers');
+  const decisionPath = path.join(root, 'docs/opentax/openfin-decision-offers-2026.json');
+  const decisionPayload = JSON.parse(fs.readFileSync(decisionPath));
+  assert.equal(manifest.decision_offers.item_count, decisionPayload.item_count);
+  assert.equal(manifest.decision_offers.export_checksum, crypto.createHash('sha256').update(stable(decisionPayload)).digest('hex'));
+  assert.equal(manifest.decision_offers.content_checksum, hash(decisionPath));
   assert.ok(!JSON.stringify(manifest).includes('github.io/TaxMeter/opentax'));
 });
 

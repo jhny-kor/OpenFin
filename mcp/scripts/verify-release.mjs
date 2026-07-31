@@ -15,11 +15,23 @@ const manifestForChecksum = { ...manifest };
 delete manifestForChecksum.manifest_checksum;
 const calculatedManifestChecksum = crypto.createHash("sha256").update(stable(manifestForChecksum)).digest("hex");
 const manifestChecksumVerified = typeof manifest.manifest_checksum === "string" && manifest.manifest_checksum === calculatedManifestChecksum;
-const entries = [manifest.search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, ...(manifest.exports || [])];
+const entries = [manifest.search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, manifest.decision_offers, ...(manifest.exports || [])];
 const checksumsPresent = entries.length > 0 && entries.every((entry) => typeof entry?.export_checksum === "string" && entry.export_checksum.length > 0);
-const checksumVerified = manifestChecksumVerified && checksumsPresent;
+let decisionChecksumVerified = false;
+if (manifest.decision_offers?.url) {
+  const decisionFile = String(manifest.decision_offers.path || manifest.decision_offers.url).split("/").at(-1);
+  const decisionResponse = await fetch(new URL(decisionFile, manifestUrl), { headers: { accept: "application/json" } });
+  if (decisionResponse.ok) {
+    const content = await decisionResponse.text();
+    const payload = JSON.parse(content);
+    decisionChecksumVerified = crypto.createHash("sha256").update(content).digest("hex") === manifest.decision_offers.content_checksum
+      && crypto.createHash("sha256").update(stable(payload)).digest("hex") === manifest.decision_offers.export_checksum
+      && payload.item_count === manifest.decision_offers.item_count;
+  }
+}
+const checksumVerified = manifestChecksumVerified && checksumsPresent && decisionChecksumVerified;
 const gate = evaluateReleaseGate({ manifest, checksumVerified, deploymentCommit: process.env.DEPLOYMENT_COMMIT });
 const recommendationOnly = process.argv.includes('--recommendation');
-const result = { manifest_url: manifestUrl, generation_id: manifest.generation_id ?? null, live_generation_id: manifest.openfin_120_live_regression?.generation_id ?? null, core_search_status: manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status, comparison_status: manifest.comparison_status ?? manifest.comparison_release_status, recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status, release_status: manifest.release_status, recommendation_enabled: manifest.recommendation_enabled === true, manifest_checksum_verified: manifestChecksumVerified, checksums_present: checksumsPresent, gate, check: recommendationOnly ? 'recommendation' : 'integrity' };
+const result = { manifest_url: manifestUrl, generation_id: manifest.generation_id ?? null, live_generation_id: manifest.openfin_120_live_regression?.generation_id ?? null, core_search_status: manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status, comparison_status: manifest.comparison_status ?? manifest.comparison_release_status, recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status, release_status: manifest.release_status, recommendation_enabled: manifest.recommendation_enabled === true, manifest_checksum_verified: manifestChecksumVerified, checksums_present: checksumsPresent, decision_checksum_verified: decisionChecksumVerified, gate, check: recommendationOnly ? 'recommendation' : 'integrity' };
 console.log(JSON.stringify(result, null, 2));
 if (!checksumVerified || (recommendationOnly && manifest.recommendation_enabled === true && gate.status !== "ready")) process.exit(1);

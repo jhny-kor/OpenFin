@@ -1,10 +1,8 @@
-// @ts-nocheck
 import { z } from "zod";
-
-type ToolContext = Record<string, any>;
+import type { FinanceItem, FinanceRecord, ToolContext } from "../types/tool-context.ts";
 
 export function registerCompareTool(ctx: ToolContext): void {
-  const { server, env, mcpResult, ENABLE_DEPOSIT_COMPARISON, ENABLE_SAVING_COMPARISON, COMPARISON_ENGINE_VERSION, dedupeProductItems, loadDetailedItemsForDomain, loadSearchIndexMetadata, loadFinanceArtifacts, normalizeQuery, comparisonBlocker, comparisonOptionCandidates, comparisonOptionBlocker, comparisonCandidate, reasonCounts, EXCLUDED_SAMPLE_LIMIT, comparisonBlockers, domainMatches, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
+  const { server, env, mcpResult, COMPARISON_ENGINE_VERSION, dedupeProductItems, loadDetailedItemsForDomain, loadSearchIndexMetadata, loadFinanceManifest, manifestChecksumContract, comparisonReleaseGate, loadFinanceArtifacts, normalizeQuery, comparisonBlocker, comparisonOptionCandidates, comparisonOptionBlocker, comparisonCandidate, reasonCounts, EXCLUDED_SAMPLE_LIMIT, comparisonBlockers, domainMatches, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
   server.registerTool(
     "compare",
     {
@@ -17,7 +15,10 @@ export function registerCompareTool(ctx: ToolContext): void {
         monthly_payment_krw: z.number().int().positive().optional(),
         term_months: z.number().int().positive(),
         join_channels: z.array(z.string()).optional(),
-        eligible_conditions: z.array(z.string()).optional(),
+        context: z.object({
+          as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+          facts: z.object({ can_transfer_salary: z.boolean().optional(), can_use_card: z.boolean().optional(), can_set_auto_transfer: z.boolean().optional(), is_new_customer: z.boolean().optional() }).strict().optional(),
+        }).strict().optional(),
         saving_method: z.enum(["free", "fixed"]).optional(),
         tax_rate_percent: z.number().min(0).max(100).optional(),
         limit: z.number().int().min(1).max(20).optional(),
@@ -28,21 +29,24 @@ export function registerCompareTool(ctx: ToolContext): void {
         ...READ_ONLY_TOOL_ANNOTATIONS,
       },
     },
-    async ({ domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, tax_rate_percent, limit }) => {
-      if ((domain === "deposit" && !ENABLE_DEPOSIT_COMPARISON) || (domain === "saving" && !ENABLE_SAVING_COMPARISON)) {
-        const payload = { domain, data_as_of: null, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison is currently disabled."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
+    async ({ domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, context, saving_method, tax_rate_percent, limit }) => {
+      const manifest = await loadFinanceManifest(env);
+      const gate = comparisonReleaseGate(manifest, domain);
+      if (!manifestChecksumContract(manifest) || gate.status !== "ready") {
+        const payload = { domain, status: "blocked", reason_codes: [...(!manifestChecksumContract(manifest) ? ["MANIFEST_CHECKSUM_MISMATCH"] : []), ...gate.reasons], data_as_of: null, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison requires the current manifest domain gate."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
         return mcpResult(payload);
       }
       const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain));
       const metadata = await loadSearchIndexMetadata(env);
       const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       const channels = (join_channels ?? []).map((channel) => normalizeQuery(channel));
-      const conditions = new Set(eligible_conditions ?? []);
+      const salesVerificationTtlHours = Number(manifest.domain_readiness?.[domain]?.sales_verification_ttl_hours ?? 0);
+      const facts = { ...(context?.facts ?? {}), ...(context?.as_of ? { as_of: context.as_of } : {}) };
       const excluded: Array<{ item_id: string; reason: string }> = [];
-      const candidates: Record<string, unknown>[] = [];
+      const candidates: FinanceRecord[] = [];
       const candidateTargetIds = new Set<string>();
       for (const item of items.filter((candidate) => domainMatches(candidate, domain))) {
-        const blocker = comparisonBlocker(item, artifacts);
+        const blocker = comparisonBlocker(item, artifacts, salesVerificationTtlHours);
         if (blocker) {
           excluded.push({ item_id: item.id, reason: blocker });
           continue;
@@ -59,9 +63,12 @@ export function registerCompareTool(ctx: ToolContext): void {
           continue;
         }
         candidateTargetIds.add(item.id);
-        candidates.push(...usableOptions.map((option) => comparisonCandidate(item, option, conditions, deposit_amount_krw, monthly_payment_krw, tax_rate_percent ?? 15.4)));
+        candidates.push(...usableOptions.map((option) => comparisonCandidate(item, option, facts, deposit_amount_krw, monthly_payment_krw, tax_rate_percent ?? 15.4)));
       }
       candidates.sort((left, right) => {
+        const leftNet = typeof left.net_interest_krw === "number" ? left.net_interest_krw : null;
+        const rightNet = typeof right.net_interest_krw === "number" ? right.net_interest_krw : null;
+        if (leftNet !== null && rightNet !== null && leftNet !== rightNet) return rightNet - leftNet;
         const leftRate = typeof left.achievable_rate_percent === "number" ? left.achievable_rate_percent : 0;
         const rightRate = typeof right.achievable_rate_percent === "number" ? right.achievable_rate_percent : 0;
         return rightRate - leftRate || String(left.item_id).localeCompare(String(right.item_id));
@@ -96,7 +103,7 @@ export function registerCompareTool(ctx: ToolContext): void {
         calculation_policy_basis_date: "2026-07-14",
         comparison_basis: { candidate_values_are_from_final_object: true, object_version: COMPARISON_ENGINE_VERSION },
         executed_at: new Date().toISOString(),
-        requested_intent: { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, tax_rate_percent: tax_rate_percent ?? 15.4 },
+        requested_intent: { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, context: context ?? {}, saving_method, tax_rate_percent: tax_rate_percent ?? 15.4 },
         executed_mode: "deterministic_comparison",
       };
       return mcpResult(payload);

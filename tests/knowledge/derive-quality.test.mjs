@@ -2,8 +2,17 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { deriveQuality, liveRegressionCurrent } from '../../scripts/knowledge/derive-quality.mjs';
 
-const base = { id: 'product.deposit.a', type: 'bank-product', decision_critical: true, search_type: 'deposit', base_rate_percent: 3, maximum_rate_percent: 4, term_months: 12, interest_method: 'simple', preferential_rate_conditions: ['x'], minimum_deposit_krw: 1, maximum_deposit_krw: 10, early_termination_condition: 'x', deposit_protection_status: 'protected', join_member: 'all', join_channel: ['web'], sales_verification_status: 'verified_active', sales_status: 'active', freshness_status: 'current' };
+const base = { id: 'product.deposit.a', type: 'bank-product', decision_critical: true, search_type: 'deposit', base_rate_percent: 3, maximum_rate_percent: 4, term_months: 12, interest_method: 'simple', preferential_rate_conditions: ['x'], minimum_deposit_krw: 1, maximum_deposit_krw: 10, early_termination_condition: 'x', deposit_protection_status: 'protected', join_member: 'all', join_channel: ['web'], join_channels: ['web'], eligibility_rules: [], bonus_rate_rules: [], early_termination_rules: [], sales_verification_status: 'verified_active', sales_status: 'active', freshness_status: 'current' };
 const livePolicy = { live_regression: { required_count: 120, required_mode: 'live', freshness_ttl_hours: 24 } };
+const depositFields = ['deposit_protection_status', 'join_channels', 'eligibility_rules', 'bonus_rate_rules', 'early_termination_rules', 'sales_verification_status'];
+const verified = field => ({ field, verification_status: 'verified', freshness_status: 'current', conflict: false, source_id: 'source.test' });
+const strictOffer = index => ({
+  id: `offer.deposit.${index}`, title: `Deposit ${index}`, type: 'deposit-offer', product_id: `product.deposit.${index}`, provider_id: 'provider.test', observed_at: '2026-07-30T00:00:00Z', valid_from: '2026-07-30T00:00:00Z', valid_to: null,
+  deposit_protection_status: 'protected', join_channels: ['web'], eligibility_rules: [], bonus_rate_rules: [],
+  early_termination_rules: [{ rule_id: `early.${index}`, rule_type: 'early-termination', predicate: {}, effect: { rate_percent: 1 }, valid_from: '2026-07-30T00:00:00Z', valid_to: null, field_assertions: ['predicate', 'effect', 'valid_from', 'valid_to'].map(field => verified(`early.${index}.${field}`)) }],
+  sales_verification_status: 'verified_active', field_assertions: depositFields.map(verified), provenance: [{}],
+  options: [{ option_id: `offer.deposit.${index}.12`, type: 'offer-option', term_months: 12, base_rate_percent: 3, maximum_rate_percent: 4, interest_method: 'simple', amount_limit: { minimum_krw: 1, maximum_krw: 10 }, field_assertions: ['base_rate_percent', 'maximum_rate_percent', 'term_months', 'interest_method', 'minimum_deposit_krw', 'maximum_deposit_krw'].map(field => verified(`options.${index}.${field}`)) }],
+});
 
 test('live evidence must be current, complete, and attributable to a deployment', () => {
   const checkedAt = Date.parse('2026-07-30T00:00:00Z');
@@ -20,11 +29,10 @@ test('field values alone never become field-verified candidates', () => {
   assert.equal(result.recommendation_enabled, false);
 });
 
-test('decision fields need a strict decision-critical schema gate', () => {
-  const fields = ['base_rate_percent', 'maximum_rate_percent', 'term_months', 'interest_method', 'preferential_rate_conditions', 'minimum_deposit_krw', 'maximum_deposit_krw', 'early_termination_condition', 'deposit_protection_status', 'join_member', 'join_channel', 'sales_verification_status'];
-  const result = deriveQuality([{ ...base, decision_critical: false, source_assertions: fields.map(field => ({ field, verification_status: 'verified', freshness_status: 'current' })) }], { sourceCount: 1, exportCount: 10, searchItemCount: 1, relationshipCount: 1 });
+test('legacy products cannot establish a decision gate without strict OfferSnapshots', () => {
+  const result = deriveQuality([{ ...base, decision_critical: false, source_assertions: depositFields.map(verified) }], { sourceCount: 1, exportCount: 10, searchItemCount: 1, relationshipCount: 1 });
   assert.equal(result.domains.deposit.field_verified_candidate_count, 0);
-  assert.ok(result.domains.deposit.blockers.includes('STRICT_SCHEMA_NOT_APPLIED'));
+  assert.ok(result.domains.deposit.blockers.includes('STRICT_OFFER_SNAPSHOT_MISSING'));
 });
 
 test('generation binding and explicit evaluation time are deterministic', () => {
@@ -38,18 +46,17 @@ test('generation binding and explicit evaluation time are deterministic', () => 
 });
 
 test('a verified deposit subset opens comparison without claiming public recommendation', () => {
-  const fields = ['base_rate_percent', 'maximum_rate_percent', 'term_months', 'interest_method', 'preferential_rate_conditions', 'minimum_deposit_krw', 'maximum_deposit_krw', 'early_termination_condition', 'deposit_protection_status', 'join_member', 'join_channel', 'sales_verification_status'];
-  const records = Array.from({ length: 20 }, (_, index) => ({ ...base, id: `product.deposit.${index}`, source_assertions: fields.map(field => ({ field, verification_status: 'verified', freshness_status: 'current', source_id: 'source.test' })) }));
-  const result = deriveQuality(records, { sourceCount: 1, exportCount: 10, searchItemCount: 20, relationshipCount: 1 });
+  const records = Array.from({ length: 20 }, (_, index) => strictOffer(index));
+  const result = deriveQuality(records, { sourceCount: 1, exportCount: 10, searchItemCount: 0, relationshipCount: 1 });
   assert.equal(result.domains.deposit.status, 'limited_public_ready');
   assert.equal(result.comparison_release_status, 'limited');
   assert.equal(result.recommendation_enabled, false);
 });
 
-test('domains without a decision-field contract are explicitly schema-not-defined', () => {
+test('decision-critical domains use their policy field contract', () => {
   const result = deriveQuality([{ id: 'product.card.a', type: 'card-product', title: 'Card A' }], { sourceCount: 1, exportCount: 10, searchItemCount: 1, relationshipCount: 1, evaluationAsOf: '2026-07-30T00:00:00Z' });
-  assert.equal(result.domains.card.schema_defined, false);
-  assert.equal(result.domains.card.decision_field_completeness, null);
-  assert.equal(result.domains.card.complete_field_count, null);
-  assert.equal(result.domains.card.status, 'schema_not_defined');
+  assert.equal(result.domains.card.schema_defined, true);
+  assert.equal(result.domains.card.decision_field_completeness, 0);
+  assert.equal(result.domains.card.complete_field_count, 0);
+  assert.equal(result.domains.card.status, 'domain_coverage_incomplete');
 });

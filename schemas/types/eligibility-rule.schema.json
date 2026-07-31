@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/types/eligibility-rule.schema.json",
+  "title": "OpenFin eligibility rule",
+  "type": "object",
+  "required": ["rule_id", "rule_type", "predicate", "unknown_policy", "valid_from", "valid_to", "field_assertions"],
+  "properties": { "rule_id": { "type": "string", "minLength": 1 }, "rule_type": { "const": "eligibility" }, "predicate": { "$ref": "#/definitions/predicate" }, "unknown_policy": { "enum": ["not_applied", "exclude", "review"] }, "valid_from": { "type": ["string", "null"], "format": "date-time" }, "valid_to": { "type": ["string", "null"], "format": "date-time" }, "field_assertions": { "type": "array", "minItems": 3, "items": { "$ref": "../assertion.schema.json" }, "allOf": [{ "contains": { "properties": { "field": { "pattern": "(^|\\.)predicate$" } }, "required": ["field"] } }, { "contains": { "properties": { "field": { "pattern": "(^|\\.)valid_from$" } }, "required": ["field"] } }, { "contains": { "properties": { "field": { "pattern": "(^|\\.)valid_to$" } }, "required": ["field"] } }] } },
+  "definitions": { "predicate": { "type": "object", "required": ["fact", "operator", "expected"], "properties": { "fact": { "type": "string" }, "operator": { "enum": ["eq", "neq", "in", "not_in", "gte", "lte", "between", "contains", "and", "or", "not"] }, "expected": {}, "conditions": { "type": "array", "items": { "$ref": "#/definitions/predicate" } } }, "additionalProperties": false } },
+  "additionalProperties": false
+}

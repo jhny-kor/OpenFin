@@ -1,14 +1,33 @@
-// @ts-nocheck
 import { z } from "zod";
+import type { FinanceItem, FinanceRecord, ToolContext } from "../types/tool-context.ts";
 
-type ToolContext = Record<string, any>;
+const ISO_DATE = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
+const KRW = z.number().finite().nonnegative();
+const SCORE_COMPONENTS_SCHEMA = z.object({ after_tax_return: z.number().optional(), liquidity_fit: z.number().optional(), term_fit: z.number().optional(), condition_attainability: z.number().optional(), provider_preference: z.number().optional(), freshness_confidence: z.number().optional() }).strict();
+const SNAPSHOT_SCHEMA = z.object({
+  as_of: ISO_DATE.optional(), currency: z.literal("KRW").optional(),
+  monthly_net_income_krw: KRW.optional(), essential_monthly_expenses_krw: KRW.optional(), discretionary_monthly_expenses_krw: KRW.optional(),
+  liquid_assets_krw: KRW.optional(), investment_assets_krw: KRW.optional(), other_assets_krw: KRW.optional(), dependents: z.number().int().nonnegative().optional(),
+  liabilities: z.array(z.object({ id: z.string().optional(), kind: z.string().optional(), balance_krw: KRW, annual_rate_percent: z.number().finite().min(0).max(100).optional(), monthly_payment_krw: KRW.optional() }).strict()).max(200).optional(),
+  goals: z.array(z.object({ id: z.string().optional(), target_amount_krw: KRW, current_funding_krw: KRW.optional(), target_date: ISO_DATE.optional(), liquidity_need: z.enum(["high", "short", "principal", "low", "long", "growth", "unknown"]).optional() }).strict()).max(200).optional(),
+  liquidity_requirement: z.object({ months: z.number().nonnegative().optional(), required_amount_krw: KRW.optional() }).strict().optional(),
+  risk_tolerance: z.enum(["low", "medium", "high", "unknown"]).optional(), risk_capacity: z.enum(["low", "medium", "high", "unknown"]).optional(),
+  constraints: z.object({ provider: z.union([z.string(), z.array(z.string())]).optional(), term_months: z.union([z.number().int().positive(), z.array(z.number().int().positive())]).optional(), join_channel: z.union([z.string(), z.array(z.string())]).optional(), minimum_amount_krw: KRW.optional(), maximum_amount_krw: KRW.optional() }).strict().optional(),
+  asset_allocation: z.object({}).strict().optional(), insurance_coverage: z.object({ required_coverage_krw: KRW.optional(), current_coverage_krw: KRW.optional() }).strict().optional(),
+}).strict();
+const PRODUCT_REF_SCHEMA = z.object({ id: z.string().min(1).optional(), item_id: z.string().min(1).optional() }).strict().refine((value) => Boolean(value.id ?? value.item_id), "id or item_id is required");
+const SCENARIO_SCHEMA = z.object({ months: z.number().int().min(1).max(120).optional(), additional_monthly_payment_krw: KRW.optional(), monthly_contribution_krw: KRW.optional() }).strict();
+const CANDIDATE_SCHEMA = z.object({ item_id: z.string().optional(), id: z.string().optional(), eligible: z.boolean().optional(), matched_conditions: z.array(z.string()).optional(), failed_conditions: z.array(z.string()).optional(), unknown_conditions: z.array(z.string()).optional(), score_components: SCORE_COMPONENTS_SCHEMA.optional(), tradeoffs: z.array(z.string()).optional(), sources: z.array(z.string().url()).optional(), data_as_of: ISO_DATE.optional(), as_of: ISO_DATE.optional(), assumptions: z.array(z.string()).optional(), verification_status: z.enum(["verified", "reference_only", "listing_only", "unverified"]).optional(), source_assertions: z.array(z.object({ source_id: z.string(), checksum: z.string(), verification_status: z.enum(["verified", "reference_only", "listing_only", "unverified"]) }).strict()).optional(), recommendation_status: z.string().optional(), promotion_receipt: z.object({ receipt_id: z.string() }).strict().optional() }).strict();
+const ADVICE_SCHEMA = z.object({ mode: z.enum(["decision_support", "recommendation"]), status: z.enum(["ready", "blocked", "insufficient_information"]), reason_codes: z.array(z.string()), profile_as_of: ISO_DATE.nullable(), data_as_of: ISO_DATE.nullable(), assumptions: z.array(z.string()), missing_information: z.array(z.string()), financial_needs: z.array(z.unknown()), candidates: z.array(CANDIDATE_SCHEMA), decision_owner: z.literal("user"), limitations: z.array(z.unknown()), audit_id: z.string() }).strict();
+
+export const PERSONAL_FINANCE_SNAPSHOT_SCHEMA = SNAPSHOT_SCHEMA;
 
 export function registerPersonalFinanceTools(ctx: ToolContext): void {
   const { server, env, mcpResult, financeResult, financeSafety, normalizeFinanceSnapshot, financeMetrics, financeNeeds, assertFinanceSafe, financeNumber, isRecord, evaluateEligibility, productDomain, financeAuditId, loadSearchItems, hydrateSearchItem, PERSONAL_FINANCE_POLICY_VERSION, ADVICE_POLICY_VERSION, STANDARD_OUTPUT_SCHEMA, READ_ONLY_TOOL_ANNOTATIONS } = ctx;
   server.registerTool("get_finance_summary", {
     title: "Get Personal Finance Summary",
     description: "Summarize a transient user-supplied finance snapshot and prioritize needs. This is decision support, not a recommendation.",
-    inputSchema: { snapshot: z.record(z.string(), z.unknown()).optional() },
+    inputSchema: { snapshot: SNAPSHOT_SCHEMA.optional() },
     annotations: { title: "Get Personal Finance Summary", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async ({ snapshot }) => {
     const normalized = normalizeFinanceSnapshot(snapshot);
@@ -20,7 +39,7 @@ export function registerPersonalFinanceTools(ctx: ToolContext): void {
   server.registerTool("calculate_finance_metrics", {
     title: "Calculate Finance Metrics",
     description: "Calculate deterministic personal-finance metrics from a transient snapshot.",
-    inputSchema: { snapshot: z.record(z.string(), z.unknown()).optional() },
+    inputSchema: { snapshot: SNAPSHOT_SCHEMA.optional() },
     annotations: { title: "Calculate Finance Metrics", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async ({ snapshot }) => {
     const normalized = normalizeFinanceSnapshot(snapshot);
@@ -31,7 +50,7 @@ export function registerPersonalFinanceTools(ctx: ToolContext): void {
   server.registerTool("evaluate_product_fit", {
     title: "Evaluate Finance Product Fit",
     description: "Evaluate explicit fit conditions for one supplied product without making a recommendation.",
-    inputSchema: { snapshot: z.record(z.string(), z.unknown()).optional(), item: z.record(z.string(), z.unknown()), domain: z.string().optional() },
+    inputSchema: { snapshot: SNAPSHOT_SCHEMA.optional(), item: PRODUCT_REF_SCHEMA, domain: z.string().optional() },
     outputSchema: STANDARD_OUTPUT_SCHEMA,
     annotations: { title: "Evaluate Finance Product Fit", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async ({ snapshot, item, domain }) => {
@@ -44,9 +63,6 @@ export function registerPersonalFinanceTools(ctx: ToolContext): void {
       id: requestedId ?? "unresolved-product",
       title: "Unresolved catalog product",
       type: "unknown",
-      status: item.status,
-      product_status: item.product_status,
-      source_listing_status: item.source_listing_status,
       source_assertions: [],
     };
     const value = candidateItem as Record<string, unknown>;
@@ -84,7 +100,7 @@ export function registerPersonalFinanceTools(ctx: ToolContext): void {
   server.registerTool("simulate_finance_scenario", {
     title: "Simulate Finance Scenario",
     description: "Run a deterministic educational scenario using simple monthly balance arithmetic.",
-    inputSchema: { snapshot: z.record(z.string(), z.unknown()).optional(), scenario: z.record(z.string(), z.unknown()).optional() },
+    inputSchema: { snapshot: SNAPSHOT_SCHEMA.optional(), scenario: SCENARIO_SCHEMA.optional() },
     annotations: { title: "Simulate Finance Scenario", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async ({ snapshot, scenario }) => {
     const normalized = normalizeFinanceSnapshot(snapshot); assertFinanceSafe(scenario);
@@ -99,7 +115,7 @@ export function registerPersonalFinanceTools(ctx: ToolContext): void {
   server.registerTool("explain_recommendation", {
     title: "Explain Finance Decision Support",
     description: "Explain inclusion, exclusion, tradeoffs, and limitations for an already-produced candidate; it never creates a recommendation.",
-    inputSchema: { candidate: z.record(z.string(), z.unknown()), snapshot: z.record(z.string(), z.unknown()).optional() },
+    inputSchema: { candidate: CANDIDATE_SCHEMA, snapshot: SNAPSHOT_SCHEMA.optional() },
     annotations: { title: "Explain Finance Decision Support", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async ({ candidate, snapshot }) => {
     assertFinanceSafe(candidate); const normalized = normalizeFinanceSnapshot(snapshot); const eligible = candidate.eligible === true; const explanation = { candidate_id: candidate.item_id ?? candidate.id ?? null, why_included: candidate.matched_conditions ?? candidate.score_components ?? [], why_excluded: candidate.failed_conditions ?? candidate.unknown_conditions ?? [], tradeoffs: candidate.tradeoffs ?? ["source status, eligibility conditions, liquidity, and risk must be checked before the user decides"], sources: candidate.sources ?? [], data_as_of: candidate.data_as_of ?? candidate.as_of ?? normalized.as_of ?? null };
@@ -109,7 +125,7 @@ export function registerPersonalFinanceTools(ctx: ToolContext): void {
   server.registerTool("validate_finance_advice", {
     title: "Validate Finance Advice Contract",
     description: "Validate the required fail-closed OpenFin advice response fields and recommendation gate.",
-    inputSchema: { advice: z.record(z.string(), z.unknown()) },
+    inputSchema: { advice: ADVICE_SCHEMA },
     outputSchema: STANDARD_OUTPUT_SCHEMA,
     annotations: { title: "Validate Finance Advice Contract", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async ({ advice }) => {
