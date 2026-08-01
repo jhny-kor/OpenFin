@@ -2047,6 +2047,7 @@ async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceI
   const directExportId = directExportIdForItem(rawId);
   const indexedItem = directExportId || rawId.startsWith("missing.") ? undefined : resolveCanonicalItemId(rawId, await loadSearchItems(env));
   const itemId = indexedItem?.id ?? resolveItemId(rawId);
+  if (rawId.startsWith("missing.")) throw new Error(`Finance ontology item not found: ${rawId}`);
   // Non-product nodes are fully represented in the compact index when no
   // detail shard is declared; avoid loading every ontology export.
   if (indexedItem && !["card-product", "bank-product", "insurance-product"].includes(indexedItem.type)) {
