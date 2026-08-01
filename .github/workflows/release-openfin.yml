@@ -172,7 +172,7 @@ jobs:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
           LIVE_METADATA_ATTEMPTS: 12
           LIVE_METADATA_DELAY_MS: 1000
-          LIVE_REQUEST_TIMEOUT_MS: 5000
+          LIVE_REQUEST_TIMEOUT_MS: 15000
           LIVE_CASE_ATTEMPTS: 2
           LIVE_CASE_RETRY_DELAY_MS: 250
       - name: Validate endpoint quality evidence
