@@ -40,6 +40,11 @@ jobs:
           npm run knowledge:validate
           npm run knowledge:derive-quality:check
           npm test
+        env:
+          OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          OPENFIN_BUILD_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+          OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+          OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
       - name: Validate Worker and financial quality contracts
         working-directory: mcp
         run: |
