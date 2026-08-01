@@ -243,9 +243,12 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
+          name: github-pages-final
           path: release/docs
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-final
 
   deploy-mcp-final:
     needs: deploy-pages-final
