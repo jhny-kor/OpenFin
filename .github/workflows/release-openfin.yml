@@ -134,7 +134,7 @@ jobs:
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
       - name: Run financial quality against deployed MCP endpoint
-        run: npm run financial-quality-live > ../financial-quality-live-report.json
+        run: npm --silent run financial-quality-live > ../financial-quality-live-report.json
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
       - name: Validate endpoint quality evidence
