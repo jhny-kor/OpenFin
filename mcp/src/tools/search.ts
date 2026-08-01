@@ -71,6 +71,9 @@ export function registerSearchTool(ctx: ToolContext): void {
         return score;
       };
       const supportQuery = SUPPORT_INTENT_RE.test(normalizedQuery);
+      const supportSearchTokens = supportQuery
+        ? normalizedQuery.split(/\s+/).filter((token) => token && !["지원", "지원금", "보조금", "신청"].includes(token))
+        : [];
       const excludedSummary: Record<string, number> = {};
       const addExcluded = (item: Parameters<typeof scoreItem>[0], reason: string): void => {
         if (!supportQuery || item.type !== "support-program") return;
@@ -78,6 +81,10 @@ export function registerSearchTool(ctx: ToolContext): void {
       };
       const scoredItems: Array<{ item: Parameters<typeof scoreItem>[0]; score: number }> = [];
       for (const item of items) {
+        if (supportSearchTokens.length && typeof item.search_text === "string" && !supportSearchTokens.some((token) => (item.search_text as string).includes(token))) {
+          addExcluded(item, "query_mismatch");
+          continue;
+        }
         if (!isPubliclySearchable(item)) { addExcluded(item, "not_publicly_searchable"); continue; }
         if (allowedTypes && !allowedTypes.has(item.type)) { addExcluded(item, "type_filter"); continue; }
         if (!matchesSearchFilters(item, filters, artifacts)) { addExcluded(item, "filter_mismatch"); continue; }

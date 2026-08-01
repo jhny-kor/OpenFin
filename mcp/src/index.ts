@@ -343,6 +343,8 @@ let cachedSearchIndexMetadata: CachedSearchIndexMetadata | undefined;
 let cachedSearchItems: CachedSearchItems | undefined;
 const cachedSearchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
+// ponytail: pin the large support shard and keep one ephemeral domain shard; a broader cache retains too much parsed JSON in a Worker isolate.
+const PINNED_SEARCH_SHARD_IDS = new Set(["support"]);
 const SEARCH_SHARD_CACHE_LIMIT = 1;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
@@ -1525,7 +1527,13 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<reado
   const pendingKey = generationCacheKey(requestGeneration, key);
   const cached = cachedSearchShards.get(key);
   if (cached && cached.generation === manifestGeneration && now - cached.loadedAt < CACHE_TTL_MS) return cached.items;
-  if (cachedSearchShards.size >= SEARCH_SHARD_CACHE_LIMIT) cachedSearchShards.clear();
+  if (!PINNED_SEARCH_SHARD_IDS.has(key)) {
+    const evictable = [...cachedSearchShards.keys()].filter((shardId) => !PINNED_SEARCH_SHARD_IDS.has(shardId));
+    while (evictable.length >= SEARCH_SHARD_CACHE_LIMIT) {
+      const shardId = evictable.shift();
+      if (shardId) cachedSearchShards.delete(shardId);
+    }
+  }
   const pending = inFlightSearchShards.get(pendingKey);
   if (pending) return pending;
   const request = (async () => {
