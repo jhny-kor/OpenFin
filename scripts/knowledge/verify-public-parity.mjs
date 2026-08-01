@@ -19,13 +19,17 @@ const getJson = async (url, attempt) => {
 const values = ({ artifact_contract: contract = {}, generation_id, deployment_commit }) => ({ ...contract, generation_id: contract.generation_id ?? generation_id ?? null, deployment_commit: contract.deployment_commit ?? deployment_commit ?? null });
 const expected = values(local);
 const mismatch = (label, actual) => contractKeys.filter(key => (actual[key] ?? null) !== (expected[key] ?? null)).map(key => `${label}.${key}: expected ${expected[key] ?? null}, got ${actual[key] ?? null}`);
+const liveKeys = ['status', 'mode', 'generation_id', 'deployment_commit', 'fixture_checksum', 'test_count', 'passed_count', 'failed_count', 'skipped_count'];
+const liveMismatch = (embedded, live) => liveKeys.filter(key => (embedded?.[key] ?? null) !== (live?.[key] ?? null)).map(key => `manifest.live.${key}: expected ${live?.[key] ?? null}, got ${embedded?.[key] ?? null}`);
 let lastErrors = [];
 for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
     const [pages, health] = await Promise.all([getJson(pagesUrl, attempt), getJson(workerUrl, attempt)]);
     const evidencePath = process.env.OPENFIN_LIVE_EVIDENCE_PATH || path.join(ROOT, 'evidence/live-regression/current.json');
     const live = fs.existsSync(evidencePath) ? json(evidencePath) : {};
-    const errors = [...mismatch('pages', values(pages)), ...mismatch('worker', values(health))];
+    const embeddedLive = local.openfin_120_live_regression ?? {};
+    const errors = [...mismatch('pages', values(pages)), ...mismatch('worker', values(health)), ...liveMismatch(embeddedLive, live)];
+    if (embeddedLive.validation_status !== 'current') errors.push(`manifest.live.validation_status: expected current, got ${embeddedLive.validation_status ?? null}`);
     if (expectedCommit && expected.deployment_commit !== expectedCommit) errors.push(`repository.deployment_commit: expected ${expectedCommit}, got ${expected.deployment_commit}`);
     if ((live.generation_id ?? null) !== expected.generation_id) errors.push(`live.generation_id: expected ${expected.generation_id}, got ${live.generation_id ?? null}`);
     if ((live.fixture_checksum ?? null) !== expected.fixture_checksum) errors.push(`live.fixture_checksum: expected ${expected.fixture_checksum ?? null}, got ${live.fixture_checksum ?? null}`);

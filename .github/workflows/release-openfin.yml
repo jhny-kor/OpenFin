@@ -171,8 +171,109 @@ jobs:
             financial-quality-live-report.json
           retention-days: 7
 
+  finalize-artifact:
+    needs: [canonical-artifact, live-regression]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v5
+        with:
+          name: openfin-live-${{ github.sha }}
+          path: live
+      - name: Embed current live evidence in the final artifact
+        run: |
+          set -euo pipefail
+          test "$(jq -r '.status' live/live-regression-report.json)" = current
+          test "$(jq -r '.test_count' live/live-regression-report.json)" = 120
+          test "$(jq -r '.passed_count' live/live-regression-report.json)" = 120
+          test "$(jq -r '.failed_count' live/live-regression-report.json)" = 0
+          test "$(jq -r '.skipped_count' live/live-regression-report.json)" = 0
+          test "$(jq -r '.deployment_commit' live/live-regression-report.json)" = "$GITHUB_SHA"
+          mkdir -p evidence/live-regression
+          cp live/live-regression-report.json evidence/live-regression/current.json
+          OPENFIN_DEPLOYMENT_COMMIT="$GITHUB_SHA" npm run knowledge:build
+          npm run knowledge:schema-validate
+          npm run knowledge:validate
+          npm run knowledge:derive-quality:check
+          npm run knowledge:verify:quality-consistency
+          test "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)" = "$(jq -r '.generation_id' live/live-regression-report.json)"
+          test "$(jq -r '.openfin_120_live_regression.validation_status' docs/opentax/finance-ontology-manifest.json)" = current
+          test "$(jq -r '.openfin_120_live_regression.generation_id' docs/opentax/finance-ontology-manifest.json)" = "$(jq -r '.generation_id' live/live-regression-report.json)"
+          test "$(jq -r '.openfin_120_live_regression.deployment_commit' docs/opentax/finance-ontology-manifest.json)" = "$GITHUB_SHA"
+          test "$(jq -r '.openfin_120_live_regression.fixture_checksum' docs/opentax/finance-ontology-manifest.json)" = "$(jq -r '.fixture_checksum' live/live-regression-report.json)"
+          quality_export_passed="$(jq -s '[.[] | .quality_export_live_summary? | select(type == "object") | .live_passed_count] | unique | if length == 1 then .[0] else -1 end' docs/opentax/openfin-*.json)"
+          quality_export_generation="$(jq -s -r '[.[] | .quality_export_live_summary? | select(type == "object") | .generation_id] | unique | if length == 1 then .[0] else "mismatch" end' docs/opentax/openfin-*.json)"
+          test "$quality_export_passed" = "120"
+          test "$quality_export_generation" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
+          mkdir -p release-artifact
+          jq '{generation_id, deployment_commit, manifest_checksum, artifact_contract, capabilities, candidate_counts, recommendation_state, recommendation_enabled}' docs/opentax/finance-ontology-manifest.json > release-artifact/release-contract.json
+          sha256sum docs/opentax/finance-ontology-manifest.json release-artifact/release-contract.json > release-artifact/SHA256SUMS
+      - uses: actions/upload-artifact@v5
+        with:
+          name: openfin-final-${{ github.sha }}
+          path: |
+            docs
+            release-artifact
+            evidence/candidate-promotions
+            evidence/recommendation-approvals
+            evidence/live-regression
+          retention-days: 365
+
+  deploy-pages-final:
+    needs: finalize-artifact
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          name: openfin-final-${{ github.sha }}
+          path: release
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: release/docs
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-mcp-final:
+    needs: deploy-pages-final
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - name: Verify final Pages release integrity
+        run: |
+          for attempt in {1..12}; do DEPLOYMENT_COMMIT="$GITHUB_SHA" npm run verify:integrity && exit 0; sleep 10; done
+          exit 1
+      - name: Verify final recommendation gate
+        run: DEPLOYMENT_COMMIT="$GITHUB_SHA" npm run verify:recommendation
+      - name: Deploy Worker for the final release artifact
+        run: npx wrangler deploy --var DEPLOYMENT_COMMIT:"$GITHUB_SHA"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Smoke final deployed capabilities
+        run: npm run smoke
+        env:
+          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
+
   public-parity:
-    needs: live-regression
+    needs: deploy-mcp-final
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -181,7 +282,7 @@ jobs:
           node-version: 22
       - uses: actions/download-artifact@v5
         with:
-          name: openfin-release-${{ github.sha }}
+          name: openfin-final-${{ github.sha }}
           path: release
       - uses: actions/download-artifact@v5
         with:
