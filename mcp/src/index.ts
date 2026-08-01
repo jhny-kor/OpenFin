@@ -508,33 +508,6 @@ function supportParsedQuery(query: string, explicitRegion: string | undefined): 
   };
 }
 
-function supportExcludedSummary(
-  items: readonly FinanceItem[],
-  query: string,
-  supportRegion: string | undefined,
-  filters: SearchFilters,
-  allowedTypes: ReadonlySet<string> | null,
-  returnedIds: ReadonlySet<string>,
-  maxResults: number,
-  scoreCache?: ReadonlyMap<string, number>,
-): Record<string, number> {
-  if (!SUPPORT_INTENT_RE.test(query)) return {};
-  const counts: Record<string, number> = {};
-  const add = (reason: string) => { counts[reason] = (counts[reason] ?? 0) + 1; };
-  for (const item of items) {
-    if (item.type !== "support-program") continue;
-    if (returnedIds.has(item.id)) continue;
-    if (!isPubliclySearchable(item)) { add("not_publicly_searchable"); continue; }
-    if (allowedTypes && !allowedTypes.has(item.type)) { add("type_filter"); continue; }
-    if (!matchesSearchFilters(item, filters)) { add("filter_mismatch"); continue; }
-    if (!matchesSupportRegion(item, supportRegion)) { add("region_mismatch"); continue; }
-    if (!matchesSupportIntent(item, query)) { add("support_intent_mismatch"); continue; }
-    if ((scoreCache?.get(item.id) ?? scoreItem(item, query)) <= 0) { add("query_mismatch"); continue; }
-    if (maxResults > 0) add("result_limit");
-  }
-  return counts;
-}
-
 function inferredSearchTypeForQuery(query: string): string | undefined {
   if (TAX_INTENT_RE.test(query)) {
     return undefined;
@@ -2283,7 +2256,7 @@ function createServer(env: Env): McpServer {
     enrichSearchPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery,
     supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion,
     matchesSupportIntent, isPubliclySearchable, scoreItem, matchReasons, supportMatchTier,
-    itemUrl, sourceHealth, reasonCounts, supportParsedQuery, supportExcludedSummary,
+    itemUrl, sourceHealth, reasonCounts, supportParsedQuery,
     loadFinanceManifest, evaluateReleaseGate,
     manifestChecksumContract: (manifest: Record<string, unknown>) => manifestChecksumContract(manifest as FinanceManifest),
     comparisonReleaseGate: (manifest: Record<string, unknown>, domain: string) => comparisonReleaseGate(manifest as FinanceManifest, domain),

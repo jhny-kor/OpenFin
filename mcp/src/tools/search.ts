@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { SearchFilters, ToolContext } from "../types/tool-context.ts";
 
 export function registerSearchTool(ctx: ToolContext): void {
-  const { server, env, mcpResult, discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain, loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, isNamedProductQuery, strictNamedProductPayload, enrichSearchPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery, supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion, matchesSupportIntent, isPubliclySearchable, scoreItem, matchReasons, supportMatchTier, itemUrl, sourceHealth, reasonCounts, supportParsedQuery, supportExcludedSummary, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
+  const { server, env, mcpResult, discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain, loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, isNamedProductQuery, strictNamedProductPayload, enrichSearchPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery, supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion, matchesSupportIntent, isPubliclySearchable, scoreItem, matchReasons, supportMatchTier, itemUrl, sourceHealth, reasonCounts, supportParsedQuery, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
   server.registerTool(
     "search",
     {
@@ -70,12 +70,31 @@ export function registerSearchTool(ctx: ToolContext): void {
         scoreCache.set(item.id, score);
         return score;
       };
-      const results = items
-        .filter((item) => isPubliclySearchable(item) && (!allowedTypes || allowedTypes.has(item.type)) && matchesSearchFilters(item, filters, artifacts) && matchesSupportRegion(item, supportRegion) && matchesSupportIntent(item, normalizedQuery))
-        .map((item) => ({ item, score: cachedScore(item) }))
-        .filter((result) => result.score > 0)
+      const supportQuery = SUPPORT_INTENT_RE.test(normalizedQuery);
+      const excludedSummary: Record<string, number> = {};
+      const addExcluded = (item: Parameters<typeof scoreItem>[0], reason: string): void => {
+        if (!supportQuery || item.type !== "support-program") return;
+        excludedSummary[reason] = (excludedSummary[reason] ?? 0) + 1;
+      };
+      const scoredItems: Array<{ item: Parameters<typeof scoreItem>[0]; score: number }> = [];
+      for (const item of items) {
+        if (!isPubliclySearchable(item)) { addExcluded(item, "not_publicly_searchable"); continue; }
+        if (allowedTypes && !allowedTypes.has(item.type)) { addExcluded(item, "type_filter"); continue; }
+        if (!matchesSearchFilters(item, filters, artifacts)) { addExcluded(item, "filter_mismatch"); continue; }
+        if (!matchesSupportRegion(item, supportRegion)) { addExcluded(item, "region_mismatch"); continue; }
+        if (!matchesSupportIntent(item, normalizedQuery)) { addExcluded(item, "support_intent_mismatch"); continue; }
+        const score = cachedScore(item);
+        if (score <= 0) { addExcluded(item, "query_mismatch"); continue; }
+        scoredItems.push({ item, score });
+      }
+      const rankedItems = scoredItems
         .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR"))
-        .slice(0, maxResults)
+        .slice(0, maxResults);
+      if (supportQuery) {
+        const returnedIds = new Set(rankedItems.map(({ item }) => item.id));
+        for (const { item } of scoredItems) if (!returnedIds.has(item.id)) addExcluded(item, "result_limit");
+      }
+      const results = rankedItems
         .map(({ item, score }) => ({
           id: item.id,
           title: item.title,
@@ -134,16 +153,7 @@ export function registerSearchTool(ctx: ToolContext): void {
         partial_results: results.filter((item) => item.match_tier === "partial"),
         related_results: results.filter((item) => item.match_tier === "related"),
         support_match_tier_counts: reasonCounts(results.filter((item) => item.match_tier).map((item) => ({ reason: item.match_tier as string }))),
-        excluded_summary: supportExcludedSummary(
-          items,
-          normalizedQuery,
-          supportRegion,
-          filters,
-          allowedTypes,
-          new Set(results.map((item) => item.id)),
-          maxResults,
-          scoreCache,
-        ),
+        excluded_summary: excludedSummary,
       };
 
       return mcpResult(payload);
