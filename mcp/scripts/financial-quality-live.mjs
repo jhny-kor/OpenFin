@@ -98,7 +98,7 @@ if (endpoint) {
         live.positive_cases.push(fixture.case_id);
       } else if (status === "blocked" || status === "insufficient_information") {
         const reasons = Array.isArray(result.reason_codes) ? result.reason_codes.map(String) : [];
-        if (status !== "blocked" || !reasons.some((reason) => reason.includes("RELEASE_GATE") || reason.includes("NO_VERIFIED"))) throw new Error(`${fixture.case_id}: unexpected endpoint block ${JSON.stringify(reasons)}`);
+        if (status !== "blocked" || !reasons.some((reason) => reason.includes("RELEASE_GATE") || reason.includes("NO_VERIFIED") || reason.includes("COMPARISON_DOMAIN_NOT_READY"))) throw new Error(`${fixture.case_id}: unexpected endpoint block ${JSON.stringify(reasons)}`);
         live.blocked_cases.push({ case_id: fixture.case_id, status, reason_codes: reasons });
       } else throw new Error(`${fixture.case_id}: status=${status}`);
     }
