@@ -31,6 +31,9 @@ jobs:
         run: npm run knowledge:build
         env:
           OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          OPENFIN_BUILD_AT: ${{ github.run_started_at }}
+          OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.run_started_at }}
+          OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.run_started_at }}
       - name: Validate canonical contracts
         run: |
           npm run knowledge:schema-validate
@@ -227,7 +230,7 @@ jobs:
           test "$(jq -r '.deployment_commit' live/live-regression-report.json)" = "$GITHUB_SHA"
           mkdir -p evidence/live-regression
           cp live/live-regression-report.json evidence/live-regression/current.json
-          OPENFIN_DEPLOYMENT_COMMIT="$GITHUB_SHA" npm run knowledge:build
+          npm run knowledge:build
           npm run knowledge:schema-validate
           npm run knowledge:validate
           npm run knowledge:derive-quality:check
@@ -244,6 +247,11 @@ jobs:
           mkdir -p release-artifact
           jq '{generation_id, deployment_commit, manifest_checksum, artifact_contract, capabilities, candidate_counts, recommendation_state, recommendation_enabled}' docs/opentax/finance-ontology-manifest.json > release-artifact/release-contract.json
           sha256sum docs/opentax/finance-ontology-manifest.json release-artifact/release-contract.json > release-artifact/SHA256SUMS
+        env:
+          OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          OPENFIN_BUILD_AT: ${{ github.run_started_at }}
+          OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.run_started_at }}
+          OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.run_started_at }}
       - uses: actions/upload-artifact@v5
         with:
           name: openfin-final-${{ github.sha }}
