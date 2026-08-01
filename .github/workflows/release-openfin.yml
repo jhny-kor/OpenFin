@@ -167,6 +167,7 @@ jobs:
         run: npm --silent run financial-quality-live > ../financial-quality-live-report.json
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
+          LIVE_REQUEST_TIMEOUT_MS: 15000
       - name: Validate endpoint quality evidence
         working-directory: .
         run: |
