@@ -31,9 +31,9 @@ jobs:
         run: npm run knowledge:build
         env:
           OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
-          OPENFIN_BUILD_AT: ${{ github.run_started_at }}
-          OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.run_started_at }}
-          OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.run_started_at }}
+          OPENFIN_BUILD_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+          OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+          OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
       - name: Validate canonical contracts
         run: |
           npm run knowledge:schema-validate
@@ -249,9 +249,9 @@ jobs:
           sha256sum docs/opentax/finance-ontology-manifest.json release-artifact/release-contract.json > release-artifact/SHA256SUMS
         env:
           OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
-          OPENFIN_BUILD_AT: ${{ github.run_started_at }}
-          OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.run_started_at }}
-          OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.run_started_at }}
+          OPENFIN_BUILD_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+          OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+          OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
       - uses: actions/upload-artifact@v5
         with:
           name: openfin-final-${{ github.sha }}
