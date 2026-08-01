@@ -34,7 +34,7 @@
   },
   "export_checksum": "b2df8a635006349727aa4b87fcbcfd18478c51f15bb0a5ff494f82d8ec217310",
   "live_evidence_generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-  "live_expected_generation_id": "2307d7e009fbc81c6ad0d3172f7d86c484aaabe75dda4f017c435336d1bd2142",
+  "live_expected_generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
     "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",

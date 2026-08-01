@@ -99,18 +99,27 @@ const compactSearchFields = [
 const hasCompactValue = value => value !== undefined && value !== null && value !== ''
   && (!Array.isArray(value) || value.length > 0)
   && (!(value && typeof value === 'object' && !Array.isArray(value)) || Object.keys(value).length > 0);
-// Support-program rows carry a large set of unused provenance and catalog
-// fields. Keep only the search/output contract so a public Worker can parse
-// the shard within its CPU limit.
-const supportSearchFields = [...compactSearchFields, 'application_window', 'structured_summary', 'search_facets', 'source_urls', 'source_basis_dates'];
+// Keep the fields used by search, discovery, comparison, and the fail-closed
+// recommendation path. The source projections also contain large provenance
+// bookkeeping fields that do not belong in a hot-path Worker shard.
+const runtimeSearchFields = [...new Set([
+  ...compactSearchFields,
+  'legacy_ids', 'application_window', 'structured_summary', 'search_facets', 'source_urls', 'source_basis_dates',
+  'discovery_evidence_fields', 'normalized_completeness_ratio', 'completeness_ratio', 'verified_completeness_ratio',
+  'domain_gate_passed', 'comparison_engine_gate_passed', 'comparison_field_verification_status', 'comparison_basis_fields',
+  'comparison_field_verification', 'comparison_options', 'missing_required_fields', 'recommendation_model_version',
+  'recommendation_exclusion_reasons', 'public_recommendation_exclusion_reasons', 'discovery_limitations',
+  'catalog_recommendation_status', 'catalog_recommendation_scope', 'verification_status', 'verification_evidence',
+  'source_records', 'source_assertion_ids', 'source_assertions', 'provenance', 'capabilities',
+  'comparison_approved', 'recommendation_approved', 'candidate_id', 'option_id', 'offer_id', 'evidence_gate',
+  'source_checksum',
+])];
 const shardOutputs = [];
 for (const [file, meta] of Object.entries(searchFiles).sort(([a],[b])=>a.localeCompare(b))) {
   const items = catalog.filter(i => i.search_shard === meta.shard_id || (!i.search_shard && i.type === 'source' && meta.shard_id === 'reference')).sort((a,b)=>(a.search_position ?? 0)-(b.search_position ?? 0) || a.id.localeCompare(b.id)).map(i=>{
     const projection = searchProjection(restoreCompatibilityDates(i));
     if (!projection) return null;
-    const shardProjection = meta.shard_id === 'support'
-      ? Object.fromEntries(supportSearchFields.filter(field => hasCompactValue(projection[field])).map(field => [field, projection[field]]))
-      : projection;
+    const shardProjection = Object.fromEntries(runtimeSearchFields.filter(field => hasCompactValue(projection[field])).map(field => [field, projection[field]]));
     return {
       ...shardProjection,
       source_ids:[...new Set(i.sources || [])],

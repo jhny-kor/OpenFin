@@ -190,3 +190,18 @@ test('deterministic build leaves public artifacts byte-identical', () => {
   execFileSync('node', ['scripts/knowledge/build.mjs'], { cwd: root, encoding: 'utf8', maxBuffer: 10_000_000 });
   for (const file of files) assert.equal(hash(path.join(docs, file)), before.get(file), `${file} changed after deterministic rebuild`);
 });
+
+test('runtime search shards exclude large provenance bookkeeping', () => {
+  const docs = path.join(root, 'docs/opentax');
+  const files = fs.readdirSync(docs).filter(file => /^finance-search-index-2026-(account-products|bank-products|card-products|deposit-protection|insurance-products|reference|support)\.json$/.test(file));
+  assert.equal(files.length, 7);
+  for (const file of files) {
+    const payload = JSON.parse(fs.readFileSync(path.join(docs, file)));
+    assert.ok(payload.items.length > 0, `${file} is empty`);
+    for (const item of payload.items) {
+      assert.equal('field_provenance' in item, false, `${file}:${item.id} retained field_provenance`);
+      assert.equal(typeof item.id, 'string');
+      assert.equal(typeof item.search_text, 'string');
+    }
+  }
+});
