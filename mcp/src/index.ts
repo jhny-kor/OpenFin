@@ -343,6 +343,7 @@ let cachedSearchIndexMetadata: CachedSearchIndexMetadata | undefined;
 let cachedSearchItems: CachedSearchItems | undefined;
 const cachedSearchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
+const SEARCH_SHARD_CACHE_LIMIT = 1;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
 const financeArtifactErrors = new Map<string, Record<string, unknown>>();
@@ -1551,6 +1552,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<reado
   const pendingKey = generationCacheKey(requestGeneration, key);
   const cached = cachedSearchShards.get(key);
   if (cached && cached.generation === manifestGeneration && now - cached.loadedAt < CACHE_TTL_MS) return cached.items;
+  if (cachedSearchShards.size >= SEARCH_SHARD_CACHE_LIMIT) cachedSearchShards.clear();
   const pending = inFlightSearchShards.get(pendingKey);
   if (pending) return pending;
   const request = (async () => {
@@ -1646,9 +1648,8 @@ async function loadSearchItemsForQuery(
 
 async function hydrateSearchItem(env: Env, item: FinanceItem): Promise<FinanceItem> {
   const manifest = await loadFinanceManifest(env);
-  const metadata = await loadSearchIndexMetadata(env);
   const shardId = item.provenance_shard ?? item.shard_id;
-  const shard = shardId && (metadata.shards ?? manifest.search_index?.shards)?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  const shard = shardId && manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   if (!shard) return item;
   const detailed = (await loadSearchShard(env, shard)).find((candidate) => candidate.id === item.id);
   return detailed ? { ...item, ...detailed } : item;
