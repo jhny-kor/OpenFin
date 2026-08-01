@@ -23,4 +23,17 @@ test('strict decision snapshots preserve source options and meet the reviewed 20
   assert.equal(report.domains.deposit.strict_offer_count, 20);
   assert.equal(report.domains.saving.strict_offer_count, 20);
   assert.equal(report.blocker, null);
+  // The snapshot is an input to the downstream review, schema, and promotion
+  // receipts; leave the checked-in artifact chain internally consistent.
+  execFileSync('npm', ['run', 'knowledge:build'], { cwd: root, encoding: 'utf8', maxBuffer: 10_000_000 });
+  const receiptCount = ['deposit-offers.jsonl', 'saving-offers.jsonl']
+    .flatMap(read)
+    .flatMap(offer => offer.options)
+    .filter(option => option.promotion_receipt).length;
+  execFileSync(process.execPath, ['scripts/knowledge/build-decision-snapshots.mjs'], { cwd: root, encoding: 'utf8' });
+  const preservedReceiptCount = ['deposit-offers.jsonl', 'saving-offers.jsonl']
+    .flatMap(read)
+    .flatMap(offer => offer.options)
+    .filter(option => option.promotion_receipt).length;
+  assert.equal(preservedReceiptCount, receiptCount);
 });

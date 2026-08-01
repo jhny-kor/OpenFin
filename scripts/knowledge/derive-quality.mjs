@@ -207,7 +207,11 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
     const comparisonEligibleCandidateCount = optionRows.filter(({ offer, option }) => optionVerified(offer, option, name, evaluationAsOf) && promotions.get(option.option_id)?.comparison_approved === true).length;
     const shadowRecommendationCandidateCount = optionRows.filter(({ option }) => {
       const promotion = promotions.get(option.option_id);
-      return promotion?.mode === 'shadow' && promotion.checksum_verified === true;
+      return promotion?.mode === 'shadow'
+        && promotion.checksum_verified === true
+        && promotion.comparison_approved === true
+        && promotion.sales_verification_receipt_id
+        && promotion.assertion_sets?.recommendation?.review_coverage === 1;
     }).length;
     const ownerPilotCandidateCount = optionRows.filter(({ offer, option }) => promotions.get(option.option_id)?.recommendation_approved === true && promotions.get(option.option_id)?.mode === 'owner_pilot').length;
     const publicRecommendationCandidateCount = optionRows.filter(({ offer, option }) => promotions.get(option.option_id)?.recommendation_approved === true && optionVerified(offer, option, name, evaluationAsOf)).length;
@@ -240,12 +244,12 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       public_recommendation_candidate_count: publicRecommendationCandidateCount,
       // Compatibility projections. "verified" means field-level verified only.
       schema_defined: schemaDefined,
-      decision_field_completeness: schemaDefined ? valueComplete.length / items.length : null,
+      structural_value_completeness: schemaDefined ? valueComplete.length / items.length : null,
       required_field_total: requiredFieldTotal,
       value_complete_field_count: valueCompleteFieldCount,
       field_verified_count: fieldVerifiedCount,
       value_field_coverage: schemaDefined && requiredFieldTotal ? valueCompleteFieldCount / requiredFieldTotal : null,
-      field_verification_coverage: schemaDefined && requiredFieldTotal ? fieldVerifiedCount / requiredFieldTotal : null,
+      reviewed_assertion_coverage: schemaDefined && requiredFieldTotal ? fieldVerifiedCount / requiredFieldTotal : null,
       complete_field_count: schemaDefined ? valueComplete.length : null,
       verified_candidate_count: fieldVerifiedItems.length,
       comparison_data: status === 'limited_public_ready' ? 'limited_public_ready' : status,
@@ -277,9 +281,13 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
   const evaluationTime = evaluationAsOf ? Date.parse(evaluationAsOf) : Date.now();
   const liveReady = liveRegressionCurrent(live, policy, evaluationTime, generation_id, fixtureChecksum);
   const liveForManifest = { ...live, expected_generation_id: generation_id, expected_fixture_checksum: fixtureChecksum, validation_status: liveReady ? 'current' : live.status === 'current' && live.fixture_checksum !== fixtureChecksum ? 'stale_fixture' : live.status === 'current' ? 'stale_generation' : live.status };
-  const configuredReceipt = policy.recommendation?.public_approval_receipt;
-  const receiptPath = configuredReceipt ? path.join(ROOT, configuredReceipt) : null;
-  const receipt = receiptPath && fs.existsSync(receiptPath) ? json(receiptPath) : null;
+const configuredReceipt = policy.recommendation?.public_approval_receipt;
+const receiptPath = configuredReceipt ? path.join(ROOT, configuredReceipt) : null;
+const receipt = receiptPath && fs.existsSync(receiptPath) ? json(receiptPath) : null;
+const configuredOwnerReceipt = policy.recommendation?.owner_pilot_approval_receipt;
+const ownerReceiptPath = configuredOwnerReceipt ? path.join(ROOT, configuredOwnerReceipt) : null;
+const ownerReceipt = ownerReceiptPath && fs.existsSync(ownerReceiptPath) ? json(ownerReceiptPath) : null;
+const receiptProjection = value => value ? Object.fromEntries(['approval_id', 'domain', 'mode', 'generation_id', 'candidate_set_checksum', 'policy_version', 'ranking_version', 'calculator_version', 'quality_suite_checksum', 'approved_at', 'expires_at', 'reviewer', 'reviewer_role', 'reviewer_permission', 'reviewer_signature', 'rollback_generation_id'].filter(key => value[key] !== undefined).map(key => [key, value[key]])) : null;
   const publicDomain = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready' && state.public_recommendation_candidate_count >= (policy.domains[name].required_verified_candidates || Infinity));
   const receiptValid = Boolean(receipt && receipt.mode === 'public' && receipt.generation_id === generation_id && receipt.policy_version === policy.version && Date.parse(receipt.expires_at || '') > evaluationTime);
   const recommendationEnabled = platformReleaseStatus === 'ready' && policy.recommendation?.public_enabled === true && policy.recommendation?.state === 'public' && receiptValid && liveReady && publicDomain;
@@ -325,7 +333,8 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
     recommendation_enabled: recommendationEnabled,
     recommendation_state: policy.recommendation?.state || recommendationState.initial_state,
     recommendation_state_contract_version: recommendationState.version,
-    recommendation_approval_receipt: receipt ? { approval_id: receipt.approval_id, mode: receipt.mode, generation_id: receipt.generation_id, expires_at: receipt.expires_at } : null,
+    recommendation_approval_receipt: receiptProjection(receipt),
+    owner_pilot_approval_receipt: receiptProjection(ownerReceipt),
     blocking_reasons: platformReasons,
     recommendation_blocking_reasons: [...new Set(recommendationReasons)],
     degraded_domains: Object.entries(domains).filter(([, state]) => state.status !== 'limited_public_ready').map(([name]) => name).sort(),

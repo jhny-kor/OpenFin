@@ -5,4 +5,7 @@ interface Env {
   RUNTIME_VERSION?: string;
   DEPLOYMENT_COMMIT?: string;
   OWNER_PILOT_ENABLED?: string;
+  OWNER_PILOT_SESSION_SECRET?: string;
+  BUILD_TIMESTAMP?: string;
+  ARTIFACT_GENERATION?: string;
 }

@@ -1,5 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ZodObject, ZodRawShape } from "zod";
+import type { RecommendationBuilderOptions } from "../tools/recommend.ts";
 
 export type FinanceRecord = Record<string, unknown>;
 export type FinanceItem = FinanceRecord & {
@@ -49,6 +50,7 @@ export type FinanceManifest = FinanceRecord & {
   relationship_index?: unknown;
   domain_readiness?: Record<string, FinanceRecord>;
   capabilities?: { discovery?: string; comparison?: string; recommendation?: string };
+  owner_pilot_approval_receipt?: FinanceRecord | null;
 };
 
 export type ToolContext = {
@@ -64,10 +66,16 @@ export type ToolContext = {
   financeNumber: (value: unknown, field: string, allowNegative?: boolean) => number;
   isRecord: (value: unknown) => value is FinanceRecord;
   evaluateEligibility: (item: FinanceRecord, inputs: FinanceRecord) => {
+    eligible: boolean;
     matched_conditions: string[];
     failed_conditions: string[];
     unknown_conditions: string[];
+    reason_codes?: string[];
+    [key: string]: unknown;
   };
+  buildRecommendationCandidates: (items: readonly FinanceRecord[], options: RecommendationBuilderOptions) => { candidates: FinanceRecord[]; excluded: FinanceRecord[] };
+  rankCandidate: (item: FinanceRecord, preferences: FinanceRecord) => FinanceRecord;
+  explainCandidate: (item: FinanceRecord, eligibility: FinanceRecord, ranking: FinanceRecord) => FinanceRecord;
   productDomain: (item: FinanceRecord) => string | null;
   financeAuditId: (...values: unknown[]) => string;
   loadSearchItems: (env: Env) => Promise<readonly FinanceItem[]>;
@@ -80,7 +88,7 @@ export type ToolContext = {
   loadDetailedItemsForDomain: (env: Env, domain: string, asOf?: string) => Promise<readonly FinanceItem[]>;
   loadSearchIndexMetadata: (env: Env) => Promise<{ basis_date?: string }>;
   loadFinanceManifest: (env: Env) => Promise<FinanceManifest>;
-  evaluateReleaseGate: (input: { manifest: FinanceRecord; checksumVerified?: boolean; domain?: string | null; item?: FinanceRecord | null; deploymentCommit?: string; now?: number }) => { status: "ready" | "blocked"; reasons: string[]; [key: string]: unknown };
+  evaluateReleaseGate: (input: { manifest: FinanceRecord; checksumVerified?: boolean; domain?: string | null; item?: FinanceRecord | null; deploymentCommit?: string; now?: number; mode?: "public" | "shadow" | "owner_pilot" }) => { status: "ready" | "blocked"; reasons: string[]; [key: string]: unknown };
   manifestChecksumContract: (manifest: FinanceRecord) => boolean;
   comparisonReleaseGate: (manifest: FinanceRecord, domain: string) => { status: "ready" | "blocked"; reasons: string[] };
   loadFinanceArtifacts: (env: Env, keys: readonly FinanceArtifactKey[]) => Promise<FinanceArtifactSet>;

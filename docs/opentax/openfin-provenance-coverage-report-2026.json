@@ -17,14 +17,14 @@
   "invalid_legacy_urls": [],
   "recommendation_enabled": false,
   "status": "ready",
-  "field_verification_coverage": {
+  "reviewed_assertion_coverage": {
     "deposit": {
       "schema_defined": true,
       "required_field_total": 120,
       "value_complete_field_count": 120,
       "field_verified_count": 0,
       "value_field_coverage": 1,
-      "field_verification_coverage": 0,
+      "reviewed_assertion_coverage": 0,
       "value_complete_candidate_count": 20,
       "field_verified_candidate_count": 0,
       "ratio": 0
@@ -35,7 +35,7 @@
       "value_complete_field_count": 120,
       "field_verified_count": 0,
       "value_field_coverage": 1,
-      "field_verification_coverage": 0,
+      "reviewed_assertion_coverage": 0,
       "value_complete_candidate_count": 20,
       "field_verified_candidate_count": 0,
       "ratio": 0
@@ -46,7 +46,7 @@
       "value_complete_field_count": 526,
       "field_verified_count": 0,
       "value_field_coverage": 0.07462051354802099,
-      "field_verification_coverage": 0,
+      "reviewed_assertion_coverage": 0,
       "value_complete_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "ratio": 0
@@ -57,7 +57,7 @@
       "value_complete_field_count": 427,
       "field_verified_count": 0,
       "value_field_coverage": 0.06491334752204317,
-      "field_verification_coverage": 0,
+      "reviewed_assertion_coverage": 0,
       "value_complete_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "ratio": 0
@@ -68,7 +68,7 @@
       "value_complete_field_count": 1042,
       "field_verified_count": 0,
       "value_field_coverage": 0.10810250025936301,
-      "field_verification_coverage": 0,
+      "reviewed_assertion_coverage": 0,
       "value_complete_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "ratio": 0
@@ -79,7 +79,7 @@
       "value_complete_field_count": null,
       "field_verified_count": null,
       "value_field_coverage": null,
-      "field_verification_coverage": null,
+      "reviewed_assertion_coverage": null,
       "value_complete_candidate_count": 0,
       "field_verified_candidate_count": 0,
       "ratio": null

@@ -5,7 +5,7 @@ import { contextFacts, type RecommendationContext } from "./context.ts";
 export const RECOMMENDATION_POLICY_VERSION = "openfin-recommendation-policy-v1";
 
 type Product = Record<string, unknown>;
-type Inputs = { profile?: Product; constraints?: Product; decision_context?: Product };
+type Inputs = { profile?: Product; constraints?: Product; decision_context?: Product; mode?: "public" | "shadow" | "owner_pilot" };
 
 const value = (item: Product, ...keys: string[]): unknown => keys.map((key) => item[key]).find((candidate) => candidate !== undefined && candidate !== null);
 const number = (candidate: unknown): number | undefined => typeof candidate === "number" && Number.isFinite(candidate) ? candidate : undefined;
@@ -21,13 +21,17 @@ export function productDomain(item: Product): string | null {
   return null;
 }
 
-function currentAndVerified(item: Product): string[] {
+function currentAndVerified(item: Product, mode: Inputs["mode"] = "public"): string[] {
   const reasons: string[] = [];
   if (item.verification_status !== "verified") reasons.push("verification_not_verified");
   if (item.freshness_status !== "current") reasons.push(item.freshness_status === "stale" ? "stale_source" : "freshness_unknown");
   if (item.sales_status !== "active" || !isVerifiedActive(item.sales_verification_status)) reasons.push("sales_not_verified");
   const capabilities = item.capabilities && typeof item.capabilities === "object" && !Array.isArray(item.capabilities) ? item.capabilities as Product : {};
-  if (item.recommendation_approved !== true && capabilities.recommendation !== "public") {
+  const pilotReady = (mode === "shadow" || mode === "owner_pilot") && (item.comparison_approved === true || capabilities.comparison === "limited_public" || capabilities.comparison === "public");
+  if (mode !== "public" && !pilotReady) reasons.push("comparison_candidate_not_approved");
+  const ownerReady = mode !== "owner_pilot" || item.recommendation_approved === true || capabilities.recommendation === "owner_pilot";
+  if (mode === "owner_pilot" && !ownerReady) reasons.push("owner_pilot_candidate_not_approved");
+  if (mode === "public" && item.recommendation_approved !== true && capabilities.recommendation !== "public") {
     if (item.recommendation_status !== "verified_recommendation_candidate") reasons.push("not_verified_recommendation_candidate");
     if (item.recommendation_scope !== "public_recommendation") reasons.push("not_public_recommendation_scope");
   }
@@ -38,7 +42,7 @@ export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
   const constraints = inputs.constraints ?? {};
   const context = inputs.decision_context ?? {};
   const matched_conditions: string[] = [];
-  const failed_conditions: string[] = currentAndVerified(item);
+  const failed_conditions: string[] = currentAndVerified(item, inputs.mode);
   const unknown_conditions: string[] = [];
   const addExact = (key: string, itemKeys: string[], label: string) => {
     const expected = constraints[key];

@@ -20,6 +20,7 @@
   "recommendation": {
     "public_enabled": false,
     "public_approval_receipt": null,
+    "owner_pilot_approval_receipt": null,
     "owner_pilot_enabled": false,
     "state": "blocked",
     "state_contract": "contracts/recommendation-state.json",

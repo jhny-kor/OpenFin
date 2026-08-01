@@ -1,0 +1,47 @@
+name: OpenFin Positive Staging Suite
+
+on:
+  workflow_dispatch:
+    inputs:
+      mcp_url:
+        description: "Staging MCP /mcp endpoint for a reviewed candidate generation"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  financial-quality-staging-positive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - name: Require every positive fixture to pass
+        run: npm --silent run financial-quality-live > ../financial-quality-staging-report.json
+        env:
+          MCP_URL: ${{ inputs.mcp_url }}
+          OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"
+      - name: Validate positive runtime contract
+        working-directory: .
+        run: |
+          set -euo pipefail
+          test "$(jq -r '.live_execution_status' financial-quality-staging-report.json)" = executed
+          test "$(jq -r '.live_status' financial-quality-staging-report.json)" = current
+          test "$(jq '.live_blocked_cases | length' financial-quality-staging-report.json)" = 0
+          test "$(jq '.live_positive_cases | length' financial-quality-staging-report.json)" = "$(jq -r '.positive_fixture_count' financial-quality-staging-report.json)"
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: openfin-staging-positive-${{ github.run_id }}
+          path: financial-quality-staging-report.json
+          retention-days: 30

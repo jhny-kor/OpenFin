@@ -15,7 +15,7 @@ type Ranking = {
   [key: string]: unknown;
 };
 
-type Options = {
+export type RecommendationBuilderOptions = {
   profile?: Item;
   constraints?: Item;
   decision_context?: Item;
@@ -28,7 +28,7 @@ type Options = {
   toCandidate?: (item: Item, eligibility: Eligibility, ranking: Ranking) => Item;
 };
 
-export function buildRecommendationCandidates(items: readonly Item[], options: Options) {
+export function buildRecommendationCandidates(items: readonly Item[], options: RecommendationBuilderOptions) {
   const excluded: Array<{ item_id: string; reason: string }> = [];
   const candidates: Item[] = [];
   for (const originalItem of items) {

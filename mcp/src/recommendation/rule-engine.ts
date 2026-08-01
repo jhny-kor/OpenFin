@@ -1,6 +1,6 @@
 export type RuleStatus = "matched" | "failed" | "unknown";
 export type Predicate = { fact?: string; operator: string; expected?: unknown; conditions?: Predicate[] };
-export type StructuredRule = { rule_id: string; rule_type: string; predicate: Predicate; effect?: Record<string, unknown>; unknown_policy?: "not_applied" | "exclude" | "review"; valid_from?: string | null; valid_to?: string | null; field_assertions?: unknown[] };
+export type StructuredRule = { rule_id: string; rule_type: string; predicate: Predicate; effect?: Record<string, unknown>; unknown_policy?: "not_applied" | "exclude" | "review"; valid_from?: string | null; valid_to?: string | null; executable?: boolean; rule_status?: "resolved" | "unresolved"; blocker?: string; field_assertions?: unknown[] };
 
 const read = (facts: Record<string, unknown>, key: string): unknown => {
   if (Object.prototype.hasOwnProperty.call(facts, key)) return facts[key];
@@ -50,6 +50,7 @@ export function evaluateRules(rules: readonly StructuredRule[], facts: Record<st
   const matched: string[] = []; const failed: string[] = []; const unknown: string[] = []; const effects: Record<string, unknown>[] = [];
   for (const rule of rules) {
     const asOfValue = typeof facts.as_of === "string" ? facts.as_of : typeof (facts.decision as Record<string, unknown> | undefined)?.as_of === "string" ? String((facts.decision as Record<string, unknown>).as_of) : undefined;
+    if (rule.executable === false || rule.rule_status === "unresolved") { unknown.push(rule.rule_id); continue; }
     if (!ruleAssertionsReady(rule, asOfValue)) { unknown.push(rule.rule_id); continue; }
     const factSources = facts.fact_sources && typeof facts.fact_sources === "object" && !Array.isArray(facts.fact_sources) ? facts.fact_sources as Record<string, unknown> : {};
     const factNames = predicateFacts(rule.predicate);

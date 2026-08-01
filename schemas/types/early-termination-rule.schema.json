@@ -7,6 +7,9 @@
   "properties": {
     "rule_id": { "type": "string" },
     "rule_type": { "const": "early-termination" },
+    "executable": { "type": "boolean" },
+    "rule_status": { "enum": ["resolved", "unresolved"] },
+    "blocker": { "type": "string", "minLength": 1 },
     "unknown_policy": { "enum": ["not_applied", "exclude", "review"] },
     "predicate": { "$ref": "eligibility-rule.schema.json#/definitions/predicate" },
     "effect": {

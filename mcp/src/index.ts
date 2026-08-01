@@ -208,6 +208,7 @@ type FinanceManifest = {
   source_freshness_status?: string;
   artifact_contract?: Record<string, unknown>;
   recommendation_enabled?: boolean;
+  owner_pilot_approval_receipt?: Record<string, unknown> | null;
   blocking_reasons?: string[];
   openfin_120_live_regression?: Record<string, unknown>;
   runtime_quality_metrics?: Record<string, unknown>;
@@ -1612,7 +1613,9 @@ async function loadDetailedItemsForDomain(env: Env, domain: string, asOf?: strin
   if ((domain === "deposit" || domain === "saving") && manifest.decision_offers) {
     const offers = await loadSearchShard(env, manifest.decision_offers);
     const sourceRegistry = await loadFinanceArtifact(env, "source_registry", manifest);
-    const sourceRegistryMap = new Map(artifactRecords(sourceRegistry).map((entry) => [String(entry.id ?? entry.source_id ?? entry.sourceId), entry]));
+    const sourceRegistryMap = sourceRegistry === undefined
+      ? undefined
+      : new Map(artifactRecords(sourceRegistry).map((entry) => [String(entry.id ?? entry.source_id ?? entry.sourceId), entry]));
     return offers.flatMap((offer) => adaptDecisionOfferOptions(offer, domain, asOf, sourceRegistryMap) as FinanceItem[]);
   }
   const shardId = SEARCH_SHARD_BY_DOMAIN[domain];
@@ -2076,8 +2079,10 @@ async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceI
 async function runtimeMetadata(env: Env, manifest: FinanceManifest, metadata: SearchIndexFile): Promise<Record<string, unknown>> {
   const itemCount = metadata.item_count ?? manifest.search_index?.item_count ?? 0;
   return {
-    runtime_version: env.RUNTIME_VERSION ?? "openfin-mcp-2026.07.18.1",
+    runtime_version: env.RUNTIME_VERSION ?? "openfin-mcp-dev",
     deployment_commit: env.DEPLOYMENT_COMMIT ?? "unknown",
+    build_timestamp: env.BUILD_TIMESTAMP ?? null,
+    artifact_generation: env.ARTIFACT_GENERATION ?? manifest.generation_id ?? null,
     manifest_version: manifest.version,
     loaded_index_checksum: metadata.export_checksum ?? manifest.search_index?.shards?.map((shard) => shard.export_checksum ?? "").join("") ?? null,
     loaded_item_count: itemCount,

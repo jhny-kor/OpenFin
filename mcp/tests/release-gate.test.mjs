@@ -33,3 +33,42 @@ test("release gate blocks expired and cross-generation live evidence", () => {
   assert.equal(evaluateReleaseGate({ manifest: readyManifest, checksumVerified: true, deploymentCommit: "other" }).status, "blocked");
   assert.equal(evaluateReleaseGate({ manifest: { ...readyManifest, openfin_120_live_regression: { ...readyManifest.openfin_120_live_regression, generation_id: "other" } }, checksumVerified: true }).status, "blocked");
 });
+
+test("shadow and owner-pilot gates have separate candidate and approval contracts", () => {
+  const shadowManifest = {
+    ...readyManifest,
+    recommendation_enabled: false,
+    recommendation_state: "blocked",
+    domain_readiness: { deposit: { comparison_eligible_candidate_count: 1, shadow_recommendation_candidate_count: 1 } },
+  };
+  assert.equal(evaluateReleaseGate({ manifest: shadowManifest, checksumVerified: true, domain: "deposit", mode: "shadow" }).status, "ready");
+  const ownerBlocked = evaluateReleaseGate({ manifest: shadowManifest, checksumVerified: true, domain: "deposit", mode: "owner_pilot" });
+  assert.equal(ownerBlocked.status, "blocked");
+  assert.ok(ownerBlocked.reasons.includes("OWNER_PILOT_APPROVAL_RECEIPT_INVALID"));
+
+  const candidateChecksum = "candidate";
+  const qualityChecksum = "quality";
+  const ownerManifest = {
+    ...shadowManifest,
+    artifact_contract: { candidate_set_checksum: candidateChecksum, quality_suite_transitive_checksum: qualityChecksum },
+    owner_pilot_approval_receipt: {
+      approval_id: "owner-approval.test",
+      mode: "owner_pilot",
+      domain: "deposit",
+      generation_id: "generation",
+      expires_at: new Date(Date.now() + 60_000).toISOString(),
+      candidate_set_checksum: candidateChecksum,
+      quality_suite_checksum: qualityChecksum,
+      policy_version: "policy",
+      ranking_version: "ranking",
+      calculator_version: "calculator",
+      reviewer: "owner",
+      reviewer_role: "owner_pilot_reviewer",
+      reviewer_permission: "recommendation:owner_pilot",
+      reviewer_signature: "signature",
+      rollback_generation_id: "rollback",
+    },
+    domain_readiness: { deposit: { owner_pilot_candidate_count: 1 } },
+  };
+  assert.equal(evaluateReleaseGate({ manifest: ownerManifest, checksumVerified: true, domain: "deposit", mode: "owner_pilot" }).status, "ready");
+});

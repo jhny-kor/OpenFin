@@ -22,7 +22,7 @@
   "note": "No comparable baseline was measured; change remains unknown.",
   "export_checksum": "6d0680f31f943a68f96f5f6c340b7aa3278d91327f0d3d897b7126b6a90d4f8c",
   "live_evidence_generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-  "live_expected_generation_id": "8bfce8cf310f78727aada8b33a4429c32bbb9f0ae22a23b9a81ad9752570d8c1",
+  "live_expected_generation_id": "2307d7e009fbc81c6ad0d3172f7d86c484aaabe75dda4f017c435336d1bd2142",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
     "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",

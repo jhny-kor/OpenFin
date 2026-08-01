@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
-import { KNOWLEDGE, ROOT, json, RELATION_KEYS } from './common.mjs';
+import { KNOWLEDGE, ROOT, json, RELATION_KEYS, assertionIdentity, assertionSetChecksum, canonicalCandidateContent, schemaValidationChecksum, sha256 } from './common.mjs';
 
 const schemaDir = path.join(ROOT, 'schemas');
 const typeRegistry = json(path.join(schemaDir, 'types/type-registry.json'));
@@ -27,6 +27,20 @@ const validatePromotion = ajv.getSchema('candidate-promotion-receipt.schema.json
 const validateSourceReview = ajv.getSchema('source-review-receipt.schema.json');
 const validateLiveCase = ajv.getSchema(liveFixtureSchema.$id);
 const failures = [];
+const decisionOffers = [];
+for (const domain of ['deposit', 'saving']) {
+  const file = path.join(KNOWLEDGE, '30-financial-products', 'banking', '_decision', `${domain}-offers.jsonl`);
+  if (fs.existsSync(file)) decisionOffers.push(...fs.readFileSync(file, 'utf8').split('\n').filter(Boolean).map(JSON.parse));
+}
+const optionById = new Map(decisionOffers.flatMap(offer => (offer.options || []).map(option => [option.option_id, { offer, option }])));
+const assertionEntries = (offer, option) => [
+  ...(offer.field_assertions || []).map(assertion => ({ assertion, set: 'comparison' })),
+  ...(option.field_assertions || []).map(assertion => ({ assertion, set: 'comparison' })),
+  ...(offer.eligibility_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, set: 'recommendation' }))),
+  ...(offer.early_termination_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, set: 'recommendation' }))),
+  ...(offer.bonus_rate_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, set: 'recommendation' }))),
+  ...(option.bonus_rate_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, set: 'recommendation' }))),
+];
 const validateQualityDescriptors = (descriptorName, expectedStatus) => {
   const descriptorPath = path.join(ROOT, 'tests/golden', descriptorName);
   if (!fs.existsSync(descriptorPath)) { failures.push(`${descriptorPath}: missing quality descriptor`); return; }
@@ -132,7 +146,23 @@ const promotionDir = path.join(ROOT, 'evidence/candidate-promotions');
 if (fs.existsSync(promotionDir)) for (const file of fs.readdirSync(promotionDir).filter(name => name.endsWith('.jsonl'))) {
   for (const [index, line] of fs.readFileSync(path.join(promotionDir, file), 'utf8').split('\n').entries()) {
     if (!line.trim()) continue;
-    try { const value = JSON.parse(line); if (!validatePromotion(value)) failures.push(`${path.join(promotionDir, file)}:${index + 1}: ${ajv.errorsText(validatePromotion.errors)}`); }
+    try {
+      const value = JSON.parse(line);
+      const location = `${path.join(promotionDir, file)}:${index + 1}`;
+      if (!validatePromotion(value)) failures.push(`${location}: ${ajv.errorsText(validatePromotion.errors)}`);
+      const pair = optionById.get(value.option_id);
+      if (pair) {
+        const entries = assertionEntries(pair.offer, pair.option);
+        const actualComparison = entries.filter(entry => entry.set === 'comparison').map(entry => assertionIdentity(entry.assertion)).sort();
+        const actualRecommendation = entries.map(entry => assertionIdentity(entry.assertion)).sort();
+        const recordedComparison = [...(value.assertion_sets?.comparison?.assertion_ids || [])].sort();
+        const recordedRecommendation = [...(value.assertion_sets?.recommendation?.assertion_ids || [])].sort();
+        if (JSON.stringify(actualComparison) !== JSON.stringify(recordedComparison) || JSON.stringify(actualRecommendation) !== JSON.stringify(recordedRecommendation)) failures.push(`${location}: assertion set identity mismatch`);
+        if (value.required_assertion_checksum !== assertionSetChecksum(entries.map(entry => entry.assertion)).slice(7)) failures.push(`${location}: required assertion checksum mismatch`);
+        if (value.schema_content_checksum !== schemaValidationChecksum(pair.option).slice(7)) failures.push(`${location}: schema content checksum mismatch`);
+        if (value.candidate_content_checksum !== sha256(canonicalCandidateContent(pair.offer, { ...pair.option, promotion_receipt: value }))) failures.push(`${location}: candidate content checksum mismatch`);
+      }
+    }
     catch (error) { failures.push(`${path.join(promotionDir, file)}:${index + 1}: ${error.message}`); }
   }
 }
@@ -140,9 +170,19 @@ const sourceReviewDir = path.join(ROOT, 'evidence/source-reviews');
 if (fs.existsSync(sourceReviewDir)) for (const file of fs.readdirSync(sourceReviewDir).filter(name => name.endsWith('.jsonl'))) {
   for (const [index, line] of fs.readFileSync(path.join(sourceReviewDir, file), 'utf8').split('\n').entries()) {
     if (!line.trim()) continue;
-    try { const value = JSON.parse(line); if (!validateSourceReview(value)) failures.push(`${path.join(sourceReviewDir, file)}:${index + 1}: ${ajv.errorsText(validateSourceReview.errors)}`); }
+    try {
+      const value = JSON.parse(line);
+      const location = `${path.join(sourceReviewDir, file)}:${index + 1}`;
+      if (!validateSourceReview(value)) failures.push(`${location}: ${ajv.errorsText(validateSourceReview.errors)}`);
+      if (value.review_key !== `${value.offer_id}|${value.option_id || 'offer'}|${value.assertion_id}`) failures.push(`${location}: review key does not bind assertion identity`);
+      if (value.receipt_checksum !== sha256(Object.fromEntries(Object.entries(value).filter(([key]) => key !== 'receipt_checksum')))) failures.push(`${location}: review receipt checksum mismatch`);
+    }
     catch (error) { failures.push(`${path.join(sourceReviewDir, file)}:${index + 1}: ${error.message}`); }
   }
+}
+for (const { offer, option } of optionById.values()) {
+  const receipt = option.schema_validation_receipt;
+  if (!receipt || receipt.validation_status !== 'valid' || receipt.content_checksum !== schemaValidationChecksum(option)) failures.push(`${option.option_id}: schema validation receipt content checksum mismatch`);
 }
 const result = { ok: failures.length === 0, entity_count: entities.length, failures: failures.slice(0, 100) };
 console.log(JSON.stringify(result, null, 2));

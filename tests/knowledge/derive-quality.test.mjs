@@ -57,7 +57,7 @@ test('a verified deposit subset opens comparison without claiming public recomme
 test('decision-critical domains use their policy field contract', () => {
   const result = deriveQuality([{ id: 'product.card.a', type: 'card-product', title: 'Card A' }], { sourceCount: 1, exportCount: 10, searchItemCount: 1, relationshipCount: 1, evaluationAsOf: '2026-07-30T00:00:00Z' });
   assert.equal(result.domains.card.schema_defined, true);
-  assert.equal(result.domains.card.decision_field_completeness, 0);
+  assert.equal(result.domains.card.structural_value_completeness, 0);
   assert.equal(result.domains.card.complete_field_count, 0);
   assert.equal(result.domains.card.status, 'domain_coverage_incomplete');
 });

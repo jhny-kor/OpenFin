@@ -11,6 +11,7 @@
     "recommendation_state": { "enum": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public", "suspended"] },
     "recommendation_state_contract_version": { "type": "string" },
     "recommendation_approval_receipt": { "type": ["object", "null"] },
+    "owner_pilot_approval_receipt": { "type": ["object", "null"] },
     "capabilities": { "type": "object", "required": ["discovery", "comparison", "recommendation"], "properties": { "discovery": { "enum": ["ready", "blocked"] }, "comparison": { "enum": ["blocked", "limited_public", "public"] }, "recommendation": { "enum": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public"] } }, "additionalProperties": false },
     "candidate_counts": { "type": "object", "additionalProperties": { "type": "object", "required": ["strict_offer_count", "strict_option_count", "structural_option_count", "comparison_eligible_candidate_count", "public_comparison_candidate_count", "shadow_recommendation_candidate_count", "owner_pilot_candidate_count", "public_recommendation_candidate_count"], "additionalProperties": true } },
     "source_freshness_status": { "enum": ["ready", "degraded"] },
@@ -51,8 +52,8 @@
         "value_complete_field_count": { "type": ["integer", "null"], "minimum": 0 },
         "field_verified_count": { "type": ["integer", "null"], "minimum": 0 },
         "value_field_coverage": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
-        "field_verification_coverage": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
-          "decision_field_completeness": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "reviewed_assertion_coverage": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "structural_value_completeness": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
           "complete_field_count": { "type": ["integer", "null"], "minimum": 0 },
           "status": { "enum": ["blocked", "engine_ready", "structural_only", "pilot_verified", "limited_public_ready", "domain_coverage_incomplete", "schema_not_defined"] }
         }

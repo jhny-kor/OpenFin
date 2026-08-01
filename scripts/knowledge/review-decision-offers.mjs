@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { ROOT, KNOWLEDGE, json, sha256 } from './common.mjs';
+import { ROOT, KNOWLEDGE, json, sha256, assertionIdentity } from './common.mjs';
 
 const domains = process.argv.slice(2).filter(value => ['deposit', 'saving'].includes(value));
 const selectedDomains = domains.length ? domains : ['deposit', 'saving'];
@@ -30,12 +30,14 @@ const category = field => field.includes('sales') || field.includes('listing') ?
   : field.includes('eligibility') || field.includes('predicate') ? 'eligibility'
   : field.includes('early_termination') ? 'early_termination'
   : field.includes('bonus') || field.includes('effect') ? 'bonus_conditions'
+  : field.includes('join_channel') ? 'sales'
   : field.startsWith('options.') || field.includes('rate') || field.includes('term_months') || field.includes('interest_method') || field.includes('saving_method') ? 'option_rates'
   : 'other';
 
 const registry = sourceRegistry();
 const readRows = file => fs.existsSync(file) ? fs.readFileSync(file, 'utf8').split('\n').filter(Boolean).map(JSON.parse) : [];
 const sameSourceObservation = (left, right) => left.source_id === right.source_id
+  && left.assertion_id === right.assertion_id
   && left.observed_value_hash === right.observed_value_hash
   && left.source_checksum === right.source_checksum
   && left.original_url === right.original_url
@@ -55,8 +57,12 @@ for (const domain of selectedDomains) {
     ];
     for (const { assertion, option_id } of entries) {
       const source = registry.get(assertion.source_id) || {};
+      const assertion_id = assertionIdentity(assertion);
+      const review_key = `${offer.id}|${option_id || 'offer'}|${assertion_id}`;
       const body = {
-        receipt_id: `source-review.${offer.id}.${option_id || 'offer'}.${sha256(assertion.assertion_id || assertion.field).slice(7, 23)}`,
+        receipt_id: `source-review.${offer.id}.${option_id || 'offer'}.${sha256(review_key).slice(7, 23)}`,
+        review_key,
+        assertion_id,
         offer_id: offer.id,
         option_id,
         field: assertion.field,
@@ -94,5 +100,5 @@ for (const domain of selectedDomains) {
   const output = path.join(outputDir, `${domain}.jsonl`);
   fs.mkdirSync(outputDir, { recursive: true });
   fs.writeFileSync(output, rows.map(row => JSON.stringify(row)).join('\n') + (rows.length ? '\n' : ''));
-  console.log(JSON.stringify({ domain, receipt_count: rows.length, output: path.relative(ROOT, output), status: 'pending' }));
+  console.log(JSON.stringify({ domain, receipt_count: rows.length, output: path.relative(ROOT, output), status: rows.some(row => row.review_status === 'verified') ? 'partially_reviewed' : 'pending' }));
 }

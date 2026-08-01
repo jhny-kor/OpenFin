@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { ROOT, KNOWLEDGE, json, sha256, canonicalCandidateContent } from './common.mjs';
+import { ROOT, KNOWLEDGE, json, sha256, canonicalCandidateContent, schemaValidationChecksum } from './common.mjs';
 import { compileBonusRules, compileEarlyTerminationRule, compileEligibilityRules } from './compile-financial-rules.mjs';
 
 const candidateFile = path.join(ROOT, 'evidence/vertical-slice/finlife-candidate-collection.json');
@@ -84,6 +84,9 @@ const assertion = ({ field, source_id, url, locator, observed_at, value, reviewe
     verification_status: isReviewed ? 'verified' : 'unverified', freshness_status: isReviewed ? 'current' : 'unknown', conflict: false,
     verification_method: isReviewed ? 'official_source_manual_review' : 'official_source_collection',
     reviewer: review?.reviewer ?? (reviewed ? 'source-reviewer-required' : null),
+    reviewer_role: review?.reviewer_role ?? null,
+    reviewer_permission: review?.reviewer_permission ?? null,
+    reviewer_signature: review?.reviewer_signature ?? null,
     reviewed_at: review?.reviewed_at ?? (reviewed ? observed_at : null),
     receipt_checksum: sha256({ field, source_id, observed_at, value }),
     ...(review?.receipt_id ? { receipt_id: review.receipt_id } : {}),
@@ -279,8 +282,26 @@ const outputs = {};
 const failures = {};
 for (const domain of ['deposit', 'saving']) {
   const built = selection[domain].map(code => buildOffer(domain, code));
-  const offers = built.flatMap(item => item.offer ? [item.offer] : []);
   const outPath = path.join(KNOWLEDGE, '30-financial-products', 'banking', '_decision', `${domain}-offers.jsonl`);
+  const existingOffers = fs.existsSync(outPath)
+    ? fs.readFileSync(outPath, 'utf8').split('\n').filter(Boolean).map(JSON.parse)
+    : [];
+  const existingOptions = new Map(existingOffers.flatMap(offer => (offer.options || []).map(option => [option.option_id, { offer, option }])));
+  const offers = built.flatMap(item => item.offer ? [item.offer].map(offer => ({
+    ...offer,
+    options: offer.options.map(option => {
+      const previous = existingOptions.get(option.option_id);
+      const previousSchema = previous?.option?.schema_validation_receipt;
+      const schemaReceipt = previousSchema?.content_checksum === schemaValidationChecksum(option)
+        ? previousSchema
+        : option.schema_validation_receipt;
+      const previousPromotion = previous?.option?.promotion_receipt;
+      const promotion = previousPromotion?.candidate_content_checksum === sha256(canonicalCandidateContent(offer, { ...option, schema_validation_receipt: schemaReceipt, promotion_receipt: previousPromotion }))
+        ? previousPromotion
+        : null;
+      return { ...option, schema_validation_receipt: schemaReceipt, ...(promotion ? { promotion_receipt: promotion } : {}) };
+    }),
+  })) : []);
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, offers.map(offer => JSON.stringify(offer)).join('\n') + (offers.length ? '\n' : ''));
   outputs[domain] = { structural_candidate_count: selection[domain].length, strict_offer_count: offers.length, target: 20, shortfall: 20 - offers.length, ids: offers.map(offer => offer.id) };
@@ -294,50 +315,4 @@ const receipts = ['deposit', 'saving'].flatMap(domain => fs.readFileSync(path.jo
   return { receipt_id: `receipt.vertical-slice.${offer.id}`, offer_id: offer.id, observed_at: offer.observed_at, source_ids: [...new Set(offer.provenance.map(item => item.source_id))], field_assertion_count: assertions.length, option_count: offer.options.length, verification_status: verificationStatus, freshness_status: assertions.every(item => item.freshness_status === 'current') ? 'current' : 'unknown', source_backed: true, source_set_checksum: sha256(offer.provenance.map(item => ({ source_id: item.source_id, checksum: item.checksum }))), reviewer: null, reviewed_at: null, receipt_checksum: sha256({ offer_id: offer.id, assertions }), generation_id: null };
 });
 fs.writeFileSync(path.join(ROOT, 'evidence/vertical-slice/source-receipts.jsonl'), receipts.map(receipt => JSON.stringify(receipt)).join('\n') + '\n');
-const promotionRoot = path.join(ROOT, 'evidence/candidate-promotions');
-fs.mkdirSync(promotionRoot, { recursive: true });
-for (const domain of ['deposit', 'saving']) {
-  const offers = fs.readFileSync(path.join(KNOWLEDGE, '30-financial-products', 'banking', '_decision', `${domain}-offers.jsonl`), 'utf8').split('\n').filter(Boolean).map(JSON.parse);
-  const existingPromotionPath = path.join(promotionRoot, `${domain}.jsonl`);
-  const existingPromotions = fs.existsSync(existingPromotionPath) ? fs.readFileSync(existingPromotionPath, 'utf8').split('\n').filter(Boolean).map(JSON.parse) : [];
-  const existingPromotionByOption = new Map(existingPromotions.map(row => [row.option_id, row]));
-  const promotionRows = offers.flatMap(offer => offer.options.map(option => {
-    const assertions = [...offer.field_assertions, ...option.field_assertions];
-    const body = {
-      offer_id: offer.id,
-      option_id: option.option_id,
-      checksum_verified: false,
-      strict_schema_checksum: sha256({ type: offer.type, required: ['deposit_protection_status', 'join_channels', 'eligibility_rules', 'bonus_rate_rules', 'early_termination_rules', 'sales_verification_status'], option }).slice(7),
-      required_assertion_checksum: sha256(assertions).slice(7),
-      source_set_checksum: sha256(offer.provenance.map(item => ({ source_id: item.source_id, checksum: item.checksum }))).slice(7),
-      source_authority_summary: Object.fromEntries(offer.provenance.map(item => [item.source_id, { authority: 'unreviewed_source', receipt_id: item.receipt_id ?? null }])),
-      freshness_evaluation_as_of: offer.observed_at,
-      conflict_count: assertions.filter(item => item.conflict === true).length,
-      sales_verification_receipt_id: `receipt.source.sales.${offer.id}`,
-      comparison_approved: false,
-      recommendation_approved: false,
-      mode: 'shadow',
-      reviewer: 'unpromoted',
-      reviewer_role: null,
-      reviewer_signature: null,
-      reviewer_permission: null,
-      evaluated_at: offer.observed_at,
-      expires_at: offer.valid_to ?? offer.observed_at,
-      reason_codes: ['SOURCE_REVIEW_REQUIRED', 'RECOMMENDATION_APPROVAL_REQUIRED'],
-    };
-    return { ...body, candidate_content_checksum: sha256(canonicalCandidateContent(offer, { ...option, promotion_receipt: body })) };
-  }));
-  fs.writeFileSync(path.join(promotionRoot, `${domain}.jsonl`), promotionRows.map(row => JSON.stringify(row)).join('\n') + (promotionRows.length ? '\n' : ''));
-  const promotionByOption = new Map(promotionRows.map(row => [row.option_id, row]));
-  const offerPath = path.join(KNOWLEDGE, '30-financial-products', 'banking', '_decision', `${domain}-offers.jsonl`);
-  const offersWithReceipts = fs.readFileSync(offerPath, 'utf8').split('\n').filter(Boolean).map(JSON.parse).map(offer => ({
-    ...offer,
-    options: offer.options.map(option => {
-      const existing = existingPromotionByOption.get(option.option_id);
-      const existingMatches = existing && existing.candidate_content_checksum === sha256(canonicalCandidateContent(offer, { ...option, promotion_receipt: existing }));
-      return { ...option, promotion_receipt: existingMatches ? existing : promotionByOption.get(option.option_id) ?? null };
-    }),
-  }));
-  fs.writeFileSync(offerPath, offersWithReceipts.map(offer => JSON.stringify(offer)).join('\n') + (offersWithReceipts.length ? '\n' : ''));
-}
 console.log(JSON.stringify(report, null, 2));

@@ -47,19 +47,24 @@ for (const row of golden("privacy-and-abstention.jsonl")) {
   if (row.expected_reason) assert.ok(result.reason_codes.includes(row.expected_reason), row.case_id);
 }
 
-const evidenceAssertion = (field) => ({ field, source_id: "source.quality", original_url: "https://example.com/quality", observed_at: "2026-07-31T00:00:00Z", valid_to: "2027-07-31T00:00:00Z", verification_status: "verified", freshness_status: "current", conflict: false, reviewer: "quality-reviewer", reviewer_role: "compliance_reviewer", reviewer_permission: "quality:review", reviewer_signature: "sig-quality", reviewed_at: "2026-07-31T00:00:00Z", receipt_checksum: `sha256:${field.padEnd(64, "0").slice(0, 64)}` });
+const evidenceAssertion = (field) => ({ assertion_id: `assertion.quality.${field}`, field, source_id: "source.quality", original_url: "https://example.com/quality", observed_at: "2026-07-31T00:00:00Z", valid_to: "2027-07-31T00:00:00Z", verification_status: "verified", freshness_status: "current", conflict: false, reviewer: "quality-reviewer", reviewer_role: "compliance_reviewer", reviewer_permission: "quality:review", reviewer_signature: "sig-quality", reviewed_at: "2026-07-31T00:00:00Z", receipt_id: field === "sales_verification_status" ? "receipt.sales.quality" : undefined, receipt_checksum: `sha256:${field.padEnd(64, "0").slice(0, 64)}` });
 const evidenceFields = ["deposit_protection_status", "join_channels", "eligibility_rules", "bonus_rate_rules", "early_termination_rules", "sales_verification_status"];
-const evidenceOffer = () => ({ type: "deposit-offer", sales_verification_status: "verified_active", sales_status: "active", source_listing_status: "listed", deposit_protection_status: "protected", join_channels: ["web"], eligibility_rules: [], bonus_rate_rules: [], early_termination_rules: [{}], schema_validation_receipt: { schema_id: "types/financial-offer.schema.json", validator: "ajv", validation_status: "valid", validated_at: "2026-07-31T00:00:00Z", content_checksum: "sha256:" + "a".repeat(64) }, field_assertions: evidenceFields.map(evidenceAssertion), provenance: [{ source_id: "source.quality", original_url: "https://example.com/quality", checksum: "sha256:quality", verification_status: "verified", freshness_status: "current", conflict: false, reviewer: "quality-reviewer", reviewed_at: "2026-07-31T00:00:00Z", reviewer_signature: "sig-quality" }] });
-const evidenceOption = () => ({ option_id: "option.deposit.quality.12", term_months: 12, base_rate_percent: 2, maximum_rate_percent: 3, interest_method: "simple", schema_validation_receipt: { schema_id: "types/offer-option.schema.json", validator: "ajv", validation_status: "valid", validated_at: "2026-07-31T00:00:00Z", content_checksum: "sha256:" + "b".repeat(64) }, field_assertions: ["term_months", "base_rate_percent", "maximum_rate_percent", "interest_method"].map(evidenceAssertion), promotion_receipt: { comparison_approved: true, recommendation_approved: false, checksum_verified: true, reviewer: "quality-reviewer", reviewer_role: "compliance_reviewer", reviewer_permission: "quality:review", reviewer_signature: "sig-quality" } });
-const baselineGate = evaluateEvidenceGate({ offer: evidenceOffer(), option: evidenceOption(), domain: "deposit", asOf: "2026-07-31" });
+const evidenceOptionFields = ["term_months", "base_rate_percent", "maximum_rate_percent", "interest_method"];
+const evidenceAssertionIds = () => [...evidenceFields, ...evidenceOptionFields].map((field) => `assertion.quality.${field}`).sort();
+const evidencePromotion = () => ({ comparison_approved: true, recommendation_approved: false, checksum_verified: true, schema_content_checksum: "sha256:" + "b".repeat(64), assertion_sets: { comparison: { assertion_ids: evidenceAssertionIds() }, recommendation: { assertion_ids: evidenceAssertionIds() } }, sales_verification_receipt_id: "receipt.sales.quality", reviewer: "quality-reviewer", reviewer_role: "compliance_reviewer", reviewer_permission: "quality:review", reviewer_signature: "sig-quality" });
+const sourceRegistry = new Map([["source.quality", { authority_class: "provider_official" }]]);
+const evidenceOffer = () => ({ type: "deposit-offer", sales_verification_status: "verified_active", sales_status: "active", source_listing_status: "listed", deposit_protection_status: "protected", join_channels: ["web"], eligibility_rules: [], bonus_rate_rules: [], early_termination_rules: [{}], schema_validation_receipt: { schema_id: "types/financial-offer.schema.json", validator: "ajv", validation_status: "valid", validated_at: "2026-07-31T00:00:00Z", content_checksum: "sha256:" + "a".repeat(64) }, field_assertions: evidenceFields.map(evidenceAssertion), provenance: [{ source_id: "source.quality", original_url: "https://example.com/quality", checksum: "sha256:quality", verification_status: "verified", freshness_status: "current", conflict: false, reviewer: "quality-reviewer", reviewer_role: "compliance_reviewer", reviewer_permission: "quality:review", reviewed_at: "2026-07-31T00:00:00Z", reviewer_signature: "sig-quality" }] });
+const evidenceOption = () => ({ option_id: "option.deposit.quality.12", term_months: 12, base_rate_percent: 2, maximum_rate_percent: 3, interest_method: "simple", schema_validation_receipt: { schema_id: "types/offer-option.schema.json", validator: "ajv", validation_status: "valid", validated_at: "2026-07-31T00:00:00Z", content_checksum: "sha256:" + "b".repeat(64) }, field_assertions: evidenceOptionFields.map(evidenceAssertion), promotion_receipt: evidencePromotion() });
+const evidenceGate = (changedOffer = evidenceOffer(), changedOption = evidenceOption()) => evaluateEvidenceGate({ offer: changedOffer, option: changedOption, domain: "deposit", asOf: "2026-07-31", sourceRegistry });
+const baselineGate = evidenceGate();
 assert.equal(baselineGate.status, "eligible");
 const staleOffer = evidenceOffer(); staleOffer.field_assertions[0] = { ...staleOffer.field_assertions[0], freshness_status: "stale" };
 const conflictOffer = evidenceOffer(); conflictOffer.field_assertions[0] = { ...conflictOffer.field_assertions[0], conflict: true };
 const missingReceiptOffer = evidenceOffer(); missingReceiptOffer.provenance = [];
 const mutationChecks = {
-  stale_assertion_blocked: evaluateEvidenceGate({ offer: staleOffer, option: evidenceOption(), domain: "deposit", asOf: "2026-07-31" }).status === "blocked",
-  conflicting_assertion_blocked: evaluateEvidenceGate({ offer: conflictOffer, option: evidenceOption(), domain: "deposit", asOf: "2026-07-31" }).status === "blocked",
-  missing_source_receipt_blocked: evaluateEvidenceGate({ offer: missingReceiptOffer, option: evidenceOption(), domain: "deposit", asOf: "2026-07-31" }).status === "blocked",
+  stale_assertion_blocked: evidenceGate(staleOffer).status === "blocked",
+  conflicting_assertion_blocked: evidenceGate(conflictOffer).status === "blocked",
+  missing_source_receipt_blocked: evidenceGate(missingReceiptOffer).status === "blocked",
   unknown_bonus_not_applied: calculateFinancialOutcome({ product_kind: "deposit", base_rate_percent: 2, maximum_rate_percent: 4, term_months: 12, bonus_rate_rules: [{ rule_id: "unknown", rule_type: "bonus-rate", predicate: { fact: "user.can_transfer_salary", operator: "eq", expected: true }, effect: { additional_rate_percent: 2 }, unknown_policy: "not_applied", field_assertions: [evidenceAssertion("predicate"), evidenceAssertion("effect"), evidenceAssertion("valid_from"), evidenceAssertion("valid_to")] }] }, { principal_krw: 1_000_000 }).rate_percent === 2,
 };
 assert.ok(Object.values(mutationChecks).every(Boolean));
@@ -95,6 +100,19 @@ if (endpoint) {
       if (status === fixture.expected_status) {
         const positive = Number(result.result_count ?? 0) > 0 && Array.isArray(result.candidates) && result.candidates.every((candidate) => candidate.candidate_id ?? candidate.item_id ?? candidate.id);
         if (!positive) throw new Error(`${fixture.case_id}: positive endpoint assertions failed`);
+        if (fixture.expected_input_amount_krw !== undefined) {
+          const inputAmount = fixture.domain === "deposit" ? fixture.arguments?.deposit_amount_krw : fixture.arguments?.monthly_payment_krw;
+          if (inputAmount !== fixture.expected_input_amount_krw) throw new Error(`${fixture.case_id}: input amount contract failed`);
+        }
+        for (const expectedId of fixture.expected_candidate_ids ?? []) {
+          const candidate = result.candidates.find((value) => String(value.candidate_id ?? value.option_id ?? value.item_id ?? value.id) === expectedId);
+          if (!candidate) throw new Error(`${fixture.case_id}: expected candidate ${expectedId} missing`);
+          const expectedLimit = fixture.expected_candidate_limits_krw?.[expectedId];
+          if (expectedLimit !== undefined) {
+            const actualLimit = fixture.domain === "deposit" ? candidate.deposit_limit : candidate.monthly_payment_limit;
+            if (actualLimit !== expectedLimit) throw new Error(`${fixture.case_id}: ${expectedId} limit mismatch`);
+          }
+        }
         live.positive_cases.push(fixture.case_id);
       } else if (status === "blocked" || status === "insufficient_information") {
         const reasons = Array.isArray(result.reason_codes) ? result.reason_codes.map(String) : [];
@@ -106,7 +124,7 @@ if (endpoint) {
     if (missingAsOf.status !== "insufficient_information" || !missingAsOf.reason_codes?.includes("CONTEXT_AS_OF_REQUIRED")) throw new Error("compare must reject missing as_of");
     const shadow = payload(await rpc("tools/call", { name: "recommend_shadow", arguments: { domain: "deposit", context: { as_of: "2026-07-31" } } }), "recommend_shadow");
     if (shadow.status !== "blocked" || Array.isArray(shadow.candidates) && shadow.candidates.length) throw new Error("shadow tool must remain fail-closed without candidate payload");
-    const owner = payload(await rpc("tools/call", { name: "recommend_owner_pilot", arguments: { domain: "deposit", context: { as_of: "2026-07-31" }, owner_authenticated: false } }), "recommend_owner_pilot");
+    const owner = payload(await rpc("tools/call", { name: "recommend_owner_pilot", arguments: { domain: "deposit", context: { as_of: "2026-07-31" } } }), "recommend_owner_pilot");
     if (owner.status !== "blocked" || !owner.reason_codes?.includes("OWNER_AUTH_REQUIRED")) throw new Error("owner pilot must require authentication");
     live.execution_status = "executed";
     live.status = live.positive_cases.length === positiveFixtures.length ? "current" : "blocked_by_release_gate";

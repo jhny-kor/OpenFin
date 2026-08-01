@@ -19,6 +19,9 @@
     "conflict": { "type": "boolean" },
     "verification_method": { "type": "string" },
     "reviewer": { "type": ["string", "null"], "minLength": 1 },
+    "reviewer_role": { "type": ["string", "null"], "minLength": 1 },
+    "reviewer_permission": { "type": ["string", "null"], "minLength": 1 },
+    "reviewer_signature": { "type": ["string", "null"], "minLength": 1 },
     "reviewed_at": { "type": ["string", "null"], "format": "date-time" },
     "receipt_checksum": { "type": ["string", "null"], "pattern": "^sha256:[a-f0-9]{64}$" },
     "receipt_id": { "type": ["string", "null"], "minLength": 1 }

@@ -4,19 +4,29 @@
   "title": "OpenFin candidate promotion receipt",
   "type": "object",
   "additionalProperties": false,
-  "required": ["offer_id", "option_id", "candidate_content_checksum", "checksum_verified", "strict_schema_checksum", "required_assertion_checksum", "source_set_checksum", "source_authority_summary", "freshness_evaluation_as_of", "conflict_count", "sales_verification_receipt_id", "comparison_approved", "recommendation_approved", "mode", "reviewer", "evaluated_at", "expires_at"],
+  "required": ["offer_id", "option_id", "candidate_content_checksum", "checksum_verified", "strict_schema_checksum", "schema_content_checksum", "assertion_sets", "required_assertion_checksum", "source_set_checksum", "source_authority_summary", "freshness_evaluation_as_of", "conflict_count", "sales_verification_receipt_id", "comparison_approved", "recommendation_approved", "mode", "reviewer", "evaluated_at", "expires_at"],
   "properties": {
     "offer_id": { "type": "string", "minLength": 1 },
     "option_id": { "type": "string", "minLength": 1 },
     "candidate_content_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
     "checksum_verified": { "type": "boolean" },
     "strict_schema_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+    "schema_content_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+    "assertion_sets": {
+      "type": "object",
+      "required": ["comparison", "recommendation"],
+      "properties": {
+        "comparison": { "$ref": "#/$defs/assertion_set" },
+        "recommendation": { "$ref": "#/$defs/assertion_set" }
+      },
+      "additionalProperties": false
+    },
     "required_assertion_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
     "source_set_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
     "source_authority_summary": { "type": "object", "additionalProperties": true },
     "freshness_evaluation_as_of": { "type": "string", "format": "date-time" },
     "conflict_count": { "type": "integer", "minimum": 0 },
-    "sales_verification_receipt_id": { "type": "string", "minLength": 1 },
+    "sales_verification_receipt_id": { "type": ["string", "null"] },
     "comparison_approved": { "type": "boolean" },
     "recommendation_approved": { "type": "boolean" },
     "mode": { "enum": ["shadow", "owner_pilot", "review_ready", "limited_public", "public"] },
@@ -29,14 +39,27 @@
     "expires_at": { "type": "string", "format": "date-time" },
     "reason_codes": { "type": "array", "items": { "type": "string" } }
   },
+  "$defs": {
+    "assertion_set": {
+      "type": "object",
+      "required": ["assertion_ids", "checksum", "review_coverage"],
+      "properties": {
+        "assertion_ids": { "type": "array", "items": { "type": "string", "pattern": "^assertion\\." }, "uniqueItems": true },
+        "checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+        "review_coverage": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
   "oneOf": [
     {
-      "properties": { "comparison_approved": { "const": false }, "recommendation_approved": { "const": false }, "reviewer": { "const": "unpromoted" } },
+      "required": ["sales_verification_receipt_id"],
+      "properties": { "comparison_approved": { "const": false }, "recommendation_approved": { "const": false }, "reviewer": { "const": "unpromoted" }, "sales_verification_receipt_id": { "type": "null" } },
       "not": { "required": ["approved_at"] }
     },
     {
-      "required": ["approved_at", "reviewer_role", "reviewer_signature", "reviewer_permission"],
-      "properties": { "reviewer": { "not": { "const": "unpromoted" } }, "reviewer_role": { "type": "string", "minLength": 1 }, "reviewer_signature": { "type": "string", "minLength": 1 }, "reviewer_permission": { "type": "string", "minLength": 1 } }
+      "required": ["approved_at", "reviewer_role", "reviewer_signature", "reviewer_permission", "sales_verification_receipt_id"],
+      "properties": { "comparison_approved": { "const": true }, "reviewer": { "not": { "const": "unpromoted" } }, "reviewer_role": { "type": "string", "minLength": 1 }, "reviewer_signature": { "type": "string", "minLength": 1 }, "reviewer_permission": { "type": "string", "minLength": 1 }, "sales_verification_receipt_id": { "type": "string", "minLength": 1 } }
     }
   ]
 }

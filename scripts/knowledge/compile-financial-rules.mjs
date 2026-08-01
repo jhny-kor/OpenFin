@@ -33,36 +33,81 @@ const withAssertions = (prefix, rule, source, observedAt) => ({
   ],
 });
 
-const push = (output, predicate) => { if (predicate) output.push(predicate); };
+const REGIONS = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '제주', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남'];
+const ageOperator = { 이상: 'gte', 초과: 'gt', 미만: 'lt', 이하: 'lte' };
+const unrestricted = /제한\s*없|무관|모든 고객/i;
+
+const combinedPredicate = (predicates) => predicates.length === 1 ? predicates[0] : { operator: 'and', conditions: predicates };
+
+function parseEligibility(text = '') {
+  const value = String(text || '').trim();
+  if (!value || unrestricted.test(value)) return { predicates: [], unresolved: false };
+  let residue = value;
+  const predicates = [];
+  const orConnectorCount = (value.match(/또는|혹은|\bor\b/gi) || []).length;
+  const consume = (pattern, handler) => {
+    const matches = [...residue.matchAll(pattern)];
+    if (!matches.length) return;
+    for (const match of matches) handler(match);
+    residue = residue.replace(pattern, ' ');
+  };
+
+  consume(/만?\s*(\d{1,3})\s*세\s*(이상|초과|미만|이하)/g, match => predicates.push({ fact: 'user.age_years', operator: ageOperator[match[2]], expected: Number(match[1]) }));
+  consume(/신규\s*(?:고객|가입|회원)|첫\s*(?:거래|가입)/g, () => predicates.push({ fact: 'user.is_new_customer', operator: 'eq', expected: true }));
+
+  const customerTypes = [];
+  consume(/개인사업자|법인|개인|사업자/g, match => {
+    const type = match[0] === '개인사업자' ? 'sole_proprietor' : match[0] === '법인' ? 'corporation' : match[0] === '개인' ? 'individual' : 'business';
+    if (!customerTypes.includes(type)) customerTypes.push(type);
+  });
+  if (customerTypes.length === 1) predicates.push({ fact: 'user.customer_type', operator: 'eq', expected: customerTypes[0] });
+  if (customerTypes.length > 1) predicates.push({ fact: 'user.customer_type', operator: 'in', expected: customerTypes });
+
+  consume(/여성|여자|남성|남자/g, match => predicates.push({ fact: 'user.gender', operator: 'eq', expected: /여성|여자/.test(match[0]) ? 'female' : 'male' }));
+  consume(/직장인|근로자|급여소득/g, () => predicates.push({ fact: 'user.employment_type', operator: 'eq', expected: 'employee' }));
+
+  let regionCount = 0;
+  if (/거주|주소|지역/.test(value)) {
+    const regions = [...new Set([...residue.matchAll(new RegExp(REGIONS.join('|'), 'g'))].map(match => match[0]))];
+    regionCount = regions.length;
+    if (regions.length) {
+      predicates.push({ fact: 'user.residency_code', operator: regions.length === 1 ? 'eq' : 'in', expected: regions.length === 1 ? regions[0] : regions });
+      residue = residue.replace(new RegExp(REGIONS.join('|'), 'g'), ' ');
+    }
+  }
+
+  const recognizedOrGroups = (customerTypes.length > 1 ? customerTypes.length - 1 : 0)
+    + (regionCount > 1 ? regionCount - 1 : 0);
+
+  // These words connect recognized clauses. Any remaining meaningful text is
+  // deliberately unresolved; executing a guessed eligibility rule is unsafe.
+  residue = residue.replace(/실명(?:의)?|고객|회원|가입|대상|으로|이며|이고|및|또는|혹은|그리고|포함|거주자?|주소|지역|의|인|한|해당|에서|부터|까지|만|세|제한|없음|조건|상품|예금|적금/g, ' ');
+  const unsupportedOr = orConnectorCount > recognizedOrGroups;
+  const unresolved = !predicates.length || unsupportedOr || residue.replace(/[\s,./()·\-]/g, '') !== '';
+  return { predicates, unresolved };
+}
 
 export function atomicEligibilityPredicates(text = '') {
-  const value = String(text || '').trim();
-  if (!value || /제한\s*없|무관|모든 고객/i.test(value)) return [];
-  const predicates = [];
-  const age = value.match(/(\d{1,3})\s*세\s*(이상|초과|미만|이하)/);
-  if (age) push(predicates, { fact: 'user.age_years', operator: ({ '이상': 'gte', '초과': 'gt', '미만': 'lt', '이하': 'lte' })[age[2]], expected: Number(age[1]) });
-  if (/신규\s*(고객|가입|회원)|첫\s*(거래|가입)/.test(value)) push(predicates, { fact: 'user.is_new_customer', operator: 'eq', expected: true });
-  if (/사업자|법인/.test(value)) push(predicates, { fact: 'user.customer_type', operator: 'eq', expected: 'business' });
-  else if (/개인/.test(value)) push(predicates, { fact: 'user.customer_type', operator: 'eq', expected: 'individual' });
-  if (/여성|여자/.test(value)) push(predicates, { fact: 'user.gender', operator: 'eq', expected: 'female' });
-  if (/직장인|근로자|급여소득/.test(value)) push(predicates, { fact: 'user.employment_type', operator: 'eq', expected: 'employee' });
-  const residency = value.match(/(?:서울|부산|대구|인천|광주|대전|울산|세종|제주|경기|강원|충북|충남|전북|전남|경북|경남)/);
-  if (residency && /거주|주소|지역/.test(value)) push(predicates, { fact: 'user.residency_code', operator: 'eq', expected: residency[0] });
-  if (!predicates.length) push(predicates, { fact: 'user.eligibility_review_status', operator: 'eq', expected: 'verified' });
-  return predicates;
+  return parseEligibility(text).predicates;
 }
 
 export function compileEligibilityRules({ text, source, observedAt, validTo, rulePrefix }) {
-  return atomicEligibilityPredicates(text).map((predicate, index) => withAssertions(`${rulePrefix}.${index}`, {
-    rule_id: `${rulePrefix}.${index}`,
+  const parsed = parseEligibility(text);
+  if (!parsed.predicates.length && !parsed.unresolved) return [];
+  const resolved = !parsed.unresolved;
+  return [withAssertions(`${rulePrefix}.0`, {
+    rule_id: `${rulePrefix}.0`,
     rule_type: 'eligibility',
-    predicate,
+    predicate: resolved ? combinedPredicate(parsed.predicates) : { fact: 'user.eligibility_review_status', operator: 'eq', expected: 'verified' },
     unknown_policy: 'review',
     valid_from: observedAt,
     valid_to: validTo,
     source_text: String(text || ''),
-    atomic_predicate: true,
-  }, source, observedAt));
+    atomic_predicate: resolved && parsed.predicates.length === 1,
+    executable: resolved,
+    rule_status: resolved ? 'resolved' : 'unresolved',
+    ...(resolved ? {} : { blocker: 'ELIGIBILITY_RULE_UNRESOLVED' }),
+  }, source, observedAt)];
 }
 
 export function compileBonusRules({ conditions = [], optionId, source, observedAt, validTo, maximumRatePercent }) {
@@ -80,6 +125,8 @@ export function compileBonusRules({ conditions = [], optionId, source, observedA
       effect,
       option_scope: { option_ids: [optionId] },
       unknown_policy: 'not_applied',
+      executable: true,
+      rule_status: 'resolved',
       valid_from: observedAt,
       valid_to: validTo,
     }, source, observedAt);
@@ -100,13 +147,17 @@ export function compileEarlyTerminationRule({ source, observedAt, validTo, sched
       ...(typeof entry?.formula === 'string' ? { formula: entry.formula } : {}),
     };
   }).filter(entry => entry.condition && (entry.rate_percent !== undefined || entry.contract_rate_multiplier_percent !== undefined || entry.formula)) : [];
-  const effect = normalized.length ? { rate_schedule: normalized } : { unresolved_source_text: 'early termination schedule requires manual source review' };
+  const resolved = normalized.length > 0;
+  const effect = resolved ? { rate_schedule: normalized } : { unresolved_source_text: 'early termination schedule requires manual source review' };
   return withAssertions('early_termination_rules.0', {
     rule_id: ruleId,
     rule_type: 'early-termination',
     predicate: { fact: 'withdrawal.before_maturity', operator: 'eq', expected: true },
     effect,
     unknown_policy: 'review',
+    executable: resolved,
+    rule_status: resolved ? 'resolved' : 'unresolved',
+    ...(resolved ? {} : { blocker: 'EARLY_TERMINATION_RULE_UNRESOLVED' }),
     valid_from: observedAt,
     valid_to: validTo,
   }, source, observedAt);

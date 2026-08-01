@@ -20,6 +20,22 @@ export const stable = (value) => {
   return JSON.stringify(value);
 };
 export const sha256 = (value) => `sha256:${crypto.createHash('sha256').update(typeof value === 'string' ? value : stable(value)).digest('hex')}`;
+export const assertionIdentity = (assertion = {}) => assertion.assertion_id || `assertion.derived.${sha256({
+  source_id: assertion.source_id,
+  field: assertion.field,
+  value_hash: assertion.value_hash,
+  receipt_checksum: assertion.receipt_checksum,
+  locator: assertion.locator,
+}).slice(7, 23)}`;
+export const schemaValidationContent = (value = {}) => Object.fromEntries(Object.entries(value || {}).filter(([key]) => !['schema_validation_receipt', 'promotion_receipt'].includes(key)));
+export const schemaValidationChecksum = (value = {}) => sha256(schemaValidationContent(value));
+export const assertionSetChecksum = (assertions = []) => sha256(assertions.map(assertion => ({
+  assertion_id: assertionIdentity(assertion),
+  field: assertion.field,
+  source_id: assertion.source_id,
+  value_hash: assertion.value_hash,
+  receipt_checksum: assertion.receipt_checksum,
+})).sort((left, right) => stable(left).localeCompare(stable(right))));
 export const decisionOfferFiles = () => {
   const directory = path.join(KNOWLEDGE, '30-financial-products', 'banking', '_decision');
   if (!fs.existsSync(directory)) return [];
@@ -34,7 +50,14 @@ export const canonicalCandidateContent = (offer, option) => ({
     bonus: [...(offer?.bonus_rate_rules || []), ...(option?.bonus_rate_rules || [])],
     early_termination: offer?.early_termination_rules || [],
   },
-  assertions: [...(offer?.field_assertions || []), ...(option?.field_assertions || [])],
+  assertions: [
+    ...(offer?.field_assertions || []),
+    ...(option?.field_assertions || []),
+    ...(offer?.eligibility_rules || []).flatMap(rule => rule.field_assertions || []),
+    ...(offer?.early_termination_rules || []).flatMap(rule => rule.field_assertions || []),
+    ...(offer?.bonus_rate_rules || []).flatMap(rule => rule.field_assertions || []),
+    ...(option?.bonus_rate_rules || []).flatMap(rule => rule.field_assertions || []),
+  ],
   provenance: offer?.provenance || [],
   // The receipt is part of the candidate contract. Its self-referential
   // candidate_content_checksum is excluded so approval state is hashed

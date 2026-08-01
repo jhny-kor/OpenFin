@@ -4,9 +4,11 @@
   "title": "OpenFin source review receipt",
   "type": "object",
   "additionalProperties": false,
-  "required": ["receipt_id", "offer_id", "option_id", "field", "review_category", "source_id", "authority_class", "original_url", "locator", "observed_value_hash", "source_checksum", "review_status", "evaluated_at", "receipt_checksum"],
+  "required": ["receipt_id", "review_key", "assertion_id", "offer_id", "option_id", "field", "review_category", "source_id", "authority_class", "original_url", "locator", "observed_value_hash", "source_checksum", "review_status", "evaluated_at", "receipt_checksum"],
   "properties": {
     "receipt_id": { "type": "string", "minLength": 1 },
+    "review_key": { "type": "string", "minLength": 1 },
+    "assertion_id": { "type": "string", "pattern": "^assertion\\.", "minLength": 1 },
     "offer_id": { "type": "string", "minLength": 1 },
     "option_id": { "type": ["string", "null"] },
     "field": { "type": "string", "minLength": 1 },
