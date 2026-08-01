@@ -343,7 +343,7 @@ let cachedSearchIndexMetadata: CachedSearchIndexMetadata | undefined;
 let cachedSearchItems: CachedSearchItems | undefined;
 const cachedSearchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
-const SEARCH_SHARD_CACHE_LIMIT = 3;
+const SEARCH_SHARD_CACHE_LIMIT = 1;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
 const financeArtifactErrors = new Map<string, Record<string, unknown>>();
@@ -553,7 +553,7 @@ function inferredSearchTypeForQuery(query: string): string | undefined {
 
 function itemSearchText(item: FinanceItem): string {
   if (item.search_text) {
-    return item.search_text.toLocaleLowerCase("ko-KR");
+    return item.search_text;
   }
   return [
     item.id,
