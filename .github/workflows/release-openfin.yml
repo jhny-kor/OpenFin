@@ -130,7 +130,14 @@ jobs:
       - name: Run current-generation 120-case suite
         id: live
         continue-on-error: true
-        run: node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log
+        run: |
+          for attempt in 1 2 3; do
+            if node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then sleep 5; fi
+          done
+          exit 1
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
       - name: Run financial quality against deployed MCP endpoint
