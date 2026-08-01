@@ -1,7 +1,7 @@
 {
   "version": "openfin-verification-coverage-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_status": "current",
+  "live_status": "stale_fixture",
   "live_tested_at": "2026-07-31T19:52:41.027Z",
   "runtime_version": "openfin-mcp-2026.07.28.2",
   "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
@@ -11,150 +11,14 @@
   "live_failed_count": 0,
   "live_failure_count": 0,
   "report_kind": "verification-coverage",
-  "domain_summaries": [
-    {
-      "domain": "tax",
-      "verified_sales_product_count": 0,
-      "verification_evidence_product_count": 0,
-      "readiness": {},
-      "blockers": {}
-    },
-    {
-      "domain": "local-government-supports",
-      "verified_sales_product_count": 0,
-      "verification_evidence_product_count": 0,
-      "readiness": {},
-      "blockers": {}
-    },
-    {
-      "domain": "card-products",
-      "verified_sales_product_count": 11,
-      "verification_evidence_product_count": 11,
-      "readiness": {
-        "discovery": "ready",
-        "comparison_engine": "ready",
-        "comparison_data": "blocked",
-        "public_recommendation": "blocked"
-      },
-      "blockers": {
-        "verified_sales_product_count": 11,
-        "verification_evidence_product_count": 11
-      }
-    },
-    {
-      "domain": "deposit-products",
-      "verified_sales_product_count": 30,
-      "verification_evidence_product_count": 30,
-      "readiness": {
-        "discovery": "ready",
-        "comparison_engine": "ready",
-        "comparison_data": "ready",
-        "public_recommendation": "blocked"
-      },
-      "blockers": {
-        "verified_sales_product_count": 30,
-        "verification_evidence_product_count": 30
-      }
-    },
-    {
-      "domain": "saving-products",
-      "verified_sales_product_count": 30,
-      "verification_evidence_product_count": 30,
-      "readiness": {
-        "discovery": "ready",
-        "comparison_engine": "ready",
-        "comparison_data": "ready",
-        "public_recommendation": "blocked"
-      },
-      "blockers": {
-        "verified_sales_product_count": 30,
-        "verification_evidence_product_count": 30
-      }
-    },
-    {
-      "domain": "loan-products",
-      "verified_sales_product_count": 20,
-      "verification_evidence_product_count": 20,
-      "readiness": {
-        "discovery": "ready",
-        "comparison_engine": "ready",
-        "comparison_data": "ready",
-        "public_recommendation": "blocked"
-      },
-      "blockers": {
-        "verified_sales_product_count": 20,
-        "verification_evidence_product_count": 20
-      }
-    },
-    {
-      "domain": "insurance-products",
-      "verified_sales_product_count": 20,
-      "verification_evidence_product_count": 20,
-      "readiness": {
-        "discovery": "ready",
-        "comparison_engine": "ready",
-        "comparison_data": "blocked",
-        "public_recommendation": "blocked"
-      },
-      "blockers": {
-        "verified_sales_product_count": 20,
-        "verification_evidence_product_count": 20
-      }
-    },
-    {
-      "domain": "pension-products",
-      "verified_sales_product_count": 0,
-      "verification_evidence_product_count": 0,
-      "readiness": {
-        "discovery": "blocked",
-        "comparison_engine": "ready",
-        "comparison_data": "blocked",
-        "public_recommendation": "blocked"
-      },
-      "blockers": {
-        "verified_sales_product_count": 0,
-        "verification_evidence_product_count": 0
-      }
-    },
-    {
-      "domain": "tax-advantaged-accounts",
-      "verified_sales_product_count": 0,
-      "verification_evidence_product_count": 0,
-      "readiness": {
-        "discovery": "blocked",
-        "comparison_engine": "ready",
-        "comparison_data": "blocked",
-        "public_recommendation": "blocked"
-      },
-      "blockers": {
-        "verified_sales_product_count": 0,
-        "verification_evidence_product_count": 0
-      }
-    },
-    {
-      "domain": "finance-reference",
-      "verified_sales_product_count": 0,
-      "verification_evidence_product_count": 0,
-      "readiness": {
-        "discovery": "blocked",
-        "comparison_engine": "ready",
-        "comparison_data": "blocked",
-        "public_recommendation": "blocked"
-      },
-      "blockers": {
-        "verified_sales_product_count": 0,
-        "verification_evidence_product_count": 0
-      }
-    }
-  ],
   "export_checksum": "9aabf23f3ce7686b284b27815ba1c7a86eee4709e9bbf6be9bd7e0cc5d33a990",
   "live_evidence_generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-  "live_expected_generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
+  "live_expected_generation_id": "8bfce8cf310f78727aada8b33a4429c32bbb9f0ae22a23b9a81ad9752570d8c1",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
     "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
     "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-    "validation_status": "current"
+    "validation_status": "stale_fixture"
   },
   "canonical_quality_source": "finance-ontology-manifest.domain_readiness",
   "domain_readiness": [
@@ -164,9 +28,11 @@
       "value_complete_candidate_count": 20,
       "strict_type_schema_candidate_count": 20,
       "strict_offer_count": 20,
+      "strict_option_count": 69,
+      "structural_option_count": 69,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 69,
+      "shadow_recommendation_candidate_count": 0,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0,
       "field_verified_candidate_count": 0,
@@ -183,9 +49,11 @@
       "value_complete_candidate_count": 20,
       "strict_type_schema_candidate_count": 20,
       "strict_offer_count": 20,
+      "strict_option_count": 66,
+      "structural_option_count": 66,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 66,
+      "shadow_recommendation_candidate_count": 0,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0,
       "field_verified_candidate_count": 0,
@@ -202,6 +70,8 @@
       "value_complete_candidate_count": 0,
       "strict_type_schema_candidate_count": 0,
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
       "shadow_recommendation_candidate_count": 0,
@@ -221,6 +91,8 @@
       "value_complete_candidate_count": 0,
       "strict_type_schema_candidate_count": 0,
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
       "shadow_recommendation_candidate_count": 0,
@@ -240,6 +112,8 @@
       "value_complete_candidate_count": 0,
       "strict_type_schema_candidate_count": 0,
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
       "shadow_recommendation_candidate_count": 0,
@@ -259,6 +133,8 @@
       "value_complete_candidate_count": 0,
       "strict_type_schema_candidate_count": 0,
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
       "shadow_recommendation_candidate_count": 0,
@@ -284,5 +160,152 @@
     "insurance": 0,
     "pension": null
   },
-  "public_comparison_candidate_count": 0
+  "public_comparison_candidate_count": 0,
+  "quality_export_live_summary": {
+    "source": "manifest.openfin_120_live_regression",
+    "live_test_count": 120,
+    "live_passed_count": 120,
+    "live_failed_count": 0,
+    "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b"
+  },
+  "legacy_overlay_summary": {
+    "deprecated": true,
+    "replacement_path": "domain_readiness",
+    "domains": [
+      {
+        "domain": "tax",
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0,
+        "readiness": {},
+        "blockers": {}
+      },
+      {
+        "domain": "local-government-supports",
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0,
+        "readiness": {},
+        "blockers": {}
+      },
+      {
+        "domain": "card-products",
+        "verified_sales_product_count": 11,
+        "verification_evidence_product_count": 11,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 11,
+          "verification_evidence_product_count": 11
+        }
+      },
+      {
+        "domain": "deposit-products",
+        "verified_sales_product_count": 30,
+        "verification_evidence_product_count": 30,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "ready",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 30,
+          "verification_evidence_product_count": 30
+        }
+      },
+      {
+        "domain": "saving-products",
+        "verified_sales_product_count": 30,
+        "verification_evidence_product_count": 30,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "ready",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 30,
+          "verification_evidence_product_count": 30
+        }
+      },
+      {
+        "domain": "loan-products",
+        "verified_sales_product_count": 20,
+        "verification_evidence_product_count": 20,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "ready",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
+        }
+      },
+      {
+        "domain": "insurance-products",
+        "verified_sales_product_count": 20,
+        "verification_evidence_product_count": 20,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
+        }
+      },
+      {
+        "domain": "pension-products",
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        }
+      },
+      {
+        "domain": "tax-advantaged-accounts",
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        }
+      },
+      {
+        "domain": "finance-reference",
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        }
+      }
+    ]
+  }
 }

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { ROOT, KNOWLEDGE, json, sha256 } from './common.mjs';
+import { ROOT, KNOWLEDGE, json, sha256, canonicalCandidateContent } from './common.mjs';
+import { compileBonusRules, compileEarlyTerminationRule, compileEligibilityRules } from './compile-financial-rules.mjs';
 
 const candidateFile = path.join(ROOT, 'evidence/vertical-slice/finlife-candidate-collection.json');
 const selectionFile = path.join(ROOT, 'evidence/vertical-slice/reviewed-products.json');
@@ -48,6 +49,12 @@ const readSourceRegistry = directory => {
 readSourceRegistry(path.join(ROOT, 'knowledge/90-sources'));
 const pool = new Map(Object.values(candidates.domains).flatMap(domain => [...domain.candidates, ...(domain.alternates || [])]).map(item => [item.extracted.product_code, item]));
 const research = new Map(researchFiles.flatMap(file => json(file)).map(item => [item.product_code, item]));
+const sourceReviewRows = fs.existsSync(path.join(ROOT, 'evidence/source-reviews'))
+  ? fs.readdirSync(path.join(ROOT, 'evidence/source-reviews')).filter(file => file.endsWith('.jsonl')).flatMap(file => fs.readFileSync(path.join(ROOT, 'evidence/source-reviews', file), 'utf8').split('\n').filter(Boolean).map(JSON.parse))
+  : [];
+const reviewKey = (sourceId, field, valueHash, receiptChecksum, locator) => `${sourceId}|${field}|${valueHash}|${receiptChecksum}|${JSON.stringify(locator)}`;
+const sourceReviewByAssertion = new Map(sourceReviewRows.map(review => [reviewKey(review.source_id, review.field, review.observed_value_hash, review.source_checksum, review.locator), review]));
+const reviewForAssertion = assertion => sourceReviewByAssertion.get(reviewKey(assertion.source_id, assertion.field, assertion.value_hash, assertion.receipt_checksum, assertion.locator)) ?? null;
 const valueOf = value => value && typeof value === 'object' && Object.hasOwn(value, 'value') ? value.value : value;
 const unlimited = value => typeof value === 'string' && /제한\s*없|무제한|not limited/i.test(value) ? { status: 'unlimited' } : value;
 const validTo = (sourceId, observedAt = sourceId) => {
@@ -65,17 +72,23 @@ const evidence = (record, field) => {
     observed_at: item?.observed_at || nested?.observed_at || record.fields.sales_active?.observed_at || record.source_urls?.observed_at || selection.reviewed_at,
   };
 };
-const assertion = ({ field, source_id, url, locator, observed_at, value, reviewed = false }) => ({
-  assertion_id: `assertion.${source_id}.${sha256({ field, source_id, observed_at, value }).slice(7, 23)}`,
-  field, source_id, original_url: url,
-  locator: { kind: 'document-section', value: String(locator) },
-  observed_at, valid_from: observed_at, valid_to: validTo(source_id, observed_at), value_hash: sha256(value),
-  verification_status: reviewed ? 'verified' : 'unverified', freshness_status: reviewed ? 'current' : 'unknown', conflict: false,
-  verification_method: reviewed ? 'official_source_manual_review' : 'official_source_collection',
-  reviewer: reviewed ? 'source-reviewer-required' : null,
-  reviewed_at: reviewed ? observed_at : null,
-  receipt_checksum: sha256({ field, source_id, observed_at, value }),
-});
+const assertion = ({ field, source_id, url, locator, observed_at, value, reviewed = false }) => {
+  const assertionLocator = { kind: 'document-section', value: String(locator) };
+  const review = sourceReviewByAssertion.get(reviewKey(source_id, field, sha256(value), sha256({ field, source_id, observed_at, value }), assertionLocator));
+  const isReviewed = reviewed || Boolean(review?.review_status === 'verified' && review.reviewer && review.reviewer_role && review.reviewer_signature && review.reviewer_permission && review.reviewed_at);
+  return {
+    assertion_id: `assertion.${source_id}.${sha256({ field, source_id, observed_at, value }).slice(7, 23)}`,
+    field, source_id, original_url: url,
+    locator: assertionLocator,
+    observed_at, valid_from: observed_at, valid_to: validTo(source_id, observed_at), value_hash: sha256(value),
+    verification_status: isReviewed ? 'verified' : 'unverified', freshness_status: isReviewed ? 'current' : 'unknown', conflict: false,
+    verification_method: isReviewed ? 'official_source_manual_review' : 'official_source_collection',
+    reviewer: review?.reviewer ?? (reviewed ? 'source-reviewer-required' : null),
+    reviewed_at: review?.reviewed_at ?? (reviewed ? observed_at : null),
+    receipt_checksum: sha256({ field, source_id, observed_at, value }),
+    ...(review?.receipt_id ? { receipt_id: review.receipt_id } : {}),
+  };
+};
 const fssAssertion = (candidate, field, value, suffix = '') => assertion({
   field, source_id: candidate.source_id, url: candidate.original_url,
   locator: `${candidate.locator.value}${suffix}`, observed_at: candidate.collected_at, value,
@@ -111,12 +124,6 @@ const amount = (record, candidate, domain) => {
   if (maximum == null && /제한\s*없/.test(range?.maximum_text || '')) maximum = { status: 'unlimited' };
   return { minimum, maximum: unlimited(maximum), evidenceField: f.monthly_payment_krw ? 'monthly_payment_krw' : f.amount ? 'amount' : f.minimum_initial_and_recurring_payment_krw ? 'minimum_initial_and_recurring_payment_krw' : f.minimum_initial_payment_krw ? 'minimum_initial_payment_krw' : 'minimum_amount_krw' };
 };
-const ruleAssertions = (prefix, source, predicate, effect, observedAt) => [
-  assertion({ field: `${prefix}.predicate`, ...source, observed_at: observedAt, value: predicate }),
-  assertion({ field: `${prefix}.effect`, ...source, observed_at: observedAt, value: effect }),
-  assertion({ field: `${prefix}.valid_from`, ...source, observed_at: observedAt, value: observedAt }),
-  assertion({ field: `${prefix}.valid_to`, ...source, observed_at: observedAt, value: validTo(source.source_id, observedAt) }),
-];
 const parseEarlySchedule = (value) => {
   const parsed = typeof value === 'string' ? (() => { try { return JSON.parse(value); } catch { return null; } })() : value;
   const rates = parsed && typeof parsed === 'object' ? parsed.rates || parsed.rate_schedule : null;
@@ -142,37 +149,32 @@ const makeRules = (candidate, record) => {
   const provider = evidence(record, record.fields.early_termination ? 'early_termination' : 'early_termination_rules_rates');
   const providerSource = { source_id: sourceByProvider.get(record.provider), url: provider.url, locator: provider.locator };
   const earlyValue = valueOf(record.fields.early_termination) ?? valueOf(record.fields.early_termination_rules_rates);
-  const earlyPredicate = { fact: 'withdrawal.before_maturity', operator: 'eq', expected: true };
   const schedule = parseEarlySchedule(earlyValue);
-  const earlyEffect = schedule ? { rate_schedule: schedule } : { unresolved_source_text: typeof earlyValue === 'string' ? earlyValue : JSON.stringify(earlyValue) };
-  const early = {
-    rule_id: `rule.early.${candidate.extracted.provider_code}.${candidate.extracted.product_code}`,
-    rule_type: 'early-termination', predicate: earlyPredicate, effect: earlyEffect,
-    valid_from: provider.observed_at, valid_to: validTo(providerSource.source_id, provider.observed_at),
-    field_assertions: ruleAssertions('early_termination_rules.0', providerSource, earlyPredicate, earlyEffect, provider.observed_at),
-  };
+  const early = compileEarlyTerminationRule({
+    ruleId: `rule.early.${candidate.extracted.provider_code}.${candidate.extracted.product_code}`,
+    source: providerSource,
+    observedAt: provider.observed_at,
+    validTo: validTo(providerSource.source_id, provider.observed_at),
+    schedule,
+  });
   const eligibilityText = candidate.extracted.join_member || '가입대상 제한 없음';
-  const eligibilityExpected = /여성/.test(eligibilityText) ? 'individual_female_or_business' : /사업자/.test(eligibilityText) ? 'individual_or_business' : 'individual';
-  const eligibilityPredicate = { fact: 'user.customer_segment', operator: 'eq', expected: eligibilityExpected };
   const fssSource = { source_id: candidate.source_id, url: candidate.original_url, locator: `${candidate.locator.value}.join_member` };
-  const eligibility = {
-    rule_id: `rule.eligibility.${candidate.extracted.provider_code}.${candidate.extracted.product_code}`,
-    rule_type: 'eligibility', predicate: eligibilityPredicate, unknown_policy: 'review',
-    valid_from: candidate.collected_at, valid_to: validTo(candidate.source_id, candidate.collected_at),
-    field_assertions: ruleAssertions('eligibility_rules.0', fssSource, eligibilityPredicate, null, candidate.collected_at).filter(item => !item.field.endsWith('.effect')),
-  };
-  return { early: [early], eligibility: [eligibility], bonus: [] };
+  const eligibility = compileEligibilityRules({
+    text: eligibilityText,
+    source: fssSource,
+    observedAt: candidate.collected_at,
+    validTo: validTo(candidate.source_id, candidate.collected_at),
+    rulePrefix: `rule.eligibility.${candidate.extracted.provider_code}.${candidate.extracted.product_code}`,
+  });
+  return { early: [early], eligibility, bonus: [] };
 };
 const bonusRuleForOption = (candidate, option, index) => {
-  const text = candidate.extracted.preferential_conditions_text || '';
-  const fact = /급여|급여이체/.test(text) ? 'user.can_transfer_salary' : /카드/.test(text) ? 'user.can_use_card' : /자동이체|자동납부/.test(text) ? 'user.can_set_auto_transfer' : /신규/.test(text) ? 'user.is_new_customer' : null;
-  if (!fact) return null;
-  const additional = Math.max(0, Number(option.maximum_rate_percent) - Number(option.base_rate_percent));
-  if (!Number.isFinite(additional) || additional <= 0) return null;
-  const predicate = { fact, operator: 'eq', expected: true };
-  const effect = { additional_rate_percent: Number(additional.toFixed(6)) };
+  const conditions = Array.isArray(option.preferential_conditions)
+    ? option.preferential_conditions
+    : Array.isArray(candidate.extracted.preferential_conditions) ? candidate.extracted.preferential_conditions : [];
+  if (!conditions.length) return [];
   const source = { source_id: candidate.source_id, url: candidate.original_url, locator: `${candidate.locator.value}.spcl_cnd` };
-  return { rule_id: `rule.bonus.${candidate.extracted.provider_code}.${candidate.extracted.product_code}.${index}`, rule_type: 'bonus-rate', predicate, effect, unknown_policy: 'not_applied', valid_from: candidate.collected_at, valid_to: validTo(candidate.source_id, candidate.collected_at), field_assertions: ruleAssertions(`bonus_rate_rules.${index}`, source, predicate, effect, candidate.collected_at) };
+  return compileBonusRules({ conditions, optionId: option.option_id, source, observedAt: candidate.collected_at, validTo: validTo(candidate.source_id, candidate.collected_at), maximumRatePercent: option.maximum_rate_percent });
 };
 const protection = (candidate, record) => {
   if (candidate.protection_evidence?.status === 'listed_match_unreviewed') {
@@ -211,8 +213,8 @@ const buildOffer = (domain, code) => {
       const fieldAssertions = fields.map(([field, value]) => fssAssertion(candidate, `options.${optionId}.${field}`, value, `.options[?(@.save_trm=='${option.term_months}')]`));
       fieldAssertions.push(providerAssertion(record, limits.evidenceField, `options.${optionId}.${amountMinField}`, limits.minimum));
       fieldAssertions.push(providerAssertion(record, limits.evidenceField, `options.${optionId}.${amountMaxField}`, limits.maximum));
-      const bonusRule = bonusRuleForOption(candidate, option, option.term_months);
-      const output = { option_id: optionId, type: 'offer-option', term_months: option.term_months, base_rate_percent: option.base_rate_percent, maximum_rate_percent: option.maximum_rate_percent, interest_method: option.interest_method, bonus_rate_rules: bonusRule ? [bonusRule] : [], field_assertions: fieldAssertions };
+      const bonusRules = bonusRuleForOption(candidate, { ...option, option_id: optionId }, option.term_months);
+      const output = { option_id: optionId, type: 'offer-option', term_months: option.term_months, base_rate_percent: option.base_rate_percent, maximum_rate_percent: option.maximum_rate_percent, interest_method: option.interest_method, bonus_rate_rules: bonusRules, ...(candidate.extracted.preferential_conditions || option.preferential_conditions || candidate.extracted.preferential_conditions_text ? { unresolved_bonus_conditions: bonusRules.length ? [] : [candidate.extracted.preferential_conditions_text || 'structured bonus conditions require review'] } : {}), field_assertions: fieldAssertions, schema_validation_receipt: { schema_id: 'types/offer-option.schema.json', validator: 'ajv', validation_status: 'pending', validated_at: candidate.collected_at, content_checksum: sha256({ option_id: optionId, term_months: option.term_months, base_rate_percent: option.base_rate_percent, maximum_rate_percent: option.maximum_rate_percent }) } };
       if (domain === 'deposit') output.amount_limit = { minimum_krw: limits.minimum, maximum_krw: limits.maximum };
       else { output.saving_method = option.saving_method; output.monthly_payment_limit = { minimum_krw: limits.minimum, maximum_krw: limits.maximum }; }
       return output;
@@ -233,13 +235,39 @@ const buildOffer = (domain, code) => {
   ];
   const observedAt = [candidate.collected_at, ...Object.keys(record.fields).map(field => evidence(record, field).observed_at)].filter(Boolean).sort().at(-1);
   const providerEvidence = evidence(record, earlyField);
+  const offerId = `offer.${domain}.${candidate.extracted.provider_code}.${code}.${candidate.collected_at.slice(0, 10).replaceAll('-', '')}`;
+  const allAssertions = [
+    ...fieldAssertions,
+    ...options.flatMap(option => [
+      ...(option.field_assertions || []),
+      ...(option.bonus_rate_rules || []).flatMap(rule => rule.field_assertions || []),
+    ]),
+    ...rules.eligibility.flatMap(rule => rule.field_assertions || []),
+    ...rules.early.flatMap(rule => rule.field_assertions || []),
+  ];
   const provenance = [
     { source_id: candidate.source_id, original_url: candidate.original_url, source_record_id: candidate.source_record_id, locator: candidate.locator, supported_fields: ['options', 'join_channels', 'eligibility_rules', 'bonus_rate_rules', 'sales_verification_status'], collected_at: candidate.collected_at, reviewed_at: null, valid_from: candidate.collected_at, valid_to: validTo(candidate.source_id, candidate.collected_at), checksum: candidate.checksum, verification_status: 'unverified', freshness_status: 'unknown', conflict: false, receipt_id: `receipt.source.${candidate.source_id}` },
     { source_id: providerSourceId, original_url: providerEvidence.url, source_record_id: code, locator: { kind: 'document-section', value: providerEvidence.locator }, supported_fields: [amountMinField, amountMaxField, 'early_termination_rules'], collected_at: providerEvidence.observed_at, reviewed_at: null, valid_from: providerEvidence.observed_at, valid_to: validTo(providerSourceId, providerEvidence.observed_at), checksum: sha256(record), verification_status: 'unverified', freshness_status: 'unknown', conflict: false, receipt_id: `receipt.source.${providerSourceId}` },
     { source_id: protectionEvidence.source_id, original_url: protectionEvidence.url, source_record_id: code, locator: { kind: 'record', value: protectionEvidence.locator }, supported_fields: ['deposit_protection_status'], collected_at: protectionEvidence.observed_at, reviewed_at: null, valid_from: protectionEvidence.observed_at, valid_to: validTo(protectionEvidence.source_id, protectionEvidence.observed_at), checksum: protectionEvidence.checksum || sha256({ code, protectionEvidence }), verification_status: 'unverified', freshness_status: 'unknown', conflict: protectionEvidence.status === 'listed_match_unreviewed', receipt_id: `receipt.source.${protectionEvidence.source_id}` },
-  ];
+  ].map(entry => {
+    const sourceAssertions = allAssertions.filter(assertion => assertion.source_id === entry.source_id);
+    const reviews = sourceAssertions.map(reviewForAssertion);
+    const approved = sourceAssertions.length > 0 && reviews.every(review => review?.review_status === 'verified' && review.reviewer && review.reviewer_role && review.reviewer_signature && review.reviewer_permission && review.reviewed_at);
+    const sameReviewer = approved && new Set(reviews.map(review => `${review.reviewer}|${review.reviewer_role}|${review.reviewer_permission}|${review.reviewer_signature}`)).size === 1;
+    if (!approved || !sameReviewer) return entry;
+    return {
+      ...entry,
+      reviewed_at: reviews.map(review => review.reviewed_at).sort().at(-1),
+      verification_status: 'verified',
+      freshness_status: 'current',
+      reviewer: reviews[0].reviewer,
+      reviewer_role: reviews[0].reviewer_role,
+      reviewer_permission: reviews[0].reviewer_permission,
+      reviewer_signature: reviews[0].reviewer_signature,
+    };
+  });
   return { code, missing: [], offer: {
-    id: `offer.${domain}.${candidate.extracted.provider_code}.${code}.${candidate.collected_at.slice(0, 10).replaceAll('-', '')}`, title: `${candidate.extracted.provider} ${candidate.extracted.product_name}`,
+    id: offerId, title: `${candidate.extracted.provider} ${candidate.extracted.product_name}`,
     type: `${domain}-offer`, product_id: `finance.${domain}.${candidate.extracted.provider_code}.${code}`,
     provider_id: `provider.bank.${candidate.extracted.provider_code}`, observed_at: observedAt,
     valid_from: observedAt, valid_to: validTo(providerSourceId, observedAt), ...top, sales_status: top.sales_verification_status === 'verified_active' ? 'active' : 'unknown', sales_verified_at: record.fields.sales_active?.evidence?.observed_at ?? null, options, field_assertions: fieldAssertions,
@@ -270,12 +298,15 @@ const promotionRoot = path.join(ROOT, 'evidence/candidate-promotions');
 fs.mkdirSync(promotionRoot, { recursive: true });
 for (const domain of ['deposit', 'saving']) {
   const offers = fs.readFileSync(path.join(KNOWLEDGE, '30-financial-products', 'banking', '_decision', `${domain}-offers.jsonl`), 'utf8').split('\n').filter(Boolean).map(JSON.parse);
+  const existingPromotionPath = path.join(promotionRoot, `${domain}.jsonl`);
+  const existingPromotions = fs.existsSync(existingPromotionPath) ? fs.readFileSync(existingPromotionPath, 'utf8').split('\n').filter(Boolean).map(JSON.parse) : [];
+  const existingPromotionByOption = new Map(existingPromotions.map(row => [row.option_id, row]));
   const promotionRows = offers.flatMap(offer => offer.options.map(option => {
     const assertions = [...offer.field_assertions, ...option.field_assertions];
-    const verified = assertions.every(item => item.verification_status === 'verified' && item.freshness_status === 'current' && item.conflict !== true);
-    return {
+    const body = {
       offer_id: offer.id,
       option_id: option.option_id,
+      checksum_verified: false,
       strict_schema_checksum: sha256({ type: offer.type, required: ['deposit_protection_status', 'join_channels', 'eligibility_rules', 'bonus_rate_rules', 'early_termination_rules', 'sales_verification_status'], option }).slice(7),
       required_assertion_checksum: sha256(assertions).slice(7),
       source_set_checksum: sha256(offer.provenance.map(item => ({ source_id: item.source_id, checksum: item.checksum }))).slice(7),
@@ -283,21 +314,29 @@ for (const domain of ['deposit', 'saving']) {
       freshness_evaluation_as_of: offer.observed_at,
       conflict_count: assertions.filter(item => item.conflict === true).length,
       sales_verification_receipt_id: `receipt.source.sales.${offer.id}`,
-      comparison_approved: verified,
+      comparison_approved: false,
       recommendation_approved: false,
       mode: 'shadow',
       reviewer: 'unpromoted',
-      approved_at: offer.observed_at,
+      reviewer_role: null,
+      reviewer_signature: null,
+      reviewer_permission: null,
+      evaluated_at: offer.observed_at,
       expires_at: offer.valid_to ?? offer.observed_at,
-      reason_codes: verified ? [] : ['SOURCE_REVIEW_REQUIRED', 'RECOMMENDATION_APPROVAL_REQUIRED'],
+      reason_codes: ['SOURCE_REVIEW_REQUIRED', 'RECOMMENDATION_APPROVAL_REQUIRED'],
     };
+    return { ...body, candidate_content_checksum: sha256(canonicalCandidateContent(offer, { ...option, promotion_receipt: body })) };
   }));
   fs.writeFileSync(path.join(promotionRoot, `${domain}.jsonl`), promotionRows.map(row => JSON.stringify(row)).join('\n') + (promotionRows.length ? '\n' : ''));
   const promotionByOption = new Map(promotionRows.map(row => [row.option_id, row]));
   const offerPath = path.join(KNOWLEDGE, '30-financial-products', 'banking', '_decision', `${domain}-offers.jsonl`);
   const offersWithReceipts = fs.readFileSync(offerPath, 'utf8').split('\n').filter(Boolean).map(JSON.parse).map(offer => ({
     ...offer,
-    options: offer.options.map(option => ({ ...option, promotion_receipt: promotionByOption.get(option.option_id) ?? null })),
+    options: offer.options.map(option => {
+      const existing = existingPromotionByOption.get(option.option_id);
+      const existingMatches = existing && existing.candidate_content_checksum === sha256(canonicalCandidateContent(offer, { ...option, promotion_receipt: existing }));
+      return { ...option, promotion_receipt: existingMatches ? existing : promotionByOption.get(option.option_id) ?? null };
+    }),
   }));
   fs.writeFileSync(offerPath, offersWithReceipts.map(offer => JSON.stringify(offer)).join('\n') + (offersWithReceipts.length ? '\n' : ''));
 }

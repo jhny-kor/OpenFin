@@ -173,6 +173,8 @@
     "runtime_eligible_candidate_count": 0,
     "public_candidate_count": 0,
     "comparison_eligible_candidate_count": 0,
+    "strict_option_count": 0,
+    "structural_option_count": 0,
     "shadow_recommendation_candidate_count": 0,
     "owner_pilot_candidate_count": 0,
     "public_recommendation_candidate_count": 0,

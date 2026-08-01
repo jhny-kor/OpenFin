@@ -78,11 +78,13 @@ const fetched = toolPayload(await rpc("tools/call", { name: "fetch", arguments: 
 if (fetched.id !== "finance.account.housing-subscription.nhuf.youth-dream") throw new Error("representative fetch returned the wrong item");
 const comparison = toolPayload(await rpc("tools/call", { name: "compare", arguments: { domain: "deposit", term_months: 12, limit: 1 } }), "compare");
 if ((comparison.status === "blocked" && !Array.isArray(comparison.reason_codes)) || (!comparison.status && !Array.isArray(comparison.blockers))) throw new Error("compare readiness reason is incomplete");
-const recommendation = toolPayload(await rpc("tools/call", { name: "recommend", arguments: { domain: "deposit", limit: 1 } }), "recommend");
+const recommendation = toolPayload(await rpc("tools/call", { name: "recommend", arguments: { domain: "deposit", limit: 1, context: { as_of: "2026-07-31" } } }), "recommend");
 if (recommendation.status !== "blocked" || recommendation.result_count !== 0 || !Array.isArray(recommendation.reason_codes) || !recommendation.reason_codes.length) throw new Error("blocked recommendation contract is incomplete");
+const missingAsOfRecommendation = toolPayload(await rpc("tools/call", { name: "recommend", arguments: { domain: "deposit", limit: 1 } }), "recommend");
+if (missingAsOfRecommendation.status !== "insufficient_information" || !missingAsOfRecommendation.reason_codes?.includes("CONTEXT_AS_OF_REQUIRED")) throw new Error("missing as_of recommendation contract is incomplete");
 
 console.log(JSON.stringify({
   health: healthPayload,
   ready: { status: readyPayload.status, ready: readyPayload.ready, release_status: readyPayload.release_status, recommendation_enabled: readyPayload.recommendation_enabled, checksum_verified: readyPayload.checksum_verified },
-  mcp: { initialized: true, quality_status: quality.quality_status.release_status, search_result_count: search.result_count, fetched_id: fetched.id, comparison_status: comparison.status, recommendation_status: recommendation.status, recommendation_result_count: recommendation.result_count },
+  mcp: { initialized: true, quality_status: quality.quality_status.release_status, search_result_count: search.result_count, fetched_id: fetched.id, comparison_status: comparison.status, recommendation_status: recommendation.status, recommendation_result_count: recommendation.result_count, missing_as_of_recommendation_status: missingAsOfRecommendation.status },
 }, null, 2));

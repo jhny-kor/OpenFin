@@ -12,7 +12,7 @@
     "recommendation_state_contract_version": { "type": "string" },
     "recommendation_approval_receipt": { "type": ["object", "null"] },
     "capabilities": { "type": "object", "required": ["discovery", "comparison", "recommendation"], "properties": { "discovery": { "enum": ["ready", "blocked"] }, "comparison": { "enum": ["blocked", "limited_public", "public"] }, "recommendation": { "enum": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public"] } }, "additionalProperties": false },
-    "candidate_counts": { "type": "object", "additionalProperties": { "type": "object", "required": ["strict_offer_count", "comparison_eligible_candidate_count", "public_comparison_candidate_count", "shadow_recommendation_candidate_count", "owner_pilot_candidate_count", "public_recommendation_candidate_count"], "additionalProperties": true } },
+    "candidate_counts": { "type": "object", "additionalProperties": { "type": "object", "required": ["strict_offer_count", "strict_option_count", "structural_option_count", "comparison_eligible_candidate_count", "public_comparison_candidate_count", "shadow_recommendation_candidate_count", "owner_pilot_candidate_count", "public_recommendation_candidate_count"], "additionalProperties": true } },
     "source_freshness_status": { "enum": ["ready", "degraded"] },
     "decision_offers": {
       "type": "object",
@@ -43,7 +43,9 @@
           "public_comparison_candidate_count": { "type": "integer", "minimum": 0 },
           "shadow_recommendation_candidate_count": { "type": "integer", "minimum": 0 },
           "owner_pilot_candidate_count": { "type": "integer", "minimum": 0 },
-          "public_recommendation_candidate_count": { "type": "integer", "minimum": 0 },
+        "public_recommendation_candidate_count": { "type": "integer", "minimum": 0 },
+        "strict_option_count": { "type": "integer", "minimum": 0 },
+        "structural_option_count": { "type": "integer", "minimum": 0 },
           "schema_defined": { "type": "boolean" },
         "required_field_total": { "type": ["integer", "null"], "minimum": 0 },
         "value_complete_field_count": { "type": ["integer", "null"], "minimum": 0 },
@@ -70,6 +72,8 @@
         "source_status_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
         "release_policy_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
         "fixture_checksum": { "type": ["string", "null"], "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+        "candidate_set_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+        "quality_suite_transitive_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
         "capability_policy_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
       },
       "additionalProperties": false

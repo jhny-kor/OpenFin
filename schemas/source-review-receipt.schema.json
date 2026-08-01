@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/source-review-receipt.schema.json",
+  "title": "OpenFin source review receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["receipt_id", "offer_id", "option_id", "field", "review_category", "source_id", "authority_class", "original_url", "locator", "observed_value_hash", "source_checksum", "review_status", "evaluated_at", "receipt_checksum"],
+  "properties": {
+    "receipt_id": { "type": "string", "minLength": 1 },
+    "offer_id": { "type": "string", "minLength": 1 },
+    "option_id": { "type": ["string", "null"] },
+    "field": { "type": "string", "minLength": 1 },
+    "review_category": { "enum": ["sales", "protection", "eligibility", "option_rates", "bonus_conditions", "early_termination", "other"] },
+    "source_id": { "type": "string", "minLength": 1 },
+    "authority_class": { "type": "string", "minLength": 1 },
+    "original_url": { "type": "string", "format": "uri" },
+    "locator": { "type": ["object", "string"] },
+    "observed_value_hash": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+    "source_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+    "review_status": { "enum": ["pending", "verified", "rejected"] },
+    "reviewer": { "type": ["string", "null"] },
+    "reviewer_role": { "type": ["string", "null"] },
+    "reviewer_signature": { "type": ["string", "null"] },
+    "reviewer_permission": { "type": ["string", "null"] },
+    "reviewed_at": { "type": ["string", "null"], "format": "date-time" },
+    "evaluated_at": { "type": "string", "format": "date-time" },
+    "reason_codes": { "type": "array", "items": { "type": "string" } },
+    "receipt_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" }
+  }
+}

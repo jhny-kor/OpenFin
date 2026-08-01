@@ -4,4 +4,5 @@ interface Env {
   OPENAI_APPS_CHALLENGE_TOKEN?: string;
   RUNTIME_VERSION?: string;
   DEPLOYMENT_COMMIT?: string;
+  OWNER_PILOT_ENABLED?: string;
 }

@@ -15,6 +15,8 @@ function compare(actual: unknown, operator: string, expected: unknown): RuleStat
   if (operator === "not_in") return Array.isArray(expected) && !expected.includes(actual) ? "matched" : "failed";
   if (operator === "gte") return typeof actual === "number" && typeof expected === "number" ? (actual >= expected ? "matched" : "failed") : "unknown";
   if (operator === "lte") return typeof actual === "number" && typeof expected === "number" ? (actual <= expected ? "matched" : "failed") : "unknown";
+  if (operator === "gt") return typeof actual === "number" && typeof expected === "number" ? (actual > expected ? "matched" : "failed") : "unknown";
+  if (operator === "lt") return typeof actual === "number" && typeof expected === "number" ? (actual < expected ? "matched" : "failed") : "unknown";
   if (operator === "between") return Array.isArray(expected) && expected.length === 2 && typeof actual === "number" && typeof expected[0] === "number" && typeof expected[1] === "number" ? (actual >= expected[0] && actual <= expected[1] ? "matched" : "failed") : "unknown";
   if (operator === "contains") return Array.isArray(actual) ? (actual.includes(expected) ? "matched" : "failed") : "unknown";
   return "unknown";
@@ -29,15 +31,33 @@ export function evaluatePredicate(predicate: Predicate, facts: Record<string, un
   }
   return predicate.fact && has(facts, predicate.fact) ? compare(read(facts, predicate.fact), predicate.operator, predicate.expected) : "unknown";
 }
+const criticalFact = (fact: string) => new Set(["user.age_years", "user.residency_code", "user.is_new_customer", "user.customer_type", "user.gender", "user.employment_type"]).has(fact);
+const predicateFacts = (predicate: Predicate): string[] => [
+  ...(typeof predicate.fact === "string" ? [predicate.fact] : []),
+  ...(predicate.conditions ?? []).flatMap(predicateFacts),
+];
+const ruleAssertionsReady = (rule: StructuredRule, asOf: string | undefined) => {
+  const assertions = Array.isArray(rule.field_assertions) ? rule.field_assertions.filter((entry): entry is Record<string, unknown> => Boolean(entry) && typeof entry === "object") : [];
+  if (!assertions.length) return false;
+  const legacySynthetic = assertions.every(assertion => assertion.verification_status === "verified" && assertion.source_id === undefined);
+  return assertions.every(assertion => assertion.verification_status === "verified"
+    && (assertion.freshness_status === undefined || assertion.freshness_status === "current")
+    && assertion.conflict !== true
+    && (legacySynthetic || Boolean(assertion.reviewer && assertion.reviewed_at && assertion.receipt_checksum))
+    && (!asOf || !assertion.valid_to || String(assertion.valid_to) >= asOf));
+};
 export function evaluateRules(rules: readonly StructuredRule[], facts: Record<string, unknown>) {
   const matched: string[] = []; const failed: string[] = []; const unknown: string[] = []; const effects: Record<string, unknown>[] = [];
   for (const rule of rules) {
-    if (!Array.isArray(rule.field_assertions) || rule.field_assertions.length === 0) { unknown.push(rule.rule_id); continue; }
-    const asOfValue = typeof facts.as_of === "string" ? facts.as_of : new Date().toISOString();
-    const asOf = Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(asOfValue) ? `${asOfValue}T23:59:59Z` : asOfValue);
+    const asOfValue = typeof facts.as_of === "string" ? facts.as_of : typeof (facts.decision as Record<string, unknown> | undefined)?.as_of === "string" ? String((facts.decision as Record<string, unknown>).as_of) : undefined;
+    if (!ruleAssertionsReady(rule, asOfValue)) { unknown.push(rule.rule_id); continue; }
+    const factSources = facts.fact_sources && typeof facts.fact_sources === "object" && !Array.isArray(facts.fact_sources) ? facts.fact_sources as Record<string, unknown> : {};
+    const factNames = predicateFacts(rule.predicate);
+    if (factNames.some(fact => criticalFact(fact) && (factSources[fact] === "system_inferred" || factSources[fact.replace(/^user\./, "")] === "system_inferred"))) { unknown.push(rule.rule_id); continue; }
+    const asOf = asOfValue ? Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(asOfValue) ? `${asOfValue}T23:59:59Z` : asOfValue) : null;
     const from = rule.valid_from ? Date.parse(rule.valid_from) : Number.NEGATIVE_INFINITY;
     const to = rule.valid_to ? Date.parse(rule.valid_to) : Number.POSITIVE_INFINITY;
-    if (!Number.isFinite(asOf) || asOf < from || asOf > to) { unknown.push(rule.rule_id); continue; }
+    if ((rule.valid_from || rule.valid_to) && (asOf === null || !Number.isFinite(asOf) || asOf < from || asOf > to)) { unknown.push(rule.rule_id); continue; }
     const status = evaluatePredicate(rule.predicate, facts);
     if (status === "matched") { matched.push(rule.rule_id); if (rule.effect) effects.push(rule.effect); }
     else if (status === "failed") failed.push(rule.rule_id);

@@ -13,6 +13,8 @@ import { registerSearchTool } from "./tools/search";
 import { registerDiscoverTool } from "./tools/discover";
 import { registerRecommendTool } from "./tools/recommend-handler";
 import { registerCompareTool } from "./tools/compare";
+import { registerRecommendShadowTool } from "./tools/recommend-shadow";
+import { registerRecommendOwnerPilotTool } from "./tools/recommend-owner-pilot";
 import personalFinancePolicy from "../../contracts/personal-finance-policy.json" with { type: "json" };
 import { registerFetchTool } from "./tools/fetch";
 import { registerExportsTool } from "./tools/exports";
@@ -1605,11 +1607,13 @@ function searchShardForQuery(
   return undefined;
 }
 
-async function loadDetailedItemsForDomain(env: Env, domain: string): Promise<readonly FinanceItem[]> {
+async function loadDetailedItemsForDomain(env: Env, domain: string, asOf?: string): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
   if ((domain === "deposit" || domain === "saving") && manifest.decision_offers) {
     const offers = await loadSearchShard(env, manifest.decision_offers);
-    return offers.flatMap((offer) => adaptDecisionOfferOptions(offer, domain) as FinanceItem[]);
+    const sourceRegistry = await loadFinanceArtifact(env, "source_registry", manifest);
+    const sourceRegistryMap = new Map(artifactRecords(sourceRegistry).map((entry) => [String(entry.id ?? entry.source_id ?? entry.sourceId), entry]));
+    return offers.flatMap((offer) => adaptDecisionOfferOptions(offer, domain, asOf, sourceRegistryMap) as FinanceItem[]);
   }
   const shardId = SEARCH_SHARD_BY_DOMAIN[domain];
   const shard = manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
@@ -1926,7 +1930,7 @@ function isPastOrCurrentIsoDate(value: unknown): value is string {
   return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value && value <= new Date().toISOString().slice(0, 10);
 }
 
-function comparisonBlocker(item: FinanceItem, artifacts: FinanceArtifacts | undefined, salesVerificationTtlHours: number): string | undefined {
+function comparisonBlocker(item: FinanceItem, artifacts: FinanceArtifacts | undefined, salesVerificationTtlHours: number, asOf?: string): string | undefined {
   if (item.comparison_exclusion_reasons?.length) return "comparison_excluded";
   if (item.comparison_approved !== true && item.capabilities?.comparison !== "limited_public" && item.capabilities?.comparison !== "public") return "comparison_capability_blocked";
   if (item.source_listing_status !== "listed") return "source_not_listed";
@@ -1935,7 +1939,8 @@ function comparisonBlocker(item: FinanceItem, artifacts: FinanceArtifacts | unde
   const rawVerifiedAt = item.sales_verified_at;
   const verifiedAt = typeof rawVerifiedAt === "string" ? Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(rawVerifiedAt) ? `${rawVerifiedAt}T00:00:00Z` : rawVerifiedAt) : Number.NaN;
   const ttlMs = salesVerificationTtlHours * 60 * 60 * 1000;
-  if (!Number.isFinite(verifiedAt) || !Number.isFinite(ttlMs) || ttlMs <= 0 || verifiedAt > Date.now() || Date.now() - verifiedAt > ttlMs) return "stale_source";
+  const evaluationTime = typeof asOf === "string" ? Date.parse(`${asOf}T23:59:59Z`) : Number.NaN;
+  if (!Number.isFinite(evaluationTime) || !Number.isFinite(verifiedAt) || !Number.isFinite(ttlMs) || ttlMs <= 0 || verifiedAt > evaluationTime || evaluationTime - verifiedAt > ttlMs) return "stale_source";
   if (item.verification_status !== "verified") return "not_verified";
   if (item.type !== "offer-option") {
     const evidenceBlocker = verificationEvidenceBlocker(item);
@@ -2331,6 +2336,10 @@ function createServer(env: Env): McpServer {
   registerDiscoverTool(toolContext);
 
   registerRecommendTool(toolContext);
+
+  registerRecommendShadowTool(toolContext);
+
+  registerRecommendOwnerPilotTool(toolContext);
 
   registerCompareTool(toolContext);
 

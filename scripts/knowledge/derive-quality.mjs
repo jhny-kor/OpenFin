@@ -202,8 +202,13 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
     })).length, 0) : null;
     const runtimeEligible = fieldVerifiedItems.filter(item => normalizeSalesStatus(item.sales_verification_status) === 'verified_active' && (usingOffers || (item.sales_status === 'active' && item.freshness_status === 'current')));
     const optionRows = usingOffers ? items.flatMap(offer => (offer.options || []).map(option => ({ offer, option }))) : [];
+    const structuralOptionCount = optionRows.length;
+    const strictOptionCount = optionRows.filter(({ option }) => optionComplete(option, name)).length;
     const comparisonEligibleCandidateCount = optionRows.filter(({ offer, option }) => optionVerified(offer, option, name, evaluationAsOf) && promotions.get(option.option_id)?.comparison_approved === true).length;
-    const shadowRecommendationCandidateCount = optionRows.filter(({ offer, option }) => optionComplete(option, name) && strictDecisionCandidate(offer)).length;
+    const shadowRecommendationCandidateCount = optionRows.filter(({ option }) => {
+      const promotion = promotions.get(option.option_id);
+      return promotion?.mode === 'shadow' && promotion.checksum_verified === true;
+    }).length;
     const ownerPilotCandidateCount = optionRows.filter(({ offer, option }) => promotions.get(option.option_id)?.recommendation_approved === true && promotions.get(option.option_id)?.mode === 'owner_pilot').length;
     const publicRecommendationCandidateCount = optionRows.filter(({ offer, option }) => promotions.get(option.option_id)?.recommendation_approved === true && optionVerified(offer, option, name, evaluationAsOf)).length;
     const threshold = config.required_verified_candidates || Infinity;
@@ -218,6 +223,8 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       item_count: items.length,
       catalog_item_count: catalogItems.length,
       strict_offer_count: usingOffers ? items.length : 0,
+      strict_option_count: strictOptionCount,
+      structural_option_count: structuralOptionCount,
       required_fields: required,
       sales_verification_ttl_hours: Number.isFinite(config.sales_verification_ttl_hours) ? config.sales_verification_ttl_hours : null,
       structural_candidate_count: items.length,
@@ -248,8 +255,8 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       blockers: !schemaDefined ? ['SCHEMA_NOT_DEFINED'] : !usingOffers ? ['STRICT_OFFER_SNAPSHOT_MISSING'] : !valueComplete.length ? ['STRICT_OFFER_FIELDS_INCOMPLETE'] : !fieldVerifiedItems.length ? ['FIELD_ASSERTIONS_INCOMPLETE'] : [],
       missing_required_fields: schemaDefined ? Object.fromEntries(required.map(field => [field, items.filter(item => !present(item[field])).length])) : null,
       data_layers: {
-        raw: { item_count: items.filter(item => Array.isArray(item.source_records) && item.source_records.length).length, status: items.some(item => Array.isArray(item.source_records) && item.source_records.length) ? 'available' : 'missing' },
-        normalized: { item_count: items.filter(item => item.normalized_at || item.normalized_completeness_ratio !== undefined).length, status: items.some(item => item.normalized_at || item.normalized_completeness_ratio !== undefined) ? 'available' : 'missing' },
+        raw: { item_count: items.filter(item => Array.isArray(item.provenance) && item.provenance.length).length, status: items.some(item => Array.isArray(item.provenance) && item.provenance.length) ? 'available' : 'missing', lineage: 'source_receipt' },
+        normalized: { item_count: usingOffers ? strictOptionCount : items.filter(item => item.normalized_at || item.normalized_completeness_ratio !== undefined).length, status: usingOffers && strictOptionCount ? 'available' : items.some(item => item.normalized_at || item.normalized_completeness_ratio !== undefined) ? 'available' : 'missing', lineage: 'decision_snapshot' },
         verified: { item_count: fieldVerifiedItems.length, status: fieldVerifiedItems.length ? 'available' : 'blocked' },
       },
     };
@@ -286,6 +293,8 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
   const recommendationReleaseStatus = recommendationEnabled ? 'ready' : 'blocked';
   const candidate_counts = Object.fromEntries(Object.entries(domains).map(([name, state]) => [name, {
     strict_offer_count: Number(state.strict_offer_count || 0),
+    strict_option_count: Number(state.strict_option_count || 0),
+    structural_option_count: Number(state.structural_option_count || 0),
     comparison_eligible_candidate_count: Number(state.comparison_eligible_candidate_count || 0),
     public_comparison_candidate_count: Number(state.public_comparison_candidate_count || 0),
     shadow_recommendation_candidate_count: Number(state.shadow_recommendation_candidate_count || 0),
@@ -333,7 +342,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(im
   const mismatches = [];
   for (const [name, state] of Object.entries(domains)) {
     const value = state || {};
-    if (!(Number(value.field_verified_candidate_count ?? 0) <= Number(value.value_complete_candidate_count ?? 0) && Number(value.value_complete_candidate_count ?? 0) <= Number(value.structural_candidate_count ?? 0) && Number(value.runtime_eligible_candidate_count ?? 0) <= Number(value.field_verified_candidate_count ?? 0) && Number(value.public_candidate_count ?? 0) <= Number(value.runtime_eligible_candidate_count ?? 0) && Number(value.public_comparison_candidate_count ?? 0) <= Number(value.comparison_eligible_candidate_count ?? 0) && Number(value.public_recommendation_candidate_count ?? 0) <= Number(value.shadow_recommendation_candidate_count ?? 0))) mismatches.push(`domain_count_invariant:${name}`);
+    if (!(Number(value.field_verified_candidate_count ?? 0) <= Number(value.value_complete_candidate_count ?? 0) && Number(value.value_complete_candidate_count ?? 0) <= Number(value.structural_candidate_count ?? 0) && Number(value.strict_option_count ?? 0) <= Number(value.structural_option_count ?? 0) && Number(value.comparison_eligible_candidate_count ?? 0) <= Number(value.strict_option_count ?? 0) && Number(value.runtime_eligible_candidate_count ?? 0) <= Number(value.field_verified_candidate_count ?? 0) && Number(value.public_candidate_count ?? 0) <= Number(value.runtime_eligible_candidate_count ?? 0) && Number(value.public_comparison_candidate_count ?? 0) <= Number(value.comparison_eligible_candidate_count ?? 0) && Number(value.public_recommendation_candidate_count ?? 0) <= Number(value.structural_option_count ?? 0))) mismatches.push(`domain_count_invariant:${name}`);
     if (Number(value.field_verified_candidate_count ?? 0) > 0 && value.data_layers?.verified?.status === 'blocked') mismatches.push(`verified_layer_invariant:${name}`);
   }
   if (manifest.release_status !== manifest.platform_release_status) mismatches.push('release_status_alias');

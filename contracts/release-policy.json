@@ -8,7 +8,7 @@
     "comparison": ["blocked", "limited_public", "public"],
     "recommendation": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public"]
   },
-  "candidate_count_fields": ["strict_offer_count", "comparison_eligible_candidate_count", "public_comparison_candidate_count", "shadow_recommendation_candidate_count", "owner_pilot_candidate_count", "public_recommendation_candidate_count"],
+  "candidate_count_fields": ["strict_offer_count", "strict_option_count", "structural_option_count", "comparison_eligible_candidate_count", "public_comparison_candidate_count", "shadow_recommendation_candidate_count", "owner_pilot_candidate_count", "public_recommendation_candidate_count"],
   "live_regression": {
     "required_count": 120,
     "required_mode": "live",
@@ -23,7 +23,14 @@
     "owner_pilot_enabled": false,
     "state": "blocked",
     "state_contract": "contracts/recommendation-state.json",
-    "approval_receipt_schema": "schemas/recommendation-approval-receipt.schema.json"
+    "approval_receipt_schema": "schemas/recommendation-approval-receipt.schema.json",
+    "public_requires_explicit_approval": true,
+    "candidate_checksum_scope": ["offer", "option", "rules", "assertions", "provenance", "promotion_receipt", "source_set", "policy_version", "ranking_version", "calculator_version"]
+  },
+  "source_review": {
+    "receipt_schema": "schemas/source-review-receipt.schema.json",
+    "required_categories": ["sales", "protection", "eligibility", "option_rates", "bonus_conditions", "early_termination"],
+    "official_authority_classes": ["association_official", "government_official", "law_official", "provider_official", "regulator_official"]
   },
   "release": {
     "ready_requires": [

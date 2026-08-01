@@ -20,6 +20,56 @@ export const stable = (value) => {
   return JSON.stringify(value);
 };
 export const sha256 = (value) => `sha256:${crypto.createHash('sha256').update(typeof value === 'string' ? value : stable(value)).digest('hex')}`;
+export const decisionOfferFiles = () => {
+  const directory = path.join(KNOWLEDGE, '30-financial-products', 'banking', '_decision');
+  if (!fs.existsSync(directory)) return [];
+  return fs.readdirSync(directory).filter(name => /^(deposit|saving)-offers\.jsonl$/.test(name)).sort().flatMap(name =>
+    fs.readFileSync(path.join(directory, name), 'utf8').split('\n').filter(Boolean).map(JSON.parse));
+};
+export const canonicalCandidateContent = (offer, option) => ({
+  offer: Object.fromEntries(Object.entries(offer || {}).filter(([key]) => key !== 'options')),
+  option: Object.fromEntries(Object.entries(option || {}).filter(([key]) => key !== 'promotion_receipt')),
+  rules: {
+    eligibility: offer?.eligibility_rules || [],
+    bonus: [...(offer?.bonus_rate_rules || []), ...(option?.bonus_rate_rules || [])],
+    early_termination: offer?.early_termination_rules || [],
+  },
+  assertions: [...(offer?.field_assertions || []), ...(option?.field_assertions || [])],
+  provenance: offer?.provenance || [],
+  // The receipt is part of the candidate contract. Its self-referential
+  // candidate_content_checksum is excluded so approval state is hashed
+  // without creating a checksum cycle.
+  promotion_receipt: (() => {
+    const receipt = option?.promotion_receipt || offer?.promotion_receipt;
+    if (!receipt || typeof receipt !== 'object' || Array.isArray(receipt)) return null;
+    return Object.fromEntries(Object.entries(receipt).filter(([key]) => key !== 'candidate_content_checksum'));
+  })(),
+  source_set: [...new Set((offer?.provenance || []).map(entry => ({ source_id: entry.source_id, checksum: entry.checksum, receipt_id: entry.receipt_id })).map(stable))].sort(),
+  versions: {
+    policy: 'openfin-recommendation-policy-v1',
+    ranking: 'openfin-ranking-v2',
+    calculator: 'openfin-calculator-v1',
+  },
+});
+export const candidateSetChecksum = (offers = decisionOfferFiles()) => sha256(offers.flatMap(offer =>
+  (offer.options || []).map(option => canonicalCandidateContent(offer, option))).sort((a, b) => stable(a).localeCompare(stable(b))));
+export const qualitySuiteChecksum = (root = ROOT) => {
+  const names = [
+    'tests/golden/openfin-runtime-contract-120.jsonl',
+    'tests/golden/openfin-comparison-live.jsonl',
+    'tests/golden/openfin-recommendation-shadow-live.jsonl',
+    'tests/golden/openfin-positive-runtime.jsonl',
+    'tests/golden/deposit-comparison-quality.jsonl',
+    'tests/golden/saving-comparison-quality.jsonl',
+    'tests/golden/deposit-recommendation-quality.jsonl',
+    'tests/golden/saving-recommendation-quality.jsonl',
+  ];
+  const contents = names.map(name => {
+    const file = path.join(root, name);
+    return { name, content: fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null };
+  });
+  return sha256(contents);
+};
 export const isoDate = (value, fallback = null) => {
   if (!value) return fallback;
   if (value instanceof Date) return Number.isNaN(value.getTime()) ? fallback : value.toISOString();

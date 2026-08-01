@@ -4,6 +4,53 @@
   "title": "OpenFin early termination rule",
   "type": "object",
   "required": ["rule_id", "rule_type", "predicate", "effect", "valid_from", "valid_to", "field_assertions"],
-  "properties": { "rule_id": { "type": "string" }, "rule_type": { "const": "early-termination" }, "predicate": { "$ref": "eligibility-rule.schema.json#/definitions/predicate" }, "effect": { "type": "object", "properties": { "rate_percent": { "type": "number", "minimum": 0, "maximum": 100 }, "contract_rate_multiplier_percent": { "type": "number", "minimum": 0, "maximum": 100 }, "formula": { "type": "string", "minLength": 1 }, "unresolved_source_text": { "type": "string", "minLength": 1 }, "rate_schedule": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["condition"], "properties": { "condition": { "type": "string", "minLength": 1 }, "rate_percent": { "type": "number", "minimum": 0, "maximum": 100 }, "contract_rate_multiplier_percent": { "type": "number", "minimum": 0, "maximum": 100 }, "formula": { "type": "string", "minLength": 1 } }, "anyOf": [{ "required": ["rate_percent"] }, { "required": ["contract_rate_multiplier_percent"] }, { "required": ["formula"] }], "additionalProperties": false } } }, "anyOf": [{ "required": ["rate_percent"] }, { "required": ["contract_rate_multiplier_percent"] }, { "required": ["formula"] }, { "required": ["rate_schedule"] }, { "required": ["unresolved_source_text"] }], "additionalProperties": false }, "valid_from": { "type": ["string", "null"], "format": "date-time" }, "valid_to": { "type": ["string", "null"], "format": "date-time" }, "field_assertions": { "type": "array", "minItems": 4, "items": { "$ref": "../assertion.schema.json" }, "allOf": [{ "contains": { "properties": { "field": { "pattern": "(^|\\.)predicate$" } }, "required": ["field"] } }, { "contains": { "properties": { "field": { "pattern": "(^|\\.)effect$" } }, "required": ["field"] } }, { "contains": { "properties": { "field": { "pattern": "(^|\\.)valid_from$" } }, "required": ["field"] } }, { "contains": { "properties": { "field": { "pattern": "(^|\\.)valid_to$" } }, "required": ["field"] } }] } },
+  "properties": {
+    "rule_id": { "type": "string" },
+    "rule_type": { "const": "early-termination" },
+    "unknown_policy": { "enum": ["not_applied", "exclude", "review"] },
+    "predicate": { "$ref": "eligibility-rule.schema.json#/definitions/predicate" },
+    "effect": {
+      "type": "object",
+      "properties": {
+        "rate_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "contract_rate_multiplier_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "formula": { "type": "string", "minLength": 1 },
+        "unresolved_source_text": { "type": "string", "minLength": 1 },
+        "rate_schedule": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["condition"],
+            "properties": {
+              "condition": { "type": "string", "minLength": 1 },
+              "from_elapsed_months": { "type": "number", "minimum": 0 },
+              "until_elapsed_months": { "type": "number", "minimum": 0 },
+              "rate_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+              "contract_rate_multiplier_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+              "formula": { "type": "string", "minLength": 1 }
+            },
+            "anyOf": [{ "required": ["rate_percent"] }, { "required": ["contract_rate_multiplier_percent"] }, { "required": ["formula"] }],
+            "additionalProperties": false
+          }
+        }
+      },
+      "anyOf": [{ "required": ["rate_percent"] }, { "required": ["contract_rate_multiplier_percent"] }, { "required": ["formula"] }, { "required": ["rate_schedule"] }, { "required": ["unresolved_source_text"] }],
+      "additionalProperties": false
+    },
+    "valid_from": { "type": ["string", "null"], "format": "date-time" },
+    "valid_to": { "type": ["string", "null"], "format": "date-time" },
+    "field_assertions": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "$ref": "../assertion.schema.json" },
+      "allOf": [
+        { "contains": { "properties": { "field": { "pattern": "(^|\\.)predicate$" } }, "required": ["field"] } },
+        { "contains": { "properties": { "field": { "pattern": "(^|\\.)effect$" } }, "required": ["field"] } },
+        { "contains": { "properties": { "field": { "pattern": "(^|\\.)valid_from$" } }, "required": ["field"] } },
+        { "contains": { "properties": { "field": { "pattern": "(^|\\.)valid_to$" } }, "required": ["field"] } }
+      ]
+    }
+  },
   "additionalProperties": false
 }

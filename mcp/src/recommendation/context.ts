@@ -9,8 +9,8 @@ export type RecommendationContext = {
   consent: { transient_only: true };
 };
 
-export const RECOMMENDATION_FACT_KEYS = new Set(["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw", "tax_rate_percent", "can_transfer_salary", "can_use_card", "can_set_auto_transfer", "is_new_customer", "age_years", "residency_code", "customer_segment", "employment_type", "monthly_contribution_krw"]);
-const PREFERENCE_KEYS = new Set(["provider", "term_months", "liquidity_horizon_months", "max_term_months", "monthly_budget_krw", "monthly_contribution_krw", "principal_krw", "deposit_amount_krw", "tax_rate_percent", "risk_capacity"]);
+export const RECOMMENDATION_FACT_KEYS = new Set(["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw", "tax_rate_percent", "can_transfer_salary", "can_use_card", "can_set_auto_transfer", "is_new_customer", "age_years", "residency_code", "customer_segment", "customer_type", "gender", "employment_type", "eligibility_review_status", "monthly_contribution_krw", "fact_sources"]);
+const PREFERENCE_KEYS = new Set(["provider", "term_months", "liquidity_horizon_months", "max_term_months", "monthly_budget_krw", "monthly_contribution_krw", "principal_krw", "deposit_amount_krw", "tax_rate_percent", "risk_capacity", "planned_termination_months", "early_termination_months"]);
 const CONSTRAINT_KEYS = new Set(["provider", "term_months", "join_channel", "minimum_amount_krw", "maximum_amount_krw", "eligible_rule_ids"]);
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -39,7 +39,10 @@ export function normalizeRecommendationContext(input: Record<string, unknown> = 
     target_date: date(nestedGoal.target_date, "goal.target_date"),
     liquidity_horizon_months: typeof nestedGoal.liquidity_horizon_months === "number" ? nestedGoal.liquidity_horizon_months : null,
   };
-  const as_of = date(nested.as_of ?? input.as_of ?? decisionContext.as_of ?? facts.as_of, "as_of");
+  const asOfValues = [nested.as_of, input.as_of, decisionContext.as_of, facts.as_of].filter((value) => value !== undefined && value !== null && value !== "").map((value) => date(value, "as_of"));
+  if (new Set(asOfValues).size > 1) throw new Error("all as_of values must match");
+  const as_of = asOfValues[0] ?? null;
+  if (as_of !== null) facts.as_of = as_of;
   if (domain && !["deposit", "saving", "card", "loan", "insurance"].includes(domain)) throw new Error(`unsupported recommendation domain: ${domain}`);
   return { as_of, goal, facts, hard_constraints, preferences, assumptions: Array.isArray(nested.assumptions) ? nested.assumptions.filter((item): item is string => typeof item === "string").slice(0, 20) : [], consent: { transient_only: true } };
 }

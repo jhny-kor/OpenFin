@@ -42,8 +42,7 @@ jobs:
         run: |
           npm ci
           npm test
-          npm run financial-quality
-          npm run financial-quality-live
+          npm run financial-quality-unit
           npm run test:mutation
           npm run live-regression -- --validate-fixture
       - name: Verify approval remains fail-closed
@@ -134,6 +133,16 @@ jobs:
         run: node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
+      - name: Run financial quality against deployed MCP endpoint
+        run: npm run financial-quality-live > ../financial-quality-live-report.json
+        env:
+          MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
+      - name: Validate endpoint quality evidence
+        working-directory: .
+        run: |
+          test "$(jq -r '.live_execution_status' financial-quality-live-report.json)" = executed
+          test "$(jq -r '.live_call_count' financial-quality-live-report.json)" -gt 0
+          test "$(jq -r '.public_recommendation_enabled' financial-quality-live-report.json)" = false
       - name: Validate live evidence
         if: always()
         working-directory: .
@@ -152,6 +161,7 @@ jobs:
           path: |
             live-regression-report.json
             live-regression-error.log
+            financial-quality-live-report.json
           retention-days: 7
 
   public-parity:

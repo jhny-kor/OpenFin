@@ -18,14 +18,14 @@ function optionLimits(option: RecordLike) {
   };
 }
 
-export function adaptDecisionOfferOptions(offer: RecordLike, domain: "deposit" | "saving"): DecisionCandidate[] {
+export function adaptDecisionOfferOptions(offer: RecordLike, domain: "deposit" | "saving", asOf?: string, sourceRegistry?: RecordLike | Map<string, RecordLike>): DecisionCandidate[] {
   if (offer.type !== `${domain}-offer` || !Array.isArray(offer.options)) return [];
   const provenance = list(offer.provenance);
   const sourceUrls = unique(provenance.map((entry) => entry.original_url));
   const sourceIds = unique([...list(offer.field_assertions), ...list(offer.options).flatMap((option) => list(option.field_assertions))].map((entry) => entry.source_id));
   return list(offer.options).flatMap((option) => {
     if (typeof option.option_id !== "string") return [];
-    const gate = evaluateEvidenceGate({ offer, option, domain });
+    const gate = evaluateEvidenceGate({ offer, option, domain, asOf, sourceRegistry });
     const limits = optionLimits(option);
     const optionAssertions = list(option.field_assertions);
     const offerAssertions = list(offer.field_assertions);

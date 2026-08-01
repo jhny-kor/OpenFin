@@ -19,7 +19,7 @@ export function resolveAttainableRate(item: RecordLike, preferences: RecordLike 
   let rate = base;
   const matched_conditions: string[] = [];
   const unknown_conditions: string[] = [];
-  const evaluated = evaluateRules(bonuses, { ...userFacts, as_of: userFacts.as_of ?? preferences.as_of ?? new Date().toISOString() });
+  const evaluated = evaluateRules(bonuses, { ...userFacts, ...(userFacts.as_of ?? preferences.as_of ? { as_of: userFacts.as_of ?? preferences.as_of } : {}) });
   for (const bonus of bonuses) {
     if (!evaluated.matched.includes(bonus.rule_id)) continue;
     const bonusRate = finite(bonus.effect?.additional_rate_percent);

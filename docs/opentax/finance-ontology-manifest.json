@@ -67,6 +67,8 @@
           "item_count": 20,
           "catalog_item_count": 430,
           "strict_offer_count": 20,
+          "strict_option_count": 69,
+          "structural_option_count": 69,
           "required_fields": [
             "deposit_protection_status",
             "join_channels",
@@ -84,7 +86,7 @@
           "public_candidate_count": 0,
           "comparison_eligible_candidate_count": 0,
           "public_comparison_candidate_count": 0,
-          "shadow_recommendation_candidate_count": 69,
+          "shadow_recommendation_candidate_count": 0,
           "owner_pilot_candidate_count": 0,
           "public_recommendation_candidate_count": 0,
           "schema_defined": true,
@@ -113,12 +115,14 @@
           },
           "data_layers": {
             "raw": {
-              "item_count": 0,
-              "status": "missing"
+              "item_count": 20,
+              "status": "available",
+              "lineage": "source_receipt"
             },
             "normalized": {
-              "item_count": 0,
-              "status": "missing"
+              "item_count": 69,
+              "status": "available",
+              "lineage": "decision_snapshot"
             },
             "verified": {
               "item_count": 0,
@@ -141,6 +145,8 @@
           "item_count": 20,
           "catalog_item_count": 335,
           "strict_offer_count": 20,
+          "strict_option_count": 66,
+          "structural_option_count": 66,
           "required_fields": [
             "deposit_protection_status",
             "join_channels",
@@ -158,7 +164,7 @@
           "public_candidate_count": 0,
           "comparison_eligible_candidate_count": 0,
           "public_comparison_candidate_count": 0,
-          "shadow_recommendation_candidate_count": 66,
+          "shadow_recommendation_candidate_count": 0,
           "owner_pilot_candidate_count": 0,
           "public_recommendation_candidate_count": 0,
           "schema_defined": true,
@@ -187,12 +193,14 @@
           },
           "data_layers": {
             "raw": {
-              "item_count": 0,
-              "status": "missing"
+              "item_count": 20,
+              "status": "available",
+              "lineage": "source_receipt"
             },
             "normalized": {
-              "item_count": 0,
-              "status": "missing"
+              "item_count": 66,
+              "status": "available",
+              "lineage": "decision_snapshot"
             },
             "verified": {
               "item_count": 0,
@@ -215,6 +223,8 @@
           "item_count": 1007,
           "catalog_item_count": 1007,
           "strict_offer_count": 0,
+          "strict_option_count": 0,
+          "structural_option_count": 0,
           "required_fields": [
             "annual_fee_krw",
             "previous_month_spend_krw",
@@ -264,11 +274,13 @@
           "data_layers": {
             "raw": {
               "item_count": 1007,
-              "status": "available"
+              "status": "available",
+              "lineage": "source_receipt"
             },
             "normalized": {
               "item_count": 1007,
-              "status": "available"
+              "status": "available",
+              "lineage": "decision_snapshot"
             },
             "verified": {
               "item_count": 0,
@@ -291,6 +303,8 @@
           "item_count": 598,
           "catalog_item_count": 598,
           "strict_offer_count": 0,
+          "strict_option_count": 0,
+          "structural_option_count": 0,
           "required_fields": [
             "base_rate_percent",
             "spread_rate_percent",
@@ -348,11 +362,13 @@
           "data_layers": {
             "raw": {
               "item_count": 598,
-              "status": "available"
+              "status": "available",
+              "lineage": "source_receipt"
             },
             "normalized": {
               "item_count": 598,
-              "status": "available"
+              "status": "available",
+              "lineage": "decision_snapshot"
             },
             "verified": {
               "item_count": 0,
@@ -375,6 +391,8 @@
           "item_count": 1071,
           "catalog_item_count": 1071,
           "strict_offer_count": 0,
+          "strict_option_count": 0,
+          "structural_option_count": 0,
           "required_fields": [
             "coverage_items",
             "coverage_amount_krw",
@@ -428,11 +446,13 @@
           "data_layers": {
             "raw": {
               "item_count": 1071,
-              "status": "available"
+              "status": "available",
+              "lineage": "source_receipt"
             },
             "normalized": {
               "item_count": 1071,
-              "status": "available"
+              "status": "available",
+              "lineage": "decision_snapshot"
             },
             "verified": {
               "item_count": 0,
@@ -455,6 +475,8 @@
           "item_count": 0,
           "catalog_item_count": 0,
           "strict_offer_count": 0,
+          "strict_option_count": 0,
+          "structural_option_count": 0,
           "required_fields": [],
           "sales_verification_ttl_hours": null,
           "structural_candidate_count": 0,
@@ -488,11 +510,13 @@
           "data_layers": {
             "raw": {
               "item_count": 0,
-              "status": "missing"
+              "status": "missing",
+              "lineage": "source_receipt"
             },
             "normalized": {
               "item_count": 0,
-              "status": "missing"
+              "status": "missing",
+              "lineage": "decision_snapshot"
             },
             "verified": {
               "item_count": 0,
@@ -1266,9 +1290,9 @@
       ],
       "evidence_path": "evidence/live-regression/current.json",
       "evidence_checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
-      "expected_generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-      "expected_fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf",
-      "validation_status": "current"
+      "expected_generation_id": "8bfce8cf310f78727aada8b33a4429c32bbb9f0ae22a23b9a81ad9752570d8c1",
+      "expected_fixture_checksum": "sha256:aca1219c3698dadd0b8031abd615bd896fc313a6c7e895c835624c8f7e7c0d10",
+      "validation_status": "stale_fixture"
     }
   },
   "operating_policy": {
@@ -1593,7 +1617,7 @@
         "relationship_count": 102523,
         "collection_failure_sources": 49
       },
-      "export_checksum": "2556270b533fdd30ea4daa9dbe65d7658a99461630efee8de3641980ea50c48e",
+      "export_checksum": "d0398c53afbcda428031f82f769c9fd808134b351f78738f4324f904cc2dc7d5",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1615,7 +1639,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "e301e222d49b0c366217514e066b2a70c2e7b3485c238b8ec6fc459866ddff5e",
+      "export_checksum": "100fbe01b5fbad646717f18ab525437f8a1c8b784fe96bfe502f317ba8476197",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1637,7 +1661,7 @@
         "live_failure_count": 105,
         "report_kind": "verification-coverage"
       },
-      "export_checksum": "fbceb88cfbc449389a380334b04774c88183caa63f47857ba05a5bb83ac9ea6f",
+      "export_checksum": "6e06c085f7fe006ff2f2de4940a60bbb17d5fdd3e6fd4f5aa0a2205119fc49af",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1667,7 +1691,7 @@
         "duplicate_canonical_product_count": 0,
         "canonical_merge_count": 11
       },
-      "export_checksum": "c0a7f8a695194774f6f15ab0c9a19f3f22794dd7ce223cf92a90c1e3dd8f7ad3",
+      "export_checksum": "3feb0b98a551d9d60e2a44e1269d085d9ebdd10f2f8a0cc0cca672efd2babe8d",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1691,7 +1715,7 @@
         "failed_count": 0,
         "search_regression_failed_count": 0
       },
-      "export_checksum": "f210d5fe3af390e0817c5e43e534acca72d61ca34bd157053f6436a41163ac37",
+      "export_checksum": "41f93f5527053d231ccc3e922bd7bda750acb6d0c8d1f132c3fee1ae44907dd2",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1713,7 +1737,7 @@
         "live_failure_count": 105,
         "report_kind": "recommendation-safety"
       },
-      "export_checksum": "fd1ef674954c8862050509100136adba3c6bdf3aa7a93638a52c056710efac1e",
+      "export_checksum": "8369af2efcd12212af65dd9fefc0683408e0c6921c25fa3faaf2b717c0c87bf5",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1738,7 +1762,7 @@
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0
       },
-      "export_checksum": "d00aa760db054440f814a34d36e26dbe3ca93bee2a23fb56c25844d6ab17bd4f",
+      "export_checksum": "131bffe5719209122d200f4463a7fae631ca3d57c47601765274cf807d48fa3e",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1760,7 +1784,7 @@
         "live_failure_count": 105,
         "report_kind": "data-drift"
       },
-      "export_checksum": "51a47e947b162cf492ca979b87344b517028b185ae1b456558c4c073b89381d6",
+      "export_checksum": "71411768e2b22bc97fed5e368822e27205dd84c272292c90f7e2e25d4a6845d3",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1783,7 +1807,7 @@
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0
       },
-      "export_checksum": "65a12ee47237d2cd1fd8da9608251e712c5b4e985673e5eca31ef82cf0507145",
+      "export_checksum": "d06f1e207a91449b88c21adb622b052f563ee4408d593a43e2cf7abfd938668e",
       "description": "OpenFin 품질 하위 리포트입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
     },
@@ -1795,7 +1819,7 @@
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "item_count": 1,
       "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "91da945468131e874c96ba6777618ffdd70ca1abda2fbf94e6f3b329708b9b68",
+      "export_checksum": "6062318549fd811799b50f9e0f4665cba739f8573cf35212ac8d25f8aa6a71d1",
       "coverage": {
         "external_provenance_coverage_ratio": 1,
         "status": "ready"
@@ -2076,7 +2100,9 @@
         "comparison_eligible_candidate_count": 0,
         "shadow_recommendation_candidate_count": 0,
         "owner_pilot_candidate_count": 0,
-        "public_recommendation_candidate_count": 0
+        "public_recommendation_candidate_count": 0,
+        "strict_option_count": 0,
+        "structural_option_count": 0
       },
       "export_checksum": "186fa7cb938c72c0ce72fc9ee08b97050575b9aab7cd1fae2e95493e94c17ba2",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다.",
@@ -2266,9 +2292,11 @@
         "public_candidate_count": 0,
         "comparison_data": "structural_only",
         "comparison_eligible_candidate_count": 0,
-        "shadow_recommendation_candidate_count": 69,
+        "shadow_recommendation_candidate_count": 0,
         "owner_pilot_candidate_count": 0,
-        "public_recommendation_candidate_count": 0
+        "public_recommendation_candidate_count": 0,
+        "strict_option_count": 69,
+        "structural_option_count": 69
       },
       "export_checksum": "260ed17c3389df85d0f9933c8e3c83755d5f4ed3b7a2a120075134cbf579df45",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다.",
@@ -2459,9 +2487,11 @@
         "public_candidate_count": 0,
         "comparison_data": "structural_only",
         "comparison_eligible_candidate_count": 0,
-        "shadow_recommendation_candidate_count": 66,
+        "shadow_recommendation_candidate_count": 0,
         "owner_pilot_candidate_count": 0,
-        "public_recommendation_candidate_count": 0
+        "public_recommendation_candidate_count": 0,
+        "strict_option_count": 66,
+        "structural_option_count": 66
       },
       "export_checksum": "9199d8886cc321982f863f48d7c1d25f03ea54da88fad4784f5d82def89554f7",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다.",
@@ -2643,7 +2673,9 @@
         "comparison_eligible_candidate_count": 0,
         "shadow_recommendation_candidate_count": 0,
         "owner_pilot_candidate_count": 0,
-        "public_recommendation_candidate_count": 0
+        "public_recommendation_candidate_count": 0,
+        "strict_option_count": 0,
+        "structural_option_count": 0
       },
       "export_checksum": "0305729dc2deebb8fbd899193a1e676d4a33ccfd651a2fd36332b38ed01ab5bf",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다.",
@@ -2844,7 +2876,9 @@
         "comparison_eligible_candidate_count": 0,
         "shadow_recommendation_candidate_count": 0,
         "owner_pilot_candidate_count": 0,
-        "public_recommendation_candidate_count": 0
+        "public_recommendation_candidate_count": 0,
+        "strict_option_count": 0,
+        "structural_option_count": 0
       },
       "export_checksum": "4f35c4966f7ed2d9c316ae2aa53c0c594fba4bf11be9d0be4271056471493eff",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다.",
@@ -3293,7 +3327,7 @@
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "item_count": 1,
       "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "91da945468131e874c96ba6777618ffdd70ca1abda2fbf94e6f3b329708b9b68",
+      "export_checksum": "6062318549fd811799b50f9e0f4665cba739f8573cf35212ac8d25f8aa6a71d1",
       "coverage": {
         "external_provenance_coverage_ratio": 1,
         "status": "ready"
@@ -3327,8 +3361,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
       "item_count": 40,
-      "export_checksum": "38d1fbdab60a08139125a4d7e258f659bbd7c407ad50cd09c2ced7394f754dcf",
-      "content_checksum": "17fb620559545dc3dc7b9b41edcfa269ae7a2733ebc8d5e2de93eba4bfcd12bb",
+      "export_checksum": "080f789ce6ddfd0aca06d4072a913d62cdf07dd8c66ab9ba4294223004b86f85",
+      "content_checksum": "2639892f0daff0ef1068310524dfff4346105a83babdf2635270b486e1085a2a",
       "generated_at": "2026-07-28T00:00:00.000Z"
     }
   },
@@ -3341,7 +3375,7 @@
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
     "item_count": 1,
     "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "91da945468131e874c96ba6777618ffdd70ca1abda2fbf94e6f3b329708b9b68",
+    "export_checksum": "6062318549fd811799b50f9e0f4665cba739f8573cf35212ac8d25f8aa6a71d1",
     "coverage": {
       "external_provenance_coverage_ratio": 1,
       "status": "ready"
@@ -4232,15 +4266,17 @@
     ],
     "evidence_path": "evidence/live-regression/current.json",
     "evidence_checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
-    "expected_generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-    "expected_fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf",
-    "validation_status": "current"
+    "expected_generation_id": "8bfce8cf310f78727aada8b33a4429c32bbb9f0ae22a23b9a81ad9752570d8c1",
+    "expected_fixture_checksum": "sha256:aca1219c3698dadd0b8031abd615bd896fc313a6c7e895c835624c8f7e7c0d10",
+    "validation_status": "stale_fixture"
   },
   "domain_readiness": {
     "deposit": {
       "item_count": 20,
       "catalog_item_count": 430,
       "strict_offer_count": 20,
+      "strict_option_count": 69,
+      "structural_option_count": 69,
       "required_fields": [
         "deposit_protection_status",
         "join_channels",
@@ -4258,7 +4294,7 @@
       "public_candidate_count": 0,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 69,
+      "shadow_recommendation_candidate_count": 0,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0,
       "schema_defined": true,
@@ -4287,12 +4323,14 @@
       },
       "data_layers": {
         "raw": {
-          "item_count": 0,
-          "status": "missing"
+          "item_count": 20,
+          "status": "available",
+          "lineage": "source_receipt"
         },
         "normalized": {
-          "item_count": 0,
-          "status": "missing"
+          "item_count": 69,
+          "status": "available",
+          "lineage": "decision_snapshot"
         },
         "verified": {
           "item_count": 0,
@@ -4304,6 +4342,8 @@
       "item_count": 20,
       "catalog_item_count": 335,
       "strict_offer_count": 20,
+      "strict_option_count": 66,
+      "structural_option_count": 66,
       "required_fields": [
         "deposit_protection_status",
         "join_channels",
@@ -4321,7 +4361,7 @@
       "public_candidate_count": 0,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 66,
+      "shadow_recommendation_candidate_count": 0,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0,
       "schema_defined": true,
@@ -4350,12 +4390,14 @@
       },
       "data_layers": {
         "raw": {
-          "item_count": 0,
-          "status": "missing"
+          "item_count": 20,
+          "status": "available",
+          "lineage": "source_receipt"
         },
         "normalized": {
-          "item_count": 0,
-          "status": "missing"
+          "item_count": 66,
+          "status": "available",
+          "lineage": "decision_snapshot"
         },
         "verified": {
           "item_count": 0,
@@ -4367,6 +4409,8 @@
       "item_count": 1007,
       "catalog_item_count": 1007,
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "required_fields": [
         "annual_fee_krw",
         "previous_month_spend_krw",
@@ -4416,11 +4460,13 @@
       "data_layers": {
         "raw": {
           "item_count": 1007,
-          "status": "available"
+          "status": "available",
+          "lineage": "source_receipt"
         },
         "normalized": {
           "item_count": 1007,
-          "status": "available"
+          "status": "available",
+          "lineage": "decision_snapshot"
         },
         "verified": {
           "item_count": 0,
@@ -4432,6 +4478,8 @@
       "item_count": 598,
       "catalog_item_count": 598,
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "required_fields": [
         "base_rate_percent",
         "spread_rate_percent",
@@ -4489,11 +4537,13 @@
       "data_layers": {
         "raw": {
           "item_count": 598,
-          "status": "available"
+          "status": "available",
+          "lineage": "source_receipt"
         },
         "normalized": {
           "item_count": 598,
-          "status": "available"
+          "status": "available",
+          "lineage": "decision_snapshot"
         },
         "verified": {
           "item_count": 0,
@@ -4505,6 +4555,8 @@
       "item_count": 1071,
       "catalog_item_count": 1071,
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "required_fields": [
         "coverage_items",
         "coverage_amount_krw",
@@ -4558,11 +4610,13 @@
       "data_layers": {
         "raw": {
           "item_count": 1071,
-          "status": "available"
+          "status": "available",
+          "lineage": "source_receipt"
         },
         "normalized": {
           "item_count": 1071,
-          "status": "available"
+          "status": "available",
+          "lineage": "decision_snapshot"
         },
         "verified": {
           "item_count": 0,
@@ -4574,6 +4628,8 @@
       "item_count": 0,
       "catalog_item_count": 0,
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "required_fields": [],
       "sales_verification_ttl_hours": null,
       "structural_candidate_count": 0,
@@ -4607,11 +4663,13 @@
       "data_layers": {
         "raw": {
           "item_count": 0,
-          "status": "missing"
+          "status": "missing",
+          "lineage": "source_receipt"
         },
         "normalized": {
           "item_count": 0,
-          "status": "missing"
+          "status": "missing",
+          "lineage": "decision_snapshot"
         },
         "verified": {
           "item_count": 0,
@@ -4624,12 +4682,13 @@
   "comparison_release_status": "blocked",
   "recommendation_release_status": "blocked",
   "recommendation_blocking_reasons": [
+    "live_regression_current",
     "no_public_recommendation_domain",
     "public_recommendation_policy_blocked",
     "public_approval_receipt_missing",
     "recommendation_state_blocked"
   ],
-  "quality_hash": "0f4d714ff4d2779198a0b10418195f50bce2038046419d3f7fc07d58a7e844b9",
+  "quality_hash": "3de3558b10f989263f4f253af479b91bd964ce60b3d16e8521fe6a2a9ee91103",
   "live_regression_policy": {
     "required_count": 120,
     "required_mode": "live",
@@ -4640,19 +4699,21 @@
   "core_search_status": "ready",
   "comparison_status": "blocked",
   "recommendation_status": "blocked",
-  "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-  "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
+  "generation_id": "8bfce8cf310f78727aada8b33a4429c32bbb9f0ae22a23b9a81ad9752570d8c1",
+  "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
   "artifact_contract": {
     "version": "openfin-artifact-contract-v1",
     "readiness_schema_version": "openfin-readiness-v2",
-    "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-    "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
-    "canonical_content_checksum": "bbedb7012616b11179c4d86a8803a005b3de7b5ad06dfa9fcb265ce0572adb10",
+    "generation_id": "8bfce8cf310f78727aada8b33a4429c32bbb9f0ae22a23b9a81ad9752570d8c1",
+    "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
+    "canonical_content_checksum": "03835f0c0c0dfa0b84d981d70041a61f25c01ffd8a655ef2dfcfc57e6cee3c7c",
     "search_index_checksum": "369cbc7ec7fa6b611f814df7a13ee279f7483c7a12e20d4966c2e46f2abf6432",
     "source_status_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789",
-    "release_policy_checksum": "4f013eda708dc8774c260c8cbb04004f217d66300b28b1df4463aa97081d1b72",
+    "release_policy_checksum": "377f90be25a04905982d46722bd4c44df65119061de71c186fee2ae53b8a0037",
     "capability_policy_checksum": "ae2faa43270dbf513d419b4b815adae3e7fb89e8ea85be39c7416bc99e740606",
-    "fixture_checksum": "sha256:8285a16c278b05cce4de5756ba1ac872ac5e720ba9748394af9c7bba1bcce9bf"
+    "fixture_checksum": "sha256:aca1219c3698dadd0b8031abd615bd896fc313a6c7e895c835624c8f7e7c0d10",
+    "candidate_set_checksum": "sha256:ca2bb9f4b69c3c4e584aea8bf73e7ee6620dd7508bdc830dd4741ca6a5815773",
+    "quality_suite_transitive_checksum": "sha256:4b6cd346d5d55181f4c3426bf0dde201d5225cf01a0684119e622ce388802729"
   },
   "source_freshness_status": "degraded",
   "recommendation_state": "blocked",
@@ -4666,8 +4727,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
     "item_count": 40,
-    "export_checksum": "38d1fbdab60a08139125a4d7e258f659bbd7c407ad50cd09c2ced7394f754dcf",
-    "content_checksum": "17fb620559545dc3dc7b9b41edcfa269ae7a2733ebc8d5e2de93eba4bfcd12bb",
+    "export_checksum": "080f789ce6ddfd0aca06d4072a913d62cdf07dd8c66ab9ba4294223004b86f85",
+    "content_checksum": "2639892f0daff0ef1068310524dfff4346105a83babdf2635270b486e1085a2a",
     "generated_at": "2026-07-28T00:00:00.000Z"
   },
   "capabilities": {
@@ -4678,22 +4739,28 @@
   "candidate_counts": {
     "deposit": {
       "strict_offer_count": 20,
+      "strict_option_count": 69,
+      "structural_option_count": 69,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 69,
+      "shadow_recommendation_candidate_count": 0,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0
     },
     "saving": {
       "strict_offer_count": 20,
+      "strict_option_count": 66,
+      "structural_option_count": 66,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 66,
+      "shadow_recommendation_candidate_count": 0,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0
     },
     "card": {
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
       "shadow_recommendation_candidate_count": 0,
@@ -4702,6 +4769,8 @@
     },
     "loan": {
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
       "shadow_recommendation_candidate_count": 0,
@@ -4710,6 +4779,8 @@
     },
     "insurance": {
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
       "shadow_recommendation_candidate_count": 0,
@@ -4718,6 +4789,8 @@
     },
     "pension": {
       "strict_offer_count": 0,
+      "strict_option_count": 0,
+      "structural_option_count": 0,
       "comparison_eligible_candidate_count": 0,
       "public_comparison_candidate_count": 0,
       "shadow_recommendation_candidate_count": 0,
@@ -4725,5 +4798,5 @@
       "public_recommendation_candidate_count": 0
     }
   },
-  "manifest_checksum": "9f1d33ddc6ba149f2ae8f2ce9533d6dd31f681e0055c2ddb4886651607636804"
+  "manifest_checksum": "6550cd5fc85bb4e082d98b48dc46a318952ae9e42c43551526e4f7fa6954043f"
 }

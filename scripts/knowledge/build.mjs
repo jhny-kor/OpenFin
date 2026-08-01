@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { ROOT, DOCS, KNOWLEDGE, PUBLIC_BASE, RELATION_KEYS, json, writeJson, stable, sha256, publicProjection, restoreCompatibilityDates, validUrl, isoDate } from './common.mjs';
+import { ROOT, DOCS, KNOWLEDGE, PUBLIC_BASE, RELATION_KEYS, json, writeJson, stable, sha256, publicProjection, restoreCompatibilityDates, validUrl, isoDate, candidateSetChecksum, qualitySuiteChecksum } from './common.mjs';
 import { deriveQuality, readCanonicalRecords, readReleasePolicy } from './derive-quality.mjs';
 
 const loadCanonical = () => {
@@ -301,6 +301,8 @@ const normalizeLegacyExportQuality = (output, state) => {
     public_candidate_count: state.public_candidate_count,
     comparison_eligible_candidate_count: state.comparison_eligible_candidate_count,
     public_comparison_candidate_count: state.public_comparison_candidate_count,
+    strict_option_count: state.strict_option_count,
+    structural_option_count: state.structural_option_count,
     shadow_recommendation_candidate_count: state.shadow_recommendation_candidate_count,
     owner_pilot_candidate_count: state.owner_pilot_candidate_count,
     public_recommendation_candidate_count: state.public_recommendation_candidate_count,
@@ -310,6 +312,7 @@ const normalizeLegacyExportQuality = (output, state) => {
     summary.readiness = { ...summary.readiness, comparison_engine: state.status, comparison_data: state.status, public_recommendation: state.public_recommendation_candidate_count > 0 ? summary.readiness.public_recommendation : 'blocked' };
   }
   for (const key of ['comparison_candidate_products', 'products_with_complete_comparison_fields', 'products_with_verified_sales_status', 'products_with_verification_evidence', 'complete_comparison_data_count', 'verified_comparison_candidate_count', 'public_comparison_candidate_count']) delete summary[key];
+  delete summary.shadow_count_deprecated;
 };
 const legacyQualityProjection = (state) => ({
   deprecated: true,
@@ -347,6 +350,8 @@ const artifactContract = {
   release_policy_checksum: sha256(fs.readFileSync(path.join(ROOT, 'contracts/release-policy.json'), 'utf8')).slice(7),
   capability_policy_checksum: sha256(fs.readFileSync(path.join(ROOT, 'contracts/capability-policy.json'), 'utf8')).slice(7),
   fixture_checksum: quality.fixture_checksum,
+  candidate_set_checksum: candidateSetChecksum(decisionOffers),
+  quality_suite_transitive_checksum: qualitySuiteChecksum(ROOT),
 };
 provenanceCoverageArtifact.status = quality.release_status;
 provenanceCoverageArtifact.recommendation_enabled = quality.recommendation_enabled;
@@ -424,11 +429,11 @@ for (const entry of manifest.quality_exports || []) {
   const rewritten = rewriteLiveEvidence(current);
   const fileName = path.basename(file);
   if (fileName === 'openfin-data-drift-report-2026.json') {
-    Object.assign(rewritten, { measurement_status: 'not_measured', reason: 'NO_COMPARABLE_BASELINE', delta: null });
+    Object.assign(rewritten, { measurement_status: 'not_measured', reason: 'NO_COMPARABLE_BASELINE', note: 'No comparable baseline was measured; change remains unknown.', delta: null });
     for (const key of ['product_count_added', 'product_count_removed', 'product_kind_changed', 'status_changed', 'completeness_increased', 'completeness_decreased', 'verification_expired', 'discovery_candidate_changed']) rewritten[key] = null;
   }
   if (fileName === 'openfin-local-cloudflare-parity-report-2026.json') {
-    Object.assign(rewritten, { measurement_status: 'not_measured', reason: 'PUBLIC_PARITY_VERIFIED_IN_DEPLOYMENT_WORKFLOW', local_cloudflare_parity_error_count: null, parity_evidence: null });
+    Object.assign(rewritten, { measurement_status: 'not_measured', reason: 'PARITY_NOT_MEASURED_IN_LOCAL_BUILD', note: 'Evidence is absent in this local build; verification remains unknown.', local_cloudflare_parity_error_count: null, parity_evidence: null });
   }
   // All quality reports are projections of domain_readiness. Keep their
   // legacy names for clients, but never let an old report invent readiness.
@@ -439,6 +444,8 @@ for (const entry of manifest.quality_exports || []) {
       value_complete_candidate_count: state.value_complete_candidate_count,
       strict_type_schema_candidate_count: state.strict_type_schema_candidate_count,
       strict_offer_count: state.strict_offer_count,
+      strict_option_count: state.strict_option_count,
+      structural_option_count: state.structural_option_count,
       comparison_eligible_candidate_count: state.comparison_eligible_candidate_count,
       public_comparison_candidate_count: state.public_comparison_candidate_count,
       shadow_recommendation_candidate_count: state.shadow_recommendation_candidate_count,
@@ -464,12 +471,34 @@ for (const entry of manifest.quality_exports || []) {
       rewritten.blocking_reasons = quality.recommendation_blocking_reasons;
     }
   }
+  if (Array.isArray(rewritten.domain_summaries)) {
+    rewritten.legacy_overlay_summary = {
+      deprecated: true,
+      replacement_path: 'domain_readiness',
+      domains: rewritten.domain_summaries,
+    };
+    delete rewritten.domain_summaries;
+  }
+  rewritten.quality_export_live_summary = {
+    source: 'manifest.openfin_120_live_regression',
+    live_test_count: quality.live_regression.test_count ?? 0,
+    live_passed_count: quality.live_regression.passed_count ?? 0,
+    live_failed_count: quality.live_regression.failed_count ?? 0,
+    generation_id: quality.live_regression.generation_id ?? null,
+  };
   if (JSON.stringify(rewritten) !== JSON.stringify(current)) {
     writeJson(file, rewritten);
     entry.export_checksum = sha256(rewritten).slice(7);
     entry.generated_at = now;
   }
 }
+// The coverage report is also a live quality projection, so refresh every
+// manifest pointer after the projection pass has finished rewriting it.
+const finalProvenanceCoverage = json(path.join(DOCS, 'openfin-provenance-coverage-report-2026.json'));
+artifactEntries.provenance_coverage = artifactEntry('openfin-provenance-coverage', 'quality', 'openfin-provenance-coverage-report-2026.json', finalProvenanceCoverage, 1, {coverage: {external_provenance_coverage_ratio: finalProvenanceCoverage.external_provenance_coverage_ratio, status: finalProvenanceCoverage.status}});
+manifest.provenance_coverage = artifactEntries.provenance_coverage;
+manifest.artifacts.provenance_coverage = artifactEntries.provenance_coverage;
+for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-provenance-coverage') Object.assign(entry, artifactEntries.provenance_coverage);
 const qualityManifestPath = path.join(DOCS, 'openfin-quality-manifest-2026.json');
 const existingQualityManifest = fs.existsSync(qualityManifestPath) ? json(qualityManifestPath) : {};
 const dynamicQualitySummaries = Object.entries(quality.domains).map(([domain, readiness]) => ({
@@ -518,17 +547,20 @@ const qualityManifest = {
   degraded_domains: quality.degraded_domains,
   canonical: quality.canonical,
   domain_readiness: quality.domains,
-  domain_summaries: dynamicQualitySummaries,
+  legacy_overlay_summary: { deprecated: true, replacement_path: 'domain_readiness', domains: dynamicQualitySummaries },
   export_audit: dynamicExportAudit,
   runtime_quality_metrics: dynamicRuntimeMetrics,
   openfin_120_live_regression: quality.live_regression,
+  quality_export_live_summary: { source: 'manifest.openfin_120_live_regression', live_test_count: quality.live_regression.test_count ?? 0, live_passed_count: quality.live_regression.passed_count ?? 0, live_failed_count: quality.live_regression.failed_count ?? 0, generation_id: quality.live_regression.generation_id ?? null },
   quality_policy_version: quality.policy_version,
   quality_hash: quality.quality_hash,
   generation_id: quality.generation_id,
   artifact_contract: artifactContract,
 };
+delete qualityManifest.domain_summaries;
 writeJson(qualityManifestPath, qualityManifest);
 manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.release_status_deprecated=true; manifest.release_status_replacement_path='core_search_status'; manifest.core_search_status=quality.core_search_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.comparison_status=quality.comparison_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_status=quality.recommendation_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.capabilities=quality.capabilities; manifest.candidate_counts=quality.candidate_counts; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash; manifest.generation_id=quality.generation_id;
+delete manifest.domain_summaries;
 manifest.recommendation_state=quality.recommendation_state; manifest.recommendation_state_contract_version=quality.recommendation_state_contract_version; manifest.recommendation_approval_receipt=quality.recommendation_approval_receipt;
 manifest.decision_offers = decisionOfferEntry;
 manifest.deployment_commit = deploymentCommit;

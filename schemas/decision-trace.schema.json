@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/decision-trace.schema.json",
+  "title": "OpenFin decision trace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "as_of", "entities", "candidate_id", "rules", "evidence", "ranking_basis", "monetary_values_in_trace"],
+  "properties": {
+    "schema_version": { "const": "openfin-decision-trace-v1" },
+    "as_of": { "type": ["string", "null"], "format": "date" },
+    "entities": { "type": "object", "required": ["recommendation_context", "user_fact_claims", "eligibility_evaluation", "financial_outcome", "recommendation_decision", "decision_trace", "policy_version", "calculator_version", "ranking_version", "artifact_generation"], "additionalProperties": true },
+    "candidate_id": { "type": ["string", "null"] },
+    "offer_id": { "type": ["string", "null"] },
+    "rules": { "type": "object", "required": ["matched", "failed", "unknown"], "additionalProperties": true },
+    "evidence": { "type": "object", "additionalProperties": true },
+    "ranking_basis": { "type": ["array", "null"] },
+    "monetary_values_in_trace": { "const": false }
+  }
+}

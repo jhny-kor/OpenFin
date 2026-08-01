@@ -77,14 +77,15 @@ export type ToolContext = {
   STANDARD_OUTPUT_SCHEMA: ZodObject<ZodRawShape>;
   READ_ONLY_TOOL_ANNOTATIONS: Record<string, boolean>;
   dedupeProductItems: (items: readonly FinanceItem[]) => readonly FinanceItem[];
-  loadDetailedItemsForDomain: (env: Env, domain: string) => Promise<readonly FinanceItem[]>;
+  loadDetailedItemsForDomain: (env: Env, domain: string, asOf?: string) => Promise<readonly FinanceItem[]>;
   loadSearchIndexMetadata: (env: Env) => Promise<{ basis_date?: string }>;
   loadFinanceManifest: (env: Env) => Promise<FinanceManifest>;
+  evaluateReleaseGate: (input: { manifest: FinanceRecord; checksumVerified?: boolean; domain?: string | null; item?: FinanceRecord | null; deploymentCommit?: string; now?: number }) => { status: "ready" | "blocked"; reasons: string[]; [key: string]: unknown };
   manifestChecksumContract: (manifest: FinanceRecord) => boolean;
   comparisonReleaseGate: (manifest: FinanceRecord, domain: string) => { status: "ready" | "blocked"; reasons: string[] };
   loadFinanceArtifacts: (env: Env, keys: readonly FinanceArtifactKey[]) => Promise<FinanceArtifactSet>;
   normalizeQuery: (value: string) => string;
-  comparisonBlocker: (item: FinanceItem, artifacts: FinanceArtifactSet, salesVerificationTtlHours: number) => string | undefined;
+  comparisonBlocker: (item: FinanceItem, artifacts: FinanceArtifactSet, salesVerificationTtlHours: number, asOf?: string) => string | undefined;
   comparisonOptionCandidates: (item: FinanceItem, termMonths: number) => readonly FinanceRecord[];
   comparisonOptionBlocker: (option: FinanceRecord, domain: string, depositAmount: number | undefined, monthlyPayment: number | undefined, channels: readonly string[], savingMethod: string | undefined) => string | undefined;
   comparisonCandidate: (item: FinanceItem, option: FinanceRecord, facts: FinanceRecord, depositAmount: number | undefined, monthlyPayment: number | undefined, taxRatePercent: number) => FinanceRecord;

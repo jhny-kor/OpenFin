@@ -8,7 +8,7 @@ const schemaDir = path.join(ROOT, 'schemas');
 const typeRegistry = json(path.join(schemaDir, 'types/type-registry.json'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
-for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json', 'manifest.schema.json', 'candidate-promotion-receipt.schema.json', 'live-regression.schema.json', 'recommendation-approval-receipt.schema.json']) {
+for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json', 'manifest.schema.json', 'candidate-promotion-receipt.schema.json', 'source-review-receipt.schema.json', 'schema-validation-receipt.schema.json', 'decision-trace.schema.json', 'live-regression.schema.json', 'recommendation-approval-receipt.schema.json']) {
   const schema = json(path.join(schemaDir, file));
   ajv.addSchema(schema, file);
 }
@@ -24,6 +24,7 @@ const validateManifest = ajv.getSchema('finance-ontology-manifest.schema.json');
 const validateCapabilityManifest = ajv.getSchema('manifest.schema.json');
 const validateApproval = ajv.getSchema('recommendation-approval-receipt.schema.json');
 const validatePromotion = ajv.getSchema('candidate-promotion-receipt.schema.json');
+const validateSourceReview = ajv.getSchema('source-review-receipt.schema.json');
 const validateLiveCase = ajv.getSchema(liveFixtureSchema.$id);
 const failures = [];
 const validateQualityDescriptors = (descriptorName, expectedStatus) => {
@@ -133,6 +134,14 @@ if (fs.existsSync(promotionDir)) for (const file of fs.readdirSync(promotionDir)
     if (!line.trim()) continue;
     try { const value = JSON.parse(line); if (!validatePromotion(value)) failures.push(`${path.join(promotionDir, file)}:${index + 1}: ${ajv.errorsText(validatePromotion.errors)}`); }
     catch (error) { failures.push(`${path.join(promotionDir, file)}:${index + 1}: ${error.message}`); }
+  }
+}
+const sourceReviewDir = path.join(ROOT, 'evidence/source-reviews');
+if (fs.existsSync(sourceReviewDir)) for (const file of fs.readdirSync(sourceReviewDir).filter(name => name.endsWith('.jsonl'))) {
+  for (const [index, line] of fs.readFileSync(path.join(sourceReviewDir, file), 'utf8').split('\n').entries()) {
+    if (!line.trim()) continue;
+    try { const value = JSON.parse(line); if (!validateSourceReview(value)) failures.push(`${path.join(sourceReviewDir, file)}:${index + 1}: ${ajv.errorsText(validateSourceReview.errors)}`); }
+    catch (error) { failures.push(`${path.join(sourceReviewDir, file)}:${index + 1}: ${error.message}`); }
   }
 }
 const result = { ok: failures.length === 0, entity_count: entities.length, failures: failures.slice(0, 100) };

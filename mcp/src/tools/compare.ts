@@ -32,12 +32,13 @@ export function registerCompareTool(ctx: ToolContext): void {
     },
     async ({ domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, context, saving_method, tax_rate_percent, limit }) => {
       const manifest = await loadFinanceManifest(env);
+      if (!context?.as_of) return mcpResult({ domain, status: "insufficient_information", reason_codes: ["CONTEXT_AS_OF_REQUIRED"], data_as_of: null, missing_information: ["as_of"], result_count: 0, candidates: [], warnings: ["Comparison requires a caller supplied context.as_of for deterministic freshness and rule evaluation."], comparison_engine_version: COMPARISON_ENGINE_VERSION });
       const gate = comparisonReleaseGate(manifest, domain);
       if (!manifestChecksumContract(manifest) || gate.status !== "ready") {
         const payload = { domain, status: "blocked", reason_codes: [...(!manifestChecksumContract(manifest) ? ["MANIFEST_CHECKSUM_MISMATCH"] : []), ...gate.reasons], data_as_of: null, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison requires the current manifest domain gate."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
         return mcpResult(payload);
       }
-      const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain));
+      const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain, context.as_of));
       const metadata = await loadSearchIndexMetadata(env);
       const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       const channels = (join_channels ?? []).map((channel) => normalizeQuery(channel));
@@ -47,7 +48,7 @@ export function registerCompareTool(ctx: ToolContext): void {
       const candidates: FinanceRecord[] = [];
       const candidateTargetIds = new Set<string>();
       for (const item of items.filter((candidate) => domainMatches(candidate, domain))) {
-        const blocker = comparisonBlocker(item, artifacts, salesVerificationTtlHours);
+        const blocker = comparisonBlocker(item, artifacts, salesVerificationTtlHours, context.as_of);
         if (blocker) {
           excluded.push({ item_id: item.id, reason: blocker });
           continue;

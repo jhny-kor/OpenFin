@@ -84,5 +84,12 @@
       "field_verified_candidate_count": 0,
       "ratio": null
     }
+  },
+  "quality_export_live_summary": {
+    "source": "manifest.openfin_120_live_regression",
+    "live_test_count": 120,
+    "live_passed_count": 120,
+    "live_failed_count": 0,
+    "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b"
   }
 }

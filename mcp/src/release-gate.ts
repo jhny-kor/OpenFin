@@ -32,10 +32,16 @@ function currentItem(item: Record<string, unknown>): boolean {
   if (strict && (item.strict_schema_valid !== true || assertionCoverage !== 1 || item.official_source_assertion_coverage !== 1 || item.unresolved_conflict_count !== 0)) return false;
   const capabilityReady = item.recommendation_approved === true || (record(item.capabilities).recommendation === "public" && item.recommendation_status === "verified_recommendation_candidate");
   const legacyScopeReady = item.recommendation_approved === undefined && item.capabilities === undefined ? item.recommendation_status === "verified_recommendation_candidate" && item.recommendation_scope === "public_recommendation" : true;
+  const promotion = record(item.promotion_receipt ?? item.candidate_promotion);
+  const promotionReady = !strict || (promotion.checksum_verified === true
+    && typeof promotion.reviewer === "string"
+    && typeof promotion.reviewer_role === "string"
+    && typeof promotion.reviewer_permission === "string"
+    && typeof promotion.reviewer_signature === "string");
   return item.verification_status === "verified" && capabilityReady && legacyScopeReady && item.sales_status === "active" && isVerifiedActive(item.sales_verification_status) && item.freshness_status === "current" && provenance.length > 0 && (!strict || assertions.length > 0) && provenance.every((entry) => {
     const value = record(entry);
     return value.verification_status === "verified" && value.freshness_status === "current" && typeof value.source_id === "string" && typeof value.checksum === "string";
-  });
+  }) && promotionReady;
 }
 
 export function evaluateReleaseGate({ manifest, checksumVerified = false, domain = null, item = null, deploymentCommit, now = Date.now() }: GateInput): ReleaseGateResult {
@@ -46,8 +52,10 @@ export function evaluateReleaseGate({ manifest, checksumVerified = false, domain
   if (manifest.recommendation_enabled && manifest.recommendation_state !== "public") reasons.push(`RECOMMENDATION_STATE_${String(manifest.recommendation_state ?? "MISSING").toUpperCase()}`);
   const approval = record(manifest.recommendation_approval_receipt);
   const strictApproval = Boolean(manifest.artifact_contract);
-  if (manifest.recommendation_enabled && (!approval.approval_id || approval.mode !== "public" || approval.generation_id !== manifest.generation_id || (strictApproval && (!approval.candidate_set_checksum || !approval.policy_version || !approval.ranking_version || !approval.calculator_version || !approval.quality_suite_checksum || !approval.reviewer || !approval.reviewer_signature || !approval.rollback_generation_id)))) reasons.push("PUBLIC_APPROVAL_RECEIPT_INVALID");
   const artifactContract = record(manifest.artifact_contract);
+  const approvalChecksumsMatch = !strictApproval || (approval.candidate_set_checksum === artifactContract.candidate_set_checksum
+    && approval.quality_suite_checksum === artifactContract.quality_suite_transitive_checksum);
+  if (manifest.recommendation_enabled && (!approval.approval_id || approval.mode !== "public" || approval.generation_id !== manifest.generation_id || (strictApproval && (!approval.candidate_set_checksum || !approval.policy_version || !approval.ranking_version || !approval.calculator_version || !approval.quality_suite_checksum || !approval.reviewer || !approval.reviewer_role || !approval.reviewer_permission || !approval.reviewer_signature || !approval.rollback_generation_id || !approvalChecksumsMatch)))) reasons.push("PUBLIC_APPROVAL_RECEIPT_INVALID");
   if (artifactContract.generation_id && artifactContract.generation_id !== manifest.generation_id) reasons.push("ARTIFACT_GENERATION_MISMATCH");
   if (!liveReady(manifest.openfin_120_live_regression, manifest.live_regression_policy, now, deploymentCommit, typeof manifest.generation_id === "string" ? manifest.generation_id : undefined, typeof artifactContract.fixture_checksum === "string" ? artifactContract.fixture_checksum : null)) reasons.push("LIVE_REGRESSION_NOT_CURRENT");
   const domainState = domain ? record(record(manifest.domain_readiness)[domain]) : {};
