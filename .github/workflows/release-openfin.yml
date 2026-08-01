@@ -145,6 +145,18 @@ jobs:
           cache: npm
           cache-dependency-path: mcp/package-lock.json
       - run: npm ci
+      - name: Run financial quality against deployed MCP endpoint
+        run: |
+          for attempt in 1 2 3; do
+            if npm --silent run financial-quality-live > ../financial-quality-live-report.json; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then sleep 5; fi
+          done
+          exit 1
+        env:
+          MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
+          LIVE_REQUEST_TIMEOUT_MS: 15000
       - name: Run current-generation 120-case suite
         id: live
         continue-on-error: true
@@ -163,18 +175,6 @@ jobs:
           LIVE_REQUEST_TIMEOUT_MS: 5000
           LIVE_CASE_ATTEMPTS: 2
           LIVE_CASE_RETRY_DELAY_MS: 250
-      - name: Run financial quality against deployed MCP endpoint
-        run: |
-          for attempt in 1 2 3; do
-            if npm --silent run financial-quality-live > ../financial-quality-live-report.json; then
-              exit 0
-            fi
-            if [ "$attempt" -lt 3 ]; then sleep 5; fi
-          done
-          exit 1
-        env:
-          MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
-          LIVE_REQUEST_TIMEOUT_MS: 15000
       - name: Validate endpoint quality evidence
         working-directory: .
         run: |
