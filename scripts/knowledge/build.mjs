@@ -120,8 +120,158 @@ const runtimeSearchFields = [...new Set([
   'comparison_approved', 'recommendation_approved', 'candidate_id', 'option_id', 'offer_id', 'evidence_gate',
   'source_checksum',
 ])];
+// The public Worker only needs a bounded result projection for search. Keep
+// discovery/comparison detail in the existing compact/detail artifacts while
+// this columnar index avoids repeating large JSON keys and search text per row.
+const hotSearchFieldsByShard = {
+  // Support rows are the largest hot shard. Pack the fields used by the
+  // support matcher into support_state/support_region; the detailed compact
+  // shard remains the source for hydration and exports.
+  support: ['id', 'title', 'type', 'support_state', 'support_region', 'source_ids', 'provenance_shard'],
+  'deposit-protection': [
+    'id', 'title', 'type', 'provider', 'product_kind', 'search_type', 'freshness_status',
+    'source_ids', 'provenance_shard',
+  ],
+  reference: ['id', 'title', 'type', 'freshness_status', 'search_aliases', 'source_ids', 'provenance_shard'],
+};
+const defaultHotSearchFields = [
+  'id', 'title', 'type', 'provider', 'product_kind', 'search_type', 'product_status', 'sales_status',
+  'source_listing_status', 'sales_verification_status', 'source_freshness_status', 'status',
+  'recommendation_status', 'recommendation_scope', 'canonical_product_id', 'resolved_canonical_product_id',
+  'application_status', 'is_currently_applicable', 'freshness_status', 'search_aliases', 'source_ids',
+  'provenance_shard', 'source_urls', 'source_basis_dates', 'discovery_evidence_fields',
+  'discovery_limitations', 'normalized_completeness_ratio', 'completeness_ratio', 'verified_completeness_ratio',
+];
+const hotSearchFieldsForShard = shardId => hotSearchFieldsByShard[shardId] || defaultHotSearchFields;
+const SUPPORT_HOT_APPLICATION_STATUSES = [
+  'unknown', 'recurring_annual', 'always_open', 'source_schedule_ambiguous',
+  'agency_schedule_varies', 'closed', 'announcement_based', 'not_required',
+  'budget_exhaustion', 'open', 'agency_contact_required', 'recurring_quarterly',
+  'recurring_monthly', 'schedule_pending',
+];
+const SUPPORT_HOT_STATUS_CODES = { unknown: 0, active: 1, closed: 2 };
+const SUPPORT_HOT_RECOMMENDATION_CODES = { reference_only: 0, eligible_for_listing: 1 };
+const SUPPORT_HOT_FRESHNESS_CODES = { unknown: 0, current: 1, stale: 2, degraded: 3 };
+const SUPPORT_HOT_CATEGORY_BITS = {
+  rent: 1 << 0, housing: 1 << 1, lease_deposit: 1 << 2, deposit_guarantee: 1 << 3,
+  housing_supply: 1 << 4, housing_repair: 1 << 5, employment: 1 << 6, education: 1 << 7,
+  health: 1 << 8, culture: 1 << 9, business: 1 << 10,
+};
+const SUPPORT_HOT_CATEGORY_TERMS = {
+  rent: '월세', housing: '주거', lease_deposit: '전세', deposit_guarantee: '보증금',
+  housing_supply: '공급', housing_repair: '수선', employment: '취업', education: '교육',
+  health: '의료', culture: '문화', business: '사업',
+};
+const SUPPORT_HOT_TARGET_TERMS = {
+  youth: '청년', 'small-business': '소상공인', low_income: '저소득', child: '아동',
+  senior: '노인', disabled: '장애인', pregnant: '임산부', single_parent: '한부모',
+  job_seeker: '구직', newlywed: '신혼부부', student: '학생',
+};
+const SUPPORT_HOT_QUERY_TERMS = new Set([
+  '지원', '지원금', '보조금', '신청', '청년', '월세', '주거', '전세', '임대', '보증금',
+  '입주', '공급', '수선', '취업', '일자리', '구직', '교육', '의료', '건강', '문화', '예술',
+  '창업', '사업', '소상공인', '근로', '자녀', '노인', '장애인', '출산', '육아', '복지',
+  '주택', '지역', '소득', '저소득', '재산', '고용', '재난', '농업', '어업', '중소기업',
+  '청소년', '학생', '신혼부부', '한부모', '임산부', '생계', '생활', '대출', '이자', '전기',
+  '에너지', '교통', '기초생활',
+]);
+const PROTECTION_HOT_QUERY_TERMS = new Set([
+  '예금자보호', '보호대상', '보호상품', 'kdic', '보호', '한도', '금액', '예금', '은행',
+]);
+const supportHotState = item => {
+  const applicationCode = SUPPORT_HOT_APPLICATION_STATUSES.indexOf(item.application_status || 'unknown');
+  const statusCode = SUPPORT_HOT_STATUS_CODES[item.status] ?? SUPPORT_HOT_STATUS_CODES.unknown;
+  const recommendationCode = SUPPORT_HOT_RECOMMENDATION_CODES[item.recommendation_status] ?? SUPPORT_HOT_RECOMMENDATION_CODES.reference_only;
+  const freshnessCode = SUPPORT_HOT_FRESHNESS_CODES[item.freshness_status] ?? SUPPORT_HOT_FRESHNESS_CODES.unknown;
+  const categoryMask = (item.support_category || []).reduce((mask, category) => mask | (SUPPORT_HOT_CATEGORY_BITS[category] || 0), 0);
+  const targetMask = (item.target_group || []).some(target => target === 'youth') ? 1 << 22 : 0;
+  const publicMask = item.recommendation_scope !== 'internal_verification_candidate' && item.recommendation_status !== 'manual_review_candidate' ? 1 << 23 : 0;
+  return (Math.max(0, applicationCode) & 0x0f)
+    | ((statusCode & 0x03) << 4)
+    | ((recommendationCode & 0x01) << 6)
+    | ((freshnessCode & 0x03) << 7)
+    | (item.is_currently_applicable === true ? 1 << 9 : 0)
+    | (categoryMask << 10)
+    | targetMask
+    | publicMask;
+};
+const supportHotRegion = item => [
+  item.jurisdiction || '', item.jurisdiction_code || '', item.parent_jurisdiction_code || '',
+  ...(item.jurisdiction_aliases || []),
+].join('\u001f');
+const hotSearchTerms = (item, shardId) => {
+  if (shardId === 'support') {
+    const terms = ['지원', '지원금', '보조금', '신청'];
+    for (const [target, term] of Object.entries(SUPPORT_HOT_TARGET_TERMS)) {
+      if ((item.target_group || []).includes(target)) terms.push(term);
+    }
+    for (const [category, term] of Object.entries(SUPPORT_HOT_CATEGORY_TERMS)) {
+      if ((item.support_category || []).includes(category)) terms.push(term);
+    }
+    terms.push(...String(item.search_text || '').toLocaleLowerCase('ko-KR').split(/\s+/).filter(term => SUPPORT_HOT_QUERY_TERMS.has(term)));
+    return [...new Set(terms)];
+  }
+  if (shardId === 'deposit-protection') {
+    return [...new Set([
+      '예금자보호', '보호대상', '보호상품', 'kdic', '보호',
+      ...String(item.search_text || '').toLocaleLowerCase('ko-KR').split(/\s+/).filter(term => PROTECTION_HOT_QUERY_TERMS.has(term)),
+    ])];
+  }
+  return [...new Set([
+    item.search_text,
+    item.title,
+    item.id,
+    ...(item.search_aliases || []),
+  ].filter(Boolean).join(' ').toLocaleLowerCase('ko-KR').split(/\s+/).map(value => value.trim()).filter(Boolean))];
+};
 const detailShardOutputs = [];
 const shardOutputs = [];
+const hotSearchShardOutputs = [];
+const writeHotSearchShard = (meta, items) => {
+  const fields = hotSearchFieldsForShard(meta.shard_id);
+  const hotItems = items.map(item => {
+    const hotValue = field => field === 'support_state' ? supportHotState(item)
+      : field === 'support_region' ? supportHotRegion(item)
+        : item[field];
+    const hot = Object.fromEntries(fields.filter(field => hasCompactValue(hotValue(field))).map(field => [field, hotValue(field)]));
+    hot.source_ids = Array.isArray(item.source_ids) ? item.source_ids : [];
+    hot.provenance_shard = item.provenance_shard || meta.shard_id;
+    return hot;
+  });
+  const termRows = items.map(item => hotSearchTerms(item, meta.shard_id));
+  const vocabulary = [...new Set(termRows.flat())].sort((left, right) => left.localeCompare(right, 'ko-KR'));
+  const vocabularyIds = new Map(vocabulary.map((term, index) => [term, index]));
+  const searchTerms = termRows.map(terms => terms.map(term => vocabularyIds.get(term)));
+  const rows = hotItems.map(item => fields.map(field => item[field] ?? null));
+  const output = {
+    version: meta.version,
+    basis_date: meta.basis_date,
+    source_review_date: meta.source_review_date,
+    ontology_kind: meta.ontology_kind,
+    shard_id: meta.shard_id,
+    format: 'openfin-hot-search-v1',
+    item_count: rows.length,
+    fields,
+    vocabulary,
+    search_terms: searchTerms,
+    items: rows,
+    export_checksum: sha256(JSON.stringify(rows)).slice(7),
+  };
+  const file = `finance-hot-search-index-2026-${meta.shard_id}.json`;
+  const outputPath = path.join(DOCS, file);
+  writeCompact(outputPath, output);
+  const content_checksum = sha256(fs.readFileSync(outputPath, 'utf8')).slice(7);
+  hotSearchShardOutputs.push({
+    id: `finance-hot-search-index-${meta.shard_id}`,
+    shard_id: meta.shard_id,
+    path: `opentax/${file}`,
+    url: `${PUBLIC_BASE}/${file}`,
+    web_url: `${PUBLIC_BASE}/${file}`,
+    item_count: rows.length,
+    export_checksum: output.export_checksum,
+    content_checksum,
+  });
+};
 for (const [file, meta] of Object.entries(searchFiles).sort(([a],[b])=>a.localeCompare(b))) {
   const items = catalog.filter(i => i.search_shard === meta.shard_id || (!i.search_shard && i.type === 'source' && meta.shard_id === 'reference')).sort((a,b)=>(a.search_position ?? 0)-(b.search_position ?? 0) || a.id.localeCompare(b.id)).map(i=>{
     const projection = searchProjection(restoreCompatibilityDates(i));
@@ -155,6 +305,7 @@ for (const [file, meta] of Object.entries(searchFiles).sort(([a],[b])=>a.localeC
   writeJson(compactPath, compactOutput);
   const compactContentChecksum = sha256(fs.readFileSync(compactPath, 'utf8')).slice(7);
   shardOutputs.push({id:`finance-search-index-${meta.shard_id}-compact`, shard_id:meta.shard_id, path:`opentax/${compactFile}`, url:`${PUBLIC_BASE}/${compactFile}`, web_url:`${PUBLIC_BASE}/${compactFile}`, item_count:compactItems.length, export_checksum:compactOutput.export_checksum, content_checksum:compactContentChecksum});
+  writeHotSearchShard(meta, items);
 }
 // Include any search shard not captured by the bootstrap metadata (e.g. empty pension shard).
 const knownShardIds = new Set(detailShardOutputs.map(x=>x.shard_id));
@@ -171,6 +322,7 @@ for (const file of fs.readdirSync(DOCS).filter(f=>/^finance-search-index-2026-.+
   writeJson(compactPath, compactOutput);
   const compactContentChecksum = sha256(fs.readFileSync(compactPath, 'utf8')).slice(7);
   shardOutputs.push({id:`finance-search-index-${data.shard_id}-compact`, shard_id:data.shard_id, path:`opentax/${compactFile}`, url:`${PUBLIC_BASE}/${compactFile}`, web_url:`${PUBLIC_BASE}/${compactFile}`, item_count:0, export_checksum:compactOutput.export_checksum, content_checksum:compactContentChecksum});
+  writeHotSearchShard(data, []);
 }
 const allSearchItems = detailShardOutputs.flatMap(s => json(path.join(DOCS, path.basename(s.path))).items);
 const compactSearchItems = allSearchItems.map(item => {
@@ -195,6 +347,19 @@ const canonicalProductIds = new Set(productNodes.map(item => item.canonical_prod
 const canonicalMergeCount = catalog.filter(item => (item.publication_memberships || []).length > 1).length;
 const searchManifest = {...searchRoot, item_count:allSearchItems.length, compact_item_count:compactSearchItems.length, canonical_product_count:canonicalProductIds.size, duplicate_canonical_product_count:productNodes.length - canonicalProductIds.size, canonical_merge_count:canonicalMergeCount, export_checksum:sha256(JSON.stringify(compactSearchItems)).slice(7), detail_checksum:sha256(JSON.stringify(allSearchItems)).slice(7), shards:shardOutputs, items:compactSearchItems};
 const detailSearchIndex = {id:'openfin-detail-search-index', domain:'search', path:'opentax/finance-search-index-2026.json', url:`${PUBLIC_BASE}/finance-search-index-2026.json`, web_url:`${PUBLIC_BASE}/finance-search-index-2026.json`, item_count:allSearchItems.length, export_checksum:searchManifest.detail_checksum, shards:detailShardOutputs};
+const hotSearchIndex = {
+  id: 'openfin-hot-search-index',
+  domain: 'search-hot',
+  path: 'opentax/finance-hot-search-index-2026.json',
+  url: `${PUBLIC_BASE}/finance-hot-search-index-2026.json`,
+  web_url: `${PUBLIC_BASE}/finance-hot-search-index-2026.json`,
+  item_count: allSearchItems.length,
+  export_checksum: sha256(hotSearchShardOutputs.map(({ shard_id, path: shardPath, export_checksum }) => [shard_id, shardPath, export_checksum])).slice(7),
+  shards: hotSearchShardOutputs,
+};
+const hotSearchRootPath = path.join(DOCS, 'finance-hot-search-index-2026.json');
+writeCompact(hotSearchRootPath, hotSearchIndex);
+hotSearchIndex.content_checksum = sha256(fs.readFileSync(hotSearchRootPath, 'utf8')).slice(7);
 const searchRootPath = path.join(DOCS,'finance-search-index-2026.json');
 writeCompact(searchRootPath, searchManifest);
 const searchContentChecksum = sha256(fs.readFileSync(searchRootPath, 'utf8')).slice(7);
@@ -617,6 +782,7 @@ for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-qu
 }
 manifest.search_index={...(manifest.search_index||{}),path:'opentax/finance-search-index-2026.json',url:`${PUBLIC_BASE}/finance-search-index-2026.json`,web_url:`${PUBLIC_BASE}/finance-search-index-2026.json`,item_count:searchManifest.item_count,canonical_product_count:searchManifest.canonical_product_count,duplicate_canonical_product_count:searchManifest.duplicate_canonical_product_count,canonical_merge_count:searchManifest.canonical_merge_count,export_checksum:searchManifest.export_checksum,content_checksum:searchContentChecksum,shards:shardOutputs};
 manifest.detail_search_index=detailSearchIndex;
+manifest.hot_search_index=hotSearchIndex;
 const rewriteOperational = value => typeof value === 'string' ? value.replaceAll('https://jhny-kor.github.io/TaxMeter/opentax/', `${PUBLIC_BASE}/`).replaceAll('https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/', `${PUBLIC_BASE}/`) : Array.isArray(value) ? value.map(rewriteOperational) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rewriteOperational(v)])) : value;
 const rewrittenManifest = rewriteOperational(manifest); for (const key of Object.keys(manifest)) delete manifest[key]; Object.assign(manifest, rewrittenManifest);
 delete manifest.manifest_checksum;

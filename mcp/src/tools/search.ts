@@ -34,7 +34,9 @@ export function registerSearchTool(ctx: ToolContext): void {
     },
     async ({ query, type, search_type, product_kind, recommendation_status, recommendation_scope, sales_status, application_status, provider, region, freshness_status, limit }) => {
       const items = dedupeProductItems(await loadSearchItemsForQuery(env, query, type, search_type, product_kind));
-      const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
+      const artifacts = freshness_status
+        ? await loadFinanceArtifacts(env, ["source_status"])
+        : {};
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
       if (isNamedProductQuery(query)) {

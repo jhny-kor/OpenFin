@@ -271,6 +271,38 @@ for (const shard of search.shards || []) {
     for (const sourceId of item.source_ids || []) if (!sourceIds.has(sourceId)) fail(`search source id unresolved: ${item.id} -> ${sourceId}`);
   }
 }
+const decodeHotSearchItems = payload => {
+  if (payload?.format !== 'openfin-hot-search-v1') return payload?.items || [];
+  if (!Array.isArray(payload.fields) || !Array.isArray(payload.vocabulary) || !Array.isArray(payload.search_terms) || !Array.isArray(payload.items)) return [];
+  return payload.items.map((row, index) => {
+    const item = {};
+    for (const [column, field] of payload.fields.entries()) if (row[column] !== null && row[column] !== undefined) item[field] = row[column];
+    const terms = payload.search_terms[index] || [];
+    item.search_text = terms.map(termId => payload.vocabulary[termId]).filter(value => typeof value === 'string').join(' ');
+    return item;
+  });
+};
+const hotSearch = manifest.hot_search_index;
+if (!hotSearch || !Array.isArray(hotSearch.shards) || hotSearch.shards.reduce((sum, shard) => sum + (shard.item_count || 0), 0) !== search.item_count) {
+  fail('hot search index missing or shard counts do not sum to the search root');
+} else {
+  const hotRootPath = path.join(DOCS, path.basename(hotSearch.path || ''));
+  if (!fs.existsSync(hotRootPath)) fail('hot search root missing');
+  else if (hotSearch.content_checksum && hotSearch.content_checksum !== sha256(fs.readFileSync(hotRootPath, 'utf8')).slice(7)) fail('hot search root content checksum mismatch');
+  for (const shard of hotSearch.shards) {
+    const shardPath = path.join(DOCS, path.basename(shard.path));
+    if (!fs.existsSync(shardPath)) { fail(`hot search shard missing: ${shard.shard_id}`); continue; }
+    const shardText = fs.readFileSync(shardPath, 'utf8');
+    if (shard.content_checksum && shard.content_checksum !== sha256(shardText).slice(7)) fail(`hot search shard content checksum mismatch: ${shard.shard_id}`);
+    const payload = JSON.parse(shardText);
+    const items = decodeHotSearchItems(payload);
+    if (items.length !== shard.item_count || payload.item_count !== shard.item_count) fail(`hot search shard count mismatch: ${shard.shard_id}`);
+    for (const item of items) {
+      if (!item.id || !item.title || !item.type || !Array.isArray(item.source_ids) || typeof item.provenance_shard !== 'string') fail(`hot search item contract invalid: ${shard.shard_id}`);
+      for (const sourceId of item.source_ids) if (!sourceIds.has(sourceId)) fail(`hot search source id unresolved: ${item.id} -> ${sourceId}`);
+    }
+  }
+}
 const provenanceIndex = json(path.join(DOCS, 'openfin-provenance-index-2026.json'));
 if (provenanceIndex.covered_item_count < BASELINE.provenance_covered || !(provenanceIndex.shards || []).length) fail('provenance index coverage/shards invalid');
 for (const shard of provenanceIndex.shards || []) {

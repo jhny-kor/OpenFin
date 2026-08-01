@@ -152,6 +152,8 @@ type FinanceItem = {
   risk_level?: string;
   structured_summary?: Record<string, unknown>;
   search_facets?: Record<string, unknown>;
+  support_state?: number;
+  support_region?: string;
 };
 
 type OntologyExport = {
@@ -214,6 +216,7 @@ type FinanceManifest = {
   runtime_quality_metrics?: Record<string, unknown>;
   search_index?: ManifestEntry;
   detail_search_index?: ManifestEntry;
+  hot_search_index?: ManifestEntry;
   quality_exports?: ManifestEntry[];
   source_registry?: ManifestEntry;
   source_status?: ManifestEntry;
@@ -1155,6 +1158,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
       basis_date: manifest.basis_date,
       search_index: (manifest.search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.search_index?.content_checksum ?? manifest.search_index?.path,
       detail_search_index: (manifest.detail_search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.detail_search_index?.content_checksum ?? manifest.detail_search_index?.path,
+      hot_search_index: (manifest.hot_search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.hot_search_index?.content_checksum ?? manifest.hot_search_index?.path,
       exports: manifest.exports.map((entry) => [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum]),
       artifacts: [manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index]
         .map((entry) => entry ? [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum] : null),
@@ -1173,7 +1177,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
 }
 
 function manifestChecksumContract(manifest: FinanceManifest): boolean {
-  const entries = [manifest.search_index, manifest.detail_search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, ...(manifest.exports ?? [])];
+  const entries = [manifest.search_index, manifest.detail_search_index, manifest.hot_search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, ...(manifest.exports ?? [])];
   return manifest._manifest_checksum_verified === true && entries.length > 0 && entries.every((entry) => typeof entry?.export_checksum === "string" && entry.export_checksum.length > 0);
 }
 
@@ -1368,12 +1372,75 @@ class SearchIndexContractError extends Error {
   }
 }
 
+const SUPPORT_HOT_APPLICATION_STATUSES = [
+  "unknown", "recurring_annual", "always_open", "source_schedule_ambiguous",
+  "agency_schedule_varies", "closed", "announcement_based", "not_required",
+  "budget_exhaustion", "open", "agency_contact_required", "recurring_quarterly",
+  "recurring_monthly", "schedule_pending",
+] as const;
+const SUPPORT_HOT_STATUS_CODES = ["unknown", "active", "closed"] as const;
+const SUPPORT_HOT_RECOMMENDATION_CODES = ["reference_only", "eligible_for_listing"] as const;
+const SUPPORT_HOT_FRESHNESS_CODES = ["unknown", "current", "stale", "degraded"] as const;
+const SUPPORT_HOT_CATEGORY_BITS: ReadonlyArray<readonly [string, number]> = [
+  ["rent", 1 << 0], ["housing", 1 << 1], ["lease_deposit", 1 << 2], ["deposit_guarantee", 1 << 3],
+  ["housing_supply", 1 << 4], ["housing_repair", 1 << 5], ["employment", 1 << 6], ["education", 1 << 7],
+  ["health", 1 << 8], ["culture", 1 << 9], ["business", 1 << 10],
+];
+
+function hydrateSupportHotFields(item: Record<string, unknown>): void {
+  if (typeof item.support_state !== "number" || !Number.isInteger(item.support_state)) return;
+  const state = item.support_state;
+  const applicationCode = state & 0x0f;
+  const statusCode = (state >> 4) & 0x03;
+  const recommendationCode = (state >> 6) & 0x01;
+  const freshnessCode = (state >> 7) & 0x03;
+  item.application_status = SUPPORT_HOT_APPLICATION_STATUSES[applicationCode] ?? "unknown";
+  item.status = SUPPORT_HOT_STATUS_CODES[statusCode] ?? "unknown";
+  item.recommendation_status = SUPPORT_HOT_RECOMMENDATION_CODES[recommendationCode] ?? "reference_only";
+  item.freshness_status = SUPPORT_HOT_FRESHNESS_CODES[freshnessCode] ?? "unknown";
+  item.is_currently_applicable = Boolean(state & (1 << 9));
+  item.target_group = state & (1 << 22) ? ["youth"] : [];
+  item.support_category = SUPPORT_HOT_CATEGORY_BITS.filter(([, bit]) => state & (bit << 10)).map(([category]) => category);
+  if (!(state & (1 << 23))) item.recommendation_scope = "internal_verification_candidate";
+  if (typeof item.support_region === "string") {
+    const [jurisdiction, jurisdictionCode, parentJurisdictionCode, ...aliases] = item.support_region.split("\u001f");
+    item.jurisdiction = jurisdiction || undefined;
+    item.jurisdiction_code = jurisdictionCode || undefined;
+    item.parent_jurisdiction_code = parentJurisdictionCode || undefined;
+    item.jurisdiction_aliases = aliases.filter(Boolean);
+  }
+}
+
 function isFinanceItem(value: unknown): value is FinanceItem {
   return isRecord(value) && typeof value.id === "string" && typeof value.title === "string" && typeof value.type === "string";
 }
 
 function parseSearchItems(value: unknown, source: string): readonly FinanceItem[] {
-  const items = Array.isArray(value) ? value : isRecord(value) ? value.items : undefined;
+  let items: unknown;
+  if (isRecord(value) && value.format === "openfin-hot-search-v1") {
+    const fields = value.fields;
+    const vocabulary = value.vocabulary;
+    const searchTerms = value.search_terms;
+    const rows = value.items;
+    if (!Array.isArray(fields) || !fields.every((field) => typeof field === "string") || !Array.isArray(vocabulary) || !vocabulary.every((term) => typeof term === "string") || !Array.isArray(searchTerms) || !Array.isArray(rows) || !rows.every((row) => Array.isArray(row))) {
+      throw new SearchIndexContractError(`${source} hot-search payload has invalid columnar fields`);
+    }
+    items = rows.map((row, index) => {
+      const item: Record<string, unknown> = {};
+      for (const [column, field] of fields.entries()) {
+        if (row[column] !== null && row[column] !== undefined) item[field] = row[column];
+      }
+      hydrateSupportHotFields(item);
+      const termIds = searchTerms[index];
+      if (!Array.isArray(termIds) || !termIds.every((termId) => Number.isInteger(termId) && termId >= 0 && termId < vocabulary.length)) {
+        throw new SearchIndexContractError(`${source}.search_terms[${index}] is invalid`);
+      }
+      item.search_text = [...new Set(termIds.map((termId) => vocabulary[termId]))].join(" ");
+      return item;
+    });
+  } else {
+    items = Array.isArray(value) ? value : isRecord(value) ? value.items : undefined;
+  }
   if (!Array.isArray(items) || !items.every(isFinanceItem)) {
     throw new SearchIndexContractError(`${source} must be a raw item array or an object with an items array`);
   }
@@ -1623,11 +1690,14 @@ async function loadSearchItemsForQuery(
 ): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
   const shardId = searchShardForQuery(query, type, searchType, productKind);
+  const hotShards = manifest.hot_search_index?.shards;
   if (!shardId) {
-    const reference = manifest.search_index?.shards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference");
+    const reference = hotShards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference")
+      ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference");
     return reference ? loadSearchShard(env, reference) : loadSearchItems(env);
   }
-  const shard = manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  const shard = hotShards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId)
+    ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
 }
 
