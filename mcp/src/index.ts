@@ -213,6 +213,7 @@ type FinanceManifest = {
   openfin_120_live_regression?: Record<string, unknown>;
   runtime_quality_metrics?: Record<string, unknown>;
   search_index?: ManifestEntry;
+  detail_search_index?: ManifestEntry;
   quality_exports?: ManifestEntry[];
   source_registry?: ManifestEntry;
   source_status?: ManifestEntry;
@@ -344,7 +345,7 @@ let cachedSearchItems: CachedSearchItems | undefined;
 const cachedSearchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
 // ponytail: pin the large support shard and keep one ephemeral domain shard; a broader cache retains too much parsed JSON in a Worker isolate.
-const PINNED_SEARCH_SHARD_IDS = new Set(["support"]);
+const PINNED_SEARCH_SHARD_SUFFIXES = new Set(["finance-search-index-2026-support-compact.json"]);
 const SEARCH_SHARD_CACHE_LIMIT = 1;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
@@ -1153,6 +1154,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
       version: manifest.version,
       basis_date: manifest.basis_date,
       search_index: (manifest.search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.search_index?.content_checksum ?? manifest.search_index?.path,
+      detail_search_index: (manifest.detail_search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.detail_search_index?.content_checksum ?? manifest.detail_search_index?.path,
       exports: manifest.exports.map((entry) => [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum]),
       artifacts: [manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index]
         .map((entry) => entry ? [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum] : null),
@@ -1171,7 +1173,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
 }
 
 function manifestChecksumContract(manifest: FinanceManifest): boolean {
-  const entries = [manifest.search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, ...(manifest.exports ?? [])];
+  const entries = [manifest.search_index, manifest.detail_search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, ...(manifest.exports ?? [])];
   return manifest._manifest_checksum_verified === true && entries.length > 0 && entries.every((entry) => typeof entry?.export_checksum === "string" && entry.export_checksum.length > 0);
 }
 
@@ -1522,13 +1524,14 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
 
 async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<readonly FinanceItem[]> {
   const now = Date.now();
-  const key = shard.shard_id;
+  const key = shard.path || shard.shard_id;
   const requestGeneration = manifestGeneration;
   const pendingKey = generationCacheKey(requestGeneration, key);
   const cached = cachedSearchShards.get(key);
   if (cached && cached.generation === manifestGeneration && now - cached.loadedAt < CACHE_TTL_MS) return cached.items;
-  if (!PINNED_SEARCH_SHARD_IDS.has(key)) {
-    const evictable = [...cachedSearchShards.keys()].filter((shardId) => !PINNED_SEARCH_SHARD_IDS.has(shardId));
+  const isPinned = [...PINNED_SEARCH_SHARD_SUFFIXES].some((suffix) => key.endsWith(suffix));
+  if (!isPinned) {
+    const evictable = [...cachedSearchShards.keys()].filter((shardKey) => ![...PINNED_SEARCH_SHARD_SUFFIXES].some((suffix) => shardKey.endsWith(suffix)));
     while (evictable.length >= SEARCH_SHARD_CACHE_LIMIT) {
       const shardId = evictable.shift();
       if (shardId) cachedSearchShards.delete(shardId);
@@ -1601,8 +1604,9 @@ async function loadDetailedItemsForDomain(env: Env, domain: string, asOf?: strin
       : new Map(artifactRecords(sourceRegistry).map((entry) => [String(entry.id ?? entry.source_id ?? entry.sourceId), entry]));
     return offers.flatMap((offer) => adaptDecisionOfferOptions(offer, domain, asOf, sourceRegistryMap) as FinanceItem[]);
   }
+  const detailShards = manifest.detail_search_index?.shards ?? manifest.search_index?.shards;
   const shardId = SEARCH_SHARD_BY_DOMAIN[domain];
-  const shard = manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  const shard = detailShards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
 }
 
@@ -1630,7 +1634,8 @@ async function loadSearchItemsForQuery(
 async function hydrateSearchItem(env: Env, item: FinanceItem): Promise<FinanceItem> {
   const manifest = await loadFinanceManifest(env);
   const shardId = item.provenance_shard ?? item.shard_id;
-  const shard = shardId && manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  const detailShards = manifest.detail_search_index?.shards ?? manifest.search_index?.shards;
+  const shard = shardId && detailShards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   if (!shard) return item;
   const detailed = (await loadSearchShard(env, shard)).find((candidate) => candidate.id === item.id);
   return detailed ? { ...item, ...detailed } : item;

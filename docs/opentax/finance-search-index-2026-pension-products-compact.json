@@ -1,0 +1,10 @@
+{
+  "version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
+  "basis_date": "2026-07-10",
+  "source_review_date": "2026-07-10",
+  "ontology_kind": "finance-search-index-shard",
+  "shard_id": "pension-products",
+  "item_count": 0,
+  "items": [],
+  "export_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+}

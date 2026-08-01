@@ -96,6 +96,12 @@ const compactSearchFields = [
   'search_aliases', 'aliases', 'source_ids',
   'provenance_shard', 'export_id',
 ];
+const discoverySearchFields = [...new Set([
+  ...compactSearchFields,
+  'source_urls', 'source_basis_dates', 'discovery_evidence_fields', 'discovery_limitations',
+  'normalized_completeness_ratio', 'completeness_ratio', 'verified_completeness_ratio',
+  'structured_summary', 'comparison_options',
+])];
 const hasCompactValue = value => value !== undefined && value !== null && value !== ''
   && (!Array.isArray(value) || value.length > 0)
   && (!(value && typeof value === 'object' && !Array.isArray(value)) || Object.keys(value).length > 0);
@@ -114,6 +120,7 @@ const runtimeSearchFields = [...new Set([
   'comparison_approved', 'recommendation_approved', 'candidate_id', 'option_id', 'offer_id', 'evidence_gate',
   'source_checksum',
 ])];
+const detailShardOutputs = [];
 const shardOutputs = [];
 for (const [file, meta] of Object.entries(searchFiles).sort(([a],[b])=>a.localeCompare(b))) {
   const items = catalog.filter(i => i.search_shard === meta.shard_id || (!i.search_shard && i.type === 'source' && meta.shard_id === 'reference')).sort((a,b)=>(a.search_position ?? 0)-(b.search_position ?? 0) || a.id.localeCompare(b.id)).map(i=>{
@@ -134,19 +141,38 @@ for (const [file, meta] of Object.entries(searchFiles).sort(([a],[b])=>a.localeC
   const outPath = path.join(DOCS,outFile);
   writeJson(outPath, output);
   const content_checksum = sha256(fs.readFileSync(outPath, 'utf8')).slice(7);
-  shardOutputs.push({id:`finance-search-index-${meta.shard_id}`, shard_id:meta.shard_id, path:`opentax/${outFile}`, url:`${PUBLIC_BASE}/${outFile}`, web_url:`${PUBLIC_BASE}/${outFile}`, item_count:items.length, export_checksum:output.export_checksum, content_checksum});
+  detailShardOutputs.push({id:`finance-search-index-${meta.shard_id}`, shard_id:meta.shard_id, path:`opentax/${outFile}`, url:`${PUBLIC_BASE}/${outFile}`, web_url:`${PUBLIC_BASE}/${outFile}`, item_count:items.length, export_checksum:output.export_checksum, content_checksum});
+
+  const compactFields = ['bank-products', 'card-products', 'insurance-products'].includes(meta.shard_id) ? discoverySearchFields : compactSearchFields;
+  const compactItems = items.map(item => {
+    const compact = Object.fromEntries(compactFields.filter(field => hasCompactValue(item[field])).map(field => [field, item[field]]));
+    compact.source_ids = Array.isArray(item.source_ids) ? item.source_ids : [];
+    return compact;
+  });
+  const compactOutput = {version:meta.version, basis_date:meta.basis_date, source_review_date:meta.source_review_date, ontology_kind:meta.ontology_kind, shard_id:meta.shard_id, item_count:compactItems.length, items:compactItems, export_checksum:sha256(JSON.stringify(compactItems)).slice(7)};
+  const compactFile = file.replace(/\.json$/, '-compact.json');
+  const compactPath = path.join(DOCS, compactFile);
+  writeJson(compactPath, compactOutput);
+  const compactContentChecksum = sha256(fs.readFileSync(compactPath, 'utf8')).slice(7);
+  shardOutputs.push({id:`finance-search-index-${meta.shard_id}-compact`, shard_id:meta.shard_id, path:`opentax/${compactFile}`, url:`${PUBLIC_BASE}/${compactFile}`, web_url:`${PUBLIC_BASE}/${compactFile}`, item_count:compactItems.length, export_checksum:compactOutput.export_checksum, content_checksum:compactContentChecksum});
 }
 // Include any search shard not captured by the bootstrap metadata (e.g. empty pension shard).
-const knownShardIds = new Set(shardOutputs.map(x=>x.shard_id));
-for (const file of fs.readdirSync(DOCS).filter(f=>/^finance-search-index-2026-.+\.json$/.test(f)).sort()) {
+const knownShardIds = new Set(detailShardOutputs.map(x=>x.shard_id));
+for (const file of fs.readdirSync(DOCS).filter(f=>/^finance-search-index-2026-.+\.json$/.test(f) && !f.endsWith('-compact.json')).sort()) {
   const data = json(path.join(DOCS,file)); if (knownShardIds.has(data.shard_id)) continue;
   const output = {version:data.version, basis_date:data.basis_date, source_review_date:data.source_review_date, ontology_kind:data.ontology_kind, shard_id:data.shard_id, item_count:0, items:[], export_checksum:sha256(JSON.stringify([])).slice(7)};
   const outPath = path.join(DOCS,file);
   writeJson(outPath, output);
   const content_checksum = sha256(fs.readFileSync(outPath, 'utf8')).slice(7);
-  shardOutputs.push({id:`finance-search-index-${data.shard_id}`, shard_id:data.shard_id, path:`opentax/${file}`, url:`${PUBLIC_BASE}/${file}`, web_url:`${PUBLIC_BASE}/${file}`, item_count:0, export_checksum:output.export_checksum, content_checksum});
+  detailShardOutputs.push({id:`finance-search-index-${data.shard_id}`, shard_id:data.shard_id, path:`opentax/${file}`, url:`${PUBLIC_BASE}/${file}`, web_url:`${PUBLIC_BASE}/${file}`, item_count:0, export_checksum:output.export_checksum, content_checksum});
+  const compactFile = file.replace(/\.json$/, '-compact.json');
+  const compactPath = path.join(DOCS, compactFile);
+  const compactOutput = {...output};
+  writeJson(compactPath, compactOutput);
+  const compactContentChecksum = sha256(fs.readFileSync(compactPath, 'utf8')).slice(7);
+  shardOutputs.push({id:`finance-search-index-${data.shard_id}-compact`, shard_id:data.shard_id, path:`opentax/${compactFile}`, url:`${PUBLIC_BASE}/${compactFile}`, web_url:`${PUBLIC_BASE}/${compactFile}`, item_count:0, export_checksum:compactOutput.export_checksum, content_checksum:compactContentChecksum});
 }
-const allSearchItems = shardOutputs.flatMap(s => json(path.join(DOCS, path.basename(s.path))).items);
+const allSearchItems = detailShardOutputs.flatMap(s => json(path.join(DOCS, path.basename(s.path))).items);
 const compactSearchItems = allSearchItems.map(item => {
   const compact = Object.fromEntries(compactSearchFields.filter(field => hasCompactValue(item[field])).map(field => [field, item[field]]));
   // Keep the field present even for source nodes, whose dependency set is
@@ -168,6 +194,7 @@ const productNodes = catalog.filter(item => ['account-product','bank-product','c
 const canonicalProductIds = new Set(productNodes.map(item => item.canonical_product_id || item.id));
 const canonicalMergeCount = catalog.filter(item => (item.publication_memberships || []).length > 1).length;
 const searchManifest = {...searchRoot, item_count:allSearchItems.length, compact_item_count:compactSearchItems.length, canonical_product_count:canonicalProductIds.size, duplicate_canonical_product_count:productNodes.length - canonicalProductIds.size, canonical_merge_count:canonicalMergeCount, export_checksum:sha256(JSON.stringify(compactSearchItems)).slice(7), detail_checksum:sha256(JSON.stringify(allSearchItems)).slice(7), shards:shardOutputs, items:compactSearchItems};
+const detailSearchIndex = {id:'openfin-detail-search-index', domain:'search', path:'opentax/finance-search-index-2026.json', url:`${PUBLIC_BASE}/finance-search-index-2026.json`, web_url:`${PUBLIC_BASE}/finance-search-index-2026.json`, item_count:allSearchItems.length, export_checksum:searchManifest.detail_checksum, shards:detailShardOutputs};
 const searchRootPath = path.join(DOCS,'finance-search-index-2026.json');
 writeCompact(searchRootPath, searchManifest);
 const searchContentChecksum = sha256(fs.readFileSync(searchRootPath, 'utf8')).slice(7);
@@ -589,6 +616,7 @@ for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-qu
   entry.quality_summary = dynamicExportAudit;
 }
 manifest.search_index={...(manifest.search_index||{}),path:'opentax/finance-search-index-2026.json',url:`${PUBLIC_BASE}/finance-search-index-2026.json`,web_url:`${PUBLIC_BASE}/finance-search-index-2026.json`,item_count:searchManifest.item_count,canonical_product_count:searchManifest.canonical_product_count,duplicate_canonical_product_count:searchManifest.duplicate_canonical_product_count,canonical_merge_count:searchManifest.canonical_merge_count,export_checksum:searchManifest.export_checksum,content_checksum:searchContentChecksum,shards:shardOutputs};
+manifest.detail_search_index=detailSearchIndex;
 const rewriteOperational = value => typeof value === 'string' ? value.replaceAll('https://jhny-kor.github.io/TaxMeter/opentax/', `${PUBLIC_BASE}/`).replaceAll('https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/', `${PUBLIC_BASE}/`) : Array.isArray(value) ? value.map(rewriteOperational) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rewriteOperational(v)])) : value;
 const rewrittenManifest = rewriteOperational(manifest); for (const key of Object.keys(manifest)) delete manifest[key]; Object.assign(manifest, rewrittenManifest);
 delete manifest.manifest_checksum;

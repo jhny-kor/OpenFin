@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { ToolContext } from "../types/tool-context.ts";
 
 export function registerDiscoverTool(ctx: ToolContext): void {
-  const { server, env, mcpResult, discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain, loadSearchItemsForQuery, loadFinanceArtifacts, isNamedProductQuery, strictNamedProductPayload, enrichSearchPayload, discoveryPayload, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
+  const { server, env, mcpResult, discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadSearchItemsForQuery, loadFinanceArtifacts, isNamedProductQuery, strictNamedProductPayload, enrichSearchPayload, discoveryPayload, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
   server.registerTool(
     "discover",
     {
@@ -16,9 +16,11 @@ export function registerDiscoverTool(ctx: ToolContext): void {
       annotations: { title: "Discover Finance Products", ...READ_ONLY_TOOL_ANNOTATIONS },
     },
     async ({ query, limit }) => {
-      const detailDomain = discoveryDomainForQuery(query) ?? (SUPPORT_INTENT_RE.test(query) ? "support" : undefined);
-      const items = dedupeProductItems(detailDomain ? await loadDetailedItemsForDomain(env, detailDomain) : await loadSearchItemsForQuery(env, query));
+      const detailDomain = discoveryDomainForQuery(query);
       const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
+      // ponytail: support discovery has no product candidates; avoid parsing the large support detail shard for a warning-only response.
+      if (!detailDomain && SUPPORT_INTENT_RE.test(query)) return mcpResult(enrichSearchPayload(discoveryPayload(query, [], limit ?? 10, artifacts), [], artifacts));
+      const items = dedupeProductItems(await loadSearchItemsForQuery(env, query));
       if (isNamedProductQuery(query)) {
         const payload = strictNamedProductPayload(query, items, limit ?? 10, env);
         if (payload) return mcpResult(enrichSearchPayload(payload, items, artifacts));

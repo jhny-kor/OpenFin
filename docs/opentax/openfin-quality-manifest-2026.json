@@ -995,7 +995,7 @@
     ],
     "evidence_path": "evidence/live-regression/current.json",
     "evidence_checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
-    "expected_generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
+    "expected_generation_id": "0702779847310bcc089188bd65e5f60fad35ffa59c4cc1325e29637fe487927e",
     "expected_fixture_checksum": "sha256:aca1219c3698dadd0b8031abd615bd896fc313a6c7e895c835624c8f7e7c0d10",
     "validation_status": "stale_fixture"
   },
@@ -1016,7 +1016,7 @@
         "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
+        "live_expected_generation_id": "0702779847310bcc089188bd65e5f60fad35ffa59c4cc1325e29637fe487927e",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
@@ -1049,7 +1049,7 @@
         "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
+        "live_expected_generation_id": "0702779847310bcc089188bd65e5f60fad35ffa59c4cc1325e29637fe487927e",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
@@ -1076,7 +1076,7 @@
         "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
+        "live_expected_generation_id": "0702779847310bcc089188bd65e5f60fad35ffa59c4cc1325e29637fe487927e",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
@@ -1101,7 +1101,7 @@
         "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
+        "live_expected_generation_id": "0702779847310bcc089188bd65e5f60fad35ffa59c4cc1325e29637fe487927e",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
@@ -1129,7 +1129,7 @@
         "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
+        "live_expected_generation_id": "0702779847310bcc089188bd65e5f60fad35ffa59c4cc1325e29637fe487927e",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
@@ -1154,7 +1154,7 @@
         "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
+        "live_expected_generation_id": "0702779847310bcc089188bd65e5f60fad35ffa59c4cc1325e29637fe487927e",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
@@ -1180,7 +1180,7 @@
         "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
         "runtime_version": "openfin-mcp-2026.07.28.2",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
+        "live_expected_generation_id": "0702779847310bcc089188bd65e5f60fad35ffa59c4cc1325e29637fe487927e",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
@@ -1201,7 +1201,7 @@
     "export_count": 10,
     "search_item_count": 21289,
     "relationship_count": 102523,
-    "content_checksum": "cacc921bd6cc86282a71da8a7a887433537385de9747b64f2e01177915d39d2e"
+    "content_checksum": "a97f75ca5eab987b9b3ca3169d1f16d8f3428a94f1512af40b89d06711305d7b"
   },
   "domain_readiness": {
     "deposit": {
@@ -1612,26 +1612,26 @@
     }
   },
   "quality_policy_version": "openfin-release-policy-v1",
-  "quality_hash": "11d3d4d2d994d17b8dba7139a439a24f17ef6af1e5d10fedccdf6e9f28bfaaec",
+  "quality_hash": "cf37551deeb8a48aa0b200e844b127df7fb3c92e223754808c973dd08d82852e",
   "platform_release_status": "ready",
   "comparison_release_status": "blocked",
   "recommendation_release_status": "blocked",
   "core_search_status": "ready",
   "comparison_status": "blocked",
   "recommendation_status": "blocked",
-  "generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
+  "generation_id": "0702779847310bcc089188bd65e5f60fad35ffa59c4cc1325e29637fe487927e",
   "artifact_contract": {
     "version": "openfin-artifact-contract-v1",
     "readiness_schema_version": "openfin-readiness-v2",
-    "generation_id": "04ff89b2beae668469d810a8f98c347cde7929e3a969e75d74b819ca1f5e00b0",
-    "deployment_commit": "9273ceab0d0496b86cbb239d29edb0aaeb75c9c3",
-    "canonical_content_checksum": "cacc921bd6cc86282a71da8a7a887433537385de9747b64f2e01177915d39d2e",
+    "generation_id": "0702779847310bcc089188bd65e5f60fad35ffa59c4cc1325e29637fe487927e",
+    "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
+    "canonical_content_checksum": "a97f75ca5eab987b9b3ca3169d1f16d8f3428a94f1512af40b89d06711305d7b",
     "search_index_checksum": "4f5ebcba8ca907636264f1436e7a241fe029981cb5e78e4ebbcf911829111125",
     "source_status_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789",
     "release_policy_checksum": "8adfa23e7633fe543dc9cb73e7ced2650e4f702f37dbfcdf13ee5f36bd102393",
     "capability_policy_checksum": "ae2faa43270dbf513d419b4b815adae3e7fb89e8ea85be39c7416bc99e740606",
     "fixture_checksum": "sha256:aca1219c3698dadd0b8031abd615bd896fc313a6c7e895c835624c8f7e7c0d10",
-    "candidate_set_checksum": "sha256:c11ec36db4c695c2f5f6fa7914948380542aa4d4254fd8ce830811ca8efac4f3",
+    "candidate_set_checksum": "sha256:d835542ae3ebfc857dc4200561ac22f4e2b8dbb3038583db4c5f05437d6fa639",
     "quality_suite_transitive_checksum": "sha256:b9ef9a52b6e2ceae7d6cda7fecca8aaa62b9b554726565af2c833957342a8590"
   },
   "capabilities": {
