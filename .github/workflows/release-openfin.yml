@@ -164,7 +164,14 @@ jobs:
           LIVE_CASE_ATTEMPTS: 2
           LIVE_CASE_RETRY_DELAY_MS: 250
       - name: Run financial quality against deployed MCP endpoint
-        run: npm --silent run financial-quality-live > ../financial-quality-live-report.json
+        run: |
+          for attempt in 1 2 3; do
+            if npm --silent run financial-quality-live > ../financial-quality-live-report.json; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then sleep 5; fi
+          done
+          exit 1
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
           LIVE_REQUEST_TIMEOUT_MS: 15000
