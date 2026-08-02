@@ -16581,7 +16581,7 @@
   },
   "export_checksum": "881b6d03070b5d8382056cf3ae48928346ed755d70c2fb225aca926acda55860",
   "quality_export_live_summary": {
-    "source": "manifest.openfin_120_live_regression",
+    "source": "manifest.live_regression_evidence",
     "live_test_count": 120,
     "live_passed_count": 120,
     "live_failed_count": 0,

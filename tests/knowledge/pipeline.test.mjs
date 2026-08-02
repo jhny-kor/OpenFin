@@ -134,7 +134,7 @@ test('manifest keeps OpenFin URLs and fail-closed quality', () => {
   assert.ok(manifest.source_registry.item_count >= 144, `source registry ${manifest.source_registry.item_count}`);
   assert.equal(manifest.provenance_coverage.coverage.external_provenance_coverage_ratio, 1);
   assert.equal(manifest.recommendation_enabled, derived.recommendation_enabled);
-  assert.equal(manifest.release_status, derived.release_status);
+  assert.equal(manifest.service_availability, derived.service_availability);
   assert.ok(manifest.quality_exports.some(entry => entry.id === 'openfin-provenance-coverage'));
   assert.equal(manifest.decision_offers.id, 'openfin-decision-offers');
   const decisionPath = path.join(root, 'docs/opentax/openfin-decision-offers-2026.json');

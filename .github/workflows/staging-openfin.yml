@@ -7,6 +7,30 @@ on:
         description: "Staging MCP /mcp endpoint for a reviewed candidate generation"
         required: true
         type: string
+      expected_commit:
+        description: "Expected candidate deployment commit"
+        required: true
+        type: string
+      expected_generation:
+        description: "Expected candidate generation id"
+        required: true
+        type: string
+      expected_candidate_set_checksum:
+        description: "Expected candidate set checksum"
+        required: true
+        type: string
+      expected_policy_version:
+        description: "Expected policy version"
+        required: true
+        type: string
+      expected_ranking_version:
+        description: "Expected ranking version"
+        required: true
+        type: string
+      expected_calculator_version:
+        description: "Expected calculator version"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -31,6 +55,12 @@ jobs:
         env:
           MCP_URL: ${{ inputs.mcp_url }}
           OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"
+          EXPECTED_DEPLOYMENT_COMMIT: ${{ inputs.expected_commit }}
+          EXPECTED_GENERATION_ID: ${{ inputs.expected_generation }}
+          EXPECTED_CANDIDATE_SET_CHECKSUM: ${{ inputs.expected_candidate_set_checksum }}
+          EXPECTED_POLICY_VERSION: ${{ inputs.expected_policy_version }}
+          EXPECTED_RANKING_VERSION: ${{ inputs.expected_ranking_version }}
+          EXPECTED_CALCULATOR_VERSION: ${{ inputs.expected_calculator_version }}
       - name: Validate positive runtime contract
         working-directory: .
         run: |
@@ -39,6 +69,12 @@ jobs:
           test "$(jq -r '.live_status' financial-quality-staging-report.json)" = current
           test "$(jq '.live_blocked_cases | length' financial-quality-staging-report.json)" = 0
           test "$(jq '.live_positive_cases | length' financial-quality-staging-report.json)" = "$(jq -r '.positive_fixture_count' financial-quality-staging-report.json)"
+          test "$(jq -r '.runtime_contract.deployment_commit' financial-quality-staging-report.json)" = "${{ inputs.expected_commit }}"
+          test "$(jq -r '.runtime_contract.generation_id' financial-quality-staging-report.json)" = "${{ inputs.expected_generation }}"
+          test "$(jq -r '.runtime_contract.candidate_set_checksum' financial-quality-staging-report.json)" = "${{ inputs.expected_candidate_set_checksum }}"
+          test "$(jq -r '.runtime_contract.policy_version' financial-quality-staging-report.json)" = "${{ inputs.expected_policy_version }}"
+          test "$(jq -r '.runtime_contract.ranking_version' financial-quality-staging-report.json)" = "${{ inputs.expected_ranking_version }}"
+          test "$(jq -r '.runtime_contract.calculator_version' financial-quality-staging-report.json)" = "${{ inputs.expected_calculator_version }}"
       - uses: actions/upload-artifact@v5
         if: always()
         with:

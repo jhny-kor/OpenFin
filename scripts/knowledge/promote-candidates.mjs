@@ -10,6 +10,7 @@ import {
   decisionOfferFiles,
   schemaValidationChecksum,
 } from './common.mjs';
+import { collectComparisonAssertions, collectRecommendationAssertions, resolveAssertionProfile } from './assertion-profiles.mjs';
 
 const requested = process.argv.slice(2).filter(value => ['deposit', 'saving'].includes(value));
 const selectedDomains = requested.length ? requested : ['deposit', 'saving'];
@@ -18,6 +19,7 @@ const reviewDir = path.join(ROOT, 'evidence/source-reviews');
 const promotionDir = path.join(ROOT, 'evidence/candidate-promotions');
 const decisionDir = path.join(KNOWLEDGE, '30-financial-products', 'banking', '_decision');
 const evaluatedAt = process.env.OPENFIN_PROMOTION_EVALUATED_AT || new Date().toISOString();
+const comparisonProfile = resolveAssertionProfile({ profile: process.env.OPENFIN_COMPARISON_PROFILE, comparison_mode: process.env.OPENFIN_COMPARISON_MODE });
 
 const readRows = file => fs.existsSync(file) ? fs.readFileSync(file, 'utf8').split('\n').filter(Boolean).map(JSON.parse) : [];
 const normalized = value => String(value || '').replace(/^sha256:/, '');
@@ -36,15 +38,6 @@ const verifiedReview = (review, assertion) => review && review.assertion_id === 
   && review.reviewer && review.reviewer_role && review.reviewer_signature && review.reviewer_permission && review.reviewed_at
   && reviewChecksumVerified(review);
 
-const assertionEntries = (offer, option) => [
-  ...(offer.field_assertions || []).map(assertion => ({ assertion, option_id: null, set: 'comparison' })),
-  ...(option.field_assertions || []).map(assertion => ({ assertion, option_id: option.option_id, set: 'comparison' })),
-  ...(offer.eligibility_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, option_id: null, set: 'recommendation' }))),
-  ...(offer.early_termination_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, option_id: null, set: 'recommendation' }))),
-  ...(offer.bonus_rate_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, option_id: null, set: 'recommendation' }))),
-  ...(option.bonus_rate_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, option_id: option.option_id, set: 'recommendation' }))),
-];
-
 const setReceipt = (entries, reviews) => {
   const assertions = entries.map(entry => entry.assertion);
   const verifiedCount = entries.filter(entry => verifiedReview(reviews.get(`${entry.offer_id}|${entry.option_id || 'offer'}|${assertionIdentity(entry.assertion)}`), entry.assertion)).length;
@@ -56,22 +49,21 @@ const setReceipt = (entries, reviews) => {
 };
 
 function promotion(offer, option, reviews) {
-  const entries = assertionEntries(offer, option).map(entry => ({ ...entry, offer_id: offer.id }));
-  const comparisonEntries = entries.filter(entry => entry.set === 'comparison');
-  const recommendationEntries = entries;
-  const required = recommendationEntries.map(entry => ({
+  const comparisonEntries = collectComparisonAssertions(offer, option, comparisonProfile.name).map(entry => ({ ...entry, set: 'comparison', offer_id: offer.id }));
+  const recommendationEntries = collectRecommendationAssertions(offer, option, comparisonProfile.name).map(entry => ({ ...entry, set: 'recommendation', offer_id: offer.id }));
+  const comparisonRequired = comparisonEntries.map(entry => ({
     ...entry,
     review: reviews.get(`${offer.id}|${entry.option_id || 'offer'}|${assertionIdentity(entry.assertion)}`),
   }));
-  const missing = required.filter(({ assertion, review }) => !verifiedReview(review, assertion));
+  const missing = comparisonRequired.filter(({ assertion, review }) => !verifiedReview(review, assertion));
   const optionSchema = option.schema_validation_receipt;
   const expectedSchemaChecksum = schemaValidationChecksum(option);
   const schemaValid = optionSchema?.validation_status === 'valid'
     && normalized(optionSchema.content_checksum) === normalized(expectedSchemaChecksum);
   if (!schemaValid) missing.push({ reason: 'SCHEMA_RECEIPT_INVALID' });
-  const sales = required.find(({ assertion, review }) => assertion.field === 'sales_verification_status' && review?.review_category === 'sales' && verifiedReview(review, assertion));
+  const sales = comparisonRequired.find(({ assertion, review }) => assertion.field === 'sales_verification_status' && review?.review_category === 'sales' && verifiedReview(review, assertion));
   if (!sales) missing.push({ reason: 'SALES_VERIFICATION_RECEIPT_MISSING' });
-  const reviewerKeys = required.filter(({ review, assertion }) => verifiedReview(review, assertion)).map(({ review }) => `${review.reviewer}|${review.reviewer_role}|${review.reviewer_permission}|${review.reviewer_signature}`);
+  const reviewerKeys = comparisonRequired.filter(({ review, assertion }) => verifiedReview(review, assertion)).map(({ review }) => `${review.reviewer}|${review.reviewer_role}|${review.reviewer_permission}|${review.reviewer_signature}`);
   const reviewerConsistent = reviewerKeys.length > 0 && new Set(reviewerKeys).size === 1;
   if (!reviewerConsistent) missing.push({ reason: 'REVIEWER_CONSISTENCY_REQUIRED' });
   const sourceSet = (offer.provenance || []).map(entry => ({ source_id: entry.source_id, checksum: entry.checksum }));
@@ -80,7 +72,7 @@ function promotion(offer, option, reviews) {
     return [entry.source_id, { authority: sourceReview?.authority_class || 'unreviewed_source', receipt_id: sourceReview?.receipt_id || null }];
   }));
   const comparisonApproved = missing.length === 0;
-  const primaryReview = required.find(({ assertion, review }) => verifiedReview(review, assertion))?.review;
+  const primaryReview = comparisonRequired.find(({ assertion, review }) => verifiedReview(review, assertion))?.review;
   const body = {
     offer_id: offer.id,
     option_id: option.option_id,
@@ -99,11 +91,13 @@ function promotion(offer, option, reviews) {
     sales_verification_receipt_id: sales?.review?.receipt_id || null,
     comparison_approved: comparisonApproved,
     recommendation_approved: false,
+    comparison_profile: comparisonProfile.name,
+    comparison_mode: comparisonProfile.comparison_mode,
     mode: 'shadow',
-    reviewer: comparisonApproved ? primaryReview.reviewer : 'unpromoted',
-    reviewer_role: comparisonApproved ? primaryReview.reviewer_role : null,
-    reviewer_signature: comparisonApproved ? primaryReview.reviewer_signature : null,
-    reviewer_permission: comparisonApproved ? primaryReview.reviewer_permission : null,
+    reviewer: comparisonApproved ? primaryReview?.reviewer : 'unpromoted',
+    reviewer_role: comparisonApproved ? primaryReview?.reviewer_role : null,
+    reviewer_signature: comparisonApproved ? primaryReview?.reviewer_signature : null,
+    reviewer_permission: comparisonApproved ? primaryReview?.reviewer_permission : null,
     evaluated_at: evaluatedAt,
     ...(comparisonApproved ? { approved_at: evaluatedAt } : {}),
     expires_at: offer.valid_to || new Date(Date.parse(offer.observed_at) + 720 * 3600_000).toISOString(),

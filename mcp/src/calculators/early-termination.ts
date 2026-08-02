@@ -1,14 +1,14 @@
-import { calculateInterestTax } from "./tax.ts";
+import { calculateInterestTax, roundKrw } from "./tax.ts";
 
 const finite = (value: unknown) => typeof value === "number" && Number.isFinite(value) ? value : null;
 
 // This calculator is intentionally unavailable unless a product supplied an
 // explicit early-termination rate; the caller must not substitute the normal rate.
-export function calculateEarlyTerminationReturn({ principal_krw, annual_early_termination_rate_percent, elapsed_months, tax_rate_percent = 15.4 }: Record<string, unknown>) {
+export function calculateEarlyTerminationReturn({ principal_krw, annual_early_termination_rate_percent, elapsed_months, tax_rate_percent = 15.4, rounding_policy }: Record<string, unknown>) {
   const principal = finite(principal_krw), rate = finite(annual_early_termination_rate_percent), months = finite(elapsed_months);
-  if (principal === null || rate === null || months === null || principal < 0 || rate < 0 || months < 0) return null;
-  const tax = calculateInterestTax(principal * rate / 100 * (months / 12), tax_rate_percent);
-  return tax && { principal_krw: principal, ...tax, settlement_amount_krw: Math.round(principal + tax.net_interest_krw), calculation_assumption: "verified_early_termination_rate_only" };
+  if (principal === null || rate === null || months === null || principal < 0 || rate < 0 || months < 0 || !Number.isInteger(months)) return null;
+  const tax = calculateInterestTax(principal * rate / 100 * (months / 12), tax_rate_percent, rounding_policy);
+  return tax && { principal_krw: principal, ...tax, settlement_amount_krw: roundKrw(principal + tax.net_interest_krw, rounding_policy), calculation_assumption: "verified_early_termination_rate_only" };
 }
 
 export function resolveEarlyTerminationRate(item: Record<string, unknown>, elapsedMonths: number | undefined, contractRatePercent: number | undefined): { rate_percent: number | null; status: "known" | "unknown"; reason?: string } {

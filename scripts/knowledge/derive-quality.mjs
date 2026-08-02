@@ -287,7 +287,7 @@ const receipt = receiptPath && fs.existsSync(receiptPath) ? json(receiptPath) : 
 const configuredOwnerReceipt = policy.recommendation?.owner_pilot_approval_receipt;
 const ownerReceiptPath = configuredOwnerReceipt ? path.join(ROOT, configuredOwnerReceipt) : null;
 const ownerReceipt = ownerReceiptPath && fs.existsSync(ownerReceiptPath) ? json(ownerReceiptPath) : null;
-const receiptProjection = value => value ? Object.fromEntries(['approval_id', 'domain', 'mode', 'generation_id', 'candidate_set_checksum', 'policy_version', 'ranking_version', 'calculator_version', 'quality_suite_checksum', 'approved_at', 'expires_at', 'reviewer', 'reviewer_role', 'reviewer_permission', 'reviewer_signature', 'rollback_generation_id'].filter(key => value[key] !== undefined).map(key => [key, value[key]])) : null;
+const receiptProjection = value => value ? Object.fromEntries(['approval_id', 'domain', 'mode', 'generation_id', 'candidate_set_checksum', 'policy_version', 'ranking_version', 'calculator_version', 'quality_suite_checksum', 'approved_at', 'expires_at', 'reviewer', 'reviewer_role', 'reviewer_permission', 'reviewer_signature', 'reviewer_signature_algorithm', 'rollback_generation_id'].filter(key => value[key] !== undefined).map(key => [key, value[key]])) : null;
   const publicDomain = Object.entries(domains).some(([name, state]) => ['deposit', 'saving'].includes(name) && state.status === 'limited_public_ready' && state.public_recommendation_candidate_count >= (policy.domains[name].required_verified_candidates || Infinity));
   const receiptValid = Boolean(receipt && receipt.mode === 'public' && receipt.generation_id === generation_id && receipt.policy_version === policy.version && Date.parse(receipt.expires_at || '') > evaluationTime);
   const recommendationEnabled = platformReleaseStatus === 'ready' && policy.recommendation?.public_enabled === true && policy.recommendation?.state === 'public' && receiptValid && liveReady && publicDomain;
@@ -310,8 +310,11 @@ const receiptProjection = value => value ? Object.fromEntries(['approval_id', 'd
     public_recommendation_candidate_count: Number(state.public_recommendation_candidate_count || 0),
   }]));
   const capabilities = {
+    search: platformReleaseStatus === 'ready' ? 'ready' : 'blocked',
     discovery: platformReleaseStatus === 'ready' ? 'ready' : 'blocked',
     comparison: comparisonReleaseStatus === 'limited' ? 'limited_public' : 'blocked',
+    shadow: Object.values(domains).some(state => state.shadow_recommendation_candidate_count > 0) ? 'ready' : 'blocked',
+    owner_pilot: Object.values(domains).some(state => state.owner_pilot_candidate_count > 0) ? 'ready' : 'blocked',
     recommendation: recommendationEnabled ? 'public' : 'blocked',
   };
   return {
@@ -319,6 +322,7 @@ const receiptProjection = value => value ? Object.fromEntries(['approval_id', 'd
     canonical: { item_count: catalogRecords.length, decision_snapshot_count: decisionOffers.length, source_count: sourceCount, product_count: products.length, canonical_product_count: canonicalProducts.size, export_count: exportCount, search_item_count: searchItemCount, relationship_count: relationshipCount, content_checksum: canonicalContentChecksum },
     domains,
     candidate_counts,
+    service_availability: platformReleaseStatus === 'ready' ? 'available' : 'degraded',
     capability_policy_version: capabilityPolicy.version,
     capabilities,
     live_regression: liveForManifest,
@@ -354,7 +358,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(im
     if (!(Number(value.field_verified_candidate_count ?? 0) <= Number(value.value_complete_candidate_count ?? 0) && Number(value.value_complete_candidate_count ?? 0) <= Number(value.structural_candidate_count ?? 0) && Number(value.strict_option_count ?? 0) <= Number(value.structural_option_count ?? 0) && Number(value.comparison_eligible_candidate_count ?? 0) <= Number(value.strict_option_count ?? 0) && Number(value.runtime_eligible_candidate_count ?? 0) <= Number(value.field_verified_candidate_count ?? 0) && Number(value.public_candidate_count ?? 0) <= Number(value.runtime_eligible_candidate_count ?? 0) && Number(value.public_comparison_candidate_count ?? 0) <= Number(value.comparison_eligible_candidate_count ?? 0) && Number(value.public_recommendation_candidate_count ?? 0) <= Number(value.structural_option_count ?? 0))) mismatches.push(`domain_count_invariant:${name}`);
     if (Number(value.field_verified_candidate_count ?? 0) > 0 && value.data_layers?.verified?.status === 'blocked') mismatches.push(`verified_layer_invariant:${name}`);
   }
-  if (manifest.release_status !== manifest.platform_release_status) mismatches.push('release_status_alias');
-  console.log(JSON.stringify({ ok: !mismatches.length, release_status: manifest.release_status, platform_release_status: manifest.platform_release_status, comparison_release_status: manifest.comparison_release_status, recommendation_release_status: manifest.recommendation_release_status, recommendation_enabled: manifest.recommendation_enabled, quality_hash: manifest.quality_hash, mismatches }, null, 2));
+  if (manifest.service_availability !== (manifest.blocking_reasons?.length ? 'degraded' : 'available')) mismatches.push('service_availability');
+  console.log(JSON.stringify({ ok: !mismatches.length, service_availability: manifest.service_availability, comparison_status: manifest.comparison_status, recommendation_status: manifest.recommendation_status, recommendation_enabled: manifest.recommendation_enabled, quality_hash: manifest.quality_hash, mismatches }, null, 2));
   if (mismatches.length) process.exitCode = 1;
 }

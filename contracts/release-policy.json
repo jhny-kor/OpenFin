@@ -4,8 +4,11 @@
   "scope": "personal-finance-platform",
   "quality_statuses": ["pilot_verified", "structural_only", "limited_public_ready", "domain_coverage_incomplete", "schema_not_defined", "blocked"],
   "capabilities": {
+    "search": ["ready", "blocked"],
     "discovery": ["ready", "blocked"],
     "comparison": ["blocked", "limited_public", "public"],
+    "shadow": ["ready", "blocked"],
+    "owner_pilot": ["ready", "blocked"],
     "recommendation": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public"]
   },
   "candidate_count_fields": ["strict_offer_count", "strict_option_count", "structural_option_count", "comparison_eligible_candidate_count", "public_comparison_candidate_count", "shadow_recommendation_candidate_count", "owner_pilot_candidate_count", "public_recommendation_candidate_count"],

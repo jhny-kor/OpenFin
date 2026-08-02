@@ -49,7 +49,7 @@ export type FinanceManifest = FinanceRecord & {
   provenance_coverage?: unknown;
   relationship_index?: unknown;
   domain_readiness?: Record<string, FinanceRecord>;
-  capabilities?: { discovery?: string; comparison?: string; recommendation?: string };
+  capabilities?: { search?: string; discovery?: string; comparison?: string; shadow?: string; owner_pilot?: string; recommendation?: string };
   owner_pilot_approval_receipt?: FinanceRecord | null;
 };
 

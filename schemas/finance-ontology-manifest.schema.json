@@ -1,18 +1,33 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["release_status", "core_search_status", "platform_release_status", "comparison_release_status", "recommendation_release_status", "domain_readiness", "generation_id", "decision_offers", "capabilities", "candidate_counts", "artifact_contract"],
+  "required": ["service_availability", "domain_readiness", "generation_id", "decision_offers", "capabilities", "candidate_counts", "artifact_contract", "live_regression_evidence", "source_head_commit", "release_candidate_commit", "production_commit", "production_deployed_at"],
   "properties": {
-    "release_status": { "enum": ["ready", "degraded"] },
-    "core_search_status": { "enum": ["ready", "degraded"] },
-    "platform_release_status": { "enum": ["ready", "degraded"] },
-    "comparison_release_status": { "enum": ["blocked", "limited"] },
-    "recommendation_release_status": { "enum": ["ready", "blocked"] },
+    "service_availability": { "enum": ["available", "degraded"] },
+    "source_head_commit": { "type": "string", "minLength": 1 },
+    "release_candidate_commit": { "type": "string", "minLength": 1 },
+    "production_commit": { "type": "string", "minLength": 1 },
+    "production_deployed_at": { "type": ["string", "null"], "format": "date-time" },
+    "live_regression_evidence": {
+      "type": "object",
+      "required": ["id", "domain", "path", "url", "export_checksum"],
+      "properties": {
+        "id": { "const": "openfin-live-regression-current" },
+        "domain": { "const": "quality" },
+        "path": { "const": "opentax/live-regression-current.json" },
+        "url": { "type": "string", "format": "uri" },
+        "export_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "source_path": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "current_release": { "type": "object", "required": ["path", "url"], "properties": { "path": { "type": "string" }, "url": { "type": "string", "format": "uri" } }, "additionalProperties": false },
+    "legacy_compatibility": { "type": "object", "required": ["path", "url"], "properties": { "path": { "type": "string" }, "url": { "type": "string", "format": "uri" } }, "additionalProperties": false },
     "recommendation_state": { "enum": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public", "suspended"] },
     "recommendation_state_contract_version": { "type": "string" },
     "recommendation_approval_receipt": { "type": ["object", "null"] },
     "owner_pilot_approval_receipt": { "type": ["object", "null"] },
-    "capabilities": { "type": "object", "required": ["discovery", "comparison", "recommendation"], "properties": { "discovery": { "enum": ["ready", "blocked"] }, "comparison": { "enum": ["blocked", "limited_public", "public"] }, "recommendation": { "enum": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public"] } }, "additionalProperties": false },
+    "capabilities": { "type": "object", "required": ["search", "discovery", "comparison", "shadow", "owner_pilot", "recommendation"], "properties": { "search": { "enum": ["ready", "blocked"] }, "discovery": { "enum": ["ready", "blocked"] }, "comparison": { "enum": ["blocked", "limited_public", "public"] }, "shadow": { "enum": ["ready", "blocked"] }, "owner_pilot": { "enum": ["ready", "blocked"] }, "recommendation": { "enum": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public"] } }, "additionalProperties": false },
     "candidate_counts": { "type": "object", "additionalProperties": { "type": "object", "required": ["strict_offer_count", "strict_option_count", "structural_option_count", "comparison_eligible_candidate_count", "public_comparison_candidate_count", "shadow_recommendation_candidate_count", "owner_pilot_candidate_count", "public_recommendation_candidate_count"], "additionalProperties": true } },
     "source_freshness_status": { "enum": ["ready", "degraded"] },
     "decision_offers": {
@@ -62,7 +77,7 @@
     "generation_id": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
     "artifact_contract": {
       "type": "object",
-      "required": ["version", "readiness_schema_version", "generation_id", "deployment_commit", "canonical_content_checksum", "search_index_checksum", "source_status_checksum", "release_policy_checksum", "fixture_checksum", "capability_policy_checksum"],
+      "required": ["version", "readiness_schema_version", "generation_id", "deployment_commit", "canonical_content_checksum", "search_index_checksum", "source_status_checksum", "release_policy_checksum", "fixture_checksum", "candidate_set_checksum", "candidate_content_checksum_policy", "quality_suite_transitive_checksum", "capability_policy_checksum"],
       "properties": {
         "version": { "const": "openfin-artifact-contract-v1" },
         "readiness_schema_version": { "const": "openfin-readiness-v2" },
@@ -74,13 +89,12 @@
         "release_policy_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
         "fixture_checksum": { "type": ["string", "null"], "pattern": "^(sha256:)?[a-f0-9]{64}$" },
         "candidate_set_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+        "candidate_content_checksum_policy": { "const": "immutable_candidate_set_checksum" },
         "quality_suite_transitive_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
         "capability_policy_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
       },
       "additionalProperties": false
     },
-    "deployment_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$|^unknown$" },
-    "release_status_deprecated": { "const": true },
-    "release_status_replacement_path": { "const": "core_search_status" }
+    "deployment_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$|^unknown$" }
   }
 }

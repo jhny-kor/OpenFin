@@ -20,8 +20,7 @@ import { registerFetchTool } from "./tools/fetch";
 import { registerExportsTool } from "./tools/exports";
 import { livenessPayload, readinessPayload } from "./health";
 import { isVerifiedActive } from "./product-status";
-import { calculateDepositReturn } from "./calculators/deposit";
-import { calculateSavingReturn } from "./calculators/saving";
+import { calculateFinancialOutcome } from "./recommendation/outcome";
 import { resolveAttainableRate } from "./recommendation/attainable-rate";
 import { adaptDecisionOfferOptions, comparisonCandidateAdapter, recommendationCandidateAdapter } from "./decision/candidate-adapter.ts";
 
@@ -197,6 +196,7 @@ type FinanceManifest = {
   basis_date: string;
   name: string;
   description?: string;
+  service_availability?: string;
   release_status?: string;
   core_search_status?: string;
   platform_release_status?: string;
@@ -204,14 +204,20 @@ type FinanceManifest = {
   comparison_status?: string;
   recommendation_release_status?: string;
   recommendation_status?: string;
-  capabilities?: { discovery?: string; comparison?: string; recommendation?: string };
+  capabilities?: { search?: string; discovery?: string; comparison?: string; shadow?: string; owner_pilot?: string; recommendation?: string };
   generation_id?: string;
   deployment_commit?: string;
+  source_head_commit?: string;
+  release_candidate_commit?: string;
+  production_commit?: string;
+  production_deployed_at?: string | null;
   source_freshness_status?: string;
   artifact_contract?: Record<string, unknown>;
   recommendation_enabled?: boolean;
   owner_pilot_approval_receipt?: Record<string, unknown> | null;
   blocking_reasons?: string[];
+  live_regression_evidence?: ManifestEntry;
+  _live_regression?: Record<string, unknown>;
   openfin_120_live_regression?: Record<string, unknown>;
   runtime_quality_metrics?: Record<string, unknown>;
   search_index?: ManifestEntry;
@@ -1160,7 +1166,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
       detail_search_index: (manifest.detail_search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.detail_search_index?.content_checksum ?? manifest.detail_search_index?.path,
       hot_search_index: (manifest.hot_search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.hot_search_index?.content_checksum ?? manifest.hot_search_index?.path,
       exports: manifest.exports.map((entry) => [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum]),
-      artifacts: [manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index]
+      artifacts: [manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, manifest.live_regression_evidence]
         .map((entry) => entry ? [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum] : null),
     });
     if (manifestGeneration !== "uninitialized" && manifestGeneration !== generation) {
@@ -1170,6 +1176,17 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
       cachedSearchShards.clear();
       cachedFinanceArtifacts.clear();
     }
+    const liveEntry = manifest.live_regression_evidence;
+    const liveEvidence = liveEntry?.export_checksum
+      ? await fetchJson<Record<string, unknown>>(resolveExportUrl(liveEntry, financeManifestUrl(env))).catch(() => null)
+      : null;
+    Object.defineProperty(manifest, "_live_regression", {
+      value: liveEvidence && await verifyArtifactChecksum(liveEvidence, liveEntry?.export_checksum)
+        ? liveEvidence
+        : manifest.openfin_120_live_regression ?? {},
+      enumerable: false,
+      configurable: true,
+    });
     manifestGeneration = generation;
     cachedManifest = { data: manifest, loadedAt: Date.now() };
     return manifest;
@@ -1177,7 +1194,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
 }
 
 function manifestChecksumContract(manifest: FinanceManifest): boolean {
-  const entries = [manifest.search_index, manifest.detail_search_index, manifest.hot_search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, ...(manifest.exports ?? [])];
+  const entries = [manifest.search_index, manifest.detail_search_index, manifest.hot_search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, manifest.live_regression_evidence, ...(manifest.exports ?? [])];
   return manifest._manifest_checksum_verified === true && entries.length > 0 && entries.every((entry) => typeof entry?.export_checksum === "string" && entry.export_checksum.length > 0);
 }
 
@@ -2038,14 +2055,13 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
   const termMonths = typeof option.term_months === "number" ? option.term_months : 0;
   const isDeposit = productDomain(item) === "deposit";
   const amountMissing = isDeposit ? depositAmount === undefined : monthlyPayment === undefined;
-  const outcome = amountMissing ? null : isDeposit
-    ? calculateDepositReturn({ principal_krw: depositAmount, annual_rate_percent: achievableRate, term_months: termMonths, tax_rate_percent: taxRatePercent, interest_method: option.interest_method })
-    : calculateSavingReturn({ monthly_payment_krw: monthlyPayment, annual_rate_percent: achievableRate, term_months: termMonths, tax_rate_percent: taxRatePercent });
-  const calculateScenario = (rate: number | undefined) => amountMissing || rate === undefined ? null : isDeposit
-    ? calculateDepositReturn({ principal_krw: depositAmount, annual_rate_percent: rate, term_months: termMonths, tax_rate_percent: taxRatePercent, interest_method: option.interest_method })
-    : calculateSavingReturn({ monthly_payment_krw: monthlyPayment, annual_rate_percent: rate, term_months: termMonths, tax_rate_percent: taxRatePercent });
-  const baseOutcome = calculateScenario(baseRate);
-  const optimisticOutcome = calculateScenario(maximumRate);
+  const outcomeDetail = amountMissing ? null : calculateFinancialOutcome(
+    { ...item, ...option, product_kind: isDeposit ? "deposit" : "saving", base_rate_percent: baseRate, maximum_rate_percent: maximumRate },
+    { ...facts, principal_krw: depositAmount, monthly_payment_krw: monthlyPayment, tax_rate_percent: taxRatePercent },
+  );
+  const outcome = outcomeDetail?.outcome ?? null;
+  const baseOutcome = outcomeDetail?.financial_outcomes.base.outcome ?? null;
+  const optimisticOutcome = outcomeDetail?.financial_outcomes.optimistic.outcome ?? null;
   const ranking = rankCandidate({ ...item, ...option, id: option.option_id ?? item.id, product_kind: isDeposit ? "deposit" : "saving" }, { ...facts, principal_krw: depositAmount, monthly_payment_krw: monthlyPayment, tax_rate_percent: taxRatePercent });
   const principal = outcome?.principal_krw ?? null;
   return comparisonCandidateAdapter({
@@ -2090,7 +2106,7 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
       attainable: { annual_rate_percent: achievableRate, outcome },
       base: { annual_rate_percent: option.base_rate_percent, outcome: baseOutcome },
       optimistic: { annual_rate_percent: maximumRate, outcome: optimisticOutcome },
-      early_termination: { annual_rate_percent: null, outcome: null, limitations: ["verified early-termination rate is unavailable"] },
+      early_termination: outcomeDetail?.financial_outcomes.early_termination ?? { annual_rate_percent: null, outcome: null, limitations: ["verified early-termination rate is unavailable"] },
     },
     ranking_key: ranking.ranking_key,
     ranking_version: "openfin-ranking-v2",
@@ -2369,8 +2385,8 @@ function createServer(env: Env): McpServer {
       loadFinanceArtifact(env, "source_status", manifest),
     ]);
     const coverage = coverageReport(coverageArtifact);
-    const live = manifest.openfin_120_live_regression ?? {};
-    const releaseStatus = manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown";
+    const live = manifest._live_regression ?? manifest.openfin_120_live_regression ?? {};
+    const releaseStatus = manifest.service_availability ?? manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown";
     const blockingReasons = manifest.blocking_reasons ?? [];
     const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: env.DEPLOYMENT_COMMIT });
     return financeResult(financeSafety({
@@ -2379,7 +2395,7 @@ function createServer(env: Env): McpServer {
       data_as_of: manifest.basis_date,
       missing_information: blockingReasons,
       assumptions: ["quality status reflects the loaded manifest and search index"],
-      quality_status: { manifest_version: manifest.version, generation_id: manifest.generation_id ?? null, core_search_status: releaseStatus, comparison_status: manifest.comparison_status ?? manifest.comparison_release_status ?? "unknown", recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status ?? "unknown", release_status: releaseStatus, release_status_deprecated: true, basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: Boolean(manifest.recommendation_enabled), release_gate: releaseGate, provenance_artifacts: { source_registry: manifest.source_registry ?? null, source_status: manifest.source_status ?? null, provenance_index: manifest.provenance_index ?? null, provenance_coverage: manifest.provenance_coverage ?? null, relationship_index: manifest.relationship_index ?? null }, source_health: { registry_loaded: sourceRegistry !== undefined, status_loaded: sourceStatus !== undefined, provenance_loaded: false, coverage_loaded: coverageArtifact !== undefined, relationships_loaded: false, coverage, artifact_errors: artifactErrors() } },
+      quality_status: { manifest_version: manifest.version, generation_id: manifest.generation_id ?? null, service_availability: manifest.service_availability ?? "degraded", core_search_status: releaseStatus, release_status: releaseStatus, comparison_status: manifest.comparison_status ?? manifest.comparison_release_status ?? "unknown", recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status ?? "unknown", basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: Boolean(manifest.recommendation_enabled), release_gate: releaseGate, provenance_artifacts: { source_registry: manifest.source_registry ?? null, source_status: manifest.source_status ?? null, provenance_index: manifest.provenance_index ?? null, provenance_coverage: manifest.provenance_coverage ?? null, relationship_index: manifest.relationship_index ?? null }, source_health: { registry_loaded: sourceRegistry !== undefined, status_loaded: sourceStatus !== undefined, provenance_loaded: false, coverage_loaded: coverageArtifact !== undefined, relationships_loaded: false, coverage, artifact_errors: artifactErrors() } },
       limitations: ["quality status is not a product recommendation", ...blockingReasons],
     }));
   });
@@ -2419,7 +2435,12 @@ async function healthResponse(env: Env): Promise<Response> {
     return Response.json(livenessPayload(env, financeManifestUrl(env), {
       generation_id: manifest.generation_id ?? null,
       manifest_deployment_commit: manifest.deployment_commit ?? null,
-      core_search_status: manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown",
+      service_availability: manifest.service_availability ?? "degraded",
+      source_head_commit: manifest.source_head_commit ?? null,
+      release_candidate_commit: manifest.release_candidate_commit ?? null,
+      production_commit: manifest.production_commit ?? null,
+      production_deployed_at: manifest.production_deployed_at ?? null,
+      core_search_status: manifest.service_availability ?? manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown",
       comparison_status: manifest.comparison_status ?? manifest.comparison_release_status ?? "unknown",
       recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status ?? "unknown",
       source_freshness_status: manifest.source_freshness_status ?? "degraded",

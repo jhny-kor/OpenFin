@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "openfin-decision-evidence-policy-v1",
+  "comparison_modes": ["market", "user_fit"],
+  "assertion_categories": {
+    "market": {
+      "offer_fields": [
+        "deposit_protection_status",
+        "join_channels",
+        "sales_status",
+        "sales_verification_status",
+        "valid_from",
+        "valid_to"
+      ],
+      "option_fields": [
+        "term_months",
+        "base_rate_percent",
+        "maximum_rate_percent",
+        "interest_method",
+        "compounding_frequency",
+        "interest_payment_frequency",
+        "day_count_convention",
+        "accrual_basis",
+        "rounding_policy",
+        "payment_timing",
+        "payment_schedule_policy",
+        "saving_method",
+        "amount_limit",
+        "monthly_payment_limit",
+        "minimum_deposit_krw",
+        "maximum_deposit_krw",
+        "monthly_payment_min_krw",
+        "monthly_payment_max_krw",
+        "monthly_contribution_min_krw",
+        "monthly_contribution_max_krw",
+        "minimum_monthly_payment_krw",
+        "maximum_monthly_payment_krw"
+      ]
+    }
+  },
+  "assertion_profiles": {
+    "market_comparison": {
+      "comparison_mode": "market",
+      "comparison_kinds": ["market"],
+      "recommendation_kinds": ["all"],
+      "requires_user_facts": false,
+      "requires_final_approval": false
+    },
+    "user_fit_comparison": {
+      "comparison_mode": "user_fit",
+      "comparison_kinds": ["market", "eligibility", "bonus", "early_termination"],
+      "recommendation_kinds": ["all"],
+      "requires_user_facts": true,
+      "requires_final_approval": false
+    },
+    "shadow_recommendation": {
+      "comparison_mode": "user_fit",
+      "comparison_kinds": ["market", "eligibility", "bonus", "early_termination"],
+      "recommendation_kinds": ["all"],
+      "requires_user_facts": true,
+      "requires_final_approval": false
+    },
+    "owner_pilot": {
+      "comparison_mode": "user_fit",
+      "comparison_kinds": ["market", "eligibility", "bonus", "early_termination"],
+      "recommendation_kinds": ["all"],
+      "requires_user_facts": true,
+      "requires_final_approval": true
+    },
+    "public_recommendation": {
+      "comparison_mode": "user_fit",
+      "comparison_kinds": ["market", "eligibility", "bonus", "early_termination"],
+      "recommendation_kinds": ["all"],
+      "requires_user_facts": true,
+      "requires_final_approval": true
+    }
+  }
+}

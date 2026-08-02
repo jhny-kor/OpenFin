@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/financial-quality-approval-receipt.schema.json",
+  "title": "OpenFin Financial Quality Approval Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "receipt_id",
+    "status",
+    "candidate_generation_id",
+    "candidate_set_checksum",
+    "policy_version",
+    "ranking_version",
+    "calculator_version",
+    "quality_suite_checksum",
+    "positive_fixture_count",
+    "positive_case_ids",
+    "candidate_order",
+    "created_at",
+    "reviewer",
+    "reviewer_role",
+    "reviewer_signature"
+  ],
+  "properties": {
+    "version": { "const": "openfin-financial-quality-approval-v1" },
+    "receipt_id": { "type": "string", "pattern": "^receipt\\.financial-quality\\." },
+    "status": { "enum": ["approved", "blocked"] },
+    "candidate_generation_id": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "candidate_set_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+    "policy_version": { "type": "string", "minLength": 1 },
+    "ranking_version": { "type": "string", "minLength": 1 },
+    "calculator_version": { "type": "string", "minLength": 1 },
+    "quality_suite_checksum": { "type": "string", "pattern": "^(sha256:)?[a-f0-9]{64}$" },
+    "positive_fixture_count": { "type": "integer", "minimum": 0 },
+    "positive_case_ids": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "candidate_order": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "created_at": { "type": "string", "format": "date-time" },
+    "reviewer": { "type": "string", "minLength": 1 },
+    "reviewer_role": { "type": "string", "minLength": 1 },
+    "reviewer_signature": { "type": "string", "minLength": 1 }
+  }
+}

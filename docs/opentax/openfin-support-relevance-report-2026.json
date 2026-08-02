@@ -16,7 +16,7 @@
   "unknown_constraint_false_match_count": 0,
   "export_checksum": "67389d58f571f86cc1c2fda2523d8a3da788c616041b436fa289eb279eeac101",
   "live_evidence_generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-  "live_expected_generation_id": "d831bf01e399ce8f4d30e440d0a8a46a9f076d46e32ccfb1a0d5b82bd2e9ab1d",
+  "live_expected_generation_id": "96586dbb50d038108483d8f9b9f9f8b3fc7170ee07eb73f22e7526ffc5dce9e0",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
     "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
@@ -24,7 +24,7 @@
     "validation_status": "stale_fixture"
   },
   "quality_export_live_summary": {
-    "source": "manifest.openfin_120_live_regression",
+    "source": "manifest.live_regression_evidence",
     "live_test_count": 120,
     "live_passed_count": 120,
     "live_failed_count": 0,

@@ -11,6 +11,28 @@
     "base_rate_percent": { "type": "number", "minimum": 0, "maximum": 100 },
     "maximum_rate_percent": { "type": "number", "minimum": 0, "maximum": 100 },
     "interest_method": { "type": "string", "minLength": 1 },
+    "compounding_frequency": { "enum": ["annual", "monthly", "daily", "none"] },
+    "interest_payment_frequency": { "enum": ["at_maturity", "annual", "monthly", "daily"] },
+    "day_count_convention": { "enum": ["ACT/365", "ACT/366", "30/360"] },
+    "accrual_days": { "type": "integer", "minimum": 1 },
+    "accrual_basis": { "enum": ["simple", "compound", "daily_accrual"] },
+    "rounding_policy": {
+      "type": "object",
+      "properties": {
+        "mode": { "enum": ["nearest", "floor", "ceil"] },
+        "unit": { "const": "krw" }
+      },
+      "additionalProperties": false
+    },
+    "payment_timing": { "enum": ["month_start", "month_end"] },
+    "payment_schedule_policy": {
+      "type": "object",
+      "properties": {
+        "type": { "enum": ["fixed_monthly", "explicit_schedule"] },
+        "allow_missed_installments": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
     "amount_limit": {
       "type": "object",
       "required": ["minimum_krw", "maximum_krw"],

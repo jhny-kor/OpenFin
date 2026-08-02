@@ -3,7 +3,7 @@ import test from "node:test";
 import { evaluateReleaseGate } from "../src/release-gate.ts";
 
 const readyManifest = {
-  release_status: "ready",
+  service_availability: "available",
   generation_id: "generation",
   recommendation_enabled: true,
   recommendation_state: "public",
@@ -59,6 +59,7 @@ test("shadow and owner-pilot gates have separate candidate and approval contract
       expires_at: new Date(Date.now() + 60_000).toISOString(),
       candidate_set_checksum: candidateChecksum,
       quality_suite_checksum: qualityChecksum,
+      approved_at: new Date(Date.now() - 60_000).toISOString(),
       policy_version: "policy",
       ranking_version: "ranking",
       calculator_version: "calculator",
@@ -66,6 +67,7 @@ test("shadow and owner-pilot gates have separate candidate and approval contract
       reviewer_role: "owner_pilot_reviewer",
       reviewer_permission: "recommendation:owner_pilot",
       reviewer_signature: "signature",
+      reviewer_signature_algorithm: "HMAC-SHA256",
       rollback_generation_id: "rollback",
     },
     domain_readiness: { deposit: { owner_pilot_candidate_count: 1 } },

@@ -6,6 +6,7 @@ interface Env {
   DEPLOYMENT_COMMIT?: string;
   OWNER_PILOT_ENABLED?: string;
   OWNER_PILOT_SESSION_SECRET?: string;
+  OWNER_PILOT_REVIEWER_SIGNATURE_SECRET?: string;
   BUILD_TIMESTAMP?: string;
   ARTIFACT_GENERATION?: string;
 }

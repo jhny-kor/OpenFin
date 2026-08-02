@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { FinanceItem, FinanceRecord, ToolContext } from "../types/tool-context.ts";
 import { compareRankingKeys } from "../recommendation/ranking-v2.ts";
+import { contextFacts, normalizeRecommendationContext } from "../recommendation/context.ts";
 
 export function registerCompareTool(ctx: ToolContext): void {
   const { server, env, mcpResult, COMPARISON_ENGINE_VERSION, dedupeProductItems, loadDetailedItemsForDomain, loadSearchIndexMetadata, loadFinanceManifest, manifestChecksumContract, comparisonReleaseGate, loadFinanceArtifacts, normalizeQuery, comparisonBlocker, comparisonOptionCandidates, comparisonOptionBlocker, comparisonCandidate, reasonCounts, EXCLUDED_SAMPLE_LIMIT, comparisonBlockers, domainMatches, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
@@ -17,8 +18,9 @@ export function registerCompareTool(ctx: ToolContext): void {
         term_months: z.number().int().positive(),
         join_channels: z.array(z.string()).optional(),
         context: z.object({
-          as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
-          facts: z.object({ can_transfer_salary: z.boolean().optional(), can_use_card: z.boolean().optional(), can_set_auto_transfer: z.boolean().optional(), is_new_customer: z.boolean().optional() }).strict().optional(),
+          comparison_mode: z.enum(["market", "user_fit"]).default("market"),
+          as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+          facts: z.object({ can_transfer_salary: z.boolean().optional(), can_use_card: z.boolean().optional(), can_set_auto_transfer: z.boolean().optional(), is_new_customer: z.boolean().optional(), fact_sources: z.record(z.string(), z.enum(["user_asserted", "official_confirmed", "system_inferred"])).optional() }).strict().optional(),
         }).strict().optional(),
         saving_method: z.enum(["free", "fixed"]).optional(),
         tax_rate_percent: z.number().min(0).max(100).optional(),
@@ -38,17 +40,18 @@ export function registerCompareTool(ctx: ToolContext): void {
         const payload = { domain, status: "blocked", reason_codes: [...(!manifestChecksumContract(manifest) ? ["MANIFEST_CHECKSUM_MISMATCH"] : []), ...gate.reasons], data_as_of: null, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison requires the current manifest domain gate."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
         return mcpResult(payload);
       }
-      const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain, context.as_of));
+      const normalizedContext = normalizeRecommendationContext(context ?? {}, domain);
+      const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain, normalizedContext.as_of ?? undefined));
       const metadata = await loadSearchIndexMetadata(env);
       const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       const channels = (join_channels ?? []).map((channel) => normalizeQuery(channel));
       const salesVerificationTtlHours = Number(manifest.domain_readiness?.[domain]?.sales_verification_ttl_hours ?? 0);
-      const facts = { ...(context?.facts ?? {}), ...(context?.as_of ? { as_of: context.as_of } : {}) };
+      const facts = { ...contextFacts(normalizedContext), ...normalizedContext.preferences, as_of: normalizedContext.as_of };
       const excluded: Array<{ item_id: string; reason: string }> = [];
       const candidates: FinanceRecord[] = [];
       const candidateTargetIds = new Set<string>();
       for (const item of items.filter((candidate) => domainMatches(candidate, domain))) {
-        const blocker = comparisonBlocker(item, artifacts, salesVerificationTtlHours, context.as_of);
+        const blocker = comparisonBlocker(item, artifacts, salesVerificationTtlHours, normalizedContext.as_of ?? undefined);
         if (blocker) {
           excluded.push({ item_id: item.id, reason: blocker });
           continue;
@@ -109,7 +112,7 @@ export function registerCompareTool(ctx: ToolContext): void {
         calculation_policy_basis_date: "2026-07-14",
         comparison_basis: { candidate_values_are_from_final_object: true, object_version: COMPARISON_ENGINE_VERSION },
         executed_at: new Date().toISOString(),
-        requested_intent: { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, context: context ?? {}, saving_method, tax_rate_percent: tax_rate_percent ?? 15.4 },
+        requested_intent: { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, comparison_mode: normalizedContext.comparison_mode, context: normalizedContext, saving_method, tax_rate_percent: tax_rate_percent ?? 15.4 },
         executed_mode: "deterministic_comparison",
       };
       return mcpResult(payload);

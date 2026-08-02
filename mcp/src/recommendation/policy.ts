@@ -95,7 +95,7 @@ export function evaluateEligibility(item: Product, inputs: Inputs = {}) {
   }
 
   const rules = (Array.isArray(item.eligibility_rules) ? item.eligibility_rules : []).filter((rule): rule is StructuredRule => Boolean(rule && typeof rule === "object" && typeof (rule as Product).rule_id === "string" && (rule as Product).predicate && typeof (rule as Product).predicate === "object"));
-  const factContext: RecommendationContext = { as_of: typeof context.as_of === "string" ? context.as_of : null, goal: {}, facts: { ...(inputs.profile ?? {}), ...context }, hard_constraints: {}, preferences: {}, assumptions: [], consent: { transient_only: true } };
+  const factContext: RecommendationContext = { as_of: typeof context.as_of === "string" ? context.as_of : null, comparison_mode: "user_fit", goal: {}, facts: { ...(inputs.profile ?? {}), ...context }, hard_constraints: {}, preferences: {}, assumptions: [], consent: { transient_only: true } };
   const ruleResult = evaluateRules(rules, contextFacts(factContext));
   matched_conditions.push(...ruleResult.matched.map((id) => `rule_matched:${id}`));
   failed_conditions.push(...ruleResult.failed.map((id) => `rule_failed:${id}`));

@@ -1,6 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": "openfin-recommendation-facts-v1",
+  "source_classes": ["user_asserted", "official_confirmed", "system_inferred"],
+  "critical_facts": ["user.age_years", "user.residency_code", "user.is_new_customer", "user.customer_type", "user.gender", "user.employment_type"],
   "facts": {
     "user.is_new_customer": { "type": "boolean", "source_classes": ["user_asserted", "official_confirmed"], "request_paths": ["context.facts.is_new_customer"] },
     "user.can_transfer_salary": { "type": "boolean", "source_classes": ["user_asserted", "official_confirmed"], "request_paths": ["context.facts.can_transfer_salary"] },
@@ -13,6 +15,11 @@
     "user.customer_segment": { "type": "string", "source_classes": ["user_asserted", "official_confirmed"], "request_paths": ["context.facts.customer_segment"] },
     "user.employment_type": { "type": "string", "source_classes": ["user_asserted", "official_confirmed"], "request_paths": ["context.facts.employment_type"] },
     "user.eligibility_review_status": { "type": "string", "source_classes": ["official_confirmed"], "request_paths": ["context.facts.eligibility_review_status"] },
+    "user.monthly_net_income_krw": { "type": "number", "source_classes": ["user_asserted", "official_confirmed"], "request_paths": ["context.facts.monthly_net_income_krw"] },
+    "user.essential_monthly_expenses_krw": { "type": "number", "source_classes": ["user_asserted", "official_confirmed"], "request_paths": ["context.facts.essential_monthly_expenses_krw"] },
+    "user.liquid_assets_krw": { "type": "number", "source_classes": ["user_asserted", "official_confirmed"], "request_paths": ["context.facts.liquid_assets_krw"] },
+    "user.investment_assets_krw": { "type": "number", "source_classes": ["user_asserted", "official_confirmed"], "request_paths": ["context.facts.investment_assets_krw"] },
+    "user.tax_rate_percent": { "type": "number", "source_classes": ["user_asserted", "official_confirmed"], "request_paths": ["context.facts.tax_rate_percent"] },
     "user.monthly_contribution_krw": { "type": "number", "source_classes": ["user_asserted"], "request_paths": ["context.facts.monthly_contribution_krw"] },
     "decision.as_of": { "type": "string", "source_classes": ["system_inferred"], "request_paths": ["context.as_of"] },
     "decision.term_months": { "type": "number", "source_classes": ["user_asserted", "system_inferred"], "request_paths": ["context.preferences.term_months", "context.hard_constraints.term_months"] },

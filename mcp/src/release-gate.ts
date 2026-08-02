@@ -70,13 +70,17 @@ function approvalChecksumsMatch(approval: Record<string, unknown>, artifactContr
     && approval.quality_suite_checksum === artifactContract.quality_suite_transitive_checksum;
 }
 
-function publicApprovalReady(manifest: Record<string, unknown>, artifactContract: Record<string, unknown>): boolean {
+function publicApprovalReady(manifest: Record<string, unknown>, artifactContract: Record<string, unknown>, now: number): boolean {
   const approval = record(manifest.recommendation_approval_receipt);
   const strictApproval = Boolean(manifest.artifact_contract);
+  const approvedAt = Date.parse(String(approval.approved_at ?? ""));
+  const expiresAt = Date.parse(String(approval.expires_at ?? ""));
   return nonEmpty(approval.approval_id)
     && approval.mode === "public"
     && approval.generation_id === manifest.generation_id
-    && (!strictApproval || (nonEmpty(approval.candidate_set_checksum)
+    && (!strictApproval || (Number.isFinite(approvedAt) && approvedAt <= now
+      && Number.isFinite(expiresAt) && expiresAt > now
+      && nonEmpty(approval.candidate_set_checksum)
       && nonEmpty(approval.policy_version)
       && nonEmpty(approval.ranking_version)
       && nonEmpty(approval.calculator_version)
@@ -85,6 +89,7 @@ function publicApprovalReady(manifest: Record<string, unknown>, artifactContract
       && nonEmpty(approval.reviewer_role)
       && nonEmpty(approval.reviewer_permission)
       && nonEmpty(approval.reviewer_signature)
+      && approval.reviewer_signature_algorithm === "HMAC-SHA256"
       && nonEmpty(approval.rollback_generation_id)
       && approvalChecksumsMatch(approval, artifactContract)));
 }
@@ -96,6 +101,7 @@ function ownerPilotApprovalReady(manifest: Record<string, unknown>, domain: stri
     && approval.mode === "owner_pilot"
     && (!domain || approval.domain === domain)
     && approval.generation_id === manifest.generation_id
+    && Number.isFinite(Date.parse(String(approval.approved_at ?? ""))) && Date.parse(String(approval.approved_at)) <= now
     && Number.isFinite(expiresAt) && expiresAt > now
     && nonEmpty(approval.candidate_set_checksum)
     && nonEmpty(approval.policy_version)
@@ -106,6 +112,7 @@ function ownerPilotApprovalReady(manifest: Record<string, unknown>, domain: stri
     && nonEmpty(approval.reviewer_role)
     && nonEmpty(approval.reviewer_permission)
     && nonEmpty(approval.reviewer_signature)
+    && approval.reviewer_signature_algorithm === "HMAC-SHA256"
     && nonEmpty(approval.rollback_generation_id)
     && approvalChecksumsMatch(approval, artifactContract);
 }
@@ -114,16 +121,16 @@ export function evaluateReleaseGate({ manifest, checksumVerified = false, domain
   const reasons: string[] = [];
   const artifactContract = record(manifest.artifact_contract);
   if (!checksumVerified) reasons.push("MANIFEST_CHECKSUM_MISMATCH");
-  if (manifest.platform_release_status !== "ready" && manifest.release_status !== "ready") reasons.push(`RELEASE_STATUS_${String(manifest.platform_release_status ?? manifest.release_status ?? "MISSING").toUpperCase()}`);
+  if (manifest.service_availability !== "available" && manifest.platform_release_status !== "ready" && manifest.release_status !== "ready") reasons.push(`SERVICE_UNAVAILABLE_${String(manifest.service_availability ?? manifest.platform_release_status ?? manifest.release_status ?? "MISSING").toUpperCase()}`);
   if (mode === "public") {
     if (!manifest.recommendation_enabled) reasons.push("MANIFEST_RECOMMENDATION_DISABLED");
     if (manifest.recommendation_enabled && manifest.recommendation_state !== "public") reasons.push(`RECOMMENDATION_STATE_${String(manifest.recommendation_state ?? "MISSING").toUpperCase()}`);
-    if (manifest.recommendation_enabled && !publicApprovalReady(manifest, artifactContract)) reasons.push("PUBLIC_APPROVAL_RECEIPT_INVALID");
+    if (manifest.recommendation_enabled && !publicApprovalReady(manifest, artifactContract, now)) reasons.push("PUBLIC_APPROVAL_RECEIPT_INVALID");
   } else if (mode === "owner_pilot" && !ownerPilotApprovalReady(manifest, domain, artifactContract, now)) {
     reasons.push("OWNER_PILOT_APPROVAL_RECEIPT_INVALID");
   }
   if (artifactContract.generation_id && artifactContract.generation_id !== manifest.generation_id) reasons.push("ARTIFACT_GENERATION_MISMATCH");
-  if (!liveReady(manifest.openfin_120_live_regression, manifest.live_regression_policy, now, deploymentCommit, typeof manifest.generation_id === "string" ? manifest.generation_id : undefined, typeof artifactContract.fixture_checksum === "string" ? artifactContract.fixture_checksum : null)) reasons.push("LIVE_REGRESSION_NOT_CURRENT");
+  if (!liveReady(manifest._live_regression ?? manifest.openfin_120_live_regression, manifest.live_regression_policy, now, deploymentCommit, typeof manifest.generation_id === "string" ? manifest.generation_id : undefined, typeof artifactContract.fixture_checksum === "string" ? artifactContract.fixture_checksum : null)) reasons.push("LIVE_REGRESSION_NOT_CURRENT");
   const domainState = domain ? record(record(manifest.domain_readiness)[domain]) : {};
   const requiredCount = Number(domainState.required_verified_candidates ?? 0);
   const capabilities = record(manifest.capabilities);

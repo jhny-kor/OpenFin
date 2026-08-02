@@ -6,7 +6,8 @@ const failures = [];
 const manifestPath = path.join(DOCS, 'finance-ontology-manifest.json');
 if (!fs.existsSync(manifestPath)) failures.push('manifest_missing');
 const manifest = fs.existsSync(manifestPath) ? json(manifestPath) : {};
-const live = manifest.openfin_120_live_regression || {};
+const livePath = path.join(DOCS, 'live-regression-current.json');
+const live = fs.existsSync(livePath) ? json(livePath) : {};
 
 function walk(value, visit, source) {
   if (!value || typeof value !== 'object') return;

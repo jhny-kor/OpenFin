@@ -206,7 +206,11 @@ const recommendationReport = json(path.join(DOCS, 'openfin-recommendation-safety
 const publicComparisonCount = Object.values(canonicalQuality).reduce((sum, state) => sum + Number(state.public_comparison_candidate_count || 0), 0);
 const publicRecommendationCount = Object.values(canonicalQuality).reduce((sum, state) => sum + Number(state.public_recommendation_candidate_count || 0), 0);
 if (Number(comparisonReport.public_comparison_candidate_count || 0) !== publicComparisonCount || Number(recommendationReport.public_recommendation_candidate_count || 0) !== publicRecommendationCount) fail('public quality report projection mismatch');
-if (manifest.openfin_120_live_regression?.passed_count === manifest.openfin_120_live_regression?.test_count && manifest.openfin_120_live_regression?.failed_count === 0 && (manifest.openfin_120_live_regression?.validation_status === 'current' || manifest.openfin_120_live_regression?.status === 'current') && (manifest.recommendation_blocking_reasons || []).some(reason => String(reason) === 'LIVE_REGRESSION_NOT_READY')) fail('current live evidence cannot retain LIVE_REGRESSION_NOT_READY blocker');
+const liveEvidencePath = path.join(DOCS, 'live-regression-current.json');
+const liveEvidence = fs.existsSync(liveEvidencePath) ? json(liveEvidencePath) : {};
+if (!manifest.live_regression_evidence || !fs.existsSync(liveEvidencePath)) fail('live regression evidence pointer or artifact missing');
+if (manifest.live_regression_evidence?.export_checksum && sha256(liveEvidence).slice(7) !== manifest.live_regression_evidence.export_checksum) fail('live regression evidence checksum mismatch');
+if (liveEvidence.passed_count === liveEvidence.test_count && liveEvidence.failed_count === 0 && (liveEvidence.validation_status === 'current' || liveEvidence.status === 'current') && (manifest.recommendation_blocking_reasons || []).some(reason => String(reason) === 'LIVE_REGRESSION_NOT_READY')) fail('current live evidence cannot retain LIVE_REGRESSION_NOT_READY blocker');
 
 const minimumCounts = BASELINE_CONTRACT.exports;
 let publicRows = 0; let referenceRows = 0; const publicOwnerIds = new Set(); const publicReferenceIds = [];
@@ -227,9 +231,8 @@ for (const id of publicReferenceIds) if (!publicOwnerIds.has(id)) fail(`referenc
 const search = json(path.join(DOCS, 'finance-search-index-2026.json'));
 const derivedQuality = deriveQuality(legacyValues, { sourceCount: sources.length, exportCount: (manifest.exports || []).length, searchItemCount: search.item_count, relationshipCount: manifest.relationship_index?.item_count || 0, invalidUrlCount: coverage.invalid_legacy_url_count, sourceStatusLoaded: sourceStatuses.statuses?.length === sources.length });
 if (search.item_count !== legacyValues.length || search.canonical_product_count !== derivedQuality.canonical.canonical_product_count) fail(`search index counts changed: ${search.item_count}/${search.canonical_product_count} vs ${legacyValues.length}/${derivedQuality.canonical.canonical_product_count}`);
-if (manifest.release_status !== derivedQuality.release_status || manifest.recommendation_enabled !== derivedQuality.recommendation_enabled) fail('manifest release gate does not match derived quality policy');
+if (manifest.service_availability !== derivedQuality.service_availability || manifest.recommendation_enabled !== derivedQuality.recommendation_enabled) fail('manifest service availability does not match derived quality policy');
 if (JSON.stringify(manifest.blocking_reasons || []) !== JSON.stringify(derivedQuality.blocking_reasons)) fail('manifest blocking reasons do not match derived quality policy');
-const liveEvidence = manifest.openfin_120_live_regression || {};
 const liveProjections = (payload, source) => {
   const projections = [];
   if (payload && typeof payload === 'object') {

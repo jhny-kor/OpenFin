@@ -1,6 +1,10 @@
+import recommendationFactsContract from "../../../contracts/recommendation-facts.json" with { type: "json" };
+
 export type RecommendationDomain = "deposit" | "saving" | "card" | "loan" | "insurance";
+export type ComparisonMode = "market" | "user_fit";
 export type RecommendationContext = {
   as_of: string | null;
+  comparison_mode: ComparisonMode;
   goal: { purpose?: "save" | "preserve_liquidity" | "income" | "compare" | "education"; target_date?: string | null; liquidity_horizon_months?: number | null };
   facts: Record<string, unknown>;
   hard_constraints: Record<string, unknown>;
@@ -10,7 +14,12 @@ export type RecommendationContext = {
 };
 
 export const RECOMMENDATION_FACT_KEYS = new Set(["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw", "tax_rate_percent", "can_transfer_salary", "can_use_card", "can_set_auto_transfer", "is_new_customer", "age_years", "residency_code", "customer_segment", "customer_type", "gender", "employment_type", "eligibility_review_status", "monthly_contribution_krw", "fact_sources"]);
-const PREFERENCE_KEYS = new Set(["provider", "term_months", "liquidity_horizon_months", "max_term_months", "monthly_budget_krw", "monthly_contribution_krw", "principal_krw", "deposit_amount_krw", "tax_rate_percent", "risk_capacity", "planned_termination_months", "early_termination_months"]);
+export const FACT_SOURCE_CLASSES = new Set(recommendationFactsContract.source_classes);
+export const CRITICAL_FACT_KEYS = new Set(recommendationFactsContract.critical_facts);
+export const FACT_ALIASES = recommendationFactsContract.aliases as Record<string, string>;
+export const REGISTERED_FACT_KEYS = new Set(Object.keys(recommendationFactsContract.facts));
+const FACT_DEFINITIONS = recommendationFactsContract.facts as Record<string, { source_classes?: string[] }>;
+const PREFERENCE_KEYS = new Set(["provider", "term_months", "liquidity_horizon_months", "max_term_months", "monthly_budget_krw", "monthly_contribution_krw", "principal_krw", "deposit_amount_krw", "tax_rate_percent", "risk_capacity", "planned_termination_months", "early_termination_months", "payment_timing", "payment_schedule_krw"]);
 const CONSTRAINT_KEYS = new Set(["provider", "term_months", "join_channel", "minimum_amount_krw", "maximum_amount_krw", "eligible_rule_ids"]);
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -26,13 +35,34 @@ function date(value: unknown, label: string): string | null {
   return value;
 }
 
+export function canonicalFactKey(key: string): string {
+  return FACT_ALIASES[key] ?? (key === "as_of" ? "decision.as_of" : key.startsWith("user.") || key.startsWith("decision.") || !REGISTERED_FACT_KEYS.has("user." + key) ? key : "user." + key);
+}
+
+export function normalizeFactSources(value: unknown, enforceAllowedSource = true): Record<string, string> {
+  if (value === undefined || value === null) return {};
+  if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("fact_sources must be an object");
+  return Object.fromEntries(Object.entries(value).map(([key, source]) => {
+    if (typeof source !== "string" || !FACT_SOURCE_CLASSES.has(source)) throw new Error(`unregistered fact source class: ${String(source)}`);
+    const factKey = canonicalFactKey(key);
+    const definition = FACT_DEFINITIONS[factKey];
+    if (!definition) throw new Error(`unregistered fact key: ${key}`);
+    if (enforceAllowedSource && !definition.source_classes?.includes(source)) throw new Error(`fact source class is not allowed for ${factKey}: ${source}`);
+    return [factKey, source];
+  }));
+}
+
 export function normalizeRecommendationContext(input: Record<string, unknown> = {}, domain?: RecommendationDomain): RecommendationContext {
   const nested = object(input.context);
   const legacyProfile = object(input.profile);
   const decisionContext = object(input.decision_context);
   const facts = pick({ ...object(nested.facts), ...Object.fromEntries(Object.entries(legacyProfile).filter(([key]) => RECOMMENDATION_FACT_KEYS.has(key))), ...object(input.facts), ...object(decisionContext.facts) }, RECOMMENDATION_FACT_KEYS, "facts");
+  facts.fact_sources = normalizeFactSources(facts.fact_sources);
   const hard_constraints = pick({ ...object(nested.hard_constraints), ...object(input.constraints), ...object(input.hard_constraints) }, CONSTRAINT_KEYS, "hard_constraints");
   const preferences = pick({ ...object(nested.preferences), ...object(input.preferences) }, PREFERENCE_KEYS, "preferences");
+  const requestedMode = nested.comparison_mode ?? input.comparison_mode;
+  const comparison_mode = requestedMode === undefined ? "user_fit" : requestedMode;
+  if (comparison_mode !== "market" && comparison_mode !== "user_fit") throw new Error("comparison_mode must be market or user_fit");
   const nestedGoal = object(nested.goal);
   const goal = {
     purpose: nestedGoal.purpose as RecommendationContext["goal"]["purpose"],
@@ -44,7 +74,7 @@ export function normalizeRecommendationContext(input: Record<string, unknown> = 
   const as_of = asOfValues[0] ?? null;
   if (as_of !== null) facts.as_of = as_of;
   if (domain && !["deposit", "saving", "card", "loan", "insurance"].includes(domain)) throw new Error(`unsupported recommendation domain: ${domain}`);
-  return { as_of, goal, facts, hard_constraints, preferences, assumptions: Array.isArray(nested.assumptions) ? nested.assumptions.filter((item): item is string => typeof item === "string").slice(0, 20) : [], consent: { transient_only: true } };
+  return { as_of, comparison_mode, goal, facts, hard_constraints, preferences, assumptions: Array.isArray(nested.assumptions) ? nested.assumptions.filter((item): item is string => typeof item === "string").slice(0, 20) : [], consent: { transient_only: true } };
 }
 
 export function contextFieldNames(context: RecommendationContext): string[] {

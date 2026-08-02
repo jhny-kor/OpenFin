@@ -37,6 +37,15 @@ test("deposit terms, compounding, tax exemption, and won rounding are explicit",
   assert.equal(calculateInterestTax(100.4, 0)?.net_interest_krw, 100);
 });
 
+test("deposit golden cases honor monthly, daily, and annual compounding", () => {
+  const monthly = calculateDepositReturn({ principal_krw: 1000000, annual_rate_percent: 12, term_months: 12, tax_rate_percent: 0, interest_method: "compound", compounding_frequency: "monthly" });
+  const daily = calculateDepositReturn({ principal_krw: 1000000, annual_rate_percent: 12, term_months: 12, tax_rate_percent: 0, interest_method: "compound_daily" });
+  const annual = calculateDepositReturn({ principal_krw: 1000000, annual_rate_percent: 12, term_months: 12, tax_rate_percent: 0, interest_method: "compound_annual" });
+  assert.equal(monthly?.gross_interest_krw, 126825);
+  assert.equal(daily?.gross_interest_krw, 127475);
+  assert.equal(annual?.gross_interest_krw, 120000);
+});
+
 test("saving schedules distinguish month-start, month-end, free payments, and missed installments", () => {
   const start = calculateSavingReturn({ monthly_payment_krw: 100000, annual_rate_percent: 12, term_months: 3, tax_rate_percent: 0, payment_timing: "month_start" });
   const end = calculateSavingReturn({ monthly_payment_krw: 100000, annual_rate_percent: 12, term_months: 3, tax_rate_percent: 0, payment_timing: "month_end" });
@@ -44,6 +53,13 @@ test("saving schedules distinguish month-start, month-end, free payments, and mi
   const free = calculateSavingReturn({ payment_schedule_krw: [100000, 0, 200000], annual_rate_percent: 12, term_months: 3, tax_rate_percent: 0 });
   assert.equal(free.principal_krw, 300000);
   assert.equal(free.gross_interest_krw, 5000);
+});
+
+test("outcome forwards payment timing, tax, rounding, and saving early termination", async () => {
+  const { calculateFinancialOutcome } = await import("../src/recommendation/outcome.ts");
+  const result = calculateFinancialOutcome({ product_kind: "saving", base_rate_percent: 12, term_months: 3, payment_timing: "month_end", early_termination_rate_percent: 2, rounding_policy: { mode: "floor", unit: "krw" } }, { monthly_payment_krw: 100000, planned_termination_months: 2, tax_rate_percent: 15.4 });
+  assert.equal(result.outcome?.gross_interest_krw, 3000);
+  assert.equal(result.financial_outcomes.early_termination.outcome?.settlement_amount_krw, 200564);
 });
 
 test("calculator monotonicity holds for verified non-negative inputs", () => {

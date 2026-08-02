@@ -479,8 +479,17 @@ const liveEvidencePath = path.join(ROOT, 'evidence/live-regression/current.json'
 const liveEvidenceCommit = fs.existsSync(liveEvidencePath) ? json(liveEvidencePath).deployment_commit : null;
 const deploymentCommit = process.env.OPENFIN_DEPLOYMENT_COMMIT || process.env.GITHUB_SHA || (manifest.deployment_commit !== 'unknown' ? manifest.deployment_commit : null) || liveEvidenceCommit || 'unknown';
 const liveEvidenceCheckedAt = fs.existsSync(liveEvidencePath) ? json(liveEvidencePath).checked_at : null;
+const sourceHeadCommit = process.env.OPENFIN_SOURCE_HEAD_COMMIT || process.env.GITHUB_SHA || deploymentCommit;
+const releaseCandidateCommit = process.env.OPENFIN_RELEASE_CANDIDATE_COMMIT || deploymentCommit;
+const productionCommit = process.env.OPENFIN_PRODUCTION_COMMIT || deploymentCommit;
+const productionDeployedAt = process.env.OPENFIN_PRODUCTION_DEPLOYED_AT || liveEvidenceCheckedAt || null;
 const evaluationAsOf = process.env.OPENFIN_EVALUATION_AS_OF || liveEvidenceCheckedAt || now;
 const quality = deriveQuality(readCanonicalRecords(), { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length, sourceStatusChecksum: sourceStatusArtifact ? sha256(sourceStatusArtifact).slice(7) : null, searchIndexChecksum: searchManifest.export_checksum, deploymentCommit, evaluationAsOf });
+const liveRegressionArtifact = { ...quality.live_regression, evidence_path: 'opentax/live-regression-current.json', source_evidence_path: 'evidence/live-regression/current.json' };
+writeJson(path.join(DOCS, 'live-regression-current.json'), liveRegressionArtifact);
+const liveRegressionEvidenceEntry = artifactEntry('openfin-live-regression-current', 'quality', 'live-regression-current.json', liveRegressionArtifact, 1, { source_path: 'evidence/live-regression/current.json' });
+manifest.live_regression_evidence = liveRegressionEvidenceEntry;
+manifest.artifacts.live_regression_evidence = liveRegressionEvidenceEntry;
 const normalizeLegacyExportQuality = (output, state) => {
   const summary = output.quality_summary;
   if (!summary || typeof summary !== 'object') return;
@@ -552,6 +561,7 @@ const artifactContract = {
   capability_policy_checksum: sha256(fs.readFileSync(path.join(ROOT, 'contracts/capability-policy.json'), 'utf8')).slice(7),
   fixture_checksum: quality.fixture_checksum,
   candidate_set_checksum: candidateSetChecksum(decisionOffers),
+  candidate_content_checksum_policy: 'immutable_candidate_set_checksum',
   quality_suite_transitive_checksum: qualitySuiteChecksum(ROOT),
 };
 provenanceCoverageArtifact.status = quality.release_status;
@@ -685,7 +695,7 @@ for (const entry of manifest.quality_exports || []) {
     delete rewritten.domain_summaries;
   }
   rewritten.quality_export_live_summary = {
-    source: 'manifest.openfin_120_live_regression',
+    source: 'manifest.live_regression_evidence',
     live_test_count: quality.live_regression.test_count ?? 0,
     live_passed_count: quality.live_regression.passed_count ?? 0,
     live_failed_count: quality.live_regression.failed_count ?? 0,
@@ -756,8 +766,8 @@ const qualityManifest = {
   legacy_overlay_summary: { deprecated: true, replacement_path: 'domain_readiness', domains: dynamicQualitySummaries },
   export_audit: dynamicExportAudit,
   runtime_quality_metrics: dynamicRuntimeMetrics,
-  openfin_120_live_regression: quality.live_regression,
-  quality_export_live_summary: { source: 'manifest.openfin_120_live_regression', live_test_count: quality.live_regression.test_count ?? 0, live_passed_count: quality.live_regression.passed_count ?? 0, live_failed_count: quality.live_regression.failed_count ?? 0, generation_id: quality.live_regression.generation_id ?? null },
+  openfin_120_live_regression: liveRegressionArtifact,
+  quality_export_live_summary: { source: 'manifest.live_regression_evidence', live_test_count: quality.live_regression.test_count ?? 0, live_passed_count: quality.live_regression.passed_count ?? 0, live_failed_count: quality.live_regression.failed_count ?? 0, generation_id: quality.live_regression.generation_id ?? null },
   quality_policy_version: quality.policy_version,
   quality_hash: quality.quality_hash,
   generation_id: quality.generation_id,
@@ -765,7 +775,7 @@ const qualityManifest = {
 };
 delete qualityManifest.domain_summaries;
 writeJson(qualityManifestPath, qualityManifest);
-manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.release_status_deprecated=true; manifest.release_status_replacement_path='core_search_status'; manifest.core_search_status=quality.core_search_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.comparison_status=quality.comparison_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_status=quality.recommendation_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.capabilities=quality.capabilities; manifest.candidate_counts=quality.candidate_counts; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; manifest.openfin_120_live_regression=quality.live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash; manifest.generation_id=quality.generation_id;
+manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.release_status_deprecated=true; manifest.release_status_replacement_path='core_search_status'; manifest.core_search_status=quality.core_search_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.comparison_status=quality.comparison_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_status=quality.recommendation_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.capabilities=quality.capabilities; manifest.candidate_counts=quality.candidate_counts; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; delete manifest.openfin_120_live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash; manifest.generation_id=quality.generation_id;
 delete manifest.domain_summaries;
 manifest.recommendation_state=quality.recommendation_state; manifest.recommendation_state_contract_version=quality.recommendation_state_contract_version; manifest.recommendation_approval_receipt=quality.recommendation_approval_receipt; manifest.owner_pilot_approval_receipt=quality.owner_pilot_approval_receipt;
 manifest.decision_offers = decisionOfferEntry;
@@ -773,7 +783,30 @@ manifest.deployment_commit = deploymentCommit;
 manifest.artifact_contract = artifactContract;
 manifest.source_freshness_status = statuses.every(status => status.freshness_status === 'current') ? 'ready' : 'degraded';
 manifest.live_regression_policy={required_count:readReleasePolicy().live_regression.required_count,required_mode:readReleasePolicy().live_regression.required_mode,freshness_ttl_hours:readReleasePolicy().live_regression.freshness_ttl_hours};
-manifest.quality_summary={...(manifest.quality_summary||{}), deprecated:true, replacement_path:'domain_readiness', release_status:quality.release_status, core_search_status:quality.core_search_status, comparison_status:quality.comparison_status, recommendation_status:quality.recommendation_status, recommendation_enabled:quality.recommendation_enabled, blocking_reasons:quality.blocking_reasons, export_audit:dynamicExportAudit, live_regression:quality.live_regression, finance_exports:Object.fromEntries(Object.entries(quality.domains).map(([name, state])=>[name,legacyQualityProjection({...state,domain:name})]))};
+const legacyCompatibility = {
+  version: 'openfin-legacy-compatibility-v1',
+  generated_at: now,
+  replacement_path: 'finance-ontology-manifest.json',
+  release_status: quality.release_status,
+  core_search_status: quality.core_search_status,
+  platform_release_status: quality.platform_release_status,
+  comparison_release_status: quality.comparison_release_status,
+  comparison_status: quality.comparison_status,
+  recommendation_release_status: quality.recommendation_release_status,
+  recommendation_status: quality.recommendation_status,
+  recommendation_enabled: quality.recommendation_enabled,
+  blocking_reasons: quality.blocking_reasons,
+  quality_summary: { deprecated: true, replacement_path: 'domain_readiness', export_audit: dynamicExportAudit, live_regression: quality.live_regression, finance_exports: Object.fromEntries(Object.entries(quality.domains).map(([name, state]) => [name, legacyQualityProjection({ ...state, domain: name })])) },
+};
+writeJson(path.join(DOCS, 'legacy-compatibility.json'), legacyCompatibility);
+manifest.service_availability = quality.service_availability;
+manifest.source_head_commit = sourceHeadCommit;
+manifest.release_candidate_commit = releaseCandidateCommit;
+manifest.production_commit = productionCommit;
+manifest.production_deployed_at = productionDeployedAt;
+manifest.current_release = { path: 'opentax/current-release.json', url: `${PUBLIC_BASE}/current-release.json` };
+manifest.legacy_compatibility = { path: 'opentax/legacy-compatibility.json', url: `${PUBLIC_BASE}/legacy-compatibility.json` };
+for (const key of ['release_status', 'release_status_deprecated', 'release_status_replacement_path', 'core_search_status', 'platform_release_status', 'comparison_release_status', 'recommendation_release_status', 'quality_summary']) delete manifest[key];
 for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-quality-manifest') {
   entry.generated_at = now;
   entry.export_checksum = sha256(qualityManifest).slice(7);
@@ -789,4 +822,21 @@ delete manifest.manifest_checksum;
 const manifestChecksumInput = {...manifest};
 manifest.manifest_checksum = sha256(manifestChecksumInput).slice(7);
 writeJson(path.join(DOCS,'finance-ontology-manifest.json'), manifest);
+writeJson(path.join(DOCS, 'current-release.json'), {
+  version: 'openfin-current-release-v1',
+  generated_at: now,
+  source_head_commit: sourceHeadCommit,
+  release_candidate_commit: releaseCandidateCommit,
+  production_commit: productionCommit,
+  production_deployed_at: productionDeployedAt,
+  generation_id: manifest.generation_id,
+  manifest_checksum: manifest.manifest_checksum,
+  artifact_contract: manifest.artifact_contract,
+  validation_status: liveRegressionArtifact.validation_status ?? 'unknown',
+  manifest_url: `${PUBLIC_BASE}/finance-ontology-manifest.json`,
+  worker_health_url: 'https://openfin-mcp.y2kthr.workers.dev/health',
+  live_evidence: manifest.live_regression_evidence,
+  live_evidence_path: manifest.live_regression_evidence.path,
+  live_evidence_url: manifest.live_regression_evidence.url,
+});
 console.log(JSON.stringify({exports:legacyFiles.length, rows:Object.values(generatedExports).reduce((n,x)=>n+x.items.length+(x.reference_items?.length||0),0), unique:catalog.length, reference_items:referenceItemCount, search_items:allSearchItems.length, sources:sourceRegistry.length, provenance_covered:covered, relationships:relations.length},null,2));

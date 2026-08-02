@@ -1,10 +1,12 @@
 import { z } from "zod";
 import type { ToolContext } from "../types/tool-context.ts";
 import { evaluatePilotCandidates } from "./pilot-evaluation.ts";
+import { normalizeRecommendationContext } from "../recommendation/context.ts";
 
 const DATE = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 export const PILOT_CONTEXT_SCHEMA = z.object({
-  as_of: DATE.optional(),
+  comparison_mode: z.enum(["market", "user_fit"]).default("user_fit"),
+  as_of: DATE,
   facts: z.object({
     age_years: z.number().nonnegative().optional(),
     residency_code: z.string().optional(),
@@ -17,7 +19,7 @@ export const PILOT_CONTEXT_SCHEMA = z.object({
     can_use_card: z.boolean().optional(),
     can_set_auto_transfer: z.boolean().optional(),
     tax_rate_percent: z.number().min(0).max(100).optional(),
-    fact_sources: z.record(z.string(), z.string()).optional(),
+    fact_sources: z.record(z.string(), z.enum(["user_asserted", "official_confirmed", "system_inferred"])).optional(),
   }).strict().optional(),
   constraints: z.object({
     provider: z.union([z.string(), z.array(z.string())]).optional(),
@@ -38,6 +40,8 @@ export const PILOT_CONTEXT_SCHEMA = z.object({
     tax_rate_percent: z.number().min(0).max(100).optional(),
     planned_termination_months: z.number().nonnegative().optional(),
     early_termination_months: z.number().nonnegative().optional(),
+    payment_timing: z.enum(["month_start", "month_end"]).optional(),
+    payment_schedule_krw: z.array(z.number().nonnegative()).max(120).optional(),
   }).strict().optional(),
   decision_context: z.object({
     as_of: DATE.optional(),
@@ -55,20 +59,21 @@ export function registerRecommendShadowTool(ctx: ToolContext): void {
     outputSchema: STANDARD_OUTPUT_SCHEMA,
     annotations: { title: "Run Recommendation Shadow Trace", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async ({ domain, context: requestContext }) => {
-    if (!requestContext?.as_of) return mcpResult({ mode: "shadow", status: "insufficient_information", reason_codes: ["CONTEXT_AS_OF_REQUIRED", "SHADOW_TRACE_ONLY"], data_as_of: null, result_count: 0, candidate_count: 0, candidates: [], candidate_data_exposed: false, actual_evaluation: false, missing_information: ["as_of"], decision_owner: "user" });
-    assertFinanceSafe(requestContext);
+    const normalizedContext = normalizeRecommendationContext(requestContext ?? {}, domain);
+    if (!normalizedContext.as_of) return mcpResult({ mode: "shadow", status: "insufficient_information", reason_codes: ["CONTEXT_AS_OF_REQUIRED", "SHADOW_TRACE_ONLY"], data_as_of: null, result_count: 0, candidate_count: 0, candidates: [], candidate_data_exposed: false, actual_evaluation: false, missing_information: ["as_of"], decision_owner: "user" });
+    assertFinanceSafe(normalizedContext);
     const manifest = await loadFinanceManifest(env);
     const releaseGate = evaluateReleaseGate({ manifest, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: env.DEPLOYMENT_COMMIT, domain, mode: "shadow" });
     try {
-      const items = await loadDetailedItemsForDomain(env, domain, requestContext.as_of);
+      const items = await loadDetailedItemsForDomain(env, domain, normalizedContext.as_of);
       const evaluation = evaluatePilotCandidates({
         ctx: { buildRecommendationCandidates, evaluateEligibility, rankCandidate, explainCandidate, evaluateReleaseGate, manifestChecksumContract },
         items,
         manifest,
         domain,
         mode: "shadow",
-        asOf: requestContext.as_of,
-        context: requestContext,
+        asOf: normalizedContext.as_of,
+        context: normalizedContext,
         deploymentCommit: env.DEPLOYMENT_COMMIT,
       });
       const reasonCodes = [
@@ -80,7 +85,7 @@ export function registerRecommendShadowTool(ctx: ToolContext): void {
         mode: "shadow",
         status: releaseGate.status === "ready" && evaluation.eligible_count > 0 ? "ready" : "blocked",
         reason_codes: [...new Set(reasonCodes)],
-        data_as_of: requestContext.as_of,
+        data_as_of: normalizedContext.as_of,
         result_count: 0,
         candidate_count: evaluation.eligible_count,
         evaluated_count: evaluation.evaluated_count,
@@ -94,7 +99,7 @@ export function registerRecommendShadowTool(ctx: ToolContext): void {
         decision_trace: {
           schema_version: "openfin-decision-trace-v1",
           mode: "shadow",
-          as_of: requestContext.as_of,
+          as_of: normalizedContext.as_of,
           generation_id: manifest.generation_id ?? null,
           evaluated_count: evaluation.evaluated_count,
           eligible_count: evaluation.eligible_count,
@@ -108,7 +113,7 @@ export function registerRecommendShadowTool(ctx: ToolContext): void {
         limitations: ["shadow output is an aggregate trace, not a recommendation", "candidate identities, rates, and financial values are withheld"],
       });
     } catch (error) {
-      return mcpResult({ mode: "shadow", status: "blocked", reason_codes: ["SHADOW_EVALUATION_FAILED", "SHADOW_TRACE_ONLY"], data_as_of: requestContext.as_of, result_count: 0, candidate_count: 0, evaluated_count: 0, eligible_count: 0, excluded_count: 0, candidates: [], candidate_data_exposed: false, actual_evaluation: false, release_gate: releaseGate, decision_owner: "user", limitations: [error instanceof Error ? error.message : "shadow evaluation failed"] });
+      return mcpResult({ mode: "shadow", status: "blocked", reason_codes: ["SHADOW_EVALUATION_FAILED", "SHADOW_TRACE_ONLY"], data_as_of: normalizedContext.as_of, result_count: 0, candidate_count: 0, evaluated_count: 0, eligible_count: 0, excluded_count: 0, candidates: [], candidate_data_exposed: false, actual_evaluation: false, release_gate: releaseGate, decision_owner: "user", limitations: [error instanceof Error ? error.message : "shadow evaluation failed"] });
     }
   });
 }

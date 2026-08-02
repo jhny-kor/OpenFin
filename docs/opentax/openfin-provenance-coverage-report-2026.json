@@ -86,7 +86,7 @@
     }
   },
   "quality_export_live_summary": {
-    "source": "manifest.openfin_120_live_regression",
+    "source": "manifest.live_regression_evidence",
     "live_test_count": 120,
     "live_passed_count": 120,
     "live_failed_count": 0,

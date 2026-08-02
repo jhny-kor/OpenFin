@@ -1,5 +1,5 @@
 import type { RecommendationContext } from "./context.ts";
-import { contextFacts, RECOMMENDATION_FACT_KEYS } from "./context.ts";
+import { canonicalFactKey, contextFacts, CRITICAL_FACT_KEYS, FACT_SOURCE_CLASSES, normalizeFactSources, RECOMMENDATION_FACT_KEYS, REGISTERED_FACT_KEYS } from "./context.ts";
 
 /** Facts accepted by decision rules; raw user objects never enter the rule engine. */
 export type RecommendationFacts = Record<string, unknown>;
@@ -13,5 +13,20 @@ export function hasFact(facts: RecommendationFacts, key: string): boolean {
 }
 
 export function registeredFact(key: string): boolean {
-  return key.startsWith("user.") ? RECOMMENDATION_FACT_KEYS.has(key.slice(5)) : key.startsWith("decision.") ? ["as_of", "term_months", "liquidity_horizon_months"].includes(key.slice(9)) : ["as_of", ...RECOMMENDATION_FACT_KEYS].includes(key);
+  return REGISTERED_FACT_KEYS.has(key) || REGISTERED_FACT_KEYS.has(canonicalFactKey(key));
 }
+
+export function validateFactSources(value: unknown): Record<string, string> {
+  return normalizeFactSources(value, false);
+}
+
+export function criticalFactSource(facts: RecommendationFacts, key: string): string | undefined {
+  const sources = validateFactSources(facts.fact_sources);
+  return sources[canonicalFactKey(key)];
+}
+
+export function trustedCriticalFact(facts: RecommendationFacts, key: string): boolean {
+  return !CRITICAL_FACT_KEYS.has(canonicalFactKey(key)) || ["user_asserted", "official_confirmed"].includes(criticalFactSource(facts, key) ?? "");
+}
+
+export { FACT_SOURCE_CLASSES };

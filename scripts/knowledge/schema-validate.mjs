@@ -3,12 +3,13 @@ import path from 'node:path';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 import { KNOWLEDGE, ROOT, json, RELATION_KEYS, assertionIdentity, assertionSetChecksum, canonicalCandidateContent, schemaValidationChecksum, sha256 } from './common.mjs';
+import { collectComparisonAssertions, collectRecommendationAssertions, resolveAssertionProfile } from './assertion-profiles.mjs';
 
 const schemaDir = path.join(ROOT, 'schemas');
 const typeRegistry = json(path.join(schemaDir, 'types/type-registry.json'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
-for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json', 'manifest.schema.json', 'candidate-promotion-receipt.schema.json', 'source-review-receipt.schema.json', 'schema-validation-receipt.schema.json', 'decision-trace.schema.json', 'live-regression.schema.json', 'recommendation-approval-receipt.schema.json']) {
+for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json', 'manifest.schema.json', 'candidate-promotion-receipt.schema.json', 'source-review-receipt.schema.json', 'schema-validation-receipt.schema.json', 'decision-trace.schema.json', 'live-regression.schema.json', 'recommendation-approval-receipt.schema.json', 'financial-quality-approval-receipt.schema.json']) {
   const schema = json(path.join(schemaDir, file));
   ajv.addSchema(schema, file);
 }
@@ -23,6 +24,7 @@ const relationValidator = ajv.getSchema('https://jhny-kor.github.io/OpenFin/sche
 const validateManifest = ajv.getSchema('finance-ontology-manifest.schema.json');
 const validateCapabilityManifest = ajv.getSchema('manifest.schema.json');
 const validateApproval = ajv.getSchema('recommendation-approval-receipt.schema.json');
+const validateFinancialQualityApproval = ajv.getSchema('financial-quality-approval-receipt.schema.json');
 const validatePromotion = ajv.getSchema('candidate-promotion-receipt.schema.json');
 const validateSourceReview = ajv.getSchema('source-review-receipt.schema.json');
 const validateLiveCase = ajv.getSchema(liveFixtureSchema.$id);
@@ -33,14 +35,6 @@ for (const domain of ['deposit', 'saving']) {
   if (fs.existsSync(file)) decisionOffers.push(...fs.readFileSync(file, 'utf8').split('\n').filter(Boolean).map(JSON.parse));
 }
 const optionById = new Map(decisionOffers.flatMap(offer => (offer.options || []).map(option => [option.option_id, { offer, option }])));
-const assertionEntries = (offer, option) => [
-  ...(offer.field_assertions || []).map(assertion => ({ assertion, set: 'comparison' })),
-  ...(option.field_assertions || []).map(assertion => ({ assertion, set: 'comparison' })),
-  ...(offer.eligibility_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, set: 'recommendation' }))),
-  ...(offer.early_termination_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, set: 'recommendation' }))),
-  ...(offer.bonus_rate_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, set: 'recommendation' }))),
-  ...(option.bonus_rate_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, set: 'recommendation' }))),
-];
 const validateQualityDescriptors = (descriptorName, expectedStatus) => {
   const descriptorPath = path.join(ROOT, 'tests/golden', descriptorName);
   if (!fs.existsSync(descriptorPath)) { failures.push(`${descriptorPath}: missing quality descriptor`); return; }
@@ -142,6 +136,11 @@ if (fs.existsSync(approvalDir)) for (const file of fs.readdirSync(approvalDir).f
   const value = json(path.join(approvalDir, file));
   if (!validateApproval(value)) failures.push(`${path.join(approvalDir, file)}: ${ajv.errorsText(validateApproval.errors)}`);
 }
+const financialQualityApprovalDir = path.join(ROOT, 'evidence/financial-quality-approvals');
+if (fs.existsSync(financialQualityApprovalDir)) for (const file of fs.readdirSync(financialQualityApprovalDir).filter(name => name.endsWith('.json'))) {
+  const value = json(path.join(financialQualityApprovalDir, file));
+  if (!validateFinancialQualityApproval(value)) failures.push(`${path.join(financialQualityApprovalDir, file)}: ${ajv.errorsText(validateFinancialQualityApproval.errors)}`);
+}
 const promotionDir = path.join(ROOT, 'evidence/candidate-promotions');
 if (fs.existsSync(promotionDir)) for (const file of fs.readdirSync(promotionDir).filter(name => name.endsWith('.jsonl'))) {
   for (const [index, line] of fs.readFileSync(path.join(promotionDir, file), 'utf8').split('\n').entries()) {
@@ -152,13 +151,16 @@ if (fs.existsSync(promotionDir)) for (const file of fs.readdirSync(promotionDir)
       if (!validatePromotion(value)) failures.push(`${location}: ${ajv.errorsText(validatePromotion.errors)}`);
       const pair = optionById.get(value.option_id);
       if (pair) {
-        const entries = assertionEntries(pair.offer, pair.option);
-        const actualComparison = entries.filter(entry => entry.set === 'comparison').map(entry => assertionIdentity(entry.assertion)).sort();
-        const actualRecommendation = entries.map(entry => assertionIdentity(entry.assertion)).sort();
+        const profile = resolveAssertionProfile(value);
+        if (value.comparison_mode !== profile.comparison_mode) failures.push(`${location}: comparison mode does not match profile`);
+        const comparisonEntries = collectComparisonAssertions(pair.offer, pair.option, profile.name);
+        const recommendationEntries = collectRecommendationAssertions(pair.offer, pair.option, profile.name);
+        const actualComparison = comparisonEntries.map(entry => assertionIdentity(entry.assertion)).sort();
+        const actualRecommendation = recommendationEntries.map(entry => assertionIdentity(entry.assertion)).sort();
         const recordedComparison = [...(value.assertion_sets?.comparison?.assertion_ids || [])].sort();
         const recordedRecommendation = [...(value.assertion_sets?.recommendation?.assertion_ids || [])].sort();
         if (JSON.stringify(actualComparison) !== JSON.stringify(recordedComparison) || JSON.stringify(actualRecommendation) !== JSON.stringify(recordedRecommendation)) failures.push(`${location}: assertion set identity mismatch`);
-        if (value.required_assertion_checksum !== assertionSetChecksum(entries.map(entry => entry.assertion)).slice(7)) failures.push(`${location}: required assertion checksum mismatch`);
+        if (value.required_assertion_checksum !== assertionSetChecksum(recommendationEntries.map(entry => entry.assertion)).slice(7)) failures.push(`${location}: required assertion checksum mismatch`);
         if (value.schema_content_checksum !== schemaValidationChecksum(pair.option).slice(7)) failures.push(`${location}: schema content checksum mismatch`);
         if (value.candidate_content_checksum !== sha256(canonicalCandidateContent(pair.offer, { ...pair.option, promotion_receipt: value }))) failures.push(`${location}: candidate content checksum mismatch`);
       }

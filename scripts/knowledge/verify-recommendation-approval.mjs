@@ -1,8 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
-import { ROOT, json, candidateSetChecksum, qualitySuiteChecksum } from './common.mjs';
+import { ROOT, json, stable, candidateSetChecksum, qualitySuiteChecksum } from './common.mjs';
 
 const schema = json(path.join(ROOT, 'schemas/recommendation-approval-receipt.schema.json'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
@@ -28,6 +29,13 @@ const mismatches = Object.entries(expected).filter(([key, value]) => value && re
 if (artifactContract.candidate_set_checksum && artifactContract.candidate_set_checksum !== expected.candidate_set_checksum) mismatches.push('artifact_candidate_set_checksum_mismatch');
 if (artifactContract.quality_suite_transitive_checksum && artifactContract.quality_suite_transitive_checksum !== expected.quality_suite_checksum) mismatches.push('artifact_quality_suite_checksum_mismatch');
 const reviewerReady = ['reviewer', 'reviewer_role', 'reviewer_permission', 'reviewer_signature'].every(key => typeof receipt[key] === 'string' && receipt[key].length > 0);
+const signatureSecret = process.env.OWNER_PILOT_REVIEWER_SIGNATURE_SECRET;
+const signedKeys = ['approval_id', 'domain', 'mode', 'generation_id', 'candidate_set_checksum', 'policy_version', 'ranking_version', 'calculator_version', 'quality_suite_checksum', 'approved_at', 'expires_at', 'reviewer', 'reviewer_role', 'reviewer_permission', 'rollback_generation_id'];
+const signedPayload = Object.fromEntries(signedKeys.map(key => [key, receipt[key]]));
+const expectedSignature = signatureSecret && receipt.reviewer_signature_algorithm === 'HMAC-SHA256'
+  ? `hmac-sha256:${crypto.createHmac('sha256', signatureSecret).update(stable(signedPayload)).digest('base64url')}`
+  : null;
+if (receipt.reviewer_signature_algorithm === 'HMAC-SHA256' && (!signatureSecret || receipt.reviewer_signature !== expectedSignature)) mismatches.push('reviewer_signature_invalid');
 const ok = validate(receipt) && reviewerReady && Date.parse(receipt.expires_at) > Date.parse(receipt.approved_at) && Date.parse(receipt.expires_at) > Date.now() && !mismatches.length;
 console.log(JSON.stringify({ ok, status: ok ? 'valid' : 'invalid', path: path.relative(ROOT, resolved), expected, mismatches, errors: validate.errors || [] }, null, 2));
 if (!ok) process.exit(1);

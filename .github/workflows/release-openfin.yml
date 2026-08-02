@@ -34,6 +34,9 @@ jobs:
           OPENFIN_BUILD_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+          OPENFIN_SOURCE_HEAD_COMMIT: ${{ github.sha }}
+          OPENFIN_RELEASE_CANDIDATE_COMMIT: ${{ github.sha }}
+          OPENFIN_PRODUCTION_COMMIT: ${{ github.sha }}
       - name: Validate canonical contracts
         run: |
           npm run knowledge:schema-validate
@@ -45,6 +48,9 @@ jobs:
           OPENFIN_BUILD_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+          OPENFIN_SOURCE_HEAD_COMMIT: ${{ github.sha }}
+          OPENFIN_RELEASE_CANDIDATE_COMMIT: ${{ github.sha }}
+          OPENFIN_PRODUCTION_COMMIT: ${{ github.sha }}
       - name: Validate Worker and financial quality contracts
         working-directory: mcp
         run: |
@@ -60,7 +66,7 @@ jobs:
       - name: Write release contract
         run: |
           mkdir -p release-artifact
-          jq '{generation_id, deployment_commit, manifest_checksum, artifact_contract, capabilities, candidate_counts, recommendation_state, recommendation_enabled}' docs/opentax/finance-ontology-manifest.json > release-artifact/release-contract.json
+          jq '{generation_id, deployment_commit, source_head_commit, release_candidate_commit, production_commit, production_deployed_at, service_availability, manifest_checksum, artifact_contract, capabilities, candidate_counts, recommendation_state, recommendation_enabled}' docs/opentax/finance-ontology-manifest.json > release-artifact/release-contract.json
           sha256sum docs/opentax/finance-ontology-manifest.json release-artifact/release-contract.json > release-artifact/SHA256SUMS
       - uses: actions/upload-artifact@v5
         with:
@@ -241,22 +247,36 @@ jobs:
           npm run knowledge:derive-quality:check
           npm run knowledge:verify:quality-consistency
           test "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)" = "$(jq -r '.generation_id' live/live-regression-report.json)"
-          test "$(jq -r '.openfin_120_live_regression.validation_status' docs/opentax/finance-ontology-manifest.json)" = current
-          test "$(jq -r '.openfin_120_live_regression.generation_id' docs/opentax/finance-ontology-manifest.json)" = "$(jq -r '.generation_id' live/live-regression-report.json)"
-          test "$(jq -r '.openfin_120_live_regression.deployment_commit' docs/opentax/finance-ontology-manifest.json)" = "$GITHUB_SHA"
-          test "$(jq -r '.openfin_120_live_regression.fixture_checksum' docs/opentax/finance-ontology-manifest.json)" = "$(jq -r '.fixture_checksum' live/live-regression-report.json)"
+          test "$(jq -r '.service_availability' docs/opentax/finance-ontology-manifest.json)" = available
+          test "$(jq -r '.source_head_commit' docs/opentax/finance-ontology-manifest.json)" = "$GITHUB_SHA"
+          test "$(jq -r '.release_candidate_commit' docs/opentax/finance-ontology-manifest.json)" = "$GITHUB_SHA"
+          test "$(jq -r '.production_commit' docs/opentax/finance-ontology-manifest.json)" = "$GITHUB_SHA"
+          test "$(jq -r '.production_commit' docs/opentax/current-release.json)" = "$GITHUB_SHA"
+          test "$(jq -r '.generation_id' docs/opentax/current-release.json)" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
+          test "$(jq -r '.manifest_checksum' docs/opentax/current-release.json)" = "$(jq -r '.manifest_checksum' docs/opentax/finance-ontology-manifest.json)"
+          test "$(jq -r '.validation_status' docs/opentax/current-release.json)" = current
+          test "$(jq -r '.deployment_commit' live/live-regression-report.json)" = "$GITHUB_SHA"
+          test "$(jq -r '.generation_id' live/live-regression-report.json)" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
+          test "$(jq -r '.fixture_checksum' live/live-regression-report.json)" = "$(jq -r '.fixture_checksum' docs/opentax/finance-ontology-manifest.json)"
+          test "$(jq -r '.live_regression_evidence.path' docs/opentax/finance-ontology-manifest.json)" = "opentax/live-regression-current.json"
+          test "$(jq -r '.generation_id' docs/opentax/live-regression-current.json)" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
+          test "$(jq -r '.deployment_commit' docs/opentax/live-regression-current.json)" = "$GITHUB_SHA"
           quality_export_passed="$(jq -s '[.[] | .quality_export_live_summary? | select(type == "object") | .live_passed_count] | unique | if length == 1 then .[0] else -1 end' docs/opentax/openfin-*.json)"
           quality_export_generation="$(jq -s -r '[.[] | .quality_export_live_summary? | select(type == "object") | .generation_id] | unique | if length == 1 then .[0] else "mismatch" end' docs/opentax/openfin-*.json)"
           test "$quality_export_passed" = "120"
           test "$quality_export_generation" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
           mkdir -p release-artifact
-          jq '{generation_id, deployment_commit, manifest_checksum, artifact_contract, capabilities, candidate_counts, recommendation_state, recommendation_enabled}' docs/opentax/finance-ontology-manifest.json > release-artifact/release-contract.json
+          jq '{generation_id, deployment_commit, source_head_commit, release_candidate_commit, production_commit, production_deployed_at, service_availability, manifest_checksum, artifact_contract, capabilities, candidate_counts, recommendation_state, recommendation_enabled}' docs/opentax/finance-ontology-manifest.json > release-artifact/release-contract.json
           sha256sum docs/opentax/finance-ontology-manifest.json release-artifact/release-contract.json > release-artifact/SHA256SUMS
         env:
           OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
           OPENFIN_BUILD_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+          OPENFIN_SOURCE_HEAD_COMMIT: ${{ github.sha }}
+          OPENFIN_RELEASE_CANDIDATE_COMMIT: ${{ github.sha }}
+          OPENFIN_PRODUCTION_COMMIT: ${{ github.sha }}
+          OPENFIN_PRODUCTION_DEPLOYED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
       - uses: actions/upload-artifact@v5
         with:
           name: openfin-final-${{ github.sha }}

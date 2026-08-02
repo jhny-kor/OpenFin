@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, KNOWLEDGE, json, sha256, assertionIdentity } from './common.mjs';
+import { collectRecommendationAssertions } from './assertion-profiles.mjs';
 
 const domains = process.argv.slice(2).filter(value => ['deposit', 'saving'].includes(value));
 const selectedDomains = domains.length ? domains : ['deposit', 'saving'];
@@ -48,53 +49,53 @@ for (const domain of selectedDomains) {
   const existing = new Map(readRows(path.join(outputDir, `${domain}.jsonl`)).map(row => [row.receipt_id, row]));
   const rows = [];
   for (const offer of offers) {
-    const entries = [
-      ...((offer.field_assertions || []).map(assertion => ({ assertion, option_id: null }))),
-      ...((offer.options || []).flatMap(option => (option.field_assertions || []).map(assertion => ({ assertion, option_id: option.option_id })))),
-      ...((offer.eligibility_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, option_id: null })))),
-      ...((offer.early_termination_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, option_id: null })))),
-      ...((offer.options || []).flatMap(option => (option.bonus_rate_rules || []).flatMap(rule => (rule.field_assertions || []).map(assertion => ({ assertion, option_id: option.option_id }))))),
-    ];
-    for (const { assertion, option_id } of entries) {
-      const source = registry.get(assertion.source_id) || {};
-      const assertion_id = assertionIdentity(assertion);
-      const review_key = `${offer.id}|${option_id || 'offer'}|${assertion_id}`;
-      const body = {
-        receipt_id: `source-review.${offer.id}.${option_id || 'offer'}.${sha256(review_key).slice(7, 23)}`,
-        review_key,
-        assertion_id,
-        offer_id: offer.id,
-        option_id,
-        field: assertion.field,
-        review_category: category(assertion.field),
-        source_id: assertion.source_id,
-        authority_class: source.authority_class || 'unknown',
-        original_url: assertion.original_url,
-        locator: assertion.locator,
-        observed_value_hash: assertion.value_hash,
-        source_checksum: assertion.receipt_checksum,
-        review_status: 'pending',
-        reviewer: null,
-        reviewer_role: null,
-        reviewer_signature: null,
-        reviewer_permission: null,
-        reviewed_at: null,
-        evaluated_at: process.env.OPENFIN_REVIEW_EVALUATED_AT || offer.observed_at,
-        reason_codes: ['SOURCE_REVIEW_REQUIRED'],
-      };
-      const prior = existing.get(body.receipt_id);
-      const review = prior && sameSourceObservation(prior, body) ? {
-        review_status: prior.review_status,
-        reviewer: prior.reviewer,
-        reviewer_role: prior.reviewer_role,
-        reviewer_signature: prior.reviewer_signature,
-        reviewer_permission: prior.reviewer_permission,
-        reviewed_at: prior.reviewed_at,
-        evaluated_at: prior.evaluated_at,
-        reason_codes: prior.reason_codes,
-      } : {};
-      const next = { ...body, ...review };
-      rows.push({ ...next, receipt_checksum: sha256(next) });
+    const seen = new Set();
+    for (const option of offer.options || []) {
+      const entries = collectRecommendationAssertions(offer, option, 'public_recommendation');
+      for (const { assertion, option_id } of entries) {
+        const entryKey = `${option_id || 'offer'}|${assertionIdentity(assertion)}`;
+        if (seen.has(entryKey)) continue;
+        seen.add(entryKey);
+        const source = registry.get(assertion.source_id) || {};
+        const assertion_id = assertionIdentity(assertion);
+        const review_key = `${offer.id}|${option_id || 'offer'}|${assertion_id}`;
+        const body = {
+          receipt_id: `source-review.${offer.id}.${option_id || 'offer'}.${sha256(review_key).slice(7, 23)}`,
+          review_key,
+          assertion_id,
+          offer_id: offer.id,
+          option_id,
+          field: assertion.field,
+          review_category: category(assertion.field),
+          source_id: assertion.source_id,
+          authority_class: source.authority_class || 'unknown',
+          original_url: assertion.original_url,
+          locator: assertion.locator,
+          observed_value_hash: assertion.value_hash,
+          source_checksum: assertion.receipt_checksum,
+          review_status: 'pending',
+          reviewer: null,
+          reviewer_role: null,
+          reviewer_signature: null,
+          reviewer_permission: null,
+          reviewed_at: null,
+          evaluated_at: process.env.OPENFIN_REVIEW_EVALUATED_AT || offer.observed_at,
+          reason_codes: ['SOURCE_REVIEW_REQUIRED'],
+        };
+        const prior = existing.get(body.receipt_id);
+        const review = prior && sameSourceObservation(prior, body) ? {
+          review_status: prior.review_status,
+          reviewer: prior.reviewer,
+          reviewer_role: prior.reviewer_role,
+          reviewer_signature: prior.reviewer_signature,
+          reviewer_permission: prior.reviewer_permission,
+          reviewed_at: prior.reviewed_at,
+          evaluated_at: prior.evaluated_at,
+          reason_codes: prior.reason_codes,
+        } : {};
+        const next = { ...body, ...review };
+        rows.push({ ...next, receipt_checksum: sha256(next) });
+      }
     }
   }
   const output = path.join(outputDir, `${domain}.jsonl`);

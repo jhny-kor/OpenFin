@@ -15,7 +15,7 @@ const manifestForChecksum = { ...manifest };
 delete manifestForChecksum.manifest_checksum;
 const calculatedManifestChecksum = crypto.createHash("sha256").update(stable(manifestForChecksum)).digest("hex");
 const manifestChecksumVerified = typeof manifest.manifest_checksum === "string" && manifest.manifest_checksum === calculatedManifestChecksum;
-const entries = [manifest.search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, manifest.decision_offers, ...(manifest.exports || [])];
+const entries = [manifest.search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, manifest.decision_offers, manifest.live_regression_evidence, ...(manifest.exports || [])];
 const checksumsPresent = entries.length > 0 && entries.every((entry) => typeof entry?.export_checksum === "string" && entry.export_checksum.length > 0);
 let decisionChecksumVerified = false;
 if (manifest.decision_offers?.url) {
@@ -29,9 +29,18 @@ if (manifest.decision_offers?.url) {
       && payload.item_count === manifest.decision_offers.item_count;
   }
 }
-const checksumVerified = manifestChecksumVerified && checksumsPresent && decisionChecksumVerified;
+let liveEvidenceChecksumVerified = false;
+if (manifest.live_regression_evidence?.url) {
+  const liveResponse = await fetch(manifest.live_regression_evidence.url, { headers: { accept: "application/json" } });
+  if (liveResponse.ok) {
+    const livePayload = await liveResponse.json();
+    liveEvidenceChecksumVerified = crypto.createHash("sha256").update(stable(livePayload)).digest("hex") === String(manifest.live_regression_evidence.export_checksum).replace(/^sha256:/, "");
+    if (liveEvidenceChecksumVerified) manifest._live_regression = livePayload;
+  }
+}
+const checksumVerified = manifestChecksumVerified && checksumsPresent && decisionChecksumVerified && liveEvidenceChecksumVerified;
 const gate = evaluateReleaseGate({ manifest, checksumVerified, deploymentCommit: process.env.DEPLOYMENT_COMMIT });
 const recommendationOnly = process.argv.includes('--recommendation');
-const result = { manifest_url: manifestUrl, generation_id: manifest.generation_id ?? null, live_generation_id: manifest.openfin_120_live_regression?.generation_id ?? null, core_search_status: manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status, comparison_status: manifest.comparison_status ?? manifest.comparison_release_status, recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status, release_status: manifest.release_status, recommendation_enabled: manifest.recommendation_enabled === true, manifest_checksum_verified: manifestChecksumVerified, checksums_present: checksumsPresent, decision_checksum_verified: decisionChecksumVerified, gate, check: recommendationOnly ? 'recommendation' : 'integrity' };
+const result = { manifest_url: manifestUrl, generation_id: manifest.generation_id ?? null, live_generation_id: manifest._live_regression?.generation_id ?? null, core_search_status: manifest.service_availability ?? manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status, comparison_status: manifest.comparison_status ?? manifest.comparison_release_status, recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status, release_status: manifest.service_availability ?? manifest.release_status, recommendation_enabled: manifest.recommendation_enabled === true, manifest_checksum_verified: manifestChecksumVerified, checksums_present: checksumsPresent, decision_checksum_verified: decisionChecksumVerified, live_evidence_checksum_verified: liveEvidenceChecksumVerified, gate, check: recommendationOnly ? 'recommendation' : 'integrity' };
 console.log(JSON.stringify(result, null, 2));
 if (!checksumVerified || (recommendationOnly && manifest.recommendation_enabled === true && gate.status !== "ready")) process.exit(1);

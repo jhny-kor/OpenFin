@@ -70,13 +70,29 @@ const mutationChecks = {
 assert.ok(Object.values(mutationChecks).every(Boolean));
 
 const endpoint = process.env.MCP_URL?.replace(/\/$/, "") ?? null;
+const expectedRuntimeContract = {
+  deployment_commit: process.env.EXPECTED_DEPLOYMENT_COMMIT || null,
+  generation_id: process.env.EXPECTED_GENERATION_ID || null,
+  candidate_set_checksum: process.env.EXPECTED_CANDIDATE_SET_CHECKSUM || null,
+  policy_version: process.env.EXPECTED_POLICY_VERSION || null,
+  ranking_version: process.env.EXPECTED_RANKING_VERSION || null,
+  calculator_version: process.env.EXPECTED_CALCULATOR_VERSION || null,
+};
 const live = { execution_status: endpoint ? "not_executed" : "not_requested", endpoint, call_count: 0, status: endpoint ? "pending" : "offline_only", positive_cases: [], blocked_cases: [], failures: [] };
+let runtimeContract = null;
 if (endpoint) {
   const timeoutMs = Number(process.env.LIVE_REQUEST_TIMEOUT_MS || 10000);
   const fetchWithTimeout = async (url, options = {}) => {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     try { return await fetch(url, { ...options, signal: controller.signal }); } finally { clearTimeout(timer); }
+  };
+  const healthUrl = endpoint.replace(/\/mcp\/?$/, "/health");
+  const fetchJson = async (url, options = {}) => {
+    const response = await fetchWithTimeout(url, options);
+    const body = await response.json();
+    if (!response.ok) throw new Error(`${url}: ${response.status}`);
+    return body;
   };
   let requestId = 0;
   const rpc = async (method, params = {}) => {
@@ -94,6 +110,27 @@ if (endpoint) {
   };
   try {
     await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "openfin-financial-quality", version: "1" } });
+    const health = await fetchJson(healthUrl);
+    const quality = payload(await rpc("tools/call", { name: "get_openfin_quality_status", arguments: {} }), "get_openfin_quality_status");
+    const qualityStatus = quality.quality_status ?? {};
+    const artifact = qualityStatus.artifact_contract ?? health.artifact_contract ?? {};
+    runtimeContract = {
+      deployment_commit: health.deployment_commit ?? null,
+      manifest_deployment_commit: health.manifest_deployment_commit ?? null,
+      generation_id: health.generation_id ?? qualityStatus.generation_id ?? null,
+      artifact_generation: health.artifact_generation ?? null,
+      candidate_set_checksum: artifact.candidate_set_checksum ?? null,
+      candidate_content_checksum_policy: artifact.candidate_content_checksum_policy ?? null,
+      policy_version: artifact.policy_version ?? null,
+      ranking_version: artifact.ranking_version ?? null,
+      calculator_version: artifact.calculator_version ?? null,
+      quality_suite_checksum: artifact.quality_suite_transitive_checksum ?? null,
+    };
+    for (const [key, expected] of Object.entries(expectedRuntimeContract)) {
+      if (expected && runtimeContract[key] !== expected) throw new Error(`runtime contract ${key} mismatch: expected ${expected}, got ${runtimeContract[key]}`);
+    }
+    if (expectedRuntimeContract.deployment_commit && runtimeContract.manifest_deployment_commit !== expectedRuntimeContract.deployment_commit) throw new Error(`runtime contract manifest_deployment_commit mismatch: expected ${expectedRuntimeContract.deployment_commit}, got ${runtimeContract.manifest_deployment_commit}`);
+    if (expectedRuntimeContract.generation_id && runtimeContract.artifact_generation !== expectedRuntimeContract.generation_id) throw new Error(`runtime contract artifact_generation mismatch: expected ${expectedRuntimeContract.generation_id}, got ${runtimeContract.artifact_generation}`);
     for (const fixture of positiveFixtures) {
       const result = payload(await rpc("tools/call", { name: fixture.tool, arguments: fixture.arguments }), fixture.case_id);
       const status = result.status ?? "ok";
@@ -104,14 +141,26 @@ if (endpoint) {
           const inputAmount = fixture.domain === "deposit" ? fixture.arguments?.deposit_amount_krw : fixture.arguments?.monthly_payment_krw;
           if (inputAmount !== fixture.expected_input_amount_krw) throw new Error(`${fixture.case_id}: input amount contract failed`);
         }
+        const candidateId = (value) => String(value.candidate_id ?? value.option_id ?? value.item_id ?? value.id ?? "");
+        const actualCandidateIds = result.candidates.map(candidateId);
+        if (fixture.expected_candidate_ids?.length) assert.deepEqual(actualCandidateIds.slice(0, fixture.expected_candidate_ids.length), fixture.expected_candidate_ids, `${fixture.case_id}: candidate order`);
         for (const expectedId of fixture.expected_candidate_ids ?? []) {
-          const candidate = result.candidates.find((value) => String(value.candidate_id ?? value.option_id ?? value.item_id ?? value.id) === expectedId);
+          const candidate = result.candidates.find((value) => candidateId(value) === expectedId);
           if (!candidate) throw new Error(`${fixture.case_id}: expected candidate ${expectedId} missing`);
+          if (fixture.positive_assertions?.includes("financial_outcome_calculated")) {
+            if (!Number.isFinite(candidate.gross_interest_krw) || !Number.isFinite(candidate.net_interest_krw)) throw new Error(`${fixture.case_id}: ${expectedId} gross/net outcome missing`);
+          }
           const expectedLimit = fixture.expected_candidate_limits_krw?.[expectedId];
           if (expectedLimit !== undefined) {
             const actualLimit = fixture.domain === "deposit" ? candidate.deposit_limit : candidate.monthly_payment_limit;
             if (actualLimit !== expectedLimit) throw new Error(`${fixture.case_id}: ${expectedId} limit mismatch`);
           }
+          const expectedBonusIds = fixture.expected_applied_bonus_rule_ids?.[expectedId];
+          if (expectedBonusIds) assert.deepEqual(candidate.applied_bonus_rule_ids ?? [], expectedBonusIds, `${fixture.case_id}: ${expectedId} applied bonus rules`);
+          const expectedUnknownIds = fixture.expected_unknown_rule_ids?.[expectedId];
+          if (expectedUnknownIds) assert.deepEqual(candidate.unknown_rule_ids ?? candidate.unknown_conditions ?? [], expectedUnknownIds, `${fixture.case_id}: ${expectedId} unknown rules`);
+          const expectedAssertionIds = fixture.expected_source_assertion_ids?.[expectedId];
+          if (expectedAssertionIds) assert.deepEqual(candidate.source_assertion_ids ?? [], expectedAssertionIds, `${fixture.case_id}: ${expectedId} source assertions`);
         }
         live.positive_cases.push(fixture.case_id);
       } else if (status === "blocked" || status === "insufficient_information") {
@@ -147,6 +196,7 @@ const report = {
   live_positive_cases: live.positive_cases,
   live_blocked_cases: live.blocked_cases,
   live_failures: live.failures,
+  runtime_contract: runtimeContract,
   positive_fixture_count: positiveFixtures.length,
   positive_compare_cases: compareSuites.reduce((sum, suite) => sum + suite.expected_case_count, 0),
   shadow_ranking_cases: shadowSuites.reduce((sum, suite) => sum + suite.expected_case_count, 0),

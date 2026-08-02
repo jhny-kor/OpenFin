@@ -1,3 +1,5 @@
+import { collectComparisonAssertions, collectRecommendationAssertions, resolveAssertionProfile, type AssertionProfileName } from "./assertion-profiles.ts";
+
 type RecordLike = Record<string, unknown>;
 
 const record = (value: unknown): RecordLike => value && typeof value === "object" && !Array.isArray(value) ? value as RecordLike : {};
@@ -6,15 +8,6 @@ const verified = (value: unknown): boolean => value === "verified";
 const current = (value: unknown): boolean => value === "current";
 const normalizedChecksum = (value: unknown): string => String(value ?? "").replace(/^sha256:/, "");
 const assertionId = (assertion: RecordLike): string | null => typeof assertion.assertion_id === "string" ? assertion.assertion_id : null;
-
-function ruleAssertions(offer: RecordLike, option: RecordLike): RecordLike[] {
-  return [
-    ...list(offer.eligibility_rules).flatMap((rule) => list(rule.field_assertions)),
-    ...list(offer.early_termination_rules).flatMap((rule) => list(rule.field_assertions)),
-    ...list(offer.bonus_rate_rules).flatMap((rule) => list(rule.field_assertions)),
-    ...list(option.bonus_rate_rules).flatMap((rule) => list(rule.field_assertions)),
-  ];
-}
 
 function assertionState(assertions: readonly RecordLike[], asOf?: string) {
   const conflicts = assertions.filter((assertion) => assertion.conflict === true).length;
@@ -44,14 +37,18 @@ export type EvidenceGateInput = {
   domain: "deposit" | "saving";
   asOf?: string;
   sourceRegistry?: RecordLike | Map<string, RecordLike>;
+  profile?: AssertionProfileName;
 };
 
-export function evaluateEvidenceGate({ offer, option, domain, asOf, sourceRegistry }: EvidenceGateInput) {
+export function evaluateEvidenceGate({ offer, option, domain, asOf, sourceRegistry, profile: requestedProfile }: EvidenceGateInput) {
+  const promotion = record(option.promotion_receipt ?? offer.promotion_receipt);
+  const assertionProfile = resolveAssertionProfile({ profile: requestedProfile ?? promotion.comparison_profile, comparison_mode: promotion.comparison_mode, mode: promotion.mode });
+  const comparisonAssertions = collectComparisonAssertions(offer, option, assertionProfile.name).map((entry) => entry.assertion);
+  const recommendationAssertions = collectRecommendationAssertions(offer, option, assertionProfile.name).map((entry) => entry.assertion);
+  const profileBindingValid = promotion.comparison_mode === undefined || promotion.comparison_mode === assertionProfile.comparison_mode;
   const offerAssertions = list(offer.field_assertions);
-  const optionAssertions = list(option.field_assertions);
-  const rules = ruleAssertions(offer, option);
-  const assertions = [...offerAssertions, ...optionAssertions, ...rules];
-  const state = assertionState(assertions, asOf);
+  const state = assertionState(comparisonAssertions, asOf);
+  const recommendationState = assertionState(recommendationAssertions, asOf);
   const provenance = list(offer.provenance);
   const sourceReceiptCount = provenance.filter((entry) => typeof entry.source_id === "string"
     && typeof entry.checksum === "string"
@@ -64,12 +61,11 @@ export function evaluateEvidenceGate({ offer, option, domain, asOf, sourceRegist
     && entry.reviewed_at
     && entry.reviewer_signature).length;
   const requiredFields = [
-    "deposit_protection_status", "join_channels", "eligibility_rules", "bonus_rate_rules", "early_termination_rules", "sales_verification_status",
+    "deposit_protection_status", "join_channels", "sales_verification_status",
     "term_months", "base_rate_percent", "maximum_rate_percent", "interest_method",
     ...(domain === "saving" ? ["saving_method"] : []),
   ];
   const presentFields = requiredFields.filter((field) => (offer[field] !== undefined && offer[field] !== null) || (option[field] !== undefined && option[field] !== null));
-  const promotion = record(option.promotion_receipt ?? offer.promotion_receipt);
   const promotionPresent = Object.keys(promotion).length > 0;
   const schemaReceipt = record(option.schema_validation_receipt ?? offer.schema_validation_receipt);
   const schemaContentChecksumPresent = /^([a-f0-9]{64})$/.test(normalizedChecksum(schemaReceipt.content_checksum));
@@ -78,7 +74,7 @@ export function evaluateEvidenceGate({ offer, option, domain, asOf, sourceRegist
     && schemaReceipt.validation_status === "valid"
     && schemaContentChecksumPresent
     && normalizedChecksum(promotion.schema_content_checksum) === normalizedChecksum(schemaReceipt.content_checksum);
-  const requiredAssertionCoverage = requiredFields.length ? requiredFields.filter((field) => assertionMatches(assertions, field).some((entry) => verified(entry.verification_status) && current(entry.freshness_status) && entry.conflict !== true)).length / requiredFields.length : 0;
+  const requiredAssertionCoverage = requiredFields.length ? requiredFields.filter((field) => assertionMatches(comparisonAssertions, field).some((entry) => verified(entry.verification_status) && current(entry.freshness_status) && entry.conflict !== true)).length / requiredFields.length : 0;
   const registryLoaded = sourceRegistry instanceof Map || (sourceRegistry !== undefined && sourceRegistry !== null && typeof sourceRegistry === "object" && !Array.isArray(sourceRegistry));
   const registryEntry = (id: unknown): RecordLike | undefined => {
     if (!registryLoaded || typeof id !== "string") return undefined;
@@ -87,47 +83,57 @@ export function evaluateEvidenceGate({ offer, option, domain, asOf, sourceRegist
     return value && typeof value === "object" && !Array.isArray(value) ? value as RecordLike : undefined;
   };
   const officialAuthorities = ["association_official", "government_official", "law_official", "provider_official", "regulator_official"];
-  const officialSourceAssertionCoverage = assertions.length && registryLoaded ? assertions.filter((entry) => typeof entry.source_id === "string"
+  const officialSourceAssertionCoverage = comparisonAssertions.length && registryLoaded ? comparisonAssertions.filter((entry) => typeof entry.source_id === "string"
     && typeof entry.original_url === "string"
-    && officialAuthorities.includes(String(registryEntry(entry.source_id)?.authority_class))).length / assertions.length : 0;
+    && officialAuthorities.includes(String(registryEntry(entry.source_id)?.authority_class))).length / comparisonAssertions.length : 0;
+  const recommendationOfficialSourceAssertionCoverage = recommendationAssertions.length && registryLoaded ? recommendationAssertions.filter((entry) => typeof entry.source_id === "string"
+    && typeof entry.original_url === "string"
+    && officialAuthorities.includes(String(registryEntry(entry.source_id)?.authority_class))).length / recommendationAssertions.length : 0;
   const salesActive = offer.sales_verification_status === "verified_active" && offer.sales_status !== "inactive";
-  const salesAssertion = assertions.find((entry) => entry.field === "sales_verification_status");
+  const salesAssertion = comparisonAssertions.find((entry) => entry.field === "sales_verification_status");
   const salesReceiptLinked = typeof promotion.sales_verification_receipt_id === "string"
     && promotion.sales_verification_receipt_id.length > 0
     && typeof salesAssertion?.receipt_id === "string"
     && salesAssertion.receipt_id === promotion.sales_verification_receipt_id;
   const protectionReview = domain !== "deposit" || (offer.deposit_protection_status === "protected" && offerAssertions.some((entry) => entry.field === "deposit_protection_status" && verified(entry.verification_status)));
-  const comparisonAssertionIds = ids([...offerAssertions, ...optionAssertions]);
-  const recommendationAssertionIds = ids(assertions);
+  const comparisonAssertionIds = ids(comparisonAssertions);
+  const recommendationAssertionIds = ids(recommendationAssertions);
   const assertionSets = record(promotion.assertion_sets);
   const promotionComparisonIds = stringIds(record(assertionSets.comparison).assertion_ids);
   const promotionRecommendationIds = stringIds(record(assertionSets.recommendation).assertion_ids);
   const assertionSetsMatch = sameIds(comparisonAssertionIds, promotionComparisonIds) && sameIds(recommendationAssertionIds, promotionRecommendationIds);
   const comparisonEvidenceReady = strictSchemaValid
+    && profileBindingValid
     && salesActive
     && protectionReview
     && sourceReceiptCount > 0
-    && assertions.length >= requiredFields.length
-    && state.verified === assertions.length
+    && comparisonAssertions.length >= requiredFields.length
+    && state.verified === comparisonAssertions.length
     && state.conflicts === 0
     && state.stale === 0
     && state.missingReceipt === 0
     && officialSourceAssertionCoverage === 1;
+  const recommendationEvidenceReady = recommendationAssertions.length > 0
+    && recommendationState.verified === recommendationAssertions.length
+    && recommendationState.conflicts === 0
+    && recommendationState.stale === 0
+    && recommendationState.missingReceipt === 0
+    && recommendationOfficialSourceAssertionCoverage === 1;
   const comparisonApprovedWithPromotion = comparisonEvidenceReady
     && promotionPresent
     && promotion.checksum_verified === true
     && promotion.comparison_approved === true
     && assertionSetsMatch
     && salesReceiptLinked;
-  const recommendationApproved = comparisonApprovedWithPromotion && promotion.recommendation_approved === true;
+  const recommendationApproved = comparisonApprovedWithPromotion && recommendationEvidenceReady && promotion.recommendation_approved === true;
   const verificationStatus = comparisonApprovedWithPromotion ? "verified" : "unverified";
-  const freshnessStatus = state.stale > 0 ? "stale" : assertions.length && state.verified === assertions.length ? "current" : "unknown";
+  const freshnessStatus = state.stale > 0 ? "stale" : comparisonAssertions.length && state.verified === comparisonAssertions.length ? "current" : "unknown";
   const reasons = [
     ...(!strictSchemaValid ? ["strict_schema_invalid"] : []),
     ...(!salesActive ? ["sales_not_verified"] : []),
     ...(!protectionReview ? ["protection_unverified"] : []),
     ...(sourceReceiptCount === 0 ? ["source_receipt_missing"] : []),
-    ...(state.verified !== assertions.length ? ["required_assertions_unverified"] : []),
+    ...(state.verified !== comparisonAssertions.length ? ["required_assertions_unverified"] : []),
     ...(state.conflicts ? ["assertion_conflict"] : []),
     ...(state.stale ? ["assertion_stale"] : []),
     ...(state.missingReceipt ? ["assertion_receipt_missing"] : []),
@@ -136,6 +142,7 @@ export function evaluateEvidenceGate({ offer, option, domain, asOf, sourceRegist
     ...(!promotionPresent ? ["candidate_promotion_missing"] : []),
     ...(promotionPresent && promotion.comparison_approved !== true ? ["candidate_promotion_not_approved"] : []),
     ...(promotionPresent && promotion.checksum_verified !== true ? ["candidate_promotion_checksum_unverified"] : []),
+    ...(!profileBindingValid ? ["assertion_profile_mode_mismatch"] : []),
     ...(promotionPresent && !assertionSetsMatch ? ["assertion_set_mismatch"] : []),
     ...(promotionPresent && !salesReceiptLinked ? ["sales_verification_receipt_unlinked"] : []),
   ];
@@ -155,7 +162,10 @@ export function evaluateEvidenceGate({ offer, option, domain, asOf, sourceRegist
     comparison_approved: comparisonApprovedWithPromotion,
     recommendation_approved: recommendationApproved,
     reasons: [...new Set(reasons)],
-    assertion_count: assertions.length,
+    assertion_profile: assertionProfile.name,
+    comparison_mode: assertionProfile.comparison_mode,
+    assertion_count: comparisonAssertions.length,
+    recommendation_assertion_count: recommendationAssertions.length,
     verified_assertion_count: state.verified,
   };
 }

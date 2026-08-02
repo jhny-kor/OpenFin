@@ -4,7 +4,7 @@
   "title": "OpenFin candidate promotion receipt",
   "type": "object",
   "additionalProperties": false,
-  "required": ["offer_id", "option_id", "candidate_content_checksum", "checksum_verified", "strict_schema_checksum", "schema_content_checksum", "assertion_sets", "required_assertion_checksum", "source_set_checksum", "source_authority_summary", "freshness_evaluation_as_of", "conflict_count", "sales_verification_receipt_id", "comparison_approved", "recommendation_approved", "mode", "reviewer", "evaluated_at", "expires_at"],
+  "required": ["offer_id", "option_id", "candidate_content_checksum", "checksum_verified", "strict_schema_checksum", "schema_content_checksum", "assertion_sets", "required_assertion_checksum", "source_set_checksum", "source_authority_summary", "freshness_evaluation_as_of", "conflict_count", "sales_verification_receipt_id", "comparison_approved", "recommendation_approved", "comparison_profile", "comparison_mode", "mode", "reviewer", "evaluated_at", "expires_at"],
   "properties": {
     "offer_id": { "type": "string", "minLength": 1 },
     "option_id": { "type": "string", "minLength": 1 },
@@ -29,6 +29,8 @@
     "sales_verification_receipt_id": { "type": ["string", "null"] },
     "comparison_approved": { "type": "boolean" },
     "recommendation_approved": { "type": "boolean" },
+    "comparison_profile": { "enum": ["market_comparison", "user_fit_comparison", "shadow_recommendation", "owner_pilot", "public_recommendation"] },
+    "comparison_mode": { "enum": ["market", "user_fit"] },
     "mode": { "enum": ["shadow", "owner_pilot", "review_ready", "limited_public", "public"] },
     "reviewer": { "type": "string", "minLength": 1 },
     "reviewer_role": { "type": ["string", "null"] },
