@@ -995,9 +995,8 @@ function renderOperationalSummary() {
     <article>
       <h3>API 필요</h3>
       <div class="operational-source-group">
-        <h4>키·권한이 필요한 출처</h4>
         <ul class="operational-source-list">
-          ${apiRequired.map((source) => sourceRequirementHtml(source, "api")).join("") || sourceEmptyHtml("추가 API 키가 필요한 출처가 없습니다.")}
+          ${apiRequired.map((source) => sourceRequirementHtml(source, "api")).join("") || sourceEmptyHtml("API가 필요한 기관이 없습니다.")}
         </ul>
       </div>
       <div class="operational-source-group">
@@ -1019,7 +1018,20 @@ function renderOperationalSummary() {
 }
 
 function sourceRequirementHtml(source, kind) {
-  const value = kind === "api" ? source.required_secret : source.collection_mode;
+  if (kind === "api") {
+    const metadata = sourceMetadataFor(source.source_id) || {};
+    const institution = metadata.publisher || metadata.title || "기관 미상";
+    const siteUrl = [metadata.urls?.api, metadata.urls?.canonical, metadata.canonical_url, metadata.url]
+      .find(isValidSourceUrl) || "";
+    return `
+      <li>
+        <strong>${escapeHtml(institution)}</strong>
+        ${siteUrl ? `<a href="${escapeAttribute(siteUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(siteUrl)}</a>` : ""}
+      </li>
+    `;
+  }
+
+  const value = source.collection_mode;
   const detail = source.needed_for || source.status || "";
   return `
     <li>
