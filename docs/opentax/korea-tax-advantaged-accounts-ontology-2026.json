@@ -657,7 +657,10 @@
       "provenance_shard": "account-products",
       "requires": [
         "eligibility-rule.housing-savings-employee-household"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-24",
+      "sales_status_reviewed_at": "2026-07-24",
+      "eligibility_reviewed_at": "2026-07-24"
     },
     {
       "id": "finance.account.housing-subscription.nhuf.youth-dream",
@@ -1073,7 +1076,10 @@
         "recommendation_scope": "listing_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "account-products"
+      "provenance_shard": "account-products",
+      "rate_reviewed_at": "2026-07-24",
+      "sales_status_reviewed_at": "2026-07-24",
+      "eligibility_reviewed_at": "2026-07-24"
     },
     {
       "id": "finance.account.isa-account.fsc.brokerage",
@@ -1501,7 +1507,10 @@
         "recommendation_scope": "listing_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "account-products"
+      "provenance_shard": "account-products",
+      "rate_reviewed_at": "2026-07-24",
+      "sales_status_reviewed_at": "2026-07-24",
+      "eligibility_reviewed_at": "2026-07-24"
     },
     {
       "id": "finance.account.isa-account.fsc.trust-discretionary",
@@ -1916,7 +1925,10 @@
         "recommendation_scope": "listing_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "account-products"
+      "provenance_shard": "account-products",
+      "rate_reviewed_at": "2026-07-24",
+      "sales_status_reviewed_at": "2026-07-24",
+      "eligibility_reviewed_at": "2026-07-24"
     },
     {
       "id": "finance.tax-advantaged-accounts-ontology",
@@ -2012,5 +2024,5 @@
       "provenance_shard": "reference"
     }
   ],
-  "export_checksum": "2aaad51e89bae1782d7e95cc818df1d1f4d49f5e7ad6e89d27cce01bab518c28"
+  "export_checksum": "096bc2571eaff319f50f5a12ac3fde2898e30ca10c7cfa9f28c66306e3a5eb0f"
 }

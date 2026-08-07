@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-08-07T05:13:04.778Z",
+  "reason_code": "REVIEW_REQUIRED",
+  "source_check": "success",
+  "review_count": 130,
+  "delivery": "not_attempted",
+  "report_file": "evidence/source-receipts/2026-08/source-status-report.json",
+  "impact_file": "evidence/source-reviews/2026-08-07-source-impact.json",
+  "source_count": 155,
+  "status_counts": {
+    "changed": 101,
+    "stale": 17,
+    "unreachable": 12,
+    "unchanged": 25
+  }
+}

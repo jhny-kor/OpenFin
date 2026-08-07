@@ -73,9 +73,12 @@ const quality = toolPayload(await rpc("tools/call", { name: "get_openfin_quality
 if (!quality.quality_status || typeof quality.quality_status.release_status !== "string") throw new Error("quality status is incomplete");
 if (quality.quality_status.core_search_status !== "ready" || quality.quality_status.recommendation_status !== "blocked") throw new Error("quality capability status is incomplete");
 const search = toolPayload(await rpc("tools/call", { name: "search", arguments: { query: "청년 주택드림 청약통장", limit: 1 } }), "search");
-if (!Array.isArray(search.results) || typeof search.result_count !== "number") throw new Error("representative search is incomplete");
+if (search.result_count < 1 || search.results?.[0]?.id !== "finance.account.housing-subscription.nhuf.youth-dream") throw new Error("representative search returned an unexpected result");
 const fetched = toolPayload(await rpc("tools/call", { name: "fetch", arguments: { id: "finance.account.housing-subscription.nhuf.youth-dream" } }), "fetch");
 if (fetched.id !== "finance.account.housing-subscription.nhuf.youth-dream") throw new Error("representative fetch returned the wrong item");
+if (!Array.isArray(fetched.sources) && !Array.isArray(fetched.source_ids)) throw new Error("representative fetch has no source evidence");
+if (!fetched.freshness_status && !fetched.source_freshness_status) throw new Error("representative fetch has no freshness status");
+if (search.results[0].title && fetched.title && search.results[0].title !== fetched.title) throw new Error("search/fetch titles do not match");
 const comparison = toolPayload(await rpc("tools/call", { name: "compare", arguments: { domain: "deposit", term_months: 12, limit: 1 } }), "compare");
 if ((comparison.status === "blocked" && !Array.isArray(comparison.reason_codes)) || (!comparison.status && !Array.isArray(comparison.blockers))) throw new Error("compare readiness reason is incomplete");
 const recommendation = toolPayload(await rpc("tools/call", { name: "recommend", arguments: { domain: "deposit", limit: 1, context: { as_of: "2026-07-31" } } }), "recommend");

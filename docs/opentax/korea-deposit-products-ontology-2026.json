@@ -3288,7 +3288,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010002.00320342",
@@ -4339,7 +4342,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010016.10511008001166004",
@@ -5152,7 +5159,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010017.01030500510002",
@@ -6332,7 +6343,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010017.01030500560002",
@@ -7510,7 +7525,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010017.01030500600002",
@@ -8394,7 +8413,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010019.td11300027000",
@@ -9387,7 +9410,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010019.td11300031000",
@@ -10584,7 +10611,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010019.td11300035000",
@@ -11424,7 +11455,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010019.td11300036000",
@@ -12378,7 +12413,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010020.101272000006",
@@ -13365,7 +13403,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010020.101272000057",
@@ -14352,7 +14394,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010020.101272000058",
@@ -15125,7 +15171,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010022.10-01-20-024-0046-0000",
@@ -15894,7 +15944,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010022.10-01-20-024-0059-0000",
@@ -16521,7 +16575,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010022.10-01-20-024-0063-0000",
@@ -17549,7 +17607,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010024.21001115",
@@ -18603,7 +18665,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010024.21001280",
@@ -19589,7 +19655,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010024.21001285",
@@ -20651,7 +20721,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010026.01211310121",
@@ -21633,7 +21707,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010026.01211310130",
@@ -22444,7 +22522,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010026.01211310142",
@@ -23280,7 +23361,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010030.06492",
@@ -24468,7 +24552,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010345.hk00001",
@@ -25681,7 +25769,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010345.hk00006",
@@ -26551,7 +26642,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010345.hk00007",
@@ -27221,7 +27315,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010345.hk00009",
@@ -28091,7 +28189,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010345.hk00010",
@@ -28749,7 +28850,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010345.hk00011",
@@ -29405,7 +29509,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010345.hk00012",
@@ -30234,7 +30341,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010345.hk00013",
@@ -31223,7 +31334,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010345.hk00014",
@@ -31879,7 +31994,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010345.hk00015",
@@ -32535,7 +32653,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010346.24000",
@@ -33734,7 +33855,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010346.24002",
@@ -34933,7 +35057,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010346.24036",
@@ -35589,7 +35716,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010346.24037",
@@ -36245,7 +36375,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010349.240000",
@@ -37344,7 +37477,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010349.240007",
@@ -38550,7 +38686,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010349.240800",
@@ -39213,7 +39352,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010349.240801",
@@ -39876,7 +40018,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010349.240802",
@@ -40539,7 +40684,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010349.240806",
@@ -41745,7 +41893,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010349.240822",
@@ -42415,7 +42566,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010349.240823",
@@ -43085,7 +43240,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010349.240860",
@@ -43748,7 +43907,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010349.240862",
@@ -44411,7 +44573,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010350.240023",
@@ -45649,7 +45814,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010350.240025",
@@ -46848,7 +47017,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010350.240029",
@@ -48047,7 +48219,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010350.240031",
@@ -48717,7 +48892,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010350.240033",
@@ -49373,7 +49552,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010350.240035",
@@ -50029,7 +50211,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010350.240037",
@@ -50685,7 +50870,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010354.mk240001",
@@ -51922,7 +52110,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010354.mk240002",
@@ -53121,7 +53313,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010354.mk240018",
@@ -54320,7 +54515,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010354.mk240020",
@@ -55519,7 +55717,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010356.1001",
@@ -57228,7 +57429,11 @@
       "source_ids": [
         "source.fss.finlife.api",
         "source.kdic.insured-products"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010358.240004",
@@ -58209,7 +58414,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010358.240018",
@@ -59190,7 +59398,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010358.240021",
@@ -60171,7 +60382,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010358.240023",
@@ -60827,7 +61041,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010358.240025",
@@ -61483,7 +61700,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010358.240027",
@@ -62139,7 +62359,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010358.240032",
@@ -62795,7 +63018,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010358.240033",
@@ -63451,7 +63677,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010358.240035",
@@ -64107,7 +64336,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010359.240029",
@@ -65306,7 +65538,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010359.240031",
@@ -66505,7 +66740,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010359.240033",
@@ -67704,7 +67942,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010359.240037",
@@ -68374,7 +68615,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010359.240039",
@@ -69044,7 +69289,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010359.240041",
@@ -69714,7 +69963,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010363.240042",
@@ -70913,7 +71166,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010363.240045",
@@ -72112,7 +72368,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010363.240074",
@@ -72768,7 +73027,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010363.240076",
@@ -73424,7 +73686,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010366.024240001",
@@ -74621,7 +74886,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010366.024241001",
@@ -75816,7 +76084,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010366.024242001",
@@ -77011,7 +77282,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010370.250033",
@@ -78250,7 +78524,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010370.250039",
@@ -78922,7 +79200,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010378.240001",
@@ -80130,7 +80412,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010378.240002",
@@ -81338,7 +81623,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010378.240010",
@@ -82546,7 +82834,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010378.240033",
@@ -83209,7 +83500,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010378.240035",
@@ -83872,7 +84166,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240044",
@@ -84962,7 +85259,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240046",
@@ -86052,7 +86352,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240050",
@@ -86708,7 +87011,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240052",
@@ -87364,7 +87670,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240061",
@@ -87977,7 +88286,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240062",
@@ -88590,7 +88902,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240065",
@@ -89203,7 +89518,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240066",
@@ -89816,7 +90134,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240069",
@@ -90472,7 +90793,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240071",
@@ -91128,7 +91452,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240075",
@@ -91741,7 +92068,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010388.240076",
@@ -92354,7 +92684,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010389.24",
@@ -93555,7 +93888,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010389.24-1",
@@ -94756,7 +95092,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010389.24-2",
@@ -95412,7 +95751,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010389.24-3",
@@ -96613,7 +96955,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010389.24-4",
@@ -97269,7 +97614,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010389.24-5",
@@ -97925,7 +98273,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010390.240036",
@@ -99124,7 +99475,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010390.240038",
@@ -100323,7 +100677,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010390.240042",
@@ -101193,7 +101550,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010390.240043",
@@ -102063,7 +102423,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010390.240058",
@@ -103044,7 +103407,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010390.240060",
@@ -103914,7 +104280,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010391.kj0001a",
@@ -105004,7 +105373,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010391.kj0004a",
@@ -106114,7 +106486,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010404.dh001",
@@ -107204,7 +107579,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010404.dh002",
@@ -108187,7 +108565,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010416.240001",
@@ -109279,7 +109660,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010416.240005",
@@ -110371,7 +110755,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010416.240007",
@@ -111463,7 +111850,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010416.240010",
@@ -112555,7 +112945,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010416.240016",
@@ -113647,7 +114040,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010418.240004",
@@ -114739,7 +115135,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010418.240006",
@@ -115831,7 +116230,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010419.240013",
@@ -117030,7 +117432,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010419.240015",
@@ -118229,7 +118634,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010419.240017",
@@ -118885,7 +119293,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010419.240019",
@@ -119541,7 +119952,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010421.kh2400",
@@ -120779,7 +121193,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010421.kh2401",
@@ -121978,7 +122396,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010421.kh2402",
@@ -123177,7 +123598,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010421.kh2403",
@@ -123847,7 +124271,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010421.kh2404",
@@ -124503,7 +124931,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010426.240012",
@@ -125739,7 +126170,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010426.240014",
@@ -126975,7 +127410,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010426.240018",
@@ -127645,7 +128084,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010426.240020",
@@ -128315,7 +128758,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010430.240072",
@@ -129407,7 +129854,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010430.240074",
@@ -130499,7 +130949,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010430.240078",
@@ -131155,7 +131608,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010430.240080",
@@ -131811,7 +132267,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010430.240086",
@@ -132467,7 +132926,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010430.240090",
@@ -133123,7 +133585,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010430.240092",
@@ -133779,7 +134244,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010437.240000",
@@ -134978,7 +135446,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010437.240007",
@@ -135959,7 +136430,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010438.240014",
@@ -136940,7 +137414,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010438.240016",
@@ -137921,7 +138398,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010439.240001",
@@ -139120,7 +139600,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010439.240009",
@@ -140319,7 +140802,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010448.24-0001",
@@ -141409,7 +141895,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010448.24-0002",
@@ -142499,7 +142988,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010448.24-0003",
@@ -143589,7 +144081,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010448.24-0004",
@@ -144352,7 +144847,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010448.24-0005",
@@ -145115,7 +145613,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010448.24-0006",
@@ -145878,7 +146379,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010449.ny240001",
@@ -146969,7 +147473,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010449.ny240004",
@@ -148060,7 +148567,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010449.ny240009",
@@ -149151,7 +149661,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010453.240001",
@@ -150241,7 +150754,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010453.240016",
@@ -151331,7 +151847,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010456.240001",
@@ -152421,7 +152940,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010456.240013",
@@ -153513,7 +154035,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010456.240029",
@@ -154605,7 +155130,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010456.240052",
@@ -155275,7 +155803,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010456.240054",
@@ -155945,7 +156477,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010456.240056",
@@ -156615,7 +157151,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010456.240062",
@@ -157285,7 +157825,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010456.240064",
@@ -157955,7 +158499,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010456.240066",
@@ -158625,7 +159173,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010457.240008",
@@ -159749,7 +160301,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010457.240010",
@@ -160841,7 +161397,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010457.240016",
@@ -161933,7 +162492,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010460.240013",
@@ -163221,7 +163783,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010460.240015",
@@ -164509,7 +165074,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010460.240017",
@@ -165165,7 +165733,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010460.240019",
@@ -166364,7 +166935,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010463.240001-240002",
@@ -167602,7 +168176,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010463.240006-240007",
@@ -168801,7 +169379,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010464.240010",
@@ -169926,7 +170507,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010464.240012",
@@ -171018,7 +171603,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010464.240014",
@@ -172110,7 +172698,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010464.240016",
@@ -173202,7 +173793,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010464.240019",
@@ -173858,7 +174452,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010467.240000",
@@ -175059,7 +175656,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010467.241000",
@@ -176260,7 +176860,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010467.241100",
@@ -177461,7 +178064,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010467.242000",
@@ -178117,7 +178723,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010467.243000",
@@ -178773,7 +179382,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010467.243100",
@@ -179429,7 +180041,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010468.240002",
@@ -180629,7 +181244,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010468.240025",
@@ -181828,7 +182446,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010468.240027",
@@ -182484,7 +183105,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010468.240031",
@@ -183140,7 +183764,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010468.240050",
@@ -184013,7 +184640,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010468.240901",
@@ -185212,7 +185842,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0001",
@@ -186418,7 +187051,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0055",
@@ -187277,7 +187913,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0059",
@@ -188147,7 +188787,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0061",
@@ -189544,7 +190188,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0069",
@@ -190730,7 +191377,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0081",
@@ -191589,7 +192240,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0083",
@@ -192795,7 +193450,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0085",
@@ -193973,7 +194631,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0086",
@@ -194643,7 +195305,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0089",
@@ -195306,7 +195972,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010471.24-0090",
@@ -195971,7 +196640,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240036",
@@ -196628,7 +197300,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240037",
@@ -197285,7 +197960,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240038",
@@ -197942,7 +198620,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240043",
@@ -198599,7 +199280,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240054",
@@ -199474,7 +200158,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240060",
@@ -200349,7 +201036,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240066",
@@ -201224,7 +201914,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240072",
@@ -202099,7 +202792,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240078",
@@ -202756,7 +203452,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240080",
@@ -203413,7 +204112,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240082",
@@ -204069,7 +204771,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240084",
@@ -204726,7 +205431,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240086",
@@ -205492,7 +206200,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240087",
@@ -206366,7 +207077,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240090",
@@ -207131,7 +207845,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240091",
@@ -208005,7 +208722,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240094",
@@ -208771,7 +209491,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240095",
@@ -209645,7 +210368,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240098",
@@ -210411,7 +211137,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240099",
@@ -211285,7 +212014,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240103",
@@ -211942,7 +212674,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240105",
@@ -212599,7 +213334,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240107",
@@ -213255,7 +213993,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010473.gp240109",
@@ -213912,7 +214653,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010477.240071",
@@ -215002,7 +215746,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010477.240093",
@@ -216092,7 +216839,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010477.240095",
@@ -217182,7 +217932,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010477.240097",
@@ -218056,7 +218809,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010477.240109",
@@ -218930,7 +219686,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010477.240111",
@@ -220020,7 +220779,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010477.240113",
@@ -220785,7 +221547,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010478.240003",
@@ -222002,7 +222767,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010478.240006",
@@ -223219,7 +223987,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010478.240010",
@@ -224436,7 +225207,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010485.401001",
@@ -225441,7 +226215,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010485.401004",
@@ -226251,7 +227028,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010488.240027",
@@ -227448,7 +228228,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010488.240036",
@@ -228645,7 +229428,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010488.240048",
@@ -229301,7 +230087,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010488.240050",
@@ -229957,7 +230746,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010488.240053",
@@ -231154,7 +231946,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010489.240010",
@@ -232355,7 +233150,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010489.240014",
@@ -233556,7 +234354,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010489.240020",
@@ -234321,7 +235122,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010489.240022",
@@ -235522,7 +236326,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010492.24-0017",
@@ -236534,7 +237341,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010492.24-0019",
@@ -237546,7 +238357,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010492.24-0023",
@@ -238558,7 +239373,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02080",
@@ -239214,7 +240033,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02081",
@@ -239870,7 +240692,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02082",
@@ -240526,7 +241351,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02083",
@@ -241182,7 +242010,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02084",
@@ -241838,7 +242669,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02085",
@@ -242494,7 +243328,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02086",
@@ -243150,7 +243987,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02087",
@@ -243806,7 +244646,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02088",
@@ -244678,7 +245521,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02089",
@@ -245443,7 +246289,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02090",
@@ -246315,7 +247164,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02091",
@@ -247080,7 +247932,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02092",
@@ -247952,7 +248807,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02093",
@@ -248717,7 +249575,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02094",
@@ -249589,7 +250450,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02095",
@@ -250354,7 +251218,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02096",
@@ -251010,7 +251877,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02097",
@@ -251666,7 +252536,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02098",
@@ -252322,7 +253195,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010508.02099",
@@ -252978,7 +253854,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010509.240001",
@@ -254066,7 +254945,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010509.240018",
@@ -255154,7 +256036,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010509.240019",
@@ -255917,7 +256802,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010510.240014",
@@ -257114,7 +258002,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010510.240018",
@@ -258311,7 +259202,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010510.240020",
@@ -259508,7 +260402,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010521.240015",
@@ -260709,7 +261606,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010521.240017",
@@ -261908,7 +262808,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010526.240008-240009",
@@ -262998,7 +263901,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010526.240010-240011",
@@ -264088,7 +264994,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010527.240012",
@@ -265285,7 +266194,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010527.240014",
@@ -266482,7 +267394,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010528.240001",
@@ -267572,7 +268487,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010528.241003",
@@ -268555,7 +269473,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010533.24",
@@ -269538,7 +270459,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010533.240007",
@@ -270521,7 +271445,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010534.wr0001a",
@@ -271761,7 +272688,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010534.wr0001j",
@@ -273001,7 +273932,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010534.wr0001m",
@@ -274241,7 +275176,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010537.240001",
@@ -275438,7 +276377,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010537.240036",
@@ -276635,7 +277577,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010537.240081",
@@ -277832,7 +278777,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010537.240194",
@@ -278488,7 +279436,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010537.240196",
@@ -279144,7 +280095,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010537.240198",
@@ -279800,7 +280754,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010537.240202",
@@ -280470,7 +281427,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010537.240299",
@@ -281126,7 +282087,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010550.240009",
@@ -282343,7 +283307,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010550.240013",
@@ -283562,7 +284529,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010551.240001",
@@ -284762,7 +285732,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010551.240007",
@@ -285962,7 +286935,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010551.240010",
@@ -287161,7 +288137,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010553.240004",
@@ -288360,7 +289339,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010556.240008",
@@ -289555,7 +290537,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010556.240010",
@@ -290318,7 +291303,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010556.240013",
@@ -291081,7 +292069,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010556.240015",
@@ -291738,7 +292729,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010556.240016",
@@ -292394,7 +293388,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010560.c614001",
@@ -293484,7 +294481,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010560.c614002",
@@ -294574,7 +295574,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010560.c614003",
@@ -295684,7 +296687,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010560.c614009",
@@ -296340,7 +297346,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010560.c614010",
@@ -296996,7 +298005,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010560.c614011",
@@ -297672,7 +298684,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010560.c614012",
@@ -298328,7 +299343,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010560.c614013",
@@ -298984,7 +300002,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010560.c614014",
@@ -299660,7 +300681,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010562.240001",
@@ -300861,7 +301885,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010562.240002",
@@ -302062,7 +303089,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010562.240003",
@@ -302718,7 +303748,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010562.240004",
@@ -303374,7 +304407,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010562.240005",
@@ -304030,7 +305066,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010562.240006",
@@ -304686,7 +305725,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010568.240002",
@@ -306122,7 +307164,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010569.240014",
@@ -307103,7 +308148,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010569.240016",
@@ -308084,7 +309132,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010572.240001",
@@ -309174,7 +310225,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010572.240007",
@@ -310264,7 +311318,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010572.240010",
@@ -311354,7 +312411,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010574.240001",
@@ -312337,7 +313397,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010574.240009",
@@ -313340,7 +314403,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010574.240016",
@@ -313996,7 +315062,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010574.240018",
@@ -314672,7 +315741,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010575.jh0001a",
@@ -315871,7 +316943,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010575.jh0002a",
@@ -317070,7 +318145,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010575.jh0003c",
@@ -318269,7 +319347,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010576.240001",
@@ -319361,7 +320442,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010576.240008",
@@ -320453,7 +321537,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010576.240011",
@@ -321545,7 +322632,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010576.240013",
@@ -322637,7 +323727,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010576.240016",
@@ -323729,7 +324822,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010576.240021",
@@ -324821,7 +325917,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010576.240022",
@@ -325913,7 +327012,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010576.240025",
@@ -326676,7 +327778,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010576.240026",
@@ -327439,7 +328544,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010576.240027",
@@ -328202,7 +329310,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0010927.010300100335",
@@ -329378,7 +330489,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011551.240001",
@@ -330614,7 +331729,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011551.240008",
@@ -331811,7 +332930,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011551.240030",
@@ -332467,7 +333589,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011551.240031",
@@ -333123,7 +334248,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011551.240038",
@@ -333779,7 +334907,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011551.240039",
@@ -334435,7 +335566,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011551.240051",
@@ -335091,7 +336225,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011551.240053",
@@ -335747,7 +336884,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011625.207-0134-16",
@@ -336813,7 +337953,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011625.207-0135-12",
@@ -337754,7 +338898,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011767.240046",
@@ -338424,7 +339571,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011767.240048",
@@ -339094,7 +340245,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011767.240050",
@@ -340328,7 +341483,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0011767.240060",
@@ -341527,7 +342686,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012120.240032",
@@ -342723,7 +343885,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012120.240038",
@@ -343919,7 +345084,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012711.24002",
@@ -345118,7 +346286,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012711.24031",
@@ -345992,7 +347163,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012711.24502",
@@ -347191,7 +348365,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012711.24531",
@@ -347956,7 +349133,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012840.td",
@@ -349051,7 +350231,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012840.td07-tb07",
@@ -350140,7 +351323,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012840.td21",
@@ -351013,7 +352199,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012840.td22",
@@ -351886,7 +353075,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012840.td31",
@@ -352543,7 +353735,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012840.td33",
@@ -353200,7 +354395,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012889.240066",
@@ -354399,7 +355597,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012889.240071",
@@ -355598,7 +356799,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012889.240074",
@@ -356254,7 +357458,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0012889.240076",
@@ -356910,7 +358117,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013002.bnk1001",
@@ -358150,7 +359360,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013002.bnk1003",
@@ -358808,7 +360022,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013002.bnk1005",
@@ -360009,7 +361226,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013127.240000",
@@ -361135,7 +362355,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013127.240001",
@@ -362227,7 +363451,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013127.240004",
@@ -362897,7 +364124,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013127.240005",
@@ -363553,7 +364784,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013127.240006",
@@ -364451,7 +365685,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013127.240007",
@@ -365325,7 +366563,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013166.240001",
@@ -366958,7 +368199,11 @@
       "source_ids": [
         "source.fss.finlife.api",
         "source.kdic.insured-products"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013166.240002",
@@ -368089,7 +369334,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013166.240006",
@@ -368752,7 +370001,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013166.240007",
@@ -369431,7 +370683,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013166.240009",
@@ -370096,7 +371352,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013166.240010",
@@ -370773,7 +372032,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013166.240011",
@@ -371546,7 +372809,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013175.10-003-1225-0001",
@@ -372392,7 +373658,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013175.10-003-1381-0001",
@@ -373166,7 +374436,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013175.10-003-1384-0001",
@@ -374128,7 +375402,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013175.10-003-1387-0001",
@@ -374758,7 +376035,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013308.240059",
@@ -375414,7 +376695,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013308.240074",
@@ -376070,7 +377354,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013308.jtcsb240001",
@@ -377267,7 +378554,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013308.jtcsb240060",
@@ -378464,7 +379754,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013313.24000",
@@ -379556,7 +380849,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013313.24002",
@@ -380212,7 +381508,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013313.24010",
@@ -381304,7 +382603,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013313.24017",
@@ -381960,7 +383262,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013313.24110",
@@ -383052,7 +384357,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013313.24117",
@@ -383708,7 +385016,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013350.1120241001",
@@ -384907,7 +386218,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013350.1120241011",
@@ -385563,7 +386877,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013350.1120242001",
@@ -386762,7 +388079,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013350.1120242003",
@@ -387418,7 +388738,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013350.1120243002",
@@ -388617,7 +389940,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013350.1120243003",
@@ -389273,7 +390599,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013351.240062",
@@ -390299,7 +391628,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013351.240067",
@@ -391296,7 +392629,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013351.240070",
@@ -392210,7 +393546,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013351.240071",
@@ -393100,7 +394440,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013351.240097",
@@ -393990,7 +395333,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013351.240099",
@@ -394987,7 +396333,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0013909.4",
@@ -395927,7 +397276,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0014674.01013000110000000001",
@@ -396909,7 +398261,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0014807.10120114300011",
@@ -397628,7 +398984,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0014807.10120114700011",
@@ -398390,7 +399750,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0014807.10120116100011",
@@ -399230,7 +400593,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0015130.10-01-20-388-0002",
@@ -400211,7 +401578,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.deposit.deposit.0017801.1001202000002",
@@ -401199,7 +402570,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "source.crefia.auto-lease-disclosure",
@@ -402213,5 +403588,5 @@
       "provenance_shard": "reference"
     }
   ],
-  "export_checksum": "260ed17c3389df85d0f9933c8e3c83755d5f4ed3b7a2a120075134cbf579df45"
+  "export_checksum": "b029403bde78a9d22cd6475e41a6779320615026ff7e8e7b9400af50ed6dccc6"
 }

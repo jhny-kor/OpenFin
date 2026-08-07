@@ -1876,7 +1876,8 @@
       "law_reference": "",
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.income-tax.additional-tax",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "concept.capital-gains.calculation-flow",
@@ -1946,7 +1947,8 @@
       ],
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.capital-gains.overview",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "concept.capital-gains.stock-basic-deduction",
@@ -2003,7 +2005,8 @@
       ],
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.capital-gains.overview",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "concept.cre-deduction-thresholds",
@@ -2105,7 +2108,8 @@
       ],
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.comprehensive-real-estate.overview",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "concept.cre-tax-base-date",
@@ -2158,7 +2162,8 @@
       ],
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.comprehensive-real-estate.overview",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "concept.financial-income-comprehensive-taxation",
@@ -2232,7 +2237,8 @@
       "law_reference": "",
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.income-tax.overview",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "concept.general-vat-taxpayer",
@@ -2315,7 +2321,8 @@
       ],
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.vat.overview",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "concept.simple-vat-taxpayer",
@@ -2439,7 +2446,8 @@
       "source_registry_status": "registered",
       "requires": [
         "eligibility-rule.vat-taxpayer-type"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "concept.vat-payment-exemption",
@@ -2504,7 +2512,8 @@
       "source_registry_status": "registered",
       "requires": [
         "eligibility-rule.vat-taxpayer-type"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "conflict-rule.donation-carryover",
@@ -2818,7 +2827,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.cooperation-credit",
@@ -2906,7 +2916,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.crisis-area-startup-reduction",
@@ -2994,7 +3005,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.disaster-loss-credit",
@@ -3083,7 +3095,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.e-filing-credit",
@@ -3166,7 +3179,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.employment-maintenance-credit",
@@ -3254,7 +3268,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.enterprise-city-reduction",
@@ -3341,7 +3356,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.facility-investment-credit",
@@ -3453,7 +3469,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.foreign-tax-paid-credit",
@@ -3539,7 +3556,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.good-landlord-credit",
@@ -3630,7 +3648,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.industrial-complex-reduction",
@@ -3719,7 +3738,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.jeju-zone-reduction",
@@ -3806,7 +3826,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.local-relocation-deferral",
@@ -3890,7 +3911,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.local-relocation-reduction",
@@ -3978,7 +4000,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.ma-credit",
@@ -4066,7 +4089,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.minimum-tax-preference",
@@ -4154,7 +4178,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.performance-sharing-credit",
@@ -4242,7 +4267,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.restructuring-deferral",
@@ -4326,7 +4352,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.rnd-credit",
@@ -4447,7 +4474,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.rnd-grant-deferral",
@@ -4531,7 +4559,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.rnd-zone-reduction",
@@ -4619,7 +4648,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.sme-special-reduction",
@@ -4769,7 +4799,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.social-enterprise-reduction",
@@ -4857,7 +4888,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.social-insurance-credit",
@@ -4947,7 +4979,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.startup-sme-reduction",
@@ -5081,7 +5114,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.tech-transfer-reduction",
@@ -5188,7 +5222,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.wage-increase-credit",
@@ -5278,7 +5313,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "corporate.support.winwin-payment-credit",
@@ -5366,7 +5402,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.child",
@@ -5531,7 +5568,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.donation",
@@ -5752,7 +5790,8 @@
       ],
       "conflicts_with": [
         "conflict-rule.donation-carryover"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.earned-income",
@@ -5958,7 +5997,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.education-expense",
@@ -6125,7 +6165,8 @@
       ],
       "conflicts_with": [
         "conflict-rule.education-nongrad"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.foreign-tax-paid",
@@ -6215,7 +6256,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.insurance-premium",
@@ -6325,7 +6367,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.special-credit",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.integrated-employment",
@@ -6429,7 +6472,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.medical-expense",
@@ -6614,7 +6658,8 @@
         "required-document.eyeglasses-receipt",
         "required-document.medical-expense-statement",
         "required-document.medical-receipt"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.monthly-rent",
@@ -6824,7 +6869,8 @@
       ],
       "conflicts_with": [
         "conflict-rule.monthly-rent-household-duplicate"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.pension-account",
@@ -6953,7 +6999,8 @@
       "source_registry_status": "registered",
       "requires": [
         "eligibility-rule.gross-pay-income-threshold"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.research-and-development",
@@ -7074,7 +7121,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "credit.special-tax",
@@ -7412,7 +7460,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.special-credit",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deadline.business-registration.application",
@@ -8394,7 +8443,8 @@
       "source_registry_status": "registered",
       "requires": [
         "eligibility-rule.credit-card-floor"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.employee-stock-ownership",
@@ -8496,7 +8546,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.employment-maintenance-worker",
@@ -8587,7 +8638,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.health-insurance-premium",
@@ -8689,7 +8741,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.housing-funds",
@@ -8868,7 +8921,8 @@
       ],
       "conflicts_with": [
         "conflict-rule.monthly-rent-household-duplicate"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.housing-savings",
@@ -9008,7 +9062,8 @@
       ],
       "conflicts_with": [
         "conflict-rule.monthly-rent-household-duplicate"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.investment-association",
@@ -9166,7 +9221,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.long-term-fund",
@@ -9262,7 +9318,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.other-income",
@@ -9391,7 +9448,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.pension-insurance",
@@ -9477,7 +9535,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.personal",
@@ -9669,7 +9728,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.personal-pension-savings",
@@ -9761,7 +9821,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.personal.additional",
@@ -9897,7 +9958,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.personal.basic",
@@ -10021,7 +10083,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.small-business-mutual-aid",
@@ -10156,7 +10219,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.deduction-limit",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.special-income",
@@ -10357,7 +10421,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "deduction.youth-long-term-fund",
@@ -10473,7 +10538,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.year-end-settlement.calculation",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "eligibility-rule.child-age",
@@ -11194,7 +11260,8 @@
       "law_reference": "",
       "provenance_shard": "reference",
       "source_registry_id": "source.korea.youth-monthly-rent.2026",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.business-income-withholding",
@@ -11295,7 +11362,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.business-income.withholding",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.business-registration",
@@ -11391,7 +11459,8 @@
       "source_registry_status": "registered",
       "requires": [
         "required-document.small-business-registration"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.capital-gains-return",
@@ -11505,7 +11574,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.capital-gains.overview",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.gift-tax-return",
@@ -11589,7 +11659,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.gift.deadline",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.grant-application",
@@ -11678,7 +11749,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.grant.eligibility",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.income-tax-return",
@@ -11771,7 +11843,8 @@
       "source_registry_status": "registered",
       "available_in": [
         "application-channel.hometax-income-tax"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.inheritance-tax-return",
@@ -11858,7 +11931,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.inheritance.overview",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.payment-statement-submission",
@@ -12017,7 +12091,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.payment-statement.deadlines",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.vat-return",
@@ -12151,7 +12226,8 @@
       "source_registry_status": "registered",
       "available_in": [
         "application-channel.hometax-vat"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.withholding-tax",
@@ -12250,7 +12326,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.tax-calendar.2026",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "filing.year-end-settlement",
@@ -12347,7 +12424,8 @@
       "available_in": [
         "application-channel.company-year-end-settlement",
         "application-channel.hometax-simplification"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "kr-tax-system",
@@ -13868,7 +13946,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "local.automobile",
@@ -13948,7 +14027,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "local.leisure",
@@ -14030,7 +14110,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "local.local-consumption",
@@ -14110,7 +14191,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "local.local-education",
@@ -14190,7 +14272,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "local.local-income",
@@ -14273,7 +14356,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "local.property",
@@ -14571,7 +14655,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "local.regional-resource-facility",
@@ -14649,7 +14734,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "local.registration-license",
@@ -14727,7 +14813,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "local.resident",
@@ -14807,7 +14894,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "local.tobacco-consumption",
@@ -14885,7 +14973,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.local-tax-framework-act.2026.article8",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "reduction.good-landlord",
@@ -14975,7 +15064,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "reduction.sme-employment-income",
@@ -15110,7 +15200,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.sme-employment-income-reduction",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "reduction.sme-special",
@@ -15258,7 +15349,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "reduction.startup-sme",
@@ -15390,7 +15482,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.corporate-tax.reliefs",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "required-document.birth-registration",
@@ -20779,7 +20872,8 @@
       "source_registry_status": "registered",
       "requires": [
         "eligibility-rule.median-income-support"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.child-allowance",
@@ -20877,7 +20971,8 @@
       "requires": [
         "eligibility-rule.child-age",
         "required-document.birth-registration"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.child-tax-credit",
@@ -20989,7 +21084,8 @@
       ],
       "provenance_shard": "support",
       "source_registry_id": "source.nts.ctc.intro",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.didimdol-loan",
@@ -21169,7 +21265,8 @@
       ],
       "provenance_shard": "support",
       "source_registry_id": "source.hf.didimdol-loan",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.earned-income-tax-credit",
@@ -21296,7 +21393,8 @@
       ],
       "provenance_shard": "support",
       "source_registry_id": "source.nts.eitc.intro",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.first-meeting-voucher",
@@ -21407,7 +21505,8 @@
       "requires": [
         "eligibility-rule.child-age",
         "required-document.birth-registration"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.hessal-119",
@@ -21545,7 +21644,8 @@
       ],
       "provenance_shard": "support",
       "source_registry_id": "source.kinfa.hessal-119",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.hessal-loan-youth",
@@ -21687,7 +21787,8 @@
       ],
       "provenance_shard": "support",
       "source_registry_id": "source.kinfa.hessal-loan-youth",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.housing-benefit",
@@ -21856,7 +21957,8 @@
       "requires": [
         "eligibility-rule.median-income-support",
         "required-document.rental-contract-support"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.illegal-private-finance-prevention-loan",
@@ -22005,7 +22107,8 @@
       ],
       "provenance_shard": "support",
       "source_registry_id": "source.kinfa.illegal-private-finance-prevention-loan",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.isa",
@@ -22122,7 +22225,8 @@
       ],
       "provenance_shard": "support",
       "source_registry_id": "source.fsc.isa.policy",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.long-term-delinquent-debt-adjustment",
@@ -22286,7 +22390,8 @@
       ],
       "provenance_shard": "support",
       "source_registry_id": "source.ccrs.long-term-delinquent-debt-adjustment",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.parent-benefit",
@@ -22393,7 +22498,8 @@
       "requires": [
         "eligibility-rule.child-age",
         "required-document.birth-registration"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.small-business-leap",
@@ -22476,7 +22582,8 @@
       ],
       "requires": [
         "eligibility-rule.small-business-basic"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.small-business-management-stability-voucher",
@@ -22574,7 +22681,8 @@
       "requires": [
         "eligibility-rule.small-business-basic",
         "required-document.small-business-registration"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.small-business-policy-fund",
@@ -22730,7 +22838,8 @@
         "eligibility-rule.tax-delinquency-exclusion",
         "required-document.small-business-registration",
         "required-document.tax-payment-status"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.youth-future-savings",
@@ -22960,7 +23069,8 @@
       ],
       "provenance_shard": "support",
       "source_registry_id": "source.fsc.youth-future-savings",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.youth-job-leap-incentive",
@@ -23047,7 +23157,8 @@
       "law_reference": "",
       "provenance_shard": "support",
       "source_registry_id": "source.korea.youth-job-leap.2026",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.youth-leap-account",
@@ -23172,7 +23283,8 @@
       ],
       "provenance_shard": "support",
       "source_registry_id": "source.kinfa.youth-leap",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.youth-monthly-rent-special",
@@ -23360,7 +23472,8 @@
         "eligibility-rule.median-income-support",
         "eligibility-rule.youth-rent-income-asset",
         "required-document.rental-contract-support"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "support.youth-special-rent-guarantee",
@@ -23472,7 +23585,8 @@
       ],
       "available_in": [
         "application-channel.myhome"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.comprehensive-real-estate",
@@ -23976,7 +24090,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.corporate",
@@ -24154,7 +24269,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.customs",
@@ -24231,7 +24347,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.customs-act.2026.article14",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.education",
@@ -24312,7 +24429,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.gift",
@@ -24507,7 +24625,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.income",
@@ -24784,7 +24903,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.income.capital-gains",
@@ -25116,7 +25236,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.income.comprehensive",
@@ -25391,7 +25512,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.nts.income-tax.deadline",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.income.retirement",
@@ -25547,7 +25669,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.individual-consumption",
@@ -25626,7 +25749,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.inheritance",
@@ -25823,7 +25947,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.inheritance-and-gift",
@@ -26027,7 +26152,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.liquor",
@@ -26106,7 +26232,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.securities-transaction",
@@ -26189,7 +26316,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.special-rural-development",
@@ -26268,7 +26396,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.stamp",
@@ -26451,7 +26580,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.transport-energy-environment",
@@ -26530,7 +26660,8 @@
       },
       "provenance_shard": "reference",
       "source_registry_id": "source.national-tax-framework-act.2026.article2",
-      "source_registry_status": "registered"
+      "source_registry_status": "registered",
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "tax.value-added",
@@ -26747,7 +26878,8 @@
       "source_registry_status": "registered",
       "requires": [
         "eligibility-rule.vat-taxpayer-type"
-      ]
+      ],
+      "eligibility_reviewed_at": "2026-05-04"
     },
     {
       "id": "term.capital-gain",
@@ -28430,7 +28562,8 @@
         "applicable_year": 2026,
         "law_reference": "소득세법 제59조의4 제9항",
         "credit_or_deduction": "tax-credit"
-      }
+      },
+      "eligibility_reviewed_at": "2026-07-28"
     },
     {
       "id": "credit.dividend",
@@ -28541,7 +28674,8 @@
         "applicable_year": 2026,
         "law_reference": "소득세법 제56조",
         "credit_or_deduction": "tax-credit"
-      }
+      },
+      "eligibility_reviewed_at": "2026-07-28"
     },
     {
       "id": "credit.bookkeeping",
@@ -28639,7 +28773,8 @@
         "applicable_year": 2026,
         "law_reference": "소득세법 제56조의2",
         "credit_or_deduction": "tax-credit"
-      }
+      },
+      "eligibility_reviewed_at": "2026-07-28"
     },
     {
       "id": "credit.housing-loan-interest",
@@ -28736,7 +28871,8 @@
         "applicable_year": 2026,
         "law_reference": "소득세법 제59조의4 제4항",
         "credit_or_deduction": "tax-credit"
-      }
+      },
+      "eligibility_reviewed_at": "2026-07-28"
     }
   ],
   "reference_items": [
@@ -28890,5 +29026,5 @@
       "provenance_shard": "reference"
     }
   ],
-  "export_checksum": "2b2424bbd29964b1ded46e64f1a4858fa21948f502bb710840b827e0436380d0"
+  "export_checksum": "db9d04a8d111a7cfc48169a9e56f1944db82833a54cf088d603a2958ef5c9d93"
 }

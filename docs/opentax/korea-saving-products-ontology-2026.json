@@ -1193,7 +1193,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010001.wr0001l",
@@ -1901,7 +1905,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010002.00266451",
@@ -3220,7 +3228,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010016.10521001001166004",
@@ -4040,7 +4051,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010017.01020400490002",
@@ -4967,7 +4982,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010017.01020400510001",
@@ -6044,7 +6063,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010017.01020400530001",
@@ -7091,7 +7114,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010017.01020400660001",
@@ -8156,7 +8183,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010017.01020400700001",
@@ -9006,7 +9037,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010019.td11330029000",
@@ -10169,7 +10204,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010019.td11330030000",
@@ -11096,7 +11135,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010019.td11330031000",
@@ -12023,7 +12066,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010020.220002101",
@@ -12946,7 +12993,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010020.220002501",
@@ -13873,7 +13924,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010020.220002701",
@@ -14727,7 +14782,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010022.10-01-30-031-0018-0000",
@@ -15527,7 +15586,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010022.10-01-30-031-0036",
@@ -16327,7 +16390,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010024.21000111",
@@ -17327,7 +17394,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010024.21001116",
@@ -18326,7 +18397,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010024.21001199",
@@ -19274,7 +19349,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010024.21001236",
@@ -19930,7 +20009,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010024.21001259",
@@ -20921,7 +21004,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010024.21001292",
@@ -21921,7 +22008,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010026.01211210113",
@@ -22792,7 +22883,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010026.01211210121",
@@ -23446,7 +23541,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010026.01211210122",
@@ -24102,7 +24201,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010026.01211210129",
@@ -24976,7 +25079,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010030.03101",
@@ -25835,7 +25942,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010030.03700",
@@ -27066,7 +27177,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010345.hk00002",
@@ -28193,7 +28308,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010345.hk00102",
@@ -28892,7 +29010,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010345.hk00103",
@@ -29591,7 +29713,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010345.hk00104",
@@ -30798,7 +30924,11 @@
       "source_ids": [
         "source.fss.finlife.api",
         "source.kdic.insured-products"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010346.31000",
@@ -31623,7 +31753,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010346.31003",
@@ -32379,7 +32512,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010349.0803",
@@ -33232,7 +33368,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010349.310000",
@@ -34241,7 +34381,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010349.310007",
@@ -35279,7 +35422,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010349.310806",
@@ -36317,7 +36464,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010349.310820",
@@ -37016,7 +37167,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010349.310821",
@@ -37715,7 +37870,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010350.310010",
@@ -38746,7 +38905,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010350.310011",
@@ -39777,7 +39940,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010350.310013",
@@ -40808,7 +40975,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010354.mk310001",
@@ -41659,7 +41830,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010354.mk310004",
@@ -42481,7 +42656,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010354.mk310017",
@@ -43303,7 +43481,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010354.mk310022",
@@ -44111,7 +44292,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010356.2001",
@@ -44870,7 +45054,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010356.2002",
@@ -45979,7 +46166,11 @@
       "source_ids": [
         "source.fss.finlife.api",
         "source.kdic.insured-products"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010358.310002",
@@ -46866,7 +47057,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010358.310003",
@@ -47757,7 +47951,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010358.310004",
@@ -48648,7 +48845,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010359.310005",
@@ -49501,7 +49701,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010359.310006",
@@ -50325,7 +50529,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010359.310007",
@@ -51149,7 +51356,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010363.310027",
@@ -51978,7 +52188,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010363.310028",
@@ -52802,7 +53015,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010366.024310001",
@@ -53653,7 +53869,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010366.024311001",
@@ -54504,7 +54724,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010366.024312001",
@@ -55327,7 +55551,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010370.310000",
@@ -56178,7 +56405,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010370.310035",
@@ -56905,7 +57136,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010370.310037",
@@ -57559,7 +57794,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010370.380008",
@@ -58426,7 +58665,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010378.310001",
@@ -59247,7 +59490,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010378.310004",
@@ -60067,7 +60313,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010378.310009",
@@ -60887,7 +61136,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010388.310005",
@@ -62074,7 +62326,11 @@
       "source_ids": [
         "source.fss.finlife.api",
         "source.kdic.insured-products"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010388.310006",
@@ -63261,7 +63517,11 @@
       "source_ids": [
         "source.fss.finlife.api",
         "source.kdic.insured-products"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010388.310011",
@@ -64448,7 +64708,11 @@
       "source_ids": [
         "source.fss.finlife.api",
         "source.kdic.insured-products"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010388.310012",
@@ -65635,7 +65899,11 @@
       "source_ids": [
         "source.fss.finlife.api",
         "source.kdic.insured-products"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010388.310018",
@@ -66455,7 +66723,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010388.310019",
@@ -67275,7 +67546,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010388.310024",
@@ -67951,7 +68225,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010389.31",
@@ -68703,7 +68980,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010389.31-1",
@@ -69455,7 +69735,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010389.31-2",
@@ -70109,7 +70392,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010390.310008",
@@ -70967,7 +71254,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010390.310009",
@@ -71820,7 +72111,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010390.310017",
@@ -72547,7 +72842,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010390.310022",
@@ -73347,7 +73646,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010390.310023",
@@ -74151,7 +74454,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010390.310025",
@@ -75009,7 +75316,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010391.kj0001b",
@@ -75765,7 +76076,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010391.kj0004b",
@@ -76541,7 +76855,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010404.dh003",
@@ -77543,7 +77860,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010404.dh004",
@@ -78545,7 +78865,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010416.310001",
@@ -79545,7 +79868,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010416.310005",
@@ -80545,7 +80871,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010416.310006",
@@ -81545,7 +81874,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010416.310009",
@@ -82565,7 +82897,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010416.310012",
@@ -83565,7 +83900,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010418.310003",
@@ -84390,7 +84728,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010418.310004",
@@ -85214,7 +85555,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010419.310009",
@@ -86172,7 +86516,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010419.310010",
@@ -87130,7 +87477,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010421.kh3100",
@@ -88408,7 +88758,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010421.kh3101",
@@ -89627,7 +89981,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010421.kh3102",
@@ -90423,7 +90780,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010421.kh3103",
@@ -91642,7 +92003,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010421.kh3104",
@@ -92438,7 +92802,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010426.310006",
@@ -93289,7 +93657,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010426.310007",
@@ -94140,7 +94512,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010426.310009",
@@ -94774,7 +95150,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010430.310035",
@@ -95530,7 +95910,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010430.310036",
@@ -96286,7 +96669,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010430.310037",
@@ -97042,7 +97428,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010430.310038",
@@ -97798,7 +98187,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010430.310040",
@@ -98418,7 +98810,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010437.310000",
@@ -99271,7 +99666,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010437.310003",
@@ -100051,7 +100450,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010437.310005",
@@ -100900,7 +101303,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010437.310006",
@@ -101680,7 +102087,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010437.310007",
@@ -102458,7 +102869,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010438.310009",
@@ -103462,7 +103877,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010438.310010",
@@ -104466,7 +104884,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010439.310008",
@@ -105294,7 +105715,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010439.310012",
@@ -106070,7 +106494,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010448.31-0001",
@@ -106888,7 +107315,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010448.31-0002",
@@ -107706,7 +108136,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010448.31-0003",
@@ -108524,7 +108957,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010448.31-0007",
@@ -109276,7 +109712,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010449.ny310006",
@@ -110101,7 +110540,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010449.ny310007",
@@ -110926,7 +111368,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010449.ny310009",
@@ -111751,7 +112196,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010453.310001",
@@ -112573,7 +113021,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010453.310005",
@@ -113424,7 +113875,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010453.310006",
@@ -114275,7 +114730,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010453.310011",
@@ -115097,7 +115556,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010456.310008",
@@ -115919,7 +116381,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010456.310009",
@@ -116741,7 +117206,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010456.310010",
@@ -117563,7 +118031,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010456.310011",
@@ -118387,7 +118858,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010456.310012",
@@ -119211,7 +119685,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010456.310014",
@@ -119983,7 +120460,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010457.310006",
@@ -120807,7 +121287,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010457.310007",
@@ -121631,7 +122114,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010457.310009",
@@ -122455,7 +122941,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010460.310010",
@@ -123459,7 +123948,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010460.310011",
@@ -124463,7 +124955,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010460.310013",
@@ -125467,7 +125962,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010463.310005",
@@ -126296,7 +126794,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010463.310007",
@@ -127120,7 +127621,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010464.310008",
@@ -128033,7 +128537,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010464.310010",
@@ -128922,7 +129430,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010464.310011",
@@ -129811,7 +130322,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010464.310012",
@@ -130700,7 +131214,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010464.380001",
@@ -131851,7 +132368,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010467.310000",
@@ -132674,7 +133195,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010467.310011",
@@ -133308,7 +133832,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010467.311000",
@@ -134131,7 +134659,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010467.311100",
@@ -134954,7 +135485,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010468.310001",
@@ -136100,7 +136634,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010468.310035",
@@ -136908,7 +137446,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010468.310052",
@@ -137543,7 +138084,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010468.310056",
@@ -138178,7 +138723,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010468.310058",
@@ -138799,7 +139348,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010468.310601",
@@ -139576,7 +140128,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010471.31-0026",
@@ -140634,7 +141190,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010471.31-0027",
@@ -141492,7 +142052,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010471.31-0030",
@@ -142339,7 +142903,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010471.31-0031",
@@ -142993,7 +143561,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010471.31-0032",
@@ -143851,7 +144423,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010473.gp310001",
@@ -144854,7 +145430,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010473.gp310015",
@@ -145862,7 +146441,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010473.gp310017",
@@ -146865,7 +147447,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010477.310037",
@@ -147949,7 +148534,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010477.310039",
@@ -149034,7 +149622,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010477.310051",
@@ -149854,7 +150445,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010478.310004",
@@ -151297,7 +151891,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010478.310005",
@@ -152740,7 +153337,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010485.310002",
@@ -153631,7 +154231,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010485.310009",
@@ -154316,7 +154919,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010485.401003",
@@ -155320,7 +155926,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010488.310024",
@@ -156352,7 +156961,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010488.310034",
@@ -157355,7 +157968,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010489.310008",
@@ -158582,7 +159198,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010489.310010",
@@ -159404,7 +160023,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010489.310011",
@@ -160024,7 +160646,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010489.310012",
@@ -160853,7 +161478,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010492.31-0004",
@@ -161853,7 +162481,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010492.31-0005",
@@ -162853,7 +163484,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010492.31-0006",
@@ -163853,7 +164487,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010508.02010",
@@ -164855,7 +165492,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010508.02011",
@@ -165857,7 +166497,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010508.02012",
@@ -166859,7 +167502,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010508.02070",
@@ -167861,7 +168507,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010509.240019",
@@ -168907,7 +169556,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010509.310011",
@@ -169659,7 +170311,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010509.310012",
@@ -170568,7 +171223,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010509.310016",
@@ -171322,7 +171980,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010509.310017",
@@ -172076,7 +172737,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010510.310001",
@@ -173302,7 +173966,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010510.310010",
@@ -174300,7 +174967,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010510.310011",
@@ -175298,7 +175968,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010521.310003",
@@ -176121,7 +176794,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010521.310004",
@@ -176944,7 +177620,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010521.310005",
@@ -177579,7 +178258,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010526.310007",
@@ -178668,7 +179351,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010526.310008",
@@ -179510,7 +180196,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010526.310010",
@@ -180599,7 +181288,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010527.310006",
@@ -181603,7 +182295,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010527.310007",
@@ -182607,7 +183302,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010528.310011",
@@ -183431,7 +184129,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010528.310012",
@@ -184255,7 +184956,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010533.31",
@@ -185077,7 +185781,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010533.310005",
@@ -185899,7 +186606,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010533.38",
@@ -186719,7 +187429,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010534.wr0001b",
@@ -187543,7 +188256,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010534.wr0001k",
@@ -188367,7 +189083,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010534.wr0001n",
@@ -189191,7 +189910,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010534.wr0001v",
@@ -189845,7 +190567,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010537.310001",
@@ -190669,7 +191395,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010537.310003",
@@ -191491,7 +192220,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010537.310005",
@@ -192315,7 +193047,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010537.310006",
@@ -193137,7 +193872,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010537.310030",
@@ -193961,7 +194699,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010537.310031",
@@ -194783,7 +195524,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010537.310041",
@@ -195423,7 +196167,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010550.310006",
@@ -196270,7 +197017,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010551.310012",
@@ -198160,7 +198910,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010551.310018",
@@ -200049,7 +200802,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010551.310020",
@@ -201939,7 +202695,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010553.310003",
@@ -203157,7 +203916,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010556.310003",
@@ -203979,7 +204741,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010556.310008",
@@ -204982,7 +205747,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010556.310009",
@@ -205985,7 +206753,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010560.c614004",
@@ -206741,7 +207512,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010560.c614005",
@@ -207497,7 +208271,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010560.c614006",
@@ -208253,7 +209030,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010562.310003",
@@ -209255,7 +210035,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010562.310004",
@@ -210257,7 +211040,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010568.310001",
@@ -211278,7 +212064,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010569.310005",
@@ -212098,7 +212887,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010569.310006",
@@ -212918,7 +213710,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010572.310009",
@@ -213745,7 +214540,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010572.310010",
@@ -214601,7 +215399,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010574.310004",
@@ -215601,7 +216403,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010574.310005",
@@ -216619,7 +217424,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010575.jh0001b",
@@ -217441,7 +218249,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010575.jh0002d",
@@ -218263,7 +219074,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010576.240001",
@@ -219568,7 +220382,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010576.310007",
@@ -220324,7 +221141,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010576.310009",
@@ -221080,7 +221900,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010576.310010",
@@ -221768,7 +222591,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010576.310014",
@@ -222524,7 +223350,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010576.310015",
@@ -223280,7 +224109,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010576.310016",
@@ -224036,7 +224868,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010927.010200100051",
@@ -224824,7 +225659,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010927.010200100070",
@@ -225678,7 +226517,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010927.010200100084",
@@ -226463,7 +227306,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0010927.010200100104",
@@ -227240,7 +228087,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0011551.310001",
@@ -228064,7 +228915,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0011551.310013",
@@ -228917,7 +229771,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0011551.310020",
@@ -229717,7 +230575,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0011551.310021",
@@ -230546,7 +231408,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0011551.310023",
@@ -231200,7 +232065,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0011625.230-0119-85",
@@ -232196,7 +233065,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0011767.310010",
@@ -233023,7 +233896,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012120.310001",
@@ -234026,7 +234902,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012120.310008",
@@ -235029,7 +235908,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012120.310013",
@@ -236030,7 +236912,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012120.310015",
@@ -237031,7 +237916,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012711.31001",
@@ -237880,7 +238768,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012711.31501",
@@ -238700,7 +239592,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012711.31535",
@@ -239407,7 +240302,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012840.jj",
@@ -240301,7 +241200,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012840.jj05",
@@ -241191,7 +242093,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012840.jj09",
@@ -241948,7 +242853,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012840.jj10",
@@ -242706,7 +243614,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012889.310040",
@@ -243715,7 +244626,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012889.310041",
@@ -244719,7 +245633,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012889.310042",
@@ -245723,7 +246640,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0012889.310057",
@@ -246776,7 +247696,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013002.bnk1002",
@@ -247785,7 +248709,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013127.310002",
@@ -248716,7 +249643,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013127.310003",
@@ -249647,7 +250578,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013127.310004",
@@ -250562,7 +251497,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013127.310005",
@@ -251477,7 +252416,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013127.310006",
@@ -252178,7 +253121,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013166.240010",
@@ -253389,7 +254336,11 @@
       "source_ids": [
         "source.fss.finlife.api",
         "source.kdic.insured-products"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013166.310001",
@@ -254812,7 +255763,11 @@
       "source_ids": [
         "source.fss.finlife.api",
         "source.kdic.insured-products"
-      ]
+      ],
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013166.310002",
@@ -255814,7 +256769,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013175.10-047-1360-0002",
@@ -256813,7 +257771,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013175.10-047-1365-0001",
@@ -257817,7 +258779,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013175.10-047-1381-0001",
@@ -258821,7 +259787,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013175.10-047-1387-0001",
@@ -259825,7 +260795,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013175.10-059-1264-0001",
@@ -260825,7 +261799,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013308.jtcsb310010",
@@ -261649,7 +262627,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013308.jtcsb310013",
@@ -262376,7 +263357,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013308.jtcsb310026",
@@ -263200,7 +264185,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013313.31000",
@@ -264048,7 +265036,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013313.31010",
@@ -264896,7 +265888,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013313.31030",
@@ -265648,7 +266644,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013313.31040",
@@ -266400,7 +267399,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013313.31110",
@@ -267248,7 +268250,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013313.31115",
@@ -267973,7 +268979,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013313.31140",
@@ -268725,7 +269735,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130311001",
@@ -269578,7 +270591,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130312001",
@@ -270431,7 +271448,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130312007",
@@ -271085,7 +272106,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130313002",
@@ -271938,7 +272963,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130313504",
@@ -272592,7 +273621,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130313506",
@@ -273246,7 +274279,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130313507",
@@ -273900,7 +274937,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130313561",
@@ -274554,7 +275595,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130313562",
@@ -275208,7 +276253,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130313563",
@@ -275862,7 +276911,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130315004",
@@ -276516,7 +277569,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130315008",
@@ -277172,7 +278229,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130315009",
@@ -277900,7 +278961,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013350.1130315011",
@@ -278628,7 +279693,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013351.310001",
@@ -279380,7 +280449,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013351.310030",
@@ -280132,7 +281204,10 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013909.52",
@@ -280936,7 +282011,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0013909.53",
@@ -282114,7 +283193,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0014674.01012000200000000003",
@@ -283129,7 +284212,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0014674.01012000200000000004",
@@ -283763,7 +284850,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0014674.01012000200000000005",
@@ -284488,7 +285579,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0014674.01012000200000000006",
@@ -285286,7 +286381,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0014674.01012000210000000000",
@@ -286157,7 +287256,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0014807.10140114300011",
@@ -286961,7 +288064,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0014807.10140114700041",
@@ -287688,7 +288795,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0014807.10141109800021",
@@ -288692,7 +289803,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0014807.10141114300011",
@@ -289494,7 +290609,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0014807.10141114700041",
@@ -290221,7 +291340,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0015130.10-01-30-355-0002",
@@ -291073,7 +292196,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0015130.10-01-30-355-0005",
@@ -291708,7 +292835,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0015130.10-01-30-355-0006",
@@ -292343,7 +293474,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0015130.10-01-30-355-0007",
@@ -292978,7 +294113,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0017801.1001303001001",
@@ -293825,7 +294964,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0017801.1001303001003",
@@ -294672,7 +295815,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0017801.1001303001004",
@@ -295815,7 +296962,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     },
     {
       "id": "finance.saving.saving.0017801.1001303001005",
@@ -296662,7 +297813,11 @@
         "recommendation_scope": "comparison_only",
         "freshness_status": "current"
       },
-      "provenance_shard": "bank-products"
+      "provenance_shard": "bank-products",
+      "rate_reviewed_at": "2026-07-18",
+      "sales_status_reviewed_at": "2026-07-18",
+      "eligibility_reviewed_at": "2026-07-18",
+      "benefit_reviewed_at": "2026-07-18"
     }
   ],
   "reference_items": [
@@ -299626,5 +300781,5 @@
       "provenance_shard": "reference"
     }
   ],
-  "export_checksum": "9199d8886cc321982f863f48d7c1d25f03ea54da88fad4784f5d82def89554f7"
+  "export_checksum": "71bbac8ff9fdf0af81e362c889509c88d680a87e983b39e7a5e1dabeea000d6b"
 }

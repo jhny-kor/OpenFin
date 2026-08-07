@@ -35,7 +35,12 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
     if (health.manifest_deployment_commit !== expected.deployment_commit) errors.push(`worker.manifest_deployment_commit: expected ${expected.deployment_commit}, got ${health.manifest_deployment_commit ?? null}`);
     if (pointer.generation_id !== expected.generation_id) errors.push(`pointer.generation_id: expected ${expected.generation_id}, got ${pointer.generation_id ?? null}`);
     if (pointer.production_commit !== expected.deployment_commit) errors.push(`pointer.production_commit: expected ${expected.deployment_commit}, got ${pointer.production_commit ?? null}`);
+    if (pointer.production_generation !== expected.generation_id) errors.push(`pointer.production_generation: expected ${expected.generation_id}, got ${pointer.production_generation ?? null}`);
+    if (pointer.pages_generation !== expected.generation_id) errors.push(`pointer.pages_generation: expected ${expected.generation_id}, got ${pointer.pages_generation ?? null}`);
+    if (pointer.worker_generation !== expected.generation_id) errors.push(`pointer.worker_generation: expected ${expected.generation_id}, got ${pointer.worker_generation ?? null}`);
     if (pointer.manifest_checksum !== local.manifest_checksum) errors.push(`pointer.manifest_checksum: expected ${local.manifest_checksum ?? null}, got ${pointer.manifest_checksum ?? null}`);
+    if (pointer.search_index_checksum !== expected.search_index_checksum) errors.push(`pointer.search_index_checksum: expected ${expected.search_index_checksum ?? null}, got ${pointer.search_index_checksum ?? null}`);
+    if (pointer.source_status_checksum !== expected.source_status_checksum) errors.push(`pointer.source_status_checksum: expected ${expected.source_status_checksum ?? null}, got ${pointer.source_status_checksum ?? null}`);
     if (pointer.validation_status !== 'current') errors.push(`pointer.validation_status: expected current, got ${pointer.validation_status ?? null}`);
     if (publicLive.validation_status !== 'current') errors.push(`live.validation_status: expected current, got ${publicLive.validation_status ?? null}`);
     if (expectedCommit && expected.deployment_commit !== expectedCommit) errors.push(`repository.deployment_commit: expected ${expectedCommit}, got ${expected.deployment_commit}`);

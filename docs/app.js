@@ -91,6 +91,7 @@ const state = {
   items: [],
   loadedDomains: new Map(),
   itemIndex: new Map(),
+  searchIndexLoaded: false,
   selectedId: "",
   isLoadingAll: false,
   searchTimer: null,
@@ -121,13 +122,13 @@ async function init() {
       const searchInput = document.querySelector("[data-search]");
       if (searchInput) searchInput.value = paramQuery;
     }
-    if (hashId || paramScope === "all") {
+    if (hashId || paramScope === "all" || (paramQuery && !paramDomain)) {
       await loadAllDomains();
       if (hashId) selectItem(hashId, { updateHash: false });
     } else if (paramDomain && findExport(paramDomain)) {
       await loadDomain(paramDomain);
     } else if (hasExplorer) {
-      await loadDomain("tax");
+      setResultSummary("도메인을 선택하거나 검색어를 입력하세요.");
     }
   } catch (error) {
     showFatalError(error);
@@ -364,7 +365,8 @@ function renderDomainTabs() {
 
 async function loadDomain(domain, options = {}) {
   if (!domain) return;
-  const { render = true } = options;
+  const { render = true, preserveCurrentDomain = false } = options;
+  const previousDomain = state.currentDomain;
   state.currentDomain = domain;
   markActiveDomainTab();
   if (render) setResultSummary(`${domainMeta(domain).label} 데이터를 로딩 중입니다.`);
@@ -389,7 +391,25 @@ async function loadDomain(domain, options = {}) {
     updateTypeFilter();
     renderResults();
     selectFirstVisibleResult();
+  } else if (preserveCurrentDomain) {
+    state.currentDomain = previousDomain;
+    markActiveDomainTab();
   }
+}
+
+async function loadSearchIndex() {
+  if (state.searchIndexLoaded) return;
+  const descriptor = state.manifest?.search_index;
+  const fileName = descriptor && fileNameFromEntry(descriptor);
+  if (!fileName) throw new Error("manifest에 compact search index가 없습니다.");
+  const payload = await fetchJson(DATA_BASE + fileName);
+  const items = (payload.items || []).map((item) => ({
+    ...item,
+    __compact: true,
+    __domain: findExportById(item.export_id)?.domain || "finance-reference",
+  }));
+  mergeItems(items);
+  state.searchIndexLoaded = true;
 }
 
 async function loadAllDomains() {
@@ -397,19 +417,14 @@ async function loadAllDomains() {
   state.isLoadingAll = true;
   state.currentDomain = "all";
   markActiveDomainTab();
-  setResultSummary("전체 export를 로딩 중입니다. 대용량 지자체 지원금 파일을 포함합니다.");
+  setResultSummary("전역 compact 검색 인덱스를 로딩 중입니다.");
 
   try {
-    for (const entry of state.manifest.exports || []) {
-      if (!state.loadedDomains.has(entry.domain)) {
-        await loadDomain(entry.domain, { render: false });
-      }
-    }
+    await loadSearchIndex();
     state.currentDomain = "all";
     markActiveDomainTab();
     updateTypeFilter();
     renderResults();
-    selectFirstVisibleResult();
   } finally {
     state.isLoadingAll = false;
   }
@@ -532,12 +547,30 @@ function selectItem(id, options = {}) {
   state.selectedId = id;
   const selectionToken = ++state.provenanceSelectionToken;
   renderDetail(item);
-  void hydrateSelectedProvenance(item, selectionToken);
+  if (item.__compact) {
+    void hydrateSelectedItem(item, selectionToken);
+  } else {
+    void hydrateSelectedProvenance(item, selectionToken);
+  }
   markActiveResult();
 
   if (options.updateHash !== false) {
     history.replaceState(null, "", `#${encodeURIComponent(id)}`);
   }
+}
+
+async function hydrateSelectedItem(item, selectionToken) {
+  const domain = item.__domain;
+  if (!domain) return;
+  await loadDomain(domain, { render: false, preserveCurrentDomain: true });
+  if (selectionToken !== state.provenanceSelectionToken || state.selectedId !== item.id) return;
+  const detail = (state.loadedDomains.get(domain) || []).find((candidate) => candidate.id === item.id);
+  if (!detail) return;
+  state.itemIndex.set(detail.id, detail);
+  const index = state.items.findIndex((candidate) => candidate.id === detail.id);
+  if (index >= 0) state.items[index] = detail;
+  renderDetail(detail);
+  await hydrateSelectedProvenance(detail, selectionToken);
 }
 
 function provenanceShardDescriptorFor(item) {
@@ -652,6 +685,11 @@ function renderDetail(item) {
     ["disclosure_month", "Disclosure"],
     ["basis_year", "Basis year"],
     ["reviewed_at", "Reviewed"],
+    ["rate_reviewed_at", "Rate reviewed"],
+    ["sales_status_reviewed_at", "Sales status reviewed"],
+    ["eligibility_reviewed_at", "Eligibility reviewed"],
+    ["benefit_reviewed_at", "Benefit reviewed"],
+    ["coverage_reviewed_at", "Coverage reviewed"],
     ["last_verified_at", "Last verified"],
     ["source_modified_at", "Source modified"],
     ["jurisdiction", "Jurisdiction"],
@@ -702,7 +740,7 @@ function renderMissingItem(id) {
   const panel = document.querySelector("[data-detail-panel]");
   if (!panel) return;
   panel.innerHTML = `
-    <p class="empty-state">로드된 export에서 ${escapeHtml(id)} 항목을 찾지 못했습니다. 전체 인덱스 로딩 후 다시 시도하세요.</p>
+    <p class="empty-state">검색 인덱스에서 ${escapeHtml(id)} 항목을 찾지 못했습니다.</p>
   `;
 }
 
@@ -1117,6 +1155,10 @@ function showFatalError(error) {
 
 function findExport(domain) {
   return (state.manifest.exports || []).find((entry) => entry.domain === domain);
+}
+
+function findExportById(id) {
+  return (state.manifest?.exports || []).find((entry) => entry.id === id);
 }
 
 function fileNameFromEntry(entry) {

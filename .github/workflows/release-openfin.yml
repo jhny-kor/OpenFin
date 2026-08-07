@@ -252,6 +252,9 @@ jobs:
           test "$(jq -r '.release_candidate_commit' docs/opentax/finance-ontology-manifest.json)" = "$GITHUB_SHA"
           test "$(jq -r '.production_commit' docs/opentax/finance-ontology-manifest.json)" = "$GITHUB_SHA"
           test "$(jq -r '.production_commit' docs/opentax/current-release.json)" = "$GITHUB_SHA"
+          test "$(jq -r '.production_generation' docs/opentax/current-release.json)" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
+          test "$(jq -r '.pages_generation' docs/opentax/current-release.json)" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
+          test "$(jq -r '.worker_generation' docs/opentax/current-release.json)" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
           test "$(jq -r '.generation_id' docs/opentax/current-release.json)" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
           test "$(jq -r '.manifest_checksum' docs/opentax/current-release.json)" = "$(jq -r '.manifest_checksum' docs/opentax/finance-ontology-manifest.json)"
           test "$(jq -r '.validation_status' docs/opentax/current-release.json)" = current

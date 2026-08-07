@@ -33,6 +33,27 @@ const decisionOffers = readCanonicalRecords().filter(record => ['deposit-offer',
 const manifests = json(path.join(KNOWLEDGE,'export-manifests.json'));
 const baselineContract = json(path.join(ROOT, 'contracts/data-baseline.json'));
 const byId = new Map(catalog.map(item => [item.id, item]));
+const sourceReviewFields = {
+  rate_reviewed_at: ['base_rate_percent', 'maximum_rate_percent', 'rate_search_eligible', 'rates', 'comparison_options'],
+  sales_status_reviewed_at: ['sales_status', 'sales_verification_status', 'sales_verified_at', 'product_status', 'application_status'],
+  eligibility_reviewed_at: ['criteria', 'eligibility', 'target_group', 'join_member', 'application_open_from', 'application_open_to'],
+  benefit_reviewed_at: ['benefits', 'benefit', 'benefit_type', 'benefit_amount_krw', 'benefit_rate_percent', 'preferential_rate_conditions'],
+  coverage_reviewed_at: ['coverage', 'coverage_details', 'coverage_amount', 'coverage_limit', 'insured_amount'],
+};
+const hasValue = value => value !== undefined && value !== null && value !== '' && (!Array.isArray(value) || value.length > 0);
+const withSourceReviewDates = item => {
+  const output = publicProjection(item);
+  const reviewedAt = [item.last_reviewed_at, item.reviewed_at, item.last_verified_at, item.collected_at, item.source_collected_at]
+    .map(value => isoDate(value)).filter(Boolean).sort().at(-1)?.slice(0, 10) || null;
+  if (!reviewedAt) return output;
+  for (const [reviewField, fields] of Object.entries(sourceReviewFields)) {
+    const insuranceCoverage = reviewField === 'coverage_reviewed_at'
+      && item.type === 'insurance-product'
+      && ['benefits', 'conditions', 'options'].some(field => hasValue(item[field]));
+    if (insuranceCoverage || fields.some(field => hasValue(item[field]))) output[reviewField] = reviewedAt;
+  }
+  return output;
+};
 // Build metadata is deterministic and describes the latest collected/reviewed
 // snapshot. Future effective dates in a product contract are not build times.
 const sourceSnapshotDates = catalog.flatMap(item => [item.source_collected_at, item.last_verified_at, item.reviewed_at]).map(value => isoDate(value)).filter(Boolean).sort();
@@ -68,7 +89,7 @@ for (const file of legacyFiles) {
   const ids = [...new Set([...meta.item_ids, ...catalog.filter(item => (item.publication_memberships || []).includes(file)).map(item => item.id)])];
   for (const id of ids) {
     const item = byId.get(id); if (!item) continue;
-    (ownerFileById.get(id) === file ? items : referenceItems).push(publicProjection(item));
+    (ownerFileById.get(id) === file ? items : referenceItems).push(withSourceReviewDates(item));
   }
   const {export_checksum:_oldChecksum, reference_items:_oldReferences, ...root} = meta.root;
   const output = {...root, item_count:items.length + referenceItems.length, reference_item_count:referenceItems.length, items};
@@ -807,11 +828,12 @@ manifest.production_deployed_at = productionDeployedAt;
 manifest.current_release = { path: 'opentax/current-release.json', url: `${PUBLIC_BASE}/current-release.json` };
 manifest.legacy_compatibility = { path: 'opentax/legacy-compatibility.json', url: `${PUBLIC_BASE}/legacy-compatibility.json` };
 for (const key of ['release_status', 'release_status_deprecated', 'release_status_replacement_path', 'core_search_status', 'platform_release_status', 'comparison_release_status', 'recommendation_release_status', 'quality_summary']) delete manifest[key];
+manifest.exports = (manifest.exports || []).map(({quality_summary: _qualitySummary, ...entry}) => entry);
+manifest.quality_exports = (manifest.quality_exports || []).map(({quality_summary: _qualitySummary, ...entry}) => entry);
 for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-quality-manifest') {
   entry.generated_at = now;
   entry.export_checksum = sha256(qualityManifest).slice(7);
   entry.item_count = 1;
-  entry.quality_summary = dynamicExportAudit;
 }
 manifest.search_index={...(manifest.search_index||{}),path:'opentax/finance-search-index-2026.json',url:`${PUBLIC_BASE}/finance-search-index-2026.json`,web_url:`${PUBLIC_BASE}/finance-search-index-2026.json`,item_count:searchManifest.item_count,canonical_product_count:searchManifest.canonical_product_count,duplicate_canonical_product_count:searchManifest.duplicate_canonical_product_count,canonical_merge_count:searchManifest.canonical_merge_count,export_checksum:searchManifest.export_checksum,content_checksum:searchContentChecksum,shards:shardOutputs};
 manifest.detail_search_index=detailSearchIndex;
@@ -829,8 +851,13 @@ writeJson(path.join(DOCS, 'current-release.json'), {
   release_candidate_commit: releaseCandidateCommit,
   production_commit: productionCommit,
   production_deployed_at: productionDeployedAt,
+  production_generation: manifest.generation_id,
+  pages_generation: manifest.generation_id,
+  worker_generation: process.env.OPENFIN_WORKER_GENERATION || manifest.generation_id,
   generation_id: manifest.generation_id,
   manifest_checksum: manifest.manifest_checksum,
+  search_index_checksum: manifest.artifact_contract.search_index_checksum,
+  source_status_checksum: manifest.artifact_contract.source_status_checksum,
   artifact_contract: manifest.artifact_contract,
   validation_status: liveRegressionArtifact.validation_status ?? 'unknown',
   manifest_url: `${PUBLIC_BASE}/finance-ontology-manifest.json`,

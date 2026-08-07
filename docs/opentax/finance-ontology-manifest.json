@@ -2,7 +2,7 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-28T00:00:00.000Z",
+  "built_at": "2026-08-07T05:04:11.851Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "degraded_domains": [
@@ -327,21 +327,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {
-        "built_at": "2026-07-28T00:00:00.000Z",
-        "domain_export_count": 10,
-        "search_index_item_count": 21289,
-        "canonical_product_count": 12825,
-        "duplicate_canonical_product_count": 0,
-        "canonical_merge_count": 49,
-        "checksum_covered_export_count": 18,
-        "broken_relation_count": 0,
-        "relationship_count": 102523,
-        "collection_failure_sources": 49
-      },
-      "export_checksum": "365f3a37c7d81a55142eaedc46fe0e5d31374527b2360b0a1b5d4db2ccaaa7e2",
+      "export_checksum": "6125bb94d0be5e4da0894a29e48fc8b472ad735eb114bbe5e7e041fa41eb6c58",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
-      "generated_at": "2026-07-28T00:00:00.000Z"
+      "generated_at": "2026-08-07T05:04:11.851Z"
     },
     {
       "id": "openfin-search-regression-report",
@@ -354,13 +342,6 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {
-        "test_count": 20,
-        "passed_count": 20,
-        "failed_count": 0,
-        "failures": [],
-        "last_failed_at": null
-      },
       "export_checksum": "36435db6c3578ec44895cce4d0fd9eb51ca5ec572401c5739f7f9ce9c86ca1d4",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다.",
       "generated_at": "2026-07-28T00:00:00.000Z"
@@ -376,16 +357,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {
-        "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
-        "report_kind": "verification-coverage"
-      },
-      "export_checksum": "49ad9b85d0bb3e18020312d0d35705f020dd865881ff1abda5c39d5ba5c6282c",
+      "export_checksum": "286dfbd4707507bf42baf3399260aa4607486863412b488f7971e5fae0268abd",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-07-28T00:00:00.000Z"
+      "generated_at": "2026-08-07T05:04:11.851Z"
     },
     {
       "id": "openfin-semantic-duplicate-report",
@@ -398,24 +372,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {
-        "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
-        "report_kind": "semantic-duplicate",
-        "exact_id_duplicate_count": 0,
-        "external_id_duplicate_count": 0,
-        "semantic_duplicate_candidate_count": 0,
-        "confirmed_semantic_duplicate_count": 0,
-        "unresolved_semantic_duplicate_count": 0,
-        "duplicate_candidate_response_count": 0,
-        "duplicate_canonical_product_count": 0,
-        "canonical_merge_count": 11
-      },
-      "export_checksum": "2a185bb5b43364a50ae52a0b8343a37b9c4dc00726142337f028743cf473a595",
+      "export_checksum": "dc42ce49f61925956acd65ce6251167524636e0f639dd051eb8cf600a436b5b9",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-07-28T00:00:00.000Z"
+      "generated_at": "2026-08-07T05:04:11.851Z"
     },
     {
       "id": "openfin-comparison-regression-report",
@@ -428,18 +387,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {
-        "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
-        "report_kind": "comparison-regression",
-        "failed_count": 0,
-        "search_regression_failed_count": 0
-      },
-      "export_checksum": "435bfdc204289905e3b884f53fca4d98affe7a30694561bf90c35269b9c1f235",
+      "export_checksum": "c0619bac9f84e2ffaa8dc889dea471680c6a1ea0e797614d364f42cfa129bab6",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-07-28T00:00:00.000Z"
+      "generated_at": "2026-08-07T05:04:11.851Z"
     },
     {
       "id": "openfin-recommendation-safety-report",
@@ -452,16 +402,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {
-        "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
-        "report_kind": "recommendation-safety"
-      },
-      "export_checksum": "76aeb8f2a1437c9f2f8c7d5e3ede403754a49b856b31f20fda59216565ff789c",
+      "export_checksum": "7527168f747438631c3f8f61088d7aa7435e1b2ec4c10e6766dc4b9903a204f4",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-07-28T00:00:00.000Z"
+      "generated_at": "2026-08-07T05:04:11.851Z"
     },
     {
       "id": "openfin-support-relevance-report",
@@ -474,19 +417,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {
-        "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
-        "report_kind": "support-relevance",
-        "jurisdiction_violation_count": 0,
-        "support_category_violation_count": 0,
-        "unknown_constraint_false_match_count": 0
-      },
-      "export_checksum": "a987d4fc1b17eb3432488a4c211bf1e736236b0940aadc34cbffb7a13ac9d32a",
+      "export_checksum": "e38adc8fc9eced1aa18bfefa784b11fbddd4417e4b0a0b85e795f9c90630f29e",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-07-28T00:00:00.000Z"
+      "generated_at": "2026-08-07T05:04:11.851Z"
     },
     {
       "id": "openfin-data-drift-report",
@@ -499,16 +432,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {
-        "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
-        "report_kind": "data-drift"
-      },
-      "export_checksum": "9ffb4c85b12d3ffb5f2e26e727418e53e2d34e98399a614769d882f46375f30e",
+      "export_checksum": "1b7852238abfe836215748f800a717efc72738204df93be09594b758f7961a0e",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-07-28T00:00:00.000Z"
+      "generated_at": "2026-08-07T05:04:11.851Z"
     },
     {
       "id": "openfin-local-cloudflare-parity-report",
@@ -521,17 +447,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {
-        "live_case_count": 120,
-        "live_passed_count": 15,
-        "live_failed_count": 105,
-        "live_failure_count": 105,
-        "report_kind": "local-cloudflare-parity",
-        "local_cloudflare_parity_error_count": 0
-      },
-      "export_checksum": "c7f4defcc00ec26629114d2cd4ef3fbe458bfbb2ce078211bba56500927d4e0e",
+      "export_checksum": "85345fd6d2f9ced4b1bb003e69df49c251755e8968435f45fdeadab64b40e28d",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-07-28T00:00:00.000Z"
+      "generated_at": "2026-08-07T05:04:11.851Z"
     },
     {
       "id": "openfin-provenance-coverage",
@@ -540,8 +458,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "item_count": 1,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "4539524dd31d56c61f95e6aace8a4c778da1b08fd5131d1368a738c7f0fba40e",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "c9ffe985064081afc1ef047fa97c000421b752ca588051264356de504c7457e9",
       "coverage": {
         "external_provenance_coverage_ratio": 1,
         "status": "ready"
@@ -561,8 +479,7 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {},
-      "export_checksum": "2b2424bbd29964b1ded46e64f1a4858fa21948f502bb710840b827e0436380d0",
+      "export_checksum": "db9d04a8d111a7cfc48169a9e56f1944db82833a54cf088d603a2958ef5c9d93",
       "description": "세금, 공제, 신고기한, 중앙 정책지원 핵심 온톨로지입니다.",
       "reference_item_count": 3
     },
@@ -579,45 +496,7 @@
         "2026-07-18"
       ],
       "product_collection_dates": [],
-      "quality_summary": {
-        "status_review_date": "2026-07-14",
-        "status_counts": {
-          "active": 5296,
-          "closed": 436,
-          "unknown": 1986
-        },
-        "application_status_counts": {
-          "agency_contact_required": 30,
-          "agency_schedule_varies": 416,
-          "always_open": 4960,
-          "announcement_based": 81,
-          "budget_exhaustion": 70,
-          "closed": 436,
-          "not_required": 129,
-          "open": 207,
-          "recurring_annual": 759,
-          "recurring_monthly": 30,
-          "recurring_quarterly": 18,
-          "schedule_pending": 8,
-          "source_schedule_ambiguous": 545,
-          "unknown": 29
-        },
-        "expired_active_local_supports": 0,
-        "unknown_status_local_supports": 1986,
-        "unknown_reason_counts": {
-          "always_open": 28,
-          "conditional_reopen_after_deadline": 1
-        },
-        "preserved_snapshot_local_supports": 0,
-        "currently_applicable_local_supports": 5296,
-        "eligible_for_listing": 5167,
-        "recommendation_reference_only": 2551,
-        "source_refresh_missing_regions": [],
-        "unpreserved_missing_regions": [],
-        "current_refresh_complete": true,
-        "preserved_from_previous_snapshot_count": 0
-      },
-      "export_checksum": "15c5e8a2d3d3cafe690b9699a31ec6a2ce2c05ce6fa2f39d288f8db434c7a82a",
+      "export_checksum": "9490e2daf20efd1a151672c6eec42432340325057e60f767b08aa9d157445d38",
       "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다.",
       "reference_item_count": 0
     },
@@ -636,197 +515,7 @@
       "product_collection_dates": [
         "2026-07-18T00:00:00Z"
       ],
-      "quality_summary": {
-        "product_count": 1007,
-        "verified_pilot_count": 20,
-        "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0.9955,
-        "verified_pilot_threshold": 0.7,
-        "status_counts": {
-          "active": 652,
-          "unknown": 355
-        },
-        "active_products_without_criteria": 1,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 122,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 981,
-        "manual_review_candidate_products": 11,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 652,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 1007,
-        "recommendation_status_counts": {
-          "eligible_for_listing": 15,
-          "manual_review_candidate": 11,
-          "reference_only": 981
-        },
-        "recommendation_scope_counts": {
-          "listing_only": 1007
-        },
-        "products_with_complete_recommendation_fields": 0,
-        "average_completeness_ratio": 0.1812,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "annual_fee_krw": 977,
-          "benefit_amount_krw": 492,
-          "benefit_categories": 695,
-          "benefit_frequency_limit": 968,
-          "benefit_rate_percent": 593,
-          "benefit_type": 355,
-          "criteria_or_options": 355,
-          "excluded_spend": 971,
-          "minimum_payment_amount": 972,
-          "monthly_benefit_limit_krw": 958,
-          "per_transaction_limit_krw": 974,
-          "performance_excluded_spend": 971,
-          "previous_month_spend_min_krw": 968
-        },
-        "absent_fields_by_field_name": {
-          "annual_fee_krw": 977,
-          "benefit_amount_krw": 492,
-          "benefit_categories": 695,
-          "benefit_frequency_limit": 968,
-          "benefit_rate_percent": 593,
-          "benefit_type": 355,
-          "criteria_or_options": 1007,
-          "excluded_spend": 971,
-          "minimum_payment_amount": 972,
-          "monthly_benefit_limit_krw": 958,
-          "per_transaction_limit_krw": 974,
-          "performance_excluded_spend": 971,
-          "previous_month_spend_min_krw": 968
-        },
-        "empty_fields_by_field_name": {
-          "annual_fee_krw": 0,
-          "benefit_amount_krw": 0,
-          "benefit_categories": 0,
-          "benefit_frequency_limit": 0,
-          "benefit_rate_percent": 0,
-          "benefit_type": 0,
-          "criteria_or_options": 0,
-          "excluded_spend": 0,
-          "minimum_payment_amount": 0,
-          "monthly_benefit_limit_krw": 0,
-          "per_transaction_limit_krw": 0,
-          "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0
-        },
-        "not_collected_fields_by_field_name": {
-          "annual_fee_krw": 977,
-          "benefit_amount_krw": 492,
-          "benefit_categories": 695,
-          "benefit_frequency_limit": 968,
-          "benefit_rate_percent": 593,
-          "benefit_type": 355,
-          "criteria_or_options": 0,
-          "excluded_spend": 971,
-          "minimum_payment_amount": 972,
-          "monthly_benefit_limit_krw": 958,
-          "per_transaction_limit_krw": 974,
-          "performance_excluded_spend": 971,
-          "previous_month_spend_min_krw": 968
-        },
-        "unverified_fields_by_field_name": {
-          "annual_fee_krw": 30,
-          "benefit_amount_krw": 515,
-          "benefit_categories": 312,
-          "benefit_frequency_limit": 39,
-          "benefit_rate_percent": 414,
-          "benefit_type": 652,
-          "criteria_or_options": 0,
-          "excluded_spend": 36,
-          "minimum_payment_amount": 35,
-          "monthly_benefit_limit_krw": 49,
-          "per_transaction_limit_krw": 33,
-          "performance_excluded_spend": 36,
-          "previous_month_spend_min_krw": 39
-        },
-        "conflicting_fields_by_field_name": {
-          "annual_fee_krw": 0,
-          "benefit_amount_krw": 0,
-          "benefit_categories": 0,
-          "benefit_frequency_limit": 0,
-          "benefit_rate_percent": 0,
-          "benefit_type": 0,
-          "criteria_or_options": 0,
-          "excluded_spend": 0,
-          "minimum_payment_amount": 0,
-          "monthly_benefit_limit_krw": 0,
-          "per_transaction_limit_krw": 0,
-          "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "annual_fee_krw": 0,
-          "benefit_amount_krw": 0,
-          "benefit_categories": 0,
-          "benefit_frequency_limit": 0,
-          "benefit_rate_percent": 0,
-          "benefit_type": 0,
-          "criteria_or_options": 0,
-          "excluded_spend": 0,
-          "minimum_payment_amount": 0,
-          "monthly_benefit_limit_krw": 0,
-          "per_transaction_limit_krw": 0,
-          "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0
-        },
-        "structural_comparison_candidate_count": 0,
-        "readiness": {
-          "discovery": "ready",
-          "comparison_engine": "domain_coverage_incomplete",
-          "comparison_data": "domain_coverage_incomplete",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 11,
-          "verification_evidence_product_count": 11
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        },
-        "legacy_overlay": {
-          "deprecated": true,
-          "replacement_path": "quality_summary",
-          "candidate_count": 0,
-          "statistics_candidate_count": 0
-        },
-        "legacy_overlay_comparison_candidate_products": 0,
-        "legacy_overlay_products_with_complete_comparison_fields": 0,
-        "legacy_overlay_products_with_verified_sales_status": 11,
-        "legacy_overlay_products_with_verification_evidence": 11,
-        "legacy_overlay_complete_comparison_data_count": 0,
-        "legacy_overlay_verified_comparison_candidate_count": 0,
-        "legacy_overlay_public_comparison_candidate_count": 0,
-        "deprecated": true,
-        "replacement_path": "domain_readiness.card",
-        "structural_candidate_count": 1007,
-        "value_complete_candidate_count": 0,
-        "field_verified_candidate_count": 0,
-        "runtime_eligible_candidate_count": 0,
-        "public_candidate_count": 0,
-        "comparison_data": "domain_coverage_incomplete",
-        "comparison_eligible_candidate_count": 0,
-        "shadow_recommendation_candidate_count": 0,
-        "owner_pilot_candidate_count": 0,
-        "public_recommendation_candidate_count": 0,
-        "strict_option_count": 0,
-        "structural_option_count": 0
-      },
-      "export_checksum": "186fa7cb938c72c0ce72fc9ee08b97050575b9aab7cd1fae2e95493e94c17ba2",
+      "export_checksum": "ffb761a284035ad8c7dc734d64c2a56e3c79010c889e19c771162732af6afa14",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다.",
       "reference_item_count": 1
     },
@@ -845,182 +534,7 @@
       "product_collection_dates": [
         "2026-07-18T00:00:00Z"
       ],
-      "quality_summary": {
-        "product_count": 430,
-        "verified_pilot_count": 0,
-        "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0,
-        "verified_pilot_threshold": 0.5,
-        "status_counts": {
-          "active": 430
-        },
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 0,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 430,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 0,
-        "recommendation_status_counts": {
-          "eligible_for_listing": 430
-        },
-        "recommendation_scope_counts": {
-          "comparison_only": 430
-        },
-        "products_with_complete_recommendation_fields": 0,
-        "average_completeness_ratio": 0.6126,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "deposit_protection_status": 370,
-          "early_termination_condition": 430,
-          "join_member": 2,
-          "maximum_deposit_krw": 395,
-          "minimum_deposit_krw": 398,
-          "preferential_rate_conditions": 4,
-          "sales_verification_status": 400
-        },
-        "absent_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "interest_method": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_deposit_krw": 0,
-          "maximum_rate_percent": 0,
-          "minimum_deposit_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "term_months": 0
-        },
-        "empty_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 430,
-          "interest_method": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_deposit_krw": 395,
-          "maximum_rate_percent": 0,
-          "minimum_deposit_krw": 398,
-          "preferential_rate_conditions": 345,
-          "sales_verification_status": 0,
-          "term_months": 0
-        },
-        "not_collected_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 370,
-          "early_termination_condition": 430,
-          "interest_method": 0,
-          "join_channel": 0,
-          "join_member": 2,
-          "maximum_deposit_krw": 395,
-          "maximum_rate_percent": 0,
-          "minimum_deposit_krw": 398,
-          "preferential_rate_conditions": 345,
-          "sales_verification_status": 430,
-          "term_months": 0
-        },
-        "unverified_fields_by_field_name": {
-          "base_rate_percent": 430,
-          "deposit_protection_status": 60,
-          "early_termination_condition": 0,
-          "interest_method": 430,
-          "join_channel": 430,
-          "join_member": 428,
-          "maximum_deposit_krw": 35,
-          "maximum_rate_percent": 430,
-          "minimum_deposit_krw": 32,
-          "preferential_rate_conditions": 85,
-          "sales_verification_status": 0,
-          "term_months": 430
-        },
-        "conflicting_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "interest_method": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_deposit_krw": 0,
-          "maximum_rate_percent": 0,
-          "minimum_deposit_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "term_months": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "interest_method": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_deposit_krw": 0,
-          "maximum_rate_percent": 0,
-          "minimum_deposit_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "term_months": 0
-        },
-        "structural_comparison_candidate_count": 430,
-        "readiness": {
-          "discovery": "ready",
-          "comparison_engine": "structural_only",
-          "comparison_data": "structural_only",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 30,
-          "verification_evidence_product_count": 30
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        },
-        "legacy_overlay": {
-          "deprecated": true,
-          "replacement_path": "quality_summary",
-          "candidate_count": 30,
-          "statistics_candidate_count": 30
-        },
-        "legacy_overlay_comparison_candidate_products": 430,
-        "legacy_overlay_products_with_complete_comparison_fields": 30,
-        "legacy_overlay_products_with_verified_sales_status": 30,
-        "legacy_overlay_products_with_verification_evidence": 30,
-        "legacy_overlay_complete_comparison_data_count": 30,
-        "legacy_overlay_verified_comparison_candidate_count": 30,
-        "legacy_overlay_public_comparison_candidate_count": 30,
-        "deprecated": true,
-        "replacement_path": "domain_readiness.deposit",
-        "structural_candidate_count": 20,
-        "value_complete_candidate_count": 20,
-        "field_verified_candidate_count": 0,
-        "runtime_eligible_candidate_count": 0,
-        "public_candidate_count": 0,
-        "comparison_data": "structural_only",
-        "comparison_eligible_candidate_count": 0,
-        "shadow_recommendation_candidate_count": 0,
-        "owner_pilot_candidate_count": 0,
-        "public_recommendation_candidate_count": 0,
-        "strict_option_count": 69,
-        "structural_option_count": 69
-      },
-      "export_checksum": "260ed17c3389df85d0f9933c8e3c83755d5f4ed3b7a2a120075134cbf579df45",
+      "export_checksum": "b029403bde78a9d22cd6475e41a6779320615026ff7e8e7b9400af50ed6dccc6",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다.",
       "reference_item_count": 2
     },
@@ -1039,183 +553,7 @@
       "product_collection_dates": [
         "2026-07-18T00:00:00Z"
       ],
-      "quality_summary": {
-        "product_count": 335,
-        "verified_pilot_count": 0,
-        "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0,
-        "verified_pilot_threshold": 0.5,
-        "status_counts": {
-          "active": 335
-        },
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 0,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 335,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 0,
-        "recommendation_status_counts": {
-          "eligible_for_listing": 335
-        },
-        "recommendation_scope_counts": {
-          "comparison_only": 335
-        },
-        "products_with_complete_recommendation_fields": 0,
-        "average_completeness_ratio": 0.6316,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "deposit_protection_status": 265,
-          "early_termination_condition": 335,
-          "join_channel": 3,
-          "join_member": 6,
-          "monthly_payment_max_krw": 238,
-          "monthly_payment_min_krw": 328,
-          "preferential_rate_conditions": 1,
-          "sales_verification_status": 305
-        },
-        "absent_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 0,
-          "monthly_payment_min_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "saving_method": 0,
-          "term_months": 0
-        },
-        "empty_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 335,
-          "join_channel": 3,
-          "join_member": 0,
-          "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 238,
-          "monthly_payment_min_krw": 328,
-          "preferential_rate_conditions": 186,
-          "sales_verification_status": 0,
-          "saving_method": 0,
-          "term_months": 0
-        },
-        "not_collected_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 265,
-          "early_termination_condition": 335,
-          "join_channel": 3,
-          "join_member": 6,
-          "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 238,
-          "monthly_payment_min_krw": 328,
-          "preferential_rate_conditions": 186,
-          "sales_verification_status": 335,
-          "saving_method": 0,
-          "term_months": 0
-        },
-        "unverified_fields_by_field_name": {
-          "base_rate_percent": 335,
-          "deposit_protection_status": 70,
-          "early_termination_condition": 0,
-          "join_channel": 332,
-          "join_member": 329,
-          "maximum_rate_percent": 335,
-          "monthly_payment_max_krw": 97,
-          "monthly_payment_min_krw": 7,
-          "preferential_rate_conditions": 149,
-          "sales_verification_status": 0,
-          "saving_method": 335,
-          "term_months": 335
-        },
-        "conflicting_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 0,
-          "monthly_payment_min_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "saving_method": 0,
-          "term_months": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "base_rate_percent": 0,
-          "deposit_protection_status": 0,
-          "early_termination_condition": 0,
-          "join_channel": 0,
-          "join_member": 0,
-          "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 0,
-          "monthly_payment_min_krw": 0,
-          "preferential_rate_conditions": 0,
-          "sales_verification_status": 0,
-          "saving_method": 0,
-          "term_months": 0
-        },
-        "structural_comparison_candidate_count": 335,
-        "readiness": {
-          "discovery": "ready",
-          "comparison_engine": "structural_only",
-          "comparison_data": "structural_only",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 30,
-          "verification_evidence_product_count": 30
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        },
-        "legacy_overlay": {
-          "deprecated": true,
-          "replacement_path": "quality_summary",
-          "candidate_count": 30,
-          "statistics_candidate_count": 30
-        },
-        "legacy_overlay_comparison_candidate_products": 335,
-        "legacy_overlay_products_with_complete_comparison_fields": 30,
-        "legacy_overlay_products_with_verified_sales_status": 30,
-        "legacy_overlay_products_with_verification_evidence": 30,
-        "legacy_overlay_complete_comparison_data_count": 30,
-        "legacy_overlay_verified_comparison_candidate_count": 30,
-        "legacy_overlay_public_comparison_candidate_count": 30,
-        "deprecated": true,
-        "replacement_path": "domain_readiness.saving",
-        "structural_candidate_count": 20,
-        "value_complete_candidate_count": 20,
-        "field_verified_candidate_count": 0,
-        "runtime_eligible_candidate_count": 0,
-        "public_candidate_count": 0,
-        "comparison_data": "structural_only",
-        "comparison_eligible_candidate_count": 0,
-        "shadow_recommendation_candidate_count": 0,
-        "owner_pilot_candidate_count": 0,
-        "public_recommendation_candidate_count": 0,
-        "strict_option_count": 66,
-        "structural_option_count": 66
-      },
-      "export_checksum": "9199d8886cc321982f863f48d7c1d25f03ea54da88fad4784f5d82def89554f7",
+      "export_checksum": "71bbac8ff9fdf0af81e362c889509c88d680a87e983b39e7a5e1dabeea000d6b",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다.",
       "reference_item_count": 45
     },
@@ -1236,170 +574,7 @@
         "2026-07-10T00:00:00Z",
         "2026-07-18T00:00:00Z"
       ],
-      "quality_summary": {
-        "product_count": 598,
-        "verified_pilot_count": 20,
-        "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 1,
-        "verified_pilot_threshold": 0.5,
-        "status_counts": {
-          "active": 587,
-          "unknown": 11
-        },
-        "active_products_without_criteria": 4,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 564,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 587,
-        "manual_review_candidate_products": 11,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 587,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 574,
-        "recommendation_status_counts": {
-          "manual_review_candidate": 11,
-          "reference_only": 587
-        },
-        "recommendation_scope_counts": {
-          "comparison_only": 13,
-          "internal_verification_candidate": 11,
-          "listing_only": 574
-        },
-        "products_with_complete_recommendation_fields": 0,
-        "average_completeness_ratio": 0.6885,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "collateral_type": 90,
-          "criteria_or_options": 11,
-          "early_repayment_fee": 325,
-          "eligible_borrower": 163,
-          "loan_limit_krw": 293,
-          "loan_rate_max_percent": 160,
-          "loan_rate_min_percent": 160,
-          "rate_type": 128,
-          "repayment_method": 171
-        },
-        "absent_fields_by_field_name": {
-          "collateral_type": 0,
-          "criteria_or_options": 598,
-          "early_repayment_fee": 0,
-          "eligible_borrower": 0,
-          "loan_limit_krw": 0,
-          "loan_rate_max_percent": 0,
-          "loan_rate_min_percent": 0,
-          "rate_type": 0,
-          "repayment_method": 0
-        },
-        "empty_fields_by_field_name": {
-          "collateral_type": 90,
-          "criteria_or_options": 0,
-          "early_repayment_fee": 325,
-          "eligible_borrower": 163,
-          "loan_limit_krw": 293,
-          "loan_rate_max_percent": 160,
-          "loan_rate_min_percent": 160,
-          "rate_type": 128,
-          "repayment_method": 171
-        },
-        "not_collected_fields_by_field_name": {
-          "collateral_type": 90,
-          "criteria_or_options": 0,
-          "early_repayment_fee": 325,
-          "eligible_borrower": 163,
-          "loan_limit_krw": 255,
-          "loan_rate_max_percent": 160,
-          "loan_rate_min_percent": 160,
-          "rate_type": 128,
-          "repayment_method": 171
-        },
-        "unverified_fields_by_field_name": {
-          "collateral_type": 508,
-          "criteria_or_options": 0,
-          "early_repayment_fee": 273,
-          "eligible_borrower": 435,
-          "loan_limit_krw": 305,
-          "loan_rate_max_percent": 438,
-          "loan_rate_min_percent": 438,
-          "rate_type": 470,
-          "repayment_method": 427
-        },
-        "conflicting_fields_by_field_name": {
-          "collateral_type": 0,
-          "criteria_or_options": 0,
-          "early_repayment_fee": 0,
-          "eligible_borrower": 0,
-          "loan_limit_krw": 0,
-          "loan_rate_max_percent": 0,
-          "loan_rate_min_percent": 0,
-          "rate_type": 0,
-          "repayment_method": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "collateral_type": 0,
-          "criteria_or_options": 0,
-          "early_repayment_fee": 0,
-          "eligible_borrower": 0,
-          "loan_limit_krw": 0,
-          "loan_rate_max_percent": 0,
-          "loan_rate_min_percent": 0,
-          "rate_type": 0,
-          "repayment_method": 0
-        },
-        "structural_comparison_candidate_count": 13,
-        "readiness": {
-          "discovery": "ready",
-          "comparison_engine": "domain_coverage_incomplete",
-          "comparison_data": "domain_coverage_incomplete",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 20,
-          "verification_evidence_product_count": 20
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        },
-        "legacy_overlay": {
-          "deprecated": true,
-          "replacement_path": "quality_summary",
-          "candidate_count": 20,
-          "statistics_candidate_count": 20
-        },
-        "legacy_overlay_comparison_candidate_products": 13,
-        "legacy_overlay_products_with_complete_comparison_fields": 20,
-        "legacy_overlay_products_with_verified_sales_status": 20,
-        "legacy_overlay_products_with_verification_evidence": 20,
-        "legacy_overlay_complete_comparison_data_count": 20,
-        "legacy_overlay_verified_comparison_candidate_count": 20,
-        "legacy_overlay_public_comparison_candidate_count": 13,
-        "deprecated": true,
-        "replacement_path": "domain_readiness.loan",
-        "structural_candidate_count": 598,
-        "value_complete_candidate_count": 0,
-        "field_verified_candidate_count": 0,
-        "runtime_eligible_candidate_count": 0,
-        "public_candidate_count": 0,
-        "comparison_data": "domain_coverage_incomplete",
-        "comparison_eligible_candidate_count": 0,
-        "shadow_recommendation_candidate_count": 0,
-        "owner_pilot_candidate_count": 0,
-        "public_recommendation_candidate_count": 0,
-        "strict_option_count": 0,
-        "structural_option_count": 0
-      },
-      "export_checksum": "0305729dc2deebb8fbd899193a1e676d4a33ccfd651a2fd36332b38ed01ab5bf",
+      "export_checksum": "b9fde91af279e6ce9858846d098d5d2569241ad793dd746fce2bb98fcb0cbf8a",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다.",
       "reference_item_count": 45
     },
@@ -1418,191 +593,7 @@
       "product_collection_dates": [
         "2026-07-18T00:00:00Z"
       ],
-      "quality_summary": {
-        "product_count": 1071,
-        "verified_pilot_count": 20,
-        "verified_pilot_target": 20,
-        "verified_pilot_completeness_ratio": 0.835,
-        "verified_pilot_threshold": 0.6,
-        "status_counts": {
-          "active": 1071
-        },
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 1071,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 1071,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 1071,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 1071,
-        "recommendation_status_counts": {
-          "reference_only": 1071
-        },
-        "recommendation_scope_counts": {
-          "listing_only": 1071
-        },
-        "products_with_complete_recommendation_fields": 0,
-        "average_completeness_ratio": 0.424,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "coverage_amount_krw": 29,
-          "exclusion_condition": 1058,
-          "insurance_term": 657,
-          "insured_age_max": 1063,
-          "insured_age_min": 1063,
-          "payment_term": 1053,
-          "reduction_period_days": 1071,
-          "renewal_type": 199,
-          "surrender_refund_type": 755,
-          "waiting_period_days": 1071
-        },
-        "absent_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 29,
-          "coverage_names": 0,
-          "exclusion_condition": 1058,
-          "insurance_term": 657,
-          "insured_age_max": 1063,
-          "insured_age_min": 1063,
-          "payment_term": 1053,
-          "premium_basis": 0,
-          "reduction_period_days": 1071,
-          "renewal_type": 199,
-          "surrender_refund_type": 755,
-          "waiting_period_days": 1071
-        },
-        "empty_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 0,
-          "coverage_names": 0,
-          "exclusion_condition": 0,
-          "insurance_term": 0,
-          "insured_age_max": 0,
-          "insured_age_min": 0,
-          "payment_term": 0,
-          "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_type": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
-        },
-        "not_collected_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 29,
-          "coverage_names": 0,
-          "exclusion_condition": 1058,
-          "insurance_term": 657,
-          "insured_age_max": 1063,
-          "insured_age_min": 1063,
-          "payment_term": 1053,
-          "premium_basis": 0,
-          "reduction_period_days": 1071,
-          "renewal_type": 199,
-          "surrender_refund_type": 755,
-          "waiting_period_days": 1071
-        },
-        "unverified_fields_by_field_name": {
-          "claim_condition": 1071,
-          "coverage_amount_krw": 1042,
-          "coverage_names": 1071,
-          "exclusion_condition": 13,
-          "insurance_term": 414,
-          "insured_age_max": 8,
-          "insured_age_min": 8,
-          "payment_term": 18,
-          "premium_basis": 1071,
-          "reduction_period_days": 0,
-          "renewal_type": 872,
-          "surrender_refund_type": 316,
-          "waiting_period_days": 0
-        },
-        "conflicting_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 0,
-          "coverage_names": 0,
-          "exclusion_condition": 0,
-          "insurance_term": 0,
-          "insured_age_max": 0,
-          "insured_age_min": 0,
-          "payment_term": 0,
-          "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_type": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 0,
-          "coverage_names": 0,
-          "exclusion_condition": 0,
-          "insurance_term": 0,
-          "insured_age_max": 0,
-          "insured_age_min": 0,
-          "payment_term": 0,
-          "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_type": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
-        },
-        "structural_comparison_candidate_count": 0,
-        "readiness": {
-          "discovery": "ready",
-          "comparison_engine": "domain_coverage_incomplete",
-          "comparison_data": "domain_coverage_incomplete",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 20,
-          "verification_evidence_product_count": 20
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        },
-        "legacy_overlay": {
-          "deprecated": true,
-          "replacement_path": "quality_summary",
-          "candidate_count": 0,
-          "statistics_candidate_count": 0
-        },
-        "legacy_overlay_comparison_candidate_products": 0,
-        "legacy_overlay_products_with_complete_comparison_fields": 0,
-        "legacy_overlay_products_with_verified_sales_status": 20,
-        "legacy_overlay_products_with_verification_evidence": 20,
-        "legacy_overlay_complete_comparison_data_count": 0,
-        "legacy_overlay_verified_comparison_candidate_count": 0,
-        "legacy_overlay_public_comparison_candidate_count": 0,
-        "deprecated": true,
-        "replacement_path": "domain_readiness.insurance",
-        "structural_candidate_count": 1071,
-        "value_complete_candidate_count": 0,
-        "field_verified_candidate_count": 0,
-        "runtime_eligible_candidate_count": 0,
-        "public_candidate_count": 0,
-        "comparison_data": "domain_coverage_incomplete",
-        "comparison_eligible_candidate_count": 0,
-        "shadow_recommendation_candidate_count": 0,
-        "owner_pilot_candidate_count": 0,
-        "public_recommendation_candidate_count": 0,
-        "strict_option_count": 0,
-        "structural_option_count": 0
-      },
-      "export_checksum": "4f35c4966f7ed2d9c316ae2aa53c0c594fba4bf11be9d0be4271056471493eff",
+      "export_checksum": "1fb61a24e78f43414c277c3cdfaf4449e68a6851eabf5254a17d4b2511314697",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다.",
       "reference_item_count": 7
     },
@@ -1617,80 +608,6 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "quality_summary": {
-        "product_count": 0,
-        "verified_pilot_count": 0,
-        "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0,
-        "verified_pilot_threshold": null,
-        "status_counts": {},
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 0,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 0,
-        "comparison_candidate_products": 0,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 0,
-        "recommendation_status_counts": {},
-        "recommendation_scope_counts": {},
-        "products_with_complete_comparison_fields": 0,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
-        "comparison_overlay_quality": {
-          "candidate_count": 0,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 0,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 0,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {},
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {},
-        "absent_fields_by_field_name": {},
-        "empty_fields_by_field_name": {},
-        "not_collected_fields_by_field_name": {},
-        "unverified_fields_by_field_name": {},
-        "conflicting_fields_by_field_name": {},
-        "expired_verification_fields_by_field_name": {},
-        "structural_comparison_candidate_count": 0,
-        "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
-        "public_comparison_candidate_count": 0,
-        "readiness": {
-          "discovery": "blocked",
-          "comparison_engine": "ready",
-          "comparison_data": "blocked",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        }
-      },
       "export_checksum": "7092f1c8934fd6e78374bf00a81d5413d19df4978144955d36cffccb3b034fc9",
       "description": "연금저축 팩: 연금저축보험·펀드·신탁의 공시이율, 최저보증이율, 과거수익률, 세액공제 연계 온톨로지입니다.",
       "reference_item_count": 3
@@ -1710,129 +627,7 @@
       "product_collection_dates": [
         "2026-07-24T00:00:00Z"
       ],
-      "quality_summary": {
-        "product_count": 4,
-        "verified_pilot_count": 0,
-        "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0,
-        "verified_pilot_threshold": null,
-        "status_counts": {
-          "active": 4
-        },
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 4,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 0,
-        "comparison_candidate_products": 0,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 4,
-        "recommendation_status_counts": {
-          "reference_only": 4
-        },
-        "recommendation_scope_counts": {
-          "listing_only": 4
-        },
-        "products_with_complete_comparison_fields": 0,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
-        "comparison_overlay_quality": {
-          "candidate_count": 0,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 0,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 0,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {},
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {
-          "account_kind": 4,
-          "join_member": 4,
-          "payment_limit_krw": 4,
-          "sales_verification_status": 4,
-          "tax_benefit": 4
-        },
-        "absent_fields_by_field_name": {
-          "account_kind": 4,
-          "join_member": 4,
-          "payment_limit_krw": 4,
-          "sales_verification_status": 0,
-          "tax_benefit": 4
-        },
-        "empty_fields_by_field_name": {
-          "account_kind": 0,
-          "join_member": 0,
-          "payment_limit_krw": 0,
-          "sales_verification_status": 0,
-          "tax_benefit": 0
-        },
-        "not_collected_fields_by_field_name": {
-          "account_kind": 4,
-          "join_member": 4,
-          "payment_limit_krw": 4,
-          "sales_verification_status": 4,
-          "tax_benefit": 4
-        },
-        "unverified_fields_by_field_name": {
-          "account_kind": 0,
-          "join_member": 0,
-          "payment_limit_krw": 0,
-          "sales_verification_status": 0,
-          "tax_benefit": 0
-        },
-        "conflicting_fields_by_field_name": {
-          "account_kind": 0,
-          "join_member": 0,
-          "payment_limit_krw": 0,
-          "sales_verification_status": 0,
-          "tax_benefit": 0
-        },
-        "expired_verification_fields_by_field_name": {
-          "account_kind": 0,
-          "join_member": 0,
-          "payment_limit_krw": 0,
-          "sales_verification_status": 0,
-          "tax_benefit": 0
-        },
-        "structural_comparison_candidate_count": 0,
-        "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
-        "public_comparison_candidate_count": 0,
-        "readiness": {
-          "discovery": "blocked",
-          "comparison_engine": "ready",
-          "comparison_data": "blocked",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        }
-      },
-      "export_checksum": "2aaad51e89bae1782d7e95cc818df1d1f4d49f5e7ad6e89d27cce01bab518c28",
+      "export_checksum": "096bc2571eaff319f50f5a12ac3fde2898e30ca10c7cfa9f28c66306e3a5eb0f",
       "description": "세제혜택 계좌: 주택청약종합저축·청년 주택드림 청약통장·ISA의 가입대상, 납입한도, 세제혜택, 소득공제·청약 연계 온톨로지입니다.",
       "reference_item_count": 0
     },
@@ -1849,81 +644,7 @@
         "2026-07-18"
       ],
       "product_collection_dates": [],
-      "quality_summary": {
-        "product_count": 0,
-        "verified_pilot_count": 0,
-        "verified_pilot_target": 0,
-        "verified_pilot_completeness_ratio": 0,
-        "verified_pilot_threshold": null,
-        "status_counts": {},
-        "active_products_without_criteria": 0,
-        "active_products_without_conditions": 0,
-        "products_without_related": 0,
-        "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 0,
-        "active_loans_without_criteria": 0,
-        "loans_missing_required_fields": 0,
-        "active_insurance_without_criteria": 0,
-        "stale_disclosure_products": 0,
-        "reference_only_products": 0,
-        "manual_review_candidate_products": 0,
-        "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 0,
-        "comparison_candidate_products": 0,
-        "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 0,
-        "recommendation_status_counts": {},
-        "recommendation_scope_counts": {},
-        "products_with_complete_comparison_fields": 0,
-        "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
-        "comparison_overlay_quality": {
-          "candidate_count": 0,
-          "statistics_basis": "final_comparison_object",
-          "statistics_candidate_count": 0,
-          "raw_unverified_candidate_count": 0,
-          "raw_unverified_excluded_from_statistics_count": 0,
-          "verified_candidate_count": 0,
-          "missing_required_fields_by_field_name": {},
-          "unverified_fields_by_field_name": {},
-          "sales_verification_status_missing_count": 0
-        },
-        "average_completeness_ratio": 0,
-        "products_with_unmapped_existing_fields": 0,
-        "products_with_missing_search_type": 0,
-        "missing_fields_by_field_name": {},
-        "absent_fields_by_field_name": {},
-        "empty_fields_by_field_name": {},
-        "not_collected_fields_by_field_name": {},
-        "unverified_fields_by_field_name": {},
-        "conflicting_fields_by_field_name": {},
-        "expired_verification_fields_by_field_name": {},
-        "structural_comparison_candidate_count": 0,
-        "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
-        "public_comparison_candidate_count": 0,
-        "readiness": {
-          "discovery": "blocked",
-          "comparison_engine": "ready",
-          "comparison_data": "blocked",
-          "public_recommendation": "blocked"
-        },
-        "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
-        },
-        "quality_gate": {
-          "expired_active_local_supports": "validated in korea-local-government-supports export",
-          "active_insurance_without_criteria_must_be_zero": true,
-          "active_products_without_conditions_must_be_zero": true,
-          "active_products_without_related_must_be_zero": true,
-          "stale_active_disclosure_products_must_be_zero": true
-        }
-      },
-      "export_checksum": "791b51d40e50c5b0a7da449a39b17d4f1834af2f44ef3466a82676a58bbc4160",
+      "export_checksum": "ff22f8fe142b5e347c540f28e97cfc2a5254782a855d550229442b2ba0d6f396",
       "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다.",
       "reference_item_count": 8
     }
@@ -1939,8 +660,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
       "item_count": 155,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "857904e354630250b752e544c60a0753f998af9c5787d7c4f7f021616e93bfc8"
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "5a30bc1e5117d569ab9e7750647b9acc763761129856267f1fcc2feec8fc49e5"
     },
     "source_status": {
       "id": "openfin-source-status",
@@ -1949,8 +670,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
       "item_count": 155,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789"
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "92ca49b5357a622edd8b8f798b57689aa36a426b228d78a0a360c464e057c166"
     },
     "provenance_index": {
       "id": "openfin-provenance-index",
@@ -1959,8 +680,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
       "item_count": 21133,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "2476700641da2c9307b036083ccc240603b40a47bca2f4470ceb2e1e9b3f063d",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "4bb895dbe98f62a99c5c087ba9ef0e9d3c6dae715fcb6a1d3f92a0d3acb6b2d4",
       "shards": [
         {
           "id": "openfin-provenance-account-products",
@@ -1969,8 +690,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
           "item_count": 4,
-          "generated_at": "2026-07-28T00:00:00.000Z",
-          "export_checksum": "bef484ef0e03276d28b63dc5837ae60febb4930e1707bb229386f72bd50c613f",
+          "generated_at": "2026-08-07T05:04:11.851Z",
+          "export_checksum": "cd9550b5d31668664a02eba6a5030c3df37b79685443717cdfc771e0f277416f",
           "shard_id": "account-products"
         },
         {
@@ -1980,8 +701,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
           "item_count": 1363,
-          "generated_at": "2026-07-28T00:00:00.000Z",
-          "export_checksum": "c70aa2f72e4c8fd38847b31d84b49be0c5f044b7daf43103a0a0a4b842ce6580",
+          "generated_at": "2026-08-07T05:04:11.851Z",
+          "export_checksum": "3eee6094d5a447048562eba1d4729a0d47d089a342844d8b0fed4f0f3f939a6c",
           "shard_id": "bank-products"
         },
         {
@@ -1991,8 +712,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
           "item_count": 1007,
-          "generated_at": "2026-07-28T00:00:00.000Z",
-          "export_checksum": "4e1cf5a148446595d0f42ce3040be1711f9c2d67bcf6f55dbcba54f7673dfb6c",
+          "generated_at": "2026-08-07T05:04:11.851Z",
+          "export_checksum": "615e4d539d46c54a848f62aa726916ee10b63ea532a6b50028a3990e1a537400",
           "shard_id": "card-products"
         },
         {
@@ -2002,8 +723,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
           "item_count": 9380,
-          "generated_at": "2026-07-28T00:00:00.000Z",
-          "export_checksum": "442d3cce3ebe99e588d5d85bc57583fc963f37f5ceed2d962bd749ffb85ae320",
+          "generated_at": "2026-08-07T05:04:11.851Z",
+          "export_checksum": "8d6836e42c59f99ce159b958535d3eb162416363a956682a71ecb0c84e00ce5e",
           "shard_id": "deposit-protection"
         },
         {
@@ -2013,8 +734,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
           "item_count": 1071,
-          "generated_at": "2026-07-28T00:00:00.000Z",
-          "export_checksum": "3863cad13f6eba481ba7ec62d89725fd7846d3061780ea3b14b32f2098abf565",
+          "generated_at": "2026-08-07T05:04:11.851Z",
+          "export_checksum": "6dceb82588cee600998db087693722bffb792046279d45429f030dafb5ea9666",
           "shard_id": "insurance-products"
         },
         {
@@ -2024,8 +745,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
           "item_count": 569,
-          "generated_at": "2026-07-28T00:00:00.000Z",
-          "export_checksum": "e0cf07e3e8131b59f5f6713701f51c74d11bcc1d70cebafdf0323a141eac4a4f",
+          "generated_at": "2026-08-07T05:04:11.851Z",
+          "export_checksum": "1221802d774285cd326d1c28e926dc8b5a9b63311d814fa25326ae27d270a8ed",
           "shard_id": "reference"
         },
         {
@@ -2035,8 +756,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
           "item_count": 7739,
-          "generated_at": "2026-07-28T00:00:00.000Z",
-          "export_checksum": "579f12a6f4f0ecb91f80d5607c353d8eb740b40963e6f18629c8ff7b03c7635a",
+          "generated_at": "2026-08-07T05:04:11.851Z",
+          "export_checksum": "9120484d7996c72024eed176f779fa0a0723264c1507f2b3fdcd34bcd7f13439",
           "shard_id": "support"
         }
       ]
@@ -2048,8 +769,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "item_count": 1,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "4539524dd31d56c61f95e6aace8a4c778da1b08fd5131d1368a738c7f0fba40e",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "c9ffe985064081afc1ef047fa97c000421b752ca588051264356de504c7457e9",
       "coverage": {
         "external_provenance_coverage_ratio": 1,
         "status": "ready"
@@ -2062,8 +783,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
       "item_count": 102523,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "28b58bcbaf793494c32d0882d66aaec5274b2906ab79c5ec5a65d8db23e6fd46"
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "02330a31e1519918f0275211a1bb3e04caa9ea448ab4a54ab8bfae5fdcb6c83b"
     },
     "migration_manifest": {
       "id": "openfin-migration-manifest",
@@ -2072,8 +793,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
       "item_count": 1,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "60bf0a5ce7120ff9a53fc795992d429f231d3f288cf53e5651cd6a272cbdb549"
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "87182f353aac1c12530eee76f138a4cef107f97ef988a9934f5aef1f1574e238"
     },
     "decision_offers": {
       "id": "openfin-decision-offers",
@@ -2083,9 +804,9 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
       "item_count": 40,
-      "export_checksum": "74a8f37effe23626ec56219df5999f9bc1b080d130bbaf9216e3db2f2434bb6b",
-      "content_checksum": "96e3f62b3bb894feb783be63a9f52b0a6f40845d49bd59e11c221f61ad529fa8",
-      "generated_at": "2026-07-28T00:00:00.000Z"
+      "export_checksum": "b63f841ad47ea8eb6dae5ddc65d4b136a002580882d04e78788c114c4af46cef",
+      "content_checksum": "66a7cc22c5b10a10f6b5cd994e98435ac1a10763fe60ad517e888db20c08bb54",
+      "generated_at": "2026-08-07T05:04:11.851Z"
     },
     "live_regression_evidence": {
       "id": "openfin-live-regression-current",
@@ -2094,8 +815,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/live-regression-current.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/live-regression-current.json",
       "item_count": 1,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "93a847e94d93e2b6cda4f45715920f0bc3d107d7d3eaa6063318ac989ee02ad2",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "ab733e336986bc3916e1a6a4f63c3048babbd78e8500ff251bb1996aef19ede4",
       "source_path": "evidence/live-regression/current.json"
     }
   },
@@ -2107,8 +828,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
     "item_count": 1,
-    "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "4539524dd31d56c61f95e6aace8a4c778da1b08fd5131d1368a738c7f0fba40e",
+    "generated_at": "2026-08-07T05:04:11.851Z",
+    "export_checksum": "c9ffe985064081afc1ef047fa97c000421b752ca588051264356de504c7457e9",
     "coverage": {
       "external_provenance_coverage_ratio": 1,
       "status": "ready"
@@ -2121,8 +842,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
     "item_count": 155,
-    "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "857904e354630250b752e544c60a0753f998af9c5787d7c4f7f021616e93bfc8"
+    "generated_at": "2026-08-07T05:04:11.851Z",
+    "export_checksum": "5a30bc1e5117d569ab9e7750647b9acc763761129856267f1fcc2feec8fc49e5"
   },
   "source_status": {
     "id": "openfin-source-status",
@@ -2131,8 +852,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
     "item_count": 155,
-    "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789"
+    "generated_at": "2026-08-07T05:04:11.851Z",
+    "export_checksum": "92ca49b5357a622edd8b8f798b57689aa36a426b228d78a0a360c464e057c166"
   },
   "provenance_index": {
     "id": "openfin-provenance-index",
@@ -2141,8 +862,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
     "item_count": 21133,
-    "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "2476700641da2c9307b036083ccc240603b40a47bca2f4470ceb2e1e9b3f063d",
+    "generated_at": "2026-08-07T05:04:11.851Z",
+    "export_checksum": "4bb895dbe98f62a99c5c087ba9ef0e9d3c6dae715fcb6a1d3f92a0d3acb6b2d4",
     "shards": [
       {
         "id": "openfin-provenance-account-products",
@@ -2151,8 +872,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
         "item_count": 4,
-        "generated_at": "2026-07-28T00:00:00.000Z",
-        "export_checksum": "bef484ef0e03276d28b63dc5837ae60febb4930e1707bb229386f72bd50c613f",
+        "generated_at": "2026-08-07T05:04:11.851Z",
+        "export_checksum": "cd9550b5d31668664a02eba6a5030c3df37b79685443717cdfc771e0f277416f",
         "shard_id": "account-products"
       },
       {
@@ -2162,8 +883,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
         "item_count": 1363,
-        "generated_at": "2026-07-28T00:00:00.000Z",
-        "export_checksum": "c70aa2f72e4c8fd38847b31d84b49be0c5f044b7daf43103a0a0a4b842ce6580",
+        "generated_at": "2026-08-07T05:04:11.851Z",
+        "export_checksum": "3eee6094d5a447048562eba1d4729a0d47d089a342844d8b0fed4f0f3f939a6c",
         "shard_id": "bank-products"
       },
       {
@@ -2173,8 +894,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
         "item_count": 1007,
-        "generated_at": "2026-07-28T00:00:00.000Z",
-        "export_checksum": "4e1cf5a148446595d0f42ce3040be1711f9c2d67bcf6f55dbcba54f7673dfb6c",
+        "generated_at": "2026-08-07T05:04:11.851Z",
+        "export_checksum": "615e4d539d46c54a848f62aa726916ee10b63ea532a6b50028a3990e1a537400",
         "shard_id": "card-products"
       },
       {
@@ -2184,8 +905,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
         "item_count": 9380,
-        "generated_at": "2026-07-28T00:00:00.000Z",
-        "export_checksum": "442d3cce3ebe99e588d5d85bc57583fc963f37f5ceed2d962bd749ffb85ae320",
+        "generated_at": "2026-08-07T05:04:11.851Z",
+        "export_checksum": "8d6836e42c59f99ce159b958535d3eb162416363a956682a71ecb0c84e00ce5e",
         "shard_id": "deposit-protection"
       },
       {
@@ -2195,8 +916,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
         "item_count": 1071,
-        "generated_at": "2026-07-28T00:00:00.000Z",
-        "export_checksum": "3863cad13f6eba481ba7ec62d89725fd7846d3061780ea3b14b32f2098abf565",
+        "generated_at": "2026-08-07T05:04:11.851Z",
+        "export_checksum": "6dceb82588cee600998db087693722bffb792046279d45429f030dafb5ea9666",
         "shard_id": "insurance-products"
       },
       {
@@ -2206,8 +927,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
         "item_count": 569,
-        "generated_at": "2026-07-28T00:00:00.000Z",
-        "export_checksum": "e0cf07e3e8131b59f5f6713701f51c74d11bcc1d70cebafdf0323a141eac4a4f",
+        "generated_at": "2026-08-07T05:04:11.851Z",
+        "export_checksum": "1221802d774285cd326d1c28e926dc8b5a9b63311d814fa25326ae27d270a8ed",
         "shard_id": "reference"
       },
       {
@@ -2217,8 +938,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
         "item_count": 7739,
-        "generated_at": "2026-07-28T00:00:00.000Z",
-        "export_checksum": "579f12a6f4f0ecb91f80d5607c353d8eb740b40963e6f18629c8ff7b03c7635a",
+        "generated_at": "2026-08-07T05:04:11.851Z",
+        "export_checksum": "9120484d7996c72024eed176f779fa0a0723264c1507f2b3fdcd34bcd7f13439",
         "shard_id": "support"
       }
     ]
@@ -2230,8 +951,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
     "item_count": 102523,
-    "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "28b58bcbaf793494c32d0882d66aaec5274b2906ab79c5ec5a65d8db23e6fd46"
+    "generated_at": "2026-08-07T05:04:11.851Z",
+    "export_checksum": "02330a31e1519918f0275211a1bb3e04caa9ea448ab4a54ab8bfae5fdcb6c83b"
   },
   "provenance_coverage_ratio": 1,
   "migration_manifest": {
@@ -2241,8 +962,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
     "item_count": 1,
-    "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "60bf0a5ce7120ff9a53fc795992d429f231d3f288cf53e5651cd6a272cbdb549"
+    "generated_at": "2026-08-07T05:04:11.851Z",
+    "export_checksum": "87182f353aac1c12530eee76f138a4cef107f97ef988a9934f5aef1f1574e238"
   },
   "domain_readiness": {
     "deposit": {
@@ -2659,7 +1380,7 @@
     "public_approval_receipt_missing",
     "recommendation_state_blocked"
   ],
-  "quality_hash": "4a2055d2ed8fc12370650d01344cce36db4a8f9976c2bd63a35727d588c0c3b4",
+  "quality_hash": "6ec6a0d5572d538d816812ea4f3abad09e33f82f3fad3cb8dda88037c3b9e69a",
   "live_regression_policy": {
     "required_count": 120,
     "required_mode": "live",
@@ -2667,22 +1388,22 @@
   },
   "comparison_status": "blocked",
   "recommendation_status": "blocked",
-  "generation_id": "96586dbb50d038108483d8f9b9f9f8b3fc7170ee07eb73f22e7526ffc5dce9e0",
-  "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
+  "generation_id": "e0677f2a9c5daee11a4ad2ef2f8c23f0fa927ae34c0325feeda43dd15d5fae6d",
+  "deployment_commit": "c230e91945b41b6d07934f5c2b474d400195edd3",
   "artifact_contract": {
     "version": "openfin-artifact-contract-v1",
     "readiness_schema_version": "openfin-readiness-v2",
-    "generation_id": "96586dbb50d038108483d8f9b9f9f8b3fc7170ee07eb73f22e7526ffc5dce9e0",
-    "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
-    "canonical_content_checksum": "78f146729ceb998db0706aa76a1a1666b9f8148f2f109952548fd3d3728c6563",
+    "generation_id": "e0677f2a9c5daee11a4ad2ef2f8c23f0fa927ae34c0325feeda43dd15d5fae6d",
+    "deployment_commit": "c230e91945b41b6d07934f5c2b474d400195edd3",
+    "canonical_content_checksum": "19730b8082115b6ae21395d3b5d9776c4c1c1ab69fd2c90bfb64c757f9b8218d",
     "search_index_checksum": "4f5ebcba8ca907636264f1436e7a241fe029981cb5e78e4ebbcf911829111125",
-    "source_status_checksum": "8323aa459ade8483c83f5de10d0f475f98d018af851a07feb2b996a8a0736789",
+    "source_status_checksum": "92ca49b5357a622edd8b8f798b57689aa36a426b228d78a0a360c464e057c166",
     "release_policy_checksum": "f1d8859ad6c589c8c6d8682933e44e62137b07dc4336e3557911ae60b6525482",
     "capability_policy_checksum": "9472d9d19d8176930f233ea9de5d0e1f6e6f95f6b49e5ac7e33981afe0d470d1",
-    "fixture_checksum": "sha256:aca1219c3698dadd0b8031abd615bd896fc313a6c7e895c835624c8f7e7c0d10",
-    "candidate_set_checksum": "sha256:934662b909351793ded526f18a7101b98ee57dc65cb3001e911f24c1ddde36c9",
+    "fixture_checksum": "sha256:da2ac1db016fe73e0fa46612875ca4eb58d32c6eb215716a527b8e14bd153c6c",
+    "candidate_set_checksum": "sha256:45c6eaa5d9904337d253094c9b5fda24782a5316092e14f4b2f7ecf6e4a364d2",
     "candidate_content_checksum_policy": "immutable_candidate_set_checksum",
-    "quality_suite_transitive_checksum": "sha256:b9ef9a52b6e2ceae7d6cda7fecca8aaa62b9b554726565af2c833957342a8590"
+    "quality_suite_transitive_checksum": "sha256:64343c8fa2773fd1a168102e31fb2941e3474795267018a687f1b93a74da8b92"
   },
   "source_freshness_status": "degraded",
   "recommendation_state": "blocked",
@@ -2696,9 +1417,9 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
     "item_count": 40,
-    "export_checksum": "74a8f37effe23626ec56219df5999f9bc1b080d130bbaf9216e3db2f2434bb6b",
-    "content_checksum": "96e3f62b3bb894feb783be63a9f52b0a6f40845d49bd59e11c221f61ad529fa8",
-    "generated_at": "2026-07-28T00:00:00.000Z"
+    "export_checksum": "b63f841ad47ea8eb6dae5ddc65d4b136a002580882d04e78788c114c4af46cef",
+    "content_checksum": "66a7cc22c5b10a10f6b5cd994e98435ac1a10763fe60ad517e888db20c08bb54",
+    "generated_at": "2026-08-07T05:04:11.851Z"
   },
   "capabilities": {
     "search": "ready",
@@ -2955,9 +1676,9 @@
     "content_checksum": "1143931c4187953002181f954fc07e5423ff072886c295fb17f4137835eda9c7"
   },
   "service_availability": "available",
-  "source_head_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
-  "release_candidate_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
-  "production_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
+  "source_head_commit": "c230e91945b41b6d07934f5c2b474d400195edd3",
+  "release_candidate_commit": "c230e91945b41b6d07934f5c2b474d400195edd3",
+  "production_commit": "c230e91945b41b6d07934f5c2b474d400195edd3",
   "production_deployed_at": "2026-07-31T19:52:41.027Z",
   "current_release": {
     "path": "opentax/current-release.json",
@@ -2974,9 +1695,9 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/live-regression-current.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/live-regression-current.json",
     "item_count": 1,
-    "generated_at": "2026-07-28T00:00:00.000Z",
-    "export_checksum": "93a847e94d93e2b6cda4f45715920f0bc3d107d7d3eaa6063318ac989ee02ad2",
+    "generated_at": "2026-08-07T05:04:11.851Z",
+    "export_checksum": "ab733e336986bc3916e1a6a4f63c3048babbd78e8500ff251bb1996aef19ede4",
     "source_path": "evidence/live-regression/current.json"
   },
-  "manifest_checksum": "a56e892254013ae57dd0b4c03c3dccd859980241dfa5245b557a462646962fbf"
+  "manifest_checksum": "635a1ead0de36dfe7bcf7f8560715648ecbcf9c620ac75ee3bda4f1dcb347b45"
 }

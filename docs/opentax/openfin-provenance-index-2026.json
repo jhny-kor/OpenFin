@@ -1,6 +1,6 @@
 {
   "version": "OPENFIN-PROVENANCE-INDEX-2026.07.28.1",
-  "generated_at": "2026-07-28T00:00:00.000Z",
+  "generated_at": "2026-08-07T05:04:11.851Z",
   "item_count": 21289,
   "covered_item_count": 21133,
   "shards": [
@@ -11,8 +11,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
       "item_count": 4,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "bef484ef0e03276d28b63dc5837ae60febb4930e1707bb229386f72bd50c613f",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "cd9550b5d31668664a02eba6a5030c3df37b79685443717cdfc771e0f277416f",
       "shard_id": "account-products"
     },
     {
@@ -22,8 +22,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
       "item_count": 1363,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "c70aa2f72e4c8fd38847b31d84b49be0c5f044b7daf43103a0a0a4b842ce6580",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "3eee6094d5a447048562eba1d4729a0d47d089a342844d8b0fed4f0f3f939a6c",
       "shard_id": "bank-products"
     },
     {
@@ -33,8 +33,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
       "item_count": 1007,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "4e1cf5a148446595d0f42ce3040be1711f9c2d67bcf6f55dbcba54f7673dfb6c",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "615e4d539d46c54a848f62aa726916ee10b63ea532a6b50028a3990e1a537400",
       "shard_id": "card-products"
     },
     {
@@ -44,8 +44,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
       "item_count": 9380,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "442d3cce3ebe99e588d5d85bc57583fc963f37f5ceed2d962bd749ffb85ae320",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "8d6836e42c59f99ce159b958535d3eb162416363a956682a71ecb0c84e00ce5e",
       "shard_id": "deposit-protection"
     },
     {
@@ -55,8 +55,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
       "item_count": 1071,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "3863cad13f6eba481ba7ec62d89725fd7846d3061780ea3b14b32f2098abf565",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "6dceb82588cee600998db087693722bffb792046279d45429f030dafb5ea9666",
       "shard_id": "insurance-products"
     },
     {
@@ -66,8 +66,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
       "item_count": 569,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "e0cf07e3e8131b59f5f6713701f51c74d11bcc1d70cebafdf0323a141eac4a4f",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "1221802d774285cd326d1c28e926dc8b5a9b63311d814fa25326ae27d270a8ed",
       "shard_id": "reference"
     },
     {
@@ -77,8 +77,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
       "item_count": 7739,
-      "generated_at": "2026-07-28T00:00:00.000Z",
-      "export_checksum": "579f12a6f4f0ecb91f80d5607c353d8eb740b40963e6f18629c8ff7b03c7635a",
+      "generated_at": "2026-08-07T05:04:11.851Z",
+      "export_checksum": "9120484d7996c72024eed176f779fa0a0723264c1507f2b3fdcd34bcd7f13439",
       "shard_id": "support"
     }
   ]
