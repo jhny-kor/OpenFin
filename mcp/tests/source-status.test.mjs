@@ -1,7 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { resolveSourceStatus, sourceStatusRecordFor } from "../src/source-status.ts";
+import { resolveSourceStatus, sourceIdsForItem, sourceStatusRecordFor } from "../src/source-status.ts";
+
+test("source ids combine item, compact-index, and provenance ids without duplicates", () => {
+  assert.deepEqual(sourceIdsForItem({
+    sources: ["source.a"],
+    source_ids: ["source.b", "source.a"],
+  }, [{ source_id: "source.c" }, { source_id: "source.b" }]), ["source.a", "source.b", "source.c"]);
+});
 
 test("source_id records resolve and aggregate the worst source freshness", () => {
   const artifact = {

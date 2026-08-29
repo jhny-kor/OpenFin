@@ -13,6 +13,7 @@ export type FinanceItem = FinanceRecord & {
   provenance?: FinanceRecord[];
   provenance_shard?: string;
   sources?: string[];
+  source_ids?: string[];
   source_urls?: string[];
   source_basis_dates?: string[];
   capabilities?: { comparison?: string; recommendation?: string };

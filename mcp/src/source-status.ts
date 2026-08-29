@@ -68,6 +68,14 @@ function normalizeSourceFreshness(value: unknown): string | null {
   return ["changed", "unreachable", "retired", "conflict", "stale"].includes(value) ? value : null;
 }
 
+export function sourceIdsForItem(item: { sources?: readonly unknown[]; source_ids?: readonly unknown[] }, provenance: readonly JsonRecord[] = []): string[] {
+  return [...new Set([
+    ...(item.sources ?? []),
+    ...(item.source_ids ?? []),
+    ...provenance.map((entry) => entry.source_id).filter((value): value is string => typeof value === "string"),
+  ].filter((value): value is string => typeof value === "string"))];
+}
+
 function worstFreshness(values: readonly string[]): string | null {
   return values.reduce<string | null>((worst, value) => {
     const normalized = value === "unchanged" ? "current" : value;

@@ -2,7 +2,7 @@ import { createMcpHandler } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { generationCacheKey, isCurrentGeneration, SingleFlight } from "./generation-cache";
-import { resolveSourceStatus } from "./source-status";
+import { resolveSourceStatus, sourceIdsForItem } from "./source-status";
 import { evaluateReleaseGate } from "./release-gate";
 import { evaluateEligibility, productDomain, recommendationFields } from "./recommendation/policy";
 import { explainCandidate } from "./recommendation/explanation";
@@ -1333,13 +1333,9 @@ function publicProvenance(item: FinanceItem, artifacts: FinanceArtifacts): { ent
 
 function sourceHealth(item: FinanceItem, artifacts?: FinanceArtifacts): Record<string, unknown> {
   const provenance = normalizedProvenance(item, artifacts);
-  const sourceIds = new Set([
-    ...(item.sources ?? []),
-    ...(item.source_ids ?? []),
-    ...provenance.map((entry) => entry.source_id).filter((value): value is string => typeof value === "string"),
-  ]);
+  const sourceIds = sourceIdsForItem(item, provenance);
   const resolution = resolveSourceStatus({
-    sourceIds: [...sourceIds],
+    sourceIds,
     sourceUrlCount: item.source_urls?.length ?? 0,
     sourceStatusArtifact: artifacts?.source_status,
     staticFreshness: item.freshness_status ?? item.source_freshness_status,
@@ -1347,7 +1343,8 @@ function sourceHealth(item: FinanceItem, artifacts?: FinanceArtifacts): Record<s
   const { statuses } = resolution;
   const statusVerifiedAt = statuses.map((status) => status.last_successful_checked_at).find((value): value is string => typeof value === "string");
   return {
-    source_count: sourceIds.size || (item.source_urls?.length ?? 0),
+    source_ids: sourceIds,
+    source_count: sourceIds.length || (item.source_urls?.length ?? 0),
     last_verified_at: item.last_verified_at ?? item.verified_at ?? item.last_source_checked_at ?? statusVerifiedAt ?? null,
     freshness_status: resolution.freshnessStatus,
     source_status: statuses.length ? statuses : undefined,
