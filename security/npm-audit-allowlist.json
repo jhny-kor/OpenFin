@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "status": "resolved",
+  "allowlist_applied": false,
+  "generated_at": "2026-08-30T08:24:14Z",
+  "expires_at": null,
+  "approval_required": false,
+  "approved_by": null,
+  "reason": "No audit suppression is required. The Wrangler toolchain was upgraded without --force and the full and production audits report zero vulnerabilities.",
+  "evidence": {
+    "full_audit": "npm audit --json",
+    "full_audit_result": "0 vulnerabilities",
+    "production_audit": "npm audit --omit=dev --audit-level=high",
+    "production_audit_result": "0 vulnerabilities",
+    "resolution": "wrangler 4.127.1 with @cloudflare/workers-types 5.20260830.1",
+    "resolved_transitives": {
+      "miniflare": "5.20260828.0-alpha",
+      "sharp": "0.35.2",
+      "undici": "7.29.0",
+      "ws": "8.21.0",
+      "esbuild": "0.28.1"
+    }
+  },
+  "findings": []
+}
