@@ -16,7 +16,7 @@ import { registerCompareTool } from "./tools/compare";
 import { registerRecommendShadowTool } from "./tools/recommend-shadow";
 import { registerRecommendOwnerPilotTool } from "./tools/recommend-owner-pilot";
 import personalFinancePolicy from "../../contracts/personal-finance-policy.json" with { type: "json" };
-import { exactFetchShardId, exportIdForItemId, needsSummaryDetailHydration, registerFetchTool } from "./tools/fetch";
+import { decodeTargetedExactRows, exactFetchShardId, exportIdForItemId, needsSummaryDetailHydration, registerFetchTool } from "./tools/fetch";
 import { registerExportsTool } from "./tools/exports";
 import { livenessPayload, readinessPayload } from "./health";
 import { asCapabilityStatus, asServiceAvailability } from "./capability-status.ts";
@@ -351,11 +351,12 @@ const cachedLargeSearchShards = new Map<string, CachedSearchItems>();
 const cachedSmallSearchShards = new Map<string, CachedSearchItems>();
 const cachedExactFetchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
+const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; source: string }>>();
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
-// ponytail: retain the measured hot working set; all three caches stay hard-bounded.
+// ponytail: one parsed shard per tier; revisit only with Worker heap telemetry.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
-const LARGE_SEARCH_SHARD_CACHE_LIMIT = 2;
-const SMALL_SEARCH_SHARD_CACHE_LIMIT = 8;
+const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
+const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
 const financeArtifactErrors = new Map<string, Record<string, unknown>>();
@@ -1509,6 +1510,33 @@ function parseSearchItems(value: unknown, source: string): readonly FinanceItem[
   return items;
 }
 
+function parseTargetedExactItems(value: unknown, source: string, rawId: string): readonly FinanceItem[] {
+  if (!isRecord(value) || value.format !== "openfin-hot-search-v1") return parseSearchItems(value, source);
+  if (!Array.isArray(value.fields) || !value.fields.every((field) => typeof field === "string") || !Array.isArray(value.vocabulary) || !value.vocabulary.every((term) => typeof term === "string") || !Array.isArray(value.search_terms) || !Array.isArray(value.items) || !value.items.every((row) => Array.isArray(row))) {
+    throw new SearchIndexContractError(`${source} exact payload has invalid columnar fields`);
+  }
+  const fields = value.fields as string[];
+  const vocabulary = value.vocabulary as string[];
+  const rows = value.items as unknown[][];
+  const searchTerms = value.search_terms as unknown[];
+  if (searchTerms.length !== rows.length) throw new SearchIndexContractError(`${source}.search_terms row count does not match items`);
+  for (const [index, terms] of searchTerms.entries()) {
+    if (!Array.isArray(terms) || !terms.every((termId) => Number.isInteger(termId) && termId >= 0 && termId < vocabulary.length)) {
+      throw new SearchIndexContractError(`${source}.search_terms[${index}] is invalid`);
+    }
+  }
+  if (value.item_count !== undefined) assertSearchItemCount(rows.length, value.item_count as number, source);
+  let items: Record<string, unknown>[];
+  try {
+    items = decodeTargetedExactRows(fields, vocabulary, searchTerms as number[][], rows, resolveItemId(rawId));
+  } catch (error) {
+    throw new SearchIndexContractError(`${source} ${error instanceof Error ? error.message : String(error)}`);
+  }
+  for (const item of items) hydrateSupportHotFields(item);
+  if (!items.every(isFinanceItem)) throw new SearchIndexContractError(`${source} exact payload selected an invalid finance item`);
+  return items;
+}
+
 function parseSearchShard(value: unknown, source: string): SearchIndexShard {
   if (!isRecord(value) || typeof value.id !== "string" || typeof value.shard_id !== "string" || typeof value.path !== "string") {
     throw new SearchIndexContractError(`${source} must include id, shard_id, path, and integer item_count`);
@@ -1573,7 +1601,7 @@ function assertSearchItemCount(actual: number, expected: number | undefined, sou
   }
 }
 
-function assertEmbeddedItemCount(value: unknown, items: readonly FinanceItem[], source: string): void {
+function assertEmbeddedItemCount(value: unknown, items: readonly unknown[], source: string): void {
   if (!isRecord(value) || value.item_count === undefined) return;
   if (typeof value.item_count !== "number") {
     throw new SearchIndexContractError(`${source}.item_count must be an integer when present`);
@@ -1797,7 +1825,37 @@ async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: 
   }
   const shardId = await exactFetchShardId(itemId);
   const shard = shards.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
-  return shard ? loadSearchShard(env, shard) : [];
+  if (!shard) return [];
+  const key = shard.path || shard.shard_id;
+  const requestGeneration = manifestGeneration;
+  const pendingKey = generationCacheKey(requestGeneration, key);
+  let pending = inFlightExactFetchShards.get(pendingKey);
+  if (!pending) {
+    pending = (async () => {
+      const source = resolveExportUrl(shard, financeManifestUrl(env));
+      const rawText = await fetchText(source);
+      if (shard.content_checksum && !(await verifyTextChecksum(rawText, shard.content_checksum))) {
+        throw new SearchIndexContractError(`search-index shard ${shard.shard_id} content checksum mismatch`);
+      }
+      let payload: unknown;
+      try {
+        payload = JSON.parse(rawText);
+      } catch (error) {
+        throw new SearchIndexContractError(`search-index shard ${shard.shard_id} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
+      }
+      if (!shard.content_checksum && !(await verifySearchChecksum(isRecord(payload) && Array.isArray(payload.items) ? payload.items : payload, shard.export_checksum))) {
+        throw new SearchIndexContractError(`search-index shard ${shard.shard_id} checksum mismatch`);
+      }
+      const rows = Array.isArray(payload) ? payload : isRecord(payload) && Array.isArray(payload.items) ? payload.items : undefined;
+      if (!rows) throw new SearchIndexContractError(`search-index shard ${shard.shard_id} exact payload has no items`);
+      assertSearchItemCount(rows.length, shard.item_count, `search-index shard ${shard.shard_id}`);
+      assertEmbeddedItemCount(payload, rows, `search-index shard ${shard.shard_id}`);
+      return { payload, source };
+    })().finally(() => inFlightExactFetchShards.delete(pendingKey));
+    inFlightExactFetchShards.set(pendingKey, pending);
+  }
+  const { payload, source } = await pending;
+  return parseTargetedExactItems(payload, source, itemId);
 }
 
 async function hydrateSearchItem(env: Env, item: FinanceItem): Promise<FinanceItem> {

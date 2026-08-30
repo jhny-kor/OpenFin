@@ -159,11 +159,11 @@ test("freshness-filtered search resolves each shared source set once", () => {
   assert.ok(freshnessResolution > cheapFilters);
 });
 
-test("the runtime bounds parsed shards without reparsing every domain switch", () => {
+test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const cachedLargeSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
-  assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 2/);
-  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 8/);
+  assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1/);
+  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) cache\.delete/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
@@ -222,6 +222,9 @@ test("exact fetch reuses a current cached shard before loading another shard", (
   assert.match(source, /cached\.generation === manifestGeneration/);
   assert.match(source, /resolveCanonicalItemId\(itemId, cached\.items\)/);
   assert.match(source, /return cached\.items/);
+  assert.match(source, /generationCacheKey\(requestGeneration, key\)/);
+  assert.match(source, /const \{ payload, source \} = await pending/);
+  assert.doesNotMatch(source, /cachedExactFetchShards\.set/);
 });
 
 test("repeated searches reuse deduplication and avoid full-shard temporary indexes", () => {

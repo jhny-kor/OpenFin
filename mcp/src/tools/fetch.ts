@@ -13,6 +13,46 @@ export async function exactFetchShardId(value: string): Promise<string> {
   return `exact-${(hashPrefix % EXACT_FETCH_SHARD_COUNT).toString(16).padStart(3, "0")}`;
 }
 
+export function decodeTargetedExactRows(
+  fields: readonly string[],
+  vocabulary: readonly string[],
+  searchTerms: readonly (readonly number[])[],
+  rows: readonly unknown[][],
+  rawId: string,
+): Record<string, unknown>[] {
+  const fieldIndex = new Map(fields.map((field, index) => [field, index]));
+  const normalizedId = rawId.trim().toLocaleLowerCase("ko-KR");
+  const valuesFor = (row: readonly unknown[], field: string): string[] => {
+    const value = row[fieldIndex.get(field) ?? -1];
+    return (typeof value === "string" ? [value] : Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [])
+      .map((entry) => entry.trim().toLocaleLowerCase("ko-KR"));
+  };
+  const identityFields = ["id", "canonical_product_id", "resolved_canonical_product_id", "legacy_ids", "search_aliases", "aliases"];
+  const requiredFields = ["id", "title", "type"];
+  const selected = new Set<number>();
+  const canonicalIds = new Set<string>();
+  rows.forEach((row, index) => {
+    if (requiredFields.some((field) => typeof row[fieldIndex.get(field) ?? -1] !== "string")) throw new Error(`exact row ${index} is not a finance item`);
+    if (!identityFields.some((field) => valuesFor(row, field).includes(normalizedId))) return;
+    selected.add(index);
+    const canonicalId = ["resolved_canonical_product_id", "canonical_product_id", "id"]
+      .flatMap((field) => valuesFor(row, field))[0];
+    if (canonicalId) canonicalIds.add(canonicalId);
+  });
+  if (canonicalIds.size) rows.forEach((row, index) => {
+    if (["resolved_canonical_product_id", "canonical_product_id", "id"].some((field) => valuesFor(row, field).some((value) => canonicalIds.has(value)))) selected.add(index);
+  });
+  return [...selected].sort((left, right) => left - right).map((index) => {
+    const item: Record<string, unknown> = {};
+    for (const [column, field] of fields.entries()) {
+      const value = rows[index][column];
+      if (value !== null && value !== undefined) item[field] = value;
+    }
+    item.search_text = [...new Set(searchTerms[index].map((termId) => vocabulary[termId]))].join(" ");
+    return item;
+  });
+}
+
 export function selectFetchSections(
   identity: Record<string, unknown>,
   sections: Record<FetchInclude, Record<string, unknown>>,

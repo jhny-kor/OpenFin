@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import test from "node:test";
-import { compactSupportProvenance, exactFetchShardId, needsSummaryDetailHydration, selectFetchSections } from "../src/tools/fetch.ts";
+import { compactSupportProvenance, decodeTargetedExactRows, exactFetchShardId, needsSummaryDetailHydration, selectFetchSections } from "../src/tools/fetch.ts";
 
 const identity = { requested_id: "item.1", id: "item.1" };
 const sections = {
@@ -38,6 +38,24 @@ test("exact fetch ids route deterministically to one of 512 shards", async () =>
   const itemId = " Finance.Loan.Credit-Loan.0010002.SC001217 ";
   const hashPrefix = crypto.createHash("sha256").update(itemId.trim().toLocaleLowerCase("ko-KR")).digest().readUInt16BE(0);
   assert.equal(await exactFetchShardId(itemId), `exact-${(hashPrefix % 512).toString(16).padStart(3, "0")}`);
+});
+
+test("exact fetch selects only the requested identity and its canonical peers", () => {
+  const fields = ["id", "title", "type", "canonical_product_id", "resolved_canonical_product_id", "legacy_ids", "search_aliases", "aliases"];
+  const rows = [
+    ["finance.card.legacy", "Legacy Card", "card-product", "finance.card.canonical", "finance.card.canonical", ["legacy-card-id"], [], []],
+    ["finance.card.canonical", "Canonical Card", "card-product", "finance.card.canonical", "finance.card.canonical", [], [], []],
+    ["finance.card.other", "Other Card", "card-product", "finance.card.other", "finance.card.other", [], ["other-card"], []],
+  ];
+  const vocabulary = ["legacy", "canonical", "other"];
+  const searchTerms = [[0], [1], [2]];
+  assert.deepEqual(decodeTargetedExactRows(fields, vocabulary, searchTerms, rows, " LEGACY-CARD-ID ").map(({ id, search_text }) => ({ id, search_text })), [
+    { id: "finance.card.legacy", search_text: "legacy" },
+    { id: "finance.card.canonical", search_text: "canonical" },
+  ]);
+  assert.deepEqual(decodeTargetedExactRows(fields, vocabulary, searchTerms, rows, "other-card").map(({ id }) => id), ["finance.card.other"]);
+  assert.deepEqual(decodeTargetedExactRows(fields, vocabulary, searchTerms, rows, "missing-card"), []);
+  assert.throws(() => decodeTargetedExactRows(fields, vocabulary, searchTerms, [rows[0], rows[1], ["finance.card.invalid", null, "card-product", "finance.card.invalid", "finance.card.invalid", [], [], []]], "legacy-card-id"), /exact row 2 is not a finance item/);
 });
 
 test("support provenance stays explicit without loading the full provenance shard", () => {
