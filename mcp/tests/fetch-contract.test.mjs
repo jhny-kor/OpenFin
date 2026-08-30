@@ -34,10 +34,10 @@ test("product summaries stay on the bounded hot shard", () => {
   assert.equal(needsSummaryDetailHydration("finance-reference-ontology", "reference"), true);
 });
 
-test("exact fetch ids route deterministically to one of 128 shards", async () => {
+test("exact fetch ids route deterministically to one of 512 shards", async () => {
   const itemId = " Finance.Loan.Credit-Loan.0010002.SC001217 ";
-  const firstByte = crypto.createHash("sha256").update(itemId.trim().toLocaleLowerCase("ko-KR")).digest()[0];
-  assert.equal(await exactFetchShardId(itemId), `exact-${(firstByte % 128).toString(16).padStart(2, "0")}`);
+  const hashPrefix = crypto.createHash("sha256").update(itemId.trim().toLocaleLowerCase("ko-KR")).digest().readUInt16BE(0);
+  assert.equal(await exactFetchShardId(itemId), `exact-${(hashPrefix % 512).toString(16).padStart(3, "0")}`);
 });
 
 test("support provenance stays explicit without loading the full provenance shard", () => {

@@ -349,6 +349,7 @@ let cachedSearchIndexMetadata: CachedSearchIndexMetadata | undefined;
 let cachedSearchItems: CachedSearchItems | undefined;
 const cachedLargeSearchShards = new Map<string, CachedSearchItems>();
 const cachedSmallSearchShards = new Map<string, CachedSearchItems>();
+const cachedExactFetchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
 // ponytail: one oversized plus three smaller parsed shards bounds isolate heap; raise only with Worker heap evidence.
@@ -1198,6 +1199,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
       cachedSearchItems = undefined;
       cachedLargeSearchShards.clear();
       cachedSmallSearchShards.clear();
+      cachedExactFetchShards.clear();
       cachedFinanceArtifacts.clear();
     }
     const liveEntry = manifest.live_regression_evidence;
@@ -1663,8 +1665,9 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<reado
   const key = shard.path || shard.shard_id;
   const requestGeneration = manifestGeneration;
   const pendingKey = generationCacheKey(requestGeneration, key);
-  const cache = (shard.item_count ?? 0) > LARGE_SEARCH_SHARD_ITEM_COUNT ? cachedLargeSearchShards : cachedSmallSearchShards;
-  const cacheLimit = cache === cachedLargeSearchShards ? LARGE_SEARCH_SHARD_CACHE_LIMIT : SMALL_SEARCH_SHARD_CACHE_LIMIT;
+  const isExactFetchShard = /^exact-/.test(shard.shard_id);
+  const cache = isExactFetchShard ? cachedExactFetchShards : (shard.item_count ?? 0) > LARGE_SEARCH_SHARD_ITEM_COUNT ? cachedLargeSearchShards : cachedSmallSearchShards;
+  const cacheLimit = isExactFetchShard ? 1 : cache === cachedLargeSearchShards ? LARGE_SEARCH_SHARD_CACHE_LIMIT : SMALL_SEARCH_SHARD_CACHE_LIMIT;
   const cached = cache.get(key);
   if (cached?.generation === manifestGeneration) {
     cache.delete(key);
@@ -1758,6 +1761,18 @@ async function loadSearchItemsForQuery(
   productKind?: string,
 ): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
+  const exactShards = manifest.exact_fetch_index?.shards;
+  if (exactShards?.length && isNamedProductQuery(query)) {
+    const exactShardId = await exactFetchShardId(query);
+    const exactShard = exactShards.find((candidate) => candidate.shard_id === exactShardId || candidate.id === exactShardId);
+    if (exactShard) {
+      const exactItems = await loadSearchShard(env, exactShard);
+      const normalized = normalizeQuery(query);
+      const exactMatches = exactItems.filter((item) => [item.title, ...(item.search_aliases ?? []), ...(item.aliases ?? []), ...(item.legacy_ids ?? [])]
+        .some((value) => normalizeQuery(value) === normalized));
+      if (exactMatches.length) return exactMatches;
+    }
+  }
   const shardId = searchShardForQuery(query, type, searchType, productKind);
   const hotShards = manifest.hot_search_index?.shards;
   if (!shardId) {

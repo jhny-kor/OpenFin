@@ -34,15 +34,15 @@
         "content_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
         "shards": {
           "type": "array",
-          "minItems": 128,
-          "maxItems": 128,
+          "minItems": 512,
+          "maxItems": 512,
           "items": {
             "type": "object",
             "required": ["id", "shard_id", "path", "item_count", "export_checksum", "content_checksum"],
             "properties": {
-              "id": { "type": "string", "pattern": "^finance-exact-fetch-index-exact-[0-7][0-9a-f]$" },
-              "shard_id": { "type": "string", "pattern": "^exact-[0-7][0-9a-f]$" },
-              "path": { "type": "string", "pattern": "^opentax/finance-exact-fetch-index-2026-exact-[0-7][0-9a-f]\\.json$" },
+              "id": { "type": "string", "pattern": "^finance-exact-fetch-index-exact-[0-1][0-9a-f]{2}$" },
+              "shard_id": { "type": "string", "pattern": "^exact-[0-1][0-9a-f]{2}$" },
+              "path": { "type": "string", "pattern": "^opentax/finance-exact-fetch-index-2026-exact-[0-1][0-9a-f]{2}\\.json$" },
               "item_count": { "type": "integer", "minimum": 1 },
               "export_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
               "content_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" }

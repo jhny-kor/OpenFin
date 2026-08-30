@@ -169,6 +169,15 @@ test("the runtime bounds parsed shards without reparsing every domain switch", (
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
 });
 
+test("exact title lookup is isolated and falls back when there is no exact match", () => {
+  assert.match(workerSource, /const cachedExactFetchShards = new Map<string, CachedSearchItems>\(\)/);
+  assert.match(workerSource, /const isExactFetchShard = \/\^exact-\//);
+  assert.match(workerSource, /if \(exactShards\?\.length && isNamedProductQuery\(query\)\)/);
+  assert.match(workerSource, /const exactMatches = exactItems\.filter/);
+  assert.match(workerSource, /if \(exactMatches\.length\) return exactMatches;/);
+  assert.match(workerSource, /const shardId = searchShardForQuery\(query, type, searchType, productKind\)/);
+});
+
 test("repeated searches reuse deduplication and avoid full-shard temporary indexes", () => {
   assert.match(workerSource, /const dedupedProductItemsCache = new WeakMap/);
   assert.match(workerSource, /dedupedProductItemsCache\.set\(result, result\)/);

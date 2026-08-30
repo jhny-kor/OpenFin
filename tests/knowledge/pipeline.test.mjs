@@ -223,7 +223,7 @@ test('exact fetch shards keep cold item lookup bounded', () => {
   const docs = path.join(root, 'docs/opentax');
   const manifest = JSON.parse(fs.readFileSync(path.join(docs, 'finance-ontology-manifest.json')));
   const exact = manifest.exact_fetch_index;
-  assert.equal(exact.shards.length, 128);
+  assert.equal(exact.shards.length, 512);
   assert.equal(exact.shards.reduce((sum, shard) => sum + shard.item_count, 0), exact.row_count);
   const rowsByShard = new Map();
   const itemsById = new Map();
@@ -237,7 +237,7 @@ test('exact fetch shards keep cold item lookup bounded', () => {
   }
   assert.equal(itemsById.size, exact.item_count);
   const lookupOwners = new Map();
-  const lookupIds = item => [item.id, item.canonical_product_id, item.resolved_canonical_product_id, ...(item.legacy_ids || []), ...(item.search_aliases || []), ...(item.aliases || [])].filter(Boolean);
+  const lookupIds = item => [item.id, item.title, item.canonical_product_id, item.resolved_canonical_product_id, ...(item.legacy_ids || []), ...(item.search_aliases || []), ...(item.aliases || [])].filter(Boolean);
   for (const item of itemsById.values()) for (const lookupId of lookupIds(item)) {
     const normalized = lookupId.trim().toLocaleLowerCase('ko-KR');
     if (!lookupOwners.has(normalized)) lookupOwners.set(normalized, new Set());
@@ -246,8 +246,8 @@ test('exact fetch shards keep cold item lookup bounded', () => {
   for (const item of itemsById.values()) for (const lookupId of lookupIds(item)) {
     const normalized = lookupId.trim().toLocaleLowerCase('ko-KR');
     if (lookupId !== item.id && ![item.canonical_product_id, item.resolved_canonical_product_id].includes(lookupId) && lookupOwners.get(normalized).size !== 1) continue;
-    const firstByte = crypto.createHash('sha256').update(normalized).digest()[0];
-    const shardId = `exact-${(firstByte % 128).toString(16).padStart(2, '0')}`;
+    const hashPrefix = crypto.createHash('sha256').update(normalized).digest().readUInt16BE(0);
+    const shardId = `exact-${(hashPrefix % 512).toString(16).padStart(3, '0')}`;
     assert.ok(rowsByShard.get(shardId).some(candidate => candidate.id === item.id), `${lookupId} did not route ${item.id} to ${shardId}`);
   }
 });

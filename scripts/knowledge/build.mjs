@@ -220,8 +220,8 @@ const exactFetchFields = [...new Set([
   'jurisdiction', 'jurisdiction_code', 'jurisdiction_aliases', 'parent_jurisdiction_code',
   'target_group', 'support_category', 'export_id',
 ])];
-const EXACT_FETCH_SHARD_COUNT = 128;
-const exactFetchShardId = id => `exact-${(Number.parseInt(sha256(String(id).trim().toLocaleLowerCase('ko-KR')).slice(7, 9), 16) % EXACT_FETCH_SHARD_COUNT).toString(16).padStart(2, '0')}`;
+const EXACT_FETCH_SHARD_COUNT = 512;
+const exactFetchShardId = id => `exact-${(Number.parseInt(sha256(String(id).trim().toLocaleLowerCase('ko-KR')).slice(7, 11), 16) % EXACT_FETCH_SHARD_COUNT).toString(16).padStart(3, '0')}`;
 const SUPPORT_HOT_APPLICATION_STATUSES = [
   'unknown', 'recurring_annual', 'always_open', 'source_schedule_ambiguous',
   'agency_schedule_varies', 'closed', 'announcement_based', 'not_required',
@@ -437,21 +437,21 @@ const detailSearchIndex = {id:'openfin-detail-search-index', domain:'search', pa
 const normalizedExactLookup = value => String(value).trim().toLocaleLowerCase('ko-KR');
 const exactLookupOwners = new Map();
 for (const item of allSearchItems) {
-  for (const lookupId of [item.id, item.canonical_product_id, item.resolved_canonical_product_id, ...itemLookupAliases(item)].filter(Boolean)) {
+  for (const lookupId of [item.id, item.canonical_product_id, item.resolved_canonical_product_id, item.title, ...itemLookupAliases(item)].filter(Boolean)) {
     const normalized = normalizedExactLookup(lookupId);
     if (!exactLookupOwners.has(normalized)) exactLookupOwners.set(normalized, new Set());
     exactLookupOwners.get(normalized).add(item.id);
   }
 }
-const exactFetchBuckets = new Map(Array.from({length: EXACT_FETCH_SHARD_COUNT}, (_, index) => [`exact-${index.toString(16).padStart(2, '0')}`, []]));
+const exactFetchBuckets = new Map(Array.from({length: EXACT_FETCH_SHARD_COUNT}, (_, index) => [`exact-${index.toString(16).padStart(3, '0')}`, []]));
 for (const item of allSearchItems) {
   const exactItem = {
     ...item,
     legacy_ids: itemLookupAliases(item).filter(alias => !(item.search_aliases || []).includes(alias) && !(item.aliases || []).includes(alias)),
   };
   const canonicalLookups = [item.id, item.canonical_product_id, item.resolved_canonical_product_id].filter(Boolean);
-  const uniqueAliases = itemLookupAliases(item).filter(alias => exactLookupOwners.get(normalizedExactLookup(alias))?.size === 1);
-  const shardIds = new Set([...canonicalLookups, ...uniqueAliases].map(exactFetchShardId));
+  const uniqueAliases = [item.title, ...itemLookupAliases(item)].filter(alias => exactLookupOwners.get(normalizedExactLookup(alias))?.size === 1);
+  const shardIds = new Set([...canonicalLookups, item.title, ...uniqueAliases].filter(Boolean).map(exactFetchShardId));
   for (const shardId of shardIds) exactFetchBuckets.get(shardId).push(exactItem);
 }
 const exactFetchShardOutputs = [];

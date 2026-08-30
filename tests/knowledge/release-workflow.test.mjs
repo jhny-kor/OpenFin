@@ -50,10 +50,12 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.equal((workflow.match(/exceeds 25 MiB/g) ?? []).length, 2);
   assert.equal((workflow.match(/OPENFIN_CLOUDFLARE_PAGES_SHARDS: "true"/g) ?? []).length, 3);
   assert.equal((workflow.match(/LIVE_CASE_ATTEMPTS: 1/g) ?? []).length, 3);
+  assert.match(workflow, /validate-worker-final:[\s\S]*for run in 1 2 3; do[\s\S]*final-live-regression-report-\$run\.json[\s\S]*LIVE_CASE_ATTEMPTS: 1/);
   assert.match(workflow, /validate-promoted-worker:[\s\S]*for run in 1 2 3; do[\s\S]*promoted-live-regression-report-\$run\.json[\s\S]*LIVE_METADATA_ATTEMPTS: 1[\s\S]*LIVE_CASE_ATTEMPTS: 1/);
   assert.match(workflow, /\.status == "current" and \.test_count == 120 and \.passed_count == 120 and \.failed_count == 0 and \.skipped_count == 0 and \(\(\.retry_errors \/\/ \[\]\) \| length == 0\)/);
   assert.equal((workflow.match(/LIVE_CASE_RETRY_DELAY_MS: 1000/g) ?? []).length, 3);
   assert.equal((workflow.match(/if: \$\{\{ always\(\) \}\}\n\s+with:\n\s+name: openfin-live(?:-final|-promoted)?-\$\{\{ github\.sha \}\}/g) ?? []).length, 3);
+  assert.match(workflow, /name: openfin-live-final-\$\{\{ github\.sha \}\}[\s\S]*final-live-regression-report-\*\.json[\s\S]*final-live-regression-error-\*\.log/);
   assert.equal((workflow.match(/if-no-files-found: ignore/g) ?? []).length, 3);
   assert.match(workflow, /jq -r '\.artifact_contract\.fixture_checksum' docs\/opentax\/finance-ontology-manifest\.json/);
   assert.doesNotMatch(workflow, /jq -r '\.fixture_checksum' docs\/opentax\/finance-ontology-manifest\.json/);

@@ -306,8 +306,8 @@ const decodeHotSearchItems = payload => {
     return item;
   });
 };
-const EXACT_FETCH_SHARD_COUNT = 128;
-const exactFetchShardId = id => `exact-${(Number.parseInt(sha256(String(id).trim().toLocaleLowerCase('ko-KR')).slice(7, 9), 16) % EXACT_FETCH_SHARD_COUNT).toString(16).padStart(2, '0')}`;
+const EXACT_FETCH_SHARD_COUNT = 512;
+const exactFetchShardId = id => `exact-${(Number.parseInt(sha256(String(id).trim().toLocaleLowerCase('ko-KR')).slice(7, 11), 16) % EXACT_FETCH_SHARD_COUNT).toString(16).padStart(3, '0')}`;
 const hotSearch = manifest.hot_search_index;
 if (!hotSearch || !Array.isArray(hotSearch.shards) || hotSearch.shards.reduce((sum, shard) => sum + (shard.item_count || 0), 0) !== search.item_count) {
   fail('hot search index missing or shard counts do not sum to the search root');
@@ -350,7 +350,7 @@ if (exactFetch) {
       for (const item of items) {
         if (!item.id || !item.title || !item.type || !Array.isArray(item.source_ids) || typeof item.provenance_shard !== 'string') fail(`exact fetch item contract invalid: ${shard.shard_id}`);
         exactIds.add(item.id);
-        const lookupIds = [item.id, item.canonical_product_id, item.resolved_canonical_product_id, ...(item.legacy_ids || []), ...(item.search_aliases || []), ...(item.aliases || [])].filter(Boolean);
+        const lookupIds = [item.id, item.title, item.canonical_product_id, item.resolved_canonical_product_id, ...(item.legacy_ids || []), ...(item.search_aliases || []), ...(item.aliases || [])].filter(Boolean);
         if (!lookupIds.some(lookupId => exactFetchShardId(lookupId) === shard.shard_id)) fail(`exact fetch item routed to unrelated shard: ${item.id}`);
       }
     }

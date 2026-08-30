@@ -466,12 +466,16 @@ jobs:
       - name: Re-run 120-case regression against final preview
         run: |
           set -euo pipefail
-          node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log
-          test "$(jq -r '.status' ../live-regression-report.json)" = current
-          test "$(jq -r '.test_count' ../live-regression-report.json)" = 120
-          test "$(jq -r '.passed_count' ../live-regression-report.json)" = 120
-          test "$(jq -r '.failed_count' ../live-regression-report.json)" = 0
-          test "$(jq -r '.skipped_count' ../live-regression-report.json)" = 0
+          result=0
+          for run in 1 2 3; do
+            report="../final-live-regression-report-$run.json"
+            error_log="../final-live-regression-error-$run.log"
+            if ! node scripts/live-regression.mjs > "$report" 2> "$error_log"; then result=1; fi
+            if ! jq -e '.status == "current" and .test_count == 120 and .passed_count == 120 and .failed_count == 0 and .skipped_count == 0 and ((.retry_errors // []) | length == 0)' "$report" > /dev/null; then result=1; fi
+          done
+          cp ../final-live-regression-report-3.json ../live-regression-report.json
+          cp ../final-live-regression-error-3.log ../live-regression-error.log
+          exit "$result"
         env:
           MCP_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}/mcp
           LIVE_METADATA_ATTEMPTS: 12
@@ -499,6 +503,8 @@ jobs:
           path: |
             live-regression-report.json
             live-regression-error.log
+            final-live-regression-report-*.json
+            final-live-regression-error-*.log
           if-no-files-found: ignore
           retention-days: 7
 
