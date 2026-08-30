@@ -24,6 +24,7 @@ import { isVerifiedActive } from "./product-status";
 import { calculateFinancialOutcome } from "./recommendation/outcome";
 import { resolveAttainableRate } from "./recommendation/attainable-rate";
 import { adaptDecisionOfferOptions, comparisonCandidateAdapter, recommendationCandidateAdapter } from "./decision/candidate-adapter.ts";
+import { mergeOntologyExportItems, recombineOntologyExportPayloads } from "./export-shards.ts";
 
 type FinanceItem = {
   id: string;
@@ -154,14 +155,6 @@ type FinanceItem = {
   search_facets?: Record<string, unknown>;
   support_state?: number;
   support_region?: string;
-};
-
-type OntologyExport = {
-  version: string;
-  basis_date: string;
-  domain?: string;
-  items: FinanceItem[];
-  reference_items?: FinanceItem[];
 };
 
 type ManifestEntry = {
@@ -1211,6 +1204,39 @@ function resolveExportUrl(entry: { path: string; url?: string; web_url?: string 
   return new URL(fileName, manifestUrl).toString();
 }
 
+async function loadOntologyExportPayloads(entry: ManifestEntry, manifestUrl: string): Promise<unknown[]> {
+  const shards = entry.shards;
+  const sources = shards?.length ? shards : [entry];
+  const payloads: unknown[] = [];
+  for (const source of sources) {
+    const label = shards?.length ? `ontology export shard ${(source as SearchIndexShard).shard_id}` : `ontology export ${entry.id}`;
+    const url = resolveExportUrl(source, manifestUrl);
+    const rawText = await fetchText(url);
+    if (source.content_checksum && !(await verifyTextChecksum(rawText, source.content_checksum))) {
+      throw new SearchIndexContractError(`${label} content checksum mismatch`);
+    }
+    let payload: unknown;
+    try {
+      payload = JSON.parse(rawText);
+    } catch (error) {
+      throw new SearchIndexContractError(`${label} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
+    }
+    let combined;
+    try {
+      combined = recombineOntologyExportPayloads([payload]);
+    } catch (error) {
+      throw new SearchIndexContractError(`${label} contract mismatch: ${error instanceof Error ? error.message : String(error)}`);
+    }
+    if (!(await verifyArtifactChecksum(combined, source.export_checksum))) throw new SearchIndexContractError(`${label} checksum mismatch`);
+    assertSearchItemCount(combined.items.length + combined.reference_items.length, source.item_count, label);
+    payloads.push(payload);
+  }
+  const combined = recombineOntologyExportPayloads(payloads);
+  assertSearchItemCount(combined.items.length + combined.reference_items.length, entry.item_count, `ontology export ${entry.id}`);
+  if (!(await verifyArtifactChecksum(combined, entry.export_checksum))) throw new SearchIndexContractError(`ontology export ${entry.id} recombined checksum mismatch`);
+  return payloads;
+}
+
 async function loadFinanceArtifactEntry(env: Env, cacheKey: string, entry: { path: string; url?: string; web_url?: string }): Promise<unknown | undefined> {
   const now = Date.now();
   const requestGeneration = manifestGeneration;
@@ -1727,9 +1753,7 @@ async function loadFinanceGraph(env: Env): Promise<FinanceGraph> {
   const itemsById = new Map<string, FinanceItem>();
 
   for (const entry of manifest.exports) {
-    const exportUrl = resolveExportUrl(entry, manifestUrl);
-    const payload = await fetchJson<OntologyExport>(exportUrl);
-    for (const item of [...(payload.reference_items ?? []), ...(payload.items ?? [])]) {
+    for (const item of mergeOntologyExportItems(await loadOntologyExportPayloads(entry, manifestUrl)) as FinanceItem[]) {
       if (!itemsById.has(item.id)) {
         itemsById.set(item.id, item);
       }
@@ -2134,8 +2158,8 @@ async function fetchItemGraph(env: Env, rawId: string, include: readonly string[
     : manifest.exports;
 
   for (const entry of candidateExports) {
-    const payload = await fetchJson<OntologyExport>(resolveExportUrl(entry, manifestUrl));
-    const items = [...(payload.reference_items ?? []), ...(payload.items ?? [])];
+    const payloads = await loadOntologyExportPayloads(entry, manifestUrl);
+    const items = mergeOntologyExportItems(payloads) as FinanceItem[];
     const itemsById = new Map(items.map((item) => [item.id, item]));
     const item = itemsById.get(itemId);
     if (item) {

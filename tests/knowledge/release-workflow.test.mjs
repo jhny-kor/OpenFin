@@ -36,6 +36,13 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.match(workflow, /sed -nE 's#\^Version Preview Alias URL:/);
   assert.match(workflow, /validate-worker-final:[\s\S]*Require the positive comparison endpoint suite[\s\S]*OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"/);
   assert.match(workflow, /validate-promoted-worker:[\s\S]*Re-run the positive comparison endpoint suite[\s\S]*OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"/);
+  assert.equal((workflow.match(/pages deploy "\$upload_dir"/g) ?? []).length, 2);
+  assert.equal((workflow.match(/upload_dir="pages-upload"/g) ?? []).length, 2);
+  assert.equal((workflow.match(/\.exports\[\] \| select\(\(\.shards\? \/\/ \[\]\) \| length > 0\) \| \.path/g) ?? []).length, 2);
+  assert.equal((workflow.match(/Unsafe manifest path:/g) ?? []).length, 2);
+  assert.equal((workflow.match(/exceeds 25 MiB/g) ?? []).length, 2);
+  assert.equal((workflow.match(/OPENFIN_CLOUDFLARE_PAGES_SHARDS: "true"/g) ?? []).length, 3);
+  assert.match(workflow, /deploy-pages-final:[\s\S]*path: release\/docs/);
 });
 
 test('rollback contracts cover partial promotion, cancellation, and public Pages failure', () => {

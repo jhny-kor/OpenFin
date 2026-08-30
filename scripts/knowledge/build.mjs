@@ -71,6 +71,44 @@ const sourceSnapshotDates = [...catalog.flatMap(item => [item.source_collected_a
 const now = process.env.OPENFIN_BUILD_AT || sourceSnapshotDates.at(-1) || 'unknown';
 const artifactEntry = (id, domain, file, payload, itemCount, extra = {}) => ({id, domain, path:`opentax/${file}`, url:`${PUBLIC_BASE}/${file}`, web_url:`${PUBLIC_BASE}/${file}`, item_count:itemCount, generated_at:now, export_checksum:sha256(payload).slice(7), ...extra});
 const writeCompact = (file, payload) => { fs.mkdirSync(path.dirname(file), {recursive:true}); fs.writeFileSync(file, JSON.stringify(payload) + '\n'); };
+const ONTOLOGY_SHARD_MAX_BYTES = 25 * 1024 * 1024;
+const ontologyShardFiles = new Set(fs.readdirSync(DOCS).filter(file => /^korea-.*-ontology-2026-shard-\d+\.json$/.test(file)));
+for (const file of ontologyShardFiles) fs.rmSync(path.join(DOCS, file));
+const writeOntologyShards = (file, output) => {
+  const entries = [
+    ...output.items.map(item => ({ kind: 'items', item })),
+    ...(output.reference_items || []).map(item => ({ kind: 'reference_items', item })),
+  ];
+  if (Buffer.byteLength(JSON.stringify(output, null, 2) + '\n') < ONTOLOGY_SHARD_MAX_BYTES) return [];
+  const base = {...output};
+  delete base.items; delete base.reference_items; delete base.item_count; delete base.reference_item_count; delete base.export_checksum;
+  const chunks = [];
+  let chunk = {items: [], reference_items: []};
+  let chunkBytes = Buffer.byteLength(JSON.stringify({...base, item_count: 0, reference_item_count: 0, items: []}, null, 2) + '\n');
+  for (const entry of entries) {
+    // Pretty JSON adds indentation/newlines; a compact 8 MiB budget leaves a
+    // generous margin while avoiding repeated serialization of the whole chunk.
+    const itemBytes = Buffer.byteLength(JSON.stringify(entry.item)) + 2;
+    if (chunkBytes + itemBytes > 8 * 1024 * 1024) {
+      if (!chunk.items.length && !chunk.reference_items.length) throw new Error(`Ontology item exceeds shard limit: ${file}`);
+      chunks.push(chunk); chunk = {items: [], reference_items: []};
+      chunkBytes = Buffer.byteLength(JSON.stringify({...base, item_count: 0, reference_item_count: 0, items: []}, null, 2) + '\n');
+      chunk[entry.kind].push(entry.item);
+      chunkBytes += itemBytes;
+    } else { chunk[entry.kind].push(entry.item); chunkBytes += itemBytes; }
+  }
+  if (chunk.items.length || chunk.reference_items.length) chunks.push(chunk);
+  return chunks.map((chunk, index) => {
+    const shard = {...base, item_count: chunk.items.length + chunk.reference_items.length, reference_item_count: chunk.reference_items.length, items: chunk.items};
+    if (chunk.reference_items.length) shard.reference_items = chunk.reference_items;
+    shard.export_checksum = sha256({items: shard.items, reference_items: shard.reference_items || []}).slice(7);
+    const shardFile = `${file.replace(/\.json$/, '')}-shard-${String(index + 1).padStart(3, '0')}.json`;
+    const shardPath = path.join(DOCS, shardFile);
+    writeJson(shardPath, shard);
+    const content_checksum = sha256(fs.readFileSync(shardPath, 'utf8')).slice(7);
+    return {id:`${output.id || file}-shard-${String(index + 1).padStart(3, '0')}`, shard_id:`${file}-shard-${String(index + 1).padStart(3, '0')}`, path:`opentax/${shardFile}`, url:`${PUBLIC_BASE}/${shardFile}`, web_url:`${PUBLIC_BASE}/${shardFile}`, item_count:shard.item_count, reference_item_count:shard.reference_item_count, export_checksum:shard.export_checksum, content_checksum};
+  });
+};
 const decisionOfferPayload = { version: 'OPENFIN-DECISION-OFFERS-2026.07.31.1', generated_at: now, item_count: decisionOffers.length, items: decisionOffers };
 const decisionOfferPath = path.join(DOCS, 'openfin-decision-offers-2026.json');
 writeCompact(decisionOfferPath, decisionOfferPayload);
@@ -602,6 +640,14 @@ for (const [file, output] of Object.entries(generatedExports)) {
 for (const entry of manifest.exports || []) {
   const domain = entry.id === 'deposit-products-ontology' ? 'deposit' : entry.id === 'saving-products-ontology' ? 'saving' : entry.id === 'card-products-ontology' ? 'card' : entry.id === 'loan-products-ontology' ? 'loan' : entry.id === 'insurance-products-ontology' ? 'insurance' : null;
   if (domain) normalizeLegacyExportQuality(entry, { ...quality.domains[domain], domain });
+}
+for (const [file, output] of Object.entries(generatedExports)) {
+  const entry = (manifest.exports || []).find(value => path.basename(value.path || '') === file);
+  if (entry) {
+    const shards = /^(1|true)$/i.test(process.env.OPENFIN_CLOUDFLARE_PAGES_SHARDS || '') ? writeOntologyShards(file, output) : [];
+    if (shards.length) entry.shards = shards;
+    else delete entry.shards;
+  }
 }
 const artifactContract = {
   version: 'openfin-artifact-contract-v1',

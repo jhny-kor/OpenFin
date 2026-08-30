@@ -88,6 +88,7 @@ jobs:
           OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
           OPENFIN_SOURCE_HEAD_COMMIT: ${{ github.sha }}
           OPENFIN_RELEASE_CANDIDATE_COMMIT: ${{ github.sha }}
+          OPENFIN_CLOUDFLARE_PAGES_SHARDS: "true"
       - name: Validate canonical contracts
         run: |
           set -euo pipefail
@@ -102,6 +103,7 @@ jobs:
           OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
           OPENFIN_SOURCE_HEAD_COMMIT: ${{ github.sha }}
           OPENFIN_RELEASE_CANDIDATE_COMMIT: ${{ github.sha }}
+          OPENFIN_CLOUDFLARE_PAGES_SHARDS: "true"
       - name: Validate Worker and financial quality contracts
         working-directory: mcp
         run: |
@@ -153,7 +155,26 @@ jobs:
           set -euo pipefail
           : "${OPENFIN_STAGING_PAGES_PROJECT:?Repository variable OPENFIN_STAGING_PAGES_PROJECT is required}"
           alias="candidate-${GITHUB_SHA:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          npx --yes wrangler@4.127.1 pages deploy docs --project-name "$OPENFIN_STAGING_PAGES_PROJECT" --branch "$alias" --commit-hash "$GITHUB_SHA" 2>&1 | tee pages-deploy.log
+          upload_dir="pages-upload"
+          mkdir "$upload_dir"
+          cp -a docs/. "$upload_dir/"
+          manifest="docs/opentax/finance-ontology-manifest.json"
+          upload_root="$(realpath -e -- "$upload_dir")"
+          while IFS= read -r path; do
+            case "$path" in
+              ""|/*|*'//'*|../*|*/../*|*/..|.|./*|*/./*) echo "Unsafe manifest path: $path" >&2; exit 1 ;;
+            esac
+            target="$(realpath -e -- "$upload_dir/$path")"
+            case "$target" in
+              "$upload_root"/*) : ;;
+              *) echo "Manifest path escapes upload directory: $path" >&2; exit 1 ;;
+            esac
+            test -f "$target"
+            rm -- "$target"
+          done < <(jq -r '.exports[] | select((.shards? // []) | length > 0) | .path' "$manifest" | sort -u)
+          oversized="$(find "$upload_dir" -type f -size +26214399c -print -quit)"
+          test -z "$oversized" || { echo "Pages file exceeds 25 MiB: $oversized" >&2; exit 1; }
+          npx --yes wrangler@4.127.1 pages deploy "$upload_dir" --project-name "$OPENFIN_STAGING_PAGES_PROJECT" --branch "$alias" --commit-hash "$GITHUB_SHA" 2>&1 | tee pages-deploy.log
           pages_url="$(sed -nE 's#.*(https://[A-Za-z0-9.-]+\.pages\.dev).*#\1#p' pages-deploy.log | tail -n 1)"
           test -n "$pages_url"
           printf 'pages_url=%s\n' "$pages_url" >> "$GITHUB_OUTPUT"
@@ -308,7 +329,26 @@ jobs:
           set -euo pipefail
           : "${OPENFIN_STAGING_PAGES_PROJECT:?Repository variable OPENFIN_STAGING_PAGES_PROJECT is required}"
           alias="final-${GITHUB_SHA:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          npx --yes wrangler@4.127.1 pages deploy docs --project-name "$OPENFIN_STAGING_PAGES_PROJECT" --branch "$alias" --commit-hash "$GITHUB_SHA" 2>&1 | tee pages-deploy.log
+          upload_dir="pages-upload"
+          mkdir "$upload_dir"
+          cp -a docs/. "$upload_dir/"
+          manifest="docs/opentax/finance-ontology-manifest.json"
+          upload_root="$(realpath -e -- "$upload_dir")"
+          while IFS= read -r path; do
+            case "$path" in
+              ""|/*|*'//'*|../*|*/../*|*/..|.|./*|*/./*) echo "Unsafe manifest path: $path" >&2; exit 1 ;;
+            esac
+            target="$(realpath -e -- "$upload_dir/$path")"
+            case "$target" in
+              "$upload_root"/*) : ;;
+              *) echo "Manifest path escapes upload directory: $path" >&2; exit 1 ;;
+            esac
+            test -f "$target"
+            rm -- "$target"
+          done < <(jq -r '.exports[] | select((.shards? // []) | length > 0) | .path' "$manifest" | sort -u)
+          oversized="$(find "$upload_dir" -type f -size +26214399c -print -quit)"
+          test -z "$oversized" || { echo "Pages file exceeds 25 MiB: $oversized" >&2; exit 1; }
+          npx --yes wrangler@4.127.1 pages deploy "$upload_dir" --project-name "$OPENFIN_STAGING_PAGES_PROJECT" --branch "$alias" --commit-hash "$GITHUB_SHA" 2>&1 | tee pages-deploy.log
           pages_url="$(sed -nE 's#.*(https://[A-Za-z0-9.-]+\.pages\.dev).*#\1#p' pages-deploy.log | tail -n 1)"
           test -n "$pages_url"
           printf 'pages_url=%s\n' "$pages_url" >> "$GITHUB_OUTPUT"
@@ -608,6 +648,7 @@ jobs:
           OPENFIN_LAST_SMOKE_STATUS: passed
           OPENFIN_LAST_LIVE_STATUS: passed
           OPENFIN_ROLLBACK_TARGET: ${{ needs.deploy-worker-candidate.outputs.previous_version_id }}
+          OPENFIN_CLOUDFLARE_PAGES_SHARDS: "true"
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: openfin-final-${{ github.sha }}

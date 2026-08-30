@@ -228,6 +228,27 @@ if (publicOwnerIds.size !== legacyValues.length) fail(`public owners ${publicOwn
 if (publicRows !== publicOwnerIds.size + referenceRows) fail(`public row accounting invalid: ${publicRows} != ${publicOwnerIds.size} + ${referenceRows}`);
 for (const id of publicReferenceIds) if (!publicOwnerIds.has(id)) fail(`reference item without owner: ${id}`);
 
+for (const entry of manifest.exports || []) {
+  if (!Array.isArray(entry.shards) || !entry.shards.length) continue;
+  const original = json(path.join(DOCS, path.basename(entry.path)));
+  const items = []; const referenceItems = [];
+  for (const [shardIndex, shardEntry] of entry.shards.entries()) {
+    const shardFile = `${path.basename(entry.path, '.json')}-shard-${String(shardIndex + 1).padStart(3, '0')}.json`;
+    if (shardEntry.path !== `opentax/${shardFile}`) { fail(`invalid ontology shard path: ${shardEntry.path}`); continue; }
+    const shardPath = path.join(DOCS, shardFile);
+    if (!fs.existsSync(shardPath)) { fail(`missing ontology shard: ${shardEntry.path}`); continue; }
+    const content = fs.readFileSync(shardPath, 'utf8');
+    if (Buffer.byteLength(content) >= 25 * 1024 * 1024) fail(`ontology shard exceeds Pages limit: ${shardEntry.path}`);
+    const shard = JSON.parse(content);
+    if (shardEntry.content_checksum !== sha256(content).slice(7)) fail(`ontology shard content checksum mismatch: ${shardEntry.path}`);
+    if (shardEntry.export_checksum !== sha256({items:shard.items || [], reference_items:shard.reference_items || []}).slice(7)) fail(`ontology shard export checksum mismatch: ${shardEntry.path}`);
+    if (shard.item_count !== (shard.items || []).length + (shard.reference_items || []).length || shard.reference_item_count !== (shard.reference_items || []).length) fail(`ontology shard counts mismatch: ${shardEntry.path}`);
+    if (shardEntry.item_count !== shard.item_count || shardEntry.reference_item_count !== shard.reference_item_count) fail(`ontology shard manifest counts mismatch: ${shardEntry.path}`);
+    items.push(...(shard.items || [])); referenceItems.push(...(shard.reference_items || []));
+  }
+  if (items.length + referenceItems.length !== entry.item_count || items.length !== (original.items || []).length || referenceItems.length !== (original.reference_items || []).length || entry.export_checksum !== original.export_checksum || sha256({items, reference_items:referenceItems}).slice(7) !== original.export_checksum) fail(`ontology shards do not recombine: ${entry.path}`);
+}
+
 const search = json(path.join(DOCS, 'finance-search-index-2026.json'));
 const derivedQuality = deriveQuality(legacyValues, { sourceCount: sources.length, exportCount: (manifest.exports || []).length, searchItemCount: search.item_count, relationshipCount: manifest.relationship_index?.item_count || 0, invalidUrlCount: coverage.invalid_legacy_url_count, sourceStatusLoaded: sourceStatuses.statuses?.length === sources.length });
 if (search.item_count !== legacyValues.length || search.canonical_product_count !== derivedQuality.canonical.canonical_product_count) fail(`search index counts changed: ${search.item_count}/${search.canonical_product_count} vs ${legacyValues.length}/${derivedQuality.canonical.canonical_product_count}`);
