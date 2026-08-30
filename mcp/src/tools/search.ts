@@ -84,6 +84,7 @@ export function diversifyBroadResults<T extends { item: FinanceItem; score: numb
       if (selected.length === targetProviderCount) break;
     }
   }
+  if (selected.length >= maxResults) return selected;
 
   const deferred: T[] = [];
   for (const candidate of ranked) {

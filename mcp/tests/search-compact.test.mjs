@@ -90,6 +90,7 @@ test("broad search diversity targets three providers when available", () => {
   assert.equal(new Set(results.map(({ item }) => item.provider)).size, 3);
   assert.deepEqual(results.map(({ item }) => item.id), ["a1", "b1", "c1", "a2", "b2"]);
   assert.ok(results.every(({ item }) => results.filter(({ item: other }) => other.provider === item.provider).length <= 2));
+  assert.deepEqual(diversifyBroadResults(ranked, "예금", {}, 3).map(({ item }) => item.id), ["a1", "b1", "c1"]);
   assert.deepEqual(diversifyBroadResults(ranked, "청년 월세", {}, 5, false), ranked.slice(0, 5));
 });
 
