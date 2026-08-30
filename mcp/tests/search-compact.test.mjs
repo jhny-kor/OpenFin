@@ -135,9 +135,20 @@ test("freshness-filtered search resolves each shared source set once", () => {
   assert.match(searchToolSource, /const freshnessCache = freshness_status === undefined \? undefined : new Map/);
   assert.match(searchToolSource, /matchesSearchFilters\(item, filters, artifacts, freshnessCache\)/);
   assert.match(workerSource, /sourceFreshnessStatus\(item, artifacts, freshnessCache\)/);
+
+  const start = workerSource.indexOf("function matchesSearchFilters");
+  const end = workerSource.indexOf("function isRecommendationSearchEligible", start);
+  const filterSource = workerSource.slice(start, end);
+  const cheapFilters = filterSource.indexOf("if (!(\n");
+  const freshnessResolution = filterSource.indexOf("sourceFreshnessStatus(item, artifacts, freshnessCache)");
+  assert.ok(cheapFilters >= 0);
+  assert.ok(freshnessResolution > cheapFilters);
 });
 
-test("the runtime pins the support hot shard used by routed searches", () => {
-  assert.match(workerSource, /PINNED_SEARCH_SHARD_SUFFIXES = new Set\(\["finance-hot-search-index-2026-support\.json"\]\)/);
+test("the runtime retains only one parsed hot shard", () => {
+  assert.match(workerSource, /let cachedSearchShard: \(CachedSearchItems & \{ key: string \}\) \| undefined/);
+  assert.match(workerSource, /cachedSearchShard = \{ key, items, loadedAt: Date\.now\(\), generation: requestGeneration \}/);
+  assert.doesNotMatch(workerSource, /cachedSearchShards|SEARCH_SHARD_CACHE_LIMIT/);
+  assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
   assert.doesNotMatch(workerSource, /finance-search-index-2026-support-compact\.json/);
 });

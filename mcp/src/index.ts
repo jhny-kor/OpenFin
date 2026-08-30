@@ -345,11 +345,8 @@ const manifestSingleFlight = new SingleFlight<FinanceManifest>();
 let manifestGeneration = "uninitialized";
 let cachedSearchIndexMetadata: CachedSearchIndexMetadata | undefined;
 let cachedSearchItems: CachedSearchItems | undefined;
-const cachedSearchShards = new Map<string, CachedSearchItems>();
+let cachedSearchShard: (CachedSearchItems & { key: string }) | undefined;
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
-// ponytail: pin the large support shard and keep one ephemeral domain shard; a broader cache retains too much parsed JSON in a Worker isolate.
-const PINNED_SEARCH_SHARD_SUFFIXES = new Set(["finance-hot-search-index-2026-support.json"]);
-const SEARCH_SHARD_CACHE_LIMIT = 1;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
 const financeArtifactErrors = new Map<string, Record<string, unknown>>();
@@ -624,12 +621,7 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters, artifac
   const equals = (value: string | undefined, expected: string | undefined): boolean =>
     expected === undefined || normalizeQuery(value ?? "") === normalizeQuery(expected);
   const region = normalizeQuery(filters.region ?? "");
-  const freshness = filters.freshnessStatus === undefined
-    ? item.freshness_status
-    : artifacts
-      ? sourceFreshnessStatus(item, artifacts, freshnessCache)
-      : item.freshness_status;
-  return (
+  if (!(
     equals(item.search_type, filters.searchType) &&
     equals(item.product_kind, filters.productKind) &&
     equals(item.recommendation_status, filters.recommendationStatus) &&
@@ -637,10 +629,14 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters, artifac
     equals(item.sales_status, filters.salesStatus) &&
     equals(item.application_status, filters.applicationStatus) &&
     equals(item.provider, filters.provider) &&
-    equals(freshness ?? undefined, filters.freshnessStatus) &&
     (!region || [item.jurisdiction, item.jurisdiction_code, ...(item.jurisdiction_aliases ?? [])]
       .some((value) => normalizeQuery(value ?? "").includes(region)))
-  );
+  )) return false;
+  if (filters.freshnessStatus === undefined) return true;
+  const freshness = artifacts
+    ? sourceFreshnessStatus(item, artifacts, freshnessCache)
+    : item.freshness_status;
+  return equals(freshness ?? undefined, filters.freshnessStatus);
 }
 
 function isRecommendationSearchEligible(item: FinanceItem): boolean {
@@ -1180,7 +1176,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
       cachedGraph = undefined;
       cachedSearchIndexMetadata = undefined;
       cachedSearchItems = undefined;
-      cachedSearchShards.clear();
+      cachedSearchShard = undefined;
       cachedFinanceArtifacts.clear();
     }
     const liveEntry = manifest.live_regression_evidence;
@@ -1647,16 +1643,9 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<reado
   const key = shard.path || shard.shard_id;
   const requestGeneration = manifestGeneration;
   const pendingKey = generationCacheKey(requestGeneration, key);
-  const cached = cachedSearchShards.get(key);
+  const cached = cachedSearchShard?.key === key ? cachedSearchShard : undefined;
   if (cached && cached.generation === manifestGeneration && now - cached.loadedAt < CACHE_TTL_MS) return cached.items;
-  const isPinned = [...PINNED_SEARCH_SHARD_SUFFIXES].some((suffix) => key.endsWith(suffix));
-  if (!isPinned) {
-    const evictable = [...cachedSearchShards.keys()].filter((shardKey) => ![...PINNED_SEARCH_SHARD_SUFFIXES].some((suffix) => shardKey.endsWith(suffix)));
-    while (evictable.length >= SEARCH_SHARD_CACHE_LIMIT) {
-      const shardId = evictable.shift();
-      if (shardId) cachedSearchShards.delete(shardId);
-    }
-  }
+  if (cachedSearchShard && cachedSearchShard.key !== key) cachedSearchShard = undefined;
   const pending = inFlightSearchShards.get(pendingKey);
   if (pending) return pending;
   const request = (async () => {
@@ -1679,7 +1668,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<reado
     assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
     assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
     if (requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
-      cachedSearchShards.set(key, { items, loadedAt: Date.now(), generation: requestGeneration });
+      cachedSearchShard = { key, items, loadedAt: Date.now(), generation: requestGeneration };
     }
     return items;
   })().finally(() => inFlightSearchShards.delete(pendingKey));
