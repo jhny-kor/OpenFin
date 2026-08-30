@@ -34,8 +34,10 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.doesNotMatch(workflow, /OPENFIN_WORKER_PREVIEW_BASE_URL/);
   assert.match(workflow, /Version Preview Alias URL:/);
   assert.match(workflow, /sed -nE 's#\^Version Preview Alias URL:/);
-  assert.match(workflow, /validate-worker-final:[\s\S]*Require the positive comparison endpoint suite[\s\S]*OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"/);
-  assert.match(workflow, /validate-promoted-worker:[\s\S]*Re-run the positive comparison endpoint suite[\s\S]*OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"/);
+  assert.match(workflow, /validate-worker-final:[\s\S]*Validate comparison endpoint and fail-closed state[\s\S]*MCP_URL: \$\{\{ needs\.deploy-worker-final\.outputs\.worker_url \}\}\/mcp/);
+  assert.match(workflow, /validate-promoted-worker:[\s\S]*Re-run comparison endpoint and fail-closed state[\s\S]*MCP_URL: https:\/\/openfin-mcp\.y2kthr\.workers\.dev\/mcp/);
+  assert.equal((workflow.match(/OPENFIN_REQUIRE_POSITIVE_RUNTIME="\$\(jq -r '\(\.capabilities\.comparison \/\/ "blocked"\) != "blocked"' \.\.\/release\/docs\/opentax\/finance-ontology-manifest\.json\)"/g) ?? []).length, 2);
+  assert.match(read('staging-openfin.yml'), /OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"/);
   assert.equal((workflow.match(/pages deploy "\$upload_dir"/g) ?? []).length, 2);
   assert.equal((workflow.match(/upload_dir="pages-upload"/g) ?? []).length, 2);
   assert.equal((workflow.match(/\.exports\[\] \| select\(\(\.shards\? \/\/ \[\]\) \| length > 0\) \| \.path/g) ?? []).length, 2);

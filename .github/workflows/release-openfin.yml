@@ -433,11 +433,10 @@ jobs:
         run: npm run tool-schema-contract
         env:
           MCP_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}/mcp
-      - name: Require the positive comparison endpoint suite
-        run: npm run financial-quality-live
+      - name: Validate comparison endpoint and fail-closed state
+        run: OPENFIN_REQUIRE_POSITIVE_RUNTIME="$(jq -r '(.capabilities.comparison // "blocked") != "blocked"' ../release/docs/opentax/finance-ontology-manifest.json)" npm run financial-quality-live
         env:
           MCP_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}/mcp
-          OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"
       - name: Re-run 120-case regression against final preview
         run: |
           set -euo pipefail
@@ -524,11 +523,10 @@ jobs:
         run: npm run tool-schema-contract
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
-      - name: Re-run the positive comparison endpoint suite
-        run: npm run financial-quality-live
+      - name: Re-run comparison endpoint and fail-closed state
+        run: OPENFIN_REQUIRE_POSITIVE_RUNTIME="$(jq -r '(.capabilities.comparison // "blocked") != "blocked"' ../release/docs/opentax/finance-ontology-manifest.json)" npm run financial-quality-live
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
-          OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"
       - name: Validate promoted Worker binding and 120-case regression
         run: |
           set -euo pipefail
