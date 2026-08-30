@@ -46,6 +46,8 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.equal((workflow.match(/LIVE_CASE_RETRY_DELAY_MS: 1000/g) ?? []).length, 3);
   assert.equal((workflow.match(/if: \$\{\{ always\(\) \}\}\n\s+with:\n\s+name: openfin-live(?:-final|-promoted)?-\$\{\{ github\.sha \}\}/g) ?? []).length, 3);
   assert.equal((workflow.match(/if-no-files-found: ignore/g) ?? []).length, 3);
+  assert.match(workflow, /jq -r '\.artifact_contract\.fixture_checksum' docs\/opentax\/finance-ontology-manifest\.json/);
+  assert.doesNotMatch(workflow, /jq -r '\.fixture_checksum' docs\/opentax\/finance-ontology-manifest\.json/);
   assert.match(workflow, /deploy-pages-final:[\s\S]*path: release\/docs/);
 });
 

@@ -640,7 +640,7 @@ jobs:
           test "$(jq -r '.validation_status' docs/opentax/current-release.json)" = current
           test "$(jq -r '.deployment_commit' live/live-regression-report.json)" = "$GITHUB_SHA"
           test "$(jq -r '.generation_id' live/live-regression-report.json)" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
-          test "$(jq -r '.fixture_checksum' live/live-regression-report.json)" = "$(jq -r '.fixture_checksum' docs/opentax/finance-ontology-manifest.json)"
+          test "$(jq -r '.fixture_checksum' live/live-regression-report.json)" = "$(jq -r '.artifact_contract.fixture_checksum' docs/opentax/finance-ontology-manifest.json)"
           test "$(jq -r '.live_regression_evidence.path' docs/opentax/finance-ontology-manifest.json)" = "opentax/live-regression-current.json"
           test "$(jq -r '.generation_id' docs/opentax/live-regression-current.json)" = "$(jq -r '.generation_id' docs/opentax/finance-ontology-manifest.json)"
           test "$(jq -r '.deployment_commit' docs/opentax/live-regression-current.json)" = "$GITHUB_SHA"
