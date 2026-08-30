@@ -31,7 +31,8 @@ if (manifest.decision_offers?.url) {
 }
 let liveEvidenceChecksumVerified = false;
 if (manifest.live_regression_evidence?.url) {
-  const liveResponse = await fetch(manifest.live_regression_evidence.url, { headers: { accept: "application/json" } });
+  const liveFile = String(manifest.live_regression_evidence.path || manifest.live_regression_evidence.url).split("/").at(-1);
+  const liveResponse = await fetch(new URL(liveFile, manifestUrl), { headers: { accept: "application/json" } });
   if (liveResponse.ok) {
     const livePayload = await liveResponse.json();
     liveEvidenceChecksumVerified = crypto.createHash("sha256").update(stable(livePayload)).digest("hex") === String(manifest.live_regression_evidence.export_checksum).replace(/^sha256:/, "");
