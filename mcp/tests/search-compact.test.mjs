@@ -205,15 +205,20 @@ test("exact title lookup is isolated and falls back when there is no exact match
   assert.match(workerSource, /requestedProductKind\(parts\.cleanQuery\) \?\? \(parts\.cleanQuery\.includes\("보험"\) \? "insurance" : undefined\)/);
   assert.match(workerSource, /if \(productKind !== "insurance" && item\.product_kind !== productKind\) return false;/);
   assert.match(workerSource, /if \(exactShards\?\.length && isNamedProductQuery\(query\)\)/);
+  assert.match(workerSource, /loadTargetedExactShardItems\(env, exactShard, query, true\)/);
+  assert.doesNotMatch(workerSource, /loadSearchShard\(env, exactShard\)/);
   assert.match(workerSource, /const exactMatches = exactItems\.filter/);
   assert.match(workerSource, /if \(exactMatches\.length\) return exactMatches;/);
   assert.match(workerSource, /const shardId = searchShardForQuery\(query, type, searchType, productKind\)/);
 });
 
-test("exact fetch reuses a current cached shard before loading another shard", () => {
+test("exact fetch reuses a current cached shard before targeted decoding", () => {
   const start = workerSource.indexOf("async function loadExactFetchItems");
   const end = workerSource.indexOf("async function hydrateSearchItem", start);
   const source = workerSource.slice(start, end);
+  const targetedStart = workerSource.indexOf("async function loadTargetedExactShardItems");
+  const targetedEnd = workerSource.indexOf("async function loadSearchItemsForQuery", targetedStart);
+  const targetedSource = workerSource.slice(targetedStart, targetedEnd);
   const cacheScan = source.indexOf("for (const cached of cachedExactFetchShards.values())");
   const shardHash = source.indexOf("const shardId = await exactFetchShardId(itemId)");
 
@@ -222,8 +227,9 @@ test("exact fetch reuses a current cached shard before loading another shard", (
   assert.match(source, /cached\.generation === manifestGeneration/);
   assert.match(source, /resolveCanonicalItemId\(itemId, cached\.items\)/);
   assert.match(source, /return cached\.items/);
-  assert.match(source, /generationCacheKey\(requestGeneration, key\)/);
-  assert.match(source, /const \{ payload, source \} = await pending/);
+  assert.match(source, /loadTargetedExactShardItems\(env, shard, itemId\)/);
+  assert.match(targetedSource, /generationCacheKey\(manifestGeneration, key\)/);
+  assert.match(targetedSource, /const \{ payload, source \} = await pending/);
   assert.doesNotMatch(source, /cachedExactFetchShards\.set/);
 });
 

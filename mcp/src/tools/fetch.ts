@@ -19,6 +19,7 @@ export function decodeTargetedExactRows(
   searchTerms: readonly (readonly number[])[],
   rows: readonly unknown[][],
   rawId: string,
+  matchTitle = false,
 ): Record<string, unknown>[] {
   const fieldIndex = new Map(fields.map((field, index) => [field, index]));
   const normalizedId = rawId.trim().toLocaleLowerCase("ko-KR");
@@ -27,7 +28,7 @@ export function decodeTargetedExactRows(
     return (typeof value === "string" ? [value] : Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [])
       .map((entry) => entry.trim().toLocaleLowerCase("ko-KR"));
   };
-  const identityFields = ["id", "canonical_product_id", "resolved_canonical_product_id", "legacy_ids", "search_aliases", "aliases"];
+  const identityFields = ["id", "canonical_product_id", "resolved_canonical_product_id", "legacy_ids", "search_aliases", "aliases", ...(matchTitle ? ["title"] : [])];
   const requiredFields = ["id", "title", "type"];
   const selected = new Set<number>();
   const canonicalIds = new Set<string>();

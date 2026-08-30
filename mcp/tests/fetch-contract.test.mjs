@@ -54,6 +54,7 @@ test("exact fetch selects only the requested identity and its canonical peers", 
     { id: "finance.card.canonical", search_text: "canonical" },
   ]);
   assert.deepEqual(decodeTargetedExactRows(fields, vocabulary, searchTerms, rows, "other-card").map(({ id }) => id), ["finance.card.other"]);
+  assert.deepEqual(decodeTargetedExactRows(fields, vocabulary, searchTerms, rows, " Other Card ", true).map(({ id }) => id), ["finance.card.other"]);
   assert.deepEqual(decodeTargetedExactRows(fields, vocabulary, searchTerms, rows, "missing-card"), []);
   assert.throws(() => decodeTargetedExactRows(fields, vocabulary, searchTerms, [rows[0], rows[1], ["finance.card.invalid", null, "card-product", "finance.card.invalid", "finance.card.invalid", [], [], []]], "legacy-card-id"), /exact row 2 is not a finance item/);
 });

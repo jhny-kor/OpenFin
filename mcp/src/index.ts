@@ -1510,7 +1510,7 @@ function parseSearchItems(value: unknown, source: string): readonly FinanceItem[
   return items;
 }
 
-function parseTargetedExactItems(value: unknown, source: string, rawId: string): readonly FinanceItem[] {
+function parseTargetedExactItems(value: unknown, source: string, rawId: string, matchTitle = false): readonly FinanceItem[] {
   if (!isRecord(value) || value.format !== "openfin-hot-search-v1") return parseSearchItems(value, source);
   if (!Array.isArray(value.fields) || !value.fields.every((field) => typeof field === "string") || !Array.isArray(value.vocabulary) || !value.vocabulary.every((term) => typeof term === "string") || !Array.isArray(value.search_terms) || !Array.isArray(value.items) || !value.items.every((row) => Array.isArray(row))) {
     throw new SearchIndexContractError(`${source} exact payload has invalid columnar fields`);
@@ -1528,7 +1528,7 @@ function parseTargetedExactItems(value: unknown, source: string, rawId: string):
   if (value.item_count !== undefined) assertSearchItemCount(rows.length, value.item_count as number, source);
   let items: Record<string, unknown>[];
   try {
-    items = decodeTargetedExactRows(fields, vocabulary, searchTerms as number[][], rows, resolveItemId(rawId));
+    items = decodeTargetedExactRows(fields, vocabulary, searchTerms as number[][], rows, resolveItemId(rawId), matchTitle);
   } catch (error) {
     throw new SearchIndexContractError(`${source} ${error instanceof Error ? error.message : String(error)}`);
   }
@@ -1785,50 +1785,9 @@ function decisionOptionItems(offer: FinanceItem, domain: "deposit" | "saving"): 
   return adaptDecisionOfferOptions(offer, domain) as FinanceItem[];
 }
 
-async function loadSearchItemsForQuery(
-  env: Env,
-  query: string,
-  type?: string,
-  searchType?: string,
-  productKind?: string,
-): Promise<readonly FinanceItem[]> {
-  const manifest = await loadFinanceManifest(env);
-  const exactShards = manifest.exact_fetch_index?.shards;
-  if (exactShards?.length && isNamedProductQuery(query)) {
-    const exactShardId = await exactFetchShardId(query);
-    const exactShard = exactShards.find((candidate) => candidate.shard_id === exactShardId || candidate.id === exactShardId);
-    if (exactShard) {
-      const exactItems = await loadSearchShard(env, exactShard);
-      const normalized = normalizeQuery(query);
-      const exactMatches = exactItems.filter((item) => [item.title, ...(item.search_aliases ?? []), ...(item.aliases ?? []), ...(item.legacy_ids ?? [])]
-        .some((value) => normalizeQuery(value) === normalized));
-      if (exactMatches.length) return exactMatches;
-    }
-  }
-  const shardId = searchShardForQuery(query, type, searchType, productKind);
-  const hotShards = manifest.hot_search_index?.shards;
-  if (!shardId) {
-    const reference = hotShards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference")
-      ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference");
-    return reference ? loadSearchShard(env, reference) : loadSearchItems(env);
-  }
-  const shard = hotShards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId)
-    ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
-  return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
-}
-
-async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: string): Promise<readonly FinanceItem[] | undefined> {
-  const shards = manifest.exact_fetch_index?.shards;
-  if (!shards?.length) return undefined;
-  for (const cached of cachedExactFetchShards.values()) {
-    if (cached.generation === manifestGeneration && resolveCanonicalItemId(itemId, cached.items)) return cached.items;
-  }
-  const shardId = await exactFetchShardId(itemId);
-  const shard = shards.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
-  if (!shard) return [];
+async function loadTargetedExactShardItems(env: Env, shard: SearchIndexShard, lookup: string, matchTitle = false): Promise<readonly FinanceItem[]> {
   const key = shard.path || shard.shard_id;
-  const requestGeneration = manifestGeneration;
-  const pendingKey = generationCacheKey(requestGeneration, key);
+  const pendingKey = generationCacheKey(manifestGeneration, key);
   let pending = inFlightExactFetchShards.get(pendingKey);
   if (!pending) {
     pending = (async () => {
@@ -1855,7 +1814,50 @@ async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: 
     inFlightExactFetchShards.set(pendingKey, pending);
   }
   const { payload, source } = await pending;
-  return parseTargetedExactItems(payload, source, itemId);
+  return parseTargetedExactItems(payload, source, lookup, matchTitle);
+}
+
+async function loadSearchItemsForQuery(
+  env: Env,
+  query: string,
+  type?: string,
+  searchType?: string,
+  productKind?: string,
+): Promise<readonly FinanceItem[]> {
+  const manifest = await loadFinanceManifest(env);
+  const exactShards = manifest.exact_fetch_index?.shards;
+  if (exactShards?.length && isNamedProductQuery(query)) {
+    const exactShardId = await exactFetchShardId(query);
+    const exactShard = exactShards.find((candidate) => candidate.shard_id === exactShardId || candidate.id === exactShardId);
+    if (exactShard) {
+      const exactItems = await loadTargetedExactShardItems(env, exactShard, query, true);
+      const normalized = normalizeQuery(query);
+      const exactMatches = exactItems.filter((item) => [item.title, ...(item.search_aliases ?? []), ...(item.aliases ?? []), ...(item.legacy_ids ?? [])]
+        .some((value) => normalizeQuery(value) === normalized));
+      if (exactMatches.length) return exactMatches;
+    }
+  }
+  const shardId = searchShardForQuery(query, type, searchType, productKind);
+  const hotShards = manifest.hot_search_index?.shards;
+  if (!shardId) {
+    const reference = hotShards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference")
+      ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference");
+    return reference ? loadSearchShard(env, reference) : loadSearchItems(env);
+  }
+  const shard = hotShards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId)
+    ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
+}
+
+async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: string): Promise<readonly FinanceItem[] | undefined> {
+  const shards = manifest.exact_fetch_index?.shards;
+  if (!shards?.length) return undefined;
+  for (const cached of cachedExactFetchShards.values()) {
+    if (cached.generation === manifestGeneration && resolveCanonicalItemId(itemId, cached.items)) return cached.items;
+  }
+  const shardId = await exactFetchShardId(itemId);
+  const shard = shards.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  return shard ? loadTargetedExactShardItems(env, shard, itemId) : [];
 }
 
 async function hydrateSearchItem(env: Env, item: FinanceItem): Promise<FinanceItem> {
