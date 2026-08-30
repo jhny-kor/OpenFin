@@ -1,0 +1,68 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import test from 'node:test';
+
+const root = new URL('../..', import.meta.url).pathname;
+const read = (name) => fs.readFileSync(`${root}/.github/workflows/${name}`, 'utf8');
+
+const shouldRollbackWorker = ({ deployWorkerFinal, promote, validatePromoted, deployPages, parity }) =>
+  deployWorkerFinal === 'success' && promote !== 'skipped' &&
+  (promote !== 'success' || validatePromoted !== 'success' || deployPages !== 'success' || parity !== 'success');
+
+const shouldRollbackPages = ({ canonical, deployPages, parity }) =>
+  canonical === 'success' &&
+  (deployPages === 'failure' || deployPages === 'cancelled' ||
+    (deployPages === 'success' && parity !== 'success'));
+
+test('production release validates the promoted Worker before Pages and retains a rollback path', () => {
+  const workflow = read('release-openfin.yml');
+  assert.match(workflow, /validate-promoted-worker:[\s\S]*MCP_URL: https:\/\/openfin-mcp\.y2kthr\.workers\.dev\/mcp/);
+  assert.match(workflow, /deploy-pages-final:\n\s+needs: \[finalize-artifact, validate-promoted-worker\]/);
+  assert.match(workflow, /rollback-worker-on-post-promotion-failure:[\s\S]*needs\.validate-promoted-worker\.result != 'success'[\s\S]*needs\.deploy-pages-final\.result != 'success'/);
+  assert.match(workflow, /rollback-worker-on-post-promotion-failure:[\s\S]*needs\.public-parity\.result != 'success'/);
+  assert.doesNotMatch(workflow, /rollback-(?:worker|pages)-on-post-promotion-failure:[\s\S]*?\n\s+if: [^\n]*!cancelled\(\)/);
+  assert.match(workflow, /rollback-pages-on-post-promotion-failure:[\s\S]*?\n\s+if: [^\n]*needs\.deploy-pages-final\.result == 'cancelled'/);
+  assert.match(workflow, /rollback-pages-on-post-promotion-failure:[\s\S]*github-pages-rollback[\s\S]*previous_production_generation/);
+  assert.match(workflow, /Capture the current production binding and rollback artifact[\s\S]*\.production_deployed_at \/\/ \.deployed_at \/\/ \.generated_at/);
+  assert.match(workflow, /Verify immutable Pages mirror and Worker preview parity[\s\S]*OPENFIN_PAGES_MANIFEST_URL:[\s\S]*OPENFIN_EXPECTED_WORKER_MANIFEST_URL:/);
+  assert.match(workflow, /validate-worker-final:\n\s+needs: \[finalize-artifact, deploy-pages-final-candidate, deploy-worker-final\]/);
+  assert.match(workflow, /deploy-pages-final:[\s\S]*?permissions:\n\s+contents: read\n\s+pages: write\n\s+id-token: write/);
+  assert.doesNotMatch(workflow, /OPENFIN_(?:BUILD_AT|SCHEMA_VALIDATED_AT|PROMOTION_EVALUATED_AT|PRODUCTION_DEPLOYED_AT): \$\{\{ env\./);
+  assert.match(workflow, /Build canonical artifact once[\s\S]*test -n "\$\{OPENFIN_BUILD_AT:-\}"/);
+  assert.match(workflow, /Embed current live evidence in the final artifact[\s\S]*test -n "\$\{OPENFIN_PRODUCTION_DEPLOYED_AT:-\}"/);
+  assert.doesNotMatch(workflow, /^\s+push:/m);
+  assert.doesNotMatch(workflow, /OPENFIN_WORKER_PREVIEW_BASE_URL/);
+  assert.match(workflow, /Version Preview Alias URL:/);
+  assert.match(workflow, /sed -nE 's#\^Version Preview Alias URL:/);
+  assert.match(workflow, /validate-worker-final:[\s\S]*Require the positive comparison endpoint suite[\s\S]*OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"/);
+  assert.match(workflow, /validate-promoted-worker:[\s\S]*Re-run the positive comparison endpoint suite[\s\S]*OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"/);
+});
+
+test('rollback contracts cover partial promotion, cancellation, and public Pages failure', () => {
+  assert.equal(shouldRollbackWorker({ deployWorkerFinal: 'success', promote: 'success', validatePromoted: 'failure', deployPages: 'skipped', parity: 'skipped' }), true);
+  assert.equal(shouldRollbackWorker({ deployWorkerFinal: 'success', promote: 'cancelled', validatePromoted: 'skipped', deployPages: 'skipped', parity: 'skipped' }), true);
+  assert.equal(shouldRollbackWorker({ deployWorkerFinal: 'success', promote: 'success', validatePromoted: 'success', deployPages: 'success', parity: 'success' }), false);
+  assert.equal(shouldRollbackWorker({ deployWorkerFinal: 'failure', promote: 'skipped', validatePromoted: 'skipped', deployPages: 'skipped', parity: 'skipped' }), false);
+
+  assert.equal(shouldRollbackPages({ canonical: 'success', deployPages: 'failure', parity: 'skipped' }), true);
+  assert.equal(shouldRollbackPages({ canonical: 'success', deployPages: 'cancelled', parity: 'cancelled' }), true);
+  assert.equal(shouldRollbackPages({ canonical: 'success', deployPages: 'success', parity: 'failure' }), true);
+  assert.equal(shouldRollbackPages({ canonical: 'success', deployPages: 'skipped', parity: 'skipped' }), false);
+  assert.equal(shouldRollbackPages({ canonical: 'failure', deployPages: 'failure', parity: 'skipped' }), false);
+});
+
+test('source tracking keeps optional credentials out of shell interpolation', () => {
+  const workflow = read('track-sources.yml');
+  assert.match(workflow, /OPENFIN_SOURCE_TRACKING_TOKEN: \$\{\{ secrets\.OPENFIN_SOURCE_TRACKING_TOKEN \}\}/);
+  assert.match(workflow, /\[ -n "\$\{OPENFIN_SOURCE_TRACKING_TOKEN:-\}" \]/);
+  assert.doesNotMatch(workflow, /\[ -n "\$\{\{ secrets\./);
+});
+
+test('legacy production deployment workflows are fail-closed', () => {
+  for (const name of ['deploy-pages.yml', 'deploy-mcp.yml']) {
+    const workflow = read(name);
+    assert.match(workflow, /Legacy direct .* deployment is disabled/);
+    assert.doesNotMatch(workflow, /wrangler (?:deploy|versions deploy)/);
+    assert.doesNotMatch(workflow, /actions\/deploy-pages@/);
+  }
+});

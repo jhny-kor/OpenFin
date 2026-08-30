@@ -44,6 +44,7 @@
   "access": {
     "method": "web",
     "parser_id": "http:source-law-value-added-tax-act-filing",
+    "request_url": "https://www.law.go.kr/lsInfoP.do?joNo=000900&lsId=001571",
     "requires_secret": false
   },
   "refresh": {
@@ -187,7 +188,7 @@
       "value": "2026-05-04 확인"
     }
   ],
-  "record_checksum": "sha256:effaebcc0b64c3cb07a21f726d8e75c61109d3b37a72a1cbb9ada278a56fcf64"
+  "record_checksum": "sha256:3fcbf9afb1bff9933823ea9ff4b57dac3a77d1cb7fe34c6873bfd636da7933b1"
 }
 ---
 

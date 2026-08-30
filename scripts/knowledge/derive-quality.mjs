@@ -35,7 +35,9 @@ export const readCanonicalRecords = (root = KNOWLEDGE) => {
 const PRODUCT_TYPES = new Set(['account-product', 'bank-product', 'card-product', 'financial-product', 'insurance-product']);
 const DECISION_OFFER_TYPES = new Set(['deposit-offer', 'saving-offer']);
 const CAPABILITY_POLICY_PATH = path.join(ROOT, 'contracts/capability-policy.json');
+const CAPABILITY_STATUS_PATH = path.join(ROOT, 'contracts/capability-status.json');
 const readCapabilityPolicy = () => json(CAPABILITY_POLICY_PATH);
+const readCapabilityStatus = () => json(CAPABILITY_STATUS_PATH);
 const normalizeSalesStatus = value => {
   const contract = readProductStatus();
   if (contract.sales_verification_status.includes(value)) return value;
@@ -139,29 +141,45 @@ export const generationId = ({ canonicalContentChecksum, searchIndexChecksum, so
 // Evidence is produced by CI or checked in under evidence/, never copied from docs output.
 const liveRegressionEvidence = () => {
   const file = path.join(ROOT, 'evidence/live-regression/current.json');
-  if (!fs.existsSync(file)) return { status: 'missing', test_count: 0, passed_count: 0, failed_count: 0, skipped_count: 0, evidence_path: null, evidence_checksum: null };
+  if (!fs.existsSync(file)) {
+    const missing = { status: 'missing', test_count: 0, passed_count: 0, failed_count: 0, skipped_count: 0, evidence_path: null, evidence_checksum: null };
+    return { ...missing, last_attempt: missing, last_successful: null, gate_basis: 'last_attempt' };
+  }
   const live = json(file);
-  return { ...live, evidence_path: 'evidence/live-regression/current.json', evidence_checksum: shaFile(file) };
+  // New artifacts separate the most recent attempt from the last passing run.
+  // Keep accepting the historical flat artifact as both values during rollout.
+  const lastAttempt = live.last_attempt || live.last_attempt_evidence || live;
+  const lastSuccessful = live.last_successful || live.last_successful_evidence || (live.last_attempt ? null : live);
+  return {
+    ...live,
+    ...lastAttempt,
+    last_attempt: lastAttempt,
+    last_successful: lastSuccessful,
+    gate_basis: 'last_attempt',
+    evidence_path: 'evidence/live-regression/current.json',
+    evidence_checksum: shaFile(file),
+  };
 };
 export const liveRegressionCurrent = (live, policy, now = Date.now(), expectedGenerationId = null, expectedFixtureChecksum = null) => {
-  const checkedAt = Date.parse(live.checked_at || '');
+  const attempt = live.last_attempt || live.last_attempt_evidence || live;
+  const checkedAt = Date.parse(attempt.checked_at || '');
   const ttlMs = Number(policy.live_regression.freshness_ttl_hours || 24) * 60 * 60 * 1000;
   const ageMs = now - checkedAt;
-  return live.status === 'current'
-    && live.mode === policy.live_regression.required_mode
-    && live.test_count === policy.live_regression.required_count
-    && live.passed_count === policy.live_regression.required_count
-    && live.failed_count === 0
-    && (live.skipped_count || 0) === 0
+  return attempt.status === 'current'
+    && attempt.mode === policy.live_regression.required_mode
+    && attempt.test_count === policy.live_regression.required_count
+    && attempt.passed_count === policy.live_regression.required_count
+    && attempt.failed_count === 0
+    && (attempt.skipped_count || 0) === 0
     && Number.isFinite(checkedAt)
     && ageMs >= 0
     && ageMs <= ttlMs
-    && typeof live.manifest_checksum === 'string'
-    && typeof live.loaded_index_checksum === 'string'
-    && typeof live.deployment_commit === 'string'
-    && live.deployment_commit !== 'unknown'
-    && (!expectedGenerationId || live.generation_id === expectedGenerationId)
-    && (!expectedFixtureChecksum || live.fixture_checksum === expectedFixtureChecksum);
+    && typeof attempt.manifest_checksum === 'string'
+    && typeof attempt.loaded_index_checksum === 'string'
+    && typeof attempt.deployment_commit === 'string'
+    && attempt.deployment_commit !== 'unknown'
+    && (!expectedGenerationId || attempt.generation_id === expectedGenerationId)
+    && (!expectedFixtureChecksum || attempt.fixture_checksum === expectedFixtureChecksum);
 };
 
 export const deriveQuality = (records, { sourceCount, exportCount, searchItemCount, relationshipCount, invalidUrlCount = 0, sourceStatusLoaded = true, sourceStatusChecksum = null, searchIndexChecksum = null, deploymentCommit = 'unknown', evaluationAsOf = null } = {}) => {
@@ -312,17 +330,22 @@ const receiptProjection = value => value ? Object.fromEntries(['approval_id', 'd
   const capabilities = {
     search: platformReleaseStatus === 'ready' ? 'ready' : 'blocked',
     discovery: platformReleaseStatus === 'ready' ? 'ready' : 'blocked',
-    comparison: comparisonReleaseStatus === 'limited' ? 'limited_public' : 'blocked',
+    comparison: comparisonReleaseStatus === 'limited' ? 'limited' : 'blocked',
     shadow: Object.values(domains).some(state => state.shadow_recommendation_candidate_count > 0) ? 'ready' : 'blocked',
     owner_pilot: Object.values(domains).some(state => state.owner_pilot_candidate_count > 0) ? 'ready' : 'blocked',
-    recommendation: recommendationEnabled ? 'public' : 'blocked',
+    recommendation: recommendationEnabled ? 'ready' : 'blocked',
   };
+  const statusRegistry = readCapabilityStatus();
+  if (!Object.values(capabilities).every(status => statusRegistry.capability_status.includes(status))) throw new Error('capability status registry drift');
+  const serviceAvailability = platformReleaseStatus === 'ready' ? 'available' : 'degraded';
+  if (!statusRegistry.service_availability.includes(serviceAvailability)) throw new Error('service availability registry drift');
   return {
     policy_version: policy.version,
     canonical: { item_count: catalogRecords.length, decision_snapshot_count: decisionOffers.length, source_count: sourceCount, product_count: products.length, canonical_product_count: canonicalProducts.size, export_count: exportCount, search_item_count: searchItemCount, relationship_count: relationshipCount, content_checksum: canonicalContentChecksum },
     domains,
     candidate_counts,
-    service_availability: platformReleaseStatus === 'ready' ? 'available' : 'degraded',
+    service_availability: serviceAvailability,
+    capability_status_version: statusRegistry.version,
     capability_policy_version: capabilityPolicy.version,
     capabilities,
     live_regression: liveForManifest,

@@ -64,3 +64,24 @@ test('query-only explorer startup does not retain the tax fallback', () => {
   assert.match(source, /도메인을 선택하거나 검색어를 입력하세요/);
   assert.doesNotMatch(source, /else if \(hasExplorer\) \{\s*await loadDomain\("tax"\)/);
 });
+
+test('compact result cards show source freshness and fail-closed warning', () => {
+  const context = appContext();
+  vm.runInContext(`
+    state.sourceStatus = new Map([['source.test', { source_freshness_status: 'degraded', freshness_status: 'stale' }]]);
+    globalThis.cardHtml = resultItemHtml({ id: 'item.deposit', title: '예금', type: 'bank-product', __domain: 'deposit-products', source_ids: ['source.test'] });
+  `, context);
+  assert.match(context.cardHtml, /freshness: degraded/);
+  assert.match(context.cardHtml, /최신성 degraded/);
+});
+
+test('source freshness recomputes the SLA from the last successful check', () => {
+  const context = appContext();
+  const source = {
+    freshness_status: 'ready',
+    last_successful_checked_at: '2026-08-07T00:00:00.000Z',
+    refresh: { sla_hours: 168 },
+  };
+  assert.equal(vm.runInContext(`freshnessStatusForSource(${JSON.stringify(source)}, Date.parse('2026-08-30T00:00:00.000Z'))`, context), 'stale');
+  assert.equal(vm.runInContext("freshnessStatusForSource({ freshness_status: 'degraded', source_freshness_status: 'ready', last_successful_checked_at: '2026-08-29T00:00:00.000Z', refresh: { sla_hours: 168 } }, Date.parse('2026-08-30T00:00:00.000Z'))", context), 'degraded');
+});

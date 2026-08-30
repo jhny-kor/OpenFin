@@ -38,6 +38,7 @@
   "access": {
     "method": "web",
     "parser_id": "http:source-knia-insurance-disclosure",
+    "request_url": "https://kpub.knia.or.kr/carInsuranceDisc/product/carProductInf.do",
     "requires_secret": false
   },
   "refresh": {
@@ -182,7 +183,7 @@
       "value": "2026-07-03 확인"
     }
   ],
-  "record_checksum": "sha256:5579bd1334e4fb6cc0224ab9f8bf75c5b57bd297b94221ebae465ca315379794"
+  "record_checksum": "sha256:4806d6d35f852ee9e7d6eaec37ccaa5ef899e09fd69ba879b3bfb1337040fb6c"
 }
 ---
 

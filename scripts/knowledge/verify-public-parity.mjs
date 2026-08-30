@@ -6,11 +6,14 @@ const local = json(process.env.OPENFIN_LOCAL_MANIFEST_PATH || path.join(ROOT, 'd
 const pagesUrl = process.env.OPENFIN_PAGES_MANIFEST_URL || `${PUBLIC_BASE}/finance-ontology-manifest.json`;
 const pointerUrl = process.env.OPENFIN_PAGES_POINTER_URL || `${PUBLIC_BASE}/current-release.json`;
 const workerUrl = process.env.OPENFIN_WORKER_HEALTH_URL || 'https://openfin-mcp.y2kthr.workers.dev/health';
+const liveEvidenceUrl = process.env.OPENFIN_LIVE_EVIDENCE_URL;
+const expectedWorkerManifestUrl = process.env.OPENFIN_EXPECTED_WORKER_MANIFEST_URL;
+const canonicalManifestUrl = process.env.OPENFIN_CANONICAL_MANIFEST_URL;
 const expectedCommit = process.argv.includes('--expected-deployment-commit') ? process.argv[process.argv.indexOf('--expected-deployment-commit') + 1] : process.env.OPENFIN_DEPLOYMENT_COMMIT;
 const attempts = Number(process.env.OPENFIN_PARITY_ATTEMPTS || 60);
 const delayMs = Number(process.env.OPENFIN_PARITY_DELAY_MS || 5000);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-const contractKeys = ['generation_id', 'deployment_commit', 'canonical_content_checksum', 'search_index_checksum', 'source_status_checksum', 'release_policy_checksum', 'fixture_checksum', 'readiness_schema_version'];
+const contractKeys = ['generation_id', 'deployment_commit', 'canonical_content_checksum', 'search_index_checksum', 'source_status_checksum', 'release_policy_checksum', 'capability_status_checksum', 'fixture_checksum', 'readiness_schema_version'];
 const withCacheBust = (url, attempt) => `${url}${url.includes('?') ? '&' : '?'}openfin_parity=${Date.now()}-${attempt}`;
 const getJson = async (url, attempt) => {
   const response = await fetch(withCacheBust(url, attempt), { headers: { accept: 'application/json', 'cache-control': 'no-cache' } });
@@ -28,11 +31,13 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
     const [pages, health, pointer] = await Promise.all([getJson(pagesUrl, attempt), getJson(workerUrl, attempt), getJson(pointerUrl, attempt)]);
     const evidencePath = process.env.OPENFIN_LIVE_EVIDENCE_PATH || path.join(ROOT, 'evidence/live-regression/current.json');
     const live = fs.existsSync(evidencePath) ? json(evidencePath) : {};
-    const liveUrl = pages.live_regression_evidence?.url || `${PUBLIC_BASE}/live-regression-current.json`;
+    const liveUrl = liveEvidenceUrl || pages.live_regression_evidence?.url || `${PUBLIC_BASE}/live-regression-current.json`;
     const publicLive = await getJson(liveUrl, attempt);
     const errors = [...mismatch('pages', values(pages)), ...mismatch('worker', values(health)), ...liveMismatch(publicLive, live)];
     if (health.deployment_commit !== expected.deployment_commit) errors.push(`worker.deployment_commit: expected ${expected.deployment_commit}, got ${health.deployment_commit ?? null}`);
     if (health.manifest_deployment_commit !== expected.deployment_commit) errors.push(`worker.manifest_deployment_commit: expected ${expected.deployment_commit}, got ${health.manifest_deployment_commit ?? null}`);
+    if (expectedWorkerManifestUrl && health.finance_manifest_url !== expectedWorkerManifestUrl) errors.push(`worker.finance_manifest_url: expected ${expectedWorkerManifestUrl}, got ${health.finance_manifest_url ?? null}`);
+    if (canonicalManifestUrl && pointer.manifest_url !== canonicalManifestUrl) errors.push(`pointer.manifest_url: expected ${canonicalManifestUrl}, got ${pointer.manifest_url ?? null}`);
     if (pointer.generation_id !== expected.generation_id) errors.push(`pointer.generation_id: expected ${expected.generation_id}, got ${pointer.generation_id ?? null}`);
     if (pointer.production_commit !== expected.deployment_commit) errors.push(`pointer.production_commit: expected ${expected.deployment_commit}, got ${pointer.production_commit ?? null}`);
     if (pointer.production_generation !== expected.generation_id) errors.push(`pointer.production_generation: expected ${expected.generation_id}, got ${pointer.production_generation ?? null}`);

@@ -9,7 +9,7 @@ const schemaDir = path.join(ROOT, 'schemas');
 const typeRegistry = json(path.join(schemaDir, 'types/type-registry.json'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
-for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'finance-ontology-manifest.schema.json', 'manifest.schema.json', 'candidate-promotion-receipt.schema.json', 'source-review-receipt.schema.json', 'schema-validation-receipt.schema.json', 'decision-trace.schema.json', 'live-regression.schema.json', 'recommendation-approval-receipt.schema.json', 'financial-quality-approval-receipt.schema.json']) {
+for (const file of ['provenance.schema.json', 'assertion.schema.json', 'source.schema.json', 'relation.schema.json', 'entity.schema.json', 'capability-status.schema.json', 'finance-ontology-manifest.schema.json', 'manifest.schema.json', 'candidate-promotion-receipt.schema.json', 'source-review-receipt.schema.json', 'schema-validation-receipt.schema.json', 'decision-trace.schema.json', 'live-regression.schema.json', 'recommendation-approval-receipt.schema.json', 'financial-quality-approval-receipt.schema.json']) {
   const schema = json(path.join(schemaDir, file));
   ajv.addSchema(schema, file);
 }
@@ -23,12 +23,15 @@ const validateSource = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas
 const relationValidator = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/relation.schema.json');
 const validateManifest = ajv.getSchema('finance-ontology-manifest.schema.json');
 const validateCapabilityManifest = ajv.getSchema('manifest.schema.json');
+const validateCapabilityStatus = ajv.getSchema('https://jhny-kor.github.io/OpenFin/schemas/capability-status.schema.json');
 const validateApproval = ajv.getSchema('recommendation-approval-receipt.schema.json');
 const validateFinancialQualityApproval = ajv.getSchema('financial-quality-approval-receipt.schema.json');
 const validatePromotion = ajv.getSchema('candidate-promotion-receipt.schema.json');
 const validateSourceReview = ajv.getSchema('source-review-receipt.schema.json');
-const validateLiveCase = ajv.getSchema(liveFixtureSchema.$id);
 const failures = [];
+const capabilityStatus = json(path.join(ROOT, 'contracts/capability-status.json'));
+if (!validateCapabilityStatus?.(capabilityStatus)) failures.push(`capability status contract: ${ajv.errorsText(validateCapabilityStatus?.errors)}`);
+const validateLiveCase = ajv.getSchema(liveFixtureSchema.$id);
 const decisionOffers = [];
 for (const domain of ['deposit', 'saving']) {
   const file = path.join(KNOWLEDGE, '30-financial-products', 'banking', '_decision', `${domain}-offers.jsonl`);

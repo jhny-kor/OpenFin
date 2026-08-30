@@ -189,6 +189,22 @@ test('deterministic build leaves public artifacts byte-identical', () => {
   const before = new Map(files.map(file => [file, hash(path.join(docs, file))]));
   execFileSync('node', ['scripts/knowledge/build.mjs'], { cwd: root, encoding: 'utf8', maxBuffer: 10_000_000 });
   for (const file of files) assert.equal(hash(path.join(docs, file)), before.get(file), `${file} changed after deterministic rebuild`);
+  const receiptDates = [];
+  const receipts = path.join(root, 'evidence/source-receipts');
+  const visit = directory => {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      const file = path.join(directory, entry.name);
+      if (entry.isDirectory()) visit(file);
+      else if (entry.name.endsWith('.jsonl')) for (const line of fs.readFileSync(file, 'utf8').split('\n').filter(Boolean)) receiptDates.push(JSON.parse(line).checked_at);
+    }
+  };
+  visit(receipts);
+  const expectedBuildAt = receiptDates.filter(Boolean).sort().at(-1);
+  const manifest = JSON.parse(fs.readFileSync(path.join(docs, 'finance-ontology-manifest.json')));
+  assert.equal(manifest.built_at, expectedBuildAt);
+  const lastAttempt = JSON.parse(fs.readFileSync(path.join(docs, 'live-regression-last-attempt.json')));
+  for (const key of ['last_attempt', 'last_successful', 'gate_basis', 'validation_status', 'expected_generation_id', 'expected_fixture_checksum']) assert.ok(key in lastAttempt, `last-attempt envelope missing ${key}`);
+  assert.deepEqual(lastAttempt.last_attempt, Object.fromEntries(Object.entries(lastAttempt).filter(([key]) => !['last_attempt', 'last_successful', 'gate_basis', 'validation_status', 'expected_generation_id', 'expected_fixture_checksum'].includes(key))));
 });
 
 test('runtime search shards exclude large provenance bookkeeping', () => {

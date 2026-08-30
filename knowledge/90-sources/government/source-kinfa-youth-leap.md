@@ -10,7 +10,7 @@
   "expiration_date": null,
   "reviewed_at": "2026-05-04",
   "source_urls": [
-    "https://ylaccount.kinfa.or.kr/main"
+    "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do"
   ],
   "source_basis_dates": [
     "2026-05-02T00:00:00.000Z"
@@ -28,7 +28,7 @@
     "official-source",
     "서민금융진흥원"
   ],
-  "url": "https://ylaccount.kinfa.or.kr/main",
+  "url": "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do",
   "basis_date": "2026-05-02T00:00:00.000Z",
   "provenance_shard": "reference",
   "publisher": "서민금융진흥원",
@@ -37,7 +37,7 @@
     "tax"
   ],
   "urls": {
-    "canonical": "https://ylaccount.kinfa.or.kr/main",
+    "canonical": "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do",
     "api": null,
     "documentation": null
   },
@@ -142,7 +142,7 @@
     "export_id": "tax-ontology",
     "source_checksum": null,
     "source_urls": [
-      "https://ylaccount.kinfa.or.kr/main"
+      "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do"
     ],
     "source_basis_dates": [
       "2026-05-02T00:00:00.000Z"
@@ -158,7 +158,7 @@
       }
     },
     "search_facets": {},
-    "search_text": "source.kinfa.youth-leap 청년도약계좌 상품 안내 source 청년도약계좌 가입 연령, 개인소득, 가구소득, 금융소득종합과세 이력 제한 근거입니다. https://ylaccount.kinfa.or.k",
+    "search_text": "source.kinfa.youth-leap 청년도약계좌 상품 안내 source 청년도약계좌 가입 연령, 개인소득, 가구소득, 금융소득종합과세 이력 제한 근거입니다. https://www.kinfa.or.kr/fill4young/financecommercial/youthlongasset.do",
     "provenance_shard": "reference",
     "source_ids": []
   },
@@ -187,7 +187,7 @@
       "value": "2026-05-02 확인"
     }
   ],
-  "record_checksum": "sha256:67b38e3224a16ca2701cc38b1a258a7a983374a3b55951ce0c524c7c0132c3bd"
+  "record_checksum": "sha256:7b4dbabecb591b1652dc8a0e5bfd3c0adbd19afeb6b866a162751d81706f48d0"
 }
 ---
 

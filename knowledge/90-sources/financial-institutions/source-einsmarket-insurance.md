@@ -37,6 +37,7 @@
   "access": {
     "method": "web",
     "parser_id": "http:source-einsmarket-insurance",
+    "request_url": "https://www.e-insmarket.or.kr/mins/minsInsList.knia?prdtSmlClsCd=G004",
     "requires_secret": false
   },
   "refresh": {
@@ -180,7 +181,7 @@
       "value": "2026-07-03 확인"
     }
   ],
-  "record_checksum": "sha256:265f89714469d2c9682115b315f9a9825477f96e62e96fbebb6aaaedeb136a24"
+  "record_checksum": "sha256:e36fd17fec0fa0241a6f1d0796f84710ed7fbaa4ecede7eaf66ac6e31ecb26c5"
 }
 ---
 

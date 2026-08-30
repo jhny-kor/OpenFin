@@ -54,9 +54,20 @@ const withSourceReviewDates = item => {
   }
   return output;
 };
+const receiptRows = [];
+const receiptRoot = path.join(ROOT, 'evidence/source-receipts');
+if (fs.existsSync(receiptRoot)) {
+  const walkReceipts = dir => { for (const entry of fs.readdirSync(dir,{withFileTypes:true})) { const file=path.join(dir,entry.name); if(entry.isDirectory()) walkReceipts(file); else if(entry.name.endsWith('.jsonl')) for(const line of fs.readFileSync(file,'utf8').split('\n').filter(Boolean)) receiptRows.push(JSON.parse(line)); } };
+  walkReceipts(receiptRoot);
+}
 // Build metadata is deterministic and describes the latest collected/reviewed
 // snapshot. Future effective dates in a product contract are not build times.
-const sourceSnapshotDates = catalog.flatMap(item => [item.source_collected_at, item.last_verified_at, item.reviewed_at]).map(value => isoDate(value)).filter(Boolean).sort();
+// Receipts are canonical collection evidence and can be newer than catalog fields.
+const receiptSnapshotDates = receiptRows.map(receipt => {
+  const date = new Date(receipt.checked_at || '');
+  return Number.isNaN(date.getTime()) ? null : date.toISOString();
+}).filter(Boolean);
+const sourceSnapshotDates = [...catalog.flatMap(item => [item.source_collected_at, item.last_verified_at, item.reviewed_at]).map(value => isoDate(value)).filter(Boolean), ...receiptSnapshotDates].sort();
 const now = process.env.OPENFIN_BUILD_AT || sourceSnapshotDates.at(-1) || 'unknown';
 const artifactEntry = (id, domain, file, payload, itemCount, extra = {}) => ({id, domain, path:`opentax/${file}`, url:`${PUBLIC_BASE}/${file}`, web_url:`${PUBLIC_BASE}/${file}`, item_count:itemCount, generated_at:now, export_checksum:sha256(payload).slice(7), ...extra});
 const writeCompact = (file, payload) => { fs.mkdirSync(path.dirname(file), {recursive:true}); fs.writeFileSync(file, JSON.stringify(payload) + '\n'); };
@@ -392,12 +403,6 @@ const sourceRegistry = sourceRows.map(source => {
 });
 const sourceRegistryArtifact = {version:'OPENFIN-SOURCE-REGISTRY-2026.07.28.1', generated_at:now, source_count:sourceRegistry.length, sources:sourceRegistry};
 writeJson(path.join(DOCS,'openfin-source-registry-2026.json'), sourceRegistryArtifact);
-const receiptRows = [];
-const receiptRoot = path.join(ROOT, 'evidence/source-receipts');
-if (fs.existsSync(receiptRoot)) {
-  const walkReceipts = dir => { for (const entry of fs.readdirSync(dir,{withFileTypes:true})) { const file=path.join(dir,entry.name); if(entry.isDirectory()) walkReceipts(file); else if(entry.name.endsWith('.jsonl')) for(const line of fs.readFileSync(file,'utf8').split('\n').filter(Boolean)) receiptRows.push(JSON.parse(line)); } };
-  walkReceipts(receiptRoot);
-}
 const latestReceiptById = new Map();
 const acceptedReceiptById = new Map();
 for (const receipt of receiptRows.sort((a,b)=>String(a.checked_at||'').localeCompare(String(b.checked_at||'')))) {
@@ -489,6 +494,9 @@ const migrationArtifact = {version:'OPENFIN-MIGRATION-2026.07.28.1', generated_a
 writeJson(path.join(DOCS,'openfin-migration-manifest-2026.json'), migrationArtifact);
 const manifest = json(path.join(DOCS,'finance-ontology-manifest.json'));
 manifest.built_at=now; manifest.operational_base_url=PUBLIC_BASE; manifest.artifacts={...(manifest.artifacts||{})};
+const releasePointerPath = path.join(DOCS, 'current-release.json');
+const previousReleasePointer = fs.existsSync(releasePointerPath) ? json(releasePointerPath) : {};
+const releaseState = process.env.OPENFIN_RELEASE_STATE === 'promoted' ? 'promoted' : 'candidate';
 const artifactEntries={source_registry:artifactEntry('openfin-source-registry','sources','openfin-source-registry-2026.json',sourceRegistryArtifact,sourceRegistry.length),source_status:artifactEntry('openfin-source-status','sources','openfin-source-status-2026.json',sourceStatusArtifact,statuses.length),provenance_index:artifactEntry('openfin-provenance-index','provenance','openfin-provenance-index-2026.json',provenanceArtifact,provenanceRows.length,{shards:provenanceShards}),provenance_coverage:artifactEntry('openfin-provenance-coverage','quality','openfin-provenance-coverage-report-2026.json',provenanceCoverageArtifact,1,{coverage:{external_provenance_coverage_ratio:provenanceCoverageArtifact.external_provenance_coverage_ratio,status:provenanceCoverageArtifact.status}}),relationship_index:artifactEntry('openfin-relationship-index','relations','openfin-relationship-index-2026.json',relationshipArtifact,relations.length),migration_manifest:artifactEntry('openfin-migration-manifest','quality','openfin-migration-manifest-2026.json',migrationArtifact,1),decision_offers:decisionOfferEntry};
 Object.assign(manifest, artifactEntries); Object.assign(manifest.artifacts, artifactEntries);
 manifest.quality_exports = [...(manifest.quality_exports || []).filter(entry => entry.id !== 'openfin-provenance-coverage'), {id:'openfin-provenance-coverage', domain:'quality', ...artifactEntries.provenance_coverage, description:'Canonical provenance coverage and source URL validation report.'}]
@@ -502,12 +510,37 @@ const deploymentCommit = process.env.OPENFIN_DEPLOYMENT_COMMIT || process.env.GI
 const liveEvidenceCheckedAt = fs.existsSync(liveEvidencePath) ? json(liveEvidencePath).checked_at : null;
 const sourceHeadCommit = process.env.OPENFIN_SOURCE_HEAD_COMMIT || process.env.GITHUB_SHA || deploymentCommit;
 const releaseCandidateCommit = process.env.OPENFIN_RELEASE_CANDIDATE_COMMIT || deploymentCommit;
-const productionCommit = process.env.OPENFIN_PRODUCTION_COMMIT || deploymentCommit;
-const productionDeployedAt = process.env.OPENFIN_PRODUCTION_DEPLOYED_AT || liveEvidenceCheckedAt || null;
+// A normal/local build describes a candidate and must retain the last known
+// production binding. Promotion is explicit so a build cannot manufacture a
+// production deployment claim from local artifacts.
+const productionCommit = releaseState === 'promoted'
+  ? process.env.OPENFIN_PRODUCTION_COMMIT || deploymentCommit
+  : process.env.OPENFIN_CURRENT_PRODUCTION_COMMIT || previousReleasePointer.production_commit || manifest.production_commit || 'unknown';
+const productionDeployedAt = releaseState === 'promoted'
+  ? process.env.OPENFIN_PRODUCTION_DEPLOYED_AT || process.env.OPENFIN_PROMOTED_AT || now
+  : process.env.OPENFIN_CURRENT_PRODUCTION_DEPLOYED_AT || previousReleasePointer.production_deployed_at || manifest.production_deployed_at || null;
+const promotedAt = releaseState === 'promoted'
+  ? process.env.OPENFIN_PROMOTED_AT || productionDeployedAt
+  : null;
+const validationState = process.env.OPENFIN_VALIDATION_STATE || (releaseState === 'promoted' ? 'promoted' : 'candidate');
+const lastSmokeStatus = process.env.OPENFIN_LAST_SMOKE_STATUS || 'unknown';
+const lastLiveStatus = process.env.OPENFIN_LAST_LIVE_STATUS || 'unknown';
+const rollbackTarget = process.env.OPENFIN_ROLLBACK_TARGET || null;
 const evaluationAsOf = process.env.OPENFIN_EVALUATION_AS_OF || liveEvidenceCheckedAt || now;
 const quality = deriveQuality(readCanonicalRecords(), { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length, sourceStatusChecksum: sourceStatusArtifact ? sha256(sourceStatusArtifact).slice(7) : null, searchIndexChecksum: searchManifest.export_checksum, deploymentCommit, evaluationAsOf });
 const liveRegressionArtifact = { ...quality.live_regression, evidence_path: 'opentax/live-regression-current.json', source_evidence_path: 'evidence/live-regression/current.json' };
 writeJson(path.join(DOCS, 'live-regression-current.json'), liveRegressionArtifact);
+const lastAttempt = liveRegressionArtifact.last_attempt || liveRegressionArtifact;
+const lastAttemptArtifact = {
+  ...lastAttempt,
+  last_attempt: lastAttempt,
+  last_successful: liveRegressionArtifact.last_successful || null,
+  gate_basis: liveRegressionArtifact.gate_basis || 'last_attempt',
+  validation_status: liveRegressionArtifact.validation_status || 'unknown',
+  expected_generation_id: liveRegressionArtifact.expected_generation_id || null,
+  expected_fixture_checksum: liveRegressionArtifact.expected_fixture_checksum || null,
+};
+writeJson(path.join(DOCS, 'live-regression-last-attempt.json'), lastAttemptArtifact);
 const liveRegressionEvidenceEntry = artifactEntry('openfin-live-regression-current', 'quality', 'live-regression-current.json', liveRegressionArtifact, 1, { source_path: 'evidence/live-regression/current.json' });
 manifest.live_regression_evidence = liveRegressionEvidenceEntry;
 manifest.artifacts.live_regression_evidence = liveRegressionEvidenceEntry;
@@ -580,6 +613,7 @@ const artifactContract = {
   source_status_checksum: sha256(sourceStatusArtifact).slice(7),
   release_policy_checksum: sha256(fs.readFileSync(path.join(ROOT, 'contracts/release-policy.json'), 'utf8')).slice(7),
   capability_policy_checksum: sha256(fs.readFileSync(path.join(ROOT, 'contracts/capability-policy.json'), 'utf8')).slice(7),
+  capability_status_checksum: sha256(fs.readFileSync(path.join(ROOT, 'contracts/capability-status.json'), 'utf8')).slice(7),
   fixture_checksum: quality.fixture_checksum,
   candidate_set_checksum: candidateSetChecksum(decisionOffers),
   candidate_content_checksum_policy: 'immutable_candidate_set_checksum',
@@ -796,7 +830,7 @@ const qualityManifest = {
 };
 delete qualityManifest.domain_summaries;
 writeJson(qualityManifestPath, qualityManifest);
-manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.release_status_deprecated=true; manifest.release_status_replacement_path='core_search_status'; manifest.core_search_status=quality.core_search_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.comparison_status=quality.comparison_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_status=quality.recommendation_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.capabilities=quality.capabilities; manifest.candidate_counts=quality.candidate_counts; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; delete manifest.openfin_120_live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash; manifest.generation_id=quality.generation_id;
+manifest.source_registry_count=sourceRegistry.length; manifest.provenance_coverage_ratio=externalItems.length?covered/externalItems.length:1; manifest.release_status=quality.release_status; manifest.release_status_deprecated=true; manifest.release_status_replacement_path='core_search_status'; manifest.core_search_status=quality.core_search_status; manifest.platform_release_status=quality.platform_release_status; manifest.comparison_release_status=quality.comparison_release_status; manifest.comparison_status=quality.comparison_status; manifest.recommendation_release_status=quality.recommendation_release_status; manifest.recommendation_status=quality.recommendation_status; manifest.recommendation_enabled=quality.recommendation_enabled; manifest.capability_status_version=quality.capability_status_version; manifest.capabilities=quality.capabilities; manifest.candidate_counts=quality.candidate_counts; manifest.blocking_reasons=quality.blocking_reasons; manifest.recommendation_blocking_reasons=quality.recommendation_blocking_reasons; manifest.blocking_issues=quality.blocking_reasons; manifest.degraded_domains=quality.degraded_domains; delete manifest.openfin_120_live_regression; manifest.domain_readiness=quality.domains; manifest.quality_hash=quality.quality_hash; manifest.generation_id=quality.generation_id;
 delete manifest.domain_summaries;
 manifest.recommendation_state=quality.recommendation_state; manifest.recommendation_state_contract_version=quality.recommendation_state_contract_version; manifest.recommendation_approval_receipt=quality.recommendation_approval_receipt; manifest.owner_pilot_approval_receipt=quality.owner_pilot_approval_receipt;
 manifest.decision_offers = decisionOfferEntry;
@@ -836,6 +870,7 @@ for (const entry of manifest.quality_exports || []) if (entry.id === 'openfin-qu
   entry.item_count = 1;
 }
 manifest.search_index={...(manifest.search_index||{}),path:'opentax/finance-search-index-2026.json',url:`${PUBLIC_BASE}/finance-search-index-2026.json`,web_url:`${PUBLIC_BASE}/finance-search-index-2026.json`,item_count:searchManifest.item_count,canonical_product_count:searchManifest.canonical_product_count,duplicate_canonical_product_count:searchManifest.duplicate_canonical_product_count,canonical_merge_count:searchManifest.canonical_merge_count,export_checksum:searchManifest.export_checksum,content_checksum:searchContentChecksum,shards:shardOutputs};
+delete manifest.search_index.quality_summary;
 manifest.detail_search_index=detailSearchIndex;
 manifest.hot_search_index=hotSearchIndex;
 const rewriteOperational = value => typeof value === 'string' ? value.replaceAll('https://jhny-kor.github.io/TaxMeter/opentax/', `${PUBLIC_BASE}/`).replaceAll('https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/', `${PUBLIC_BASE}/`) : Array.isArray(value) ? value.map(rewriteOperational) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rewriteOperational(v)])) : value;
@@ -844,17 +879,28 @@ delete manifest.manifest_checksum;
 const manifestChecksumInput = {...manifest};
 manifest.manifest_checksum = sha256(manifestChecksumInput).slice(7);
 writeJson(path.join(DOCS,'finance-ontology-manifest.json'), manifest);
-writeJson(path.join(DOCS, 'current-release.json'), {
+const currentRelease = {
   version: 'openfin-current-release-v1',
   generated_at: now,
+  release_state: releaseState,
   source_head_commit: sourceHeadCommit,
   release_candidate_commit: releaseCandidateCommit,
+  candidate_commit: releaseCandidateCommit,
   production_commit: productionCommit,
   production_deployed_at: productionDeployedAt,
-  production_generation: manifest.generation_id,
-  pages_generation: manifest.generation_id,
-  worker_generation: process.env.OPENFIN_WORKER_GENERATION || manifest.generation_id,
+  deployed_at: productionDeployedAt,
+  candidate_generation: manifest.generation_id,
+  production_generation: releaseState === 'promoted'
+    ? manifest.generation_id
+    : process.env.OPENFIN_CURRENT_PRODUCTION_GENERATION || previousReleasePointer.production_generation || previousReleasePointer.generation_id || null,
+  pages_generation: releaseState === 'promoted' ? manifest.generation_id : process.env.OPENFIN_CURRENT_PAGES_GENERATION || previousReleasePointer.pages_generation || null,
+  worker_generation: releaseState === 'promoted' ? process.env.OPENFIN_WORKER_GENERATION || manifest.generation_id : process.env.OPENFIN_CURRENT_WORKER_GENERATION || previousReleasePointer.worker_generation || null,
   generation_id: manifest.generation_id,
+  validation_state: validationState,
+  last_smoke_status: lastSmokeStatus,
+  last_live_status: lastLiveStatus,
+  promoted_at: promotedAt,
+  rollback_target: rollbackTarget,
   manifest_checksum: manifest.manifest_checksum,
   search_index_checksum: manifest.artifact_contract.search_index_checksum,
   source_status_checksum: manifest.artifact_contract.source_status_checksum,
@@ -865,5 +911,17 @@ writeJson(path.join(DOCS, 'current-release.json'), {
   live_evidence: manifest.live_regression_evidence,
   live_evidence_path: manifest.live_regression_evidence.path,
   live_evidence_url: manifest.live_regression_evidence.url,
-});
+};
+writeJson(releasePointerPath, currentRelease);
+if (releaseState === 'promoted') {
+  const historyPath = path.join(DOCS, 'production-release-history.jsonl');
+  const existingHistory = fs.existsSync(historyPath) ? fs.readFileSync(historyPath, 'utf8').split('\n').filter(Boolean) : [];
+  const alreadyRecorded = existingHistory.some(line => {
+    try { const entry = JSON.parse(line); return entry.generation_id === currentRelease.generation_id || entry.candidate_commit === currentRelease.candidate_commit; }
+    catch { return false; }
+  });
+  if (!alreadyRecorded) {
+    fs.appendFileSync(historyPath, `${JSON.stringify({generated_at: now, promoted_at: promotedAt, candidate_commit: currentRelease.candidate_commit, production_commit: currentRelease.production_commit, generation_id: currentRelease.generation_id, validation_state: validationState, last_smoke_status: lastSmokeStatus, last_live_status: lastLiveStatus, rollback_target: rollbackTarget})}\n`);
+  }
+}
 console.log(JSON.stringify({exports:legacyFiles.length, rows:Object.values(generatedExports).reduce((n,x)=>n+x.items.length+(x.reference_items?.length||0),0), unique:catalog.length, reference_items:referenceItemCount, search_items:allSearchItems.length, sources:sourceRegistry.length, provenance_covered:covered, relationships:relations.length},null,2));

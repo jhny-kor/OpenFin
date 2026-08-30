@@ -23,6 +23,16 @@ test('live evidence must be current, complete, and attributable to a deployment'
   assert.equal(liveRegressionCurrent(live, livePolicy, checkedAt, null, 'sha256:other'), false);
 });
 
+test('live quality gates on the latest attempt while retaining the last successful evidence', () => {
+  const checkedAt = Date.parse('2026-07-30T00:00:00Z');
+  const passing = { status: 'current', mode: 'live', checked_at: '2026-07-30T00:00:00Z', manifest_checksum: 'manifest', loaded_index_checksum: 'index', deployment_commit: 'commit', test_count: 120, passed_count: 120, failed_count: 0, skipped_count: 0 };
+  const failedAttempt = { ...passing, status: 'failed', checked_at: '2026-07-30T02:00:00Z', passed_count: 112, failed_count: 8 };
+  assert.equal(liveRegressionCurrent({ last_attempt: failedAttempt, last_successful: passing, gate_basis: 'last_attempt' }, livePolicy, checkedAt + 3 * 60 * 60 * 1000), false);
+  assert.equal(liveRegressionCurrent({ last_attempt: passing, last_successful: passing, gate_basis: 'last_attempt' }, livePolicy, checkedAt + 60 * 60 * 1000), true);
+  // Historical flat evidence remains valid during the artifact migration.
+  assert.equal(liveRegressionCurrent(passing, livePolicy, checkedAt + 60 * 60 * 1000), true);
+});
+
 test('field values alone never become field-verified candidates', () => {
   const result = deriveQuality([base], { sourceCount: 1, exportCount: 10, searchItemCount: 1, relationshipCount: 1 });
   assert.equal(result.domains.deposit.value_complete_candidate_count, 1);

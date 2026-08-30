@@ -5,13 +5,28 @@ import test from 'node:test';
 const root = new URL('../..', import.meta.url).pathname;
 const read = name => JSON.parse(fs.readFileSync(`${root}/${name}`, 'utf8'));
 
-test('current release pointer binds Pages, Worker, and manifest generations', () => {
+test('current release pointer separates candidate from production generations', () => {
   const manifest = read('docs/opentax/finance-ontology-manifest.json');
   const pointer = read('docs/opentax/current-release.json');
   assert.equal(pointer.production_commit, manifest.production_commit);
-  assert.equal(pointer.production_generation, manifest.generation_id);
-  assert.equal(pointer.pages_generation, manifest.generation_id);
-  assert.equal(pointer.worker_generation, manifest.generation_id);
+  assert.ok(['candidate', 'promoted'].includes(pointer.release_state));
+  assert.equal(pointer.candidate_commit, pointer.release_candidate_commit);
+  assert.equal(pointer.candidate_generation, manifest.generation_id);
+  assert.ok(pointer.deployed_at, 'deployed_at is required');
+  assert.equal(pointer.deployed_at, pointer.production_deployed_at);
+  if (pointer.release_state === 'promoted') {
+    assert.equal(pointer.deployed_at, manifest.production_deployed_at);
+    assert.equal(pointer.production_generation, manifest.generation_id);
+    assert.equal(pointer.pages_generation, manifest.generation_id);
+    assert.equal(pointer.worker_generation, manifest.generation_id);
+    assert.ok(pointer.promoted_at);
+  } else {
+    assert.equal(pointer.promoted_at, null);
+  }
+  assert.ok(pointer.validation_state);
+  assert.ok(pointer.last_smoke_status);
+  assert.ok(pointer.last_live_status);
+  assert.equal(pointer.rollback_target, null);
   assert.equal(pointer.generation_id, manifest.generation_id);
   assert.equal(pointer.manifest_checksum, manifest.manifest_checksum);
   assert.equal(pointer.search_index_checksum, manifest.artifact_contract.search_index_checksum);
@@ -27,6 +42,7 @@ test('agent-facing manifest uses capability fields instead of legacy quality fie
   assert.equal(manifest.capabilities.recommendation, 'blocked');
   assert.ok((manifest.exports || []).every((entry) => !('quality_summary' in entry)));
   assert.ok((manifest.quality_exports || []).every((entry) => !('quality_summary' in entry)));
+  assert.equal(Object.hasOwn(manifest.search_index || {}, 'quality_summary'), false);
 });
 
 test('financial detail exports expose field-specific review dates', () => {
