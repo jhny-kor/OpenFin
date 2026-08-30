@@ -10,14 +10,15 @@ permissions:
 
 jobs:
   live-regression:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     defaults:
       run:
         working-directory: mcp
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: npm
@@ -38,22 +39,38 @@ jobs:
         run: |
           set -euo pipefail
           test -s live-regression-report.json
-          status="$(jq -r '.status // "missing"' live-regression-report.json)"
-          test "$status" = current
-          test "$(jq -r '.test_count // 0' live-regression-report.json)" = "$(jq -r '.passed_count // 0' live-regression-report.json)"
-          test "$(jq -r '.failed_count // 0' live-regression-report.json)" = 0
-          test "$(jq -r '.skipped_count // 0' live-regression-report.json)" = 0
-          deployment_commit="$(jq -r '.deployment_commit // empty' live-regression-report.json)"
-          test "$deployment_commit" != ""
-          generation_id="$(jq -r '.generation_id // empty' live-regression-report.json)"
-          test "${#generation_id}" = 64
-          test "$(jq -r '.semantic_unique_case_count // 0' live-regression-report.json)" = "$(jq -r '.test_count // 0' live-regression-report.json)"
           mkdir -p evidence/live-regression
-          cp live-regression-report.json "evidence/live-regression/${deployment_commit}.json"
-          cp live-regression-report.json evidence/live-regression/current.json
+          status="$(jq -r '.status // "missing"' live-regression-report.json)"
+          previous_successful='null'
+          if [ -s evidence/live-regression/current.json ]; then
+            previous_successful="$(jq -c '.last_successful // (if .status == "current" then . else null end)' evidence/live-regression/current.json)"
+          fi
+          jq -n --argjson attempt "$(jq -c . live-regression-report.json)" --argjson successful "$previous_successful" \
+            '$attempt + {last_attempt: $attempt, last_successful: (if $attempt.status == "current" and $attempt.failed_count == 0 and $attempt.skipped_count == 0 and $attempt.passed_count == $attempt.test_count then $attempt else $successful end), gate_basis: "last_attempt"}' > evidence/live-regression/current.json
+          deployment_commit="$(jq -r '.deployment_commit // empty' live-regression-report.json)"
+          if [ -n "$deployment_commit" ]; then
+            cp live-regression-report.json "evidence/live-regression/${deployment_commit}.json"
+          else
+            cp live-regression-report.json "evidence/live-regression/attempt-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.json"
+          fi
+          if [ "$status" = current ]; then
+            test "$(jq -r '.test_count // 0' live-regression-report.json)" = "$(jq -r '.passed_count // 0' live-regression-report.json)"
+            test "$(jq -r '.failed_count // 0' live-regression-report.json)" = 0
+            test "$(jq -r '.skipped_count // 0' live-regression-report.json)" = 0
+            test "$deployment_commit" != ""
+            generation_id="$(jq -r '.generation_id // empty' live-regression-report.json)"
+            test "${#generation_id}" = 64
+            test "$(jq -r '.semantic_unique_case_count // 0' live-regression-report.json)" = "$(jq -r '.test_count // 0' live-regression-report.json)"
+          fi
           npm ci --ignore-scripts
-          OPENFIN_DEPLOYMENT_COMMIT="$deployment_commit" npm run knowledge:build
-          test "$(jq -r '.generation_id // empty' docs/opentax/finance-ontology-manifest.json)" = "$generation_id"
+          if [ -n "$deployment_commit" ]; then
+            OPENFIN_DEPLOYMENT_COMMIT="$deployment_commit" npm run knowledge:build
+          else
+            npm run knowledge:build
+          fi
+          if [ "$status" = current ]; then
+            test "$(jq -r '.generation_id // empty' docs/opentax/finance-ontology-manifest.json)" = "$generation_id"
+          fi
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add evidence/live-regression docs/opentax
@@ -67,11 +84,12 @@ jobs:
           set -euo pipefail
           test "${{ steps.live.outcome }}" = success
           test "${{ steps.publish.outcome }}" = success
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: always()
         with:
           name: openfin-live-regression-${{ github.sha }}
           path: |
             live-regression-report.json
             live-regression-error.log
+          retention-days: 7
           if-no-files-found: warn

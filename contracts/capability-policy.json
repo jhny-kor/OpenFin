@@ -2,12 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": "openfin-capability-policy-v1",
   "capabilities": {
-    "search": { "states": ["ready", "blocked"], "source": "canonical_catalog_and_search_index" },
-    "discovery": { "states": ["ready", "blocked"], "source": "canonical_catalog_and_search_index" },
-    "comparison": { "states": ["blocked", "limited_public", "public"], "candidate_count": "public_comparison_candidate_count", "requires": ["comparison_eligible_candidate_count", "current_source_receipts", "verified_sales_status"] },
-    "shadow": { "states": ["ready", "blocked"], "candidate_count": "shadow_recommendation_candidate_count", "requires": ["comparison_eligible_candidate_count", "current_source_receipts"] },
-    "owner_pilot": { "states": ["ready", "blocked"], "candidate_count": "owner_pilot_candidate_count", "requires": ["approval_receipt", "candidate_set_checksum", "live_financial_suite"] },
-    "recommendation": { "states": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public"], "candidate_count": "public_recommendation_candidate_count", "requires": ["approval_receipt", "candidate_set_checksum", "live_financial_suite"] }
+    "search": { "states": ["ready", "limited", "blocked"], "source": "canonical_catalog_and_search_index" },
+    "discovery": { "states": ["ready", "limited", "blocked"], "source": "canonical_catalog_and_search_index" },
+    "comparison": { "states": ["ready", "limited", "blocked"], "candidate_count": "public_comparison_candidate_count", "requires": ["comparison_eligible_candidate_count", "current_source_receipts", "verified_sales_status"] },
+    "shadow": { "states": ["ready", "limited", "blocked"], "candidate_count": "shadow_recommendation_candidate_count", "requires": ["comparison_eligible_candidate_count", "current_source_receipts"] },
+    "owner_pilot": { "states": ["ready", "limited", "blocked"], "candidate_count": "owner_pilot_candidate_count", "requires": ["approval_receipt", "candidate_set_checksum", "live_financial_suite"] },
+    "recommendation": { "states": ["ready", "limited", "blocked"], "candidate_count": "public_recommendation_candidate_count", "requires": ["approval_receipt", "candidate_set_checksum", "live_financial_suite"] }
   },
   "candidate_count_fields": [
     "strict_offer_count",

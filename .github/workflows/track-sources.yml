@@ -16,9 +16,10 @@ concurrency:
 
 jobs:
   track:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           fetch-depth: 0
       - name: Prepare review branch and retain prior receipts
@@ -36,7 +37,7 @@ jobs:
             exit "$remote_status"
           fi
       - name: Set up Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: npm
@@ -44,7 +45,6 @@ jobs:
         run: npm ci
       - name: Check source freshness
         id: source-check
-        continue-on-error: true
         env:
           FINLIFE_API_KEY: ${{ secrets.FINLIFE_API_KEY }}
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
@@ -63,33 +63,47 @@ jobs:
           stamp="$(date -u +%Y%m%dT%H%M%SZ)"
           impact_file="${{ steps.source-check.outputs.report_dir }}/source-impact-$stamp.json"
           npm run knowledge:source-impact-report -- --status-report "${{ steps.source-check.outputs.report_file }}" --output "$impact_file"
+          echo "impact_file=$impact_file" >> "$GITHUB_ENV"
+      - name: Rebuild canonical knowledge status
+        if: steps.source-check.outcome == 'success'
+        run: |
           npm run knowledge:build
           npm run knowledge:validate
-          echo "impact_file=$impact_file" >> "$GITHUB_ENV"
       - name: Upload source tracking report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: openfin-source-tracking-${{ github.run_id }}
           path: ${{ steps.source-check.outputs.report_dir || runner.temp }}
+          retention-days: 7
           if-no-files-found: ignore
       - name: Commit review artifacts
         id: commit-review
-        if: steps.source-check.outcome == 'success' && steps.source-check.outputs.review_count != '0'
+        if: steps.source-check.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add evidence/source-receipts docs/opentax/openfin-source-status-2026.json docs/opentax/finance-ontology-manifest.json
+          if [ "${{ steps.source-check.outputs.review_count }}" = "0" ]; then
+            echo "delivery=NO_REVIEW_REQUIRED" >> "$GITHUB_ENV"
+          else
+            echo "delivery=REVIEW_REQUIRED" >> "$GITHUB_ENV"
+          fi
+          git add evidence/source-receipts docs/opentax
           if git diff --cached --quiet; then
             echo "committed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git commit -m "chore: record OpenFin source check"
-          git push --force-with-lease --set-upstream origin automation/source-tracking
+          if [ "${{ steps.source-check.outputs.review_count }}" = "0" ]; then
+            git push origin HEAD:main
+          else
+            git push --force-with-lease --set-upstream origin automation/source-tracking
+          fi
           echo "committed=true" >> "$GITHUB_OUTPUT"
       - name: Open or update review pull request
-        if: steps.commit-review.outputs.committed == 'true'
+        if: steps.commit-review.outputs.committed == 'true' && steps.source-check.outputs.review_count != '0'
         env:
+          OPENFIN_SOURCE_TRACKING_TOKEN: ${{ secrets.OPENFIN_SOURCE_TRACKING_TOKEN }}
           GH_TOKEN: ${{ secrets.OPENFIN_SOURCE_TRACKING_TOKEN || github.token }}
         run: |
           {
@@ -104,7 +118,7 @@ jobs:
             test -n "$impact_file"
             gh pr comment "$pr_number" --repo "$GITHUB_REPOSITORY" --body "새 출처 점검 결과와 영향 보고서를 반영했습니다: $impact_file"
             echo "delivery=REVIEW_REQUIRED" >> "$GITHUB_ENV"
-          elif [ -n "${{ secrets.OPENFIN_SOURCE_TRACKING_TOKEN }}" ]; then
+          elif [ -n "${OPENFIN_SOURCE_TRACKING_TOKEN:-}" ]; then
             if ! gh pr create --repo "$GITHUB_REPOSITORY" --base main --head automation/source-tracking --title "chore: review OpenFin source changes" --body "자동 점검에서 검토가 필요한 출처 변경을 감지했습니다. 영향 보고서: $impact_file" 2>pr-create.stderr; then
               cp pr-create.stderr "${{ steps.source-check.outputs.report_dir }}/pr-create.stderr"
               if GH_TOKEN="${{ github.token }}" gh issue create --repo "$GITHUB_REPOSITORY" --title "review required: OpenFin source tracking" --body "PR 자동 생성이 거부되어 수동 승격이 필요합니다. 검토 브랜치: https://github.com/$GITHUB_REPOSITORY/tree/automation/source-tracking\n영향 보고서: $impact_file\nPR stderr는 workflow artifact에 보존됐습니다."; then
@@ -121,10 +135,11 @@ jobs:
           fi
       - name: Upload delivery diagnostics
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: openfin-source-delivery-${{ github.run_id }}
           path: ${{ steps.source-check.outputs.report_dir }}/pr-create.stderr
+          retention-days: 7
           if-no-files-found: ignore
       - name: Write tracking conclusion
         if: always()
@@ -143,10 +158,11 @@ jobs:
             --impact-file "${impact_file:-}"
       - name: Upload tracking conclusion
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: openfin-source-summary-${{ github.run_id }}
           path: ${{ steps.source-check.outputs.report_dir || runner.temp }}/source-tracking-summary.json
+          retention-days: 7
           if-no-files-found: ignore
       - name: Summarize source tracking result
         if: always()

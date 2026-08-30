@@ -14,67 +14,10 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
-      - name: Bind build to deployed Worker generation
+      - name: Refuse legacy direct production deployment
         run: |
-          set -euo pipefail
-          changed_files="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA")"
-          worker_changed=false
-          while IFS= read -r changed_file; do
-            case "$changed_file" in
-              mcp/*|contracts/*|schemas/*|scripts/knowledge/derive-quality.mjs|.github/workflows/deploy-mcp.yml)
-                worker_changed=true
-                ;;
-            esac
-          done <<< "$changed_files"
-          if [ "${{ github.event_name }}" = "workflow_run" ] && [ -s evidence/live-regression/current.json ]; then
-            deployment_commit="$(jq -r '.deployment_commit // empty' evidence/live-regression/current.json)"
-            test -n "$deployment_commit"
-          elif [ "$worker_changed" = true ]; then
-            deployment_commit="$GITHUB_SHA"
-          elif [ -s evidence/live-regression/current.json ]; then
-            deployment_commit="$(jq -r '.deployment_commit // empty' evidence/live-regression/current.json)"
-            test -n "$deployment_commit"
-          else
-            deployment_commit="$GITHUB_SHA"
-          fi
-          echo "OPENFIN_DEPLOYMENT_COMMIT=$deployment_commit" >> "$GITHUB_ENV"
-      - name: Set up Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Validate JSON Schemas and type registry
-        run: npm run knowledge:schema-validate
-      - name: Build deterministic public exports
-        run: npm run knowledge:build
-      - name: Validate canonical knowledge
-        run: npm run knowledge:validate
-      - name: Verify derived quality gate
-        run: npm run knowledge:derive-quality:check
-      - name: Run regression tests
-        run: npm test
-      - name: Report generated export drift
-        run: |
-          if ! git diff --quiet -- docs/opentax; then
-            echo "Generated exports are deployment artifacts and differ from the checked-in snapshot; Pages will publish the freshly built output."
-            git diff --stat -- docs/opentax
-          fi
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs
-      - id: deployment
-        uses: actions/deploy-pages@v4
-      - name: Verify repository, Pages, Worker, and live evidence parity
-        run: npm run knowledge:verify-public-parity -- --expected-deployment-commit "$OPENFIN_DEPLOYMENT_COMMIT"
+          echo 'Legacy direct Pages deployment is disabled. Run the OpenFin Immutable Release workflow.' >&2
+          exit 1

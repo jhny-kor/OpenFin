@@ -1,17 +1,10 @@
 name: OpenFin Immutable Release
 
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - "docs/opentax/**"
-      - "evidence/live-regression/**"
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: openfin-release
@@ -19,46 +12,108 @@ concurrency:
 
 jobs:
   canonical-artifact:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+    outputs:
+      previous_production_commit: ${{ steps.production.outputs.commit }}
+      previous_production_generation: ${{ steps.production.outputs.generation }}
+      previous_pages_artifact_name: ${{ steps.production.outputs.pages_artifact_name }}
+      previous_pages_run_id: ${{ steps.production.outputs.pages_run_id }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+      - id: production
+        name: Capture the current production binding and rollback artifact
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --retry 3 \
+            https://jhny-kor.github.io/OpenFin/opentax/current-release.json \
+            --output current-production.json
+          jq -e '
+            (.production_commit | test("^[0-9a-f]{40}$")) and
+            ((.production_deployed_at // .deployed_at // .generated_at) | type == "string") and
+            (.production_generation | test("^[0-9a-f]{64}$")) and
+            (.pages_generation | test("^[0-9a-f]{64}$")) and
+            (.worker_generation | test("^[0-9a-f]{64}$")) and
+            (.production_generation == .pages_generation) and
+            (.production_generation == .worker_generation)
+          ' current-production.json >/dev/null
+          production_commit="$(jq -r '.production_commit' current-production.json)"
+          production_deployed_at="$(jq -r '.production_deployed_at // .deployed_at // .generated_at' current-production.json)"
+          production_generation="$(jq -r '.production_generation' current-production.json)"
+          echo "OPENFIN_CURRENT_PRODUCTION_COMMIT=$production_commit" >> "$GITHUB_ENV"
+          echo "OPENFIN_CURRENT_PRODUCTION_DEPLOYED_AT=$production_deployed_at" >> "$GITHUB_ENV"
+          echo "OPENFIN_CURRENT_PRODUCTION_GENERATION=$production_generation" >> "$GITHUB_ENV"
+          echo "OPENFIN_CURRENT_PAGES_GENERATION=$(jq -r '.pages_generation' current-production.json)" >> "$GITHUB_ENV"
+          echo "OPENFIN_CURRENT_WORKER_GENERATION=$(jq -r '.worker_generation' current-production.json)" >> "$GITHUB_ENV"
+          curl --fail --silent --show-error --location --retry 3 https://openfin-mcp.y2kthr.workers.dev/health --output current-worker-health.json
+          jq -e --arg commit "$production_commit" --arg generation "$(jq -r '.worker_generation' current-production.json)" '(.deployment_commit == $commit) and (.generation_id == $generation)' current-worker-health.json >/dev/null
+          artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?per_page=100")"
+          pages_artifact="$(jq -c --arg commit "$production_commit" '[.artifacts[] | select(.expired == false and .workflow_run.head_sha == $commit and (.name == "github-pages" or .name == "github-pages-final"))] | sort_by(.created_at) | last // empty' <<< "$artifacts")"
+          test -n "$pages_artifact"
+          pages_artifact_name="$(jq -r '.name' <<< "$pages_artifact")"
+          pages_run_id="$(jq -r '.workflow_run.id' <<< "$pages_artifact")"
+          test -n "$pages_artifact_name"
+          test -n "$pages_run_id"
+          {
+            echo "commit=$production_commit"
+            echo "generation=$production_generation"
+            echo "pages_artifact_name=$pages_artifact_name"
+            echo "pages_run_id=$pages_run_id"
+          } >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Bind timestamps to the immutable source commit
+        run: |
+          set -euo pipefail
+          timestamp="$(git show -s --format=%cI "$GITHUB_SHA")"
+          for key in OPENFIN_BUILD_AT OPENFIN_SCHEMA_VALIDATED_AT OPENFIN_PROMOTION_EVALUATED_AT; do echo "$key=$timestamp" >> "$GITHUB_ENV"; done
       - name: Build canonical artifact once
-        run: npm run knowledge:build
+        run: |
+          set -euo pipefail
+          test -n "${OPENFIN_BUILD_AT:-}"
+          test -n "${OPENFIN_SCHEMA_VALIDATED_AT:-}"
+          test -n "${OPENFIN_PROMOTION_EVALUATED_AT:-}"
+          npm run knowledge:build
         env:
           OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
-          OPENFIN_BUILD_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
-          OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
-          OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           OPENFIN_SOURCE_HEAD_COMMIT: ${{ github.sha }}
           OPENFIN_RELEASE_CANDIDATE_COMMIT: ${{ github.sha }}
-          OPENFIN_PRODUCTION_COMMIT: ${{ github.sha }}
       - name: Validate canonical contracts
         run: |
+          set -euo pipefail
+          test -n "${OPENFIN_BUILD_AT:-}"
+          test -n "${OPENFIN_SCHEMA_VALIDATED_AT:-}"
+          test -n "${OPENFIN_PROMOTION_EVALUATED_AT:-}"
           npm run knowledge:schema-validate
           npm run knowledge:validate
           npm run knowledge:derive-quality:check
           npm test
         env:
           OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
-          OPENFIN_BUILD_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
-          OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
-          OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           OPENFIN_SOURCE_HEAD_COMMIT: ${{ github.sha }}
           OPENFIN_RELEASE_CANDIDATE_COMMIT: ${{ github.sha }}
-          OPENFIN_PRODUCTION_COMMIT: ${{ github.sha }}
       - name: Validate Worker and financial quality contracts
         working-directory: mcp
         run: |
           npm ci
+          npm audit --audit-level=high
           npm test
           npm run financial-quality-unit
+          npm run financial-quality-live
           npm run test:mutation
           npm run live-regression -- --validate-fixture
+      - name: Verify dependency triage is resolved without an allowlist
+        run: jq -e '.status == "resolved" and .allowlist_applied == false and (.findings | length) == 0' security/npm-audit-allowlist.json
       - name: Verify approval remains fail-closed
         run: |
           receipt="$(jq -r '.recommendation.public_approval_receipt // empty' contracts/release-policy.json)"
@@ -68,7 +123,7 @@ jobs:
           mkdir -p release-artifact
           jq '{generation_id, deployment_commit, source_head_commit, release_candidate_commit, production_commit, production_deployed_at, service_availability, manifest_checksum, artifact_contract, capabilities, candidate_counts, recommendation_state, recommendation_enabled}' docs/opentax/finance-ontology-manifest.json > release-artifact/release-contract.json
           sha256sum docs/opentax/finance-ontology-manifest.json release-artifact/release-contract.json > release-artifact/SHA256SUMS
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: openfin-release-${{ github.sha }}
           path: |
@@ -76,112 +131,375 @@ jobs:
             release-artifact
             evidence/candidate-promotions
             evidence/recommendation-approvals
-          retention-days: 365
+          retention-days: 7
 
-  deploy-pages:
+  deploy-pages-staging:
     needs: canonical-artifact
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      pages_url: ${{ steps.deploy.outputs.pages_url }}
     steps:
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: openfin-release-${{ github.sha }}
           path: release
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
-          path: release/docs
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          node-version: 22
+      - id: deploy
+        name: Deploy candidate Pages site to the configured Cloudflare staging project
+        working-directory: release
+        run: |
+          set -euo pipefail
+          : "${OPENFIN_STAGING_PAGES_PROJECT:?Repository variable OPENFIN_STAGING_PAGES_PROJECT is required}"
+          alias="candidate-${GITHUB_SHA:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          npx --yes wrangler@4.127.1 pages deploy docs --project-name "$OPENFIN_STAGING_PAGES_PROJECT" --branch "$alias" --commit-hash "$GITHUB_SHA" 2>&1 | tee pages-deploy.log
+          pages_url="$(sed -nE 's#.*(https://[A-Za-z0-9.-]+\.pages\.dev).*#\1#p' pages-deploy.log | tail -n 1)"
+          test -n "$pages_url"
+          printf 'pages_url=%s\n' "$pages_url" >> "$GITHUB_OUTPUT"
+        env:
+          OPENFIN_STAGING_PAGES_PROJECT: ${{ vars.OPENFIN_STAGING_PAGES_PROJECT }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-  deploy-mcp:
-    needs: deploy-pages
+  deploy-worker-candidate:
+    needs: [canonical-artifact, deploy-pages-staging]
     runs-on: ubuntu-latest
+    outputs:
+      worker_url: ${{ steps.upload.outputs.worker_url }}
+      version_id: ${{ steps.upload.outputs.version_id }}
+      previous_version_id: ${{ steps.previous.outputs.version_id }}
     defaults:
       run:
         working-directory: mcp
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/download-artifact@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: openfin-release-${{ github.sha }}
           path: release
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: mcp/package-lock.json
       - run: npm ci
-      - name: Verify deployed Pages release integrity
-        run: |
-          for attempt in {1..12}; do npm run verify:integrity && exit 0; sleep 10; done
-          exit 1
-      - name: Verify recommendation gate
-        run: npm run verify:recommendation
-      - name: Bind Worker runtime to release generation
+      - name: Verify candidate Pages artifact before Worker upload
         run: |
           set -euo pipefail
-          manifest=../release/docs/opentax/finance-ontology-manifest.json
-          test -s "$manifest"
-          artifact_generation="$(jq -r '.generation_id' "$manifest")"
-          test "$artifact_generation" != "null"
-          build_timestamp="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          runtime_version="openfin-mcp-$(node -p "require('./package.json').version")-${GITHUB_SHA:0:12}-$(date -u +%Y%m%dT%H%M%SZ)-${artifact_generation:0:12}"
-          {
-            echo "OPENFIN_RUNTIME_VERSION=$runtime_version"
-            echo "OPENFIN_BUILD_TIMESTAMP=$build_timestamp"
-            echo "OPENFIN_ARTIFACT_GENERATION=$artifact_generation"
-          } >> "$GITHUB_ENV"
-      - name: Deploy Worker for the same release commit
-        run: npx wrangler deploy --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var RUNTIME_VERSION:"$OPENFIN_RUNTIME_VERSION" --var BUILD_TIMESTAMP:"$OPENFIN_BUILD_TIMESTAMP" --var ARTIFACT_GENERATION:"$OPENFIN_ARTIFACT_GENERATION"
+          manifest_url="${{ needs.deploy-pages-staging.outputs.pages_url }}/opentax/finance-ontology-manifest.json"
+          for attempt in {1..12}; do FINANCE_MANIFEST_URL="$manifest_url" npm run verify:integrity && exit 0; sleep 10; done
+          exit 1
+      - id: previous
+        name: Capture current Worker version for rollback
+        run: |
+          set -euo pipefail
+          deployment="$(npx --yes wrangler@4.127.1 deployments status --name openfin-mcp --json)"
+          jq -e '(.versions | length) == 1 and .versions[0].percentage == 100' <<< "$deployment" >/dev/null
+          version_id="$(jq -r '.versions[0].version_id // empty' <<< "$deployment")"
+          test -n "$version_id"
+          printf 'version_id=%s\n' "$version_id" >> "$GITHUB_OUTPUT"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      - name: Smoke deployed capabilities
-        run: npm run smoke
+      - id: upload
+        name: Upload undeployed Worker candidate with a preview alias
+        run: |
+          set -euo pipefail
+          : "${OPENFIN_STAGING_PAGES_URL:?staging Pages URL is required}"
+          manifest="../release/docs/opentax/finance-ontology-manifest.json"
+          generation="$(jq -r '.generation_id' "$manifest")"
+          test "$generation" != null
+          alias="candidate-${GITHUB_SHA:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          output="$(npx --yes wrangler@4.127.1 versions upload --name openfin-mcp --preview-alias "$alias" --tag "$alias" --message "OpenFin candidate $GITHUB_SHA" --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var FINANCE_MANIFEST_URL:"$OPENFIN_STAGING_PAGES_URL/opentax/finance-ontology-manifest.json" --var FINANCE_WEB_BASE_URL:"$OPENFIN_STAGING_PAGES_URL/opentax/" --var ARTIFACT_GENERATION:"$generation" 2>&1 | tee /dev/stderr)"
+          version_id="$(printf '%s\n' "$output" | grep -Eo '[0-9a-f]{8}-[0-9a-f-]{27,}' | head -n 1)"
+          test -n "$version_id"
+          worker_url="$(printf '%s\n' "$output" | sed -nE 's#^Version Preview Alias URL: (https://[^[:space:]]+).*#\1#p' | tail -n 1)"
+          test -n "$worker_url"
+          printf 'version_id=%s\nworker_url=%s\n' "$version_id" "$worker_url" >> "$GITHUB_OUTPUT"
         env:
-          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          OPENFIN_STAGING_PAGES_URL: ${{ needs.deploy-pages-staging.outputs.pages_url }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-  live-regression:
-    needs: deploy-mcp
+  validate-candidate:
+    needs: [canonical-artifact, deploy-worker-candidate]
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
+    outputs:
+      live_artifact: ${{ steps.live.outputs.artifact_name }}
     defaults:
       run:
         working-directory: mcp
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: openfin-release-${{ github.sha }}
+          path: release
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: mcp/package-lock.json
       - run: npm ci
-      - name: Run financial quality against deployed MCP endpoint
+      - name: Validate candidate health and readiness
+        run: npm run smoke
+        env:
+          MCP_URL: ${{ needs.deploy-worker-candidate.outputs.worker_url }}
+          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          SMOKE_ATTEMPTS: 12
+          SMOKE_DELAY_MS: 5000
+      - name: Validate candidate tools/list schemas
+        run: npm run tool-schema-contract
+        env:
+          MCP_URL: ${{ needs.deploy-worker-candidate.outputs.worker_url }}/mcp
+      - id: live
+        name: Run current-generation 120-case candidate regression
         run: |
-          for attempt in 1 2 3; do
-            if npm --silent run financial-quality-live > ../financial-quality-live-report.json; then
-              exit 0
-            fi
-            if [ "$attempt" -lt 3 ]; then sleep 5; fi
-          done
-          exit 1
+          set -euo pipefail
+          node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log
+          test "$(jq -r '.status' ../live-regression-report.json)" = current
+          test "$(jq -r '.test_count' ../live-regression-report.json)" = 120
+          test "$(jq -r '.passed_count' ../live-regression-report.json)" = 120
+          test "$(jq -r '.failed_count' ../live-regression-report.json)" = 0
+          test "$(jq -r '.skipped_count' ../live-regression-report.json)" = 0
+          echo "artifact_name=openfin-live-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+        env:
+          MCP_URL: ${{ needs.deploy-worker-candidate.outputs.worker_url }}/mcp
+          LIVE_METADATA_ATTEMPTS: 12
+          LIVE_METADATA_DELAY_MS: 1000
+          LIVE_REQUEST_TIMEOUT_MS: 15000
+          LIVE_CASE_ATTEMPTS: 2
+          LIVE_CASE_RETRY_DELAY_MS: 250
+      - name: Verify candidate Pages/Worker generation parity
+        run: |
+          set -euo pipefail
+          expected="$(jq -r '.generation_id' ../release/docs/opentax/finance-ontology-manifest.json 2>/dev/null || true)"
+          test -n "$expected" -a "$expected" != null
+          actual="$(curl --fail --silent --show-error "${MCP_URL}/health" | jq -r '.generation_id')"
+          test "$actual" = "$expected"
+        env:
+          MCP_URL: ${{ needs.deploy-worker-candidate.outputs.worker_url }}
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: openfin-live-${{ github.sha }}
+          path: |
+            live-regression-report.json
+            live-regression-error.log
+          retention-days: 7
+
+  deploy-pages-final-candidate:
+    needs: finalize-artifact
+    runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deploy.outputs.pages_url }}
+    steps:
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: openfin-final-${{ github.sha }}
+          path: release
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+      - id: deploy
+        working-directory: release
+        run: |
+          set -euo pipefail
+          : "${OPENFIN_STAGING_PAGES_PROJECT:?Repository variable OPENFIN_STAGING_PAGES_PROJECT is required}"
+          alias="final-${GITHUB_SHA:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          npx --yes wrangler@4.127.1 pages deploy docs --project-name "$OPENFIN_STAGING_PAGES_PROJECT" --branch "$alias" --commit-hash "$GITHUB_SHA" 2>&1 | tee pages-deploy.log
+          pages_url="$(sed -nE 's#.*(https://[A-Za-z0-9.-]+\.pages\.dev).*#\1#p' pages-deploy.log | tail -n 1)"
+          test -n "$pages_url"
+          printf 'pages_url=%s\n' "$pages_url" >> "$GITHUB_OUTPUT"
+        env:
+          OPENFIN_STAGING_PAGES_PROJECT: ${{ vars.OPENFIN_STAGING_PAGES_PROJECT }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  deploy-worker-final:
+    needs: [finalize-artifact, deploy-pages-final-candidate, deploy-worker-candidate]
+    runs-on: ubuntu-latest
+    outputs:
+      worker_url: ${{ steps.upload.outputs.worker_url }}
+      version_id: ${{ steps.upload.outputs.version_id }}
+      previous_version_id: ${{ needs.deploy-worker-candidate.outputs.previous_version_id }}
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: openfin-final-${{ github.sha }}
+          path: release
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - id: upload
+        name: Upload final Pages-bound Worker preview version
+        run: |
+          set -euo pipefail
+          : "${OPENFIN_PAGES_URL:?GitHub Pages URL is required}"
+          manifest=../release/docs/opentax/finance-ontology-manifest.json
+          generation="$(jq -r '.generation_id' "$manifest")"
+          test "$generation" != null
+          manifest_url="$OPENFIN_PAGES_URL/opentax/finance-ontology-manifest.json"
+          for attempt in {1..12}; do FINANCE_MANIFEST_URL="$manifest_url" npm run verify:integrity && break; if [ "$attempt" = 12 ]; then exit 1; fi; sleep 10; done
+          alias="final-${GITHUB_SHA:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          output="$(npx --yes wrangler@4.127.1 versions upload --name openfin-mcp --preview-alias "$alias" --tag "$alias" --message "OpenFin final candidate $GITHUB_SHA" --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var FINANCE_MANIFEST_URL:"$manifest_url" --var FINANCE_WEB_BASE_URL:"$OPENFIN_PAGES_URL/opentax/" --var ARTIFACT_GENERATION:"$generation" 2>&1 | tee /dev/stderr)"
+          version_id="$(printf '%s\n' "$output" | grep -Eo '[0-9a-f]{8}-[0-9a-f-]{27,}' | head -n 1)"
+          test -n "$version_id"
+          worker_url="$(printf '%s\n' "$output" | sed -nE 's#^Version Preview Alias URL: (https://[^[:space:]]+).*#\1#p' | tail -n 1)"
+          test -n "$worker_url"
+          printf 'version_id=%s\nworker_url=%s\n' "$version_id" "$worker_url" >> "$GITHUB_OUTPUT"
+        env:
+          OPENFIN_PAGES_URL: ${{ needs.deploy-pages-final-candidate.outputs.page_url }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  validate-worker-final:
+    needs: [finalize-artifact, deploy-pages-final-candidate, deploy-worker-final]
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: openfin-final-${{ github.sha }}
+          path: release
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - name: Validate final Worker health, readiness, and smoke
+        run: npm run smoke
+        env:
+          MCP_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}
+          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          SMOKE_ATTEMPTS: 12
+          SMOKE_DELAY_MS: 5000
+      - name: Validate final Worker tools/list schema
+        run: npm run tool-schema-contract
+        env:
+          MCP_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}/mcp
+      - name: Require the positive comparison endpoint suite
+        run: npm run financial-quality-live
+        env:
+          MCP_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}/mcp
+          OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"
+      - name: Re-run 120-case regression against final preview
+        run: |
+          set -euo pipefail
+          node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log
+          test "$(jq -r '.status' ../live-regression-report.json)" = current
+          test "$(jq -r '.test_count' ../live-regression-report.json)" = 120
+          test "$(jq -r '.passed_count' ../live-regression-report.json)" = 120
+          test "$(jq -r '.failed_count' ../live-regression-report.json)" = 0
+          test "$(jq -r '.skipped_count' ../live-regression-report.json)" = 0
+        env:
+          MCP_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}/mcp
+          LIVE_METADATA_ATTEMPTS: 12
+          LIVE_METADATA_DELAY_MS: 1000
+          LIVE_REQUEST_TIMEOUT_MS: 15000
+          LIVE_CASE_ATTEMPTS: 2
+          LIVE_CASE_RETRY_DELAY_MS: 250
+      - name: Verify immutable Pages mirror and Worker preview parity
+        run: node ../scripts/knowledge/verify-public-parity.mjs --expected-deployment-commit "$GITHUB_SHA"
+        env:
+          OPENFIN_LOCAL_MANIFEST_PATH: ../release/docs/opentax/finance-ontology-manifest.json
+          OPENFIN_PAGES_MANIFEST_URL: ${{ needs.deploy-pages-final-candidate.outputs.page_url }}/opentax/finance-ontology-manifest.json
+          OPENFIN_PAGES_POINTER_URL: ${{ needs.deploy-pages-final-candidate.outputs.page_url }}/opentax/current-release.json
+          OPENFIN_WORKER_HEALTH_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}/health
+          OPENFIN_LIVE_EVIDENCE_URL: ${{ needs.deploy-pages-final-candidate.outputs.page_url }}/opentax/live-regression-current.json
+          OPENFIN_EXPECTED_WORKER_MANIFEST_URL: ${{ needs.deploy-pages-final-candidate.outputs.page_url }}/opentax/finance-ontology-manifest.json
+          OPENFIN_CANONICAL_MANIFEST_URL: https://jhny-kor.github.io/OpenFin/opentax/finance-ontology-manifest.json
+          OPENFIN_LIVE_EVIDENCE_PATH: ../live-regression-report.json
+          OPENFIN_PARITY_ATTEMPTS: 12
+          OPENFIN_PARITY_DELAY_MS: 5000
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: openfin-live-final-${{ github.sha }}
+          path: |
+            live-regression-report.json
+            live-regression-error.log
+          retention-days: 7
+
+  promote-worker:
+    needs: [deploy-worker-final, validate-worker-final]
+    runs-on: ubuntu-latest
+    outputs:
+      promoted: ${{ steps.promote.outputs.promoted }}
+    steps:
+      - id: promote
+        name: Promote the validated final Worker version to 100 percent
+        run: |
+          set -euo pipefail
+          test -n "${{ needs.deploy-worker-final.outputs.version_id }}"
+          npx --yes wrangler@4.127.1 versions deploy --name openfin-mcp --version-id "${{ needs.deploy-worker-final.outputs.version_id }}" --percentage 100 --message "Promote OpenFin $GITHUB_SHA" -y
+          echo 'promoted=true' >> "$GITHUB_OUTPUT"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  validate-promoted-worker:
+    needs: [deploy-pages-final-candidate, deploy-worker-final, promote-worker]
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: openfin-final-${{ github.sha }}
+          path: release
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - name: Validate promoted Worker health and readiness
+        run: npm run smoke
+        env:
+          MCP_URL: https://openfin-mcp.y2kthr.workers.dev
+          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          SMOKE_ATTEMPTS: 12
+          SMOKE_DELAY_MS: 5000
+      - name: Validate promoted Worker tools/list schema
+        run: npm run tool-schema-contract
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
-          LIVE_REQUEST_TIMEOUT_MS: 15000
-      - name: Run current-generation 120-case suite
-        id: live
-        continue-on-error: true
+      - name: Re-run the positive comparison endpoint suite
+        run: npm run financial-quality-live
+        env:
+          MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
+          OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"
+      - name: Validate promoted Worker binding and 120-case regression
         run: |
-          for attempt in 1 2 3; do
-            if node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log; then
-              exit 0
-            fi
-            if [ "$attempt" -lt 3 ]; then sleep 5; fi
-          done
-          exit 1
+          set -euo pipefail
+          expected_url="${{ needs.deploy-pages-final-candidate.outputs.page_url }}/opentax/finance-ontology-manifest.json"
+          expected_generation="$(jq -r '.generation_id' ../release/docs/opentax/finance-ontology-manifest.json)"
+          health="$(curl --fail --silent --show-error --location --retry 3 https://openfin-mcp.y2kthr.workers.dev/health)"
+          test "$(jq -r '.deployment_commit' <<< "$health")" = "$GITHUB_SHA"
+          test "$(jq -r '.generation_id' <<< "$health")" = "$expected_generation"
+          test "$(jq -r '.finance_manifest_url' <<< "$health")" = "$expected_url"
+          node scripts/live-regression.mjs > ../promoted-live-regression-report.json 2> ../promoted-live-regression-error.log
+          test "$(jq -r '.status' ../promoted-live-regression-report.json)" = current
+          test "$(jq -r '.test_count' ../promoted-live-regression-report.json)" = 120
+          test "$(jq -r '.passed_count' ../promoted-live-regression-report.json)" = 120
+          test "$(jq -r '.failed_count' ../promoted-live-regression-report.json)" = 0
+          test "$(jq -r '.skipped_count' ../promoted-live-regression-report.json)" = 0
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
           LIVE_METADATA_ATTEMPTS: 12
@@ -189,50 +507,59 @@ jobs:
           LIVE_REQUEST_TIMEOUT_MS: 15000
           LIVE_CASE_ATTEMPTS: 2
           LIVE_CASE_RETRY_DELAY_MS: 250
-      - name: Validate endpoint quality evidence
-        working-directory: .
-        run: |
-          test "$(jq -r '.live_execution_status' financial-quality-live-report.json)" = executed
-          test "$(jq -r '.live_call_count' financial-quality-live-report.json)" -gt 0
-          test "$(jq -r '.public_recommendation_enabled' financial-quality-live-report.json)" = false
-      - name: Validate live evidence
-        if: always()
-        working-directory: .
-        run: |
-          test "${{ steps.live.outcome }}" = success
-          test "$(jq -r '.status' live-regression-report.json)" = current
-          test "$(jq -r '.test_count' live-regression-report.json)" = 120
-          test "$(jq -r '.passed_count' live-regression-report.json)" = 120
-          test "$(jq -r '.failed_count' live-regression-report.json)" = 0
-          test "$(jq -r '.skipped_count' live-regression-report.json)" = 0
-          test "$(jq -r '.deployment_commit' live-regression-report.json)" = "$GITHUB_SHA"
-      - uses: actions/upload-artifact@v5
-        if: always()
+
+  deploy-pages-final:
+    needs: [finalize-artifact, validate-promoted-worker]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
-          name: openfin-live-${{ github.sha }}
-          path: |
-            live-regression-report.json
-            live-regression-error.log
-            financial-quality-live-report.json
+          name: openfin-final-${{ github.sha }}
+          path: release
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          name: github-pages-final
+          path: release/docs
           retention-days: 7
+      - id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+        with:
+          artifact_name: github-pages-final
 
   finalize-artifact:
-    needs: [canonical-artifact, live-regression]
+    needs: [canonical-artifact, deploy-worker-candidate, validate-candidate]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: npm
       - run: npm ci
-      - uses: actions/download-artifact@v5
+      - name: Bind timestamps to the immutable source commit
+        run: |
+          set -euo pipefail
+          timestamp="$(git show -s --format=%cI "$GITHUB_SHA")"
+          for key in OPENFIN_BUILD_AT OPENFIN_SCHEMA_VALIDATED_AT OPENFIN_PROMOTION_EVALUATED_AT OPENFIN_PRODUCTION_DEPLOYED_AT; do echo "$key=$timestamp" >> "$GITHUB_ENV"; done
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: openfin-live-${{ github.sha }}
           path: live
       - name: Embed current live evidence in the final artifact
         run: |
           set -euo pipefail
+          test -n "${OPENFIN_BUILD_AT:-}"
+          test -n "${OPENFIN_SCHEMA_VALIDATED_AT:-}"
+          test -n "${OPENFIN_PROMOTION_EVALUATED_AT:-}"
+          test -n "${OPENFIN_PRODUCTION_DEPLOYED_AT:-}"
           test "$(jq -r '.status' live/live-regression-report.json)" = current
           test "$(jq -r '.test_count' live/live-regression-report.json)" = 120
           test "$(jq -r '.passed_count' live/live-regression-report.json)" = 120
@@ -273,14 +600,15 @@ jobs:
           sha256sum docs/opentax/finance-ontology-manifest.json release-artifact/release-contract.json > release-artifact/SHA256SUMS
         env:
           OPENFIN_DEPLOYMENT_COMMIT: ${{ github.sha }}
-          OPENFIN_BUILD_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
-          OPENFIN_SCHEMA_VALIDATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
-          OPENFIN_PROMOTION_EVALUATED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           OPENFIN_SOURCE_HEAD_COMMIT: ${{ github.sha }}
           OPENFIN_RELEASE_CANDIDATE_COMMIT: ${{ github.sha }}
           OPENFIN_PRODUCTION_COMMIT: ${{ github.sha }}
-          OPENFIN_PRODUCTION_DEPLOYED_AT: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
-      - uses: actions/upload-artifact@v5
+          OPENFIN_RELEASE_STATE: promoted
+          OPENFIN_VALIDATION_STATE: current
+          OPENFIN_LAST_SMOKE_STATUS: passed
+          OPENFIN_LAST_LIVE_STATUS: passed
+          OPENFIN_ROLLBACK_TARGET: ${{ needs.deploy-worker-candidate.outputs.previous_version_id }}
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: openfin-final-${{ github.sha }}
           path: |
@@ -289,95 +617,99 @@ jobs:
             evidence/candidate-promotions
             evidence/recommendation-approvals
             evidence/live-regression
-          retention-days: 365
-
-  deploy-pages-final:
-    needs: finalize-artifact
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/download-artifact@v5
-        with:
-          name: openfin-final-${{ github.sha }}
-          path: release
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          name: github-pages-final
-          path: release/docs
-      - id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages-final
-
-  deploy-mcp-final:
-    needs: deploy-pages-final
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: mcp
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/download-artifact@v5
-        with:
-          name: openfin-final-${{ github.sha }}
-          path: release
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: mcp/package-lock.json
-      - run: npm ci
-      - name: Verify final Pages release integrity
-        run: |
-          for attempt in {1..12}; do DEPLOYMENT_COMMIT="$GITHUB_SHA" npm run verify:integrity && exit 0; sleep 10; done
-          exit 1
-      - name: Verify final recommendation gate
-        run: DEPLOYMENT_COMMIT="$GITHUB_SHA" npm run verify:recommendation
-      - name: Bind final Worker runtime to release generation
-        run: |
-          set -euo pipefail
-          manifest=../release/docs/opentax/finance-ontology-manifest.json
-          test -s "$manifest"
-          artifact_generation="$(jq -r '.generation_id' "$manifest")"
-          test "$artifact_generation" != "null"
-          build_timestamp="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          runtime_version="openfin-mcp-$(node -p "require('./package.json').version")-${GITHUB_SHA:0:12}-$(date -u +%Y%m%dT%H%M%SZ)-${artifact_generation:0:12}"
-          {
-            echo "OPENFIN_RUNTIME_VERSION=$runtime_version"
-            echo "OPENFIN_BUILD_TIMESTAMP=$build_timestamp"
-            echo "OPENFIN_ARTIFACT_GENERATION=$artifact_generation"
-          } >> "$GITHUB_ENV"
-      - name: Deploy Worker for the final release artifact
-        run: npx wrangler deploy --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var RUNTIME_VERSION:"$OPENFIN_RUNTIME_VERSION" --var BUILD_TIMESTAMP:"$OPENFIN_BUILD_TIMESTAMP" --var ARTIFACT_GENERATION:"$OPENFIN_ARTIFACT_GENERATION"
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      - name: Smoke final deployed capabilities
-        run: npm run smoke
-        env:
-          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          retention-days: 7
 
   public-parity:
-    needs: deploy-mcp-final
+    needs: [deploy-pages-final-candidate, deploy-pages-final, promote-worker, validate-worker-final, validate-promoted-worker]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: openfin-final-${{ github.sha }}
           path: release
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
-          name: openfin-live-${{ github.sha }}
+          name: openfin-live-final-${{ github.sha }}
           path: live
       - name: Verify repository artifact, Pages, Worker, and live evidence parity
         run: node scripts/knowledge/verify-public-parity.mjs --expected-deployment-commit "$GITHUB_SHA"
         env:
           OPENFIN_LOCAL_MANIFEST_PATH: release/docs/opentax/finance-ontology-manifest.json
           OPENFIN_LIVE_EVIDENCE_PATH: live/live-regression-report.json
+          OPENFIN_EXPECTED_WORKER_MANIFEST_URL: ${{ needs.deploy-pages-final-candidate.outputs.page_url }}/opentax/finance-ontology-manifest.json
+          OPENFIN_CANONICAL_MANIFEST_URL: https://jhny-kor.github.io/OpenFin/opentax/finance-ontology-manifest.json
+      - name: Verify production Worker remains bound to the immutable final artifact
+        run: |
+          set -euo pipefail
+          expected="${{ needs.deploy-pages-final-candidate.outputs.page_url }}/opentax/finance-ontology-manifest.json"
+          actual="$(curl --fail --silent --show-error --location --retry 3 https://openfin-mcp.y2kthr.workers.dev/health | jq -r '.finance_manifest_url // empty')"
+          test "$actual" = "$expected"
+
+  rollback-worker-on-post-promotion-failure:
+    needs: [promote-worker, validate-promoted-worker, deploy-pages-final, public-parity, deploy-worker-candidate, deploy-worker-final]
+    if: ${{ always() && needs.deploy-worker-final.result == 'success' && needs.promote-worker.result != 'skipped' && (needs.promote-worker.result != 'success' || needs.validate-promoted-worker.result != 'success' || needs.deploy-pages-final.result != 'success' || needs.public-parity.result != 'success') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Roll back Worker to the captured previous version
+        run: |
+          set -euo pipefail
+          previous="${{ needs.deploy-worker-candidate.outputs.previous_version_id }}"
+          test -n "$previous"
+          npx --yes wrangler@4.127.1 rollback "$previous" --name openfin-mcp --message "OpenFin post-promotion rollback for $GITHUB_SHA" -y
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  rollback-pages-on-post-promotion-failure:
+    needs: [canonical-artifact, deploy-pages-final, public-parity]
+    if: ${{ always() && needs.canonical-artifact.result == 'success' && (needs.deploy-pages-final.result == 'failure' || needs.deploy-pages-final.result == 'cancelled' || (needs.deploy-pages-final.result == 'success' && needs.public-parity.result != 'success')) }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.rollback.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: ${{ needs.canonical-artifact.outputs.previous_pages_artifact_name }}
+          run-id: ${{ needs.canonical-artifact.outputs.previous_pages_run_id }}
+          github-token: ${{ github.token }}
+          path: previous-pages
+      - name: Restore the previous Pages artifact contents
+        run: |
+          set -euo pipefail
+          test -f previous-pages/artifact.tar
+          mkdir rollback-site
+          tar --extract --file previous-pages/artifact.tar --directory rollback-site
+          test -f rollback-site/opentax/current-release.json
+          test "$(jq -r '.production_commit' rollback-site/opentax/current-release.json)" = "${{ needs.canonical-artifact.outputs.previous_production_commit }}"
+          test "$(jq -r '.production_generation' rollback-site/opentax/current-release.json)" = "${{ needs.canonical-artifact.outputs.previous_production_generation }}"
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          name: github-pages-rollback
+          path: rollback-site
+          retention-days: 7
+      - id: rollback
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+        with:
+          artifact_name: github-pages-rollback
+      - name: Verify the previous production pointer is public again
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 12); do
+            if pointer="$(curl --fail --silent --show-error --location https://jhny-kor.github.io/OpenFin/opentax/current-release.json)" &&
+              test "$(jq -r '.production_commit' <<< "$pointer")" = "${{ needs.canonical-artifact.outputs.previous_production_commit }}" &&
+              test "$(jq -r '.production_generation' <<< "$pointer")" = "${{ needs.canonical-artifact.outputs.previous_production_generation }}"; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1

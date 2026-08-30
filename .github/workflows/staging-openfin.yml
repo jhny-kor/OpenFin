@@ -37,14 +37,15 @@ permissions:
 
 jobs:
   financial-quality-staging-positive:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
       run:
         working-directory: mcp
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: npm
@@ -75,7 +76,7 @@ jobs:
           test "$(jq -r '.runtime_contract.policy_version' financial-quality-staging-report.json)" = "${{ inputs.expected_policy_version }}"
           test "$(jq -r '.runtime_contract.ranking_version' financial-quality-staging-report.json)" = "${{ inputs.expected_ranking_version }}"
           test "$(jq -r '.runtime_contract.calculator_version' financial-quality-staging-report.json)" = "${{ inputs.expected_calculator_version }}"
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: always()
         with:
           name: openfin-staging-positive-${{ github.run_id }}
