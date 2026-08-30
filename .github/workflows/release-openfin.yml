@@ -22,6 +22,7 @@ jobs:
       previous_production_generation: ${{ steps.production.outputs.generation }}
       previous_pages_artifact_name: ${{ steps.production.outputs.pages_artifact_name }}
       previous_pages_run_id: ${{ steps.production.outputs.pages_run_id }}
+      previous_pages_artifact_layout: ${{ steps.production.outputs.pages_artifact_layout }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
@@ -57,18 +58,43 @@ jobs:
           echo "OPENFIN_CURRENT_WORKER_GENERATION=$(jq -r '.worker_generation' current-production.json)" >> "$GITHUB_ENV"
           curl --fail --silent --show-error --location --retry 3 https://openfin-mcp.y2kthr.workers.dev/health --output current-worker-health.json
           jq -e --arg commit "$production_commit" --arg generation "$(jq -r '.worker_generation' current-production.json)" '(.deployment_commit == $commit) and (.generation_id == $generation)' current-worker-health.json >/dev/null
-          artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?per_page=100")"
-          pages_artifact="$(jq -c --arg commit "$production_commit" '[.artifacts[] | select(.expired == false and .workflow_run.head_sha == $commit and (.name == "github-pages" or .name == "github-pages-final"))] | sort_by(.created_at) | last // empty' <<< "$artifacts")"
+          artifacts="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/artifacts?per_page=100")"
+          pages_artifact="$(jq -c --arg commit "$production_commit" '
+            [.[].artifacts[]
+              | select(.expired == false and .workflow_run.head_sha == $commit)
+              | select(.name == "github-pages" or .name == "github-pages-final" or .name == ("openfin-release-" + $commit))
+              | . + {rollback_priority: (if (.name == "github-pages" or .name == "github-pages-final") then 1 else 0 end)}]
+            | sort_by(.rollback_priority, .created_at)
+            | last // empty
+          ' <<< "$artifacts")"
           test -n "$pages_artifact"
           pages_artifact_name="$(jq -r '.name' <<< "$pages_artifact")"
           pages_run_id="$(jq -r '.workflow_run.id' <<< "$pages_artifact")"
+          pages_artifact_layout="$(jq -r 'if (.name == "github-pages" or .name == "github-pages-final") then "pages" else "release" end' <<< "$pages_artifact")"
           test -n "$pages_artifact_name"
           test -n "$pages_run_id"
+          case "$pages_artifact_layout" in pages|release) ;; *) exit 1 ;; esac
+          gh run download "$pages_run_id" --name "$pages_artifact_name" --dir previous-pages-check
+          mkdir previous-pages-site
+          if [ "$pages_artifact_layout" = pages ]; then
+            test -f previous-pages-check/artifact.tar
+            tar --extract --file previous-pages-check/artifact.tar --directory previous-pages-site
+          else
+            test -d previous-pages-check/docs
+            cp -a previous-pages-check/docs/. previous-pages-site/
+          fi
+          jq -e --arg commit "$production_commit" --arg generation "$production_generation" '
+            (.production_commit == $commit) and
+            (.production_generation == $generation) and
+            (.pages_generation == $generation) and
+            (.worker_generation == $generation)
+          ' previous-pages-site/opentax/current-release.json >/dev/null
           {
             echo "commit=$production_commit"
             echo "generation=$production_generation"
             echo "pages_artifact_name=$pages_artifact_name"
             echo "pages_run_id=$pages_run_id"
+            echo "pages_artifact_layout=$pages_artifact_layout"
           } >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
@@ -738,12 +764,25 @@ jobs:
       - name: Restore the previous Pages artifact contents
         run: |
           set -euo pipefail
-          test -f previous-pages/artifact.tar
           mkdir rollback-site
-          tar --extract --file previous-pages/artifact.tar --directory rollback-site
+          layout="${{ needs.canonical-artifact.outputs.previous_pages_artifact_layout }}"
+          if [ "$layout" = pages ]; then
+            test -f previous-pages/artifact.tar
+            tar --extract --file previous-pages/artifact.tar --directory rollback-site
+          elif [ "$layout" = release ]; then
+            test -d previous-pages/docs
+            cp -a previous-pages/docs/. rollback-site/
+          else
+            echo "Unsupported rollback artifact layout: $layout" >&2
+            exit 1
+          fi
           test -f rollback-site/opentax/current-release.json
-          test "$(jq -r '.production_commit' rollback-site/opentax/current-release.json)" = "${{ needs.canonical-artifact.outputs.previous_production_commit }}"
-          test "$(jq -r '.production_generation' rollback-site/opentax/current-release.json)" = "${{ needs.canonical-artifact.outputs.previous_production_generation }}"
+          jq -e --arg commit "${{ needs.canonical-artifact.outputs.previous_production_commit }}" --arg generation "${{ needs.canonical-artifact.outputs.previous_production_generation }}" '
+            (.production_commit == $commit) and
+            (.production_generation == $generation) and
+            (.pages_generation == $generation) and
+            (.worker_generation == $generation)
+          ' rollback-site/opentax/current-release.json >/dev/null
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           name: github-pages-rollback

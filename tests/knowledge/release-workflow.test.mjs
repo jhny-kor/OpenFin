@@ -24,6 +24,9 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.match(workflow, /rollback-pages-on-post-promotion-failure:[\s\S]*?\n\s+if: [^\n]*needs\.deploy-pages-final\.result == 'cancelled'/);
   assert.match(workflow, /rollback-pages-on-post-promotion-failure:[\s\S]*github-pages-rollback[\s\S]*previous_production_generation/);
   assert.match(workflow, /Capture the current production binding and rollback artifact[\s\S]*\.production_deployed_at \/\/ \.deployed_at \/\/ \.generated_at/);
+  assert.match(workflow, /openfin-release-" \+ \$commit/);
+  assert.match(workflow, /pages_artifact_layout[\s\S]*previous-pages-check\/docs[\s\S]*previous-pages-site\/opentax\/current-release\.json[\s\S]*\.pages_generation == \$generation[\s\S]*\.worker_generation == \$generation/);
+  assert.match(workflow, /layout="\$\{\{ needs\.canonical-artifact\.outputs\.previous_pages_artifact_layout \}\}"[\s\S]*cp -a previous-pages\/docs\/\. rollback-site\//);
   assert.match(workflow, /Verify immutable Pages mirror and Worker preview parity[\s\S]*OPENFIN_PAGES_MANIFEST_URL:[\s\S]*OPENFIN_EXPECTED_WORKER_MANIFEST_URL:/);
   assert.match(workflow, /validate-worker-final:\n\s+needs: \[finalize-artifact, deploy-pages-final-candidate, deploy-worker-final\]/);
   assert.match(workflow, /deploy-pages-final:[\s\S]*?permissions:\n\s+contents: read\n\s+pages: write\n\s+id-token: write/);
