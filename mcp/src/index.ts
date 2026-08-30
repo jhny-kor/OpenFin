@@ -2606,6 +2606,11 @@ export default {
     // result. Streamable SSE responses can otherwise be closed by the
     // stateless Worker runtime while a shard-backed tool is still hydrating.
     // JSON mode uses the same MCP transport and is accepted by the live client.
-    return createMcpHandler(server, { route: "/mcp", enableJsonResponse: true })(request, env, ctx);
+    const handler = createMcpHandler(server, { route: "/mcp", enableJsonResponse: true });
+    try {
+      return await handler(request, env, ctx);
+    } finally {
+      if (request.method === "POST") await server.close().catch(() => undefined);
+    }
   },
 } satisfies ExportedHandler<Env>;

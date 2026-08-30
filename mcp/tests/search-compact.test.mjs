@@ -169,6 +169,20 @@ test("the runtime bounds parsed shards without reparsing every domain switch", (
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
 });
 
+test("completed JSON MCP requests release their transport state", () => {
+  const start = workerSource.indexOf("export default");
+  const source = workerSource.slice(start);
+  const handler = source.indexOf("const handler = createMcpHandler");
+  const response = source.indexOf("return await handler(request, env, ctx)", handler);
+  const postGuard = source.indexOf('if (request.method === "POST")', response);
+  const close = source.indexOf("await server.close()", postGuard);
+
+  assert.ok(handler >= 0);
+  assert.ok(response > handler);
+  assert.ok(postGuard > response);
+  assert.ok(close > postGuard);
+});
+
 test("exact title lookup is isolated and falls back when there is no exact match", () => {
   assert.match(workerSource, /const cachedExactFetchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const isExactFetchShard = \/\^exact-\//);
