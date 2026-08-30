@@ -40,8 +40,19 @@ export function enrichSearchPayload(
   artifacts: FinanceArtifactSet,
   sourceHealth: ToolContext["sourceHealth"],
 ): Record<string, unknown> {
-  const byId = new Map(items.map((item) => [item.id, item]));
-  for (const key of ["results", "exact_results", "partial_results", "exact_candidates", "partial_candidates", "related_candidates", "related_results"]) {
+  const keys = ["results", "exact_results", "partial_results", "exact_candidates", "partial_candidates", "related_candidates", "related_results"];
+  const neededIds = new Set<string>();
+  for (const key of keys) {
+    const values = payload[key];
+    if (Array.isArray(values)) for (const value of values) {
+      if (value && typeof value === "object" && !Array.isArray(value) && typeof value.id === "string") neededIds.add(value.id);
+    }
+  }
+  const byId = new Map<string, FinanceItem>();
+  for (const item of items) {
+    if (neededIds.has(item.id)) byId.set(item.id, item);
+  }
+  for (const key of keys) {
     const values = payload[key];
     if (!Array.isArray(values)) continue;
     payload[key] = values.map((value) => {
@@ -167,14 +178,6 @@ export function registerSearchTool(ctx: ToolContext): void {
         region,
         freshnessStatus: freshness_status,
       };
-      const scoreCache = new Map<string, number>();
-      const cachedScore = (item: Parameters<typeof scoreItem>[0]): number => {
-        const cached = scoreCache.get(item.id);
-        if (cached !== undefined) return cached;
-        const score = scoreItem(item, normalizedQuery);
-        scoreCache.set(item.id, score);
-        return score;
-      };
       const supportQuery = SUPPORT_INTENT_RE.test(normalizedQuery);
       const freshnessCache = freshness_status === undefined ? undefined : new Map<string, string | null>();
       const supportSearchTokens = supportQuery
@@ -198,7 +201,7 @@ export function registerSearchTool(ctx: ToolContext): void {
         if (!matchesSearchFilters(item, filters, artifacts, freshnessCache)) { addExcluded(item, "filter_mismatch"); continue; }
         if (!matchesSupportRegion(item, supportRegion)) { addExcluded(item, "region_mismatch"); continue; }
         if (!matchesSupportIntent(item, normalizedQuery)) { addExcluded(item, "support_intent_mismatch"); continue; }
-        const score = cachedScore(item);
+        const score = scoreItem(item, normalizedQuery);
         if (score <= 0) { addExcluded(item, "query_mismatch"); continue; }
         scoredItems.push({ item, score });
         if (supportQuery) {

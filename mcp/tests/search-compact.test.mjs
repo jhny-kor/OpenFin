@@ -116,6 +116,19 @@ test("named and discovery candidates retain decision evidence while adding sourc
   });
 });
 
+test("search enrichment preserves the last duplicate item", () => {
+  const payload = enrichSearchPayload(
+    { results: [{ id: "duplicate" }] },
+    [
+      { id: "duplicate", title: "old", type: "bank-product" },
+      { id: "duplicate", title: "current", type: "bank-product" },
+    ],
+    {},
+    (item) => ({ source_ids: [`source.${item.title}`], freshness_status: "current" }),
+  );
+  assert.deepEqual(payload.results[0].source_ids, ["source.current"]);
+});
+
 test("bank discovery resolves each hot-shard source set once", () => {
   const start = workerSource.indexOf("function discoveryPayload");
   const end = workerSource.indexOf("function scoreItem", start);
@@ -154,6 +167,14 @@ test("the runtime bounds parsed shards without reparsing every domain switch", (
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) cache\.delete/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
+});
+
+test("repeated searches reuse deduplication and avoid full-shard temporary indexes", () => {
+  assert.match(workerSource, /const dedupedProductItemsCache = new WeakMap/);
+  assert.match(workerSource, /dedupedProductItemsCache\.set\(result, result\)/);
+  assert.doesNotMatch(searchToolSource, /scoreCache/);
+  assert.doesNotMatch(searchToolSource, /new Map\(items\.map/);
+  assert.match(searchToolSource, /const neededIds = new Set<string>\(\)/);
 });
 
 test("support search keeps only a bounded ranked candidate buffer", () => {

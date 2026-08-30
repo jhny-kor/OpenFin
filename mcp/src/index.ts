@@ -348,6 +348,7 @@ let cachedSearchItems: CachedSearchItems | undefined;
 const cachedLargeSearchShards = new Map<string, CachedSearchItems>();
 const cachedSmallSearchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
+const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
 // ponytail: one oversized plus three smaller parsed shards bounds isolate heap; raise only with Worker heap evidence.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
 const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
@@ -748,9 +749,20 @@ function namedQueryParts(query: string): { cleanQuery: string; unparsedTokens: s
 }
 
 function providerForNamedQuery(query: string, items: readonly FinanceItem[]): string | undefined {
-  return providerForQuery(query) ?? [...new Set(items.map((item) => item.provider).filter((value): value is string => Boolean(value)))]
-    .filter((provider) => compactProductText(query).includes(compactProductText(provider)))
-    .sort((left, right) => compactProductText(right).length - compactProductText(left).length)[0];
+  const aliased = providerForQuery(query);
+  if (aliased) return aliased;
+  const compactQuery = compactProductText(query);
+  let bestProvider: string | undefined;
+  let bestLength = 0;
+  for (const item of items) {
+    if (!item.provider) continue;
+    const compactProvider = compactProductText(item.provider);
+    if (compactProvider.length > bestLength && compactQuery.includes(compactProvider)) {
+      bestProvider = item.provider;
+      bestLength = compactProvider.length;
+    }
+  }
+  return bestProvider;
 }
 
 function isNamedProductQuery(query: string): boolean {
@@ -782,7 +794,7 @@ function strictNamedProductPayload(query: string, items: readonly FinanceItem[],
     };
   }
   const compactNames = nameTokens.map(compactProductText);
-  const tokenMatches = dedupeProductItems(items).filter((item) => {
+  const tokenMatches = items.filter((item) => {
     if (!item.provider || compactProductText(item.provider) !== compactProductText(provider)) return false;
     if (item.product_kind !== productKind) return false;
     const text = compactProductText([item.title, ...(item.search_aliases ?? []), ...(item.aliases ?? [])].join(" "));
@@ -1936,6 +1948,8 @@ function productQualityScore(item: FinanceItem): number {
 }
 
 function dedupeProductItems(items: readonly FinanceItem[]): readonly FinanceItem[] {
+  const cached = dedupedProductItemsCache.get(items);
+  if (cached) return cached;
   const selected = new Map<string, FinanceItem>();
   for (const item of items) {
     const key = item.type === "card-product" || item.type === "bank-product" || item.type === "insurance-product"
@@ -1944,7 +1958,10 @@ function dedupeProductItems(items: readonly FinanceItem[]): readonly FinanceItem
     const previous = selected.get(key);
     if (!previous || productQualityScore(item) > productQualityScore(previous)) selected.set(key, item);
   }
-  return [...selected.values()];
+  const result = [...selected.values()];
+  dedupedProductItemsCache.set(items, result);
+  dedupedProductItemsCache.set(result, result);
+  return result;
 }
 
 function requiredVerifiedCount(manifest: FinanceManifest | undefined, domain: string): number {
