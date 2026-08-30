@@ -10,13 +10,20 @@ const required = ["case_id", "category", "tool", "arguments", "expected_status",
 const categoryMinimums = { exact_search: 20, alias_search: 10, ambiguous_query: 10, comparison: 15, eligibility: 15, freshness: 10, recommendation_gate: 15, security: 10, unknown: 10, deployment: 5 };
 const ids = new Set();
 const invalid = fixture.filter((entry) => !required.every((key) => key in entry) || ids.has(entry.case_id) || !ids.add(entry.case_id));
-const semanticHash = (entry) => crypto.createHash("sha256").update(JSON.stringify({ tool: entry.tool, arguments: entry.arguments, expected_status: entry.expected_status, required_fields: entry.required_fields, expected_reason_codes: entry.expected_reason_codes, expected_paths: entry.expected_paths ?? null, expected_result_ids: entry.expected_result_ids ?? null, forbidden_result_ids: entry.forbidden_result_ids ?? null })).digest("hex");
+const semanticHash = (entry) => crypto.createHash("sha256").update(JSON.stringify({ tool: entry.tool, arguments: entry.arguments, expected_status: entry.expected_status, required_fields: entry.required_fields, expected_reason_codes: entry.expected_reason_codes, expected_paths: entry.expected_paths ?? null, expected_result_ids: entry.expected_result_ids ?? null, forbidden_result_ids: entry.forbidden_result_ids ?? null, semantic_search: entry.semantic_search ?? null })).digest("hex");
 const semanticHashes = fixture.map(semanticHash);
 const categoryCounts = Object.fromEntries(Object.keys(categoryMinimums).map((category) => [category, fixture.filter((entry) => entry.category === category).length]));
 const invalidCategories = Object.entries(categoryMinimums).filter(([category, minimum]) => (categoryCounts[category] ?? 0) < minimum).map(([category, minimum]) => `${category}:${categoryCounts[category] ?? 0}<${minimum}`);
+const semanticMinimums = { tax: ["live-001", 5], support: ["live-002", 5], card: ["live-003", 5], deposit: ["live-004", 5], saving: ["live-005", 5], loan: ["live-006", 5], insurance: ["live-007", 5], pension: ["live-008", 3], account: ["live-009", 3], reference: ["live-010", 4] };
+const semanticCounts = Object.fromEntries(Object.entries(semanticMinimums).map(([domain, [caseId]]) => [domain, fixture.find((entry) => entry.case_id === caseId)?.semantic_search?.length ?? 0]));
+const invalidSemanticDomains = Object.entries(semanticMinimums).filter(([domain, [, minimum]]) => semanticCounts[domain] < minimum).map(([domain, [, minimum]]) => `${domain}:${semanticCounts[domain]}<${minimum}`);
+const semanticCases = fixture.flatMap((entry) => entry.semantic_search ?? []);
+const invalidSemanticContracts = semanticCases.filter((entry) => !entry.expected_top_id || !entry.expected_title || !entry.expected_top_k_ids?.length || !entry.expected_result_ids?.length || !entry.expected_source_ids?.length || entry.require_freshness !== true || !entry.fetch_id).length;
+const semanticQueryKeys = semanticCases.map((entry) => `${entry.type ?? ""}\u0000${entry.query}`);
+const duplicateSemanticQueries = semanticQueryKeys.length - new Set(semanticQueryKeys).size;
 const duplicateSemanticCount = semanticHashes.length - new Set(semanticHashes).size;
-if (fixture.length !== 120 || invalid.length || duplicateSemanticCount || invalidCategories.length) throw new Error(`fixture must contain 120 unique semantic cases; got ${fixture.length}, invalid ${invalid.length}, duplicate_semantics ${duplicateSemanticCount}, categories ${invalidCategories.join(",")}`);
-if (process.argv.includes("--validate-fixture")) { console.log(JSON.stringify({ ok: true, case_count: fixture.length, semantic_unique_case_count: new Set(semanticHashes).size, duplicate_ids: 0, duplicate_semantic_cases: duplicateSemanticCount, category_counts: categoryCounts, fixture_checksum: `sha256:${checksum}` }, null, 2)); process.exit(0); }
+if (fixture.length !== 120 || invalid.length || duplicateSemanticCount || duplicateSemanticQueries || invalidCategories.length || invalidSemanticDomains.length || invalidSemanticContracts) throw new Error(`fixture must contain 120 unique cases and the required semantic domain coverage; got ${fixture.length}, invalid ${invalid.length}, duplicate_semantics ${duplicateSemanticCount}, duplicate_semantic_queries ${duplicateSemanticQueries}, invalid_semantic_contracts ${invalidSemanticContracts}, categories ${invalidCategories.join(",")}, semantic_domains ${invalidSemanticDomains.join(",")}`);
+if (process.argv.includes("--validate-fixture")) { console.log(JSON.stringify({ ok: true, case_count: fixture.length, semantic_unique_case_count: new Set(semanticHashes).size, semantic_case_count: Object.values(semanticCounts).reduce((sum, count) => sum + count, 0), duplicate_ids: 0, duplicate_semantic_cases: duplicateSemanticCount, category_counts: categoryCounts, semantic_domain_counts: semanticCounts, fixture_checksum: `sha256:${checksum}` }, null, 2)); process.exit(0); }
 
 const endpoint = (process.env.MCP_URL || "https://openfin-mcp.y2kthr.workers.dev/mcp").replace(/\/$/, "");
 const base = endpoint.replace(/\/mcp$/, "");
@@ -68,11 +75,36 @@ for (let attempt = 1; attempt <= metadataAttempts; attempt += 1) {
     if (attempt < metadataAttempts) await wait(metadataDelayMs);
   }
 }
-if (!healthPayload || !manifest) throw metadataError || new Error("live deployment metadata unavailable");
+if (!healthPayload || !manifest) {
+  const report = {
+    status: "failed",
+    mode: "live",
+    failure_phase: "metadata",
+    checked_at: new Date().toISOString(),
+    endpoint,
+    metadata_error: metadataError instanceof Error ? metadataError.message : String(metadataError || "live deployment metadata unavailable"),
+    fixture_checksum: `sha256:${checksum}`,
+    semantic_unique_case_count: new Set(semanticHashes).size,
+    category_counts: categoryCounts,
+    test_count: fixture.length,
+    passed_count: 0,
+    failed_count: fixture.length,
+    skipped_count: 0,
+    actual_status: null,
+    actual_result_ids: [],
+    actual_source_ids: [],
+    actual_reason_codes: [],
+    top_k_scores: [],
+    retry_errors: [],
+    results: [],
+  };
+  console.log(JSON.stringify(report, null, 2));
+  process.exit(1);
+}
 let id = 0;
 const rpc = async (method, params = {}) => {
   const response = await fetchWithTimeout(endpoint, { method: "POST", headers: { "content-type": "application/json", accept: "application/json, text/event-stream", "MCP-Protocol-Version": "2025-06-18" }, body: JSON.stringify({ jsonrpc: "2.0", id: ++id, method, params }) });
-  let body; try { body = await readJsonWithTimeout(response); } catch { body = { error: { message: `${method}: ${response.status}` } }; }
+  let body; try { body = await readJsonWithTimeout(response); } catch (error) { body = { error: { message: `${method}: ${response.status}`, detail: error instanceof Error ? error.message : String(error) } }; }
   if (body.error) return { isError: true, error: body.error, http_status: response.status };
   if (!response.ok) return { isError: true, error: { message: `${method}: ${response.status}` }, http_status: response.status };
   return body.result;
@@ -95,13 +127,84 @@ const resultIds = (payload) => asArray(payload?.results ?? payload?.candidates ?
 const sourceIds = (payload) => [...new Set([
   ...asArray(payload?.source_ids),
   ...asArray(payload?.sources).map((item) => item?.id ?? item),
+  ...asArray(payload?.provenance).map((item) => item?.source_id ?? item?.id),
+  ...asArray(payload?.source_assertions).map((item) => item?.source_id ?? item?.id),
+  ...asArray(payload?.neighbors?.sources).map((item) => item?.id ?? item?.source_id ?? item),
+  ...asArray(payload?.neighbors?.provenance).map((item) => item?.source_id ?? item?.id),
   ...asArray(payload?.results).flatMap((item) => asArray(item?.source_ids)),
+  ...asArray(payload?.results).flatMap((item) => asArray(item?.sources).map((source) => source?.id ?? source)),
+  ...asArray(payload?.results).flatMap((item) => asArray(item?.provenance).map((source) => source?.source_id ?? source?.id)),
+  ...asArray(payload?.results).flatMap((item) => asArray(item?.neighbors?.sources).map((source) => source?.id ?? source?.source_id ?? source)),
+  ...asArray(payload?.results).flatMap((item) => asArray(item?.neighbors?.provenance).map((source) => source?.source_id ?? source?.id)),
   ...asArray(payload?.candidates).flatMap((item) => asArray(item?.source_ids)),
-].filter(Boolean).map(String))];
+  ...asArray(payload?.candidates).flatMap((item) => asArray(item?.sources).map((source) => source?.id ?? source)),
+  ...asArray(payload?.candidates).flatMap((item) => asArray(item?.neighbors?.sources).map((source) => source?.id ?? source?.source_id ?? source)),
+].filter(Boolean).map(String).filter((value) => value.startsWith("source.")))];
+const freshnessPresent = (payload) => Boolean(
+  payload?.freshness_status || payload?.source_freshness_status || payload?.last_source_checked_at ||
+  payload?.provenance?.some((item) => item?.reviewed_at || item?.freshness_status) ||
+  payload?.source_assertions?.some((item) => item?.observed_at || item?.freshness_status) ||
+  [...asArray(payload?.results), ...asArray(payload?.candidates)].some((item) => item?.freshness_status || item?.source_freshness_status || item?.last_source_checked_at || item?.provenance?.some((entry) => entry?.reviewed_at || entry?.freshness_status) || item?.source_assertions?.some((entry) => entry?.observed_at || entry?.freshness_status))
+);
+const resultEvidence = (payload) => [...asArray(payload?.results ?? payload?.candidates ?? payload?.recommendations)].map((item) => ({
+  id: item?.id ?? item?.item_id ?? null,
+  title: item?.title ?? null,
+  type: item?.type ?? item?.product_kind ?? null,
+  provider: item?.provider ?? null,
+  source_ids: sourceIds(item),
+  freshness_status: item?.freshness_status ?? item?.source_freshness_status ?? null,
+  score: item?.match_score ?? item?.score ?? item?.relevance_score ?? null,
+}));
+const contractFailures = (contract, payload) => {
+  if (!contract) return [];
+  const items = [...asArray(payload?.results ?? payload?.candidates ?? payload?.recommendations)];
+  const evidence = resultEvidence(payload);
+  const failures = [];
+  if (contract.minimum_result_count !== undefined && items.length < contract.minimum_result_count) failures.push(`minimum_result_count=${items.length}<${contract.minimum_result_count}`);
+  if (contract.allowed_types?.length && items.some((item) => !contract.allowed_types.includes(item?.type))) failures.push(`allowed_types=${JSON.stringify(contract.allowed_types)}`);
+  if (contract.forbidden_types?.length && items.some((item) => contract.forbidden_types.includes(item?.type))) failures.push(`forbidden_types=${JSON.stringify(contract.forbidden_types)}`);
+  if (contract.provider_diversity_count !== undefined && new Set(items.map((item) => item?.provider).filter(Boolean)).size < contract.provider_diversity_count) failures.push(`provider_diversity=${new Set(items.map((item) => item?.provider).filter(Boolean)).size}<${contract.provider_diversity_count}`);
+  const actualSources = new Set(evidence.flatMap((item) => item.source_ids));
+  const missingSources = asArray(contract.require_source_ids).filter((id) => !actualSources.has(String(id)));
+  if (missingSources.length) failures.push(`missing_sources=${JSON.stringify(missingSources)}`);
+  if (contract.require_freshness && items.some((item) => !item?.freshness_status)) failures.push("freshness=missing");
+  if (contract.freshness_status !== undefined && items.some((item) => item?.freshness_status !== contract.freshness_status)) failures.push(`freshness=${contract.freshness_status}`);
+  return failures;
+};
+const semanticRpc = async (name, arguments_) => {
+  let result;
+  for (let attempt = 1; attempt <= caseAttempts; attempt += 1) {
+    try {
+      result = await rpc("tools/call", { name, arguments: arguments_ });
+    } catch (error) {
+      result = { isError: true, error: { message: error instanceof Error ? error.message : String(error) } };
+    }
+    if (!result?.isError || attempt === caseAttempts) return result;
+    await wait(caseRetryDelayMs);
+  }
+  return result;
+};
 const results = [];
 for (const entry of fixture) {
+  let diagnostic = { actual_status: null, actual_result_ids: [], actual_source_ids: [], actual_reason_codes: [], top_k_scores: [], retry_errors: [] };
+  let failurePhase = null;
+  const recordFailureDiagnostic = (error) => {
+    const message = error instanceof Error ? error.message : String(error);
+    try {
+      const details = JSON.parse(message);
+      failurePhase = details.phase ?? failurePhase;
+      const actual = details.actual;
+      if (actual && !Array.isArray(actual)) {
+        diagnostic = { ...diagnostic, actual_status: actual.status ?? diagnostic.actual_status, actual_result_ids: actual.id ? [actual.id] : (actual.result_ids ?? diagnostic.actual_result_ids), actual_source_ids: actual.source_ids ?? diagnostic.actual_source_ids, actual_reason_codes: actual.reason_codes ?? diagnostic.actual_reason_codes, top_k_scores: actual.top_k_scores ?? diagnostic.top_k_scores };
+      } else if (Array.isArray(actual)) {
+        diagnostic = { ...diagnostic, actual_result_ids: actual.map((item) => item?.id).filter(Boolean), actual_source_ids: actual.flatMap((item) => item?.source_ids ?? []), top_k_scores: actual.map((item) => ({ id: item?.id ?? null, score: item?.score ?? null })) };
+      }
+    } catch { /* retain the generic diagnostic fields for non-JSON failures */ }
+    return message;
+  };
   try {
     let result;
+    const retryErrors = [];
     const expectedError = entry.expected_status === "error" || entry.expect_error === true;
     for (let attempt = 1; attempt <= caseAttempts; attempt += 1) {
       try {
@@ -111,7 +214,7 @@ for (const entry of fixture) {
       }
       const retryable = !expectedError && result?.isError;
       if (!retryable || attempt === caseAttempts) break;
-      try { await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "openfin-live-regression", version: "1" } }); } catch {}
+      try { await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "openfin-live-regression", version: "1" } }); } catch (error) { retryErrors.push(error instanceof Error ? error.message : String(error)); }
       await wait(caseRetryDelayMs);
     }
     const text = result.content?.find((value) => value.type === "text")?.text;
@@ -121,10 +224,18 @@ for (const entry of fixture) {
       try { payload = JSON.parse(text); } catch (error) { parseError = error; }
     }
     const actualStatus = result.isError || (expectedError && parseError) ? "error" : payload?.status ?? "ok";
+    diagnostic = {
+      actual_status: actualStatus,
+      actual_result_ids: resultIds(payload),
+      actual_source_ids: sourceIds(payload),
+      actual_reason_codes: reasonCodes(payload),
+      top_k_scores: resultEvidence(payload).map(({ id, score }) => ({ id, score })),
+      retry_errors: retryErrors,
+    };
     if (actualStatus !== entry.expected_status) throw new Error(`status=${actualStatus}; expected=${entry.expected_status}; http_status=${result?.http_status ?? "n/a"}; error=${result?.error?.message ?? "n/a"}`);
     if (expectedError) {
       if (!result.isError && !parseError) throw new Error("expected tool error but received a structured success response");
-      results.push({ case_id: entry.case_id, category: entry.category, semantic_hash: semanticHash(entry), status: "passed" });
+      results.push({ case_id: entry.case_id, category: entry.category, semantic_hash: semanticHash(entry), status: "passed", ...diagnostic });
       continue;
     }
     const missing = entry.required_fields.filter((field) => !payload || !(field in payload));
@@ -143,9 +254,51 @@ for (const entry of fixture) {
     const freshnessMismatch = entry.expected_freshness_status !== undefined && actualFreshness !== entry.expected_freshness_status;
     const actualUnknown = [...new Set([...asArray(payload?.unknown_conditions), ...asArray(payload?.fit?.unknown_conditions)])].map(String);
     const missingUnknown = asArray(entry.expected_unknown_conditions).filter((condition) => !actualUnknown.includes(String(condition)));
-    if (missing.length || forbidden.length || missingReasons.length || pathMismatches.length || missingResultIds.length || forbiddenResultIds.length || orderMismatch || missingSources.length || freshnessMismatch || missingUnknown.length || result.isError) throw new Error(JSON.stringify({ missing, forbidden, missingReasons, pathMismatches, missingResultIds, forbiddenResultIds, orderMismatch, missingSources, freshnessMismatch, missingUnknown }));
-    results.push({ case_id: entry.case_id, category: entry.category, semantic_hash: semanticHash(entry), status: "passed" });
-  } catch (error) { results.push({ case_id: entry.case_id, category: entry.category, status: "failed", error: error instanceof Error ? error.message : String(error) }); }
+    const failures = [];
+    const baseContractFailures = contractFailures(entry.search_contract, payload);
+    if (missing.length || forbidden.length || missingReasons.length || pathMismatches.length || missingResultIds.length || forbiddenResultIds.length || orderMismatch || missingSources.length || freshnessMismatch || missingUnknown.length || baseContractFailures.length || result.isError) failures.push(JSON.stringify({ phase: "base", missing, forbidden, missingReasons, pathMismatches, missingResultIds, forbiddenResultIds, orderMismatch, missingSources, freshnessMismatch, missingUnknown, contract: baseContractFailures, actual: resultEvidence(payload), error: result?.error?.message ?? null }));
+    for (const semantic of asArray(entry.semantic_search)) {
+      try {
+        const searchResult = await semanticRpc("search", { query: semantic.query, ...(semantic.type ? { type: semantic.type } : {}), limit: Math.max(semantic.expected_result_ids?.length ?? 0, semantic.category_contract?.minimum_result_count ?? 0, 3) });
+        const searchText = searchResult.content?.find((value) => value.type === "text")?.text;
+        const searchPayload = typeof searchText === "string" ? JSON.parse(searchText) : null;
+        const searchIds = resultIds(searchPayload);
+        const expectedSearchItems = asArray(semantic.expected_result_ids).map((id) => searchPayload?.results?.find((item) => item?.id === id));
+        const expectedAny = asArray(semantic.expected_result_ids_any);
+        const intentFailures = semantic.intent_contract ? [
+          ...(!semantic.intent_contract.expected_result_ids?.every((id) => searchIds.includes(String(id))) ? ["missing_expected_ids"] : []),
+          ...(expectedAny.length && !expectedAny.some((id) => searchIds.includes(String(id))) ? ["missing_expected_id_set_member"] : []),
+        ] : [];
+        const categoryFailures = contractFailures(semantic.category_contract, searchPayload);
+        const legacyFailures = !semantic.category_contract && !semantic.intent_contract ? [
+          ...(searchPayload?.result_count < 1 ? ["empty_results"] : []),
+          ...(semantic.expected_top_id && searchIds[0] !== semantic.expected_top_id ? ["top_id_mismatch"] : []),
+          ...(expectedSearchItems.some((item) => !item || !sourceIds(item).length || !freshnessPresent(item)) ? ["missing_source_or_freshness"] : []),
+        ] : [];
+        const expectedTopK = asArray(semantic.expected_top_k_ids);
+        const topKFailure = expectedTopK.length && JSON.stringify(searchIds.slice(0, expectedTopK.length)) !== JSON.stringify(expectedTopK.map(String)) ? ["top_k_mismatch"] : [];
+        const expectedSources = asArray(semantic.expected_source_ids).map(String).sort();
+        const actualExpectedSources = [...new Set(expectedSearchItems.flatMap((item) => sourceIds(item)))].sort();
+        const sourceFailure = expectedSources.length && JSON.stringify(actualExpectedSources) !== JSON.stringify(expectedSources) ? ["source_ids_mismatch"] : [];
+        const freshnessFailure = [
+          ...(semantic.require_freshness && expectedSearchItems.some((item) => !freshnessPresent(item)) ? ["freshness_missing"] : []),
+          ...(semantic.expected_freshness_status !== undefined && expectedSearchItems.some((item) => (item?.freshness_status ?? item?.source_freshness_status ?? null) !== semantic.expected_freshness_status) ? ["freshness_mismatch"] : []),
+        ];
+        if (searchResult.isError || !searchPayload || intentFailures.length || categoryFailures.length || legacyFailures.length || topKFailure.length || sourceFailure.length || freshnessFailure.length) throw new Error(JSON.stringify({ phase: "semantic_search", query: semantic.query, expected_top_id: semantic.expected_top_id ?? null, expected_top_k_ids: expectedTopK, expected_result_ids: semantic.expected_result_ids ?? [], expected_result_ids_any: expectedAny, expected_source_ids: expectedSources, expected_freshness_status: semantic.expected_freshness_status ?? null, actual: resultEvidence(searchPayload), failures: [...intentFailures, ...categoryFailures, ...legacyFailures, ...topKFailure, ...sourceFailure, ...freshnessFailure], error: searchResult.error?.message ?? null }));
+        if (!semantic.fetch_id) continue;
+        const fetchedResult = await semanticRpc("fetch", { id: semantic.fetch_id });
+        const fetchedText = fetchedResult.content?.find((value) => value.type === "text")?.text;
+        const fetchedPayload = typeof fetchedText === "string" ? JSON.parse(fetchedText) : null;
+        const searchTitle = searchPayload.results?.find((item) => item?.id === semantic.fetch_id)?.title;
+        const topTitle = searchPayload.results?.[0]?.title;
+        if (fetchedResult.isError || !fetchedPayload || fetchedPayload.id !== semantic.fetch_id || !sourceIds(fetchedPayload).length || !freshnessPresent(fetchedPayload) || !semantic.expected_title || topTitle !== semantic.expected_title || !searchTitle || searchTitle !== semantic.expected_title || fetchedPayload.title !== semantic.expected_title) throw new Error(JSON.stringify({ phase: "semantic_fetch", query: semantic.query, fetch_id: semantic.fetch_id, expected_title: semantic.expected_title ?? null, top_title: topTitle ?? null, search_title: searchTitle ?? null, actual: resultEvidence({ results: [fetchedPayload] })[0] ?? null, error: fetchedResult.error?.message ?? null }));
+      } catch (error) {
+        failures.push(recordFailureDiagnostic(error));
+      }
+    }
+    if (failures.length) throw new Error(failures.join(" | "));
+    results.push({ case_id: entry.case_id, category: entry.category, semantic_hash: semanticHash(entry), status: "passed", ...diagnostic });
+  } catch (error) { results.push({ case_id: entry.case_id, category: entry.category, status: "failed", failure_phase: failurePhase ?? "base", error: error instanceof Error ? error.message : String(error), ...diagnostic }); }
 }
 const passed = results.filter((result) => result.status === "passed").length;
 const report = { status: passed === fixture.length ? "current" : "failed", mode: "live", checked_at: new Date().toISOString(), endpoint, runtime_version: healthPayload.runtime_version ?? null, deployment_commit: healthPayload.deployment_commit ?? null, generation_id: manifest.generation_id ?? null, manifest_version: manifest.version ?? null, manifest_checksum: manifest.manifest_checksum ?? null, loaded_index_checksum: manifest.search_index?.export_checksum ?? null, source_status_checksum: manifest.source_status?.export_checksum ?? null, loaded_item_count: manifest.search_index?.item_count ?? null, fixture_checksum: `sha256:${checksum}`, semantic_unique_case_count: new Set(semanticHashes).size, category_counts: categoryCounts, test_count: fixture.length, passed_count: passed, failed_count: fixture.length - passed, skipped_count: 0, results };

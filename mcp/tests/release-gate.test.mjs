@@ -34,6 +34,14 @@ test("release gate blocks expired and cross-generation live evidence", () => {
   assert.equal(evaluateReleaseGate({ manifest: { ...readyManifest, openfin_120_live_regression: { ...readyManifest.openfin_120_live_regression, generation_id: "other" } }, checksumVerified: true }).status, "blocked");
 });
 
+test("release gate always uses the latest live attempt", () => {
+  const failed = { ...readyManifest.openfin_120_live_regression, status: "failed", passed_count: 112, failed_count: 8 };
+  const manifest = { ...readyManifest, openfin_120_live_regression: { last_attempt: failed, last_successful: readyManifest.openfin_120_live_regression, gate_basis: "last_attempt" } };
+  const result = evaluateReleaseGate({ manifest, checksumVerified: true, deploymentCommit: "commit" });
+  assert.equal(result.status, "blocked");
+  assert.ok(result.reasons.includes("LIVE_REGRESSION_NOT_CURRENT"));
+});
+
 test("shadow and owner-pilot gates have separate candidate and approval contracts", () => {
   const shadowManifest = {
     ...readyManifest,

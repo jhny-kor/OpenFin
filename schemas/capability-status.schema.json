@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/capability-status.schema.json",
+  "title": "OpenFin service and capability status registry",
+  "type": "object",
+  "required": ["version", "service_availability", "capability_status"],
+  "properties": {
+    "$schema": { "type": "string", "format": "uri" },
+    "version": { "const": "openfin-capability-status-v1" },
+    "service_availability": { "const": ["available", "degraded", "unavailable"] },
+    "capability_status": { "const": ["ready", "limited", "blocked"] }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "service_availability": { "enum": ["available", "degraded", "unavailable"] },
+    "capability_status": { "enum": ["ready", "limited", "blocked"] }
+  }
+}

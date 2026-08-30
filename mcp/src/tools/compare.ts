@@ -1,7 +1,22 @@
 import { z } from "zod";
+import compareInputJson from "../../../schemas/mcp-tools/compare-v2.schema.json" with { type: "json" };
 import type { FinanceItem, FinanceRecord, ToolContext } from "../types/tool-context.ts";
 import { compareRankingKeys } from "../recommendation/ranking-v2.ts";
 import { contextFacts, normalizeRecommendationContext } from "../recommendation/context.ts";
+
+const COMPARE_INPUT_SCHEMA = z.fromJSONSchema(compareInputJson as Parameters<typeof z.fromJSONSchema>[0]);
+type CompareInput = {
+  domain: "deposit" | "saving";
+  deposit_amount_krw?: number;
+  monthly_payment_krw?: number;
+  term_months: number;
+  join_channels?: string[];
+  as_of?: string;
+  context?: { comparison_mode?: "market" | "user_fit"; as_of?: string; facts?: Record<string, unknown> };
+  saving_method?: "free" | "fixed";
+  tax_rate_percent?: number;
+  limit?: number;
+};
 
 export function registerCompareTool(ctx: ToolContext): void {
   const { server, env, mcpResult, COMPARISON_ENGINE_VERSION, dedupeProductItems, loadDetailedItemsForDomain, loadSearchIndexMetadata, loadFinanceManifest, manifestChecksumContract, comparisonReleaseGate, loadFinanceArtifacts, normalizeQuery, comparisonBlocker, comparisonOptionCandidates, comparisonOptionBlocker, comparisonCandidate, reasonCounts, EXCLUDED_SAMPLE_LIMIT, comparisonBlockers, domainMatches, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
@@ -11,36 +26,25 @@ export function registerCompareTool(ctx: ToolContext): void {
       title: "Compare Deposit and Saving Products",
       description:
         "Use this for deterministic deposit or saving comparison. It includes only official current listings with verified active sales status and never assumes unmet preferential conditions.",
-      inputSchema: {
-        domain: z.enum(["deposit", "saving"]),
-        deposit_amount_krw: z.number().int().positive().optional(),
-        monthly_payment_krw: z.number().int().positive().optional(),
-        term_months: z.number().int().positive(),
-        join_channels: z.array(z.string()).optional(),
-        context: z.object({
-          comparison_mode: z.enum(["market", "user_fit"]).default("market"),
-          as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-          facts: z.object({ can_transfer_salary: z.boolean().optional(), can_use_card: z.boolean().optional(), can_set_auto_transfer: z.boolean().optional(), is_new_customer: z.boolean().optional(), fact_sources: z.record(z.string(), z.enum(["user_asserted", "official_confirmed", "system_inferred"])).optional() }).strict().optional(),
-        }).strict().optional(),
-        saving_method: z.enum(["free", "fixed"]).optional(),
-        tax_rate_percent: z.number().min(0).max(100).optional(),
-        limit: z.number().int().min(1).max(20).optional(),
-      },
+      inputSchema: COMPARE_INPUT_SCHEMA,
       outputSchema: STANDARD_OUTPUT_SCHEMA,
       annotations: {
         title: "Compare Deposit and Saving Products",
         ...READ_ONLY_TOOL_ANNOTATIONS,
       },
     },
-    async ({ domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, context, saving_method, tax_rate_percent, limit }) => {
+    async (input) => {
+      const { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, as_of, context, saving_method, tax_rate_percent, limit } = input as CompareInput;
       const manifest = await loadFinanceManifest(env);
-      if (!context?.as_of) return mcpResult({ domain, status: "insufficient_information", reason_codes: ["CONTEXT_AS_OF_REQUIRED"], data_as_of: null, missing_information: ["as_of"], result_count: 0, candidates: [], warnings: ["Comparison requires a caller supplied context.as_of for deterministic freshness and rule evaluation."], comparison_engine_version: COMPARISON_ENGINE_VERSION });
+      const requestAsOf = as_of ?? context?.as_of;
+      if (!requestAsOf) return mcpResult({ domain, status: "insufficient_information", reason_codes: ["CONTEXT_AS_OF_REQUIRED"], data_as_of: null, missing_information: ["as_of"], result_count: 0, candidates: [], warnings: ["Comparison requires a caller supplied as_of (top-level or context.as_of) for deterministic freshness and rule evaluation."], comparison_engine_version: COMPARISON_ENGINE_VERSION });
+      if (as_of && context?.as_of && as_of !== context.as_of) return mcpResult({ domain, status: "insufficient_information", reason_codes: ["AS_OF_MISMATCH"], data_as_of: null, missing_information: [], result_count: 0, candidates: [], warnings: ["Top-level as_of and context.as_of must match."], comparison_engine_version: COMPARISON_ENGINE_VERSION });
       const gate = comparisonReleaseGate(manifest, domain);
       if (!manifestChecksumContract(manifest) || gate.status !== "ready") {
         const payload = { domain, status: "blocked", reason_codes: [...(!manifestChecksumContract(manifest) ? ["MANIFEST_CHECKSUM_MISMATCH"] : []), ...gate.reasons], data_as_of: null, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison requires the current manifest domain gate."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
         return mcpResult(payload);
       }
-      const normalizedContext = normalizeRecommendationContext(context ?? {}, domain);
+      const normalizedContext = normalizeRecommendationContext({ ...(context ?? {}), as_of: requestAsOf }, domain);
       const items = dedupeProductItems(await loadDetailedItemsForDomain(env, domain, normalizedContext.as_of ?? undefined));
       const metadata = await loadSearchIndexMetadata(env);
       const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);

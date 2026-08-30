@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/mcp-tools/recommend-v2.schema.json",
+  "title": "OpenFin recommend input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["domain"],
+  "properties": {
+    "domain": { "enum": ["deposit", "saving", "card", "loan", "insurance"] },
+    "context": { "$ref": "#/$defs/context" },
+    "profile": { "$ref": "#/$defs/profile" },
+    "constraints": { "$ref": "#/$defs/constraints" },
+    "preferences": { "$ref": "#/$defs/preferences" },
+    "decision_context": { "$ref": "#/$defs/decision_context" },
+    "limit": { "type": "integer", "minimum": 1, "maximum": 20 }
+  },
+  "$defs": {
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "nullable_date": { "anyOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }] },
+    "nullable_number": { "anyOf": [{ "type": "number", "minimum": 0 }, { "type": "null" }] },
+    "nullable_boolean": { "anyOf": [{ "type": "boolean" }, { "type": "null" }] },
+    "nullable_string": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+    "string_or_strings": { "anyOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "integer_or_integers": { "anyOf": [{ "type": "integer" }, { "type": "array", "items": { "type": "integer" } }] },
+    "fact_sources": { "type": "object", "additionalProperties": { "enum": ["user_asserted", "official_confirmed", "system_inferred"] } },
+    "goal": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "purpose": { "enum": ["save", "preserve_liquidity", "income", "compare", "education"] },
+        "target_date": { "$ref": "#/$defs/nullable_date" },
+        "liquidity_horizon_months": { "anyOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] }
+      }
+    },
+    "facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "as_of": { "$ref": "#/$defs/nullable_date" },
+        "monthly_net_income_krw": { "$ref": "#/$defs/nullable_number" },
+        "essential_monthly_expenses_krw": { "$ref": "#/$defs/nullable_number" },
+        "liquid_assets_krw": { "$ref": "#/$defs/nullable_number" },
+        "investment_assets_krw": { "$ref": "#/$defs/nullable_number" },
+        "tax_rate_percent": { "anyOf": [{ "type": "number", "minimum": 0, "maximum": 100 }, { "type": "null" }] },
+        "can_transfer_salary": { "$ref": "#/$defs/nullable_boolean" },
+        "can_use_card": { "$ref": "#/$defs/nullable_boolean" },
+        "can_set_auto_transfer": { "$ref": "#/$defs/nullable_boolean" },
+        "is_new_customer": { "$ref": "#/$defs/nullable_boolean" },
+        "age_years": { "$ref": "#/$defs/nullable_number" },
+        "residency_code": { "$ref": "#/$defs/nullable_string" },
+        "customer_segment": { "$ref": "#/$defs/nullable_string" },
+        "customer_type": { "$ref": "#/$defs/nullable_string" },
+        "gender": { "$ref": "#/$defs/nullable_string" },
+        "employment_type": { "$ref": "#/$defs/nullable_string" },
+        "eligibility_review_status": { "$ref": "#/$defs/nullable_string" },
+        "monthly_contribution_krw": { "$ref": "#/$defs/nullable_number" },
+        "fact_sources": { "$ref": "#/$defs/fact_sources" }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provider": { "anyOf": [{ "$ref": "#/$defs/string_or_strings" }, { "type": "null" }] },
+        "term_months": { "anyOf": [{ "$ref": "#/$defs/integer_or_integers" }, { "type": "null" }] },
+        "join_channel": { "anyOf": [{ "$ref": "#/$defs/string_or_strings" }, { "type": "null" }] },
+        "minimum_amount_krw": { "$ref": "#/$defs/nullable_number" },
+        "maximum_amount_krw": { "$ref": "#/$defs/nullable_number" },
+        "eligible_rule_ids": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provider": { "type": "string" },
+        "term_months": { "type": "integer", "exclusiveMinimum": 0 },
+        "liquidity_horizon_months": { "type": "integer", "minimum": 0 },
+        "max_term_months": { "type": "integer", "minimum": 0 },
+        "monthly_budget_krw": { "type": "number", "minimum": 0 },
+        "monthly_contribution_krw": { "type": "number", "minimum": 0 },
+        "principal_krw": { "type": "number", "minimum": 0 },
+        "deposit_amount_krw": { "type": "number", "minimum": 0 },
+        "tax_rate_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "risk_capacity": { "enum": ["low", "medium", "high"] },
+        "planned_termination_months": { "type": "number", "minimum": 0 },
+        "early_termination_months": { "type": "number", "minimum": 0 },
+        "payment_timing": { "enum": ["month_start", "month_end"] },
+        "payment_schedule_krw": { "type": "array", "maxItems": 120, "items": { "type": "number", "minimum": 0 } }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provider": { "type": "string" },
+        "term_months": { "type": "integer", "exclusiveMinimum": 0 },
+        "risk_capacity": { "enum": ["low", "medium", "high"] },
+        "liquidity_horizon_months": { "type": "integer", "minimum": 0 },
+        "tax_rate_percent": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "decision_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "as_of": { "$ref": "#/$defs/nullable_date" },
+        "liquidity_requirement": { "type": "object", "additionalProperties": false, "properties": { "months": { "type": "number", "minimum": 0 }, "required_amount_krw": { "type": "number", "minimum": 0 } } },
+        "risk_capacity": { "enum": ["low", "medium", "high"] }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["as_of"],
+      "properties": {
+        "comparison_mode": { "enum": ["market", "user_fit"], "default": "user_fit" },
+        "as_of": { "$ref": "#/$defs/date" },
+        "goal": { "$ref": "#/$defs/goal" },
+        "facts": { "$ref": "#/$defs/facts" },
+        "hard_constraints": { "$ref": "#/$defs/constraints" },
+        "preferences": { "$ref": "#/$defs/preferences" },
+        "assumptions": { "type": "array", "maxItems": 20, "items": { "type": "string", "maxLength": 240 } },
+        "consent": { "type": "object", "additionalProperties": false, "required": ["transient_only"], "properties": { "transient_only": { "const": true } } }
+      }
+    }
+  }
+}

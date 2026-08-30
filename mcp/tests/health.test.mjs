@@ -8,7 +8,7 @@ test("blocked recommendation does not make healthy core unready", () => {
   assert.equal(payload.status, "ready");
   assert.equal(payload.ready, true);
   assert.equal(payload.capabilities.recommendation, "blocked");
-  assert.equal(payload.capabilities.source_freshness, "degraded");
+  assert.equal(payload.capabilities.source_freshness, "blocked");
   assert.equal(payload.manifest_checksum, "abc123");
   assert.equal(payload.production_generation, "generation");
   assert.equal(payload.worker_generation, "generation");
@@ -21,4 +21,12 @@ test("health exposes source freshness separately from core availability", () => 
   });
   assert.equal(payload.status, "ok");
   assert.equal(payload.source_freshness_status, "degraded");
+});
+
+test("service availability never becomes a capability status", () => {
+  const payload = readinessPayload({ env: {}, metadata: { item_count: 1, export_checksum: "x" }, manifest: { service_availability: "available", capabilities: { search: "ready", comparison: "limited" } }, artifactsLoaded: true, checksumVerified: true, manifestUrl: "https://example.test/manifest" });
+  assert.equal(payload.service_availability, "available");
+  assert.equal(payload.capabilities.search, "ready");
+  assert.equal(payload.capabilities.compare_deposit, "blocked");
+  assert.notEqual(payload.capabilities.search, payload.service_availability);
 });

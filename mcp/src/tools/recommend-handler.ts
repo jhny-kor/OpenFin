@@ -1,12 +1,23 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { AnySchema } from "@modelcontextprotocol/sdk/server/zod-compat.js";
 import { z } from "zod";
+import recommendInputJson from "../../../schemas/mcp-tools/recommend-v2.schema.json" with { type: "json" };
 import { normalizeRecommendationContext, contextFieldNames } from "../recommendation/context.ts";
 import { assertRecommendationContextSafe, recommendationAuditMetadata } from "../recommendation/privacy.ts";
 import { evaluateRecommendationNeedGate } from "../recommendation/need-gate.ts";
 import { verifyRecommendationApprovalSignature } from "./recommend-owner-pilot.ts";
 
 type FinanceRecord = Record<string, unknown>;
+const RECOMMEND_INPUT_SCHEMA = z.fromJSONSchema(recommendInputJson as Parameters<typeof z.fromJSONSchema>[0]);
+type RecommendInput = {
+  domain: "deposit" | "saving" | "card" | "loan" | "insurance";
+  context?: FinanceRecord;
+  profile?: FinanceRecord;
+  constraints?: FinanceRecord;
+  preferences?: FinanceRecord;
+  decision_context?: FinanceRecord;
+  limit?: number;
+};
 type FinanceItem = FinanceRecord & { id?: string; title?: string; provider?: string; source_urls?: string[]; source_assertions?: FinanceRecord[]; source_assertion_ids?: string[]; provenance?: FinanceRecord[] };
 type ToolResult = { structuredContent: FinanceRecord; content: [{ type: "text"; text: string }] };
 type ReleaseGate = { status: "ready" | "blocked"; reasons: string[]; [key: string]: unknown };
@@ -52,22 +63,15 @@ export function registerRecommendTool(rawContext: unknown): void {
       title: "Recommend Finance Products",
       description:
         "Use this only when the user asks which finance product fits their current needs. It returns deterministic recommendations only from verified public recommendation candidates with source evidence; otherwise it returns an empty result with structured blockers.",
-      inputSchema: {
-        domain: z.enum(["deposit", "saving", "card", "loan", "insurance"]).describe("Recommendation domain."),
-        context: z.object({ comparison_mode: z.enum(["market", "user_fit"]).default("user_fit"), as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), goal: z.object({ purpose: z.enum(["save", "preserve_liquidity", "income", "compare", "education"]).optional(), target_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), liquidity_horizon_months: z.number().int().nonnegative().nullable().optional() }).strict().optional(), facts: z.object({ as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), monthly_net_income_krw: z.number().nonnegative().nullable().optional(), essential_monthly_expenses_krw: z.number().nonnegative().nullable().optional(), liquid_assets_krw: z.number().nonnegative().nullable().optional(), investment_assets_krw: z.number().nonnegative().nullable().optional(), tax_rate_percent: z.number().min(0).max(100).nullable().optional(), can_transfer_salary: z.boolean().nullable().optional(), can_use_card: z.boolean().nullable().optional(), can_set_auto_transfer: z.boolean().nullable().optional(), is_new_customer: z.boolean().nullable().optional(), age_years: z.number().nonnegative().nullable().optional(), residency_code: z.string().nullable().optional(), customer_segment: z.string().nullable().optional(), customer_type: z.string().nullable().optional(), gender: z.string().nullable().optional(), employment_type: z.string().nullable().optional(), eligibility_review_status: z.string().nullable().optional(), monthly_contribution_krw: z.number().nonnegative().nullable().optional(), fact_sources: z.record(z.string(), z.enum(["user_asserted", "official_confirmed", "system_inferred"])).optional() }).strict().optional(), hard_constraints: z.object({ provider: z.union([z.string(), z.array(z.string())]).nullable().optional(), term_months: z.union([z.number().int(), z.array(z.number().int())]).nullable().optional(), join_channel: z.union([z.string(), z.array(z.string())]).nullable().optional(), minimum_amount_krw: z.number().nonnegative().nullable().optional(), maximum_amount_krw: z.number().nonnegative().nullable().optional(), eligible_rule_ids: z.array(z.string()).optional() }).strict().optional(), preferences: z.object({ provider: z.string().optional(), term_months: z.number().int().positive().optional(), liquidity_horizon_months: z.number().int().nonnegative().optional(), max_term_months: z.number().int().nonnegative().optional(), monthly_budget_krw: z.number().nonnegative().optional(), monthly_contribution_krw: z.number().nonnegative().optional(), principal_krw: z.number().nonnegative().optional(), deposit_amount_krw: z.number().nonnegative().optional(), tax_rate_percent: z.number().min(0).max(100).optional(), risk_capacity: z.enum(["low", "medium", "high"]).optional(), planned_termination_months: z.number().nonnegative().optional(), early_termination_months: z.number().nonnegative().optional(), payment_timing: z.enum(["month_start", "month_end"]).optional(), payment_schedule_krw: z.array(z.number().nonnegative()).max(120).optional() }).strict().optional(), assumptions: z.array(z.string().max(240)).max(20).optional(), consent: z.object({ transient_only: z.literal(true) }).strict().optional() }).strict().optional(),
-        profile: z.object({ provider: z.string().optional(), term_months: z.number().int().positive().optional(), risk_capacity: z.enum(["low", "medium", "high"]).optional(), liquidity_horizon_months: z.number().int().nonnegative().optional(), tax_rate_percent: z.number().min(0).max(100).optional() }).strict().optional().describe("Allowlisted user facts only; never persisted."),
-        constraints: z.object({ provider: z.union([z.string(), z.array(z.string())]).nullable().optional(), term_months: z.union([z.number().int(), z.array(z.number().int())]).nullable().optional(), join_channel: z.union([z.string(), z.array(z.string())]).nullable().optional(), minimum_amount_krw: z.number().nonnegative().nullable().optional(), maximum_amount_krw: z.number().nonnegative().nullable().optional(), eligible_rule_ids: z.array(z.string()).optional() }).strict().optional().describe("Allowlisted hard constraints."),
-        preferences: z.object({ provider: z.string().optional(), term_months: z.number().int().positive().optional(), liquidity_horizon_months: z.number().int().nonnegative().optional(), max_term_months: z.number().int().nonnegative().optional(), monthly_budget_krw: z.number().nonnegative().optional(), monthly_contribution_krw: z.number().nonnegative().optional(), principal_krw: z.number().nonnegative().optional(), deposit_amount_krw: z.number().nonnegative().optional(), tax_rate_percent: z.number().min(0).max(100).optional(), risk_capacity: z.enum(["low", "medium", "high"]).optional(), planned_termination_months: z.number().nonnegative().optional(), early_termination_months: z.number().nonnegative().optional(), payment_timing: z.enum(["month_start", "month_end"]).optional(), payment_schedule_krw: z.array(z.number().nonnegative()).max(120).optional() }).strict().optional().describe("Allowlisted soft preferences."),
-        decision_context: z.object({ as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), liquidity_requirement: z.object({ months: z.number().nonnegative().optional(), required_amount_krw: z.number().nonnegative().optional() }).strict().optional(), risk_capacity: z.enum(["low", "medium", "high"]).optional() }).strict().optional().describe("Transient typed decision facts."),
-        limit: z.number().int().min(1).max(20).optional().describe("Maximum number of recommendations. Defaults to 5."),
-      },
+      inputSchema: RECOMMEND_INPUT_SCHEMA,
       outputSchema: STANDARD_OUTPUT_SCHEMA,
       annotations: {
         title: "Recommend Finance Products",
         ...READ_ONLY_TOOL_ANNOTATIONS,
       },
     },
-    async ({ domain, context: requestContext, profile, constraints, preferences, decision_context, limit }) => {
+    async (input) => {
+      const { domain, context: requestContext, profile, constraints, preferences, decision_context, limit } = input as RecommendInput;
       const recommendationContext = normalizeRecommendationContext({ context: requestContext, profile, constraints, preferences, decision_context }, domain);
       assertRecommendationContextSafe(recommendationContext);
       const manifest = await loadFinanceManifest(env);

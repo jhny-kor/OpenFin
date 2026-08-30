@@ -76,11 +76,16 @@ const search = toolPayload(await rpc("tools/call", { name: "search", arguments: 
 if (search.result_count < 1 || search.results?.[0]?.id !== "finance.account.housing-subscription.nhuf.youth-dream") throw new Error("representative search returned an unexpected result");
 const fetched = toolPayload(await rpc("tools/call", { name: "fetch", arguments: { id: "finance.account.housing-subscription.nhuf.youth-dream" } }), "fetch");
 if (fetched.id !== "finance.account.housing-subscription.nhuf.youth-dream") throw new Error("representative fetch returned the wrong item");
-if (!Array.isArray(fetched.sources) && !Array.isArray(fetched.source_ids)) throw new Error("representative fetch has no source evidence");
-if (!fetched.freshness_status && !fetched.source_freshness_status) throw new Error("representative fetch has no freshness status");
+const fetchedSourceIds = [...(Array.isArray(fetched.sources) ? fetched.sources : []), ...(Array.isArray(fetched.source_ids) ? fetched.source_ids : []), ...(Array.isArray(fetched.provenance) ? fetched.provenance : []), ...(Array.isArray(fetched.source_assertions) ? fetched.source_assertions : []), ...(Array.isArray(fetched.neighbors?.sources) ? fetched.neighbors.sources : []), ...(Array.isArray(fetched.neighbors?.provenance) ? fetched.neighbors.provenance : [])]
+  .map((entry) => typeof entry === "string" ? entry : entry?.id ?? entry?.source_id)
+  .filter((sourceId) => typeof sourceId === "string" && sourceId.startsWith("source."));
+if (!fetchedSourceIds.length) throw new Error("representative fetch has no source ID");
+if (!fetched.freshness_status && !fetched.source_freshness_status && !fetched.last_source_checked_at && !fetched.provenance?.some((entry) => entry.reviewed_at || entry.freshness_status) && !fetched.source_assertions?.some((entry) => entry.observed_at || entry.freshness_status)) throw new Error("representative fetch has no freshness status");
 if (search.results[0].title && fetched.title && search.results[0].title !== fetched.title) throw new Error("search/fetch titles do not match");
-const comparison = toolPayload(await rpc("tools/call", { name: "compare", arguments: { domain: "deposit", term_months: 12, limit: 1 } }), "compare");
+const comparison = toolPayload(await rpc("tools/call", { name: "compare", arguments: { domain: "deposit", term_months: 12, limit: 1, context: { as_of: "2026-07-31" } } }), "compare");
 if ((comparison.status === "blocked" && !Array.isArray(comparison.reason_codes)) || (!comparison.status && !Array.isArray(comparison.blockers))) throw new Error("compare readiness reason is incomplete");
+const missingAsOfComparison = toolPayload(await rpc("tools/call", { name: "compare", arguments: { domain: "deposit", term_months: 12, limit: 1 } }), "compare");
+if (missingAsOfComparison.status !== "insufficient_information" || !missingAsOfComparison.reason_codes?.includes("CONTEXT_AS_OF_REQUIRED")) throw new Error("missing as_of compare contract is incomplete");
 const recommendation = toolPayload(await rpc("tools/call", { name: "recommend", arguments: { domain: "deposit", limit: 1, context: { as_of: "2026-07-31" } } }), "recommend");
 if (recommendation.status !== "blocked" || recommendation.result_count !== 0 || !Array.isArray(recommendation.reason_codes) || !recommendation.reason_codes.length) throw new Error("blocked recommendation contract is incomplete");
 const missingAsOfRecommendation = toolPayload(await rpc("tools/call", { name: "recommend", arguments: { domain: "deposit", limit: 1 } }), "recommend");
@@ -89,5 +94,5 @@ if (missingAsOfRecommendation.status !== "insufficient_information" || !missingA
 console.log(JSON.stringify({
   health: healthPayload,
   ready: { status: readyPayload.status, ready: readyPayload.ready, release_status: readyPayload.release_status, recommendation_enabled: readyPayload.recommendation_enabled, checksum_verified: readyPayload.checksum_verified },
-  mcp: { initialized: true, quality_status: quality.quality_status.release_status, search_result_count: search.result_count, fetched_id: fetched.id, comparison_status: comparison.status, recommendation_status: recommendation.status, recommendation_result_count: recommendation.result_count, missing_as_of_recommendation_status: missingAsOfRecommendation.status },
+  mcp: { initialized: true, quality_status: quality.quality_status.release_status, search_result_count: search.result_count, fetched_id: fetched.id, comparison_status: comparison.status, missing_as_of_comparison_status: missingAsOfComparison.status, recommendation_status: recommendation.status, recommendation_result_count: recommendation.result_count, missing_as_of_recommendation_status: missingAsOfRecommendation.status },
 }, null, 2));

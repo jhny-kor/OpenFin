@@ -7,6 +7,8 @@ export type SourceStatusResolution = {
   reason?: "SOURCE_STATUS_UNRESOLVED";
 };
 
+type TimeInput = string | number | Date;
+
 const FRESHNESS_SEVERITY: Record<string, number> = {
   conflict: 5,
   retired: 4,
@@ -89,11 +91,23 @@ export function resolveSourceStatus(input: {
   sourceIds: readonly string[];
   sourceUrlCount: number;
   sourceStatusArtifact: unknown;
+  sourceRegistryArtifact?: unknown;
   staticFreshness?: string;
+  asOf?: TimeInput;
+  as_of?: TimeInput;
+  now?: TimeInput;
 }): SourceStatusResolution {
-  const statuses = input.sourceIds
-    .map((sourceId) => sourceStatusRecordFor(input.sourceStatusArtifact, sourceId))
-    .filter((status): status is JsonRecord => Boolean(status));
+  const asOf = parseTime((input.asOf ?? input.as_of ?? input.now ?? Date.now()) as TimeInput);
+  const statuses = input.sourceIds.map((sourceId): JsonRecord | undefined => {
+    const status = sourceStatusRecordFor(input.sourceStatusArtifact, sourceId);
+    if (!status) return undefined;
+    const registry = sourceStatusRecordFor(input.sourceRegistryArtifact, sourceId);
+    const freshness = runtimeFreshness(status, registry, asOf);
+    if (freshness === null) return { ...status, freshness_status: undefined };
+    return normalizeSourceFreshness(status.freshness_status ?? status.status) === freshness
+      ? status
+      : { ...status, freshness_status: freshness };
+  }).filter((status): status is JsonRecord => Boolean(status));
   const resolutionRequired = input.sourceIds.length > 0 || input.sourceUrlCount > 0;
   const statusFreshnesses = statuses
     .map((status) => normalizeSourceFreshness(status.freshness_status ?? status.status))
@@ -116,4 +130,22 @@ export function resolveSourceStatus(input: {
     resolution: resolutionFailed ? "unresolved" : resolutionRequired ? "resolved" : "not_required",
     reason: resolutionFailed ? "SOURCE_STATUS_UNRESOLVED" : undefined,
   };
+}
+
+function parseTime(value: TimeInput): number | null {
+  const parsed = value instanceof Date ? value.getTime() : typeof value === "number" ? value : Date.parse(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function runtimeFreshness(status: JsonRecord, registry: JsonRecord | undefined, asOf: number | null): string | null {
+  const staticStatus = normalizeSourceFreshness(status.freshness_status ?? status.status);
+  if (!staticStatus || asOf === null) return null;
+  if (staticStatus !== "current") return staticStatus;
+  const checkedAt = parseTime((status.last_successful_checked_at ?? status.checked_at) as TimeInput);
+  const refresh = isRecord(status.refresh) ? status.refresh : isRecord(registry?.refresh) ? registry.refresh : undefined;
+  const slaHours = Number(refresh?.sla_hours ?? status.sla_hours ?? registry?.sla_hours);
+  if (checkedAt === null || !Number.isFinite(slaHours) || slaHours <= 0) return null;
+  const ageMs = asOf - checkedAt;
+  if (ageMs < 0) return null;
+  return ageMs > slaHours * 60 * 60 * 1000 ? "stale" : "current";
 }

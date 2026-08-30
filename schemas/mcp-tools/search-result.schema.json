@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/mcp-tools/search-result.schema.json",
+  "title": "OpenFin compact search result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "type", "freshness_status", "source_ids", "match_score", "url"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "type": { "type": "string", "minLength": 1 },
+    "provider": { "type": "string" },
+    "product_kind": { "type": "string" },
+    "status": { "type": "string" },
+    "freshness_status": { "type": ["string", "null"] },
+    "source_ids": { "type": "array", "items": { "type": "string" } },
+    "match_score": { "type": "number" },
+    "match_reasons": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "limitations": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "url": { "type": "string", "format": "uri" }
+  }
+}

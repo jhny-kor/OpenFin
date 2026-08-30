@@ -26,7 +26,8 @@ const record = (value: unknown): Record<string, unknown> => value && typeof valu
 const nonEmpty = (value: unknown): value is string => typeof value === "string" && value.length > 0;
 
 function liveReady(value: unknown, policy: unknown, now = Date.now(), deploymentCommit?: string, expectedGenerationId?: string, expectedFixtureChecksum?: string | null): boolean {
-  const live = record(value);
+  const envelope = record(value);
+  const live = record(envelope.last_attempt ?? envelope.last_attempt_evidence ?? envelope);
   const contract = record(policy);
   const required = typeof contract.required_count === "number" ? contract.required_count : null;
   const mode = typeof contract.required_mode === "string" ? contract.required_mode : null;
@@ -138,7 +139,7 @@ export function evaluateReleaseGate({ manifest, checksumVerified = false, domain
   if (domain) {
     if (mode === "public") {
       const publicCount = Number(domainState.public_recommendation_candidate_count ?? domainState.public_candidate_count ?? 0);
-      domainReady = domainState.status === "limited_public_ready" && publicCount >= requiredCount && (capabilities.recommendation === undefined || capabilities.recommendation === "public");
+      domainReady = domainState.status === "limited_public_ready" && publicCount >= requiredCount && (capabilities.recommendation === undefined || capabilities.recommendation === "ready");
       if (!domainReady) reasons.push(`DOMAIN_NOT_READY:${domain}`);
     } else if (mode === "shadow") {
       const comparisonCount = Number(domainState.comparison_eligible_candidate_count ?? 0);

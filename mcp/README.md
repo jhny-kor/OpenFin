@@ -7,7 +7,7 @@ The Worker is bounded to the OpenFin personal-finance contexts (`tax`, `public-s
 It exposes read-only MCP tools for ChatGPT and other remote MCP clients:
 
 - `search`: search tax, deduction, support, local-government support, card, bank, insurance, filing, concept, deadline, and source nodes.
-- `fetch`: fetch one ontology item with criteria, product metadata, source URLs, and neighboring node ids.
+- `fetch`: fetch one ontology item; the default response contains summary and sources, while `include` opts into provenance, relations, or the raw item.
 - `exports`: list ontology exports loaded by the MCP adapter.
 - Optional provenance artifacts add source registry/status, field provenance, coverage, and relationship metadata without changing the legacy export contract. Missing artifacts are ignored for backward compatibility.
 
@@ -51,26 +51,9 @@ npx @modelcontextprotocol/inspector@latest
 
 ## Deploy
 
-Create a Cloudflare API token with at least:
+Production 배포는 GitHub Actions의 `OpenFin Immutable Release` 수동 실행만 허용합니다. 이 workflow가 immutable Pages/Worker preview, health/ready, tools schema, 120-case regression과 parity를 검증한 뒤 정확한 Worker version과 Pages artifact를 승격합니다. 로컬 `wrangler deploy` 경로는 운영 release 계약을 우회하므로 제공하지 않습니다.
 
-- Account: Workers Scripts: Edit
-- Account: Account Settings: Read
-- User: User Details: Read
-- User: Memberships: Read
-
-Store the token locally in `.env`:
-
-```sh
-CLOUDFLARE_API_TOKEN=...
-CLOUDFLARE_ACCOUNT_ID=...
-```
-
-```sh
-cd mcp
-npm run deploy
-```
-
-`npm run verify:release`는 manifest와 release gate를 검사합니다. 추천이 manifest에서 활성화된 경우 gate 실패로 배포를 중단하고, 현재처럼 fail-closed degraded 상태인 경우에는 조회 표면을 배포할 수 있습니다.
+`npm run verify:release`는 manifest와 release gate를 로컬에서 읽기 전용으로 검사합니다. 이는 production 배포 또는 live 검증 증거가 아닙니다.
 
 The deployed MCP endpoint will be:
 

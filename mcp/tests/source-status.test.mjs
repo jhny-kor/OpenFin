@@ -13,7 +13,7 @@ test("source ids combine item, compact-index, and provenance ids without duplica
 test("source_id records resolve and aggregate the worst source freshness", () => {
   const artifact = {
     statuses: [
-      { source_id: "source.a", freshness_status: "current" },
+      { source_id: "source.a", freshness_status: "current", checked_at: "2026-08-29T00:00:00Z", refresh: { sla_hours: 168 } },
       { source_id: "source.b", freshness_status: "stale" },
     ],
   };
@@ -71,4 +71,69 @@ test("status records without a recognized freshness value fail closed", () => {
     assert.equal(result.resolution, "unresolved");
     assert.equal(result.reason, "SOURCE_STATUS_UNRESOLVED");
   }
+});
+
+test("runtime freshness uses the registry SLA and effective successful check time", () => {
+  const asOf = Date.parse("2026-08-30T00:00:00Z");
+  const status = {
+    source_id: "source.a",
+    freshness_status: "current",
+    checked_at: "2026-08-29T00:00:00Z",
+    last_successful_checked_at: "2026-08-22T00:00:00Z",
+  };
+  const result = resolveSourceStatus({
+    sourceIds: ["source.a"],
+    sourceUrlCount: 1,
+    sourceStatusArtifact: { statuses: [status] },
+    sourceRegistryArtifact: { sources: [{ id: "source.a", refresh: { sla_hours: 168 } }] },
+    asOf,
+  });
+  assert.equal(result.freshnessStatus, "stale");
+  assert.equal(result.statuses[0].freshness_status, "stale");
+});
+
+test("SLA boundary is current at SLA minus one second and stale at plus one second", () => {
+  const asOf = Date.parse("2026-08-30T00:00:00Z");
+  const make = (offsetSeconds) => resolveSourceStatus({
+    sourceIds: ["source.a"],
+    sourceUrlCount: 1,
+    sourceStatusArtifact: { statuses: [{
+      source_id: "source.a",
+      freshness_status: "current",
+      checked_at: new Date(asOf - (168 * 3600 + offsetSeconds) * 1000).toISOString(),
+      refresh: { sla_hours: 168 },
+    }] },
+    asOf,
+  });
+  assert.equal(make(-1).freshnessStatus, "current");
+  assert.equal(make(1).freshnessStatus, "stale");
+});
+
+test("future source checks fail closed", () => {
+  const asOf = Date.parse("2026-08-30T00:00:00Z");
+  const result = resolveSourceStatus({
+    sourceIds: ["source.a"],
+    sourceUrlCount: 1,
+    sourceStatusArtifact: { statuses: [{
+      source_id: "source.a",
+      freshness_status: "current",
+      checked_at: new Date(asOf + 1000).toISOString(),
+      refresh: { sla_hours: 168 },
+    }] },
+    asOf,
+  });
+  assert.equal(result.freshnessStatus, "unknown");
+  assert.equal(result.resolution, "unresolved");
+  assert.equal(result.reason, "SOURCE_STATUS_UNRESOLVED");
+});
+
+test("missing runtime freshness inputs fail closed", () => {
+  const result = resolveSourceStatus({
+    sourceIds: ["source.a"],
+    sourceUrlCount: 1,
+    sourceStatusArtifact: { statuses: [{ source_id: "source.a", freshness_status: "current" }] },
+    asOf: "2026-08-30T00:00:00Z",
+  });
+  assert.equal(result.freshnessStatus, "unknown");
+  assert.equal(result.resolution, "unresolved");
 });

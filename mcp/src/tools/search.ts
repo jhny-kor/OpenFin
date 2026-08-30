@@ -1,8 +1,115 @@
 import { z } from "zod";
-import type { SearchFilters, ToolContext } from "../types/tool-context.ts";
+import type { FinanceArtifactSet, FinanceItem, SearchFilters, ToolContext } from "../types/tool-context.ts";
+
+export function compactSearchResult(
+  item: FinanceItem,
+  score: number,
+  query: string,
+  env: Env,
+  artifacts: FinanceArtifactSet,
+  sourceHealth: ToolContext["sourceHealth"],
+  matchReasons: ToolContext["matchReasons"],
+  itemUrl: ToolContext["itemUrl"],
+): Record<string, unknown> {
+  const health = sourceHealth(item, artifacts);
+  const result: Record<string, unknown> = {
+    id: item.id,
+    title: item.title,
+    type: item.type,
+    provider: item.provider,
+    product_kind: item.product_kind,
+    status: item.status ?? item.product_status,
+    freshness_status: health.freshness_status,
+    source_ids: health.source_ids,
+    match_score: score,
+    match_reasons: matchReasons(item, query),
+    limitations: item.discovery_limitations ?? item.recommendation_exclusion_reasons ?? item.comparison_exclusion_reasons,
+    url: itemUrl(env, item.id),
+  };
+  for (const [key, value] of Object.entries(result)) {
+    // source_ids is a required evidence field even when the registry has no
+    // usable ids; dropping it makes the response shape ambiguous.
+    if (key !== "source_ids" && (value === undefined || (Array.isArray(value) && value.length === 0) || (value && typeof value === "object" && !Array.isArray(value) && Object.keys(value).length === 0))) delete result[key];
+  }
+  return result;
+}
+
+export function enrichSearchPayload(
+  payload: Record<string, unknown>,
+  items: readonly FinanceItem[],
+  artifacts: FinanceArtifactSet,
+  sourceHealth: ToolContext["sourceHealth"],
+): Record<string, unknown> {
+  const byId = new Map(items.map((item) => [item.id, item]));
+  for (const key of ["results", "exact_results", "partial_results", "exact_candidates", "partial_candidates", "related_candidates", "related_results"]) {
+    const values = payload[key];
+    if (!Array.isArray(values)) continue;
+    payload[key] = values.map((value) => {
+      if (!value || typeof value !== "object" || Array.isArray(value) || typeof value.id !== "string") return value;
+      const item = byId.get(value.id);
+      return item ? { ...value, ...sourceHealth(item, artifacts) } : value;
+    });
+  }
+  return payload;
+}
+
+export function diversifyBroadResults<T extends { item: FinanceItem; score: number }>(
+  ranked: readonly T[],
+  query: string,
+  filters: SearchFilters,
+  maxResults: number,
+  enabled = true,
+): T[] {
+  const broad = enabled
+    && query.trim().split(/\s+/).filter(Boolean).length <= 2
+    && !filters.provider
+    && !filters.productKind;
+  if (!broad) return ranked.slice(0, maxResults);
+
+  const providerOf = (item: FinanceItem): string => typeof item.provider === "string" ? item.provider.trim() : "";
+  const providers = new Set(ranked.map(({ item }) => providerOf(item)).filter(Boolean));
+  if (providers.size < 2) return ranked.slice(0, maxResults);
+
+  const selected: T[] = [];
+  const selectedCandidates = new Set<T>();
+  const providerCounts = new Map<string, number>();
+  const targetProviderCount = Math.min(3, maxResults, providers.size);
+  if (targetProviderCount >= 3) {
+    for (const candidate of ranked) {
+      const provider = providerOf(candidate.item);
+      if (!provider || providerCounts.has(provider)) continue;
+      selected.push(candidate);
+      selectedCandidates.add(candidate);
+      providerCounts.set(provider, 1);
+      if (selected.length === targetProviderCount) break;
+    }
+  }
+
+  const deferred: T[] = [];
+  for (const candidate of ranked) {
+    if (selectedCandidates.has(candidate)) continue;
+    const provider = providerOf(candidate.item);
+    if (provider && (providerCounts.get(provider) ?? 0) >= 2) {
+      deferred.push(candidate);
+      continue;
+    }
+    selected.push(candidate);
+    if (provider) providerCounts.set(provider, (providerCounts.get(provider) ?? 0) + 1);
+    if (selected.length === maxResults) return selected;
+  }
+  for (const candidate of deferred) {
+    if (selected.length === maxResults) break;
+    const provider = providerOf(candidate.item);
+    if (!provider || (providerCounts.get(provider) ?? 0) < 2) {
+      selected.push(candidate);
+      if (provider) providerCounts.set(provider, (providerCounts.get(provider) ?? 0) + 1);
+    }
+  }
+  return selected;
+}
 
 export function registerSearchTool(ctx: ToolContext): void {
-  const { server, env, mcpResult, SUPPORT_INTENT_RE, dedupeProductItems, loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, isNamedProductQuery, strictNamedProductPayload, enrichSearchPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery, supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion, matchesSupportIntent, isPubliclySearchable, scoreItem, matchReasons, supportMatchTier, itemUrl, sourceHealth, reasonCounts, supportParsedQuery, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
+  const { server, env, mcpResult, SUPPORT_INTENT_RE, dedupeProductItems, loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, isNamedProductQuery, strictNamedProductPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery, supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion, matchesSupportIntent, isPubliclySearchable, scoreItem, diversifyBroadResults, matchReasons, supportMatchTier, itemUrl, sourceHealth, reasonCounts, supportParsedQuery, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
   server.registerTool(
     "search",
     {
@@ -34,18 +141,16 @@ export function registerSearchTool(ctx: ToolContext): void {
     },
     async ({ query, type, search_type, product_kind, recommendation_status, recommendation_scope, sales_status, application_status, provider, region, freshness_status, limit }) => {
       const items = dedupeProductItems(await loadSearchItemsForQuery(env, query, type, search_type, product_kind));
-      const artifacts = freshness_status
-        ? await loadFinanceArtifacts(env, ["source_status"])
-        : {};
+      const artifacts = await loadFinanceArtifacts(env, ["source_registry", "source_status"]);
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
       if (isNamedProductQuery(query)) {
         const payload = strictNamedProductPayload(query, items, maxResults, env);
-        if (payload) return mcpResult(enrichSearchPayload(payload, items, artifacts));
+        if (payload) return mcpResult(enrichSearchPayload(payload, items, artifacts, sourceHealth));
       }
       if (isDiscoveryQuery(query)) {
         const payload = discoveryPayload(query, items, maxResults, artifacts);
-        return mcpResult(enrichSearchPayload(payload, items, artifacts));
+        return mcpResult(enrichSearchPayload(payload, items, artifacts, sourceHealth));
       }
 
       const allowedTypes = type ? SEARCH_TYPE_GROUPS[type] ?? new Set([type]) : inferredTypesForQuery(normalizedQuery);
@@ -93,61 +198,22 @@ export function registerSearchTool(ctx: ToolContext): void {
         if (score <= 0) { addExcluded(item, "query_mismatch"); continue; }
         scoredItems.push({ item, score });
       }
-      const rankedItems = scoredItems
-        .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR"))
-        .slice(0, maxResults);
+      const rankedItems = diversifyBroadResults(
+        scoredItems.sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR")),
+        normalizedQuery,
+        filters,
+        maxResults,
+        !supportQuery,
+      );
       if (supportQuery) {
         const returnedIds = new Set(rankedItems.map(({ item }) => item.id));
         for (const { item } of scoredItems) if (!returnedIds.has(item.id)) addExcluded(item, "result_limit");
       }
-      const results = rankedItems
-        .map(({ item, score }) => ({
-          id: item.id,
-          title: item.title,
-          type: item.type,
-          provider: item.provider,
-          product_kind: item.product_kind,
-          search_type: item.search_type,
-          product_status: item.product_status,
-          sales_status: item.sales_status,
-          source_listing_status: item.source_listing_status,
-          sales_verification_status: item.sales_verification_status,
-          source_freshness_status: item.source_freshness_status,
-          status: item.status,
-          recommendation_status: item.recommendation_status,
-          recommendation_scope: item.recommendation_scope,
-          catalog_recommendation_status: item.catalog_recommendation_status,
-          catalog_recommendation_scope: item.catalog_recommendation_scope,
-          canonical_product_id: item.canonical_product_id,
-          resolved_canonical_product_id: item.resolved_canonical_product_id ?? item.canonical_product_id,
-          external_product_ids: item.external_product_ids ?? [],
-          provider_external_ids: item.provider_external_ids ?? [],
-          provider_roles: item.provider_roles ?? [],
-          application_status: item.application_status,
-          is_currently_applicable: item.is_currently_applicable,
-          application_open_to: item.application_open_to,
-          application_window: item.application_window ?? {},
-          jurisdiction: item.jurisdiction,
-          freshness_status: item.freshness_status,
-          recommendation_model_version: item.recommendation_model_version,
-          recommendation_exclusion_reasons: item.recommendation_exclusion_reasons ?? [],
-          recommendation_basis_fields: item.recommendation_basis_fields ?? [],
-          comparison_basis_fields: item.comparison_basis_fields ?? [],
-          verification_status: item.verification_status,
-          completeness_ratio: item.completeness_ratio,
-          comparison_engine_gate_passed: item.comparison_engine_gate_passed,
-          comparison_field_verification_status: item.comparison_field_verification_status,
-          comparison_field_verification: item.comparison_field_verification ?? {},
-          missing_required_fields: item.missing_required_fields ?? [],
-          structured_summary: item.structured_summary ?? {},
-          search_facets: item.search_facets ?? {},
-          ...sourceHealth(item, artifacts),
-          match_reasons: matchReasons(item, normalizedQuery),
-          match_tier: supportMatchTier(item, normalizedQuery),
-          url: itemUrl(env, item.id),
-          score,
-          text: item.description ?? "",
-        }));
+      const projectedResults = rankedItems.map(({ item, score }) => ({
+        result: compactSearchResult(item, score, normalizedQuery, env, artifacts, sourceHealth, matchReasons, itemUrl),
+        matchTier: supportMatchTier(item, normalizedQuery),
+      }));
+      const results = projectedResults.map(({ result }) => result);
 
       const payload = {
         query,
@@ -155,10 +221,10 @@ export function registerSearchTool(ctx: ToolContext): void {
         parsed_query: supportParsedQuery(query, region),
         result_count: results.length,
         results,
-        exact_results: results.filter((item) => item.match_tier === "exact"),
-        partial_results: results.filter((item) => item.match_tier === "partial"),
-        related_results: results.filter((item) => item.match_tier === "related"),
-        support_match_tier_counts: reasonCounts(results.filter((item) => item.match_tier).map((item) => ({ reason: item.match_tier as string }))),
+        exact_results: projectedResults.filter(({ matchTier }) => matchTier === "exact").map(({ result }) => result),
+        partial_results: projectedResults.filter(({ matchTier }) => matchTier === "partial").map(({ result }) => result),
+        related_results: projectedResults.filter(({ matchTier }) => matchTier === "related").map(({ result }) => result),
+        support_match_tier_counts: reasonCounts(projectedResults.filter(({ matchTier }) => matchTier).map(({ matchTier }) => ({ reason: matchTier as string }))),
         excluded_summary: excludedSummary,
       };
 

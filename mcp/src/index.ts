@@ -9,16 +9,17 @@ import { explainCandidate } from "./recommendation/explanation";
 import { rankCandidate } from "./recommendation/ranking";
 import { buildRecommendationCandidates } from "./tools/recommend";
 import { PERSONAL_FINANCE_SNAPSHOT_SCHEMA, registerPersonalFinanceTools } from "./tools/personal-finance";
-import { registerSearchTool } from "./tools/search";
+import { diversifyBroadResults, registerSearchTool } from "./tools/search";
 import { registerDiscoverTool } from "./tools/discover";
 import { registerRecommendTool } from "./tools/recommend-handler";
 import { registerCompareTool } from "./tools/compare";
 import { registerRecommendShadowTool } from "./tools/recommend-shadow";
 import { registerRecommendOwnerPilotTool } from "./tools/recommend-owner-pilot";
 import personalFinancePolicy from "../../contracts/personal-finance-policy.json" with { type: "json" };
-import { registerFetchTool } from "./tools/fetch";
+import { exportIdForItemId, registerFetchTool } from "./tools/fetch";
 import { registerExportsTool } from "./tools/exports";
 import { livenessPayload, readinessPayload } from "./health";
+import { asCapabilityStatus, asServiceAvailability } from "./capability-status.ts";
 import { isVerifiedActive } from "./product-status";
 import { calculateFinancialOutcome } from "./recommendation/outcome";
 import { resolveAttainableRate } from "./recommendation/attainable-rate";
@@ -598,6 +599,7 @@ function sourceFreshnessStatus(item: FinanceItem, artifacts: FinanceArtifacts): 
     sourceIds,
     sourceUrlCount: item.source_urls?.length ?? 0,
     sourceStatusArtifact: artifacts.source_status,
+    sourceRegistryArtifact: artifacts.source_registry,
     staticFreshness: item.freshness_status ?? item.source_freshness_status,
   }).freshnessStatus;
 }
@@ -783,12 +785,14 @@ function strictNamedProductPayload(query: string, items: readonly FinanceItem[],
     };
   }
   const compactNames = nameTokens.map(compactProductText);
-  const matches = dedupeProductItems(items).filter((item) => {
+  const tokenMatches = dedupeProductItems(items).filter((item) => {
     if (!item.provider || compactProductText(item.provider) !== compactProductText(provider)) return false;
     if (item.product_kind !== productKind) return false;
     const text = compactProductText([item.title, ...(item.search_aliases ?? []), ...(item.aliases ?? [])].join(" "));
     return compactNames.every((token) => text.includes(token));
   });
+  const exactTitleMatches = tokenMatches.filter((item) => compactProductText(item.title) === compactProductText(parts.cleanQuery));
+  const matches = exactTitleMatches.length ? exactTitleMatches : tokenMatches;
   const resolutionStatus = matches.length === 0 ? "not_found" : matches.length === 1 ? "exact" : "ambiguous";
   const results = matches.slice(0, limit).map((item) => ({
     id: item.id,
@@ -1338,6 +1342,7 @@ function sourceHealth(item: FinanceItem, artifacts?: FinanceArtifacts): Record<s
     sourceIds,
     sourceUrlCount: item.source_urls?.length ?? 0,
     sourceStatusArtifact: artifacts?.source_status,
+    sourceRegistryArtifact: artifacts?.source_registry,
     staticFreshness: item.freshness_status ?? item.source_freshness_status,
   });
   const { statuses } = resolution;
@@ -1352,20 +1357,6 @@ function sourceHealth(item: FinanceItem, artifacts?: FinanceArtifacts): Record<s
     source_status_reason: resolution.reason,
     artifact_errors: artifactErrors(),
   };
-}
-
-function enrichSearchPayload(payload: Record<string, unknown>, items: readonly FinanceItem[], artifacts: FinanceArtifacts): Record<string, unknown> {
-  const byId = new Map(items.map((item) => [item.id, item]));
-  for (const key of ["results", "exact_results", "partial_results", "exact_candidates", "partial_candidates", "related_candidates", "related_results"]) {
-    const values = payload[key];
-    if (!Array.isArray(values)) continue;
-    payload[key] = values.map((value) => {
-      if (!isRecord(value) || typeof value.id !== "string") return value;
-      const item = byId.get(value.id);
-      return item ? { ...value, ...sourceHealth(item, artifacts) } : value;
-    });
-  }
-  return payload;
 }
 
 function coverageReport(value: unknown): Record<string, unknown> | null {
@@ -1805,19 +1796,14 @@ function sourceItems(item: FinanceItem, itemsById: Map<string, FinanceItem>): Fi
     .filter((source): source is FinanceItem => Boolean(source));
 }
 
-function directExportIdForItem(rawId: string): string | undefined {
-  const itemId = resolveItemId(rawId);
-  if (/^(credit|deduction|tax)\./.test(itemId)) return "tax-ontology";
-  if (itemId.startsWith("support.local-gov.")) return "local-government-supports-ontology";
-  if (itemId.startsWith("finance.card.")) return "card-products-ontology";
-  if (itemId.startsWith("finance.bank.deposit.")) return "deposit-products-ontology";
-  if (itemId.startsWith("finance.bank.saving.")) return "saving-products-ontology";
-  if (itemId.startsWith("finance.bank.loan.")) return "loan-products-ontology";
-  if (itemId.startsWith("finance.insurance.")) return "insurance-products-ontology";
-  if (itemId.startsWith("finance.pension.")) return "pension-products-ontology";
-  if (itemId.startsWith("finance.account.")) return "tax-advantaged-accounts-ontology";
-  if (itemId.startsWith("finance.reference.") || itemId.startsWith("finance.term.")) return "finance-reference-ontology";
-  return undefined;
+function searchTypeForItemId(itemId: string): string {
+  if (itemId.startsWith("support.")) return "support-program";
+  if (itemId.startsWith("finance.account.")) return "account-product";
+  if (itemId.startsWith("finance.card.")) return "card-product";
+  if (itemId.startsWith("finance.insurance.")) return "insurance-product";
+  if (/^finance\.(bank|deposit|saving|loan)\./.test(itemId)) return "bank-product";
+  if (/^(credit|deduction|tax)\./.test(itemId)) return "tax";
+  return "category";
 }
 
 function matchReasons(item: FinanceItem, query: string): string[] {
@@ -1924,7 +1910,7 @@ function comparisonReleaseGate(manifest: FinanceManifest, domain: string): { sta
   const required = requiredVerifiedCount(manifest, domain);
   const capabilities = isRecord(manifest.capabilities) ? manifest.capabilities : {};
   const publicCount = typeof state?.public_comparison_candidate_count === "number" ? state.public_comparison_candidate_count : Number(state?.public_candidate_count ?? 0);
-  const comparisonCapability = capabilities.comparison === undefined || capabilities.comparison === "limited_public" || capabilities.comparison === "public";
+  const comparisonCapability = capabilities.comparison === undefined || capabilities.comparison === "limited" || capabilities.comparison === "ready";
   const ready = comparisonCapability && state?.status === "limited_public_ready" && publicCount >= required;
   return { status: ready ? "ready" : "blocked", reasons: ready ? [] : [`COMPARISON_DOMAIN_NOT_READY:${domain}`] };
 }
@@ -2111,16 +2097,34 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
   });
 }
 
-async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {
+async function fetchItemGraph(env: Env, rawId: string, include: readonly string[] = []): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {
   const manifestUrl = financeManifestUrl(env);
   const manifest = await loadFinanceManifest(env);
-  const directExportId = directExportIdForItem(rawId);
-  const indexedItem = directExportId || rawId.startsWith("missing.") ? undefined : resolveCanonicalItemId(rawId, await loadSearchItems(env));
-  const itemId = indexedItem?.id ?? resolveItemId(rawId);
+  const resolvedItemId = resolveItemId(rawId);
+  const directExportId = exportIdForItemId(resolvedItemId);
+  let indexedItem = rawId.startsWith("missing.") ? undefined : resolveCanonicalItemId(rawId, await loadSearchItemsForQuery(env, resolvedItemId, searchTypeForItemId(resolvedItemId)));
+  if (!indexedItem && !rawId.startsWith("missing.")) {
+    indexedItem = resolveCanonicalItemId(rawId, await loadSearchItems(env));
+  }
+  const itemId = indexedItem?.id ?? resolvedItemId;
   if (rawId.startsWith("missing.")) throw new Error(`Finance ontology item not found: ${rawId}`);
+  // Summary/source/provenance fetches must stay on bounded hot/detail shards.
+  // Full exports are reserved for explicit graph/raw expansion, which is the
+  // only mode that needs the complete item graph or unprojected fields.
+  const wantsFullDetail = include.includes("relations") || include.includes("raw");
+  if (indexedItem && !wantsFullDetail) {
+    const needsDetail = ["card-product", "bank-product", "insurance-product"].includes(indexedItem.type)
+      || directExportId === "finance-reference-ontology"
+      || indexedItem.provenance_shard === "reference";
+    if (needsDetail) {
+      const detailed = await hydrateSearchItem(env, indexedItem);
+      return { item: detailed, itemsById: new Map([[detailed.id, detailed]]) };
+    }
+    return { item: indexedItem, itemsById: new Map([[indexedItem.id, indexedItem]]) };
+  }
   // Non-product nodes are fully represented in the compact index when no
   // detail shard is declared; avoid loading every ontology export.
-  if (indexedItem && !["card-product", "bank-product", "insurance-product"].includes(indexedItem.type)) {
+  if (indexedItem && (!directExportId || directExportId === "local-government-supports-ontology") && !["card-product", "bank-product", "insurance-product"].includes(indexedItem.type)) {
     return { item: indexedItem, itemsById: new Map([[indexedItem.id, indexedItem]]) };
   }
   const candidateExports = directExportId
@@ -2349,7 +2353,7 @@ function createServer(env: Env): McpServer {
     STANDARD_OUTPUT_SCHEMA, READ_ONLY_TOOL_ANNOTATIONS, jsonText,
     discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain,
     loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, isNamedProductQuery, strictNamedProductPayload,
-    enrichSearchPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery,
+    isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery,
     supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion,
     matchesSupportIntent, isPubliclySearchable, scoreItem, matchReasons, supportMatchTier,
     itemUrl, sourceHealth, reasonCounts, supportParsedQuery,
@@ -2360,7 +2364,7 @@ function createServer(env: Env): McpServer {
     buildRecommendationCandidates, domainMatches, recommendationReadiness, rankCandidate, explainCandidate,
     recommendationBlocker, EXCLUDED_SAMPLE_LIMIT,
     COMPARISON_ENGINE_VERSION,
-    loadSearchIndexMetadata, comparisonBlocker, comparisonOptionCandidates, comparisonOptionBlocker,
+    loadSearchIndexMetadata, comparisonBlocker, comparisonOptionCandidates, comparisonOptionBlocker, diversifyBroadResults,
     comparisonCandidate, comparisonBlockers,
     fetchItemGraph, resolveItemId, sourceItems, publicProvenance,
     loadProvenanceShard: (requestEnv: Env, manifest: Record<string, unknown>, shardId: string) => loadProvenanceShard(requestEnv, manifest as FinanceManifest, shardId), artifactErrors,
@@ -2383,7 +2387,7 @@ function createServer(env: Env): McpServer {
     ]);
     const coverage = coverageReport(coverageArtifact);
     const live = manifest._live_regression ?? manifest.openfin_120_live_regression ?? {};
-    const releaseStatus = manifest.service_availability ?? manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown";
+    const releaseStatus = asCapabilityStatus(manifest.capabilities?.search ?? manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status);
     const blockingReasons = manifest.blocking_reasons ?? [];
     const releaseGate = evaluateReleaseGate({ manifest: manifest as unknown as Record<string, unknown>, checksumVerified: manifestChecksumContract(manifest), deploymentCommit: env.DEPLOYMENT_COMMIT });
     return financeResult(financeSafety({
@@ -2392,7 +2396,7 @@ function createServer(env: Env): McpServer {
       data_as_of: manifest.basis_date,
       missing_information: blockingReasons,
       assumptions: ["quality status reflects the loaded manifest and search index"],
-      quality_status: { manifest_version: manifest.version, generation_id: manifest.generation_id ?? null, service_availability: manifest.service_availability ?? "degraded", core_search_status: releaseStatus, release_status: releaseStatus, comparison_status: manifest.comparison_status ?? manifest.comparison_release_status ?? "unknown", recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status ?? "unknown", basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: Boolean(manifest.recommendation_enabled), release_gate: releaseGate, provenance_artifacts: { source_registry: manifest.source_registry ?? null, source_status: manifest.source_status ?? null, provenance_index: manifest.provenance_index ?? null, provenance_coverage: manifest.provenance_coverage ?? null, relationship_index: manifest.relationship_index ?? null }, source_health: { registry_loaded: sourceRegistry !== undefined, status_loaded: sourceStatus !== undefined, provenance_loaded: false, coverage_loaded: coverageArtifact !== undefined, relationships_loaded: false, coverage, artifact_errors: artifactErrors() } },
+      quality_status: { manifest_version: manifest.version, generation_id: manifest.generation_id ?? null, service_availability: asServiceAvailability(manifest.service_availability, "degraded"), core_search_status: releaseStatus, release_status: releaseStatus, comparison_status: asCapabilityStatus(manifest.capabilities?.comparison ?? manifest.comparison_status ?? manifest.comparison_release_status), recommendation_status: asCapabilityStatus(manifest.capabilities?.recommendation ?? manifest.recommendation_status ?? manifest.recommendation_release_status), basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: Boolean(manifest.recommendation_enabled), release_gate: releaseGate, provenance_artifacts: { source_registry: manifest.source_registry ?? null, source_status: manifest.source_status ?? null, provenance_index: manifest.provenance_index ?? null, provenance_coverage: manifest.provenance_coverage ?? null, relationship_index: manifest.relationship_index ?? null }, source_health: { registry_loaded: sourceRegistry !== undefined, status_loaded: sourceStatus !== undefined, provenance_loaded: false, coverage_loaded: coverageArtifact !== undefined, relationships_loaded: false, coverage, artifact_errors: artifactErrors() } },
       limitations: ["quality status is not a product recommendation", ...blockingReasons],
     }));
   });
@@ -2432,14 +2436,14 @@ async function healthResponse(env: Env): Promise<Response> {
     return Response.json(livenessPayload(env, financeManifestUrl(env), {
       generation_id: manifest.generation_id ?? null,
       manifest_deployment_commit: manifest.deployment_commit ?? null,
-      service_availability: manifest.service_availability ?? "degraded",
+      service_availability: asServiceAvailability(manifest.service_availability, "degraded"),
       source_head_commit: manifest.source_head_commit ?? null,
       release_candidate_commit: manifest.release_candidate_commit ?? null,
       production_commit: manifest.production_commit ?? null,
       production_deployed_at: manifest.production_deployed_at ?? null,
-      core_search_status: manifest.service_availability ?? manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status ?? "unknown",
-      comparison_status: manifest.comparison_status ?? manifest.comparison_release_status ?? "unknown",
-      recommendation_status: manifest.recommendation_status ?? manifest.recommendation_release_status ?? "unknown",
+      core_search_status: asCapabilityStatus(manifest.capabilities?.search ?? manifest.core_search_status ?? manifest.platform_release_status ?? manifest.release_status),
+      comparison_status: asCapabilityStatus(manifest.capabilities?.comparison ?? manifest.comparison_status ?? manifest.comparison_release_status),
+      recommendation_status: asCapabilityStatus(manifest.capabilities?.recommendation ?? manifest.recommendation_status ?? manifest.recommendation_release_status),
       source_freshness_status: manifest.source_freshness_status ?? "degraded",
       artifact_contract: manifest.artifact_contract ?? null,
     }));

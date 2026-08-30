@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jhny-kor.github.io/OpenFin/schemas/mcp-tools/compare-v2.schema.json",
+  "title": "OpenFin compare input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["domain", "term_months"],
+  "properties": {
+    "domain": { "enum": ["deposit", "saving"] },
+    "deposit_amount_krw": { "type": "integer", "exclusiveMinimum": 0 },
+    "monthly_payment_krw": { "type": "integer", "exclusiveMinimum": 0 },
+    "term_months": { "type": "integer", "exclusiveMinimum": 0 },
+    "join_channels": { "type": "array", "items": { "type": "string" } },
+    "as_of": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "context": { "$ref": "#/$defs/context" },
+    "saving_method": { "enum": ["free", "fixed"] },
+    "tax_rate_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+    "limit": { "type": "integer", "minimum": 1, "maximum": 20 }
+  },
+  "$defs": {
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "comparison_mode": { "enum": ["market", "user_fit"], "default": "market" },
+        "as_of": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "facts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "can_transfer_salary": { "type": "boolean" },
+            "can_use_card": { "type": "boolean" },
+            "can_set_auto_transfer": { "type": "boolean" },
+            "is_new_customer": { "type": "boolean" },
+            "fact_sources": { "type": "object", "additionalProperties": { "enum": ["user_asserted", "official_confirmed", "system_inferred"] } }
+          }
+        }
+      }
+    }
+  }
+}

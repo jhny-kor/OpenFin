@@ -1,6 +1,6 @@
 import type { RecommendationContext } from "./context.ts";
 
-const SENSITIVE = /(?:account|accountnumber|resident|registration|rrn|ssn|card|password|secret|token|credential|private.?key|pin|auth)/i;
+const SENSITIVE = /(?:account_?(?:number|no)|resident_?(?:registration|number)|registration_?(?:number|no)|rrn|ssn|card_?(?:number|no|pan|cvv|cvc)|password|secret|token|credential|private.?key|pin|auth(?:entication|orization)?)/i;
 export function assertRecommendationContextSafe(context: RecommendationContext): void {
   const scan = (value: unknown, path: string): void => {
     if (SENSITIVE.test(path)) throw new Error(`sensitive field is not accepted: ${path}`);
