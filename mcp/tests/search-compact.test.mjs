@@ -8,6 +8,7 @@ import test from "node:test";
 import { compactSearchResult, diversifyBroadResults, enrichSearchPayload } from "../src/tools/search.ts";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+const workerSource = readFileSync(resolve(root, "mcp/src/index.ts"), "utf8");
 const schema = JSON.parse(readFileSync(resolve(root, "schemas/mcp-tools/search-result.schema.json"), "utf8"));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
@@ -111,4 +112,20 @@ test("named and discovery candidates retain decision evidence while adding sourc
     source_ids: ["source.4"],
     freshness_status: "current",
   });
+});
+
+test("bank discovery resolves each hot-shard source set once", () => {
+  const start = workerSource.indexOf("function discoveryPayload");
+  const end = workerSource.indexOf("function scoreItem", start);
+  const candidateSource = workerSource.slice(start, end);
+  assert.match(candidateSource, /resolveSourceStatus\(\{ sourceIds,/);
+  assert.match(candidateSource, /freshnessCache\.has\(key\)/);
+  assert.doesNotMatch(candidateSource, /sourceHealth\(item, artifacts\)/);
+
+  const hotBank = JSON.parse(readFileSync(resolve(root, "docs/opentax/finance-hot-search-index-2026-bank-products.json"), "utf8"));
+  const sourceIdsColumn = hotBank.fields.indexOf("source_ids");
+  assert.ok(sourceIdsColumn >= 0);
+  assert.ok(hotBank.items.every((row) => Array.isArray(row[sourceIdsColumn]) && row[sourceIdsColumn].length > 0));
+  assert.equal(hotBank.fields.includes("provenance"), false);
+  assert.equal(hotBank.fields.includes("source_assertions"), false);
 });

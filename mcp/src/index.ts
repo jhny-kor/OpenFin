@@ -665,10 +665,9 @@ function discoveryDomainForItem(item: FinanceItem): DiscoveryDomain | undefined 
   return undefined;
 }
 
-function isDiscoveryCandidate(item: FinanceItem, domain: DiscoveryDomain, artifacts?: FinanceArtifacts): boolean {
+function hasDiscoveryCandidateEvidence(item: FinanceItem, domain: DiscoveryDomain): boolean {
   if (discoveryDomainForItem(item) !== domain) return false;
-  const effectiveFreshness = artifacts ? sourceHealth(item, artifacts).freshness_status : item.source_freshness_status ?? item.freshness_status;
-  if (item.product_status !== "active" || item.status !== "active" || effectiveFreshness !== "current") return false;
+  if (item.product_status !== "active" || item.status !== "active") return false;
   if (!item.source_urls?.length || item.source_listing_status !== "listed") return false;
   const evidence = new Set(item.discovery_evidence_fields ?? []);
   if (domain === "card") return Boolean(item.title && item.provider && item.product_kind && (["benefit_type", "benefit_rate_or_amount", "benefit_categories"].some((field) => evidence.has(field))));
@@ -965,16 +964,23 @@ function discoveryPayload(query: string, items: readonly FinanceItem[], limit: n
   const groups = { exact_candidates: [] as Record<string, unknown>[], partial_candidates: [] as Record<string, unknown>[], related_candidates: [] as Record<string, unknown>[] };
   const excludedSummary: Record<string, number> = {};
   const seen = new Set<string>();
+  const freshnessCache = new Map<string, string | null>();
+  const discoveryFreshness = (item: FinanceItem): string | null | undefined => {
+    if (!artifacts) return item.source_freshness_status ?? item.freshness_status;
+    const sourceIds = sourceIdsForItem(item);
+    const key = sourceIds.join("\u0000");
+    if (!freshnessCache.has(key)) freshnessCache.set(key, resolveSourceStatus({ sourceIds, sourceUrlCount: item.source_urls?.length ?? 0, sourceStatusArtifact: artifacts.source_status, sourceRegistryArtifact: artifacts.source_registry, staticFreshness: item.freshness_status ?? item.source_freshness_status }).freshnessStatus);
+    return freshnessCache.get(key);
+  };
   for (const item of items) {
     if (discoveryDomainForItem(item) !== domain) {
       excludedSummary.domain_mismatch = (excludedSummary.domain_mismatch ?? 0) + 1;
       continue;
     }
-    if (!isDiscoveryCandidate(item, domain, artifacts)) {
+    if (!hasDiscoveryCandidateEvidence(item, domain) || discoveryFreshness(item) !== "current") {
       excludedSummary.inactive_or_unlisted = (excludedSummary.inactive_or_unlisted ?? 0) + 1;
       continue;
     }
-    const text = discoveryItemText(item);
     const matched = parsed.soft_preferences.filter((preference) => discoveryPreferenceState(item, preference) === "matched");
     const ratio = item.normalized_completeness_ratio ?? item.completeness_ratio ?? 0;
     const canonicalId = item.resolved_canonical_product_id ?? item.canonical_product_id ?? item.id;
