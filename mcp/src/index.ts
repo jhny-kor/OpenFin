@@ -1679,6 +1679,8 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<reado
   if (cached) cache.delete(key);
   const pending = inFlightSearchShards.get(pendingKey);
   if (pending) return pending;
+  // Release only this cache tier's previous shard before allocating the response body.
+  while (cache.size >= cacheLimit) cache.delete(cache.keys().next().value as string);
   const request = (async () => {
     const url = resolveExportUrl(shard, financeManifestUrl(env));
     const rawText = await fetchText(url);

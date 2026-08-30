@@ -169,6 +169,20 @@ test("the runtime bounds parsed shards without reparsing every domain switch", (
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
 });
 
+test("a replacement shard releases its cache tier before fetching", () => {
+  const start = workerSource.indexOf("async function loadSearchShard");
+  const end = workerSource.indexOf("const SEARCH_SHARD_BY_DOMAIN", start);
+  const source = workerSource.slice(start, end);
+  const pending = source.indexOf("if (pending) return pending;");
+  const eviction = source.indexOf("while (cache.size >= cacheLimit)", pending);
+  const fetch = source.indexOf("const rawText = await fetchText(url)", pending);
+
+  assert.ok(pending >= 0);
+  assert.ok(eviction > pending);
+  assert.ok(fetch > eviction);
+  assert.doesNotMatch(source, /cached(?:Large|Small)SearchShards\.clear\(\)/);
+});
+
 test("completed JSON MCP requests release their transport state", () => {
   const start = workerSource.indexOf("export default");
   const source = workerSource.slice(start);
