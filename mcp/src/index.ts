@@ -580,7 +580,7 @@ function structuredSearchText(value: unknown[] | undefined): string {
   return (value ?? []).map((entry) => JSON.stringify(entry)).join(" ");
 }
 
-function sourceFreshnessStatus(item: FinanceItem, artifacts: FinanceArtifacts): string | null {
+function sourceFreshnessStatus(item: FinanceItem, artifacts: FinanceArtifacts, cache?: Map<string, string | null>): string | null {
   if ((item.provenance?.length ?? 0) > 0 || (item.source_assertions?.length ?? 0) > 0) {
     return (sourceHealth(item, artifacts).freshness_status as string | null | undefined) ?? null;
   }
@@ -588,13 +588,17 @@ function sourceFreshnessStatus(item: FinanceItem, artifacts: FinanceArtifacts): 
   if (!sourceIds.length) {
     return (sourceHealth(item, artifacts).freshness_status as string | null | undefined) ?? null;
   }
-  return resolveSourceStatus({
+  const cacheKey = JSON.stringify([sourceIds, item.source_urls?.length ?? 0, item.freshness_status ?? item.source_freshness_status ?? ""]);
+  if (cache?.has(cacheKey)) return cache.get(cacheKey) ?? null;
+  const freshness = resolveSourceStatus({
     sourceIds,
     sourceUrlCount: item.source_urls?.length ?? 0,
     sourceStatusArtifact: artifacts.source_status,
     sourceRegistryArtifact: artifacts.source_registry,
     staticFreshness: item.freshness_status ?? item.source_freshness_status,
   }).freshnessStatus;
+  cache?.set(cacheKey, freshness);
+  return freshness;
 }
 
 function matchesRecommendationDomain(item: FinanceItem, query: string, searchType: string): boolean {
@@ -616,14 +620,14 @@ function matchesRecommendationDomain(item: FinanceItem, query: string, searchTyp
   return true;
 }
 
-function matchesSearchFilters(item: FinanceItem, filters: SearchFilters, artifacts?: FinanceArtifacts): boolean {
+function matchesSearchFilters(item: FinanceItem, filters: SearchFilters, artifacts?: FinanceArtifacts, freshnessCache?: Map<string, string | null>): boolean {
   const equals = (value: string | undefined, expected: string | undefined): boolean =>
     expected === undefined || normalizeQuery(value ?? "") === normalizeQuery(expected);
   const region = normalizeQuery(filters.region ?? "");
   const freshness = filters.freshnessStatus === undefined
     ? item.freshness_status
     : artifacts
-      ? sourceFreshnessStatus(item, artifacts)
+      ? sourceFreshnessStatus(item, artifacts, freshnessCache)
       : item.freshness_status;
   return (
     equals(item.search_type, filters.searchType) &&

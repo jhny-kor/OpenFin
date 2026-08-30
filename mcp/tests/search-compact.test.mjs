@@ -9,6 +9,7 @@ import { compactSearchResult, diversifyBroadResults, enrichSearchPayload } from 
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const workerSource = readFileSync(resolve(root, "mcp/src/index.ts"), "utf8");
+const searchToolSource = readFileSync(resolve(root, "mcp/src/tools/search.ts"), "utf8");
 const schema = JSON.parse(readFileSync(resolve(root, "schemas/mcp-tools/search-result.schema.json"), "utf8"));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
@@ -128,6 +129,12 @@ test("bank discovery resolves each hot-shard source set once", () => {
   assert.ok(hotBank.items.every((row) => Array.isArray(row[sourceIdsColumn]) && row[sourceIdsColumn].length > 0));
   assert.equal(hotBank.fields.includes("provenance"), false);
   assert.equal(hotBank.fields.includes("source_assertions"), false);
+});
+
+test("freshness-filtered search resolves each shared source set once", () => {
+  assert.match(searchToolSource, /const freshnessCache = freshness_status === undefined \? undefined : new Map/);
+  assert.match(searchToolSource, /matchesSearchFilters\(item, filters, artifacts, freshnessCache\)/);
+  assert.match(workerSource, /sourceFreshnessStatus\(item, artifacts, freshnessCache\)/);
 });
 
 test("the runtime pins the support hot shard used by routed searches", () => {

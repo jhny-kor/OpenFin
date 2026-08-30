@@ -175,6 +175,7 @@ export function registerSearchTool(ctx: ToolContext): void {
         return score;
       };
       const supportQuery = SUPPORT_INTENT_RE.test(normalizedQuery);
+      const freshnessCache = freshness_status === undefined ? undefined : new Map<string, string | null>();
       const supportSearchTokens = supportQuery
         ? normalizedQuery.split(/\s+/).filter((token) => token && !["지원", "지원금", "보조금", "신청"].includes(token))
         : [];
@@ -191,7 +192,7 @@ export function registerSearchTool(ctx: ToolContext): void {
         }
         if (!isPubliclySearchable(item)) { addExcluded(item, "not_publicly_searchable"); continue; }
         if (allowedTypes && !allowedTypes.has(item.type)) { addExcluded(item, "type_filter"); continue; }
-        if (!matchesSearchFilters(item, filters, artifacts)) { addExcluded(item, "filter_mismatch"); continue; }
+        if (!matchesSearchFilters(item, filters, artifacts, freshnessCache)) { addExcluded(item, "filter_mismatch"); continue; }
         if (!matchesSupportRegion(item, supportRegion)) { addExcluded(item, "region_mismatch"); continue; }
         if (!matchesSupportIntent(item, normalizedQuery)) { addExcluded(item, "support_intent_mismatch"); continue; }
         const score = cachedScore(item);
