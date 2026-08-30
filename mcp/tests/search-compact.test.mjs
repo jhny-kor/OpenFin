@@ -162,8 +162,8 @@ test("freshness-filtered search resolves each shared source set once", () => {
 test("the runtime bounds parsed shards without reparsing every domain switch", () => {
   assert.match(workerSource, /const cachedLargeSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
-  assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1/);
-  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1/);
+  assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 2/);
+  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 8/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) cache\.delete/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
