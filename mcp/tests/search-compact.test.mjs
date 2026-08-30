@@ -129,3 +129,8 @@ test("bank discovery resolves each hot-shard source set once", () => {
   assert.equal(hotBank.fields.includes("provenance"), false);
   assert.equal(hotBank.fields.includes("source_assertions"), false);
 });
+
+test("the runtime pins the support hot shard used by routed searches", () => {
+  assert.match(workerSource, /PINNED_SEARCH_SHARD_SUFFIXES = new Set\(\["finance-hot-search-index-2026-support\.json"\]\)/);
+  assert.doesNotMatch(workerSource, /finance-search-index-2026-support-compact\.json/);
+});

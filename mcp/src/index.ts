@@ -348,7 +348,7 @@ let cachedSearchItems: CachedSearchItems | undefined;
 const cachedSearchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
 // ponytail: pin the large support shard and keep one ephemeral domain shard; a broader cache retains too much parsed JSON in a Worker isolate.
-const PINNED_SEARCH_SHARD_SUFFIXES = new Set(["finance-search-index-2026-support-compact.json"]);
+const PINNED_SEARCH_SHARD_SUFFIXES = new Set(["finance-hot-search-index-2026-support.json"]);
 const SEARCH_SHARD_CACHE_LIMIT = 1;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();

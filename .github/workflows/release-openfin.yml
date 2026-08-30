@@ -291,8 +291,8 @@ jobs:
           LIVE_METADATA_ATTEMPTS: 12
           LIVE_METADATA_DELAY_MS: 1000
           LIVE_REQUEST_TIMEOUT_MS: 15000
-          LIVE_CASE_ATTEMPTS: 2
-          LIVE_CASE_RETRY_DELAY_MS: 250
+          LIVE_CASE_ATTEMPTS: 4
+          LIVE_CASE_RETRY_DELAY_MS: 1000
       - name: Verify candidate Pages/Worker generation parity
         run: |
           set -euo pipefail
@@ -303,11 +303,13 @@ jobs:
         env:
           MCP_URL: ${{ needs.deploy-worker-candidate.outputs.worker_url }}
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        if: ${{ always() }}
         with:
           name: openfin-live-${{ github.sha }}
           path: |
             live-regression-report.json
             live-regression-error.log
+          if-no-files-found: ignore
           retention-days: 7
 
   deploy-pages-final-candidate:
@@ -450,8 +452,8 @@ jobs:
           LIVE_METADATA_ATTEMPTS: 12
           LIVE_METADATA_DELAY_MS: 1000
           LIVE_REQUEST_TIMEOUT_MS: 15000
-          LIVE_CASE_ATTEMPTS: 2
-          LIVE_CASE_RETRY_DELAY_MS: 250
+          LIVE_CASE_ATTEMPTS: 4
+          LIVE_CASE_RETRY_DELAY_MS: 1000
       - name: Verify immutable Pages mirror and Worker preview parity
         run: node ../scripts/knowledge/verify-public-parity.mjs --expected-deployment-commit "$GITHUB_SHA"
         env:
@@ -466,11 +468,13 @@ jobs:
           OPENFIN_PARITY_ATTEMPTS: 12
           OPENFIN_PARITY_DELAY_MS: 5000
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        if: ${{ always() }}
         with:
           name: openfin-live-final-${{ github.sha }}
           path: |
             live-regression-report.json
             live-regression-error.log
+          if-no-files-found: ignore
           retention-days: 7
 
   promote-worker:
@@ -545,8 +549,17 @@ jobs:
           LIVE_METADATA_ATTEMPTS: 12
           LIVE_METADATA_DELAY_MS: 1000
           LIVE_REQUEST_TIMEOUT_MS: 15000
-          LIVE_CASE_ATTEMPTS: 2
-          LIVE_CASE_RETRY_DELAY_MS: 250
+          LIVE_CASE_ATTEMPTS: 4
+          LIVE_CASE_RETRY_DELAY_MS: 1000
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        if: ${{ always() }}
+        with:
+          name: openfin-live-promoted-${{ github.sha }}
+          path: |
+            promoted-live-regression-report.json
+            promoted-live-regression-error.log
+          if-no-files-found: ignore
+          retention-days: 7
 
   deploy-pages-final:
     needs: [finalize-artifact, validate-promoted-worker]
