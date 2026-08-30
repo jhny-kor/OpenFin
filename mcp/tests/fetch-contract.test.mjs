@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { compactSupportProvenance, selectFetchSections } from "../src/tools/fetch.ts";
+import { compactSupportProvenance, needsSummaryDetailHydration, selectFetchSections } from "../src/tools/fetch.ts";
 
 const identity = { requested_id: "item.1", id: "item.1" };
 const sections = {
@@ -24,6 +24,13 @@ test("fetch defaults to summary and sources while expansions require opt-in", ()
   assert.deepEqual(expanded.neighbors, { related: ["item.2"] });
   assert.deepEqual(expanded.raw, { internal: true });
   assert.equal("title" in expanded, false);
+});
+
+test("product summaries stay on the bounded hot shard", () => {
+  assert.equal(needsSummaryDetailHydration("card-products-ontology", "card-products"), false);
+  assert.equal(needsSummaryDetailHydration("deposit-products-ontology", "bank-products"), false);
+  assert.equal(needsSummaryDetailHydration("insurance-products-ontology", "insurance-products"), false);
+  assert.equal(needsSummaryDetailHydration("finance-reference-ontology", "reference"), true);
 });
 
 test("support provenance stays explicit without loading the full provenance shard", () => {

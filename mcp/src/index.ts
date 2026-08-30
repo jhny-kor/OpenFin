@@ -16,7 +16,7 @@ import { registerCompareTool } from "./tools/compare";
 import { registerRecommendShadowTool } from "./tools/recommend-shadow";
 import { registerRecommendOwnerPilotTool } from "./tools/recommend-owner-pilot";
 import personalFinancePolicy from "../../contracts/personal-finance-policy.json" with { type: "json" };
-import { exportIdForItemId, registerFetchTool } from "./tools/fetch";
+import { exportIdForItemId, needsSummaryDetailHydration, registerFetchTool } from "./tools/fetch";
 import { registerExportsTool } from "./tools/exports";
 import { livenessPayload, readinessPayload } from "./health";
 import { asCapabilityStatus, asServiceAvailability } from "./capability-status.ts";
@@ -2137,10 +2137,7 @@ async function fetchItemGraph(env: Env, rawId: string, include: readonly string[
   // only mode that needs the complete item graph or unprojected fields.
   const wantsFullDetail = include.includes("relations") || include.includes("raw");
   if (indexedItem && !wantsFullDetail) {
-    const needsDetail = ["card-product", "bank-product", "insurance-product"].includes(indexedItem.type)
-      || directExportId === "finance-reference-ontology"
-      || indexedItem.provenance_shard === "reference";
-    if (needsDetail) {
+    if (needsSummaryDetailHydration(directExportId, indexedItem.provenance_shard)) {
       const detailed = await hydrateSearchItem(env, indexedItem);
       return { item: detailed, itemsById: new Map([[detailed.id, detailed]]) };
     }

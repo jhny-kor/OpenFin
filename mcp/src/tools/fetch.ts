@@ -29,6 +29,10 @@ export function exportIdForItemId(itemId: string): string | undefined {
   return undefined;
 }
 
+export function needsSummaryDetailHydration(directExportId?: string, provenanceShard?: string): boolean {
+  return directExportId === "finance-reference-ontology" || provenanceShard === "reference";
+}
+
 // Support search entries intentionally stay compact. This is only a fallback
 // for snapshots without a usable per-item provenance shard; explicit callers
 // are hydrated above so provenance is never silently empty.
