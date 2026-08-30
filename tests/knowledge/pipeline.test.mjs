@@ -199,7 +199,7 @@ test('deterministic build leaves public artifacts byte-identical', () => {
     }
   };
   visit(receipts);
-  const expectedBuildAt = receiptDates.filter(Boolean).sort().at(-1);
+  const expectedBuildAt = process.env.OPENFIN_BUILD_AT || receiptDates.filter(Boolean).sort().at(-1);
   const manifest = JSON.parse(fs.readFileSync(path.join(docs, 'finance-ontology-manifest.json')));
   assert.equal(manifest.built_at, expectedBuildAt);
   const lastAttempt = JSON.parse(fs.readFileSync(path.join(docs, 'live-regression-last-attempt.json')));
