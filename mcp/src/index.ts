@@ -345,8 +345,13 @@ const manifestSingleFlight = new SingleFlight<FinanceManifest>();
 let manifestGeneration = "uninitialized";
 let cachedSearchIndexMetadata: CachedSearchIndexMetadata | undefined;
 let cachedSearchItems: CachedSearchItems | undefined;
-let cachedSearchShard: (CachedSearchItems & { key: string }) | undefined;
+const cachedLargeSearchShards = new Map<string, CachedSearchItems>();
+const cachedSmallSearchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
+// ponytail: one oversized plus three smaller parsed shards bounds isolate heap; raise only with Worker heap evidence.
+const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
+const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
+const SMALL_SEARCH_SHARD_CACHE_LIMIT = 3;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
 const financeArtifactErrors = new Map<string, Record<string, unknown>>();
@@ -1176,7 +1181,8 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
       cachedGraph = undefined;
       cachedSearchIndexMetadata = undefined;
       cachedSearchItems = undefined;
-      cachedSearchShard = undefined;
+      cachedLargeSearchShards.clear();
+      cachedSmallSearchShards.clear();
       cachedFinanceArtifacts.clear();
     }
     const liveEntry = manifest.live_regression_evidence;
@@ -1639,13 +1645,18 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
 }
 
 async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<readonly FinanceItem[]> {
-  const now = Date.now();
   const key = shard.path || shard.shard_id;
   const requestGeneration = manifestGeneration;
   const pendingKey = generationCacheKey(requestGeneration, key);
-  const cached = cachedSearchShard?.key === key ? cachedSearchShard : undefined;
-  if (cached && cached.generation === manifestGeneration && now - cached.loadedAt < CACHE_TTL_MS) return cached.items;
-  if (cachedSearchShard && cachedSearchShard.key !== key) cachedSearchShard = undefined;
+  const cache = (shard.item_count ?? 0) > LARGE_SEARCH_SHARD_ITEM_COUNT ? cachedLargeSearchShards : cachedSmallSearchShards;
+  const cacheLimit = cache === cachedLargeSearchShards ? LARGE_SEARCH_SHARD_CACHE_LIMIT : SMALL_SEARCH_SHARD_CACHE_LIMIT;
+  const cached = cache.get(key);
+  if (cached?.generation === manifestGeneration) {
+    cache.delete(key);
+    cache.set(key, cached);
+    return cached.items;
+  }
+  if (cached) cache.delete(key);
   const pending = inFlightSearchShards.get(pendingKey);
   if (pending) return pending;
   const request = (async () => {
@@ -1668,7 +1679,8 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<reado
     assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
     assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
     if (requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
-      cachedSearchShard = { key, items, loadedAt: Date.now(), generation: requestGeneration };
+      while (cache.size >= cacheLimit) cache.delete(cache.keys().next().value as string);
+      cache.set(key, { items, loadedAt: Date.now(), generation: requestGeneration });
     }
     return items;
   })().finally(() => inFlightSearchShards.delete(pendingKey));

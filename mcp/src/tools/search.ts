@@ -186,6 +186,8 @@ export function registerSearchTool(ctx: ToolContext): void {
         excludedSummary[reason] = (excludedSummary[reason] ?? 0) + 1;
       };
       const scoredItems: Array<{ item: Parameters<typeof scoreItem>[0]; score: number }> = [];
+      const rankedFirst = (a: typeof scoredItems[number], b: typeof scoredItems[number]): number => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR");
+      let supportScoredCount = 0;
       for (const item of items) {
         if (supportSearchTokens.length && typeof item.search_text === "string" && !supportSearchTokens.some((token) => (item.search_text as string).includes(token))) {
           addExcluded(item, "query_mismatch");
@@ -199,18 +201,22 @@ export function registerSearchTool(ctx: ToolContext): void {
         const score = cachedScore(item);
         if (score <= 0) { addExcluded(item, "query_mismatch"); continue; }
         scoredItems.push({ item, score });
+        if (supportQuery) {
+          supportScoredCount += 1;
+          if (scoredItems.length >= maxResults * 2) {
+            scoredItems.sort(rankedFirst);
+            scoredItems.length = maxResults;
+          }
+        }
       }
       const rankedItems = diversifyBroadResults(
-        scoredItems.sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR")),
+        scoredItems.sort(rankedFirst),
         normalizedQuery,
         filters,
         maxResults,
         !supportQuery,
       );
-      if (supportQuery) {
-        const returnedIds = new Set(rankedItems.map(({ item }) => item.id));
-        for (const { item } of scoredItems) if (!returnedIds.has(item.id)) addExcluded(item, "result_limit");
-      }
+      if (supportQuery && supportScoredCount > rankedItems.length) excludedSummary.result_limit = supportScoredCount - rankedItems.length;
       const projectedResults = rankedItems.map(({ item, score }) => ({
         result: compactSearchResult(item, score, normalizedQuery, env, artifacts, sourceHealth, matchReasons, itemUrl),
         matchTier: supportMatchTier(item, normalizedQuery),

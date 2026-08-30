@@ -146,10 +146,18 @@ test("freshness-filtered search resolves each shared source set once", () => {
   assert.ok(freshnessResolution > cheapFilters);
 });
 
-test("the runtime retains only one parsed hot shard", () => {
-  assert.match(workerSource, /let cachedSearchShard: \(CachedSearchItems & \{ key: string \}\) \| undefined/);
-  assert.match(workerSource, /cachedSearchShard = \{ key, items, loadedAt: Date\.now\(\), generation: requestGeneration \}/);
-  assert.doesNotMatch(workerSource, /cachedSearchShards|SEARCH_SHARD_CACHE_LIMIT/);
+test("the runtime bounds parsed shards without reparsing every domain switch", () => {
+  assert.match(workerSource, /const cachedLargeSearchShards = new Map<string, CachedSearchItems>\(\)/);
+  assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
+  assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1/);
+  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 3/);
+  assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
+  assert.match(workerSource, /while \(cache\.size >= cacheLimit\) cache\.delete/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
-  assert.doesNotMatch(workerSource, /finance-search-index-2026-support-compact\.json/);
+});
+
+test("support search keeps only a bounded ranked candidate buffer", () => {
+  assert.match(searchToolSource, /let supportScoredCount = 0/);
+  assert.match(searchToolSource, /scoredItems\.length >= maxResults \* 2/);
+  assert.match(searchToolSource, /excludedSummary\.result_limit = supportScoredCount - rankedItems\.length/);
 });
