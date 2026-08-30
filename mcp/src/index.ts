@@ -1560,6 +1560,18 @@ async function loadSearchIndexMetadata(env: Env): Promise<SearchIndexFile> {
   if (!manifest.search_index) {
     throw new SearchIndexContractError("finance manifest is missing search_index metadata");
   }
+  if (manifest.search_index.shards?.length) {
+    const data = parseSearchIndexFile({
+      version: manifest.version,
+      basis_date: manifest.basis_date,
+      item_count: manifest.search_index.item_count,
+      export_checksum: manifest.search_index.export_checksum,
+      content_checksum: manifest.search_index.content_checksum,
+      shards: manifest.search_index.shards,
+    }, `${manifestUrl}#search_index`);
+    cachedSearchIndexMetadata = { data, loadedAt: now, generation: manifestGeneration };
+    return data;
+  }
   const indexUrl = resolveExportUrl(manifest.search_index, manifestUrl);
   const rawText = await fetchText(indexUrl);
   if (manifest.search_index.content_checksum && !(await verifyTextChecksum(rawText, manifest.search_index.content_checksum))) {
