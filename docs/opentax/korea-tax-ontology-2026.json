@@ -18266,7 +18266,7 @@
       "expiration_date": null,
       "reviewed_at": "2026-05-04",
       "source_urls": [
-        "https://ylaccount.kinfa.or.kr/main"
+        "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do"
       ],
       "source_basis_dates": [
         "2026-05-02 확인"
@@ -18284,7 +18284,7 @@
         "official-source",
         "서민금융진흥원"
       ],
-      "url": "https://ylaccount.kinfa.or.kr/main",
+      "url": "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do",
       "basis_date": "2026-05-02 확인",
       "provenance_shard": "reference"
     },
@@ -29026,5 +29026,5 @@
       "provenance_shard": "reference"
     }
   ],
-  "export_checksum": "db9d04a8d111a7cfc48169a9e56f1944db82833a54cf088d603a2958ef5c9d93"
+  "export_checksum": "a6036fc9a285bf2b1dfebe0f33afc6135a5e8a3217ca7649c6d4814357cdcf3f"
 }

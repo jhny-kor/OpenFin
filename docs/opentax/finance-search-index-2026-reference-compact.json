@@ -7090,7 +7090,7 @@
       "title": "청년도약계좌 상품 안내",
       "type": "source",
       "description": "청년도약계좌 가입 연령, 개인소득, 가구소득, 금융소득종합과세 이력 제한 근거입니다.",
-      "search_text": "source.kinfa.youth-leap 청년도약계좌 상품 안내 source 청년도약계좌 가입 연령, 개인소득, 가구소득, 금융소득종합과세 이력 제한 근거입니다. https://ylaccount.kinfa.or.k",
+      "search_text": "source.kinfa.youth-leap 청년도약계좌 상품 안내 source 청년도약계좌 가입 연령, 개인소득, 가구소득, 금융소득종합과세 이력 제한 근거입니다. https://www.kinfa.or.kr/fill4young/financecommercial/youthlongasset.do",
       "provenance_shard": "reference",
       "export_id": "tax-ontology",
       "source_ids": []
@@ -9183,5 +9183,5 @@
       "source_ids": []
     }
   ],
-  "export_checksum": "c38d44ad949708c376f483b362e2c4dfca74acb9070a5f09ce9fdd76344f528f"
+  "export_checksum": "103508855fadb6b41d0aaeaff2c0f540a0e3a791a0baca3a31a01f34a22a1e7a"
 }

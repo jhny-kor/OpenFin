@@ -149,7 +149,7 @@
       "type": "source",
       "search_text": "source.provider.tossbank.product-documents 토스뱅크 금융상품 공식 문서 토스뱅크",
       "source_urls": [
-        "https://www.tossbank.com/product-service/savings"
+        "https://www.tossbank.com/"
       ],
       "source_ids": [],
       "provenance_shard": "reference"
@@ -17794,7 +17794,7 @@
       "title": "청년도약계좌 상품 안내",
       "type": "source",
       "description": "청년도약계좌 가입 연령, 개인소득, 가구소득, 금융소득종합과세 이력 제한 근거입니다.",
-      "search_text": "source.kinfa.youth-leap 청년도약계좌 상품 안내 source 청년도약계좌 가입 연령, 개인소득, 가구소득, 금융소득종합과세 이력 제한 근거입니다. https://ylaccount.kinfa.or.k",
+      "search_text": "source.kinfa.youth-leap 청년도약계좌 상품 안내 source 청년도약계좌 가입 연령, 개인소득, 가구소득, 금융소득종합과세 이력 제한 근거입니다. https://www.kinfa.or.kr/fill4young/financecommercial/youthlongasset.do",
       "provenance_shard": "reference",
       "export_id": "tax-ontology",
       "structured_summary": {
@@ -17808,7 +17808,7 @@
         }
       },
       "source_urls": [
-        "https://ylaccount.kinfa.or.kr/main"
+        "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do"
       ],
       "source_basis_dates": [
         "2026-05-02 확인"
@@ -23128,5 +23128,5 @@
       "source_ids": []
     }
   ],
-  "export_checksum": "5f46a84e51036423a4ae52c9c13b7ceaa730d363b565ff7db971ebe4ad684197"
+  "export_checksum": "31b53c9bc8741718302ee08a5a1ca4c6b7f85719c2222de87bbbe9c85b5e97e4"
 }

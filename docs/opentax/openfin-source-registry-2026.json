@@ -880,6 +880,7 @@
       "access": {
         "method": "web",
         "parser_id": "http:source-einsmarket-insurance",
+        "request_url": "https://www.e-insmarket.or.kr/mins/minsInsList.knia?prdtSmlClsCd=G004",
         "requires_secret": false
       },
       "refresh": {
@@ -2367,11 +2368,11 @@
         "tax"
       ],
       "urls": {
-        "canonical": "https://ylaccount.kinfa.or.kr/main",
+        "canonical": "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do",
         "api": null,
         "documentation": null,
         "all": [
-          "https://ylaccount.kinfa.or.kr/main"
+          "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do"
         ]
       },
       "access": {
@@ -2492,6 +2493,7 @@
       "access": {
         "method": "web",
         "parser_id": "http:source-knia-insurance-disclosure",
+        "request_url": "https://kpub.knia.or.kr/carInsuranceDisc/product/carProductInf.do",
         "requires_secret": false
       },
       "refresh": {
@@ -3176,6 +3178,7 @@
       "access": {
         "method": "web",
         "parser_id": "http:source-law-value-added-tax-act-filing",
+        "request_url": "https://www.law.go.kr/lsInfoP.do?joNo=000900&lsId=001571",
         "requires_secret": false
       },
       "refresh": {
@@ -5818,11 +5821,11 @@
         "saving"
       ],
       "urls": {
-        "canonical": "https://www.tossbank.com/product-service/savings",
+        "canonical": "https://www.tossbank.com/",
         "api": null,
         "documentation": null,
         "all": [
-          "https://www.tossbank.com/product-service/savings"
+          "https://www.tossbank.com/"
         ]
       },
       "access": {

@@ -16562,29 +16562,29 @@
   ],
   "live_summary": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "live_status": "stale_fixture",
-    "checked_at": "2026-07-31T19:52:41.027Z",
-    "runtime_version": "openfin-mcp-2026.07.28.2",
-    "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
+    "live_status": "failed",
+    "checked_at": "2026-08-29T20:54:26.828Z",
+    "runtime_version": "openfin-mcp-0.2.0-748a88dc79cc-20260829T175805Z-66803acabec0",
+    "deployment_commit": "748a88dc79cc61ff85bb0aefb98a6227b05e169f",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
-    "search_index_checksum": "369cbc7ec7fa6b611f814df7a13ee279f7483c7a12e20d4966c2e46f2abf6432",
+    "search_index_checksum": "4f5ebcba8ca907636264f1436e7a241fe029981cb5e78e4ebbcf911829111125",
     "runtime_search_index_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
     "test_count": 120,
-    "passed_count": 120,
-    "failed_count": 0,
+    "passed_count": 112,
+    "failed_count": 8,
     "failures": [],
     "last_failed_at": null,
     "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
-    "manifest_checksum": "c02888764afbe71b11c2a599ec18a2d98385cbb92917dcdfcad8ba1e7e7e38f4",
-    "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b"
+    "manifest_checksum": "00e1f0590ba82e49b610b1247ac46648038c1f670962dad4813b9635b3cc469f",
+    "generation_id": "66803acabec00276c1206d5b65ee4014b57ec52aaca0ab4ce59bc72ec62894c2"
   },
   "export_checksum": "881b6d03070b5d8382056cf3ae48928346ed755d70c2fb225aca926acda55860",
   "quality_export_live_summary": {
     "source": "manifest.live_regression_evidence",
     "live_test_count": 120,
-    "live_passed_count": 120,
-    "live_failed_count": 0,
-    "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b"
+    "live_passed_count": 112,
+    "live_failed_count": 8,
+    "generation_id": "66803acabec00276c1206d5b65ee4014b57ec52aaca0ab4ce59bc72ec62894c2"
   }
 }

@@ -1,24 +1,24 @@
 {
   "version": "openfin-verification-coverage-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_status": "stale_fixture",
-  "live_tested_at": "2026-07-31T19:52:41.027Z",
-  "runtime_version": "openfin-mcp-2026.07.28.2",
-  "deployment_commit": "ba9e70a039e995dfc70c6cabaac297938bd1d4a2",
+  "live_status": "failed",
+  "live_tested_at": "2026-08-29T20:54:26.828Z",
+  "runtime_version": "openfin-mcp-0.2.0-748a88dc79cc-20260829T175805Z-66803acabec0",
+  "deployment_commit": "748a88dc79cc61ff85bb0aefb98a6227b05e169f",
   "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "live_case_count": 120,
-  "live_passed_count": 120,
-  "live_failed_count": 0,
-  "live_failure_count": 0,
+  "live_passed_count": 112,
+  "live_failed_count": 8,
+  "live_failure_count": 8,
   "report_kind": "verification-coverage",
   "export_checksum": "9aabf23f3ce7686b284b27815ba1c7a86eee4709e9bbf6be9bd7e0cc5d33a990",
-  "live_evidence_generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-  "live_expected_generation_id": "e0677f2a9c5daee11a4ad2ef2f8c23f0fa927ae34c0325feeda43dd15d5fae6d",
+  "live_evidence_generation_id": "66803acabec00276c1206d5b65ee4014b57ec52aaca0ab4ce59bc72ec62894c2",
+  "live_expected_generation_id": "baaed74a3a529a55486b79a737c7f9317530429e346571cc852c2a5f85ccab64",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
-    "checksum": "f142b0635139536fdd2e2f0593887794206f2b03ff9388c79fc015b726219174",
-    "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b",
-    "validation_status": "stale_fixture"
+    "checksum": "3e8dc64bf1d46a8587d4dc9b4474540e20f290c6acc4d9033d8426b036743071",
+    "generation_id": "66803acabec00276c1206d5b65ee4014b57ec52aaca0ab4ce59bc72ec62894c2",
+    "validation_status": "failed"
   },
   "canonical_quality_source": "finance-ontology-manifest.domain_readiness",
   "domain_readiness": [
@@ -156,9 +156,9 @@
   "quality_export_live_summary": {
     "source": "manifest.live_regression_evidence",
     "live_test_count": 120,
-    "live_passed_count": 120,
-    "live_failed_count": 0,
-    "generation_id": "444ecbde4c76987a87dc5a67f2ed512368d1542d5506201dbb995d1ac900660b"
+    "live_passed_count": 112,
+    "live_failed_count": 8,
+    "generation_id": "66803acabec00276c1206d5b65ee4014b57ec52aaca0ab4ce59bc72ec62894c2"
   },
   "legacy_overlay_summary": {
     "deprecated": true,

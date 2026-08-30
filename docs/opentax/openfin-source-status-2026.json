@@ -2256,11 +2256,11 @@
         "change_detection": "http-checksum"
       },
       "urls": {
-        "canonical": "https://ylaccount.kinfa.or.kr/main",
+        "canonical": "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do",
         "api": null,
         "documentation": null,
         "all": [
-          "https://ylaccount.kinfa.or.kr/main"
+          "https://www.kinfa.or.kr/fill4young/financeCommercial/youthLongAsset.do"
         ]
       },
       "stale": true,
@@ -5745,11 +5745,11 @@
         "change_detection": "reviewed-document-checksum"
       },
       "urls": {
-        "canonical": "https://www.tossbank.com/product-service/savings",
+        "canonical": "https://www.tossbank.com/",
         "api": null,
         "documentation": null,
         "all": [
-          "https://www.tossbank.com/product-service/savings"
+          "https://www.tossbank.com/"
         ]
       },
       "id": "source.provider.tossbank.product-documents"

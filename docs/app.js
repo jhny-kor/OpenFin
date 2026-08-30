@@ -507,6 +507,8 @@ function resultSummary(filteredCount, sourceCount, visibleCount) {
 function resultItemHtml(item) {
   const meta = domainMeta(item.__domain);
   const status = item.status || item.product_status || item.abolition_status || "";
+  const freshness = freshnessStatusForItem(item);
+  const freshnessWarning = ["stale", "degraded", "unreachable", "changed", "conflict", "retired"].includes(freshness);
   return `
     <button type="button" class="result-item" data-select-id="${escapeAttribute(item.id)}">
       <strong>${escapeHtml(item.title || item.id)}</strong>
@@ -514,11 +516,41 @@ function resultItemHtml(item) {
         <span>${escapeHtml(meta.label)}</span>
         <span>${escapeHtml(item.type || "unknown")}</span>
         ${status ? `<span class="status-chip ${escapeAttribute(statusClass(status))}">${escapeHtml(status)}</span>` : ""}
+        <span class="status-chip freshness-${escapeAttribute(freshness)}">freshness: ${escapeHtml(freshness)}</span>
+        ${freshnessWarning ? `<span class="freshness-warning" role="status">⚠ 최신성 ${escapeHtml(freshness)}</span>` : ""}
         ${item.provider ? `<span>${escapeHtml(item.provider)}</span>` : ""}
       </div>
       <p>${escapeHtml(item.description || "설명이 없습니다.")}</p>
     </button>
   `;
+}
+
+function freshnessStatusForSource(source, now = Date.now()) {
+  if (!source) return "unknown";
+  const failClosed = ["stale", "degraded", "unreachable", "changed", "conflict", "retired"];
+  const explicitStatuses = [source.source_freshness_status, source.freshness_status, source.status].filter(Boolean);
+  const failClosedStatus = explicitStatuses.find((status) => failClosed.includes(status));
+  if (failClosedStatus) return failClosedStatus;
+  const checkedAt = source.last_successful_checked_at || source.checked_at;
+  const slaHours = Number(source.refresh?.sla_hours);
+  if (checkedAt && Number.isFinite(slaHours) && slaHours >= 0) {
+    const checkedMs = Date.parse(checkedAt);
+    if (Number.isFinite(checkedMs) && now - checkedMs > slaHours * 60 * 60 * 1000) return "stale";
+  }
+  return explicitStatuses[0] || "unknown";
+}
+
+function freshnessStatusForItem(item) {
+  const sourceIds = Array.isArray(item?.source_ids) ? item.source_ids : [];
+  const statuses = sourceIds
+    .map((sourceId) => state.sourceStatus.get(sourceId))
+    .filter(Boolean)
+    .map((source) => freshnessStatusForSource(source))
+    .filter(Boolean);
+  if (!statuses.length) return item?.source_freshness_status || item?.freshness_status || "unknown";
+  return statuses.find((status) => ["stale", "degraded", "unreachable", "changed", "conflict", "retired"].includes(status))
+    || statuses[0]
+    || "unknown";
 }
 
 function selectFirstVisibleResult() {
@@ -894,7 +926,7 @@ function renderSources(item) {
     const sourceMetaUrl = sourceMeta?.urls?.canonical || sourceMeta?.canonical_url || sourceMeta?.source_urls?.[0];
     const sourceUrl = [entry.original_url, sourceMetaUrl].find(isValidSourceUrl) || "";
     const publisher = sourceMeta?.publisher || entry.publisher || entry.source_publisher || entry.source_title || "";
-    const freshness = sourceStatus?.freshness_status || sourceStatus?.status || "unknown";
+    const freshness = freshnessStatusForSource(sourceStatus);
     const verifiedAt = sourceStatus?.last_successful_checked_at || sourceStatus?.checked_at || entry.last_verified_at || entry.reviewed_at || entry.collected_at || "";
     const locator = entry.locator && (entry.locator.value || entry.locator.kind)
       ? `${entry.locator.kind ? `${entry.locator.kind}: ` : ""}${entry.locator.value || ""}`
@@ -1014,7 +1046,7 @@ function renderOperationalSummary() {
     .filter((line) => line.trim())
     .join("");
   const sourceStatusCounts = [...state.sourceStatus.values()].reduce((counts, entry) => {
-    const value = entry?.freshness_status || entry?.status || "unknown";
+    const value = freshnessStatusForSource(entry);
     counts[value] = (counts[value] || 0) + 1;
     return counts;
   }, {});
@@ -1046,7 +1078,7 @@ function renderOperationalSummary() {
     </article>
     <article>
       <h3>품질 요약</h3>
-      <p class="source-status-summary">core/search: <strong>${escapeHtml(state.manifest.core_search_status || state.manifest.platform_release_status || "unknown")}</strong> · 비교: <strong>${escapeHtml(state.manifest.comparison_status || state.manifest.comparison_release_status || "unknown")}</strong> · 추천: <strong>${escapeHtml(state.manifest.recommendation_status || state.manifest.recommendation_release_status || "blocked")}</strong></p>
+      <p class="source-status-summary">core/search: <strong>${escapeHtml(state.manifest.capabilities?.search || state.manifest.core_search_status || state.manifest.platform_release_status || "unknown")}</strong> · 비교: <strong>${escapeHtml(state.manifest.capabilities?.comparison || state.manifest.comparison_status || state.manifest.comparison_release_status || "unknown")}</strong> · 추천: <strong>${escapeHtml(state.manifest.capabilities?.recommendation || state.manifest.recommendation_status || state.manifest.recommendation_release_status || "blocked")}</strong></p>
       <p class="quality-summary-list">${qualityLines || "품질 요약 로딩 전입니다."}</p>
       <p class="source-status-summary">provenance 연결률은 필드 출처 검증률과 다릅니다. 위의 ‘필드 출처 검증’ 수치는 필수 필드 assertion까지 확인된 상품만 포함합니다.</p>
       <p class="source-status-summary">출처 상태: ${escapeHtml(statusLine || "확인 불가")}</p>
