@@ -187,6 +187,7 @@ const runtimeSearchFields = [...new Set([
   'recommendation_exclusion_reasons', 'public_recommendation_exclusion_reasons', 'discovery_limitations',
   'catalog_recommendation_status', 'catalog_recommendation_scope', 'verification_status', 'verification_evidence',
   'source_records', 'source_assertion_ids', 'source_assertions', 'provenance', 'capabilities',
+  'external_product_ids',
   'comparison_approved', 'recommendation_approved', 'candidate_id', 'option_id', 'offer_id', 'evidence_gate',
   'source_checksum',
 ])];
@@ -213,6 +214,14 @@ const defaultHotSearchFields = [
   'discovery_limitations', 'normalized_completeness_ratio', 'completeness_ratio', 'verified_completeness_ratio',
 ];
 const hotSearchFieldsForShard = shardId => hotSearchFieldsByShard[shardId] || defaultHotSearchFields;
+const exactFetchFields = [...new Set([
+  ...defaultHotSearchFields,
+  'legacy_ids', 'aliases', 'last_verified_at', 'last_source_checked_at', 'last_reviewed_at',
+  'jurisdiction', 'jurisdiction_code', 'jurisdiction_aliases', 'parent_jurisdiction_code',
+  'target_group', 'support_category', 'export_id',
+])];
+const EXACT_FETCH_SHARD_COUNT = 128;
+const exactFetchShardId = id => `exact-${(Number.parseInt(sha256(String(id).trim().toLocaleLowerCase('ko-KR')).slice(7, 9), 16) % EXACT_FETCH_SHARD_COUNT).toString(16).padStart(2, '0')}`;
 const SUPPORT_HOT_APPLICATION_STATUSES = [
   'unknown', 'recurring_annual', 'always_open', 'source_schedule_ambiguous',
   'agency_schedule_varies', 'closed', 'announcement_based', 'not_required',
@@ -297,8 +306,13 @@ const hotSearchTerms = (item, shardId) => {
 const detailShardOutputs = [];
 const shardOutputs = [];
 const hotSearchShardOutputs = [];
-const writeHotSearchShard = (meta, items) => {
-  const fields = hotSearchFieldsForShard(meta.shard_id);
+const writeHotSearchShard = (meta, items, {
+  fields = hotSearchFieldsForShard(meta.shard_id),
+  terms = true,
+  filePrefix = 'finance-hot-search-index-2026',
+  idPrefix = 'finance-hot-search-index',
+  outputs = hotSearchShardOutputs,
+} = {}) => {
   const hotItems = items.map(item => {
     const hotValue = field => field === 'support_state' ? supportHotState(item)
       : field === 'support_region' ? supportHotRegion(item)
@@ -308,7 +322,7 @@ const writeHotSearchShard = (meta, items) => {
     hot.provenance_shard = item.provenance_shard || meta.shard_id;
     return hot;
   });
-  const termRows = items.map(item => hotSearchTerms(item, meta.shard_id));
+  const termRows = terms ? items.map(item => hotSearchTerms(item, meta.shard_id)) : items.map(() => []);
   const vocabulary = [...new Set(termRows.flat())].sort((left, right) => left.localeCompare(right, 'ko-KR'));
   const vocabularyIds = new Map(vocabulary.map((term, index) => [term, index]));
   const searchTerms = termRows.map(terms => terms.map(term => vocabularyIds.get(term)));
@@ -327,12 +341,12 @@ const writeHotSearchShard = (meta, items) => {
     items: rows,
     export_checksum: sha256(JSON.stringify(rows)).slice(7),
   };
-  const file = `finance-hot-search-index-2026-${meta.shard_id}.json`;
+  const file = `${filePrefix}-${meta.shard_id}.json`;
   const outputPath = path.join(DOCS, file);
   writeCompact(outputPath, output);
   const content_checksum = sha256(fs.readFileSync(outputPath, 'utf8')).slice(7);
-  hotSearchShardOutputs.push({
-    id: `finance-hot-search-index-${meta.shard_id}`,
+  outputs.push({
+    id: `${idPrefix}-${meta.shard_id}`,
     shard_id: meta.shard_id,
     path: `opentax/${file}`,
     url: `${PUBLIC_BASE}/${file}`,
@@ -395,6 +409,13 @@ for (const file of fs.readdirSync(DOCS).filter(f=>/^finance-search-index-2026-.+
   writeHotSearchShard(data, []);
 }
 const allSearchItems = detailShardOutputs.flatMap(s => json(path.join(DOCS, path.basename(s.path))).items);
+const itemLookupAliases = item => [...new Set([
+  ...(item.legacy_ids || []),
+  ...(item.search_aliases || []),
+  ...(item.aliases || []),
+  ...(item.source_records || []).flatMap(record => [record?.id, record?.source_record_id]),
+  ...(item.external_product_ids || []).map(identifier => identifier?.value),
+].filter(value => typeof value === 'string' && value.trim()))];
 const compactSearchItems = allSearchItems.map(item => {
   const compact = Object.fromEntries(compactSearchFields.filter(field => hasCompactValue(item[field])).map(field => [field, item[field]]));
   // Keep the field present even for source nodes, whose dependency set is
@@ -403,11 +424,7 @@ const compactSearchItems = allSearchItems.map(item => {
   compact.source_ids = Array.isArray(item.source_ids) ? item.source_ids : [];
   // Preserve legacy/source-record lookup without carrying the much larger
   // source_records objects in the Worker search root.
-  const lookupAliases = [...new Set([
-    ...(item.legacy_ids || []),
-    ...(item.source_records || []).flatMap(record => [record?.id, record?.source_record_id]),
-    ...(item.external_product_ids || []).map(identifier => identifier?.value),
-  ].filter(value => typeof value === 'string' && value))].sort();
+  const lookupAliases = itemLookupAliases(item).filter(alias => !(item.search_aliases || []).includes(alias) && !(item.aliases || []).includes(alias)).sort();
   if (lookupAliases.length) compact.legacy_ids = lookupAliases;
   return compact;
 });
@@ -417,6 +434,50 @@ const canonicalProductIds = new Set(productNodes.map(item => item.canonical_prod
 const canonicalMergeCount = catalog.filter(item => (item.publication_memberships || []).length > 1).length;
 const searchManifest = {...searchRoot, item_count:allSearchItems.length, compact_item_count:compactSearchItems.length, canonical_product_count:canonicalProductIds.size, duplicate_canonical_product_count:productNodes.length - canonicalProductIds.size, canonical_merge_count:canonicalMergeCount, export_checksum:sha256(JSON.stringify(compactSearchItems)).slice(7), detail_checksum:sha256(JSON.stringify(allSearchItems)).slice(7), shards:shardOutputs, items:compactSearchItems};
 const detailSearchIndex = {id:'openfin-detail-search-index', domain:'search', path:'opentax/finance-search-index-2026.json', url:`${PUBLIC_BASE}/finance-search-index-2026.json`, web_url:`${PUBLIC_BASE}/finance-search-index-2026.json`, item_count:allSearchItems.length, export_checksum:searchManifest.detail_checksum, shards:detailShardOutputs};
+const normalizedExactLookup = value => String(value).trim().toLocaleLowerCase('ko-KR');
+const exactLookupOwners = new Map();
+for (const item of allSearchItems) {
+  for (const lookupId of [item.id, item.canonical_product_id, item.resolved_canonical_product_id, ...itemLookupAliases(item)].filter(Boolean)) {
+    const normalized = normalizedExactLookup(lookupId);
+    if (!exactLookupOwners.has(normalized)) exactLookupOwners.set(normalized, new Set());
+    exactLookupOwners.get(normalized).add(item.id);
+  }
+}
+const exactFetchBuckets = new Map(Array.from({length: EXACT_FETCH_SHARD_COUNT}, (_, index) => [`exact-${index.toString(16).padStart(2, '0')}`, []]));
+for (const item of allSearchItems) {
+  const exactItem = {
+    ...item,
+    legacy_ids: itemLookupAliases(item).filter(alias => !(item.search_aliases || []).includes(alias) && !(item.aliases || []).includes(alias)),
+  };
+  const canonicalLookups = [item.id, item.canonical_product_id, item.resolved_canonical_product_id].filter(Boolean);
+  const uniqueAliases = itemLookupAliases(item).filter(alias => exactLookupOwners.get(normalizedExactLookup(alias))?.size === 1);
+  const shardIds = new Set([...canonicalLookups, ...uniqueAliases].map(exactFetchShardId));
+  for (const shardId of shardIds) exactFetchBuckets.get(shardId).push(exactItem);
+}
+const exactFetchShardOutputs = [];
+for (const [shardId, items] of exactFetchBuckets) {
+  writeHotSearchShard({...searchRoot, shard_id: shardId}, items, {
+    fields: exactFetchFields,
+    terms: false,
+    filePrefix: 'finance-exact-fetch-index-2026',
+    idPrefix: 'finance-exact-fetch-index',
+    outputs: exactFetchShardOutputs,
+  });
+}
+const exactFetchIndex = {
+  id: 'openfin-exact-fetch-index',
+  domain: 'fetch-exact',
+  path: 'opentax/finance-exact-fetch-index-2026.json',
+  url: `${PUBLIC_BASE}/finance-exact-fetch-index-2026.json`,
+  web_url: `${PUBLIC_BASE}/finance-exact-fetch-index-2026.json`,
+  item_count: allSearchItems.length,
+  row_count: exactFetchShardOutputs.reduce((sum, shard) => sum + shard.item_count, 0),
+  export_checksum: sha256(exactFetchShardOutputs.map(({ shard_id, path: shardPath, export_checksum }) => [shard_id, shardPath, export_checksum])).slice(7),
+  shards: exactFetchShardOutputs,
+};
+const exactFetchRootPath = path.join(DOCS, 'finance-exact-fetch-index-2026.json');
+writeCompact(exactFetchRootPath, exactFetchIndex);
+exactFetchIndex.content_checksum = sha256(fs.readFileSync(exactFetchRootPath, 'utf8')).slice(7);
 const hotSearchIndex = {
   id: 'openfin-hot-search-index',
   domain: 'search-hot',
@@ -919,6 +980,7 @@ manifest.search_index={...(manifest.search_index||{}),path:'opentax/finance-sear
 delete manifest.search_index.quality_summary;
 manifest.detail_search_index=detailSearchIndex;
 manifest.hot_search_index=hotSearchIndex;
+manifest.exact_fetch_index=exactFetchIndex;
 const rewriteOperational = value => typeof value === 'string' ? value.replaceAll('https://jhny-kor.github.io/TaxMeter/opentax/', `${PUBLIC_BASE}/`).replaceAll('https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/', `${PUBLIC_BASE}/`) : Array.isArray(value) ? value.map(rewriteOperational) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rewriteOperational(v)])) : value;
 const rewrittenManifest = rewriteOperational(manifest); for (const key of Object.keys(manifest)) delete manifest[key]; Object.assign(manifest, rewrittenManifest);
 delete manifest.manifest_checksum;

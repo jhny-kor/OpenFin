@@ -16,7 +16,7 @@ import { registerCompareTool } from "./tools/compare";
 import { registerRecommendShadowTool } from "./tools/recommend-shadow";
 import { registerRecommendOwnerPilotTool } from "./tools/recommend-owner-pilot";
 import personalFinancePolicy from "../../contracts/personal-finance-policy.json" with { type: "json" };
-import { exportIdForItemId, needsSummaryDetailHydration, registerFetchTool } from "./tools/fetch";
+import { exactFetchShardId, exportIdForItemId, needsSummaryDetailHydration, registerFetchTool } from "./tools/fetch";
 import { registerExportsTool } from "./tools/exports";
 import { livenessPayload, readinessPayload } from "./health";
 import { asCapabilityStatus, asServiceAvailability } from "./capability-status.ts";
@@ -164,6 +164,7 @@ type ManifestEntry = {
   url?: string;
   web_url?: string;
   item_count?: number;
+  row_count?: number;
   product_count?: number;
   description?: string;
   shards?: SearchIndexShard[];
@@ -217,6 +218,7 @@ type FinanceManifest = {
   search_index?: ManifestEntry;
   detail_search_index?: ManifestEntry;
   hot_search_index?: ManifestEntry;
+  exact_fetch_index?: ManifestEntry;
   quality_exports?: ManifestEntry[];
   source_registry?: ManifestEntry;
   source_status?: ManifestEntry;
@@ -1185,6 +1187,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
       search_index: (manifest.search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.search_index?.content_checksum ?? manifest.search_index?.path,
       detail_search_index: (manifest.detail_search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.detail_search_index?.content_checksum ?? manifest.detail_search_index?.path,
       hot_search_index: (manifest.hot_search_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.hot_search_index?.content_checksum ?? manifest.hot_search_index?.path,
+      exact_fetch_index: (manifest.exact_fetch_index as (ManifestEntry & { export_checksum?: string; content_checksum?: string }) | undefined)?.export_checksum ?? manifest.exact_fetch_index?.content_checksum ?? manifest.exact_fetch_index?.path,
       exports: manifest.exports.map((entry) => [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum]),
       artifacts: [manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, manifest.live_regression_evidence]
         .map((entry) => entry ? [entry.id, entry.path, entry.url, entry.web_url, (entry as ManifestEntry & { export_checksum?: string }).export_checksum] : null),
@@ -1215,7 +1218,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
 }
 
 function manifestChecksumContract(manifest: FinanceManifest): boolean {
-  const entries = [manifest.search_index, manifest.detail_search_index, manifest.hot_search_index, manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, manifest.live_regression_evidence, ...(manifest.exports ?? [])];
+  const entries = [manifest.search_index, manifest.detail_search_index, manifest.hot_search_index, ...(manifest.exact_fetch_index ? [manifest.exact_fetch_index] : []), manifest.source_registry, manifest.source_status, manifest.provenance_index, manifest.provenance_coverage, manifest.relationship_index, manifest.live_regression_evidence, ...(manifest.exports ?? [])];
   return manifest._manifest_checksum_verified === true && entries.length > 0 && entries.every((entry) => typeof entry?.export_checksum === "string" && entry.export_checksum.length > 0);
 }
 
@@ -1767,6 +1770,14 @@ async function loadSearchItemsForQuery(
   return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
 }
 
+async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: string): Promise<readonly FinanceItem[] | undefined> {
+  const shards = manifest.exact_fetch_index?.shards;
+  if (!shards?.length) return undefined;
+  const shardId = await exactFetchShardId(itemId);
+  const shard = shards.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
+  return shard ? loadSearchShard(env, shard) : [];
+}
+
 async function hydrateSearchItem(env: Env, item: FinanceItem): Promise<FinanceItem> {
   const manifest = await loadFinanceManifest(env);
   const shardId = item.provenance_shard ?? item.shard_id;
@@ -2166,10 +2177,15 @@ async function fetchItemGraph(env: Env, rawId: string, include: readonly string[
   const manifest = await loadFinanceManifest(env);
   const resolvedItemId = resolveItemId(rawId);
   const directExportId = exportIdForItemId(resolvedItemId);
-  let indexedItem = rawId.startsWith("missing.") ? undefined : resolveCanonicalItemId(rawId, await loadSearchItemsForQuery(env, resolvedItemId, searchTypeForItemId(resolvedItemId)));
-  if (!indexedItem && !rawId.startsWith("missing.")) {
+  const exactItems = rawId.startsWith("missing.") ? undefined : await loadExactFetchItems(env, manifest, resolvedItemId);
+  let indexedItem = exactItems ? resolveCanonicalItemId(rawId, exactItems) : undefined;
+  if (!indexedItem && exactItems === undefined && !rawId.startsWith("missing.")) {
+    indexedItem = resolveCanonicalItemId(rawId, await loadSearchItemsForQuery(env, resolvedItemId, searchTypeForItemId(resolvedItemId)));
+  }
+  if (!indexedItem && exactItems === undefined && !rawId.startsWith("missing.")) {
     indexedItem = resolveCanonicalItemId(rawId, await loadSearchItems(env));
   }
+  if (!indexedItem && exactItems !== undefined) throw new Error(`Finance ontology item not found: ${rawId}`);
   const itemId = indexedItem?.id ?? resolvedItemId;
   if (rawId.startsWith("missing.")) throw new Error(`Finance ontology item not found: ${rawId}`);
   // Summary/source/provenance fetches must stay on bounded hot/detail shards.

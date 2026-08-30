@@ -21,6 +21,38 @@
       },
       "additionalProperties": true
     },
+    "exact_fetch_index": {
+      "type": "object",
+      "required": ["id", "domain", "path", "item_count", "row_count", "export_checksum", "content_checksum", "shards"],
+      "properties": {
+        "id": { "const": "openfin-exact-fetch-index" },
+        "domain": { "const": "fetch-exact" },
+        "path": { "const": "opentax/finance-exact-fetch-index-2026.json" },
+        "item_count": { "type": "integer", "minimum": 1 },
+        "row_count": { "type": "integer", "minimum": 1 },
+        "export_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "content_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "shards": {
+          "type": "array",
+          "minItems": 128,
+          "maxItems": 128,
+          "items": {
+            "type": "object",
+            "required": ["id", "shard_id", "path", "item_count", "export_checksum", "content_checksum"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^finance-exact-fetch-index-exact-[0-7][0-9a-f]$" },
+              "shard_id": { "type": "string", "pattern": "^exact-[0-7][0-9a-f]$" },
+              "path": { "type": "string", "pattern": "^opentax/finance-exact-fetch-index-2026-exact-[0-7][0-9a-f]\\.json$" },
+              "item_count": { "type": "integer", "minimum": 1 },
+              "export_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+              "content_checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
     "current_release": { "type": "object", "required": ["path", "url"], "properties": { "path": { "type": "string" }, "url": { "type": "string", "format": "uri" } }, "additionalProperties": false },
     "legacy_compatibility": { "type": "object", "required": ["path", "url"], "properties": { "path": { "type": "string" }, "url": { "type": "string", "format": "uri" } }, "additionalProperties": false },
     "recommendation_state": { "enum": ["blocked", "shadow", "owner_pilot", "review_ready", "limited_public", "public", "suspended"] },

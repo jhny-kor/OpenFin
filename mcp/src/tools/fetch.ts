@@ -4,6 +4,13 @@ import type { ToolContext } from "../types/tool-context.ts";
 export const FETCH_INCLUDE_VALUES = ["summary", "sources", "provenance", "relations", "raw"] as const;
 export type FetchInclude = typeof FETCH_INCLUDE_VALUES[number];
 const DEFAULT_FETCH_INCLUDE: readonly FetchInclude[] = ["summary", "sources"];
+export const EXACT_FETCH_SHARD_COUNT = 128;
+
+export async function exactFetchShardId(value: string): Promise<string> {
+  const normalized = value.trim().toLocaleLowerCase("ko-KR");
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(normalized)));
+  return `exact-${(digest[0] % EXACT_FETCH_SHARD_COUNT).toString(16).padStart(2, "0")}`;
+}
 
 export function selectFetchSections(
   identity: Record<string, unknown>,

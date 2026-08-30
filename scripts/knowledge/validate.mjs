@@ -306,6 +306,8 @@ const decodeHotSearchItems = payload => {
     return item;
   });
 };
+const EXACT_FETCH_SHARD_COUNT = 128;
+const exactFetchShardId = id => `exact-${(Number.parseInt(sha256(String(id).trim().toLocaleLowerCase('ko-KR')).slice(7, 9), 16) % EXACT_FETCH_SHARD_COUNT).toString(16).padStart(2, '0')}`;
 const hotSearch = manifest.hot_search_index;
 if (!hotSearch || !Array.isArray(hotSearch.shards) || hotSearch.shards.reduce((sum, shard) => sum + (shard.item_count || 0), 0) !== search.item_count) {
   fail('hot search index missing or shard counts do not sum to the search root');
@@ -325,6 +327,34 @@ if (!hotSearch || !Array.isArray(hotSearch.shards) || hotSearch.shards.reduce((s
       if (!item.id || !item.title || !item.type || !Array.isArray(item.source_ids) || typeof item.provenance_shard !== 'string') fail(`hot search item contract invalid: ${shard.shard_id}`);
       for (const sourceId of item.source_ids) if (!sourceIds.has(sourceId)) fail(`hot search source id unresolved: ${item.id} -> ${sourceId}`);
     }
+  }
+}
+const exactFetch = manifest.exact_fetch_index;
+if (exactFetch) {
+  const exactRowCount = exactFetch.shards?.reduce((sum, shard) => sum + (shard.item_count || 0), 0);
+  if (!Array.isArray(exactFetch.shards) || exactFetch.shards.length !== EXACT_FETCH_SHARD_COUNT || exactFetch.item_count !== search.item_count || exactRowCount !== exactFetch.row_count) {
+    fail('exact fetch index missing shards or item/row counts are inconsistent');
+  } else {
+    const exactRootPath = path.join(DOCS, path.basename(exactFetch.path || ''));
+    if (!fs.existsSync(exactRootPath)) fail('exact fetch root missing');
+    else if (exactFetch.content_checksum && exactFetch.content_checksum !== sha256(fs.readFileSync(exactRootPath, 'utf8')).slice(7)) fail('exact fetch root content checksum mismatch');
+    const exactIds = new Set();
+    for (const shard of exactFetch.shards) {
+      const shardPath = path.join(DOCS, path.basename(shard.path));
+      if (!fs.existsSync(shardPath)) { fail(`exact fetch shard missing: ${shard.shard_id}`); continue; }
+      const shardText = fs.readFileSync(shardPath, 'utf8');
+      if (shard.content_checksum && shard.content_checksum !== sha256(shardText).slice(7)) fail(`exact fetch shard content checksum mismatch: ${shard.shard_id}`);
+      const payload = JSON.parse(shardText);
+      const items = decodeHotSearchItems(payload);
+      if (items.length !== shard.item_count || payload.item_count !== shard.item_count) fail(`exact fetch shard count mismatch: ${shard.shard_id}`);
+      for (const item of items) {
+        if (!item.id || !item.title || !item.type || !Array.isArray(item.source_ids) || typeof item.provenance_shard !== 'string') fail(`exact fetch item contract invalid: ${shard.shard_id}`);
+        exactIds.add(item.id);
+        const lookupIds = [item.id, item.canonical_product_id, item.resolved_canonical_product_id, ...(item.legacy_ids || []), ...(item.search_aliases || []), ...(item.aliases || [])].filter(Boolean);
+        if (!lookupIds.some(lookupId => exactFetchShardId(lookupId) === shard.shard_id)) fail(`exact fetch item routed to unrelated shard: ${item.id}`);
+      }
+    }
+    if (exactIds.size !== exactFetch.item_count) fail('exact fetch unique item count mismatch');
   }
 }
 const provenanceIndex = json(path.join(DOCS, 'openfin-provenance-index-2026.json'));

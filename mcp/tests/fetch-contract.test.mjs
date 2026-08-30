@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import test from "node:test";
-import { compactSupportProvenance, needsSummaryDetailHydration, selectFetchSections } from "../src/tools/fetch.ts";
+import { compactSupportProvenance, exactFetchShardId, needsSummaryDetailHydration, selectFetchSections } from "../src/tools/fetch.ts";
 
 const identity = { requested_id: "item.1", id: "item.1" };
 const sections = {
@@ -31,6 +32,12 @@ test("product summaries stay on the bounded hot shard", () => {
   assert.equal(needsSummaryDetailHydration("deposit-products-ontology", "bank-products"), false);
   assert.equal(needsSummaryDetailHydration("insurance-products-ontology", "insurance-products"), false);
   assert.equal(needsSummaryDetailHydration("finance-reference-ontology", "reference"), true);
+});
+
+test("exact fetch ids route deterministically to one of 128 shards", async () => {
+  const itemId = " Finance.Loan.Credit-Loan.0010002.SC001217 ";
+  const firstByte = crypto.createHash("sha256").update(itemId.trim().toLocaleLowerCase("ko-KR")).digest()[0];
+  assert.equal(await exactFetchShardId(itemId), `exact-${(firstByte % 128).toString(16).padStart(2, "0")}`);
 });
 
 test("support provenance stays explicit without loading the full provenance shard", () => {

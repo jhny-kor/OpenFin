@@ -317,7 +317,7 @@ jobs:
           LIVE_METADATA_ATTEMPTS: 12
           LIVE_METADATA_DELAY_MS: 1000
           LIVE_REQUEST_TIMEOUT_MS: 15000
-          LIVE_CASE_ATTEMPTS: 4
+          LIVE_CASE_ATTEMPTS: 1
           LIVE_CASE_RETRY_DELAY_MS: 1000
       - name: Verify candidate Pages/Worker generation parity
         run: |
@@ -477,7 +477,7 @@ jobs:
           LIVE_METADATA_ATTEMPTS: 12
           LIVE_METADATA_DELAY_MS: 1000
           LIVE_REQUEST_TIMEOUT_MS: 15000
-          LIVE_CASE_ATTEMPTS: 4
+          LIVE_CASE_ATTEMPTS: 1
           LIVE_CASE_RETRY_DELAY_MS: 1000
       - name: Verify immutable Pages mirror and Worker preview parity
         run: node ../scripts/knowledge/verify-public-parity.mjs --expected-deployment-commit "$GITHUB_SHA"
@@ -562,18 +562,22 @@ jobs:
           test "$(jq -r '.deployment_commit' <<< "$health")" = "$GITHUB_SHA"
           test "$(jq -r '.generation_id' <<< "$health")" = "$expected_generation"
           test "$(jq -r '.finance_manifest_url' <<< "$health")" = "$expected_url"
-          node scripts/live-regression.mjs > ../promoted-live-regression-report.json 2> ../promoted-live-regression-error.log
-          test "$(jq -r '.status' ../promoted-live-regression-report.json)" = current
-          test "$(jq -r '.test_count' ../promoted-live-regression-report.json)" = 120
-          test "$(jq -r '.passed_count' ../promoted-live-regression-report.json)" = 120
-          test "$(jq -r '.failed_count' ../promoted-live-regression-report.json)" = 0
-          test "$(jq -r '.skipped_count' ../promoted-live-regression-report.json)" = 0
+          result=0
+          for run in 1 2 3; do
+            report="../promoted-live-regression-report-$run.json"
+            error_log="../promoted-live-regression-error-$run.log"
+            if ! node scripts/live-regression.mjs > "$report" 2> "$error_log"; then result=1; fi
+            if ! jq -e '.status == "current" and .test_count == 120 and .passed_count == 120 and .failed_count == 0 and .skipped_count == 0 and ((.retry_errors // []) | length == 0)' "$report" > /dev/null; then result=1; fi
+          done
+          cp ../promoted-live-regression-report-3.json ../promoted-live-regression-report.json
+          cp ../promoted-live-regression-error-3.log ../promoted-live-regression-error.log
+          exit "$result"
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
-          LIVE_METADATA_ATTEMPTS: 12
+          LIVE_METADATA_ATTEMPTS: 1
           LIVE_METADATA_DELAY_MS: 1000
           LIVE_REQUEST_TIMEOUT_MS: 15000
-          LIVE_CASE_ATTEMPTS: 4
+          LIVE_CASE_ATTEMPTS: 1
           LIVE_CASE_RETRY_DELAY_MS: 1000
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: ${{ always() }}
@@ -582,6 +586,8 @@ jobs:
           path: |
             promoted-live-regression-report.json
             promoted-live-regression-error.log
+            promoted-live-regression-report-*.json
+            promoted-live-regression-error-*.log
           if-no-files-found: ignore
           retention-days: 7
 

@@ -185,7 +185,7 @@ test('canonical dates are ISO while compatibility exports preserve legacy labels
 
 test('deterministic build leaves public artifacts byte-identical', () => {
   const docs = path.join(root, 'docs/opentax');
-  const files = fs.readdirSync(docs).filter(file => /^(finance-ontology-manifest|finance-search-index-2026|korea-.*-ontology-2026|openfin-(source|provenance|relationship|migration|quality)).*\.json$/.test(file)).sort();
+  const files = fs.readdirSync(docs).filter(file => /^(finance-ontology-manifest|finance-(?:search|exact-fetch)-index-2026|korea-.*-ontology-2026|openfin-(source|provenance|relationship|migration|quality)).*\.json$/.test(file)).sort();
   const before = new Map(files.map(file => [file, hash(path.join(docs, file))]));
   execFileSync('node', ['scripts/knowledge/build.mjs'], { cwd: root, encoding: 'utf8', maxBuffer: 10_000_000 });
   for (const file of files) assert.equal(hash(path.join(docs, file)), before.get(file), `${file} changed after deterministic rebuild`);
@@ -217,6 +217,39 @@ test('deterministic build leaves public artifacts byte-identical', () => {
   const lastAttempt = JSON.parse(fs.readFileSync(path.join(docs, 'live-regression-last-attempt.json')));
   for (const key of ['last_attempt', 'last_successful', 'gate_basis', 'validation_status', 'expected_generation_id', 'expected_fixture_checksum']) assert.ok(key in lastAttempt, `last-attempt envelope missing ${key}`);
   assert.deepEqual(lastAttempt.last_attempt, Object.fromEntries(Object.entries(lastAttempt).filter(([key]) => !['last_attempt', 'last_successful', 'gate_basis', 'validation_status', 'expected_generation_id', 'expected_fixture_checksum'].includes(key))));
+});
+
+test('exact fetch shards keep cold item lookup bounded', () => {
+  const docs = path.join(root, 'docs/opentax');
+  const manifest = JSON.parse(fs.readFileSync(path.join(docs, 'finance-ontology-manifest.json')));
+  const exact = manifest.exact_fetch_index;
+  assert.equal(exact.shards.length, 128);
+  assert.equal(exact.shards.reduce((sum, shard) => sum + shard.item_count, 0), exact.row_count);
+  const rowsByShard = new Map();
+  const itemsById = new Map();
+  for (const shard of exact.shards) {
+    const shardPath = path.join(docs, path.basename(shard.path));
+    assert.ok(fs.statSync(shardPath).size < 512 * 1024, `${shard.path} is too large for a cold exact fetch`);
+    const payload = JSON.parse(fs.readFileSync(shardPath));
+    const decoded = payload.items.map(row => Object.fromEntries(payload.fields.map((field, index) => [field, row[index]]).filter(([, value]) => value !== null)));
+    rowsByShard.set(shard.shard_id, decoded);
+    for (const item of decoded) if (!itemsById.has(item.id)) itemsById.set(item.id, item);
+  }
+  assert.equal(itemsById.size, exact.item_count);
+  const lookupOwners = new Map();
+  const lookupIds = item => [item.id, item.canonical_product_id, item.resolved_canonical_product_id, ...(item.legacy_ids || []), ...(item.search_aliases || []), ...(item.aliases || [])].filter(Boolean);
+  for (const item of itemsById.values()) for (const lookupId of lookupIds(item)) {
+    const normalized = lookupId.trim().toLocaleLowerCase('ko-KR');
+    if (!lookupOwners.has(normalized)) lookupOwners.set(normalized, new Set());
+    lookupOwners.get(normalized).add(item.id);
+  }
+  for (const item of itemsById.values()) for (const lookupId of lookupIds(item)) {
+    const normalized = lookupId.trim().toLocaleLowerCase('ko-KR');
+    if (lookupId !== item.id && ![item.canonical_product_id, item.resolved_canonical_product_id].includes(lookupId) && lookupOwners.get(normalized).size !== 1) continue;
+    const firstByte = crypto.createHash('sha256').update(normalized).digest()[0];
+    const shardId = `exact-${(firstByte % 128).toString(16).padStart(2, '0')}`;
+    assert.ok(rowsByShard.get(shardId).some(candidate => candidate.id === item.id), `${lookupId} did not route ${item.id} to ${shardId}`);
+  }
 });
 
 test('runtime search shards exclude large provenance bookkeeping', () => {
