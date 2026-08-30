@@ -1,0 +1,2214 @@
+{
+  "status": "failed",
+  "mode": "live",
+  "checked_at": "2026-08-30T21:04:30.449Z",
+  "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
+  "runtime_version": "openfin-mcp-dev",
+  "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+  "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+  "manifest_checksum": "233a7372a7ce6b622913324decd4c3e6f1d43992bf163637a44358727811016c",
+  "loaded_index_checksum": "64aad68ad2449c98b46dfbb8aee846eb9fc5562bf057f315b0d53b41eb3d5a04",
+  "source_status_checksum": "0fa6b293d50eea97919f6f0b9807f7c958883b5a25a6c5554fd0dd2f04ae7264",
+  "loaded_item_count": 21289,
+  "fixture_checksum": "sha256:1030ce9505034216880ef47384cea521cc76000089d4b32942ba53a68c2c7989",
+  "semantic_unique_case_count": 120,
+  "category_counts": {
+    "exact_search": 20,
+    "alias_search": 10,
+    "ambiguous_query": 10,
+    "comparison": 15,
+    "eligibility": 15,
+    "freshness": 10,
+    "recommendation_gate": 15,
+    "security": 10,
+    "unknown": 10,
+    "deployment": 5
+  },
+  "test_count": 120,
+  "passed_count": 116,
+  "failed_count": 4,
+  "skipped_count": 0,
+  "results": [
+    {
+      "case_id": "live-001",
+      "category": "exact_search",
+      "semantic_hash": "cb67e20df8381438995eaf766b62b5cc989070ee7a9faa268823d8c70b000df8",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "finance.deposit.deposit.0010024.21001115",
+        "finance.deposit.deposit.0010390.240036",
+        "finance.deposit.deposit.0010019.td11300035000"
+      ],
+      "actual_source_ids": [
+        "source.fss.finlife.api"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "finance.deposit.deposit.0010024.21001115",
+          "score": 70
+        },
+        {
+          "id": "finance.deposit.deposit.0010390.240036",
+          "score": 70
+        },
+        {
+          "id": "finance.deposit.deposit.0010019.td11300035000",
+          "score": 70
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-002",
+      "category": "exact_search",
+      "semantic_hash": "1628251b569f390a6162017a88e4a4d439644804e8fd359a9f20fd7afd6a64b6",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "finance.saving.saving.0010024.21001259",
+        "finance.saving.saving.0010390.310023",
+        "finance.saving.saving.0010019.td11330030000"
+      ],
+      "actual_source_ids": [
+        "source.fss.finlife.api"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "finance.saving.saving.0010024.21001259",
+          "score": 90
+        },
+        {
+          "id": "finance.saving.saving.0010390.310023",
+          "score": 90
+        },
+        {
+          "id": "finance.saving.saving.0010019.td11330030000",
+          "score": 90
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-003",
+      "category": "exact_search",
+      "status": "failed",
+      "failure_phase": "semantic_search",
+      "error": "{\"phase\":\"semantic_search\",\"query\":\"BNK경남은행 Air Money 체크카드\",\"expected_top_id\":\"finance.card.check-card.bnk경남은행.air-money-체크카드-101005\",\"expected_top_k_ids\":[\"finance.card.check-card.bnk경남은행.air-money-체크카드-101005\"],\"expected_result_ids\":[\"finance.card.check-card.bnk경남은행.air-money-체크카드-101005\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.bccard.check-card-list\",\"source.crefia.card-products\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"BNK경남은행 BNK프렌즈 체크카드\",\"expected_top_id\":\"finance.card.check-card.bnk경남은행.bnk프렌즈-체크카드-396992\",\"expected_top_k_ids\":[\"finance.card.check-card.bnk경남은행.bnk프렌즈-체크카드-396992\"],\"expected_result_ids\":[\"finance.card.check-card.bnk경남은행.bnk프렌즈-체크카드-396992\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.bccard.check-card-list\",\"source.crefia.card-products\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"}",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-004",
+      "category": "exact_search",
+      "status": "failed",
+      "failure_phase": "semantic_search",
+      "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 WON플러스예금\",\"expected_top_id\":\"finance.deposit.deposit.0010001.wr0001b\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010001.wr0001b\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010001.wr0001b\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"아이엠뱅크 iM함께예금\",\"expected_top_id\":\"finance.deposit.deposit.0010016.10511008001166004\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010016.10511008001166004\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010016.10511008001166004\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"부산은행 더(The) 특판 정기예금\",\"expected_top_id\":\"finance.deposit.deposit.0010017.01030500560002\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010017.01030500560002\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010017.01030500560002\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"}",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-005",
+      "category": "exact_search",
+      "status": "failed",
+      "failure_phase": "semantic_fetch",
+      "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 우리SUPER주거래적금\",\"expected_top_id\":\"finance.saving.saving.0010001.wr0001f\",\"expected_top_k_ids\":[\"finance.saving.saving.0010001.wr0001f\"],\"expected_result_ids\":[\"finance.saving.saving.0010001.wr0001f\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"우리은행 WON적금\",\"fetch_id\":\"finance.saving.saving.0010001.wr0001l\",\"expected_title\":\"우리은행 WON적금\",\"top_title\":\"우리은행 WON적금\",\"search_title\":\"우리은행 WON적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"fetch_id\":\"finance.saving.saving.0010002.00266451\",\"expected_title\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"top_title\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"search_title\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"아이엠뱅크 iM함께적금\",\"fetch_id\":\"finance.saving.saving.0010016.10521001001166004\",\"expected_title\":\"아이엠뱅크 iM함께적금\",\"top_title\":\"아이엠뱅크 iM함께적금\",\"search_title\":\"아이엠뱅크 iM함께적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"부산은행 펫 적금\",\"fetch_id\":\"finance.saving.saving.0010017.01020400490002\",\"expected_title\":\"부산은행 펫 적금\",\"top_title\":\"부산은행 펫 적금\",\"search_title\":\"부산은행 펫 적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"}",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-006",
+      "category": "exact_search",
+      "status": "failed",
+      "failure_phase": "semantic_fetch",
+      "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 협약금리 外 신용대출상품\",\"expected_top_id\":\"finance.loan.credit-loan.0010001.cr0001a\",\"expected_top_k_ids\":[\"finance.loan.credit-loan.0010001.cr0001a\"],\"expected_result_ids\":[\"finance.loan.credit-loan.0010001.cr0001a\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"우리은행 신용대출 cr0001c\",\"fetch_id\":\"finance.loan.credit-loan.0010001.cr0001c\",\"expected_title\":\"우리은행 협약금리 外 신용대출상품\",\"top_title\":\"우리은행 협약금리 外 신용대출상품\",\"search_title\":\"우리은행 협약금리 外 신용대출상품\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"한국스탠다드차타드은행 개인신용대출\",\"fetch_id\":\"finance.loan.credit-loan.0010002.sc001217\",\"expected_title\":\"한국스탠다드차타드은행 개인신용대출\",\"top_title\":\"한국스탠다드차타드은행 개인신용대출\",\"search_title\":\"한국스탠다드차타드은행 개인신용대출\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"finance.loan.credit-loan.0010002.sc001217-1\",\"fetch_id\":\"finance.loan.credit-loan.0010002.sc001217-1\",\"expected_title\":\"한국스탠다드차타드은행 개인신용대출\",\"top_title\":\"한국스탠다드차타드은행 개인신용대출\",\"search_title\":\"한국스탠다드차타드은행 개인신용대출\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"전세자금대출\",\"fetch_id\":\"finance.loan.rent-loan.0010024.30002573\",\"expected_title\":\"경남은행 고정금리 전세자금대출(주택금융공사)\",\"top_title\":\"경남은행 고정금리 전세자금대출(주택금융공사)\",\"search_title\":\"경남은행 고정금리 전세자금대출(주택금융공사)\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"}",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-007",
+      "category": "exact_search",
+      "semantic_hash": "d4348ea15ee6c6d32f5e151cb5ced60813ce3484e8acb3ab3c161e36c8574817",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "finance.provider.dbebce440f1d"
+      ],
+      "actual_source_ids": [
+        "source.fsc.financial-company-basic",
+        "source.fsc.financial-company-credit"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "finance.provider.dbebce440f1d",
+          "score": 70
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-008",
+      "category": "exact_search",
+      "semantic_hash": "d7e680e637b6fc632970a25ac2ace460474e976df7bb5c7bc8ec30afb274e7eb",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
+        "finance.insurance.klia.indemnity-health.동양생명.l74024600010246000302460005nny0247000202440001024400010008024400010008000102440001000800010005s1012",
+        "finance.insurance.klia.indemnity-health.삼성생명.l031nnyb1g4005540"
+      ],
+      "actual_source_ids": [
+        "source.klia.insurance-disclosure"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
+          "score": 95
+        },
+        {
+          "id": "finance.insurance.klia.indemnity-health.동양생명.l74024600010246000302460005nny0247000202440001024400010008024400010008000102440001000800010005s1012",
+          "score": 95
+        },
+        {
+          "id": "finance.insurance.klia.indemnity-health.삼성생명.l031nnyb1g4005540",
+          "score": 95
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-009",
+      "category": "exact_search",
+      "semantic_hash": "373a1143b0dfc0b864d2ea6c47acd8402f1ab9cd0f3418474a2c98877121cdbe",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "finance.card.check-card.광주은행.대한항공-skypass-체크카드-104283",
+        "finance.card.check-card.롯데카드.롯데-포인트플러스-체크카드",
+        "finance.card.check-card.부산은행.2030-언택트-체크카드-101317"
+      ],
+      "actual_source_ids": [
+        "source.bccard.check-card-list",
+        "source.crefia.card-products",
+        "source.crefia.carddamoa"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "finance.card.check-card.광주은행.대한항공-skypass-체크카드-104283",
+          "score": 80
+        },
+        {
+          "id": "finance.card.check-card.롯데카드.롯데-포인트플러스-체크카드",
+          "score": 80
+        },
+        {
+          "id": "finance.card.check-card.부산은행.2030-언택트-체크카드-101317",
+          "score": 80
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-010",
+      "category": "exact_search",
+      "semantic_hash": "25de2fa94472792d7c84ff86112c2d20feb511abf7905250f3798a46b416d2e1",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "finance.loan.rent-loan.0010024.30002573",
+        "finance.loan.rent-loan.0010927.kb200331500005",
+        "finance.loan.rent-loan.0010628.4354"
+      ],
+      "actual_source_ids": [
+        "source.fss.finlife.api"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "finance.loan.rent-loan.0010024.30002573",
+          "score": 90
+        },
+        {
+          "id": "finance.loan.rent-loan.0010927.kb200331500005",
+          "score": 90
+        },
+        {
+          "id": "finance.loan.rent-loan.0010628.4354",
+          "score": 90
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-011",
+      "category": "exact_search",
+      "semantic_hash": "ad60749c00880b6a354d6371a11b6d3fddd64d1743aaaa9a73aeba9fb676013a",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "source.crefia.credit-loan-rate-disclosure",
+        "term.bank.credit-score-band",
+        "term.card.card-loan-credit-score-rate"
+      ],
+      "actual_source_ids": [
+        "source.fss.finlife.api",
+        "source.fsc.business-loan-comparison",
+        "source.crefia.credit-loan-rate-disclosure",
+        "source.crefia.card-loan-revolving-rates"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "source.crefia.credit-loan-rate-disclosure",
+          "score": 70
+        },
+        {
+          "id": "term.bank.credit-score-band",
+          "score": 70
+        },
+        {
+          "id": "term.card.card-loan-credit-score-rate",
+          "score": 70
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-012",
+      "category": "exact_search",
+      "semantic_hash": "77b072bf282f10cd964cee9513ccddc7a6cce2e87f2a993132d9b41a944212de",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "support.local-gov.gov24.2149716",
+        "support.local-gov.gov24.2128502",
+        "support.local-gov.gov24.2168323"
+      ],
+      "actual_source_ids": [
+        "source.gov24.benefit-plus.local-supports"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "support.local-gov.gov24.2149716",
+          "score": 32
+        },
+        {
+          "id": "support.local-gov.gov24.2128502",
+          "score": 32
+        },
+        {
+          "id": "support.local-gov.gov24.2168323",
+          "score": 32
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-013",
+      "category": "exact_search",
+      "semantic_hash": "cbf5162801aa301f7b4b873b48843611196f0b68aa23527e88ccf310fa081524",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "deduction.personal-pension-savings",
+        "deduction.employment-maintenance-worker",
+        "deduction.other-income"
+      ],
+      "actual_source_ids": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.nts.housing-savings-deduction"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "deduction.personal-pension-savings",
+          "score": 70
+        },
+        {
+          "id": "deduction.employment-maintenance-worker",
+          "score": 70
+        },
+        {
+          "id": "deduction.other-income",
+          "score": 70
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-014",
+      "category": "exact_search",
+      "semantic_hash": "bc985f50c2e15e39abc58920122d7f3db7e939a9a56c9d849164e9c6960548cc",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "tax.income.comprehensive",
+        "tax.income",
+        "deadline.income-tax.2025-return"
+      ],
+      "actual_source_ids": [
+        "source.nts.income-tax.deadline",
+        "source.nts.income-tax.rates",
+        "source.law.income-tax-act.deductions-credits",
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "tax.income.comprehensive",
+          "score": 100
+        },
+        {
+          "id": "tax.income",
+          "score": 76
+        },
+        {
+          "id": "deadline.income-tax.2025-return",
+          "score": 70
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-015",
+      "category": "exact_search",
+      "semantic_hash": "4b00e7421b750740ca09408080c4d3c2962ac0e7548e2040db2ecc1bde81dc8e",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "local.property",
+        "deadline.local.property.first",
+        "deadline.local.property.second"
+      ],
+      "actual_source_ids": [
+        "source.local-tax-framework-act.2026.article8",
+        "source.nts.real-estate-tax.faq",
+        "source.law.local-tax-act.rates",
+        "source.wetax.local-tax-calendar"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "local.property",
+          "score": 100
+        },
+        {
+          "id": "deadline.local.property.first",
+          "score": 70
+        },
+        {
+          "id": "deadline.local.property.second",
+          "score": 70
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-016",
+      "category": "exact_search",
+      "semantic_hash": "398d86ffae22ebb8b4afef919823b23ebfffbb21c4f135f62e2b5f22a0fc1ab9",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "local.automobile",
+        "deadline.local.automobile",
+        "source.law.local-tax-act.rates"
+      ],
+      "actual_source_ids": [
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates",
+        "source.wetax.local-tax-calendar"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "local.automobile",
+          "score": 100
+        },
+        {
+          "id": "deadline.local.automobile",
+          "score": 70
+        },
+        {
+          "id": "source.law.local-tax-act.rates",
+          "score": 40
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-017",
+      "category": "exact_search",
+      "semantic_hash": "7f110e52005d67cf88d3673e16218eb13d7a5eb3e5e588d5ded8a70503ba8a9b",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "category.finance.housing-subscription-accounts",
+        "source.nhuf.housing-subscription",
+        "life-expense.housing-subscription"
+      ],
+      "actual_source_ids": [
+        "source.nhuf.housing-subscription",
+        "source.nts.housing-savings-deduction"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "category.finance.housing-subscription-accounts",
+          "score": 70
+        },
+        {
+          "id": "source.nhuf.housing-subscription",
+          "score": 70
+        },
+        {
+          "id": "life-expense.housing-subscription",
+          "score": 70
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-018",
+      "category": "exact_search",
+      "semantic_hash": "6ff001d8483952bb974a19892a20de6863450bc7c6b819e8d512db219759576c",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "source.fsc.retirement-pension-basic",
+        "category.finance.pension-products",
+        "credit.pension-account"
+      ],
+      "actual_source_ids": [
+        "source.fss.integrated-pension-portal",
+        "source.fss.finlife.api",
+        "source.fsc.retirement-pension-basic",
+        "source.fsc.fund-products-basic",
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "source.fsc.retirement-pension-basic",
+          "score": 70
+        },
+        {
+          "id": "category.finance.pension-products",
+          "score": 70
+        },
+        {
+          "id": "credit.pension-account",
+          "score": 40
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-019",
+      "category": "exact_search",
+      "semantic_hash": "b26ab1abbf2ee6a327ff004c4ca9f6d4c85e653427d7caa17c00b35ad2395d9c",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "source.hf.didimdol-rate.2026-05",
+        "source.fsc.rate-disclosure-guide",
+        "term.bank.base-interest-rate"
+      ],
+      "actual_source_ids": [
+        "source.fss.finlife.api"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "source.hf.didimdol-rate.2026-05",
+          "score": 70
+        },
+        {
+          "id": "source.fsc.rate-disclosure-guide",
+          "score": 70
+        },
+        {
+          "id": "term.bank.base-interest-rate",
+          "score": 70
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-020",
+      "category": "exact_search",
+      "semantic_hash": "d44e5ade355611c5b4ccde71af159528298c5366ea9ea21929d54d05732d3b80",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "source.fsc.domestic-bank-statistics",
+        "source.fsc.financial-investment-statistics",
+        "source.fsc.financial-company-basic"
+      ],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "source.fsc.domestic-bank-statistics",
+          "score": 70
+        },
+        {
+          "id": "source.fsc.financial-investment-statistics",
+          "score": 70
+        },
+        {
+          "id": "source.fsc.financial-company-basic",
+          "score": 70
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-021",
+      "category": "alias_search",
+      "semantic_hash": "f2ee3c2cb1413122ef55090199257a50d08617d7d921e458fb311f190b439cb2",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "EXACT_PRODUCT_NOT_FOUND"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-022",
+      "category": "alias_search",
+      "semantic_hash": "13072240e540d46c48919c21952ff1f1d55c4e827e63a9e2912d841ea62bcb6f",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "EXACT_PRODUCT_NOT_FOUND"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-023",
+      "category": "alias_search",
+      "semantic_hash": "8cd3304e34733610b50e9cbec5b6aeaad586ef1997a1a4edf585210e58603603",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "support.local-gov.gov24.2114408",
+        "support.local-gov.gov24.1002732"
+      ],
+      "actual_source_ids": [
+        "source.gov24.benefit-plus.local-supports"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "support.local-gov.gov24.2114408",
+          "score": 32
+        },
+        {
+          "id": "support.local-gov.gov24.1002732",
+          "score": 32
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-024",
+      "category": "alias_search",
+      "semantic_hash": "d8c80b35419e4f6acdf08865cb6ae61fda22c9b9ef5801643c62ff1fa9d1eb6c",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "deadline.grant.regular.2025-income",
+        "source.nts.grant.2026-regular-press"
+      ],
+      "actual_source_ids": [
+        "source.nts.grant.eligibility",
+        "source.nts.grant.deadline"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "deadline.grant.regular.2025-income",
+          "score": 32
+        },
+        {
+          "id": "source.nts.grant.2026-regular-press",
+          "score": 32
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-025",
+      "category": "alias_search",
+      "semantic_hash": "ad29310fe07c2419f9a94a227d1c1eb80380e0aba604a42552a2ab16f45df155",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-026",
+      "category": "alias_search",
+      "semantic_hash": "4acbf0c422e385a6cb1e1e771deb462737c01be28218ba6b78a83f3f10bb2761",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "credit.medical-expense",
+        "deduction.special-income"
+      ],
+      "actual_source_ids": [
+        "source.nts.year-end-settlement.special-credit",
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement",
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.nts.housing-rent-principal-deduction",
+        "source.nts.housing-mortgage-interest-deduction"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "credit.medical-expense",
+          "score": 62
+        },
+        {
+          "id": "deduction.special-income",
+          "score": 62
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-027",
+      "category": "alias_search",
+      "semantic_hash": "1a0ae7a70ac87b0e4d2cd5b2f850e4f64da356c3d314e5792aa7488787e0f999",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "finance.provider.dbebce440f1d",
+        "finance.provider.3f915f32c33d"
+      ],
+      "actual_source_ids": [
+        "source.fsc.financial-company-basic",
+        "source.fsc.financial-company-credit"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "finance.provider.dbebce440f1d",
+          "score": 32
+        },
+        {
+          "id": "finance.provider.3f915f32c33d",
+          "score": 11
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-028",
+      "category": "alias_search",
+      "semantic_hash": "090057dff2cf5163a8e5474dd11b81323bf82eb6adbcbc1faff152e2234d9228",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "PROVIDER_REQUIRED"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-029",
+      "category": "alias_search",
+      "semantic_hash": "336eb081cbc8b7cf0720919ed38ff269c040e0bda3e18f027e3e05218d060af5",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "finance.card.check-card.광주은행.대한항공-skypass-체크카드-104283",
+        "finance.card.check-card.광주은행.global-travel-체크카드-102970"
+      ],
+      "actual_source_ids": [
+        "source.bccard.check-card-list",
+        "source.crefia.card-products"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "finance.card.check-card.광주은행.대한항공-skypass-체크카드-104283",
+          "score": 32
+        },
+        {
+          "id": "finance.card.check-card.광주은행.global-travel-체크카드-102970",
+          "score": 32
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-030",
+      "category": "alias_search",
+      "semantic_hash": "2d767c2ea6422a51efb2330e61f52f353eb5caa587ec296055f5c2aac43a59d2",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "category.finance.housing-subscription-accounts",
+        "source.nhuf.housing-subscription"
+      ],
+      "actual_source_ids": [
+        "source.nhuf.housing-subscription"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "category.finance.housing-subscription-accounts",
+          "score": 70
+        },
+        {
+          "id": "source.nhuf.housing-subscription",
+          "score": 70
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-031",
+      "category": "ambiguous_query",
+      "semantic_hash": "f5d14b1791d5882b7e577a67c46893e0e651aad63ff85838c6d8aaa0236c9aae",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-032",
+      "category": "ambiguous_query",
+      "semantic_hash": "9fc20368806d5cd7e2fed0696ae8ee449035caf54f79de0229d0928ec56225f7",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-033",
+      "category": "ambiguous_query",
+      "semantic_hash": "e1abfd2901846e0ca0830ce49bf359333d52bddbc41a2016c64ef166e5050135",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-034",
+      "category": "ambiguous_query",
+      "semantic_hash": "aedeedc3ce432c2f4039829e88dd9a4ff27b15fd7d1ac53c875ac38a04a1454e",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-035",
+      "category": "ambiguous_query",
+      "semantic_hash": "b872c48e504b7a55961ca8e5be2139fb435271e9c472937274f803e79c67c3ae",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-036",
+      "category": "ambiguous_query",
+      "semantic_hash": "c715c31ca5f250712672d33f93c9d28ec84fe436b21b081c7695bf0ed15d7223",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-037",
+      "category": "ambiguous_query",
+      "semantic_hash": "f00f80194ae93bec63c97bbb81db9837ba8ab59c4789a2309e3875043ae65ee8",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-038",
+      "category": "ambiguous_query",
+      "semantic_hash": "a754c499f095711d810317f2d68b36b5355861d2fabedceccb17e8f07fb1a841",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-039",
+      "category": "ambiguous_query",
+      "semantic_hash": "7f024b291759bf65f4d22267e167457b124e16c51c7227a17ebd8462960ea6c1",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-040",
+      "category": "ambiguous_query",
+      "semantic_hash": "49dcb70b816a007b380a7c0e0b8fa601d738ebbcb31c315069050094ed70ca17",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-041",
+      "category": "comparison",
+      "semantic_hash": "7b1ce183c4fb13d1fd223972b1ae6b74e17605d5e36acdf94a4ba5897a2baa9f",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:deposit"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-042",
+      "category": "comparison",
+      "semantic_hash": "6d0dceb3da357f742d6191e79e240db20579a29a1e2f5081ca03aeb667138cf1",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:deposit"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-043",
+      "category": "comparison",
+      "semantic_hash": "21184ff4847cc9b25837810bc2242cdb687ed36cb93fb50bfd566b0eb43d84bd",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:deposit"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-044",
+      "category": "comparison",
+      "semantic_hash": "6e123f9d630e3b39f3faf60f7b4573c81bc56906de3c18c133f574aee512a6a9",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:deposit"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-045",
+      "category": "comparison",
+      "semantic_hash": "dae07b8947c4447f5a6a06923f784025dce943bea206f110b8d84bc8fde00875",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:deposit"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-046",
+      "category": "comparison",
+      "semantic_hash": "9630b1b207475ed82714c12dd170f2c6baa7cf9a399929bed2df2f83f63e11b2",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:deposit"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-047",
+      "category": "comparison",
+      "semantic_hash": "42fb23a4687cbc0fdf00b0ca564249b2a9a861a568b6214f1d18d1a3090384a6",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:deposit"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-048",
+      "category": "comparison",
+      "semantic_hash": "9a733c3c0faaa5c4bc89a54368e4abf39e878219cfe07ad3e19e2d9b471734d0",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-049",
+      "category": "comparison",
+      "semantic_hash": "c2e40e4c8e925bbe6a7ca3568b96f06a71775df6008686671fcb0ae8f4ff57a0",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-050",
+      "category": "comparison",
+      "semantic_hash": "dc7190142857f0fce9bab1dd81353c86c93ca65f15ef3d93232e37f79f9b288b",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-051",
+      "category": "comparison",
+      "semantic_hash": "8ae8020e236eb7f22b028a2f48b1466d5a32ea944cdb782df64b3fa3e41fece9",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-052",
+      "category": "comparison",
+      "semantic_hash": "4e20d820531a2d2814dc3ab993d748128b950464864812617b654cc8ad211b24",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-053",
+      "category": "comparison",
+      "semantic_hash": "f95361919e041ef0acea6cf56857f2691e792d9efd89439f7abf06df4e293058",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-054",
+      "category": "comparison",
+      "semantic_hash": "0a08f0521b6608a577d7626ed551aaa4c64ebbe68448a3bd363524ecffff6fcd",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-055",
+      "category": "comparison",
+      "semantic_hash": "c6bd1e95298754ff3d314d254450b2e81e930f3cb2f84ec5fd4ee80655dd393d",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "COMPARISON_DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-056",
+      "category": "eligibility",
+      "semantic_hash": "505be65379f128cc6abdbf8e436bf59da63a98fb31962e38fe1a29ada9f5f315",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-057",
+      "category": "eligibility",
+      "semantic_hash": "9ce1ca39c2536ac75309dfd308218adcfd4c25342df5ce234c3420f1160ac7f2",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "term_unknown",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-058",
+      "category": "eligibility",
+      "semantic_hash": "2a4d23162083c26e6d661c46ee2af70daeaed1e8eb0d942aee884a82be0ed52b",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-059",
+      "category": "eligibility",
+      "semantic_hash": "03d26ff885a5325e69aa4250c6383b481b4116b6d613204d4e2db4056df51fc0",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-060",
+      "category": "eligibility",
+      "semantic_hash": "9fc71c5b80ae57b007c45e1238e02e79bf5fb7ca16f4ef44d34021e3306be253",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "term_unknown",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-061",
+      "category": "eligibility",
+      "semantic_hash": "7022d55fd18dd5f37df5f35134aa08faf64325645786eeea4ff2e26046b090ad",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-062",
+      "category": "eligibility",
+      "semantic_hash": "d5e7e54aacef789e4f3c72a58b7eb6e79f35f3230306f0755795f0280de532fe",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-063",
+      "category": "eligibility",
+      "semantic_hash": "5e50fc1c806fcc228b4e5f8c9bba36e9be497c22c30050b1c78fff3ec0385ae5",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "term_unknown",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-064",
+      "category": "eligibility",
+      "semantic_hash": "23f5584c2672fc611fa783453b4c95f4986c38bc467941a12a6f57cd89fdda2c",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-065",
+      "category": "eligibility",
+      "semantic_hash": "d5f870f9651371ba988fb1cc0a1269eea40cf45e26a527c1579ec5920e52114d",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-066",
+      "category": "eligibility",
+      "semantic_hash": "5862b7d5182ef9a64a25a327aa847fd56f420f6ee108874a813574e3e34b5355",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "term_unknown",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-067",
+      "category": "eligibility",
+      "semantic_hash": "4c465fab5311d48aec5b5028a15e2c5eb5dfd0add494df303e42ae005618c8f3",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-068",
+      "category": "eligibility",
+      "semantic_hash": "381b0bc004f354af86443078fde3d6d7c95880b02eb24d533067ad8fef58f9e4",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-069",
+      "category": "eligibility",
+      "semantic_hash": "65a67b6e6d3f968a9bd976e4007c9489f55eb239bbd8d770d9a5ed4137218b8d",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "term_unknown",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-070",
+      "category": "eligibility",
+      "semantic_hash": "5fcd20f24eea2e2868f7f04e616be699e2d5d8ebc94c53398e6585c9d4976f79",
+      "status": "passed",
+      "actual_status": "insufficient_information",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "not_public_recommendation_scope",
+        "not_verified_recommendation_candidate",
+        "product_risk_level",
+        "sales_not_verified",
+        "verification_not_verified",
+        "verification_status",
+        "verified_primary_source_assertion"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-071",
+      "category": "freshness",
+      "semantic_hash": "76c53cdcc55367375c04ac3ade6378abda3882fad9182f25dc27f72c6bd5d1ce",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-072",
+      "category": "freshness",
+      "semantic_hash": "bb81d0d28246275eb74049c587810f8ed7c3d83995907476f73438005de5c402",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-073",
+      "category": "freshness",
+      "semantic_hash": "db217ea66172d34ee19b1d9a7e4b2836a2fa70461f43d8f8e3aeac5d9df3c042",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-074",
+      "category": "freshness",
+      "semantic_hash": "aa471e3cd02b50d346d7ee83e1c4d6c716d8062355c13a8597b3fd1828a8bced",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-075",
+      "category": "freshness",
+      "semantic_hash": "1f030dc0a7caa0cf501da8b4722616dc4a0f50c761928818aa641ea449edbcf5",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-076",
+      "category": "freshness",
+      "semantic_hash": "41af531bab0863ada1ef7706487b28ccbf8714428a206c093f54b7be33776102",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-077",
+      "category": "freshness",
+      "semantic_hash": "82fab689aab7474ff472bd5ffa0c730f80948ce9dc286d204baad9a9890589fa",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-078",
+      "category": "freshness",
+      "semantic_hash": "eb9480a5b7ea5fbe80f7346ece2caa523fc6660bddfeb2023ccc19ecb5d4f362",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-079",
+      "category": "freshness",
+      "semantic_hash": "42cf549c27d986e913588114ebfd7163e3acaa0438be229c1aa2428942889c2d",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-080",
+      "category": "freshness",
+      "semantic_hash": "d07aacdd80639b8c2ddd64d66c64c3430fd900abdd506858f93c90839891bbdb",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-081",
+      "category": "recommendation_gate",
+      "semantic_hash": "027aa813ce4dad4927c6d1aa2c6e008623ed720559ac3f81ed8a8e2c0e2119b9",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:deposit",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:deposit"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-082",
+      "category": "recommendation_gate",
+      "semantic_hash": "0ebed8ec0a4384f7fdb153e321cd6640375d7548423d43122378f26da500b00c",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:saving",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-083",
+      "category": "recommendation_gate",
+      "semantic_hash": "0fb257584b80a6a0738ec08bf02fe316324a1f25e800f7c21d9a87d4b95394d6",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:card",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:card"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-084",
+      "category": "recommendation_gate",
+      "semantic_hash": "e8eb9a6d5c224390691bc92e41f6b8caeae5a1226080d4f3cd114821c4da0eba",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:loan",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:loan"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-085",
+      "category": "recommendation_gate",
+      "semantic_hash": "c3752d7dd28b1711b684ad89aa431929b3d99ed950da73d6bc64a4733e57bf9c",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:insurance",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:insurance"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-086",
+      "category": "recommendation_gate",
+      "semantic_hash": "ff231bf2098f18afdfddec6040c7f0dee2ef8166cf5d93d7ac9f0dd320480459",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:card",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:card"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-087",
+      "category": "recommendation_gate",
+      "semantic_hash": "8be30b2dc7a663a133a9a1ec7d4995c348860a5aa96b6bcbdf86a9189e32eef1",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:deposit",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:deposit"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-088",
+      "category": "recommendation_gate",
+      "semantic_hash": "0c44cabf4e4d7bd20b2c7126c057e42a2d363f4368f0c1d4f1b3decfc4ce5fe6",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:saving",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-089",
+      "category": "recommendation_gate",
+      "semantic_hash": "bb24c812da61503b39fbd06ad966631e440dde15aa19e0d2422f4efc72df2a1b",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:card",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:card"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-090",
+      "category": "recommendation_gate",
+      "semantic_hash": "52ae3f73826bf60e7675d62f97510524f3fa03b81b212c990df1867582fde21d",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:loan",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:loan"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-091",
+      "category": "recommendation_gate",
+      "semantic_hash": "54e6d28ea3934ca300230a9d28353b5f726d3d129726c1e35cdea6f0e8bde80e",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:insurance",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:insurance"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-092",
+      "category": "recommendation_gate",
+      "semantic_hash": "6c1d6726caee971d5fd7269e1a5c35b0bc57fdde4e22c64f536b6676cacb532d",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:insurance",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:insurance"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-093",
+      "category": "recommendation_gate",
+      "semantic_hash": "282d6b2f8f527feb7cb779048f08dd1702c951cf4d9a8c97eb0157dc1433a37e",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:deposit",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:deposit"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-094",
+      "category": "recommendation_gate",
+      "semantic_hash": "6824602b3f1cd6e8668861cfb2a0f80b90fd421ee7cd3df50049181eb19e7e5f",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:saving",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:saving"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-095",
+      "category": "recommendation_gate",
+      "semantic_hash": "eebc86c0c2e88e11287658af62e6816d333ccc18935b2096726aabe34b489b1f",
+      "status": "passed",
+      "actual_status": "blocked",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [
+        "RELEASE_GATE_MANIFEST_RECOMMENDATION_DISABLED",
+        "RELEASE_GATE_DOMAIN_NOT_READY:loan",
+        "NO_VERIFIED_RECOMMENDATION_CANDIDATE",
+        "MANIFEST_RECOMMENDATION_DISABLED",
+        "DOMAIN_NOT_READY:loan"
+      ],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-096",
+      "category": "security",
+      "semantic_hash": "625ab57c66c7fc99f7dd29f22fb69ba415cd7e6b24825ca1c9ec5dbd3df38a22",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "term.card.previous-month-spend"
+      ],
+      "actual_source_ids": [
+        "source.crefia.card-products",
+        "source.crefia.carddamoa",
+        "source.kbcard.card-list",
+        "source.bccard.credit-card-list",
+        "source.bccard.check-card-list",
+        "source.samsungcard.credit-card-list",
+        "source.samsungcard.check-card-list"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "term.card.previous-month-spend",
+          "score": 11
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-097",
+      "category": "security",
+      "semantic_hash": "d9ed99bd61b1ee136c0e5ff03ca5239e0bc9f95c491f38ad5f92bcec873cb70b",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "term.finance.source-approval-risk",
+        "category.finance.source-risk-controls"
+      ],
+      "actual_source_ids": [
+        "source.data.go.kr.kinfa-loan-products",
+        "source.fsc.inclusive-finance-products",
+        "source.data.go.kr.kinfa-loan-handling-agencies",
+        "source.data.go.kr.kinfa-support-centers",
+        "source.kdic.insured-products",
+        "source.fss.finlife.api",
+        "source.fsc.inclusive-finance-performance"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "term.finance.source-approval-risk",
+          "score": 11
+        },
+        {
+          "id": "category.finance.source-risk-controls",
+          "score": 11
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-098",
+      "category": "security",
+      "semantic_hash": "f9edc946ecd0f98f3775f9ec65d144c82e019f1c49f871ee663f70da8740d810",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-099",
+      "category": "security",
+      "semantic_hash": "e5aa623b784806de20f6d1c62bf984b460bd2ed55dde83e0e7cbdcc17e501831",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "source.kinfa.illegal-private-finance-prevention-loan"
+      ],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "source.kinfa.illegal-private-finance-prevention-loan",
+          "score": 11
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-100",
+      "category": "security",
+      "semantic_hash": "5e6fd6f5483510395513823b0f413f73e9c22dfaadb47bce6ec00fa70a5f2f38",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-101",
+      "category": "security",
+      "semantic_hash": "fb9d230efe434d21163c012675d9fc0ed9bf9fee7ed5c755bdafe1fddaeff929",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "tax.transport-energy-environment",
+        "source.law.transport-energy-environment-tax-act.rates"
+      ],
+      "actual_source_ids": [
+        "source.national-tax-framework-act.2026.article2",
+        "source.law.transport-energy-environment-tax-act.rates"
+      ],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "tax.transport-energy-environment",
+          "score": 11
+        },
+        {
+          "id": "source.law.transport-energy-environment-tax-act.rates",
+          "score": 11
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-102",
+      "category": "security",
+      "semantic_hash": "c228b3954ae3fb8ceef68c5bd988cfbfc6b8d5aabe8cb2745924f549fb3c3436",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-103",
+      "category": "security",
+      "semantic_hash": "4f6dc8b5c4d99d064c678c868a99af70573a8d9986b46cd12aff3f2d14e62585",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-104",
+      "category": "security",
+      "semantic_hash": "7480940063dde792861f962398c966639f41d54bc6888bfaf89763f8fa139bc2",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "source.bizinfo.small-business-leap.2026",
+        "source.bizinfo.small-business-policy-fund.2026"
+      ],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "source.bizinfo.small-business-leap.2026",
+          "score": 11
+        },
+        {
+          "id": "source.bizinfo.small-business-policy-fund.2026",
+          "score": 11
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-105",
+      "category": "security",
+      "semantic_hash": "f9a309ed092bf9f9dc45325b1c1c5cc220e37d820828dcfa5ddc689f064579fc",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-106",
+      "category": "unknown",
+      "semantic_hash": "96339c862c78e6f05a2c3fff390203823a217cb3ada5e2be6a93b6baf94c3f67",
+      "status": "passed",
+      "actual_status": "error",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-107",
+      "category": "unknown",
+      "semantic_hash": "d20832854c451974141254032eb4f0dd9f474c5861d6c70f0cee23342ad6f92d",
+      "status": "passed",
+      "actual_status": "error",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-108",
+      "category": "unknown",
+      "semantic_hash": "5ae86e5e5dae917f6fb33284d7a01d5728be91cdcd89b6a429e5fd95342f1a36",
+      "status": "passed",
+      "actual_status": "error",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-109",
+      "category": "unknown",
+      "semantic_hash": "e644059054c14d9a268085950f6143bda4feab803c7e66b4285ab25962a4c09a",
+      "status": "passed",
+      "actual_status": "error",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-110",
+      "category": "unknown",
+      "semantic_hash": "f0fac1d8ac84aaebbf8e4a10b69ee19522fefebfa8057b24012aefa81d859767",
+      "status": "passed",
+      "actual_status": "error",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-111",
+      "category": "unknown",
+      "semantic_hash": "76e12d6df4fb09278b8021e62a933a66cfe7cd8d87bb97d96de6187c951e8604",
+      "status": "passed",
+      "actual_status": "error",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-112",
+      "category": "unknown",
+      "semantic_hash": "e3752350d13b616cb845443a6a35ec8618159f5fc568e1eae099619724de2ef7",
+      "status": "passed",
+      "actual_status": "error",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-113",
+      "category": "unknown",
+      "semantic_hash": "49cc9095c490667df8e9103072a0e76b3e6dae6a97cb22f62f774ba9b1e5b33f",
+      "status": "passed",
+      "actual_status": "error",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-114",
+      "category": "unknown",
+      "semantic_hash": "347aacf731e4cb6fd29411cc2e737cbf48444516278d4558fd52e7cec839a8de",
+      "status": "passed",
+      "actual_status": "error",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-115",
+      "category": "unknown",
+      "semantic_hash": "9865246384d25c3a65e3d92a1e8e839135ce58ace7890558d9badfc23a5f6fd5",
+      "status": "passed",
+      "actual_status": "error",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-116",
+      "category": "deployment",
+      "semantic_hash": "11fad56e96b7e3d82e859e0baef0839efa2993e37c135d1058ace2d238317c84",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-117",
+      "category": "deployment",
+      "semantic_hash": "344a83964ac32aeb0f12f12d47152d7ebfd31865ee9c0fbc8b3125c5903c4cc2",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [
+        "source.hf.didimdol-rate.2026-05"
+      ],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [
+        {
+          "id": "source.hf.didimdol-rate.2026-05",
+          "score": 11
+        }
+      ],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-118",
+      "category": "deployment",
+      "semantic_hash": "e2b9abb48d0356650edbe0e341f454161c06b156984bbbd13be0e482a17289b4",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-119",
+      "category": "deployment",
+      "semantic_hash": "c8682e883d24a5e4e96a20d82196cf5ccadf5e6053f5ac286d1e837008eefcd8",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    },
+    {
+      "case_id": "live-120",
+      "category": "deployment",
+      "semantic_hash": "238554486740a7690d54b3308acc0dcf92e728f123cecc8c441bc11766f8fb51",
+      "status": "passed",
+      "actual_status": "ok",
+      "actual_result_ids": [],
+      "actual_source_ids": [],
+      "actual_reason_codes": [],
+      "top_k_scores": [],
+      "retry_errors": []
+    }
+  ]
+}

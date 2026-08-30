@@ -2,25 +2,25 @@
   "version": "openfin-comparison-regression-report-2026.07.18.1",
   "basis_date": "2026-07-10",
   "live_status": "failed",
-  "live_tested_at": "2026-08-29T20:54:26.828Z",
-  "runtime_version": "openfin-mcp-0.2.0-748a88dc79cc-20260829T175805Z-66803acabec0",
-  "deployment_commit": "748a88dc79cc61ff85bb0aefb98a6227b05e169f",
+  "live_tested_at": "2026-08-30T21:04:30.449Z",
+  "runtime_version": "openfin-mcp-dev",
+  "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
   "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "live_case_count": 120,
-  "live_passed_count": 112,
-  "live_failed_count": 8,
-  "live_failure_count": 8,
+  "live_passed_count": 116,
+  "live_failed_count": 4,
+  "live_failure_count": 4,
   "report_kind": "comparison-regression",
   "comparison_engine_version": "openfin-comparison-v1.1.0",
   "failed_count": 0,
   "search_regression_failed_count": 0,
   "export_checksum": "f12f3dde4c6d66a9217fcee9b8d2dc5c861173df3e747819a56406e4415c6178",
-  "live_evidence_generation_id": "66803acabec00276c1206d5b65ee4014b57ec52aaca0ab4ce59bc72ec62894c2",
-  "live_expected_generation_id": "baaed74a3a529a55486b79a737c7f9317530429e346571cc852c2a5f85ccab64",
+  "live_evidence_generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+  "live_expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
-    "checksum": "3e8dc64bf1d46a8587d4dc9b4474540e20f290c6acc4d9033d8426b036743071",
-    "generation_id": "66803acabec00276c1206d5b65ee4014b57ec52aaca0ab4ce59bc72ec62894c2",
+    "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
+    "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
     "validation_status": "failed"
   },
   "canonical_quality_source": "finance-ontology-manifest.domain_readiness",
@@ -160,8 +160,8 @@
   "quality_export_live_summary": {
     "source": "manifest.live_regression_evidence",
     "live_test_count": 120,
-    "live_passed_count": 112,
-    "live_failed_count": 8,
-    "generation_id": "66803acabec00276c1206d5b65ee4014b57ec52aaca0ab4ce59bc72ec62894c2"
+    "live_passed_count": 116,
+    "live_failed_count": 4,
+    "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf"
   }
 }

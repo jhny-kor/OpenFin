@@ -101,6 +101,16 @@
           "roles": []
         }
       ],
+      "external_product_ids": [
+        {
+          "namespace": "official_product_code",
+          "value": "jonghap-cheongyak"
+        },
+        {
+          "namespace": "official_source_record_id",
+          "value": "curated:housing-subscription:jonghap"
+        }
+      ],
       "source_checksum": "d0c668e4a9343a4b28017b69b405e6956be6e8369975aa199290d37c98e3ffd9"
     },
     {
@@ -196,6 +206,16 @@
           "collected_at": "2026-07-24",
           "source_checksum": "53bf11ba5630f86ed79bcff08f836c8a6de39d618c40034b11795c1349bffa37",
           "roles": []
+        }
+      ],
+      "external_product_ids": [
+        {
+          "namespace": "official_product_code",
+          "value": "youth-housing-dream"
+        },
+        {
+          "namespace": "official_source_record_id",
+          "value": "curated:housing-subscription:youth-dream"
         }
       ],
       "source_checksum": "53bf11ba5630f86ed79bcff08f836c8a6de39d618c40034b11795c1349bffa37"
@@ -295,6 +315,16 @@
           "roles": []
         }
       ],
+      "external_product_ids": [
+        {
+          "namespace": "official_product_code",
+          "value": "isa-brokerage"
+        },
+        {
+          "namespace": "official_source_record_id",
+          "value": "curated:isa-account:brokerage"
+        }
+      ],
       "source_checksum": "020656407150e2b37bf1a97136b00aebc5d13358782f93968970346edcd37cfc"
     },
     {
@@ -392,8 +422,18 @@
           "roles": []
         }
       ],
+      "external_product_ids": [
+        {
+          "namespace": "official_product_code",
+          "value": "isa-trust-discretionary"
+        },
+        {
+          "namespace": "official_source_record_id",
+          "value": "curated:isa-account:trust-discretionary"
+        }
+      ],
       "source_checksum": "aa9dd3370a2334d2cd7636ba59a6a05799e14f09fc844b34138a78f8c6771be6"
     }
   ],
-  "export_checksum": "dd53a500aab541abdc8071119d7e4e7b1a7f764359fc21432cfe47d93820716f"
+  "export_checksum": "5bb6ee4d75e5cd8bb96b7b057c2bfbe562614f13f59d6e68639cb67d0f138c83"
 }
