@@ -352,10 +352,10 @@ const cachedSmallSearchShards = new Map<string, CachedSearchItems>();
 const cachedExactFetchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
-// ponytail: one oversized plus three smaller parsed shards bounds isolate heap; raise only with Worker heap evidence.
+// ponytail: one large, one small, and one exact parsed shard keep the Worker below its isolate heap ceiling.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
 const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
-const SMALL_SEARCH_SHARD_CACHE_LIMIT = 3;
+const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
 const financeArtifactErrors = new Map<string, Record<string, unknown>>();
@@ -712,6 +712,7 @@ function requestedProductKind(query: string): string | undefined {
 }
 
 const PROVIDER_ALIASES: Record<string, readonly string[]> = {
+  "ABL생명": ["ABL생명", "ABL"],
   "삼성카드": ["삼성카드", "삼성"],
   "BC바로카드": ["BC바로카드", "BC카드", "비씨카드"],
   "신한카드": ["신한카드", "신한"],
@@ -770,13 +771,14 @@ function providerForNamedQuery(query: string, items: readonly FinanceItem[]): st
 
 function isNamedProductQuery(query: string): boolean {
   const provider = providerForQuery(query);
-  return Boolean(requestedProductKind(query) && productNameTokens(query, provider).length);
+  const productKind = requestedProductKind(query) ?? (query.includes("보험") ? "insurance" : undefined);
+  return Boolean(productKind && productNameTokens(query, provider).length);
 }
 
 function strictNamedProductPayload(query: string, items: readonly FinanceItem[], limit: number, env: Env): Record<string, unknown> | undefined {
   const parts = namedQueryParts(query);
   const provider = providerForNamedQuery(parts.cleanQuery, items);
-  const productKind = requestedProductKind(parts.cleanQuery);
+  const productKind = requestedProductKind(parts.cleanQuery) ?? (parts.cleanQuery.includes("보험") ? "insurance" : undefined);
   const nameTokens = productNameTokens(parts.cleanQuery, provider);
   if (!productKind && !provider && !nameTokens.length) return undefined;
   if (!productKind || !provider || !nameTokens.length) {
@@ -799,7 +801,7 @@ function strictNamedProductPayload(query: string, items: readonly FinanceItem[],
   const compactNames = nameTokens.map(compactProductText);
   const tokenMatches = items.filter((item) => {
     if (!item.provider || compactProductText(item.provider) !== compactProductText(provider)) return false;
-    if (item.product_kind !== productKind) return false;
+    if (productKind !== "insurance" && item.product_kind !== productKind) return false;
     const text = compactProductText([item.title, ...(item.search_aliases ?? []), ...(item.aliases ?? [])].join(" "));
     return compactNames.every((token) => text.includes(token));
   });
@@ -1788,6 +1790,9 @@ async function loadSearchItemsForQuery(
 async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: string): Promise<readonly FinanceItem[] | undefined> {
   const shards = manifest.exact_fetch_index?.shards;
   if (!shards?.length) return undefined;
+  for (const cached of cachedExactFetchShards.values()) {
+    if (cached.generation === manifestGeneration && resolveCanonicalItemId(itemId, cached.items)) return cached.items;
+  }
   const shardId = await exactFetchShardId(itemId);
   const shard = shards.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   return shard ? loadSearchShard(env, shard) : [];

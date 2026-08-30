@@ -163,7 +163,7 @@ test("the runtime bounds parsed shards without reparsing every domain switch", (
   assert.match(workerSource, /const cachedLargeSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1/);
-  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 3/);
+  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) cache\.delete/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
@@ -172,10 +172,28 @@ test("the runtime bounds parsed shards without reparsing every domain switch", (
 test("exact title lookup is isolated and falls back when there is no exact match", () => {
   assert.match(workerSource, /const cachedExactFetchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const isExactFetchShard = \/\^exact-\//);
+  assert.match(workerSource, /"ABL생명": \["ABL생명", "ABL"\]/);
+  assert.match(workerSource, /requestedProductKind\(query\) \?\? \(query\.includes\("보험"\) \? "insurance" : undefined\)/);
+  assert.match(workerSource, /requestedProductKind\(parts\.cleanQuery\) \?\? \(parts\.cleanQuery\.includes\("보험"\) \? "insurance" : undefined\)/);
+  assert.match(workerSource, /if \(productKind !== "insurance" && item\.product_kind !== productKind\) return false;/);
   assert.match(workerSource, /if \(exactShards\?\.length && isNamedProductQuery\(query\)\)/);
   assert.match(workerSource, /const exactMatches = exactItems\.filter/);
   assert.match(workerSource, /if \(exactMatches\.length\) return exactMatches;/);
   assert.match(workerSource, /const shardId = searchShardForQuery\(query, type, searchType, productKind\)/);
+});
+
+test("exact fetch reuses a current cached shard before loading another shard", () => {
+  const start = workerSource.indexOf("async function loadExactFetchItems");
+  const end = workerSource.indexOf("async function hydrateSearchItem", start);
+  const source = workerSource.slice(start, end);
+  const cacheScan = source.indexOf("for (const cached of cachedExactFetchShards.values())");
+  const shardHash = source.indexOf("const shardId = await exactFetchShardId(itemId)");
+
+  assert.ok(cacheScan >= 0);
+  assert.ok(cacheScan < shardHash);
+  assert.match(source, /cached\.generation === manifestGeneration/);
+  assert.match(source, /resolveCanonicalItemId\(itemId, cached\.items\)/);
+  assert.match(source, /return cached\.items/);
 });
 
 test("repeated searches reuse deduplication and avoid full-shard temporary indexes", () => {
