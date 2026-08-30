@@ -1,12 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { ROOT, PUBLIC_BASE, json } from './common.mjs';
+import { ROOT, PUBLIC_BASE, json, sha256 } from './common.mjs';
 
 const local = json(process.env.OPENFIN_LOCAL_MANIFEST_PATH || path.join(ROOT, 'docs/opentax/finance-ontology-manifest.json'));
 const pagesUrl = process.env.OPENFIN_PAGES_MANIFEST_URL || `${PUBLIC_BASE}/finance-ontology-manifest.json`;
 const pointerUrl = process.env.OPENFIN_PAGES_POINTER_URL || `${PUBLIC_BASE}/current-release.json`;
 const workerUrl = process.env.OPENFIN_WORKER_HEALTH_URL || 'https://openfin-mcp.y2kthr.workers.dev/health';
 const liveEvidenceUrl = process.env.OPENFIN_LIVE_EVIDENCE_URL;
+const requireProductionLiveEvidence = process.env.OPENFIN_REQUIRE_PRODUCTION_LIVE_EVIDENCE === 'true';
 const expectedWorkerManifestUrl = process.env.OPENFIN_EXPECTED_WORKER_MANIFEST_URL;
 const canonicalManifestUrl = process.env.OPENFIN_CANONICAL_MANIFEST_URL;
 const expectedCommit = process.argv.includes('--expected-deployment-commit') ? process.argv[process.argv.indexOf('--expected-deployment-commit') + 1] : process.env.OPENFIN_DEPLOYMENT_COMMIT;
@@ -24,7 +25,9 @@ const values = ({ artifact_contract: contract = {}, generation_id, deployment_co
 const expected = values(local);
 const mismatch = (label, actual) => contractKeys.filter(key => (actual[key] ?? null) !== (expected[key] ?? null)).map(key => `${label}.${key}: expected ${expected[key] ?? null}, got ${actual[key] ?? null}`);
 const liveKeys = ['status', 'mode', 'generation_id', 'deployment_commit', 'fixture_checksum', 'test_count', 'passed_count', 'failed_count', 'skipped_count'];
-const liveMismatch = (actual, expected) => liveKeys.filter(key => (actual?.[key] ?? null) !== (expected?.[key] ?? null)).map(key => `live.${key}: expected ${expected?.[key] ?? null}, got ${actual?.[key] ?? null}`);
+const productionLiveKeys = [...liveKeys, 'manifest_checksum', 'loaded_index_checksum', 'source_status_checksum', 'endpoint'];
+const liveMismatch = (actual, expected, keys = liveKeys) => keys.filter(key => (actual?.[key] ?? null) !== (expected?.[key] ?? null)).map(key => `live.${key}: expected ${expected?.[key] ?? null}, got ${actual?.[key] ?? null}`);
+const sameJson = (left, right) => left != null && right != null && sha256(left) === sha256(right);
 let lastErrors = [];
 for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
@@ -33,7 +36,7 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
     const live = fs.existsSync(evidencePath) ? json(evidencePath) : {};
     const liveUrl = liveEvidenceUrl || pages.live_regression_evidence?.url || `${PUBLIC_BASE}/live-regression-current.json`;
     const publicLive = await getJson(liveUrl, attempt);
-    const errors = [...mismatch('pages', values(pages)), ...mismatch('worker', values(health)), ...liveMismatch(publicLive, live)];
+    const errors = [...mismatch('pages', values(pages)), ...mismatch('worker', values(health)), ...liveMismatch(publicLive, live, requireProductionLiveEvidence ? productionLiveKeys : liveKeys)];
     if (health.deployment_commit !== expected.deployment_commit) errors.push(`worker.deployment_commit: expected ${expected.deployment_commit}, got ${health.deployment_commit ?? null}`);
     if (health.manifest_deployment_commit !== expected.deployment_commit) errors.push(`worker.manifest_deployment_commit: expected ${expected.deployment_commit}, got ${health.manifest_deployment_commit ?? null}`);
     if (expectedWorkerManifestUrl && health.finance_manifest_url !== expectedWorkerManifestUrl) errors.push(`worker.finance_manifest_url: expected ${expectedWorkerManifestUrl}, got ${health.finance_manifest_url ?? null}`);
@@ -43,6 +46,18 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
     if (pointer.production_generation !== expected.generation_id) errors.push(`pointer.production_generation: expected ${expected.generation_id}, got ${pointer.production_generation ?? null}`);
     if (pointer.pages_generation !== expected.generation_id) errors.push(`pointer.pages_generation: expected ${expected.generation_id}, got ${pointer.pages_generation ?? null}`);
     if (pointer.worker_generation !== expected.generation_id) errors.push(`pointer.worker_generation: expected ${expected.generation_id}, got ${pointer.worker_generation ?? null}`);
+    if (requireProductionLiveEvidence) {
+      const productionPath = 'opentax/live-regression-production-current.json';
+      if (!liveEvidenceUrl) errors.push('OPENFIN_LIVE_EVIDENCE_URL is required for production evidence verification');
+      if (pointer.live_evidence_url !== liveEvidenceUrl) errors.push(`pointer.live_evidence_url: expected ${liveEvidenceUrl}, got ${pointer.live_evidence_url ?? null}`);
+      if (pointer.live_evidence_path !== productionPath) errors.push(`pointer.live_evidence_path: expected ${productionPath}, got ${pointer.live_evidence_path ?? null}`);
+      if (pointer.production_live_evidence?.id !== 'openfin-live-regression-production-current') errors.push(`pointer.production_live_evidence.id: expected openfin-live-regression-production-current, got ${pointer.production_live_evidence?.id ?? null}`);
+      if (pointer.production_live_evidence?.path !== productionPath) errors.push(`pointer.production_live_evidence.path: expected ${productionPath}, got ${pointer.production_live_evidence?.path ?? null}`);
+      if (pointer.production_live_evidence?.url !== liveEvidenceUrl) errors.push(`pointer.production_live_evidence.url: expected ${liveEvidenceUrl}, got ${pointer.production_live_evidence?.url ?? null}`);
+      if (!sameJson(pointer.manifest_live_evidence, pages.live_regression_evidence)) errors.push('pointer.manifest_live_evidence: does not match manifest evidence');
+      if (!sameJson(pointer.production_live_evidence, pointer.live_evidence)) errors.push('pointer.production_live_evidence: does not match current live evidence');
+      if (pointer.production_live_evidence?.export_checksum !== sha256(publicLive).slice(7)) errors.push('pointer.production_live_evidence.export_checksum: public evidence checksum mismatch');
+    }
     if (pointer.manifest_checksum !== local.manifest_checksum) errors.push(`pointer.manifest_checksum: expected ${local.manifest_checksum ?? null}, got ${pointer.manifest_checksum ?? null}`);
     if (pointer.search_index_checksum !== expected.search_index_checksum) errors.push(`pointer.search_index_checksum: expected ${expected.search_index_checksum ?? null}, got ${pointer.search_index_checksum ?? null}`);
     if (pointer.source_status_checksum !== expected.source_status_checksum) errors.push(`pointer.source_status_checksum: expected ${expected.source_status_checksum ?? null}, got ${pointer.source_status_checksum ?? null}`);

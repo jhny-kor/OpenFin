@@ -20,9 +20,11 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.match(workflow, /deploy-pages-final:\n\s+needs: \[finalize-artifact, validate-promoted-worker\]/);
   assert.match(workflow, /rollback-worker-on-post-promotion-failure:[\s\S]*needs\.validate-promoted-worker\.result != 'success'[\s\S]*needs\.deploy-pages-final\.result != 'success'/);
   assert.match(workflow, /rollback-worker-on-post-promotion-failure:[\s\S]*needs\.public-parity\.result != 'success'/);
+  assert.match(workflow, /rollback-worker-on-post-promotion-failure:[\s\S]*Verify the previous Worker generation is active again[\s\S]*\.deployment_commit == \$commit[\s\S]*\.artifact_generation == \$generation/);
   assert.doesNotMatch(workflow, /rollback-(?:worker|pages)-on-post-promotion-failure:[\s\S]*?\n\s+if: [^\n]*!cancelled\(\)/);
   assert.match(workflow, /rollback-pages-on-post-promotion-failure:[\s\S]*?\n\s+if: [^\n]*needs\.deploy-pages-final\.result == 'cancelled'/);
-  assert.match(workflow, /rollback-pages-on-post-promotion-failure:[\s\S]*github-pages-rollback[\s\S]*previous_production_generation/);
+  assert.match(workflow, /rollback-pages-on-post-promotion-failure:[\s\S]*github-pages-rollback[\s\S]*Verify the previous production pointer is public again/);
+  assert.match(workflow, /Verify the previous production pointer is public again[\s\S]*cmp --silent rollback-site\/opentax\/current-release\.json[\s\S]*cmp --silent "rollback-site\/\$evidence_path"/);
   assert.match(workflow, /Capture the current production binding and rollback artifact[\s\S]*\.production_deployed_at \/\/ \.deployed_at \/\/ \.generated_at/);
   assert.match(workflow, /openfin-release-" \+ \$commit/);
   assert.match(workflow, /pages_artifact_layout[\s\S]*previous-pages-check\/docs[\s\S]*previous-pages-site\/opentax\/current-release\.json[\s\S]*\.pages_generation == \$generation[\s\S]*\.worker_generation == \$generation/);
@@ -54,6 +56,9 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.match(workflow, /jq -r '\.artifact_contract\.fixture_checksum' docs\/opentax\/finance-ontology-manifest\.json/);
   assert.doesNotMatch(workflow, /jq -r '\.fixture_checksum' docs\/opentax\/finance-ontology-manifest\.json/);
   assert.match(workflow, /deploy-pages-final:[\s\S]*path: release\/docs/);
+  assert.match(workflow, /deploy-pages-final:[\s\S]*name: openfin-live-promoted-\$\{\{ github\.sha \}\}[\s\S]*Publish promoted production live evidence[\s\S]*publish-promoted-live-evidence\.mjs[\s\S]*actions\/upload-pages-artifact/);
+  assert.match(workflow, /public-parity:[\s\S]*name: openfin-live-promoted-\$\{\{ github\.sha \}\}[\s\S]*OPENFIN_LIVE_EVIDENCE_PATH: live\/promoted-live-regression-report\.json[\s\S]*OPENFIN_LIVE_EVIDENCE_URL: https:\/\/jhny-kor\.github\.io\/OpenFin\/opentax\/live-regression-production-current\.json[\s\S]*OPENFIN_REQUIRE_PRODUCTION_LIVE_EVIDENCE: "true"/);
+  assert.doesNotMatch(workflow.match(/validate-worker-final:[\s\S]*?\n  promote-worker:/)?.[0] || '', /OPENFIN_REQUIRE_PRODUCTION_LIVE_EVIDENCE/);
 });
 
 test('rollback contracts cover partial promotion, cancellation, and public Pages failure', () => {

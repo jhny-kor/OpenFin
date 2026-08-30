@@ -596,10 +596,20 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: openfin-final-${{ github.sha }}
           path: release
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: openfin-live-promoted-${{ github.sha }}
+          path: live
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+      - name: Publish promoted production live evidence
+        run: node scripts/knowledge/publish-promoted-live-evidence.mjs --docs release/docs --report live/promoted-live-regression-report.json --expected-deployment-commit "$GITHUB_SHA"
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
@@ -711,13 +721,15 @@ jobs:
           path: release
       - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
-          name: openfin-live-final-${{ github.sha }}
+          name: openfin-live-promoted-${{ github.sha }}
           path: live
       - name: Verify repository artifact, Pages, Worker, and live evidence parity
         run: node scripts/knowledge/verify-public-parity.mjs --expected-deployment-commit "$GITHUB_SHA"
         env:
           OPENFIN_LOCAL_MANIFEST_PATH: release/docs/opentax/finance-ontology-manifest.json
-          OPENFIN_LIVE_EVIDENCE_PATH: live/live-regression-report.json
+          OPENFIN_LIVE_EVIDENCE_PATH: live/promoted-live-regression-report.json
+          OPENFIN_LIVE_EVIDENCE_URL: https://jhny-kor.github.io/OpenFin/opentax/live-regression-production-current.json
+          OPENFIN_REQUIRE_PRODUCTION_LIVE_EVIDENCE: "true"
           OPENFIN_EXPECTED_WORKER_MANIFEST_URL: ${{ needs.deploy-pages-final-candidate.outputs.page_url }}/opentax/finance-ontology-manifest.json
           OPENFIN_CANONICAL_MANIFEST_URL: https://jhny-kor.github.io/OpenFin/opentax/finance-ontology-manifest.json
       - name: Verify production Worker remains bound to the immutable final artifact
@@ -728,7 +740,7 @@ jobs:
           test "$actual" = "$expected"
 
   rollback-worker-on-post-promotion-failure:
-    needs: [promote-worker, validate-promoted-worker, deploy-pages-final, public-parity, deploy-worker-candidate, deploy-worker-final]
+    needs: [canonical-artifact, promote-worker, validate-promoted-worker, deploy-pages-final, public-parity, deploy-worker-candidate, deploy-worker-final]
     if: ${{ always() && needs.deploy-worker-final.result == 'success' && needs.promote-worker.result != 'skipped' && (needs.promote-worker.result != 'success' || needs.validate-promoted-worker.result != 'success' || needs.deploy-pages-final.result != 'success' || needs.public-parity.result != 'success') }}
     runs-on: ubuntu-latest
     steps:
@@ -741,6 +753,20 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Verify the previous Worker generation is active again
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 12); do
+            if health="$(curl --fail --silent --show-error --location "https://openfin-mcp.y2kthr.workers.dev/health?openfin_rollback=$GITHUB_RUN_ID-$attempt")" &&
+              jq -e --arg commit "${{ needs.canonical-artifact.outputs.previous_production_commit }}" --arg generation "${{ needs.canonical-artifact.outputs.previous_production_generation }}" '
+                (.deployment_commit == $commit) and
+                (.artifact_generation == $generation)
+              ' <<< "$health" >/dev/null; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
 
   rollback-pages-on-post-promotion-failure:
     needs: [canonical-artifact, deploy-pages-final, public-parity]
@@ -795,10 +821,16 @@ jobs:
       - name: Verify the previous production pointer is public again
         run: |
           set -euo pipefail
+          public_pointer="$RUNNER_TEMP/openfin-rollback-current-release.json"
+          public_evidence="$RUNNER_TEMP/openfin-rollback-live-evidence.json"
+          evidence_path="$(jq -r '.live_evidence.path // empty' rollback-site/opentax/current-release.json)"
+          case "$evidence_path" in opentax/*) ;; *) exit 1 ;; esac
+          test -f "rollback-site/$evidence_path"
           for attempt in $(seq 1 12); do
-            if pointer="$(curl --fail --silent --show-error --location https://jhny-kor.github.io/OpenFin/opentax/current-release.json)" &&
-              test "$(jq -r '.production_commit' <<< "$pointer")" = "${{ needs.canonical-artifact.outputs.previous_production_commit }}" &&
-              test "$(jq -r '.production_generation' <<< "$pointer")" = "${{ needs.canonical-artifact.outputs.previous_production_generation }}"; then
+            if curl --fail --silent --show-error --location "https://jhny-kor.github.io/OpenFin/opentax/current-release.json?openfin_rollback=$GITHUB_RUN_ID-$attempt" --output "$public_pointer" &&
+              curl --fail --silent --show-error --location "https://jhny-kor.github.io/OpenFin/$evidence_path?openfin_rollback=$GITHUB_RUN_ID-$attempt" --output "$public_evidence" &&
+              cmp --silent rollback-site/opentax/current-release.json "$public_pointer" &&
+              cmp --silent "rollback-site/$evidence_path" "$public_evidence"; then
               exit 0
             fi
             sleep 5

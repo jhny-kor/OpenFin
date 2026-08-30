@@ -1,9 +1,81 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import test from 'node:test';
+import { sha256 } from '../../scripts/knowledge/common.mjs';
 
 const root = new URL('../..', import.meta.url).pathname;
 const read = name => JSON.parse(fs.readFileSync(`${root}/${name}`, 'utf8'));
+
+test('promoted live evidence updates the release pointer without replacing artifact evidence', () => {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'openfin-promoted-live-'));
+  const docs = path.join(temp, 'docs');
+  const opentax = path.join(docs, 'opentax');
+  const reportPath = path.join(temp, 'promoted.json');
+  const commit = 'a'.repeat(40);
+  const generation = 'b'.repeat(64);
+  const fixtureChecksum = `sha256:${'c'.repeat(64)}`;
+  const searchIndexChecksum = 'd'.repeat(64);
+  const sourceStatusChecksum = 'e'.repeat(64);
+  const artifactEvidencePayload = { status: 'current' };
+  const artifactEvidence = {
+    id: 'openfin-live-regression-current', path: 'opentax/live-regression-current.json',
+    url: 'https://jhny-kor.github.io/OpenFin/opentax/live-regression-current.json',
+    export_checksum: sha256(artifactEvidencePayload).slice(7),
+  };
+  const manifestInput = {
+    generation_id: generation,
+    artifact_contract: { generation_id: generation, deployment_commit: commit, fixture_checksum: fixtureChecksum, search_index_checksum: searchIndexChecksum, source_status_checksum: sourceStatusChecksum },
+    live_regression_evidence: artifactEvidence,
+  };
+  const manifestChecksum = sha256(manifestInput).slice(7);
+  fs.mkdirSync(opentax, { recursive: true });
+  fs.writeFileSync(path.join(opentax, 'finance-ontology-manifest.json'), JSON.stringify({ ...manifestInput, manifest_checksum: manifestChecksum }));
+  fs.writeFileSync(path.join(docs, artifactEvidence.path), JSON.stringify(artifactEvidencePayload));
+  fs.writeFileSync(path.join(opentax, 'current-release.json'), JSON.stringify({
+    release_state: 'promoted', validation_state: 'current', validation_status: 'current', generation_id: generation,
+    manifest_checksum: manifestChecksum, live_evidence: artifactEvidence,
+  }));
+  fs.writeFileSync(reportPath, JSON.stringify({
+    status: 'current', mode: 'live', test_count: 120, passed_count: 120,
+    failed_count: 0, skipped_count: 0, endpoint: 'https://openfin-mcp.y2kthr.workers.dev/mcp',
+    deployment_commit: commit, generation_id: generation, manifest_checksum: manifestChecksum,
+    fixture_checksum: fixtureChecksum, loaded_index_checksum: searchIndexChecksum, source_status_checksum: sourceStatusChecksum,
+    checked_at: '2026-08-31T00:00:00.000Z',
+  }));
+  const result = spawnSync(process.execPath, [
+    `${root}/scripts/knowledge/publish-promoted-live-evidence.mjs`, '--docs', docs,
+    '--report', reportPath, '--expected-deployment-commit', commit,
+  ], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
+  const pointer = JSON.parse(fs.readFileSync(path.join(opentax, 'current-release.json'), 'utf8'));
+  const published = JSON.parse(fs.readFileSync(path.join(opentax, 'live-regression-production-current.json'), 'utf8'));
+  assert.deepEqual(pointer.manifest_live_evidence, artifactEvidence);
+  assert.equal(pointer.live_evidence.id, 'openfin-live-regression-production-current');
+  assert.equal(pointer.live_evidence_url, 'https://jhny-kor.github.io/OpenFin/opentax/live-regression-production-current.json');
+  assert.equal(published.endpoint, 'https://openfin-mcp.y2kthr.workers.dev/mcp');
+  assert.equal(published.validation_status, 'current');
+  assert.equal(pointer.production_live_evidence.export_checksum, sha256(published).slice(7));
+
+  fs.writeFileSync(reportPath, JSON.stringify({ ...published, validation_status: 'failed' }));
+  const failedStatus = spawnSync(process.execPath, [
+    `${root}/scripts/knowledge/publish-promoted-live-evidence.mjs`, '--docs', docs,
+    '--report', reportPath, '--expected-deployment-commit', commit,
+  ], { encoding: 'utf8' });
+  assert.notEqual(failedStatus.status, 0);
+  assert.match(failedStatus.stderr, /validation status must be current/);
+
+  fs.writeFileSync(reportPath, JSON.stringify({ ...published, validation_status: 'current' }));
+  fs.writeFileSync(path.join(opentax, 'finance-ontology-manifest.json'), JSON.stringify({ ...manifestInput, generation_id: 'tampered', manifest_checksum: manifestChecksum }));
+  const tampered = spawnSync(process.execPath, [
+    `${root}/scripts/knowledge/publish-promoted-live-evidence.mjs`, '--docs', docs,
+    '--report', reportPath, '--expected-deployment-commit', commit,
+  ], { encoding: 'utf8' });
+  assert.notEqual(tampered.status, 0);
+  assert.match(tampered.stderr, /manifest checksum mismatch/);
+});
 
 test('current release pointer separates candidate from production generations', () => {
   const manifest = read('docs/opentax/finance-ontology-manifest.json');
