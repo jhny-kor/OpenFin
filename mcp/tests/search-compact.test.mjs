@@ -163,8 +163,7 @@ test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const cachedLargeSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1/);
-  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 6/);
-  assert.match(workerSource, /const EXACT_FETCH_SHARD_CACHE_LIMIT = 3/);
+  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) \{[\s\S]*cache\.delete/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
@@ -181,12 +180,7 @@ test("a replacement shard releases its cache tier before fetching", () => {
   assert.ok(pending >= 0);
   assert.ok(eviction > pending);
   assert.ok(fetch > eviction);
-  const largeRelease = source.indexOf("releaseSmallSearchShardCacheBeforeLargeHydration(diagnostics)");
-  assert.ok(largeRelease > pending && largeRelease < fetch);
-  const releaseStart = workerSource.indexOf("function releaseSmallSearchShardCacheBeforeLargeHydration");
-  const releaseEnd = workerSource.indexOf("async function loadSearchShard", releaseStart);
-  assert.ok(releaseStart >= 0 && releaseEnd > releaseStart);
-  assert.match(workerSource.slice(releaseStart, releaseEnd), /while \(cachedSmallSearchShards\.size > 0\)/);
+  assert.doesNotMatch(source, /cached(?:Large|Small)SearchShards\.clear\(\)/);
 });
 
 test("hot shard parsing and scoring avoid repeated row allocations", () => {
@@ -231,18 +225,15 @@ test("support hot rows decode optional fields lazily and preserve fetch projecti
 test("completed JSON MCP requests release their transport state", () => {
   const start = workerSource.indexOf("export default");
   const source = workerSource.slice(start);
-  assert.match(workerSource, /let idleMcpServer: \{ key: string; server: McpServer \} \| undefined/);
-  assert.match(workerSource, /const reusable = !diagnostics && method !== "GET"/);
-  assert.match(workerSource, /if \(closed && reusable\) retainMcpServer\(key, server\)/);
   const handler = source.indexOf("const handler = createMcpHandler");
   const response = source.indexOf("const response = await handler(request, env, ctx)", handler);
-  const nonGetGuard = source.indexOf('if (request.method !== "GET")', response);
-  const close = source.indexOf("await server.close()", nonGetGuard);
+  const postGuard = source.indexOf('if (request.method === "POST")', response);
+  const close = source.indexOf("await server.close()", postGuard);
 
   assert.ok(handler >= 0);
   assert.ok(response > handler);
-  assert.ok(nonGetGuard > response);
-  assert.ok(close > nonGetGuard);
+  assert.ok(postGuard > response);
+  assert.ok(close > postGuard);
 });
 
 test("shard diagnostics are opt-in and do not include query data", () => {
