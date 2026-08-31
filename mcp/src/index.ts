@@ -355,7 +355,7 @@ const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; sou
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
 // ponytail: retain the bounded hot-shard set to avoid repeated fetch/parse churn.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
-const LARGE_SEARCH_SHARD_CACHE_LIMIT = 2;
+const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
 const SMALL_SEARCH_SHARD_CACHE_LIMIT = 6;
 const EXACT_FETCH_SHARD_CACHE_LIMIT = 3;
 type SearchShardCacheKind = "large" | "small" | "exact";
@@ -1857,6 +1857,16 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
   return items;
 }
 
+function releaseSmallSearchShardCacheBeforeLargeHydration(diagnostics?: RequestDiagnostics): void {
+  // ponytail: release the small tier before a multi-megabyte parse; it is
+  // bounded and will rehydrate on demand after the large request completes.
+  while (cachedSmallSearchShards.size > 0) {
+    const oldest = cachedSmallSearchShards.keys().next().value as string | undefined;
+    if (oldest === undefined || !cachedSmallSearchShards.delete(oldest)) break;
+    if (diagnostics) diagnostics.evictions += 1;
+  }
+}
+
 async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: RequestDiagnostics): Promise<readonly FinanceItem[]> {
   const key = shard.path || shard.shard_id;
   const requestGeneration = manifestGeneration;
@@ -1879,6 +1889,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
     if (diagnostics) diagnostics.in_flight_reuses += 1;
     return pending;
   }
+  if (cache === cachedLargeSearchShards) releaseSmallSearchShardCacheBeforeLargeHydration(diagnostics);
   // Release only this cache tier's previous shard before allocating the response body.
   while (cache.size >= cacheLimit) {
     const oldest = cache.keys().next().value as string | undefined;
