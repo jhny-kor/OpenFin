@@ -1828,7 +1828,7 @@ async function loadSearchItemsForQuery(
   const exactShards = manifest.exact_fetch_index?.shards;
   const exactProductLookup = isNamedProductQuery(query)
     && (Boolean(searchType || productKind) || Boolean(providerForQuery(query)));
-  const exactTypedLookup = Boolean(type)
+  const exactTypedLookup = ["account-product", "bank-product", "card-product", "insurance-product"].includes(type ?? "")
     && (queryTokens(query).length >= 3 || compactProductText(query).length >= 10);
   const exactLookupRequested = exactProductLookup || exactTypedLookup;
   if (exactShards?.length && exactLookupRequested) {

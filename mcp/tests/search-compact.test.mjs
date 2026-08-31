@@ -221,7 +221,7 @@ test("exact title lookup is isolated and falls back when there is no exact match
   assert.match(workerSource, /requestedProductKind\(parts\.cleanQuery\) \?\? \(parts\.cleanQuery\.includes\("보험"\) \? "insurance" : undefined\)/);
   assert.match(workerSource, /if \(productKind !== "insurance" && item\.product_kind !== productKind\) return false;/);
   assert.match(workerSource, /const exactProductLookup = isNamedProductQuery\(query\)/);
-  assert.match(workerSource, /const exactTypedLookup = Boolean\(type\)/);
+  assert.match(workerSource, /const exactTypedLookup = \["account-product", "bank-product", "card-product", "insurance-product"\]\.includes\(type \?\? ""\)/);
   assert.match(workerSource, /queryTokens\(query\)\.length >= 3/);
   assert.match(workerSource, /const exactLookupRequested = exactProductLookup \|\| exactTypedLookup/);
   assert.match(workerSource, /if \(exactShards\?\.length && exactLookupRequested\)/);
