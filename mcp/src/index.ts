@@ -353,10 +353,11 @@ const cachedExactFetchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
 const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; source: string }>>();
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
-// ponytail: one parsed shard per tier; revisit only with Worker heap telemetry.
+// ponytail: retain the bounded hot-shard set to avoid repeated fetch/parse churn.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
-const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
-const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1;
+const LARGE_SEARCH_SHARD_CACHE_LIMIT = 2;
+const SMALL_SEARCH_SHARD_CACHE_LIMIT = 5;
+const EXACT_FETCH_SHARD_CACHE_LIMIT = 3;
 type SearchShardCacheKind = "large" | "small" | "exact";
 type SearchShardDiagnostic = {
   shard_id: string;
@@ -1863,7 +1864,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   const isExactFetchShard = /^exact-/.test(shard.shard_id);
   const cache = isExactFetchShard ? cachedExactFetchShards : (shard.item_count ?? 0) > LARGE_SEARCH_SHARD_ITEM_COUNT ? cachedLargeSearchShards : cachedSmallSearchShards;
   const cacheKind: SearchShardCacheKind = isExactFetchShard ? "exact" : cache === cachedLargeSearchShards ? "large" : "small";
-  const cacheLimit = isExactFetchShard ? 1 : cache === cachedLargeSearchShards ? LARGE_SEARCH_SHARD_CACHE_LIMIT : SMALL_SEARCH_SHARD_CACHE_LIMIT;
+  const cacheLimit = isExactFetchShard ? EXACT_FETCH_SHARD_CACHE_LIMIT : cache === cachedLargeSearchShards ? LARGE_SEARCH_SHARD_CACHE_LIMIT : SMALL_SEARCH_SHARD_CACHE_LIMIT;
   const cached = cache.get(key);
   if (cached?.generation === manifestGeneration) {
     if (diagnostics) diagnostics.cache_hits += 1;
