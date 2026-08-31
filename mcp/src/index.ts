@@ -1852,9 +1852,14 @@ async function loadSearchItemsForQuery(
 async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: string): Promise<readonly FinanceItem[] | undefined> {
   const shards = manifest.exact_fetch_index?.shards;
   if (!shards?.length) return undefined;
-  for (const cache of [cachedExactFetchShards, cachedLargeSearchShards, cachedSmallSearchShards]) {
+  for (const cached of cachedExactFetchShards.values()) {
+    if (cached.generation === manifestGeneration && resolveCanonicalItemId(itemId, cached.items)) return cached.items;
+  }
+  for (const cache of [cachedSmallSearchShards, cachedLargeSearchShards]) {
     for (const cached of cache.values()) {
-      if (cached.generation === manifestGeneration && resolveCanonicalItemId(itemId, cached.items)) return cached.items;
+      if (cached.generation !== manifestGeneration) continue;
+      const item = cached.items.find((candidate) => candidate.id === itemId);
+      if (item) return [item];
     }
   }
   const shardId = await exactFetchShardId(itemId);
