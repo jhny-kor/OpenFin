@@ -243,15 +243,15 @@
   "openfin_120_live_regression": {
     "status": "failed",
     "mode": "live",
-    "checked_at": "2026-08-30T21:04:30.449Z",
+    "checked_at": "2026-08-31T22:50:17.534Z",
     "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
     "runtime_version": "openfin-mcp-dev",
-    "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
-    "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+    "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
+    "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-    "manifest_checksum": "233a7372a7ce6b622913324decd4c3e6f1d43992bf163637a44358727811016c",
-    "loaded_index_checksum": "64aad68ad2449c98b46dfbb8aee846eb9fc5562bf057f315b0d53b41eb3d5a04",
-    "source_status_checksum": "0fa6b293d50eea97919f6f0b9807f7c958883b5a25a6c5554fd0dd2f04ae7264",
+    "manifest_checksum": "48015f1c7fb5ebb408bb68f635df5a775dd2b2cd8ef0020ae57af8f715214036",
+    "loaded_index_checksum": "bd51ec36ff4c1af01dce78159abe39ba9fede11cc7e68f73c2c8ebfb710dcba7",
+    "source_status_checksum": "97f45904e4dd0300da687dcb501b9a5dc68f6bcc9f9e6d49088669582d230c0e",
     "loaded_item_count": 21289,
     "fixture_checksum": "sha256:1030ce9505034216880ef47384cea521cc76000089d4b32942ba53a68c2c7989",
     "semantic_unique_case_count": 120,
@@ -268,8 +268,8 @@
       "deployment": 5
     },
     "test_count": 120,
-    "passed_count": 116,
-    "failed_count": 4,
+    "passed_count": 114,
+    "failed_count": 6,
     "skipped_count": 0,
     "results": [
       {
@@ -338,9 +338,9 @@
         "case_id": "live-003",
         "category": "exact_search",
         "status": "failed",
-        "failure_phase": "semantic_search",
-        "error": "{\"phase\":\"semantic_search\",\"query\":\"BNK경남은행 Air Money 체크카드\",\"expected_top_id\":\"finance.card.check-card.bnk경남은행.air-money-체크카드-101005\",\"expected_top_k_ids\":[\"finance.card.check-card.bnk경남은행.air-money-체크카드-101005\"],\"expected_result_ids\":[\"finance.card.check-card.bnk경남은행.air-money-체크카드-101005\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.bccard.check-card-list\",\"source.crefia.card-products\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"BNK경남은행 BNK프렌즈 체크카드\",\"expected_top_id\":\"finance.card.check-card.bnk경남은행.bnk프렌즈-체크카드-396992\",\"expected_top_k_ids\":[\"finance.card.check-card.bnk경남은행.bnk프렌즈-체크카드-396992\"],\"expected_result_ids\":[\"finance.card.check-card.bnk경남은행.bnk프렌즈-체크카드-396992\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.bccard.check-card-list\",\"source.crefia.card-products\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"}",
-        "actual_status": "ok",
+        "failure_phase": "base",
+        "error": "status=error; expected=ok; http_status=503; error=tools/call: 503",
+        "actual_status": "error",
         "actual_result_ids": [],
         "actual_source_ids": [],
         "actual_reason_codes": [],
@@ -352,7 +352,7 @@
         "category": "exact_search",
         "status": "failed",
         "failure_phase": "semantic_search",
-        "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 WON플러스예금\",\"expected_top_id\":\"finance.deposit.deposit.0010001.wr0001b\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010001.wr0001b\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010001.wr0001b\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"아이엠뱅크 iM함께예금\",\"expected_top_id\":\"finance.deposit.deposit.0010016.10511008001166004\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010016.10511008001166004\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010016.10511008001166004\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"부산은행 더(The) 특판 정기예금\",\"expected_top_id\":\"finance.deposit.deposit.0010017.01030500560002\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010017.01030500560002\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010017.01030500560002\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"}",
+        "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 WON플러스예금\",\"expected_top_id\":\"finance.deposit.deposit.0010001.wr0001b\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010001.wr0001b\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010001.wr0001b\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"부산은행 LIVE정기예금\",\"expected_top_id\":\"finance.deposit.deposit.0010017.01030500510002\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010017.01030500510002\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010017.01030500510002\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"}",
         "actual_status": "ok",
         "actual_result_ids": [],
         "actual_source_ids": [],
@@ -364,9 +364,9 @@
         "case_id": "live-005",
         "category": "exact_search",
         "status": "failed",
-        "failure_phase": "semantic_fetch",
-        "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 우리SUPER주거래적금\",\"expected_top_id\":\"finance.saving.saving.0010001.wr0001f\",\"expected_top_k_ids\":[\"finance.saving.saving.0010001.wr0001f\"],\"expected_result_ids\":[\"finance.saving.saving.0010001.wr0001f\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"우리은행 WON적금\",\"fetch_id\":\"finance.saving.saving.0010001.wr0001l\",\"expected_title\":\"우리은행 WON적금\",\"top_title\":\"우리은행 WON적금\",\"search_title\":\"우리은행 WON적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"fetch_id\":\"finance.saving.saving.0010002.00266451\",\"expected_title\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"top_title\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"search_title\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"아이엠뱅크 iM함께적금\",\"fetch_id\":\"finance.saving.saving.0010016.10521001001166004\",\"expected_title\":\"아이엠뱅크 iM함께적금\",\"top_title\":\"아이엠뱅크 iM함께적금\",\"search_title\":\"아이엠뱅크 iM함께적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"부산은행 펫 적금\",\"fetch_id\":\"finance.saving.saving.0010017.01020400490002\",\"expected_title\":\"부산은행 펫 적금\",\"top_title\":\"부산은행 펫 적금\",\"search_title\":\"부산은행 펫 적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"}",
-        "actual_status": "ok",
+        "failure_phase": "base",
+        "error": "status=error; expected=ok; http_status=503; error=tools/call: 503",
+        "actual_status": "error",
         "actual_result_ids": [],
         "actual_source_ids": [],
         "actual_reason_codes": [],
@@ -377,8 +377,8 @@
         "case_id": "live-006",
         "category": "exact_search",
         "status": "failed",
-        "failure_phase": "semantic_fetch",
-        "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 협약금리 外 신용대출상품\",\"expected_top_id\":\"finance.loan.credit-loan.0010001.cr0001a\",\"expected_top_k_ids\":[\"finance.loan.credit-loan.0010001.cr0001a\"],\"expected_result_ids\":[\"finance.loan.credit-loan.0010001.cr0001a\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"우리은행 신용대출 cr0001c\",\"fetch_id\":\"finance.loan.credit-loan.0010001.cr0001c\",\"expected_title\":\"우리은행 협약금리 外 신용대출상품\",\"top_title\":\"우리은행 협약금리 外 신용대출상품\",\"search_title\":\"우리은행 협약금리 外 신용대출상품\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"한국스탠다드차타드은행 개인신용대출\",\"fetch_id\":\"finance.loan.credit-loan.0010002.sc001217\",\"expected_title\":\"한국스탠다드차타드은행 개인신용대출\",\"top_title\":\"한국스탠다드차타드은행 개인신용대출\",\"search_title\":\"한국스탠다드차타드은행 개인신용대출\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"finance.loan.credit-loan.0010002.sc001217-1\",\"fetch_id\":\"finance.loan.credit-loan.0010002.sc001217-1\",\"expected_title\":\"한국스탠다드차타드은행 개인신용대출\",\"top_title\":\"한국스탠다드차타드은행 개인신용대출\",\"search_title\":\"한국스탠다드차타드은행 개인신용대출\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"전세자금대출\",\"fetch_id\":\"finance.loan.rent-loan.0010024.30002573\",\"expected_title\":\"경남은행 고정금리 전세자금대출(주택금융공사)\",\"top_title\":\"경남은행 고정금리 전세자금대출(주택금융공사)\",\"search_title\":\"경남은행 고정금리 전세자금대출(주택금융공사)\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"}",
+        "failure_phase": "semantic_search",
+        "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 협약금리 外 신용대출상품\",\"expected_top_id\":\"finance.loan.credit-loan.0010001.cr0001a\",\"expected_top_k_ids\":[\"finance.loan.credit-loan.0010001.cr0001a\"],\"expected_result_ids\":[\"finance.loan.credit-loan.0010001.cr0001a\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"한국스탠다드차타드은행 개인신용대출\",\"expected_top_id\":\"finance.loan.credit-loan.0010002.sc001217\",\"expected_top_k_ids\":[\"finance.loan.credit-loan.0010002.sc001217\",\"finance.loan.credit-loan.0010002.sc001217-1\"],\"expected_result_ids\":[\"finance.loan.credit-loan.0010002.sc001217\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"전세자금대출\",\"expected_top_id\":\"finance.loan.rent-loan.0010024.30002573\",\"expected_top_k_ids\":[\"finance.loan.rent-loan.0010024.30002573\"],\"expected_result_ids\":[\"finance.loan.rent-loan.0010024.30002573\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"}",
         "actual_status": "ok",
         "actual_result_ids": [],
         "actual_source_ids": [],
@@ -389,54 +389,27 @@
       {
         "case_id": "live-007",
         "category": "exact_search",
-        "semantic_hash": "d4348ea15ee6c6d32f5e151cb5ced60813ce3484e8acb3ab3c161e36c8574817",
-        "status": "passed",
+        "status": "failed",
+        "failure_phase": "semantic_fetch",
+        "error": "{\"phase\":\"semantic_search\",\"query\":\"ABL생명 (무)우리WON건강N더보장종합보험(갱신형)(일반심사형)\",\"expected_top_id\":\"finance.insurance.klia.accident.abl생명.l0202460001nny0247000202440001024400010006024400010006000202440001000600020004ac104\",\"expected_top_k_ids\":[\"finance.insurance.klia.accident.abl생명.l0202460001nny0247000202440001024400010006024400010006000202440001000600020004ac104\"],\"expected_result_ids\":[\"finance.insurance.klia.accident.abl생명.l0202460001nny0247000202440001024400010006024400010006000202440001000600020004ac104\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.klia.insurance-disclosure\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"This operation was aborted\"} | {\"phase\":\"semantic_search\",\"query\":\"ABL생명 (무)더나은안심보험_1형(장해보장형)\",\"expected_top_id\":\"finance.insurance.klia.accident.abl생명.l0202460002nnn0247000202440001024400010006024400010006000202440001000600020004ac109\",\"expected_top_k_ids\":[\"finance.insurance.klia.accident.abl생명.l0202460002nnn0247000202440001024400010006024400010006000202440001000600020004ac109\"],\"expected_result_ids\":[\"finance.insurance.klia.accident.abl생명.l0202460002nnn0247000202440001024400010006024400010006000202440001000600020004ac109\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.klia.insurance-disclosure\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"ABL생명 (무)더나은안심보험_2형(상해보장형)\",\"fetch_id\":\"finance.insurance.klia.accident.abl생명.l0202460002nnn0247000202440001024400010006024400010006000202440001000600020004ac110\",\"expected_title\":\"ABL생명 (무)더나은안심보험_2형(상해보장형)\",\"top_title\":\"ABL생명 (무)더나은안심보험_2형(상해보장형)\",\"search_title\":\"ABL생명 (무)더나은안심보험_2형(상해보장형)\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"ABL생명 (무)우리WON인터넷네개딱!패키지건강보험(갱신형)\",\"fetch_id\":\"finance.insurance.klia.accident.abl생명.l0202460004nny0247000202440001024400010006024400010006000202440001000600020004ac106\",\"expected_title\":\"ABL생명 (무)우리WON인터넷네개딱!패키지건강보험(갱신형)\",\"top_title\":\"ABL생명 (무)우리WON인터넷네개딱!패키지건강보험(갱신형)\",\"search_title\":\"ABL생명 (무)우리WON인터넷네개딱!패키지건강보험(갱신형)\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"}",
         "actual_status": "ok",
-        "actual_result_ids": [
-          "finance.provider.dbebce440f1d"
-        ],
-        "actual_source_ids": [
-          "source.fsc.financial-company-basic",
-          "source.fsc.financial-company-credit"
-        ],
+        "actual_result_ids": [],
+        "actual_source_ids": [],
         "actual_reason_codes": [],
-        "top_k_scores": [
-          {
-            "id": "finance.provider.dbebce440f1d",
-            "score": 70
-          }
-        ],
+        "top_k_scores": [],
         "retry_errors": []
       },
       {
         "case_id": "live-008",
         "category": "exact_search",
-        "semantic_hash": "d7e680e637b6fc632970a25ac2ace460474e976df7bb5c7bc8ec30afb274e7eb",
-        "status": "passed",
+        "status": "failed",
+        "failure_phase": "semantic_search",
+        "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 시니어플러스 우리 연금대출\",\"expected_top_id\":\"finance.bank.policy-loan.kinfa-api.106\",\"expected_top_k_ids\":[\"finance.bank.policy-loan.kinfa-api.106\"],\"expected_result_ids\":[\"finance.bank.policy-loan.kinfa-api.106\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.data.go.kr.kinfa-loan-products\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"This operation was aborted\"}",
         "actual_status": "ok",
-        "actual_result_ids": [
-          "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
-          "finance.insurance.klia.indemnity-health.동양생명.l74024600010246000302460005nny0247000202440001024400010008024400010008000102440001000800010005s1012",
-          "finance.insurance.klia.indemnity-health.삼성생명.l031nnyb1g4005540"
-        ],
-        "actual_source_ids": [
-          "source.klia.insurance-disclosure"
-        ],
+        "actual_result_ids": [],
+        "actual_source_ids": [],
         "actual_reason_codes": [],
-        "top_k_scores": [
-          {
-            "id": "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
-            "score": 95
-          },
-          {
-            "id": "finance.insurance.klia.indemnity-health.동양생명.l74024600010246000302460005nny0247000202440001024400010008024400010008000102440001000800010005s1012",
-            "score": 95
-          },
-          {
-            "id": "finance.insurance.klia.indemnity-health.삼성생명.l031nnyb1g4005540",
-            "score": 95
-          }
-        ],
+        "top_k_scores": [],
         "retry_errors": []
       },
       {
@@ -841,7 +814,7 @@
         "actual_result_ids": [],
         "actual_source_ids": [],
         "actual_reason_codes": [
-          "EXACT_PRODUCT_NOT_FOUND"
+          "PROVIDER_REQUIRED"
         ],
         "top_k_scores": [],
         "retry_errors": []
@@ -855,7 +828,7 @@
         "actual_result_ids": [],
         "actual_source_ids": [],
         "actual_reason_codes": [
-          "EXACT_PRODUCT_NOT_FOUND"
+          "PROVIDER_REQUIRED"
         ],
         "top_k_scores": [],
         "retry_errors": []
@@ -1005,22 +978,22 @@
         "status": "passed",
         "actual_status": "ok",
         "actual_result_ids": [
-          "finance.card.check-card.광주은행.대한항공-skypass-체크카드-104283",
-          "finance.card.check-card.광주은행.global-travel-체크카드-102970"
+          "finance.card.check-card.롯데카드.롯데-포인트플러스-체크카드",
+          "finance.card.check-card.롯데카드.위클리-체크카드"
         ],
         "actual_source_ids": [
-          "source.bccard.check-card-list",
+          "source.crefia.carddamoa",
           "source.crefia.card-products"
         ],
         "actual_reason_codes": [],
         "top_k_scores": [
           {
-            "id": "finance.card.check-card.광주은행.대한항공-skypass-체크카드-104283",
-            "score": 32
+            "id": "finance.card.check-card.롯데카드.롯데-포인트플러스-체크카드",
+            "score": 40
           },
           {
-            "id": "finance.card.check-card.광주은행.global-travel-체크카드-102970",
-            "score": 32
+            "id": "finance.card.check-card.롯데카드.위클리-체크카드",
+            "score": 40
           }
         ],
         "retry_errors": []
@@ -2456,15 +2429,15 @@
     "last_attempt": {
       "status": "failed",
       "mode": "live",
-      "checked_at": "2026-08-30T21:04:30.449Z",
+      "checked_at": "2026-08-31T22:50:17.534Z",
       "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
       "runtime_version": "openfin-mcp-dev",
-      "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
-      "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+      "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
+      "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
       "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-      "manifest_checksum": "233a7372a7ce6b622913324decd4c3e6f1d43992bf163637a44358727811016c",
-      "loaded_index_checksum": "64aad68ad2449c98b46dfbb8aee846eb9fc5562bf057f315b0d53b41eb3d5a04",
-      "source_status_checksum": "0fa6b293d50eea97919f6f0b9807f7c958883b5a25a6c5554fd0dd2f04ae7264",
+      "manifest_checksum": "48015f1c7fb5ebb408bb68f635df5a775dd2b2cd8ef0020ae57af8f715214036",
+      "loaded_index_checksum": "bd51ec36ff4c1af01dce78159abe39ba9fede11cc7e68f73c2c8ebfb710dcba7",
+      "source_status_checksum": "97f45904e4dd0300da687dcb501b9a5dc68f6bcc9f9e6d49088669582d230c0e",
       "loaded_item_count": 21289,
       "fixture_checksum": "sha256:1030ce9505034216880ef47384cea521cc76000089d4b32942ba53a68c2c7989",
       "semantic_unique_case_count": 120,
@@ -2481,8 +2454,8 @@
         "deployment": 5
       },
       "test_count": 120,
-      "passed_count": 116,
-      "failed_count": 4,
+      "passed_count": 114,
+      "failed_count": 6,
       "skipped_count": 0,
       "results": [
         {
@@ -2551,9 +2524,9 @@
           "case_id": "live-003",
           "category": "exact_search",
           "status": "failed",
-          "failure_phase": "semantic_search",
-          "error": "{\"phase\":\"semantic_search\",\"query\":\"BNK경남은행 Air Money 체크카드\",\"expected_top_id\":\"finance.card.check-card.bnk경남은행.air-money-체크카드-101005\",\"expected_top_k_ids\":[\"finance.card.check-card.bnk경남은행.air-money-체크카드-101005\"],\"expected_result_ids\":[\"finance.card.check-card.bnk경남은행.air-money-체크카드-101005\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.bccard.check-card-list\",\"source.crefia.card-products\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"BNK경남은행 BNK프렌즈 체크카드\",\"expected_top_id\":\"finance.card.check-card.bnk경남은행.bnk프렌즈-체크카드-396992\",\"expected_top_k_ids\":[\"finance.card.check-card.bnk경남은행.bnk프렌즈-체크카드-396992\"],\"expected_result_ids\":[\"finance.card.check-card.bnk경남은행.bnk프렌즈-체크카드-396992\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.bccard.check-card-list\",\"source.crefia.card-products\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"}",
-          "actual_status": "ok",
+          "failure_phase": "base",
+          "error": "status=error; expected=ok; http_status=503; error=tools/call: 503",
+          "actual_status": "error",
           "actual_result_ids": [],
           "actual_source_ids": [],
           "actual_reason_codes": [],
@@ -2565,7 +2538,7 @@
           "category": "exact_search",
           "status": "failed",
           "failure_phase": "semantic_search",
-          "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 WON플러스예금\",\"expected_top_id\":\"finance.deposit.deposit.0010001.wr0001b\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010001.wr0001b\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010001.wr0001b\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"아이엠뱅크 iM함께예금\",\"expected_top_id\":\"finance.deposit.deposit.0010016.10511008001166004\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010016.10511008001166004\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010016.10511008001166004\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"부산은행 더(The) 특판 정기예금\",\"expected_top_id\":\"finance.deposit.deposit.0010017.01030500560002\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010017.01030500560002\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010017.01030500560002\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"}",
+          "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 WON플러스예금\",\"expected_top_id\":\"finance.deposit.deposit.0010001.wr0001b\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010001.wr0001b\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010001.wr0001b\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"부산은행 LIVE정기예금\",\"expected_top_id\":\"finance.deposit.deposit.0010017.01030500510002\",\"expected_top_k_ids\":[\"finance.deposit.deposit.0010017.01030500510002\"],\"expected_result_ids\":[\"finance.deposit.deposit.0010017.01030500510002\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"}",
           "actual_status": "ok",
           "actual_result_ids": [],
           "actual_source_ids": [],
@@ -2577,9 +2550,9 @@
           "case_id": "live-005",
           "category": "exact_search",
           "status": "failed",
-          "failure_phase": "semantic_fetch",
-          "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 우리SUPER주거래적금\",\"expected_top_id\":\"finance.saving.saving.0010001.wr0001f\",\"expected_top_k_ids\":[\"finance.saving.saving.0010001.wr0001f\"],\"expected_result_ids\":[\"finance.saving.saving.0010001.wr0001f\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"우리은행 WON적금\",\"fetch_id\":\"finance.saving.saving.0010001.wr0001l\",\"expected_title\":\"우리은행 WON적금\",\"top_title\":\"우리은행 WON적금\",\"search_title\":\"우리은행 WON적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"fetch_id\":\"finance.saving.saving.0010002.00266451\",\"expected_title\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"top_title\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"search_title\":\"한국스탠다드차타드은행 퍼스트가계적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"아이엠뱅크 iM함께적금\",\"fetch_id\":\"finance.saving.saving.0010016.10521001001166004\",\"expected_title\":\"아이엠뱅크 iM함께적금\",\"top_title\":\"아이엠뱅크 iM함께적금\",\"search_title\":\"아이엠뱅크 iM함께적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"부산은행 펫 적금\",\"fetch_id\":\"finance.saving.saving.0010017.01020400490002\",\"expected_title\":\"부산은행 펫 적금\",\"top_title\":\"부산은행 펫 적금\",\"search_title\":\"부산은행 펫 적금\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"}",
-          "actual_status": "ok",
+          "failure_phase": "base",
+          "error": "status=error; expected=ok; http_status=503; error=tools/call: 503",
+          "actual_status": "error",
           "actual_result_ids": [],
           "actual_source_ids": [],
           "actual_reason_codes": [],
@@ -2590,8 +2563,8 @@
           "case_id": "live-006",
           "category": "exact_search",
           "status": "failed",
-          "failure_phase": "semantic_fetch",
-          "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 협약금리 外 신용대출상품\",\"expected_top_id\":\"finance.loan.credit-loan.0010001.cr0001a\",\"expected_top_k_ids\":[\"finance.loan.credit-loan.0010001.cr0001a\"],\"expected_result_ids\":[\"finance.loan.credit-loan.0010001.cr0001a\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"우리은행 신용대출 cr0001c\",\"fetch_id\":\"finance.loan.credit-loan.0010001.cr0001c\",\"expected_title\":\"우리은행 협약금리 外 신용대출상품\",\"top_title\":\"우리은행 협약금리 外 신용대출상품\",\"search_title\":\"우리은행 협약금리 外 신용대출상품\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"한국스탠다드차타드은행 개인신용대출\",\"fetch_id\":\"finance.loan.credit-loan.0010002.sc001217\",\"expected_title\":\"한국스탠다드차타드은행 개인신용대출\",\"top_title\":\"한국스탠다드차타드은행 개인신용대출\",\"search_title\":\"한국스탠다드차타드은행 개인신용대출\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"finance.loan.credit-loan.0010002.sc001217-1\",\"fetch_id\":\"finance.loan.credit-loan.0010002.sc001217-1\",\"expected_title\":\"한국스탠다드차타드은행 개인신용대출\",\"top_title\":\"한국스탠다드차타드은행 개인신용대출\",\"search_title\":\"한국스탠다드차타드은행 개인신용대출\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"전세자금대출\",\"fetch_id\":\"finance.loan.rent-loan.0010024.30002573\",\"expected_title\":\"경남은행 고정금리 전세자금대출(주택금융공사)\",\"top_title\":\"경남은행 고정금리 전세자금대출(주택금융공사)\",\"search_title\":\"경남은행 고정금리 전세자금대출(주택금융공사)\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"}",
+          "failure_phase": "semantic_search",
+          "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 협약금리 外 신용대출상품\",\"expected_top_id\":\"finance.loan.credit-loan.0010001.cr0001a\",\"expected_top_k_ids\":[\"finance.loan.credit-loan.0010001.cr0001a\"],\"expected_result_ids\":[\"finance.loan.credit-loan.0010001.cr0001a\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"한국스탠다드차타드은행 개인신용대출\",\"expected_top_id\":\"finance.loan.credit-loan.0010002.sc001217\",\"expected_top_k_ids\":[\"finance.loan.credit-loan.0010002.sc001217\",\"finance.loan.credit-loan.0010002.sc001217-1\"],\"expected_result_ids\":[\"finance.loan.credit-loan.0010002.sc001217\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_search\",\"query\":\"전세자금대출\",\"expected_top_id\":\"finance.loan.rent-loan.0010024.30002573\",\"expected_top_k_ids\":[\"finance.loan.rent-loan.0010024.30002573\"],\"expected_result_ids\":[\"finance.loan.rent-loan.0010024.30002573\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.fss.finlife.api\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"}",
           "actual_status": "ok",
           "actual_result_ids": [],
           "actual_source_ids": [],
@@ -2602,54 +2575,27 @@
         {
           "case_id": "live-007",
           "category": "exact_search",
-          "semantic_hash": "d4348ea15ee6c6d32f5e151cb5ced60813ce3484e8acb3ab3c161e36c8574817",
-          "status": "passed",
+          "status": "failed",
+          "failure_phase": "semantic_fetch",
+          "error": "{\"phase\":\"semantic_search\",\"query\":\"ABL생명 (무)우리WON건강N더보장종합보험(갱신형)(일반심사형)\",\"expected_top_id\":\"finance.insurance.klia.accident.abl생명.l0202460001nny0247000202440001024400010006024400010006000202440001000600020004ac104\",\"expected_top_k_ids\":[\"finance.insurance.klia.accident.abl생명.l0202460001nny0247000202440001024400010006024400010006000202440001000600020004ac104\"],\"expected_result_ids\":[\"finance.insurance.klia.accident.abl생명.l0202460001nny0247000202440001024400010006024400010006000202440001000600020004ac104\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.klia.insurance-disclosure\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"This operation was aborted\"} | {\"phase\":\"semantic_search\",\"query\":\"ABL생명 (무)더나은안심보험_1형(장해보장형)\",\"expected_top_id\":\"finance.insurance.klia.accident.abl생명.l0202460002nnn0247000202440001024400010006024400010006000202440001000600020004ac109\",\"expected_top_k_ids\":[\"finance.insurance.klia.accident.abl생명.l0202460002nnn0247000202440001024400010006024400010006000202440001000600020004ac109\"],\"expected_result_ids\":[\"finance.insurance.klia.accident.abl생명.l0202460002nnn0247000202440001024400010006024400010006000202440001000600020004ac109\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.klia.insurance-disclosure\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"ABL생명 (무)더나은안심보험_2형(상해보장형)\",\"fetch_id\":\"finance.insurance.klia.accident.abl생명.l0202460002nnn0247000202440001024400010006024400010006000202440001000600020004ac110\",\"expected_title\":\"ABL생명 (무)더나은안심보험_2형(상해보장형)\",\"top_title\":\"ABL생명 (무)더나은안심보험_2형(상해보장형)\",\"search_title\":\"ABL생명 (무)더나은안심보험_2형(상해보장형)\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"} | {\"phase\":\"semantic_fetch\",\"query\":\"ABL생명 (무)우리WON인터넷네개딱!패키지건강보험(갱신형)\",\"fetch_id\":\"finance.insurance.klia.accident.abl생명.l0202460004nny0247000202440001024400010006024400010006000202440001000600020004ac106\",\"expected_title\":\"ABL생명 (무)우리WON인터넷네개딱!패키지건강보험(갱신형)\",\"top_title\":\"ABL생명 (무)우리WON인터넷네개딱!패키지건강보험(갱신형)\",\"search_title\":\"ABL생명 (무)우리WON인터넷네개딱!패키지건강보험(갱신형)\",\"actual\":{\"id\":null,\"title\":null,\"type\":null,\"provider\":null,\"source_ids\":[],\"freshness_status\":null,\"score\":null},\"error\":\"tools/call: 503\"}",
           "actual_status": "ok",
-          "actual_result_ids": [
-            "finance.provider.dbebce440f1d"
-          ],
-          "actual_source_ids": [
-            "source.fsc.financial-company-basic",
-            "source.fsc.financial-company-credit"
-          ],
+          "actual_result_ids": [],
+          "actual_source_ids": [],
           "actual_reason_codes": [],
-          "top_k_scores": [
-            {
-              "id": "finance.provider.dbebce440f1d",
-              "score": 70
-            }
-          ],
+          "top_k_scores": [],
           "retry_errors": []
         },
         {
           "case_id": "live-008",
           "category": "exact_search",
-          "semantic_hash": "d7e680e637b6fc632970a25ac2ace460474e976df7bb5c7bc8ec30afb274e7eb",
-          "status": "passed",
+          "status": "failed",
+          "failure_phase": "semantic_search",
+          "error": "{\"phase\":\"semantic_search\",\"query\":\"우리은행 시니어플러스 우리 연금대출\",\"expected_top_id\":\"finance.bank.policy-loan.kinfa-api.106\",\"expected_top_k_ids\":[\"finance.bank.policy-loan.kinfa-api.106\"],\"expected_result_ids\":[\"finance.bank.policy-loan.kinfa-api.106\"],\"expected_result_ids_any\":[],\"expected_source_ids\":[\"source.data.go.kr.kinfa-loan-products\"],\"expected_freshness_status\":null,\"actual\":[],\"failures\":[\"top_id_mismatch\",\"missing_source_or_freshness\",\"top_k_mismatch\",\"source_ids_mismatch\",\"freshness_missing\"],\"error\":\"This operation was aborted\"}",
           "actual_status": "ok",
-          "actual_result_ids": [
-            "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
-            "finance.insurance.klia.indemnity-health.동양생명.l74024600010246000302460005nny0247000202440001024400010008024400010008000102440001000800010005s1012",
-            "finance.insurance.klia.indemnity-health.삼성생명.l031nnyb1g4005540"
-          ],
-          "actual_source_ids": [
-            "source.klia.insurance-disclosure"
-          ],
+          "actual_result_ids": [],
+          "actual_source_ids": [],
           "actual_reason_codes": [],
-          "top_k_scores": [
-            {
-              "id": "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
-              "score": 95
-            },
-            {
-              "id": "finance.insurance.klia.indemnity-health.동양생명.l74024600010246000302460005nny0247000202440001024400010008024400010008000102440001000800010005s1012",
-              "score": 95
-            },
-            {
-              "id": "finance.insurance.klia.indemnity-health.삼성생명.l031nnyb1g4005540",
-              "score": 95
-            }
-          ],
+          "top_k_scores": [],
           "retry_errors": []
         },
         {
@@ -3054,7 +3000,7 @@
           "actual_result_ids": [],
           "actual_source_ids": [],
           "actual_reason_codes": [
-            "EXACT_PRODUCT_NOT_FOUND"
+            "PROVIDER_REQUIRED"
           ],
           "top_k_scores": [],
           "retry_errors": []
@@ -3068,7 +3014,7 @@
           "actual_result_ids": [],
           "actual_source_ids": [],
           "actual_reason_codes": [
-            "EXACT_PRODUCT_NOT_FOUND"
+            "PROVIDER_REQUIRED"
           ],
           "top_k_scores": [],
           "retry_errors": []
@@ -3218,22 +3164,22 @@
           "status": "passed",
           "actual_status": "ok",
           "actual_result_ids": [
-            "finance.card.check-card.광주은행.대한항공-skypass-체크카드-104283",
-            "finance.card.check-card.광주은행.global-travel-체크카드-102970"
+            "finance.card.check-card.롯데카드.롯데-포인트플러스-체크카드",
+            "finance.card.check-card.롯데카드.위클리-체크카드"
           ],
           "actual_source_ids": [
-            "source.bccard.check-card-list",
+            "source.crefia.carddamoa",
             "source.crefia.card-products"
           ],
           "actual_reason_codes": [],
           "top_k_scores": [
             {
-              "id": "finance.card.check-card.광주은행.대한항공-skypass-체크카드-104283",
-              "score": 32
+              "id": "finance.card.check-card.롯데카드.롯데-포인트플러스-체크카드",
+              "score": 40
             },
             {
-              "id": "finance.card.check-card.광주은행.global-travel-체크카드-102970",
-              "score": 32
+              "id": "finance.card.check-card.롯데카드.위클리-체크카드",
+              "score": 40
             }
           ],
           "retry_errors": []
@@ -5423,8 +5369,8 @@
     },
     "gate_basis": "last_attempt",
     "evidence_path": "opentax/live-regression-current.json",
-    "evidence_checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-    "expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+    "evidence_checksum": "0d9527bff675201f642c8d92fe217bb0250fba0e825939d8ac296726d42c1760",
+    "expected_generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
     "expected_fixture_checksum": "sha256:1030ce9505034216880ef47384cea521cc76000089d4b32942ba53a68c2c7989",
     "validation_status": "failed",
     "source_evidence_path": "evidence/live-regression/current.json"
@@ -5436,21 +5382,21 @@
       "export_checksum": "9aabf23f3ce7686b284b27815ba1c7a86eee4709e9bbf6be9bd7e0cc5d33a990",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 116,
-        "live_failed_count": 4,
-        "live_failure_count": 4,
+        "live_passed_count": 114,
+        "live_failed_count": 6,
+        "live_failure_count": 6,
         "report_kind": "verification-coverage",
-        "live_evidence_generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+        "live_evidence_generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
         "live_status": "failed",
-        "live_tested_at": "2026-08-30T21:04:30.449Z",
-        "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+        "live_tested_at": "2026-08-31T22:50:17.534Z",
+        "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+        "live_expected_generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
-          "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-          "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+          "checksum": "0d9527bff675201f642c8d92fe217bb0250fba0e825939d8ac296726d42c1760",
+          "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
           "validation_status": "failed"
         }
       }
@@ -5461,9 +5407,9 @@
       "export_checksum": "56f3fd44f3fd25068f732c91432c054af46e01c1acdb567a8b4086d5768607f9",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 116,
-        "live_failed_count": 4,
-        "live_failure_count": 4,
+        "live_passed_count": 114,
+        "live_failed_count": 6,
+        "live_failure_count": 6,
         "report_kind": "semantic-duplicate",
         "exact_id_duplicate_count": 0,
         "external_id_duplicate_count": 0,
@@ -5473,17 +5419,17 @@
         "duplicate_candidate_response_count": 0,
         "duplicate_canonical_product_count": 0,
         "canonical_merge_count": 11,
-        "live_evidence_generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+        "live_evidence_generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
         "live_status": "failed",
-        "live_tested_at": "2026-08-30T21:04:30.449Z",
-        "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+        "live_tested_at": "2026-08-31T22:50:17.534Z",
+        "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+        "live_expected_generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
-          "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-          "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+          "checksum": "0d9527bff675201f642c8d92fe217bb0250fba0e825939d8ac296726d42c1760",
+          "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
           "validation_status": "failed"
         }
       }
@@ -5494,23 +5440,23 @@
       "export_checksum": "f12f3dde4c6d66a9217fcee9b8d2dc5c861173df3e747819a56406e4415c6178",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 116,
-        "live_failed_count": 4,
-        "live_failure_count": 4,
+        "live_passed_count": 114,
+        "live_failed_count": 6,
+        "live_failure_count": 6,
         "report_kind": "comparison-regression",
         "failed_count": 0,
         "search_regression_failed_count": 0,
-        "live_evidence_generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+        "live_evidence_generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
         "live_status": "failed",
-        "live_tested_at": "2026-08-30T21:04:30.449Z",
-        "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+        "live_tested_at": "2026-08-31T22:50:17.534Z",
+        "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+        "live_expected_generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
-          "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-          "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+          "checksum": "0d9527bff675201f642c8d92fe217bb0250fba0e825939d8ac296726d42c1760",
+          "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
           "validation_status": "failed"
         }
       }
@@ -5521,21 +5467,21 @@
       "export_checksum": "b2df8a635006349727aa4b87fcbcfd18478c51f15bb0a5ff494f82d8ec217310",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 116,
-        "live_failed_count": 4,
-        "live_failure_count": 4,
+        "live_passed_count": 114,
+        "live_failed_count": 6,
+        "live_failure_count": 6,
         "report_kind": "recommendation-safety",
-        "live_evidence_generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+        "live_evidence_generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
         "live_status": "failed",
-        "live_tested_at": "2026-08-30T21:04:30.449Z",
-        "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+        "live_tested_at": "2026-08-31T22:50:17.534Z",
+        "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+        "live_expected_generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
-          "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-          "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+          "checksum": "0d9527bff675201f642c8d92fe217bb0250fba0e825939d8ac296726d42c1760",
+          "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
           "validation_status": "failed"
         }
       }
@@ -5546,24 +5492,24 @@
       "export_checksum": "67389d58f571f86cc1c2fda2523d8a3da788c616041b436fa289eb279eeac101",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 116,
-        "live_failed_count": 4,
-        "live_failure_count": 4,
+        "live_passed_count": 114,
+        "live_failed_count": 6,
+        "live_failure_count": 6,
         "report_kind": "support-relevance",
         "jurisdiction_violation_count": 0,
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0,
-        "live_evidence_generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+        "live_evidence_generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
         "live_status": "failed",
-        "live_tested_at": "2026-08-30T21:04:30.449Z",
-        "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+        "live_tested_at": "2026-08-31T22:50:17.534Z",
+        "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+        "live_expected_generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
-          "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-          "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+          "checksum": "0d9527bff675201f642c8d92fe217bb0250fba0e825939d8ac296726d42c1760",
+          "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
           "validation_status": "failed"
         }
       }
@@ -5574,21 +5520,21 @@
       "export_checksum": "6d0680f31f943a68f96f5f6c340b7aa3278d91327f0d3d897b7126b6a90d4f8c",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 116,
-        "live_failed_count": 4,
-        "live_failure_count": 4,
+        "live_passed_count": 114,
+        "live_failed_count": 6,
+        "live_failure_count": 6,
         "report_kind": "data-drift",
-        "live_evidence_generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+        "live_evidence_generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
         "live_status": "failed",
-        "live_tested_at": "2026-08-30T21:04:30.449Z",
-        "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+        "live_tested_at": "2026-08-31T22:50:17.534Z",
+        "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+        "live_expected_generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
-          "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-          "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+          "checksum": "0d9527bff675201f642c8d92fe217bb0250fba0e825939d8ac296726d42c1760",
+          "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
           "validation_status": "failed"
         }
       }
@@ -5599,22 +5545,22 @@
       "export_checksum": "5ec437823e07221157988dffa0b54e496614df8ca3b503fefe7a05e5f54cf922",
       "quality_summary": {
         "live_case_count": 120,
-        "live_passed_count": 116,
-        "live_failed_count": 4,
-        "live_failure_count": 4,
+        "live_passed_count": 114,
+        "live_failed_count": 6,
+        "live_failure_count": 6,
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0,
-        "live_evidence_generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+        "live_evidence_generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
         "live_status": "failed",
-        "live_tested_at": "2026-08-30T21:04:30.449Z",
-        "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+        "live_tested_at": "2026-08-31T22:50:17.534Z",
+        "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+        "live_expected_generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
-          "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-          "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+          "checksum": "0d9527bff675201f642c8d92fe217bb0250fba0e825939d8ac296726d42c1760",
+          "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
           "validation_status": "failed"
         }
       }
@@ -5631,7 +5577,7 @@
     "export_count": 10,
     "search_item_count": 21289,
     "relationship_count": 102523,
-    "content_checksum": "59e4159673120853fb0b60778cfdb7731ac3a7dc4c02b61539920a15a7d0a698"
+    "content_checksum": "7c3e5a70f7dd5576688aeac67140d500129484e8bf7de3f557d6bf6a65e60c1d"
   },
   "domain_readiness": {
     "deposit": {
@@ -6042,27 +5988,27 @@
     }
   },
   "quality_policy_version": "openfin-release-policy-v1",
-  "quality_hash": "7a72abf7d79d0952e3080fc55e375ea7cb068e582f4d11bbde163a72a0ad5721",
+  "quality_hash": "6ed5d7b9f1ede25b35fc0ce44b9573e37e429b5fe05676c2cc7ad17419260c84",
   "platform_release_status": "ready",
   "comparison_release_status": "blocked",
   "recommendation_release_status": "blocked",
   "core_search_status": "ready",
   "comparison_status": "blocked",
   "recommendation_status": "blocked",
-  "generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+  "generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
   "artifact_contract": {
     "version": "openfin-artifact-contract-v1",
     "readiness_schema_version": "openfin-readiness-v2",
-    "generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
-    "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
-    "canonical_content_checksum": "59e4159673120853fb0b60778cfdb7731ac3a7dc4c02b61539920a15a7d0a698",
+    "generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
+    "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
+    "canonical_content_checksum": "7c3e5a70f7dd5576688aeac67140d500129484e8bf7de3f557d6bf6a65e60c1d",
     "search_index_checksum": "bd51ec36ff4c1af01dce78159abe39ba9fede11cc7e68f73c2c8ebfb710dcba7",
     "source_status_checksum": "c85e3e16448ccf1faffb6dee5bd271d36a133f2c819f10700246822968ab555d",
     "release_policy_checksum": "f1d8859ad6c589c8c6d8682933e44e62137b07dc4336e3557911ae60b6525482",
     "capability_policy_checksum": "dfb4b5d4bac533d2a34b9c5ff0117dd0c67b49ebd2ba8e4fba2bc3a21cb6e35f",
     "capability_status_checksum": "3dd2d94b17fc04679d45859d4614d84026252e2aba365c4a2621705ec7346934",
     "fixture_checksum": "sha256:1030ce9505034216880ef47384cea521cc76000089d4b32942ba53a68c2c7989",
-    "candidate_set_checksum": "sha256:c0518880ae5c30dc218eb04a10d1bb14409d2d5e0b5783c441d9b263f90d5cdb",
+    "candidate_set_checksum": "sha256:3f9bfbf5c1d129c8fff2b1a931861183fbb183a35596927b3310f35b72384daf",
     "candidate_content_checksum_policy": "immutable_candidate_set_checksum",
     "quality_suite_transitive_checksum": "sha256:7757ce29bdf2d3ebd406e4d629744f1401ace5e57073d9b1f81c1e6e60966d35"
   },
@@ -6139,9 +6085,9 @@
   "quality_export_live_summary": {
     "source": "manifest.live_regression_evidence",
     "live_test_count": 120,
-    "live_passed_count": 116,
-    "live_failed_count": 4,
-    "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf"
+    "live_passed_count": 114,
+    "live_failed_count": 6,
+    "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf"
   },
   "legacy_overlay_summary": {
     "deprecated": true,

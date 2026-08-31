@@ -2,14 +2,14 @@
   "version": "openfin-data-drift-report-2026.07.18.1",
   "basis_date": "2026-07-10",
   "live_status": "failed",
-  "live_tested_at": "2026-08-30T21:04:30.449Z",
+  "live_tested_at": "2026-08-31T22:50:17.534Z",
   "runtime_version": "openfin-mcp-dev",
-  "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+  "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
   "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "live_case_count": 120,
-  "live_passed_count": 116,
-  "live_failed_count": 4,
-  "live_failure_count": 4,
+  "live_passed_count": 114,
+  "live_failed_count": 6,
+  "live_failure_count": 6,
   "report_kind": "data-drift",
   "product_count_added": null,
   "product_count_removed": null,
@@ -21,12 +21,12 @@
   "verification_expired": null,
   "note": "No comparable baseline was measured; change remains unknown.",
   "export_checksum": "6d0680f31f943a68f96f5f6c340b7aa3278d91327f0d3d897b7126b6a90d4f8c",
-  "live_evidence_generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
-  "live_expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+  "live_evidence_generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
+  "live_expected_generation_id": "3569665ae9dba22e860a66f1a91fb904ff89fe7d0d78477bc72fa6151654546a",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
-    "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-    "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
+    "checksum": "0d9527bff675201f642c8d92fe217bb0250fba0e825939d8ac296726d42c1760",
+    "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
     "validation_status": "failed"
   },
   "measurement_status": "not_measured",
@@ -35,8 +35,8 @@
   "quality_export_live_summary": {
     "source": "manifest.live_regression_evidence",
     "live_test_count": 120,
-    "live_passed_count": 116,
-    "live_failed_count": 4,
-    "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf"
+    "live_passed_count": 114,
+    "live_failed_count": 6,
+    "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf"
   }
 }

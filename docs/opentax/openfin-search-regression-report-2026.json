@@ -16563,28 +16563,28 @@
   "live_summary": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
     "live_status": "failed",
-    "checked_at": "2026-08-30T21:04:30.449Z",
+    "checked_at": "2026-08-31T22:50:17.534Z",
     "runtime_version": "openfin-mcp-dev",
-    "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+    "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
-    "search_index_checksum": "64aad68ad2449c98b46dfbb8aee846eb9fc5562bf057f315b0d53b41eb3d5a04",
+    "search_index_checksum": "bd51ec36ff4c1af01dce78159abe39ba9fede11cc7e68f73c2c8ebfb710dcba7",
     "runtime_search_index_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
     "test_count": 120,
-    "passed_count": 116,
-    "failed_count": 4,
+    "passed_count": 114,
+    "failed_count": 6,
     "failures": [],
     "last_failed_at": null,
     "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
-    "manifest_checksum": "233a7372a7ce6b622913324decd4c3e6f1d43992bf163637a44358727811016c",
-    "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf"
+    "manifest_checksum": "48015f1c7fb5ebb408bb68f635df5a775dd2b2cd8ef0020ae57af8f715214036",
+    "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf"
   },
   "export_checksum": "881b6d03070b5d8382056cf3ae48928346ed755d70c2fb225aca926acda55860",
   "quality_export_live_summary": {
     "source": "manifest.live_regression_evidence",
     "live_test_count": 120,
-    "live_passed_count": 116,
-    "live_failed_count": 4,
-    "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf"
+    "live_passed_count": 114,
+    "live_failed_count": 6,
+    "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf"
   }
 }
