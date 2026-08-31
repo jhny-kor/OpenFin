@@ -2885,6 +2885,24 @@ function openAiAppsChallengeResponse(env: Env): Response {
   });
 }
 
+let idleMcpServer: { key: string; server: McpServer } | undefined;
+
+function acquireMcpServer(env: Env, diagnostics: RequestDiagnostics | undefined, method: string): { key: string; server: McpServer; reusable: boolean } {
+  const key = financeManifestUrl(env);
+  const reusable = !diagnostics && method !== "GET";
+  if (reusable && idleMcpServer?.key === key) {
+    const server = idleMcpServer.server;
+    idleMcpServer = undefined;
+    return { key, server, reusable: true };
+  }
+  if (reusable) idleMcpServer = undefined;
+  return { key, server: createServer(env, diagnostics), reusable };
+}
+
+function retainMcpServer(key: string, server: McpServer): void {
+  if (!idleMcpServer) idleMcpServer = { key, server };
+}
+
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
@@ -2899,7 +2917,8 @@ export default {
     }
 
     const diagnostics = requestDiagnostics(request);
-    const server = createServer(env, diagnostics);
+    const acquired = acquireMcpServer(env, diagnostics, request.method);
+    const { key, server, reusable } = acquired;
     // Keep the request promise open until the tool handler has produced its
     // result. Streamable SSE responses can otherwise be closed by the
     // stateless Worker runtime while a shard-backed tool is still hydrating.
@@ -2909,7 +2928,16 @@ export default {
       const response = await handler(request, env, ctx);
       return diagnostics ? attachDiagnostics(response, diagnostics) : response;
     } finally {
-      if (request.method === "POST") await server.close().catch(() => undefined);
+      if (request.method !== "GET") {
+        let closed = false;
+        try {
+          await server.close();
+          closed = true;
+        } catch {
+          // Keep the request response independent from best-effort transport cleanup.
+        }
+        if (closed && reusable) retainMcpServer(key, server);
+      }
     }
   },
 } satisfies ExportedHandler<Env>;

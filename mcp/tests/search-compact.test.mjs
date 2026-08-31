@@ -231,15 +231,18 @@ test("support hot rows decode optional fields lazily and preserve fetch projecti
 test("completed JSON MCP requests release their transport state", () => {
   const start = workerSource.indexOf("export default");
   const source = workerSource.slice(start);
+  assert.match(workerSource, /let idleMcpServer: \{ key: string; server: McpServer \} \| undefined/);
+  assert.match(workerSource, /const reusable = !diagnostics && method !== "GET"/);
+  assert.match(workerSource, /if \(closed && reusable\) retainMcpServer\(key, server\)/);
   const handler = source.indexOf("const handler = createMcpHandler");
   const response = source.indexOf("const response = await handler(request, env, ctx)", handler);
-  const postGuard = source.indexOf('if (request.method === "POST")', response);
-  const close = source.indexOf("await server.close()", postGuard);
+  const nonGetGuard = source.indexOf('if (request.method !== "GET")', response);
+  const close = source.indexOf("await server.close()", nonGetGuard);
 
   assert.ok(handler >= 0);
   assert.ok(response > handler);
-  assert.ok(postGuard > response);
-  assert.ok(close > postGuard);
+  assert.ok(nonGetGuard > response);
+  assert.ok(close > nonGetGuard);
 });
 
 test("shard diagnostics are opt-in and do not include query data", () => {
