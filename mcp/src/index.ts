@@ -357,9 +357,75 @@ const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly Fi
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
 const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
 const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1;
+type SearchShardCacheKind = "large" | "small" | "exact";
+type SearchShardDiagnostic = {
+  shard_id: string;
+  cache_kind: SearchShardCacheKind;
+  item_count: number;
+  raw_text_units: number;
+  fetch_ms: number;
+  checksum_ms: number;
+  parse_ms: number;
+  hydrate_ms: number;
+  total_ms: number;
+};
+type RequestDiagnostics = {
+  started_at: number;
+  cache_hits: number;
+  cache_misses: number;
+  in_flight_reuses: number;
+  evictions: number;
+  shard_loads: SearchShardDiagnostic[];
+};
+const DIAGNOSTICS_HEADER = "x-openfin-diagnostics";
+const DIAGNOSTICS_MAX_SHARDS = 16;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
 const financeArtifactErrors = new Map<string, Record<string, unknown>>();
+
+function diagnosticNow(): number {
+  return performance.now();
+}
+
+function requestDiagnostics(request: Request): RequestDiagnostics | undefined {
+  return request.headers.get(DIAGNOSTICS_HEADER) === "1"
+    ? { started_at: diagnosticNow(), cache_hits: 0, cache_misses: 0, in_flight_reuses: 0, evictions: 0, shard_loads: [] }
+    : undefined;
+}
+
+function roundDiagnosticMs(value: number): number {
+  return Math.round(value * 100) / 100;
+}
+
+function diagnosticsSummary(diagnostics: RequestDiagnostics): Record<string, unknown> {
+  return {
+    request_ms: roundDiagnosticMs(diagnosticNow() - diagnostics.started_at),
+    cache_hits: diagnostics.cache_hits,
+    cache_misses: diagnostics.cache_misses,
+    in_flight_reuses: diagnostics.in_flight_reuses,
+    evictions: diagnostics.evictions,
+    cache_sizes: {
+      large: cachedLargeSearchShards.size,
+      small: cachedSmallSearchShards.size,
+      exact: cachedExactFetchShards.size,
+      in_flight: inFlightSearchShards.size,
+    },
+    shard_loads: diagnostics.shard_loads,
+  };
+}
+
+function recordShardDiagnostic(diagnostics: RequestDiagnostics | undefined, entry: SearchShardDiagnostic): void {
+  if (diagnostics && diagnostics.shard_loads.length < DIAGNOSTICS_MAX_SHARDS) diagnostics.shard_loads.push(entry);
+}
+
+function attachDiagnostics(response: Response, diagnostics: RequestDiagnostics): Response {
+  const summary = diagnosticsSummary(diagnostics);
+  const headers = new Headers(response.headers);
+  headers.set(DIAGNOSTICS_HEADER, JSON.stringify(summary));
+  headers.set("server-timing", `openfin;dur=${String(summary.request_ms)}`);
+  console.log(`[openfin-diagnostics] ${JSON.stringify(summary)}`);
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
 
 function jsonText(value: unknown): string {
   return JSON.stringify(value, null, 2);
@@ -1697,46 +1763,89 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
   return items;
 }
 
-async function loadSearchShard(env: Env, shard: SearchIndexShard): Promise<readonly FinanceItem[]> {
+async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: RequestDiagnostics): Promise<readonly FinanceItem[]> {
   const key = shard.path || shard.shard_id;
   const requestGeneration = manifestGeneration;
   const pendingKey = generationCacheKey(requestGeneration, key);
   const isExactFetchShard = /^exact-/.test(shard.shard_id);
   const cache = isExactFetchShard ? cachedExactFetchShards : (shard.item_count ?? 0) > LARGE_SEARCH_SHARD_ITEM_COUNT ? cachedLargeSearchShards : cachedSmallSearchShards;
+  const cacheKind: SearchShardCacheKind = isExactFetchShard ? "exact" : cache === cachedLargeSearchShards ? "large" : "small";
   const cacheLimit = isExactFetchShard ? 1 : cache === cachedLargeSearchShards ? LARGE_SEARCH_SHARD_CACHE_LIMIT : SMALL_SEARCH_SHARD_CACHE_LIMIT;
   const cached = cache.get(key);
   if (cached?.generation === manifestGeneration) {
+    if (diagnostics) diagnostics.cache_hits += 1;
     cache.delete(key);
     cache.set(key, cached);
     return cached.items;
   }
-  if (cached) cache.delete(key);
+  if (diagnostics) diagnostics.cache_misses += 1;
+  if (cached && cache.delete(key) && diagnostics) diagnostics.evictions += 1;
   const pending = inFlightSearchShards.get(pendingKey);
-  if (pending) return pending;
+  if (pending) {
+    if (diagnostics) diagnostics.in_flight_reuses += 1;
+    return pending;
+  }
   // Release only this cache tier's previous shard before allocating the response body.
-  while (cache.size >= cacheLimit) cache.delete(cache.keys().next().value as string);
+  while (cache.size >= cacheLimit) {
+    const oldest = cache.keys().next().value as string | undefined;
+    if (oldest === undefined) break;
+    if (cache.delete(oldest) && diagnostics) diagnostics.evictions += 1;
+  }
   const request = (async () => {
+    const totalStarted = diagnostics ? diagnosticNow() : 0;
     const url = resolveExportUrl(shard, financeManifestUrl(env));
+    const fetchStarted = diagnostics ? diagnosticNow() : 0;
     const rawText = await fetchText(url);
-    if (shard.content_checksum && !(await verifyTextChecksum(rawText, shard.content_checksum))) {
-      throw new SearchIndexContractError(`search-index shard ${shard.shard_id} content checksum mismatch`);
+    const fetchMs = diagnostics ? diagnosticNow() - fetchStarted : 0;
+    let checksumMs = 0;
+    if (shard.content_checksum) {
+      const checksumStarted = diagnostics ? diagnosticNow() : 0;
+      if (!(await verifyTextChecksum(rawText, shard.content_checksum))) {
+        throw new SearchIndexContractError(`search-index shard ${shard.shard_id} content checksum mismatch`);
+      }
+      if (diagnostics) checksumMs += diagnosticNow() - checksumStarted;
     }
     let payload: unknown;
+    const parseStarted = diagnostics ? diagnosticNow() : 0;
     try {
       payload = JSON.parse(rawText);
     } catch (error) {
       throw new SearchIndexContractError(`search-index shard ${shard.shard_id} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
     }
+    const parseMs = diagnostics ? diagnosticNow() - parseStarted : 0;
     const checksumPayload = isRecord(payload) && Array.isArray(payload.items) ? payload.items : payload;
-    if (!shard.content_checksum && !(await verifySearchChecksum(checksumPayload, shard.export_checksum))) {
-      throw new SearchIndexContractError(`search-index shard ${shard.shard_id} checksum mismatch`);
+    if (!shard.content_checksum) {
+      const checksumStarted = diagnostics ? diagnosticNow() : 0;
+      if (!(await verifySearchChecksum(checksumPayload, shard.export_checksum))) {
+        throw new SearchIndexContractError(`search-index shard ${shard.shard_id} checksum mismatch`);
+      }
+      if (diagnostics) checksumMs += diagnosticNow() - checksumStarted;
     }
+    const hydrateStarted = diagnostics ? diagnosticNow() : 0;
     const items = parseSearchItems(payload, url);
+    const hydrateMs = diagnostics ? diagnosticNow() - hydrateStarted : 0;
     assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
     assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
     if (requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
-      while (cache.size >= cacheLimit) cache.delete(cache.keys().next().value as string);
+      while (cache.size >= cacheLimit) {
+        const oldest = cache.keys().next().value as string | undefined;
+        if (oldest === undefined) break;
+        if (cache.delete(oldest) && diagnostics) diagnostics.evictions += 1;
+      }
       cache.set(key, { items, loadedAt: Date.now(), generation: requestGeneration });
+    }
+    if (diagnostics) {
+      recordShardDiagnostic(diagnostics, {
+        shard_id: shard.shard_id,
+        cache_kind: cacheKind,
+        item_count: items.length,
+        raw_text_units: rawText.length,
+        fetch_ms: roundDiagnosticMs(fetchMs),
+        checksum_ms: roundDiagnosticMs(checksumMs),
+        parse_ms: roundDiagnosticMs(parseMs),
+        hydrate_ms: roundDiagnosticMs(hydrateMs),
+        total_ms: roundDiagnosticMs(diagnosticNow() - totalStarted),
+      });
     }
     return items;
   })().finally(() => inFlightSearchShards.delete(pendingKey));
@@ -1829,6 +1938,7 @@ async function loadSearchItemsForQuery(
   type?: string,
   searchType?: string,
   productKind?: string,
+  diagnostics?: RequestDiagnostics,
 ): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
   const exactShards = manifest.exact_fetch_index?.shards;
@@ -1853,11 +1963,11 @@ async function loadSearchItemsForQuery(
   if (!shardId) {
     const reference = hotShards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference")
       ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference");
-    return reference ? loadSearchShard(env, reference) : loadSearchItems(env);
+    return reference ? loadSearchShard(env, reference, diagnostics) : loadSearchItems(env);
   }
   const shard = hotShards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId)
     ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
-  return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
+  return shard ? loadSearchShard(env, shard, diagnostics) : loadSearchItems(env);
 }
 
 async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: string): Promise<readonly FinanceItem[] | undefined> {
@@ -2512,7 +2622,7 @@ function financeNeeds(snapshot: Record<string, unknown>, metrics: Record<string,
   return needs.sort((a, b) => Number(a.priority) - Number(b.priority) || String(a.need_type).localeCompare(String(b.need_type)));
 }
 
-function createServer(env: Env): McpServer {
+function createServer(env: Env, diagnostics?: RequestDiagnostics): McpServer {
   const server = new McpServer({
     name: "finance",
     version: "0.2.0",
@@ -2529,7 +2639,8 @@ function createServer(env: Env): McpServer {
     loadSearchItems, hydrateSearchItem, PERSONAL_FINANCE_POLICY_VERSION, ADVICE_POLICY_VERSION,
     STANDARD_OUTPUT_SCHEMA, READ_ONLY_TOOL_ANNOTATIONS, jsonText,
     discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain,
-    loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, queryTokens, isNamedProductQuery, strictNamedProductPayload,
+    loadSearchItemsForQuery: (requestEnv: Env, query: string, type?: string, searchType?: string, productKind?: string) => loadSearchItemsForQuery(requestEnv, query, type, searchType, productKind, diagnostics),
+    loadFinanceArtifacts, normalizeQuery, queryTokens, isNamedProductQuery, strictNamedProductPayload,
     isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery,
     supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion,
     matchesSupportIntent, isPubliclySearchable, scoreItem, matchReasons, supportMatchTier,
@@ -2681,14 +2792,16 @@ export default {
       return openAiAppsChallengeResponse(env);
     }
 
-    const server = createServer(env);
+    const diagnostics = requestDiagnostics(request);
+    const server = createServer(env, diagnostics);
     // Keep the request promise open until the tool handler has produced its
     // result. Streamable SSE responses can otherwise be closed by the
     // stateless Worker runtime while a shard-backed tool is still hydrating.
     // JSON mode uses the same MCP transport and is accepted by the live client.
     const handler = createMcpHandler(server, { route: "/mcp", enableJsonResponse: true });
     try {
-      return await handler(request, env, ctx);
+      const response = await handler(request, env, ctx);
+      return diagnostics ? attachDiagnostics(response, diagnostics) : response;
     } finally {
       if (request.method === "POST") await server.close().catch(() => undefined);
     }

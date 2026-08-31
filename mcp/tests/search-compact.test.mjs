@@ -165,7 +165,7 @@ test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1/);
   assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
-  assert.match(workerSource, /while \(cache\.size >= cacheLimit\) cache\.delete/);
+  assert.match(workerSource, /while \(cache\.size >= cacheLimit\) \{[\s\S]*cache\.delete/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
 });
 
@@ -173,7 +173,7 @@ test("a replacement shard releases its cache tier before fetching", () => {
   const start = workerSource.indexOf("async function loadSearchShard");
   const end = workerSource.indexOf("const SEARCH_SHARD_BY_DOMAIN", start);
   const source = workerSource.slice(start, end);
-  const pending = source.indexOf("if (pending) return pending;");
+  const pending = source.indexOf("const pending = inFlightSearchShards.get(pendingKey);");
   const eviction = source.indexOf("while (cache.size >= cacheLimit)", pending);
   const fetch = source.indexOf("const rawText = await fetchText(url)", pending);
 
@@ -220,7 +220,7 @@ test("completed JSON MCP requests release their transport state", () => {
   const start = workerSource.indexOf("export default");
   const source = workerSource.slice(start);
   const handler = source.indexOf("const handler = createMcpHandler");
-  const response = source.indexOf("return await handler(request, env, ctx)", handler);
+  const response = source.indexOf("const response = await handler(request, env, ctx)", handler);
   const postGuard = source.indexOf('if (request.method === "POST")', response);
   const close = source.indexOf("await server.close()", postGuard);
 
@@ -228,6 +228,17 @@ test("completed JSON MCP requests release their transport state", () => {
   assert.ok(response > handler);
   assert.ok(postGuard > response);
   assert.ok(close > postGuard);
+});
+
+test("shard diagnostics are opt-in and do not include query data", () => {
+  assert.match(workerSource, /request\.headers\.get\(DIAGNOSTICS_HEADER\) === "1"/);
+  assert.match(workerSource, /cache_hits/);
+  assert.match(workerSource, /raw_text_units/);
+  assert.match(workerSource, /const diagnostics = requestDiagnostics\(request\)/);
+  const start = workerSource.indexOf("function diagnosticsSummary");
+  const end = workerSource.indexOf("function attachDiagnostics", start);
+  assert.ok(start >= 0 && end > start);
+  assert.doesNotMatch(workerSource.slice(start, end), /query|result_ids|source_ids/);
 });
 
 test("exact title lookup is isolated and falls back when there is no exact match", () => {
