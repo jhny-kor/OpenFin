@@ -353,10 +353,10 @@ const cachedExactFetchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
 const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; source: string }>>();
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
-// ponytail: one large plus three small shards bounds heap while avoiding repeated domain reparsing.
+// ponytail: one parsed shard per tier; revisit only with Worker heap telemetry.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
 const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
-const SMALL_SEARCH_SHARD_CACHE_LIMIT = 3;
+const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1;
 const cachedFinanceArtifacts = new Map<string, CachedFinanceArtifact>();
 const inFlightFinanceArtifacts = new Map<string, Promise<unknown>>();
 const financeArtifactErrors = new Map<string, Record<string, unknown>>();
@@ -1852,8 +1852,10 @@ async function loadSearchItemsForQuery(
 async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: string): Promise<readonly FinanceItem[] | undefined> {
   const shards = manifest.exact_fetch_index?.shards;
   if (!shards?.length) return undefined;
-  for (const cached of cachedExactFetchShards.values()) {
-    if (cached.generation === manifestGeneration && resolveCanonicalItemId(itemId, cached.items)) return cached.items;
+  for (const cache of [cachedExactFetchShards, cachedLargeSearchShards, cachedSmallSearchShards]) {
+    for (const cached of cache.values()) {
+      if (cached.generation === manifestGeneration && resolveCanonicalItemId(itemId, cached.items)) return cached.items;
+    }
   }
   const shardId = await exactFetchShardId(itemId);
   const shard = shards.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);

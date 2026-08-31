@@ -163,7 +163,7 @@ test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const cachedLargeSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1/);
-  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 3/);
+  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) cache\.delete/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
@@ -219,11 +219,12 @@ test("exact fetch reuses a current cached shard before targeted decoding", () =>
   const targetedStart = workerSource.indexOf("async function loadTargetedExactShardItems");
   const targetedEnd = workerSource.indexOf("async function loadSearchItemsForQuery", targetedStart);
   const targetedSource = workerSource.slice(targetedStart, targetedEnd);
-  const cacheScan = source.indexOf("for (const cached of cachedExactFetchShards.values())");
+  const cacheScan = source.indexOf("for (const cache of [cachedExactFetchShards, cachedLargeSearchShards, cachedSmallSearchShards])");
   const shardHash = source.indexOf("const shardId = await exactFetchShardId(itemId)");
 
   assert.ok(cacheScan >= 0);
   assert.ok(cacheScan < shardHash);
+  assert.match(source, /for \(const cached of cache\.values\(\)\)/);
   assert.match(source, /cached\.generation === manifestGeneration/);
   assert.match(source, /resolveCanonicalItemId\(itemId, cached\.items\)/);
   assert.match(source, /return cached\.items/);
