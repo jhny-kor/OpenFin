@@ -1048,16 +1048,13 @@ function scoreItem(item: FinanceItem, query: string, tokens = queryTokens(query)
   const normalizedTitle = normalizeQuery(item.title);
   const normalizedId = normalizeQuery(item.id);
   const searchType = normalizeQuery(item.search_type ?? item.product_kind ?? "");
-  const status = normalizeQuery(item.status ?? item.product_status ?? "");
-  const recommendationStatus = normalizeQuery(item.recommendation_status ?? "");
-  const applicationStatus = normalizeQuery(item.application_status ?? "");
-  const titleTokens = queryTokens(normalizedTitle);
   const rateIntent = RATE_QUERY_RE.test(query);
+  const recommendationIntent = RECOMMENDATION_QUERY_RE.test(query);
 
   if (searchType === "deposit-protection" && rateIntent && !PROTECTION_QUERY_RE.test(query)) {
     return 0;
   }
-  if (RECOMMENDATION_QUERY_RE.test(query)) {
+  if (recommendationIntent) {
     const intentTokens = tokens.filter((token) => !RECOMMENDATION_QUERY_RE.test(token));
     if (
       !isRecommendationSearchEligible(item) ||
@@ -1067,32 +1064,36 @@ function scoreItem(item: FinanceItem, query: string, tokens = queryTokens(query)
       return 0;
     }
   }
-  if (
-    item.type === "support-program" &&
-    (status === "closed" || status === "ended" || applicationStatus === "closed" || recommendationStatus === "reference_only") &&
-    !INACTIVE_QUERY_RE.test(query)
-  ) {
-    return 0;
+  if (item.type === "support-program") {
+    const status = normalizeQuery(item.status ?? item.product_status ?? "");
+    const recommendationStatus = normalizeQuery(item.recommendation_status ?? "");
+    const applicationStatus = normalizeQuery(item.application_status ?? "");
+    if (
+      (status === "closed" || status === "ended" || applicationStatus === "closed" || recommendationStatus === "reference_only") &&
+      !INACTIVE_QUERY_RE.test(query)
+    ) {
+      return 0;
+    }
   }
 
   const text = itemSearchText(item);
-  if (RECOMMENDATION_QUERY_RE.test(query)) {
+  if (recommendationIntent) {
     const intentTokens = tokens.filter((token) => !RECOMMENDATION_QUERY_RE.test(token));
     if (!intentTokens.every((token) => text.includes(token))) {
       return 0;
     }
   }
   let score = 0;
-  const aliases = (item.search_aliases ?? []).map((alias) => normalizeQuery(alias));
-  if (aliases.includes(query)) {
+  if ((item.search_aliases ?? []).some((alias) => normalizeQuery(alias) === query)) {
     score = 95;
   } else if (normalizedId === query || normalizedTitle === query) {
     score = 100;
   } else if (normalizedId.includes(query)) {
     score = 80;
   } else if (query.includes(normalizedTitle)) {
-    const base = GENERIC_SEARCH_TYPES.has(item.type) && titleTokens.length < tokens.length ? 35 : 75;
-    score = base + titleTokens.length;
+    const titleTokenCount = queryTokens(normalizedTitle).length;
+    const base = GENERIC_SEARCH_TYPES.has(item.type) && titleTokenCount < tokens.length ? 35 : 75;
+    score = base + titleTokenCount;
   } else if (normalizedTitle.includes(query)) {
     score = 70;
   } else if (text.includes(query)) {
@@ -1497,7 +1498,7 @@ function parseSearchItems(value: unknown, source: string): readonly FinanceItem[
       if (!Array.isArray(termIds) || !termIds.every((termId) => Number.isInteger(termId) && termId >= 0 && termId < vocabulary.length)) {
         throw new SearchIndexContractError(`${source}.search_terms[${index}] is invalid`);
       }
-      item.search_text = [...new Set(termIds.map((termId) => vocabulary[termId]))].join(" ");
+      item.search_text = termIds.map((termId) => vocabulary[termId]).join(" ");
       return item;
     });
   } else {
@@ -1825,7 +1826,9 @@ async function loadSearchItemsForQuery(
 ): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
   const exactShards = manifest.exact_fetch_index?.shards;
-  if (exactShards?.length && isNamedProductQuery(query)) {
+  const exactLookupRequested = Boolean(type || searchType || productKind)
+    || (isNamedProductQuery(query) && providerForQuery(query));
+  if (exactShards?.length && exactLookupRequested) {
     const exactShardId = await exactFetchShardId(query);
     const exactShard = exactShards.find((candidate) => candidate.shard_id === exactShardId || candidate.id === exactShardId);
     if (exactShard) {

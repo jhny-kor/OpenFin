@@ -183,6 +183,22 @@ test("a replacement shard releases its cache tier before fetching", () => {
   assert.doesNotMatch(source, /cached(?:Large|Small)SearchShards\.clear\(\)/);
 });
 
+test("hot shard parsing and scoring avoid repeated row allocations", () => {
+  const parseStart = workerSource.indexOf("function parseSearchItems");
+  const parseEnd = workerSource.indexOf("function parseTargetedExactItems", parseStart);
+  const parseSource = workerSource.slice(parseStart, parseEnd);
+  const scoreStart = workerSource.indexOf("function scoreItem");
+  const scoreEnd = workerSource.indexOf("async function fetchJson", scoreStart);
+  const scoreSource = workerSource.slice(scoreStart, scoreEnd);
+
+  assert.match(parseSource, /item\.search_text = termIds\.map\(\(termId\) => vocabulary\[termId\]\)\.join\(" "\)/);
+  assert.doesNotMatch(parseSource, /new Set\(termIds\.map/);
+  assert.match(scoreSource, /const recommendationIntent = RECOMMENDATION_QUERY_RE\.test\(query\)/);
+  assert.match(scoreSource, /const titleTokenCount = queryTokens\(normalizedTitle\)\.length/);
+  assert.doesNotMatch(scoreSource, /const titleTokens = queryTokens\(normalizedTitle\)/);
+  assert.doesNotMatch(scoreSource, /const aliases = .*\.map/);
+});
+
 test("completed JSON MCP requests release their transport state", () => {
   const start = workerSource.indexOf("export default");
   const source = workerSource.slice(start);
@@ -204,7 +220,8 @@ test("exact title lookup is isolated and falls back when there is no exact match
   assert.match(workerSource, /requestedProductKind\(query\) \?\? \(query\.includes\("보험"\) \? "insurance" : undefined\)/);
   assert.match(workerSource, /requestedProductKind\(parts\.cleanQuery\) \?\? \(parts\.cleanQuery\.includes\("보험"\) \? "insurance" : undefined\)/);
   assert.match(workerSource, /if \(productKind !== "insurance" && item\.product_kind !== productKind\) return false;/);
-  assert.match(workerSource, /if \(exactShards\?\.length && isNamedProductQuery\(query\)\)/);
+  assert.match(workerSource, /const exactLookupRequested = Boolean\(type \|\| searchType \|\| productKind\)/);
+  assert.match(workerSource, /if \(exactShards\?\.length && exactLookupRequested\)/);
   assert.match(workerSource, /loadTargetedExactShardItems\(env, exactShard, query, true\)/);
   assert.doesNotMatch(workerSource, /loadSearchShard\(env, exactShard\)/);
   assert.match(workerSource, /const exactMatches = exactItems\.filter/);
