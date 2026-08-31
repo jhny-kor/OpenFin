@@ -1044,14 +1044,13 @@ function discoveryPayload(query: string, items: readonly FinanceItem[], limit: n
   return { requested_intent: /추천|골라|알려|찾아/.test(query) ? "recommend" : "discovery", executed_mode: "discovery", fallback_reason: /추천|골라|알려|찾아/.test(query) ? "verified_recommendation_candidate_not_available" : undefined, parsed_query: parsed, ...groups, excluded_summary: excludedSummary, warnings: ["탐색 결과는 최적 상품·승인·보험료·보장 적합성을 뜻하지 않습니다."], engine_version: DISCOVERY_ENGINE_VERSION, field_extractor_version: FIELD_EXTRACTOR_VERSION };
 }
 
-function scoreItem(item: FinanceItem, query: string): number {
+function scoreItem(item: FinanceItem, query: string, tokens = queryTokens(query)): number {
   const normalizedTitle = normalizeQuery(item.title);
   const normalizedId = normalizeQuery(item.id);
   const searchType = normalizeQuery(item.search_type ?? item.product_kind ?? "");
   const status = normalizeQuery(item.status ?? item.product_status ?? "");
   const recommendationStatus = normalizeQuery(item.recommendation_status ?? "");
   const applicationStatus = normalizeQuery(item.application_status ?? "");
-  const tokens = queryTokens(query);
   const titleTokens = queryTokens(normalizedTitle);
   const rateIntent = RATE_QUERY_RE.test(query);
 
@@ -2518,7 +2517,7 @@ function createServer(env: Env): McpServer {
     loadSearchItems, hydrateSearchItem, PERSONAL_FINANCE_POLICY_VERSION, ADVICE_POLICY_VERSION,
     STANDARD_OUTPUT_SCHEMA, READ_ONLY_TOOL_ANNOTATIONS, jsonText,
     discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain,
-    loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, isNamedProductQuery, strictNamedProductPayload,
+    loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, queryTokens, isNamedProductQuery, strictNamedProductPayload,
     isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery,
     supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion,
     matchesSupportIntent, isPubliclySearchable, scoreItem, matchReasons, supportMatchTier,

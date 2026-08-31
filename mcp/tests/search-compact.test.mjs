@@ -247,6 +247,19 @@ test("repeated searches reuse deduplication and avoid full-shard temporary index
   assert.match(searchToolSource, /const neededIds = new Set<string>\(\)/);
 });
 
+test("search tokenizes the query once before scoring items", () => {
+  const start = searchToolSource.indexOf("async ({ query");
+  const end = searchToolSource.indexOf("return mcpResult(payload)", start);
+  const source = searchToolSource.slice(start, end);
+  const tokenization = source.indexOf("const scoreTokens = queryTokens(normalizedQuery)");
+  const loop = source.indexOf("for (const item of items)");
+
+  assert.ok(tokenization >= 0);
+  assert.ok(loop > tokenization);
+  assert.match(source, /scoreItem\(item, normalizedQuery, scoreTokens\)/);
+  assert.doesNotMatch(source.slice(loop), /queryTokens\(normalizedQuery\)/);
+});
+
 test("support search keeps only a bounded ranked candidate buffer", () => {
   assert.match(searchToolSource, /let supportScoredCount = 0/);
   assert.match(searchToolSource, /scoredItems\.length >= maxResults \* 2/);

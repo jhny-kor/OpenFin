@@ -121,7 +121,7 @@ export function diversifyBroadResults<T extends { item: FinanceItem; score: numb
 }
 
 export function registerSearchTool(ctx: ToolContext): void {
-  const { server, env, mcpResult, SUPPORT_INTENT_RE, dedupeProductItems, loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, isNamedProductQuery, strictNamedProductPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery, supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion, matchesSupportIntent, isPubliclySearchable, scoreItem, diversifyBroadResults, matchReasons, supportMatchTier, itemUrl, sourceHealth, reasonCounts, supportParsedQuery, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
+  const { server, env, mcpResult, SUPPORT_INTENT_RE, dedupeProductItems, loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, queryTokens, isNamedProductQuery, strictNamedProductPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery, supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion, matchesSupportIntent, isPubliclySearchable, scoreItem, diversifyBroadResults, matchReasons, supportMatchTier, itemUrl, sourceHealth, reasonCounts, supportParsedQuery, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
   server.registerTool(
     "search",
     {
@@ -179,6 +179,7 @@ export function registerSearchTool(ctx: ToolContext): void {
         freshnessStatus: freshness_status,
       };
       const supportQuery = SUPPORT_INTENT_RE.test(normalizedQuery);
+      const scoreTokens = queryTokens(normalizedQuery);
       const freshnessCache = freshness_status === undefined ? undefined : new Map<string, string | null>();
       const supportSearchTokens = supportQuery
         ? normalizedQuery.split(/\s+/).filter((token) => token && !["지원", "지원금", "보조금", "신청"].includes(token))
@@ -201,7 +202,7 @@ export function registerSearchTool(ctx: ToolContext): void {
         if (!matchesSearchFilters(item, filters, artifacts, freshnessCache)) { addExcluded(item, "filter_mismatch"); continue; }
         if (!matchesSupportRegion(item, supportRegion)) { addExcluded(item, "region_mismatch"); continue; }
         if (!matchesSupportIntent(item, normalizedQuery)) { addExcluded(item, "support_intent_mismatch"); continue; }
-        const score = scoreItem(item, normalizedQuery);
+        const score = scoreItem(item, normalizedQuery, scoreTokens);
         if (score <= 0) { addExcluded(item, "query_mismatch"); continue; }
         scoredItems.push({ item, score });
         if (supportQuery) {
