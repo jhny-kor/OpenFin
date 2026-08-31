@@ -199,6 +199,23 @@ test("hot shard parsing and scoring avoid repeated row allocations", () => {
   assert.doesNotMatch(scoreSource, /const aliases = .*\.map/);
 });
 
+test("support hot rows decode optional fields only when present", () => {
+  const start = workerSource.indexOf("function hydrateSupportHotFields");
+  const end = workerSource.indexOf("function isFinanceItem", start);
+  const source = workerSource.slice(start, end);
+
+  assert.match(source, /if \(state & \(1 << 22\)\) item\.target_group = \["youth"\]/);
+  assert.match(source, /const categoryMask = \(state >> 10\) & 0x07ff/);
+  assert.doesNotMatch(source, /SUPPORT_HOT_CATEGORY_BITS\.filter/);
+  assert.doesNotMatch(source, /support_region\.split/);
+  assert.match(workerSource, /function supportRegionValues\(item: FinanceItem\)/);
+  assert.match(workerSource, /function hasSupportValue\(values: readonly string\[\] \| undefined, expected: string\)/);
+  const intentStart = workerSource.indexOf("function matchesSupportIntent");
+  const intentEnd = workerSource.indexOf("function supportMatchTier", intentStart);
+  assert.doesNotMatch(workerSource.slice(intentStart, intentEnd), /new Set/);
+  assert.match(workerSource, /supportRegionValues\(item\)\.some/);
+});
+
 test("completed JSON MCP requests release their transport state", () => {
   const start = workerSource.indexOf("export default");
   const source = workerSource.slice(start);

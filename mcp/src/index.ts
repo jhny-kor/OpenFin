@@ -458,14 +458,21 @@ function canonicalSupportRegion(region: string | undefined): string | undefined 
 
 function matchesSupportRegion(item: FinanceItem, region: string | undefined): boolean {
   if (item.type !== "support-program" || !region) return true;
+  return supportRegionValues(item).some((value) => normalizeQuery(value).includes(region));
+}
+
+function supportRegionValues(item: FinanceItem): readonly string[] {
+  if (typeof item.support_region === "string") return item.support_region.split("\u001f").filter(Boolean);
   return [item.jurisdiction, item.jurisdiction_code, item.parent_jurisdiction_code, ...(item.jurisdiction_aliases ?? [])]
-    .some((value) => normalizeQuery(value ?? "").includes(region));
+    .filter((value): value is string => typeof value === "string" && value.length > 0);
+}
+
+function hasSupportValue(values: readonly string[] | undefined, expected: string): boolean {
+  return values?.some((value) => value === expected || normalizeQuery(value) === expected) ?? false;
 }
 
 function matchesSupportIntent(item: FinanceItem, query: string): boolean {
   if (item.type !== "support-program" || !SUPPORT_INTENT_RE.test(query)) return true;
-  const targetGroups = new Set((item.target_group ?? []).map(normalizeQuery));
-  const categories = new Set((item.support_category ?? []).map(normalizeQuery));
   const requiresYouth = query.includes("청년");
   const requiresRent = /월세/.test(query);
   const requiresHousing = /(월세|주거|전세|임대|보증금|입주|공급|수선)/.test(query);
@@ -476,26 +483,26 @@ function matchesSupportIntent(item: FinanceItem, query: string): boolean {
   const requiresBusiness = /(창업|사업|소상공인)/.test(query);
   const requiresCurrentAvailability = /(지원|보조금|신청|월세|주거)/.test(query);
   const currentlyAvailable = item.is_currently_applicable === true || ["open", "always_open"].includes(item.application_status ?? "");
-  return (!requiresYouth || targetGroups.has("youth"))
-    && (!requiresRent || categories.has("housing") || categories.has("rent"))
-    && (!requiresHousing || categories.has("housing") || categories.has("rent") || categories.has("lease_deposit") || categories.has("deposit_guarantee") || categories.has("housing_supply") || categories.has("housing_repair"))
-    && (!requiresEmployment || categories.has("employment"))
-    && (!requiresEducation || categories.has("education"))
-    && (!requiresHealth || categories.has("health"))
-    && (!requiresCulture || categories.has("culture"))
-    && (!requiresBusiness || categories.has("business"))
+  const categories = item.support_category;
+  return (!requiresYouth || hasSupportValue(item.target_group, "youth"))
+    && (!requiresRent || hasSupportValue(categories, "housing") || hasSupportValue(categories, "rent"))
+    && (!requiresHousing || hasSupportValue(categories, "housing") || hasSupportValue(categories, "rent") || hasSupportValue(categories, "lease_deposit") || hasSupportValue(categories, "deposit_guarantee") || hasSupportValue(categories, "housing_supply") || hasSupportValue(categories, "housing_repair"))
+    && (!requiresEmployment || hasSupportValue(categories, "employment"))
+    && (!requiresEducation || hasSupportValue(categories, "education"))
+    && (!requiresHealth || hasSupportValue(categories, "health"))
+    && (!requiresCulture || hasSupportValue(categories, "culture"))
+    && (!requiresBusiness || hasSupportValue(categories, "business"))
     && (!requiresCurrentAvailability || currentlyAvailable);
 }
 
 function supportMatchTier(item: FinanceItem, query: string): "exact" | "partial" | "related" | undefined {
   if (item.type !== "support-program" || !SUPPORT_INTENT_RE.test(query)) return undefined;
   const text = itemSearchText(item);
-  const categories = new Set((item.support_category ?? []).map(normalizeQuery));
   const youthRequested = query.includes("청년");
-  const youthMatched = !youthRequested || (item.target_group ?? []).map(normalizeQuery).includes("youth");
+  const youthMatched = !youthRequested || hasSupportValue(item.target_group, "youth");
   const rentRequested = query.includes("월세");
-  const rentMatched = categories.has("rent") || text.includes("월세");
-  const housingMatched = categories.has("housing") || categories.has("lease_deposit") || categories.has("deposit_guarantee") || categories.has("housing_supply") || categories.has("housing_repair");
+  const rentMatched = hasSupportValue(item.support_category, "rent") || text.includes("월세");
+  const housingMatched = hasSupportValue(item.support_category, "housing") || hasSupportValue(item.support_category, "lease_deposit") || hasSupportValue(item.support_category, "deposit_guarantee") || hasSupportValue(item.support_category, "housing_supply") || hasSupportValue(item.support_category, "housing_repair");
   if (youthMatched && (!rentRequested || rentMatched)) return "exact";
   if (youthMatched && housingMatched) return "partial";
   return "related";
@@ -639,8 +646,7 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters, artifac
     equals(item.sales_status, filters.salesStatus) &&
     equals(item.application_status, filters.applicationStatus) &&
     equals(item.provider, filters.provider) &&
-    (!region || [item.jurisdiction, item.jurisdiction_code, ...(item.jurisdiction_aliases ?? [])]
-      .some((value) => normalizeQuery(value ?? "").includes(region)))
+    (!region || supportRegionValues(item).some((value) => normalizeQuery(value).includes(region)))
   )) return false;
   if (filters.freshnessStatus === undefined) return true;
   const freshness = artifacts
@@ -1462,16 +1468,16 @@ function hydrateSupportHotFields(item: Record<string, unknown>): void {
   item.recommendation_status = SUPPORT_HOT_RECOMMENDATION_CODES[recommendationCode] ?? "reference_only";
   item.freshness_status = SUPPORT_HOT_FRESHNESS_CODES[freshnessCode] ?? "unknown";
   item.is_currently_applicable = Boolean(state & (1 << 9));
-  item.target_group = state & (1 << 22) ? ["youth"] : [];
-  item.support_category = SUPPORT_HOT_CATEGORY_BITS.filter(([, bit]) => state & (bit << 10)).map(([category]) => category);
-  if (!(state & (1 << 23))) item.recommendation_scope = "internal_verification_candidate";
-  if (typeof item.support_region === "string") {
-    const [jurisdiction, jurisdictionCode, parentJurisdictionCode, ...aliases] = item.support_region.split("\u001f");
-    item.jurisdiction = jurisdiction || undefined;
-    item.jurisdiction_code = jurisdictionCode || undefined;
-    item.parent_jurisdiction_code = parentJurisdictionCode || undefined;
-    item.jurisdiction_aliases = aliases.filter(Boolean);
+  if (state & (1 << 22)) item.target_group = ["youth"];
+  const categoryMask = (state >> 10) & 0x07ff;
+  if (categoryMask) {
+    const categories: string[] = [];
+    for (const [category, bit] of SUPPORT_HOT_CATEGORY_BITS) {
+      if (categoryMask & bit) categories.push(category);
+    }
+    item.support_category = categories;
   }
+  if (!(state & (1 << 23))) item.recommendation_scope = "internal_verification_candidate";
 }
 
 function isFinanceItem(value: unknown): value is FinanceItem {
