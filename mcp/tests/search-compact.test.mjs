@@ -163,7 +163,7 @@ test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const cachedLargeSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 2/);
-  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 5/);
+  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 6/);
   assert.match(workerSource, /const EXACT_FETCH_SHARD_CACHE_LIMIT = 3/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) \{[\s\S]*cache\.delete/);

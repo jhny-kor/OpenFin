@@ -356,7 +356,7 @@ const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly Fi
 // ponytail: retain the bounded hot-shard set to avoid repeated fetch/parse churn.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
 const LARGE_SEARCH_SHARD_CACHE_LIMIT = 2;
-const SMALL_SEARCH_SHARD_CACHE_LIMIT = 5;
+const SMALL_SEARCH_SHARD_CACHE_LIMIT = 6;
 const EXACT_FETCH_SHARD_CACHE_LIMIT = 3;
 type SearchShardCacheKind = "large" | "small" | "exact";
 type SearchShardDiagnostic = {
