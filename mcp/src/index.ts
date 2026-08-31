@@ -353,10 +353,11 @@ const cachedExactFetchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
 const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; source: string }>>();
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
-// ponytail: one parsed shard per tier; revisit only with Worker heap telemetry.
+// ponytail: retain the six small hot shards published by the manifest; keep
+// large shards at one entry so the known support/deposit payloads cannot stack.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
 const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
-const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1;
+const SMALL_SEARCH_SHARD_CACHE_LIMIT = 6;
 type SearchShardCacheKind = "large" | "small" | "exact";
 type SearchShardDiagnostic = {
   shard_id: string;
