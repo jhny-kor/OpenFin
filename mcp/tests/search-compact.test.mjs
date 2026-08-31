@@ -220,7 +220,10 @@ test("exact title lookup is isolated and falls back when there is no exact match
   assert.match(workerSource, /requestedProductKind\(query\) \?\? \(query\.includes\("보험"\) \? "insurance" : undefined\)/);
   assert.match(workerSource, /requestedProductKind\(parts\.cleanQuery\) \?\? \(parts\.cleanQuery\.includes\("보험"\) \? "insurance" : undefined\)/);
   assert.match(workerSource, /if \(productKind !== "insurance" && item\.product_kind !== productKind\) return false;/);
-  assert.match(workerSource, /const exactLookupRequested = Boolean\(type \|\| searchType \|\| productKind\)/);
+  assert.match(workerSource, /const exactProductLookup = isNamedProductQuery\(query\)/);
+  assert.match(workerSource, /const exactTypedLookup = Boolean\(type\)/);
+  assert.match(workerSource, /queryTokens\(query\)\.length >= 3/);
+  assert.match(workerSource, /const exactLookupRequested = exactProductLookup \|\| exactTypedLookup/);
   assert.match(workerSource, /if \(exactShards\?\.length && exactLookupRequested\)/);
   assert.match(workerSource, /loadTargetedExactShardItems\(env, exactShard, query, true\)/);
   assert.doesNotMatch(workerSource, /loadSearchShard\(env, exactShard\)/);

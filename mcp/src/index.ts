@@ -1826,8 +1826,11 @@ async function loadSearchItemsForQuery(
 ): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
   const exactShards = manifest.exact_fetch_index?.shards;
-  const exactLookupRequested = Boolean(type || searchType || productKind)
-    || (isNamedProductQuery(query) && providerForQuery(query));
+  const exactProductLookup = isNamedProductQuery(query)
+    && (Boolean(searchType || productKind) || Boolean(providerForQuery(query)));
+  const exactTypedLookup = Boolean(type)
+    && (queryTokens(query).length >= 3 || compactProductText(query).length >= 10);
+  const exactLookupRequested = exactProductLookup || exactTypedLookup;
   if (exactShards?.length && exactLookupRequested) {
     const exactShardId = await exactFetchShardId(query);
     const exactShard = exactShards.find((candidate) => candidate.shard_id === exactShardId || candidate.id === exactShardId);
