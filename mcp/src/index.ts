@@ -548,8 +548,10 @@ function matchesSupportIntent(item: FinanceItem, query: string): boolean {
   const requiresCulture = /(문화|예술)/.test(query);
   const requiresBusiness = /(창업|사업|소상공인)/.test(query);
   const requiresCurrentAvailability = /(지원|보조금|신청|월세|주거)/.test(query);
-  const currentlyAvailable = item.is_currently_applicable === true || ["open", "always_open"].includes(item.application_status ?? "");
-  const categories = item.support_category;
+  const currentlyAvailable = !requiresCurrentAvailability || item.is_currently_applicable === true || ["open", "always_open"].includes(item.application_status ?? "");
+  const categories = requiresRent || requiresHousing || requiresEmployment || requiresEducation || requiresHealth || requiresCulture || requiresBusiness
+    ? item.support_category
+    : undefined;
   return (!requiresYouth || hasSupportValue(item.target_group, "youth"))
     && (!requiresRent || hasSupportValue(categories, "housing") || hasSupportValue(categories, "rent"))
     && (!requiresHousing || hasSupportValue(categories, "housing") || hasSupportValue(categories, "rent") || hasSupportValue(categories, "lease_deposit") || hasSupportValue(categories, "deposit_guarantee") || hasSupportValue(categories, "housing_supply") || hasSupportValue(categories, "housing_repair"))
@@ -563,11 +565,10 @@ function matchesSupportIntent(item: FinanceItem, query: string): boolean {
 
 function supportMatchTier(item: FinanceItem, query: string): "exact" | "partial" | "related" | undefined {
   if (item.type !== "support-program" || !SUPPORT_INTENT_RE.test(query)) return undefined;
-  const text = itemSearchText(item);
   const youthRequested = query.includes("청년");
   const youthMatched = !youthRequested || hasSupportValue(item.target_group, "youth");
   const rentRequested = query.includes("월세");
-  const rentMatched = hasSupportValue(item.support_category, "rent") || text.includes("월세");
+  const rentMatched = hasSupportValue(item.support_category, "rent") || searchTextIncludes(item, "월세");
   const housingMatched = hasSupportValue(item.support_category, "housing") || hasSupportValue(item.support_category, "lease_deposit") || hasSupportValue(item.support_category, "deposit_guarantee") || hasSupportValue(item.support_category, "housing_supply") || hasSupportValue(item.support_category, "housing_repair");
   if (youthMatched && (!rentRequested || rentMatched)) return "exact";
   if (youthMatched && housingMatched) return "partial";
@@ -611,9 +612,10 @@ function inferredSearchTypeForQuery(query: string): string | undefined {
 }
 
 function itemSearchText(item: FinanceItem): string {
-  if (item.search_text) {
-    return item.search_text;
-  }
+  const ownSearchText = Object.getOwnPropertyDescriptor(item, "search_text")?.value;
+  if (typeof ownSearchText === "string" && ownSearchText) return ownSearchText;
+  const hotText = hotSearchText(item);
+  if (hotText) return hotText;
   return [
     item.id,
     item.title,
@@ -705,13 +707,13 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters, artifac
     expected === undefined || normalizeQuery(value ?? "") === normalizeQuery(expected);
   const region = normalizeQuery(filters.region ?? "");
   if (!(
-    equals(item.search_type, filters.searchType) &&
-    equals(item.product_kind, filters.productKind) &&
-    equals(item.recommendation_status, filters.recommendationStatus) &&
-    equals(item.recommendation_scope, filters.recommendationScope) &&
-    equals(item.sales_status, filters.salesStatus) &&
-    equals(item.application_status, filters.applicationStatus) &&
-    equals(item.provider, filters.provider) &&
+    (filters.searchType === undefined || equals(item.search_type, filters.searchType)) &&
+    (filters.productKind === undefined || equals(item.product_kind, filters.productKind)) &&
+    (filters.recommendationStatus === undefined || equals(item.recommendation_status, filters.recommendationStatus)) &&
+    (filters.recommendationScope === undefined || equals(item.recommendation_scope, filters.recommendationScope)) &&
+    (filters.salesStatus === undefined || equals(item.sales_status, filters.salesStatus)) &&
+    (filters.applicationStatus === undefined || equals(item.application_status, filters.applicationStatus)) &&
+    (filters.provider === undefined || equals(item.provider, filters.provider)) &&
     (!region || supportRegionValues(item).some((value) => normalizeQuery(value).includes(region)))
   )) return false;
   if (filters.freshnessStatus === undefined) return true;
@@ -1148,10 +1150,9 @@ function scoreItem(item: FinanceItem, query: string, tokens = queryTokens(query)
     }
   }
 
-  const text = itemSearchText(item);
   if (recommendationIntent) {
     const intentTokens = tokens.filter((token) => !RECOMMENDATION_QUERY_RE.test(token));
-    if (!intentTokens.every((token) => text.includes(token))) {
+    if (!intentTokens.every((token) => searchTextIncludes(item, token))) {
       return 0;
     }
   }
@@ -1168,11 +1169,11 @@ function scoreItem(item: FinanceItem, query: string, tokens = queryTokens(query)
     score = base + titleTokenCount;
   } else if (normalizedTitle.includes(query)) {
     score = 70;
-  } else if (text.includes(query)) {
+  } else if (searchTextIncludes(item, query)) {
     score = 40;
   }
   if (tokens.length > 1) {
-    const matchedTokens = tokens.filter((token) => text.includes(token));
+    const matchedTokens = tokens.filter((token) => searchTextIncludes(item, token));
     if (TAX_DECISION_TYPES.has(item.type) && matchedTokens.length >= Math.min(2, tokens.length)) {
       score = Math.max(score, 60 + matchedTokens.length);
     }
@@ -1522,28 +1523,120 @@ const SUPPORT_HOT_CATEGORY_BITS: ReadonlyArray<readonly [string, number]> = [
   ["health", 1 << 8], ["culture", 1 << 9], ["business", 1 << 10],
 ];
 
-function hydrateSupportHotFields(item: Record<string, unknown>): void {
-  if (typeof item.support_state !== "number" || !Number.isInteger(item.support_state)) return;
-  const state = item.support_state;
-  const applicationCode = state & 0x0f;
-  const statusCode = (state >> 4) & 0x03;
-  const recommendationCode = (state >> 6) & 0x01;
-  const freshnessCode = (state >> 7) & 0x03;
-  item.application_status = SUPPORT_HOT_APPLICATION_STATUSES[applicationCode] ?? "unknown";
-  item.status = SUPPORT_HOT_STATUS_CODES[statusCode] ?? "unknown";
-  item.recommendation_status = SUPPORT_HOT_RECOMMENDATION_CODES[recommendationCode] ?? "reference_only";
-  item.freshness_status = SUPPORT_HOT_FRESHNESS_CODES[freshnessCode] ?? "unknown";
-  item.is_currently_applicable = Boolean(state & (1 << 9));
-  if (state & (1 << 22)) item.target_group = ["youth"];
-  const categoryMask = (state >> 10) & 0x07ff;
-  if (categoryMask) {
-    const categories: string[] = [];
-    for (const [category, bit] of SUPPORT_HOT_CATEGORY_BITS) {
-      if (categoryMask & bit) categories.push(category);
-    }
-    item.support_category = categories;
+const HOT_SEARCH_METADATA = Symbol("openfin.hotSearchMetadata");
+type HotSearchMetadata = { vocabulary: readonly string[]; termIds: readonly number[]; text?: string };
+type HotSearchItem = FinanceItem & { [HOT_SEARCH_METADATA]?: HotSearchMetadata };
+const HOT_ITEM_PROTOTYPE = Object.create(Object.prototype) as object;
+
+function hotSearchMetadata(item: FinanceItem): HotSearchMetadata | undefined {
+  return (item as HotSearchItem)[HOT_SEARCH_METADATA];
+}
+
+function attachHotSearchMetadata(item: FinanceItem, vocabulary: readonly string[], termIds: readonly number[]): void {
+  Object.defineProperty(item, HOT_SEARCH_METADATA, { value: { vocabulary, termIds }, configurable: true });
+}
+
+function defineHotOwnField(item: FinanceItem, field: string, value: unknown): void {
+  if (value === undefined) return;
+  Object.defineProperty(item, field, { value, enumerable: true, configurable: true, writable: true });
+}
+
+function supportHotState(item: FinanceItem): number | undefined {
+  return typeof item.support_state === "number" && Number.isInteger(item.support_state) ? item.support_state : undefined;
+}
+
+function supportHotApplicationStatus(item: FinanceItem): string | undefined {
+  const state = supportHotState(item);
+  return state === undefined ? undefined : SUPPORT_HOT_APPLICATION_STATUSES[state & 0x0f] ?? "unknown";
+}
+
+function supportHotStatus(item: FinanceItem): string | undefined {
+  const state = supportHotState(item);
+  return state === undefined ? undefined : SUPPORT_HOT_STATUS_CODES[(state >> 4) & 0x03] ?? "unknown";
+}
+
+function supportHotRecommendationStatus(item: FinanceItem): string | undefined {
+  const state = supportHotState(item);
+  return state === undefined ? undefined : SUPPORT_HOT_RECOMMENDATION_CODES[(state >> 6) & 0x01] ?? "reference_only";
+}
+
+function supportHotFreshnessStatus(item: FinanceItem): string | undefined {
+  const state = supportHotState(item);
+  return state === undefined ? undefined : SUPPORT_HOT_FRESHNESS_CODES[(state >> 7) & 0x03] ?? "unknown";
+}
+
+function supportHotCurrentlyApplicable(item: FinanceItem): boolean | undefined {
+  const state = supportHotState(item);
+  return state === undefined ? undefined : Boolean(state & (1 << 9));
+}
+
+function supportHotTargetGroup(item: FinanceItem): string[] | undefined {
+  const state = supportHotState(item);
+  return state !== undefined && Boolean(state & (1 << 22)) ? ["youth"] : undefined;
+}
+
+function supportHotCategories(item: FinanceItem): string[] | undefined {
+  const state = supportHotState(item);
+  const categoryMask = state === undefined ? 0 : (state >> 10) & 0x07ff;
+  if (!categoryMask) return undefined;
+  const categories: string[] = [];
+  for (const [category, bit] of SUPPORT_HOT_CATEGORY_BITS) if (categoryMask & bit) categories.push(category);
+  return categories;
+}
+
+function supportHotRecommendationScope(item: FinanceItem): string | undefined {
+  const state = supportHotState(item);
+  return state !== undefined && !(state & (1 << 23)) ? "internal_verification_candidate" : undefined;
+}
+
+function hotSearchText(item: FinanceItem): string {
+  const metadata = hotSearchMetadata(item);
+  if (!metadata) return "";
+  if (metadata.text === undefined) metadata.text = metadata.termIds.map((termId) => metadata.vocabulary[termId] ?? "").join(" ");
+  return metadata.text;
+}
+
+function searchTextIncludes(item: FinanceItem, value: string): boolean {
+  const needle = normalizeQuery(value);
+  if (!needle) return false;
+  const metadata = hotSearchMetadata(item);
+  if (!metadata) return itemSearchText(item).includes(needle);
+  const terms = metadata.termIds;
+  if (!needle.includes(" ")) {
+    return terms.some((termId) => (metadata.vocabulary[termId] ?? "").includes(needle));
   }
-  if (!(state & (1 << 23))) item.recommendation_scope = "internal_verification_candidate";
+  const needles = needle.split(/\s+/).filter(Boolean);
+  return terms.some((_, start) => needles.every((term, offset) => (metadata.vocabulary[terms[start + offset]] ?? "").includes(term)));
+}
+
+Object.defineProperties(HOT_ITEM_PROTOTYPE, {
+  search_text: { configurable: true, get(this: FinanceItem) { return hotSearchText(this); } },
+  application_status: { configurable: true, get(this: FinanceItem) { return supportHotApplicationStatus(this); } },
+  status: { configurable: true, get(this: FinanceItem) { return supportHotStatus(this); } },
+  recommendation_status: { configurable: true, get(this: FinanceItem) { return supportHotRecommendationStatus(this); } },
+  freshness_status: { configurable: true, get(this: FinanceItem) { return supportHotFreshnessStatus(this); } },
+  is_currently_applicable: { configurable: true, get(this: FinanceItem) { return supportHotCurrentlyApplicable(this); } },
+  target_group: { configurable: true, get(this: FinanceItem) { return supportHotTargetGroup(this); } },
+  support_category: { configurable: true, get(this: FinanceItem) { return supportHotCategories(this); } },
+  recommendation_scope: { configurable: true, get(this: FinanceItem) { return supportHotRecommendationScope(this); } },
+});
+
+function materializeSupportHotFields(item: FinanceItem): FinanceItem {
+  if (item.type !== "support-program" || supportHotState(item) === undefined) return item;
+  defineHotOwnField(item, "application_status", supportHotApplicationStatus(item));
+  defineHotOwnField(item, "status", supportHotStatus(item));
+  defineHotOwnField(item, "recommendation_status", supportHotRecommendationStatus(item));
+  defineHotOwnField(item, "freshness_status", supportHotFreshnessStatus(item));
+  defineHotOwnField(item, "is_currently_applicable", supportHotCurrentlyApplicable(item));
+  defineHotOwnField(item, "target_group", supportHotTargetGroup(item));
+  defineHotOwnField(item, "support_category", supportHotCategories(item));
+  defineHotOwnField(item, "recommendation_scope", supportHotRecommendationScope(item));
+  if (hotSearchMetadata(item)) defineHotOwnField(item, "search_text", hotSearchText(item));
+  return item;
+}
+
+function hydrateSupportHotFields(item: Record<string, unknown>): void {
+  materializeSupportHotFields(item as FinanceItem);
 }
 
 function isFinanceItem(value: unknown): value is FinanceItem {
@@ -1565,12 +1658,12 @@ function parseSearchItems(value: unknown, source: string): readonly FinanceItem[
       for (const [column, field] of fields.entries()) {
         if (row[column] !== null && row[column] !== undefined) item[field] = row[column];
       }
-      hydrateSupportHotFields(item);
       const termIds = searchTerms[index];
       if (!Array.isArray(termIds) || !termIds.every((termId) => Number.isInteger(termId) && termId >= 0 && termId < vocabulary.length)) {
         throw new SearchIndexContractError(`${source}.search_terms[${index}] is invalid`);
       }
-      item.search_text = termIds.map((termId) => vocabulary[termId]).join(" ");
+      attachHotSearchMetadata(item as FinanceItem, vocabulary as string[], termIds as number[]);
+      Object.setPrototypeOf(item, HOT_ITEM_PROTOTYPE);
       return item;
     });
   } else {
@@ -2099,7 +2192,7 @@ function matchReasons(item: FinanceItem, query: string): string[] {
     reasons.push("alias");
   }
   for (const token of queryTokens(query)) {
-    if (itemSearchText(item).includes(token)) {
+    if (searchTextIncludes(item, token)) {
       reasons.push(`token:${token}`);
     }
   }
@@ -2398,6 +2491,7 @@ async function fetchItemGraph(env: Env, rawId: string, include: readonly string[
   if (!indexedItem && exactItems !== undefined) throw new Error(`Finance ontology item not found: ${rawId}`);
   const itemId = indexedItem?.id ?? resolvedItemId;
   if (rawId.startsWith("missing.")) throw new Error(`Finance ontology item not found: ${rawId}`);
+  if (indexedItem?.type === "support-program") materializeSupportHotFields(indexedItem);
   // Summary/source/provenance fetches must stay on bounded hot/detail shards.
   // Full exports are reserved for explicit graph/raw expansion, which is the
   // only mode that needs the complete item graph or unprojected fields.
@@ -2643,7 +2737,7 @@ function createServer(env: Env, diagnostics?: RequestDiagnostics): McpServer {
     loadFinanceArtifacts, normalizeQuery, queryTokens, isNamedProductQuery, strictNamedProductPayload,
     isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery,
     supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion,
-    matchesSupportIntent, isPubliclySearchable, scoreItem, matchReasons, supportMatchTier,
+    matchesSupportIntent, isPubliclySearchable, searchIncludes: searchTextIncludes, scoreItem, matchReasons, supportMatchTier,
     itemUrl, sourceHealth, reasonCounts, supportParsedQuery,
     loadFinanceManifest, evaluateReleaseGate,
     manifestChecksumContract: (manifest: Record<string, unknown>) => manifestChecksumContract(manifest as FinanceManifest),

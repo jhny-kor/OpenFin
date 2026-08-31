@@ -121,7 +121,7 @@ export function diversifyBroadResults<T extends { item: FinanceItem; score: numb
 }
 
 export function registerSearchTool(ctx: ToolContext): void {
-  const { server, env, mcpResult, SUPPORT_INTENT_RE, dedupeProductItems, loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, queryTokens, isNamedProductQuery, strictNamedProductPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery, supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion, matchesSupportIntent, isPubliclySearchable, scoreItem, diversifyBroadResults, matchReasons, supportMatchTier, itemUrl, sourceHealth, reasonCounts, supportParsedQuery, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
+  const { server, env, mcpResult, SUPPORT_INTENT_RE, dedupeProductItems, loadSearchItemsForQuery, loadFinanceArtifacts, normalizeQuery, queryTokens, isNamedProductQuery, strictNamedProductPayload, isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery, supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion, matchesSupportIntent, isPubliclySearchable, searchIncludes, scoreItem, diversifyBroadResults, matchReasons, supportMatchTier, itemUrl, sourceHealth, reasonCounts, supportParsedQuery, READ_ONLY_TOOL_ANNOTATIONS, STANDARD_OUTPUT_SCHEMA } = ctx;
   server.registerTool(
     "search",
     {
@@ -193,7 +193,7 @@ export function registerSearchTool(ctx: ToolContext): void {
       const rankedFirst = (a: typeof scoredItems[number], b: typeof scoredItems[number]): number => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR");
       let supportScoredCount = 0;
       for (const item of items) {
-        if (supportSearchTokens.length && typeof item.search_text === "string" && !supportSearchTokens.some((token) => (item.search_text as string).includes(token))) {
+        if (supportSearchTokens.length && !supportSearchTokens.some((token) => searchIncludes(item, token))) {
           addExcluded(item, "query_mismatch");
           continue;
         }

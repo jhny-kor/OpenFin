@@ -120,6 +120,7 @@ export type ToolContext = {
   matchesSupportRegion: (item: FinanceItem, region?: string) => boolean;
   matchesSupportIntent: (item: FinanceItem, query: string) => boolean;
   isPubliclySearchable: (item: FinanceItem) => boolean;
+  searchIncludes: (item: FinanceItem, value: string) => boolean;
   scoreItem: (item: FinanceItem, query: string, tokens?: string[]) => number;
   diversifyBroadResults: <T extends { item: FinanceItem; score: number }>(ranked: readonly T[], query: string, filters: SearchFilters, maxResults: number, enabled?: boolean) => T[];
   matchReasons: (item: FinanceItem, query: string) => string[];

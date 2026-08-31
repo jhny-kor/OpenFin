@@ -191,7 +191,9 @@ test("hot shard parsing and scoring avoid repeated row allocations", () => {
   const scoreEnd = workerSource.indexOf("async function fetchJson", scoreStart);
   const scoreSource = workerSource.slice(scoreStart, scoreEnd);
 
-  assert.match(parseSource, /item\.search_text = termIds\.map\(\(termId\) => vocabulary\[termId\]\)\.join\(" "\)/);
+  assert.match(parseSource, /attachHotSearchMetadata\(item as FinanceItem, vocabulary as string\[\], termIds as number\[\]\)/);
+  assert.match(parseSource, /Object\.setPrototypeOf\(item, HOT_ITEM_PROTOTYPE\)/);
+  assert.doesNotMatch(parseSource, /item\.search_text = termIds\.map/);
   assert.doesNotMatch(parseSource, /new Set\(termIds\.map/);
   assert.match(scoreSource, /const recommendationIntent = RECOMMENDATION_QUERY_RE\.test\(query\)/);
   assert.match(scoreSource, /const titleTokenCount = queryTokens\(normalizedTitle\)\.length/);
@@ -199,13 +201,16 @@ test("hot shard parsing and scoring avoid repeated row allocations", () => {
   assert.doesNotMatch(scoreSource, /const aliases = .*\.map/);
 });
 
-test("support hot rows decode optional fields only when present", () => {
-  const start = workerSource.indexOf("function hydrateSupportHotFields");
+test("support hot rows decode optional fields lazily and preserve fetch projection", () => {
+  const start = workerSource.indexOf("function supportHotState");
   const end = workerSource.indexOf("function isFinanceItem", start);
   const source = workerSource.slice(start, end);
-
-  assert.match(source, /if \(state & \(1 << 22\)\) item\.target_group = \["youth"\]/);
-  assert.match(source, /const categoryMask = \(state >> 10\) & 0x07ff/);
+  assert.match(workerSource, /function supportHotTargetGroup\(item: FinanceItem\)/);
+  assert.match(workerSource, /Boolean\(state & \(1 << 22\)\)/);
+  assert.match(workerSource, /const categoryMask = state === undefined \? 0 : \(state >> 10\) & 0x07ff/);
+  assert.match(workerSource, /Object\.setPrototypeOf\(item, HOT_ITEM_PROTOTYPE\)/);
+  assert.match(workerSource, /function materializeSupportHotFields\(item: FinanceItem\)/);
+  assert.match(workerSource, /if \(indexedItem\?\.type === "support-program"\) materializeSupportHotFields\(indexedItem\)/);
   assert.doesNotMatch(source, /SUPPORT_HOT_CATEGORY_BITS\.filter/);
   assert.doesNotMatch(source, /support_region\.split/);
   assert.match(workerSource, /function supportRegionValues\(item: FinanceItem\)/);
@@ -214,6 +219,7 @@ test("support hot rows decode optional fields only when present", () => {
   const intentEnd = workerSource.indexOf("function supportMatchTier", intentStart);
   assert.doesNotMatch(workerSource.slice(intentStart, intentEnd), /new Set/);
   assert.match(workerSource, /supportRegionValues\(item\)\.some/);
+  assert.match(searchToolSource, /searchIncludes\(item, token\)/);
 });
 
 test("completed JSON MCP requests release their transport state", () => {
