@@ -228,6 +228,8 @@ test("query-bound hot shard hydration avoids materializing unrelated rows", () =
   assert.match(workerSource, /parseSearchItems\(loaded\.payload, loaded\.source, rowIndexes\)/);
   assert.match(workerSource, /const rowIndexes = query === undefined \? undefined : hotSearchRowIndexes\(loaded\.payload, query\)/);
   assert.match(workerSource, /const partial = rowIndexes !== undefined/);
+  assert.doesNotMatch(workerSource, /if \(!tokens\.every\(\(token\) => vocabulary\.some/);
+  assert.match(workerSource, /if \(!match && Array\.isArray\(row\)\)/);
   assert.match(workerSource, /if \(!partial && requestGeneration !== "uninitialized"/);
   assert.match(workerSource, /loadSearchShard\(env, shard, diagnostics, query(?:, signal)?\)/);
 });

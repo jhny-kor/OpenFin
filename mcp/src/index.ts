@@ -1959,7 +1959,6 @@ function hotSearchRowIndexes(value: unknown, query: string): readonly number[] |
   if (!tokens.length) return undefined;
   const vocabulary = value.vocabulary;
   const searchTerms = value.search_terms;
-  if (!tokens.every((token) => vocabulary.some((term) => typeof term === "string" && term.includes(token)))) return undefined;
   const fields = Array.isArray(value.fields) ? value.fields : [];
   const rows = value.items;
   const selected: number[] = [];
