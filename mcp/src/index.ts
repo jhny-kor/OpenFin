@@ -266,6 +266,7 @@ type CachedSearchIndexMetadata = {
 
 type CachedSearchItems = {
   readonly items: readonly FinanceItem[];
+  readonly payload?: unknown;
   readonly loadedAt: number;
   readonly generation: string;
   readonly bytes?: number;
@@ -353,6 +354,9 @@ let cachedSearchItems: CachedSearchItems | undefined;
 const cachedLargeSearchShards = new Map<string, CachedSearchItems>();
 const cachedSmallSearchShards = new Map<string, CachedSearchItems>();
 const cachedExactFetchShards = new Map<string, CachedSearchItems>();
+// Retain validated columnar payloads so query-bound hydration does not refetch
+// and reparse the same hot shard; the shared byte/row budget bounds retention.
+const cachedHotSearchPayloads = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
 const inFlightSearchShardStartedAt = new Map<string, number>();
 const inFlightSearchShardControllers = new Map<string, AbortController>();
@@ -384,7 +388,7 @@ type SearchShardSlotWaiter = {
   cleanup: () => void;
 };
 const queuedSearchShardLoads: SearchShardSlotWaiter[] = [];
-type SearchShardCacheKind = "large" | "small" | "exact";
+type SearchShardCacheKind = "large" | "small" | "exact" | "payload";
 type SearchShardDiagnostic = {
   shard_id: string;
   cache_kind: SearchShardCacheKind;
@@ -510,6 +514,7 @@ function diagnosticsSummary(diagnostics: RequestDiagnostics, response: Response,
       large: cachedLargeSearchShards.size,
       small: cachedSmallSearchShards.size,
       exact: cachedExactFetchShards.size,
+      payload: cachedHotSearchPayloads.size,
       in_flight: inFlightSearchShards.size,
     },
     shard_load_slots: {
@@ -528,7 +533,8 @@ function searchCacheBudgetKey(kind: SearchShardCacheKind, key: string): string {
 function searchCacheForKind(kind: SearchShardCacheKind): Map<string, CachedSearchItems> {
   if (kind === "large") return cachedLargeSearchShards;
   if (kind === "small") return cachedSmallSearchShards;
-  return cachedExactFetchShards;
+  if (kind === "exact") return cachedExactFetchShards;
+  return cachedHotSearchPayloads;
 }
 
 function removeSearchCacheEntry(kind: SearchShardCacheKind, key: string): boolean {
@@ -540,6 +546,7 @@ function clearSearchCaches(): void {
   cachedLargeSearchShards.clear();
   cachedSmallSearchShards.clear();
   cachedExactFetchShards.clear();
+  cachedHotSearchPayloads.clear();
   searchCacheBudget.clear();
 }
 
@@ -2179,13 +2186,53 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   const cache = isExactFetchShard ? cachedExactFetchShards : (shard.item_count ?? 0) > LARGE_SEARCH_SHARD_ITEM_COUNT ? cachedLargeSearchShards : cachedSmallSearchShards;
   const cacheKind: SearchShardCacheKind = isExactFetchShard ? "exact" : cache === cachedLargeSearchShards ? "large" : "small";
   const cacheLimit = MAX_SEARCH_CACHE_ENTRIES;
+  const url = resolveExportUrl(shard, financeManifestUrl(env));
   const cached = cache.get(key);
+  const cachedPayload = cachedHotSearchPayloads.get(key);
+  if (cached && cached.generation !== manifestGeneration) removeSearchCacheEntry(cacheKind, key);
+  if (cachedPayload && cachedPayload.generation !== manifestGeneration) removeSearchCacheEntry("payload", key);
   if (cached?.generation === manifestGeneration) {
     if (diagnostics) diagnostics.cache_hits += 1;
     searchCacheBudget.touch(searchCacheBudgetKey(cacheKind, key));
     cache.delete(key);
     cache.set(key, cached);
     return cached.items;
+  }
+  if (cachedPayload?.generation === manifestGeneration && cachedPayload.payload !== undefined) {
+    const hydrateStarted = diagnostics ? diagnosticNow() : 0;
+    if (diagnostics) diagnostics.cache_hits += 1;
+    searchCacheBudget.touch(searchCacheBudgetKey("payload", key));
+    cachedHotSearchPayloads.delete(key);
+    cachedHotSearchPayloads.set(key, cachedPayload);
+    const rowIndexes = query === undefined ? undefined : hotSearchRowIndexes(cachedPayload.payload, query);
+    const partial = rowIndexes !== undefined;
+    const items = parseSearchItems(cachedPayload.payload, url, rowIndexes);
+    if (!partial) {
+      assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
+      assertEmbeddedItemCount(cachedPayload.payload, items, `search-index shard ${shard.shard_id}`);
+    } else {
+      const rows = isRecord(cachedPayload.payload) && Array.isArray(cachedPayload.payload.items) ? cachedPayload.payload.items : undefined;
+      if (rows) assertSearchItemCount(rows.length, shard.item_count, `search-index shard ${shard.shard_id}`);
+      assertEmbeddedItemCount(cachedPayload.payload, rows ?? [], `search-index shard ${shard.shard_id}`);
+    }
+    if (diagnostics) {
+      recordShardDiagnostic(diagnostics, {
+        shard_id: shard.shard_id,
+        cache_kind: "payload",
+        item_count: items.length,
+        raw_bytes: cachedPayload.bytes ?? 0,
+        decoded_rows: items.length,
+        cache_hit: true,
+        cache_miss: false,
+        raw_text_units: 0,
+        fetch_ms: 0,
+        checksum_ms: 0,
+        parse_ms: 0,
+        hydrate_ms: roundDiagnosticMs(diagnosticNow() - hydrateStarted),
+        total_ms: roundDiagnosticMs(diagnosticNow() - hydrateStarted),
+      });
+    }
+    return items;
   }
   if (diagnostics) diagnostics.cache_misses += 1;
   if (cached && removeSearchCacheEntry(cacheKind, key) && diagnostics) diagnostics.evictions += 1;
@@ -2198,7 +2245,6 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   const unlinkAbort = linkAbortSignal(requestController, signal);
   const request = (async () => {
     const totalStarted = diagnostics ? diagnosticNow() : 0;
-    const url = resolveExportUrl(shard, financeManifestUrl(env));
     let releaseSlot: SearchShardSlotRelease | undefined;
     let rawText = "";
     let rawBytes = 0;
@@ -2253,6 +2299,18 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
         const rows = isRecord(payload) && Array.isArray(payload.items) ? payload.items : undefined;
         if (rows) assertSearchItemCount(rows.length, shard.item_count, `search-index shard ${shard.shard_id}`);
         assertEmbeddedItemCount(payload, rows ?? [], `search-index shard ${shard.shard_id}`);
+      }
+      const hotPayload = partial && isRecord(payload) && payload.format === "openfin-hot-search-v1";
+      if (hotPayload && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
+        while (cachedHotSearchPayloads.size >= cacheLimit) {
+          const oldest = cachedHotSearchPayloads.keys().next().value as string | undefined;
+          if (oldest === undefined) break;
+          if (removeSearchCacheEntry("payload", oldest) && diagnostics) diagnostics.evictions += 1;
+        }
+        const admission = searchCacheBudget.admit(searchCacheBudgetKey("payload", key), rawBytes, shard.item_count ?? 0);
+        removeBudgetEvictions(admission.evicted, diagnostics);
+        if (!admission.accepted && diagnostics) diagnostics.budget_exceeded += 1;
+        if (admission.accepted) cachedHotSearchPayloads.set(key, { items: [], payload, loadedAt: Date.now(), generation: requestGeneration, bytes: rawBytes, decodedRows: shard.item_count ?? 0 });
       }
       if (!partial && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
         while (cache.size >= cacheLimit) {

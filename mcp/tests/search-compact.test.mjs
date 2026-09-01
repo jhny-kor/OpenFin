@@ -162,8 +162,10 @@ test("freshness-filtered search resolves each shared source set once", () => {
 test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const cachedLargeSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
+  assert.match(workerSource, /const cachedHotSearchPayloads = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const MAX_SEARCH_CACHE_ENTRIES = 32/);
   assert.match(workerSource, /const MAX_SEARCH_CACHE_BYTES = 12 \* 1024 \* 1024/);
+  assert.match(workerSource, /searchCacheBudget\.admit\(searchCacheBudgetKey\("payload", key\)/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) \{[\s\S]*removeSearchCacheEntry\(cacheKind, oldest\)/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
@@ -221,6 +223,8 @@ test("hot shard parsing and scoring avoid repeated row allocations", () => {
 test("query-bound hot shard hydration avoids materializing unrelated rows", () => {
   assert.match(workerSource, /function hotSearchRowIndexes\(value: unknown, query: string\)/);
   assert.match(workerSource, /parseSearchItems\(value: unknown, source: string, selectedRows\?: readonly number\[\]\)/);
+  assert.match(workerSource, /cachedPayload\.payload/);
+  assert.match(workerSource, /parseSearchItems\(cachedPayload\.payload, url, rowIndexes\)/);
   assert.match(workerSource, /const rowIndexes = query === undefined \? undefined : hotSearchRowIndexes\(payload, query\)/);
   assert.match(workerSource, /const partial = rowIndexes !== undefined/);
   assert.match(workerSource, /if \(!partial && requestGeneration !== "uninitialized"/);
