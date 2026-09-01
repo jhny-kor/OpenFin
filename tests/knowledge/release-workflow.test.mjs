@@ -76,6 +76,14 @@ test('scheduled live monitoring is read-only and publishes evidence as an artifa
   assert.match(workflow, /persistence: "workflow-artifact-only"/);
 });
 
+test('live diagnostics encode non-ASCII queries before placing them in HTTP headers', () => {
+  const liveRegression = fs.readFileSync(`${root}/mcp/scripts/live-regression.mjs`, 'utf8');
+  const soak = fs.readFileSync(`${root}/mcp/scripts/soak-test.mjs`, 'utf8');
+  assert.match(liveRegression, /const diagnosticQuery = value => encodeURIComponent\(value\.slice\(0, 24\)\)/);
+  assert.match(soak, /const diagnosticQuery = value => encodeURIComponent\(value\.slice\(0, 24\)\)/);
+  assert.match(fs.readFileSync(`${root}/mcp/src/index.ts`, 'utf8'), /decodeURIComponent\(value\)/);
+});
+
 test('rollback contracts cover partial promotion, cancellation, and public Pages failure', () => {
   assert.equal(shouldRollbackWorker({ deployWorkerFinal: 'success', promote: 'success', validatePromoted: 'failure', deployPages: 'skipped', parity: 'skipped' }), true);
   assert.equal(shouldRollbackWorker({ deployWorkerFinal: 'success', promote: 'cancelled', validatePromoted: 'skipped', deployPages: 'skipped', parity: 'skipped' }), true);

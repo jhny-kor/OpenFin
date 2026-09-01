@@ -33,6 +33,7 @@ const metadataDelayMs = Number(process.env.LIVE_METADATA_DELAY_MS || 5000);
 const requestTimeoutMs = Number(process.env.LIVE_REQUEST_TIMEOUT_MS || 10000);
 const caseAttempts = Number(process.env.LIVE_CASE_ATTEMPTS || 3);
 const caseRetryDelayMs = Number(process.env.LIVE_CASE_RETRY_DELAY_MS || 500);
+const diagnosticQuery = value => encodeURIComponent(value.slice(0, 24));
 const fetchWithTimeout = async (url, options = {}) => {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), requestTimeoutMs);
@@ -127,7 +128,7 @@ const rpc = async (method, params = {}) => {
   const headers = { "content-type": "application/json", accept: "application/json, text/event-stream", "MCP-Protocol-Version": "2025-06-18", "x-openfin-diagnostics": "1", "x-openfin-request-id": requestId };
   if (currentCaseId) headers["x-openfin-case-id"] = currentCaseId;
   if (typeof params?.name === "string") headers["x-openfin-tool"] = params.name;
-  if (typeof params?.arguments?.query === "string") headers["x-openfin-query"] = params.arguments.query.slice(0, 256);
+  if (typeof params?.arguments?.query === "string") headers["x-openfin-query"] = diagnosticQuery(params.arguments.query);
   if (params?.name === "search") headers["x-openfin-query-class"] = "search";
   if (params?.name === "fetch") headers["x-openfin-query-class"] = "fetch";
   let response;

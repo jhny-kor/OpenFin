@@ -418,9 +418,13 @@ function diagnosticNow(): number {
 
 function requestDiagnostics(request: Request): RequestDiagnostics | undefined {
   const header = (name: string): string | null => request.headers.get(name)?.slice(0, 256) ?? null;
+  const diagnosticQuery = (value: string | null): string | null => {
+    if (value === null) return null;
+    try { return decodeURIComponent(value); } catch { return value; }
+  };
   const colo = (request as Request & { cf?: { colo?: unknown } }).cf?.colo;
   return request.headers.get(DIAGNOSTICS_HEADER) === "1"
-    ? { started_at: diagnosticNow(), request_id: header("x-openfin-request-id"), case_id: header("x-openfin-case-id"), colo: typeof colo === "string" ? colo.slice(0, 64) : null, tool: header("x-openfin-tool"), query: header("x-openfin-query"), query_class: header("x-openfin-query-class"), cache_bytes_before: searchCacheBudget.snapshot().bytes, cache_hits: 0, cache_misses: 0, in_flight_reuses: 0, evictions: 0, budget_exceeded: 0, shard_loads: [] }
+    ? { started_at: diagnosticNow(), request_id: header("x-openfin-request-id"), case_id: header("x-openfin-case-id"), colo: typeof colo === "string" ? colo.slice(0, 64) : null, tool: header("x-openfin-tool"), query: diagnosticQuery(header("x-openfin-query")), query_class: header("x-openfin-query-class"), cache_bytes_before: searchCacheBudget.snapshot().bytes, cache_hits: 0, cache_misses: 0, in_flight_reuses: 0, evictions: 0, budget_exceeded: 0, shard_loads: [] }
     : undefined;
 }
 

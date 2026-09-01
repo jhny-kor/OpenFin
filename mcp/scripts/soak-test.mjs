@@ -17,6 +17,7 @@ const concurrency = Math.max(1, Math.floor(Number(option("--concurrency", proces
 const requestTimeoutMs = Math.max(1000, Math.floor(Number(process.env.LIVE_REQUEST_TIMEOUT_MS || "15000")));
 const endpoint = (process.env.MCP_URL || "https://openfin-mcp.y2kthr.workers.dev/mcp").replace(/\/$/, "");
 const dryRun = process.argv.includes("--dry-run");
+const diagnosticQuery = value => encodeURIComponent(value.slice(0, 24));
 if (!Number.isFinite(durationMinutes) || durationMinutes < 0 || !Number.isFinite(durationSeconds) || durationSeconds < 0) throw new Error("duration must be non-negative");
 
 const semanticTasks = fixture.flatMap((entry) => (entry.semantic_search || []).map((semantic, index) => ({
@@ -77,7 +78,7 @@ const call = async (task) => {
         "x-openfin-case-id": task.caseId,
         "x-openfin-tool": task.tool,
         "x-openfin-query-class": task.tool === "search" ? "search" : task.tool === "fetch" ? "fetch" : "other",
-        ...(typeof task.arguments?.query === "string" ? { "x-openfin-query": task.arguments.query.slice(0, 256) } : {}),
+        ...(typeof task.arguments?.query === "string" ? { "x-openfin-query": diagnosticQuery(task.arguments.query) } : {}),
       },
       body: JSON.stringify({ jsonrpc: "2.0", id: sequence, method: "tools/call", params: { name: task.tool, arguments: task.arguments || {} } }),
     });
