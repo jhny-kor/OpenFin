@@ -88,8 +88,8 @@
   "quality_export_live_summary": {
     "source": "manifest.live_regression_evidence",
     "live_test_count": 120,
-    "live_passed_count": 114,
-    "live_failed_count": 6,
-    "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf"
+    "live_passed_count": 116,
+    "live_failed_count": 4,
+    "generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf"
   }
 }
