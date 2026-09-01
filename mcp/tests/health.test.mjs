@@ -26,6 +26,14 @@ test("health exposes source freshness separately from core availability", () => 
   assert.equal(payload.source_freshness_status, "degraded");
 });
 
+test("health preserves release metadata for deployment validation", () => {
+  const payload = livenessPayload({ RUNTIME_VERSION: "openfin-mcp-abc123", DEPLOYMENT_COMMIT: "a".repeat(40), BUILD_TIMESTAMP: "2026-09-01T00:00:00Z", ARTIFACT_GENERATION: "b".repeat(64) }, "https://example.test/manifest");
+  assert.equal(payload.runtime_version, "openfin-mcp-abc123");
+  assert.equal(payload.deployment_commit, "a".repeat(40));
+  assert.equal(payload.build_timestamp, "2026-09-01T00:00:00Z");
+  assert.equal(payload.artifact_generation, "b".repeat(64));
+});
+
 test("service availability never becomes a capability status", () => {
   const payload = readinessPayload({ env: {}, metadata: { item_count: 1, export_checksum: "x" }, manifest: { service_availability: "available", capabilities: { search: "ready", comparison: "limited" } }, artifactsLoaded: true, checksumVerified: true, manifestUrl: "https://example.test/manifest" });
   assert.equal(payload.service_availability, "available");

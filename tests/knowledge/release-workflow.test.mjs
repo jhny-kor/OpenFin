@@ -41,6 +41,8 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.match(workflow, /sed -nE 's#\^Version Preview Alias URL:/);
   assert.match(workflow, /validate-worker-final:[\s\S]*Validate comparison endpoint and fail-closed state[\s\S]*MCP_URL: \$\{\{ needs\.deploy-worker-final\.outputs\.worker_url \}\}\/mcp/);
   assert.match(workflow, /validate-promoted-worker:[\s\S]*Re-run comparison endpoint and fail-closed state[\s\S]*MCP_URL: https:\/\/openfin-mcp\.y2kthr\.workers\.dev\/mcp/);
+  assert.equal((workflow.match(/--var RUNTIME_VERSION:/g) ?? []).length, 2);
+  assert.equal((workflow.match(/--var BUILD_TIMESTAMP:/g) ?? []).length, 2);
   assert.equal((workflow.match(/OPENFIN_REQUIRE_POSITIVE_RUNTIME="\$\(jq -r '\(\.capabilities\.comparison \/\/ "blocked"\) != "blocked"' \.\.\/release\/docs\/opentax\/finance-ontology-manifest\.json\)"/g) ?? []).length, 2);
   assert.match(read('staging-openfin.yml'), /OPENFIN_REQUIRE_POSITIVE_RUNTIME: "true"/);
   assert.equal((workflow.match(/pages deploy "\$upload_dir"/g) ?? []).length, 2);
@@ -63,6 +65,15 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.match(workflow, /deploy-pages-final:[\s\S]*name: openfin-live-promoted-\$\{\{ github\.sha \}\}[\s\S]*Publish promoted production live evidence[\s\S]*publish-promoted-live-evidence\.mjs[\s\S]*actions\/upload-pages-artifact/);
   assert.match(workflow, /public-parity:[\s\S]*name: openfin-live-promoted-\$\{\{ github\.sha \}\}[\s\S]*OPENFIN_LIVE_EVIDENCE_PATH: live\/promoted-live-regression-report\.json[\s\S]*OPENFIN_LIVE_EVIDENCE_URL: https:\/\/jhny-kor\.github\.io\/OpenFin\/opentax\/live-regression-production-current\.json[\s\S]*OPENFIN_REQUIRE_PRODUCTION_LIVE_EVIDENCE: "true"/);
   assert.doesNotMatch(workflow.match(/validate-worker-final:[\s\S]*?\n  promote-worker:/)?.[0] || '', /OPENFIN_REQUIRE_PRODUCTION_LIVE_EVIDENCE/);
+});
+
+test('scheduled live monitoring is read-only and publishes evidence as an artifact', () => {
+  const workflow = read('live-regression.yml');
+  assert.match(workflow, /permissions:\n\s+contents: read/);
+  assert.doesNotMatch(workflow, /git (?:add|commit|push)/);
+  assert.doesNotMatch(workflow, /npm run knowledge:build/);
+  assert.match(workflow, /evidence\/live-regression/);
+  assert.match(workflow, /persistence: "workflow-artifact-only"/);
 });
 
 test('rollback contracts cover partial promotion, cancellation, and public Pages failure', () => {

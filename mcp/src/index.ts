@@ -2,6 +2,7 @@ import { createMcpHandler } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { generationCacheKey, isCurrentGeneration, SingleFlight } from "./generation-cache";
+import { CacheBudget } from "./cache-budget.ts";
 import { resolveSourceStatus, sourceIdsForItem } from "./source-status";
 import { evaluateReleaseGate } from "./release-gate";
 import { evaluateEligibility, productDomain, recommendationFields } from "./recommendation/policy";
@@ -267,6 +268,8 @@ type CachedSearchItems = {
   readonly items: readonly FinanceItem[];
   readonly loadedAt: number;
   readonly generation: string;
+  readonly bytes?: number;
+  readonly decodedRows?: number;
 };
 
 type FinanceArtifacts = {
@@ -353,6 +356,15 @@ const cachedExactFetchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
 const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; source: string }>>();
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
+// Byte ceilings are primary; count limits remain a cheap secondary guard.
+const MAX_TOTAL_CACHE_BYTES = 16 * 1024 * 1024;
+const MAX_SEARCH_CACHE_BYTES = 12 * 1024 * 1024;
+const MAX_ARTIFACT_CACHE_BYTES = 4 * 1024 * 1024;
+const MAX_SINGLE_SHARD_BYTES = 4 * 1024 * 1024;
+const MAX_DECODED_ROWS = 12_000;
+const MAX_INFLIGHT_BYTES = 8 * 1024 * 1024;
+const searchCacheBudget = new CacheBudget({ maxTotalBytes: MAX_SEARCH_CACHE_BYTES, maxSingleEntryBytes: MAX_SINGLE_SHARD_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
+const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_BYTES, maxSingleEntryBytes: MAX_ARTIFACT_CACHE_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 // ponytail: retain the six small hot shards published by the manifest; keep
 // large shards at one entry so the known support/deposit payloads cannot stack.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
@@ -363,20 +375,36 @@ type SearchShardDiagnostic = {
   shard_id: string;
   cache_kind: SearchShardCacheKind;
   item_count: number;
+  raw_bytes: number;
+  decoded_rows: number;
+  cache_hit: boolean;
+  cache_miss: boolean;
   raw_text_units: number;
   fetch_ms: number;
   checksum_ms: number;
   parse_ms: number;
   hydrate_ms: number;
   total_ms: number;
+  http_status?: number;
+  failure_class?: string;
+  error?: string;
 };
 type RequestDiagnostics = {
   started_at: number;
+  request_id: string | null;
+  case_id: string | null;
+  colo: string | null;
+  tool: string | null;
+  query: string | null;
+  query_class: string | null;
+  cache_bytes_before: number;
   cache_hits: number;
   cache_misses: number;
   in_flight_reuses: number;
   evictions: number;
+  budget_exceeded: number;
   shard_loads: SearchShardDiagnostic[];
+  failure_class?: string;
 };
 const DIAGNOSTICS_HEADER = "x-openfin-diagnostics";
 const DIAGNOSTICS_MAX_SHARDS = 16;
@@ -389,8 +417,10 @@ function diagnosticNow(): number {
 }
 
 function requestDiagnostics(request: Request): RequestDiagnostics | undefined {
+  const header = (name: string): string | null => request.headers.get(name)?.slice(0, 256) ?? null;
+  const colo = (request as Request & { cf?: { colo?: unknown } }).cf?.colo;
   return request.headers.get(DIAGNOSTICS_HEADER) === "1"
-    ? { started_at: diagnosticNow(), cache_hits: 0, cache_misses: 0, in_flight_reuses: 0, evictions: 0, shard_loads: [] }
+    ? { started_at: diagnosticNow(), request_id: header("x-openfin-request-id"), case_id: header("x-openfin-case-id"), colo: typeof colo === "string" ? colo.slice(0, 64) : null, tool: header("x-openfin-tool"), query: header("x-openfin-query"), query_class: header("x-openfin-query-class"), cache_bytes_before: searchCacheBudget.snapshot().bytes, cache_hits: 0, cache_misses: 0, in_flight_reuses: 0, evictions: 0, budget_exceeded: 0, shard_loads: [] }
     : undefined;
 }
 
@@ -398,13 +428,66 @@ function roundDiagnosticMs(value: number): number {
   return Math.round(value * 100) / 100;
 }
 
-function diagnosticsSummary(diagnostics: RequestDiagnostics): Record<string, unknown> {
+function classifyRuntimeFailure(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  if (/1102|cpu(?: time)? limit|exceeded.*cpu/i.test(message)) return "CPU_LIMIT";
+  if (/memory|heap|out of memory|resource limit/i.test(message)) return "MEMORY_LIMIT";
+  if (/request body timeout|response body timeout|request timeout|timeout after/i.test(message)) return "REQUEST_TIMEOUT";
+  if (/timeout|timed out/i.test(message)) return "UPSTREAM_TIMEOUT";
+  if (/abort|aborted/i.test(message)) return "TRANSPORT_ABORT";
+  if (/\b5\d{2}\b/.test(message)) return "UPSTREAM_5XX";
+  return "UNKNOWN_EDGE_FAILURE";
+}
+
+function diagnosticsSummary(diagnostics: RequestDiagnostics, response: Response, env: Env): Record<string, unknown> {
+  const searchBudget = searchCacheBudget.snapshot();
+  const artifactBudget = artifactCacheBudget.snapshot();
+  const shardIds = diagnostics.shard_loads.map((entry) => entry.shard_id);
+  const total = (field: "raw_bytes" | "decoded_rows" | "fetch_ms" | "checksum_ms" | "parse_ms" | "hydrate_ms") => diagnostics.shard_loads.reduce((sum, entry) => sum + entry[field], 0);
+  const totalMs = roundDiagnosticMs(diagnosticNow() - diagnostics.started_at);
   return {
-    request_ms: roundDiagnosticMs(diagnosticNow() - diagnostics.started_at),
+    request_id: diagnostics.request_id,
+    case_id: diagnostics.case_id,
+    cf_ray: response.headers.get("cf-ray"),
+    colo: diagnostics.colo,
+    deployment_commit: env.DEPLOYMENT_COMMIT ?? "unknown",
+    generation_id: env.ARTIFACT_GENERATION ?? (manifestGeneration === "uninitialized" ? null : manifestGeneration),
+    tool: diagnostics.tool,
+    query: diagnostics.query,
+    query_class: diagnostics.query_class,
+    http_status: response.status,
+    request_ms: totalMs,
+    handler_ms: totalMs,
+    total_ms: totalMs,
     cache_hits: diagnostics.cache_hits,
     cache_misses: diagnostics.cache_misses,
+    cache_hit: diagnostics.cache_hits > 0,
+    cache_miss: diagnostics.cache_misses > 0,
     in_flight_reuses: diagnostics.in_flight_reuses,
     evictions: diagnostics.evictions,
+    cache_eviction: diagnostics.evictions > 0,
+    cache_budget_exceeded: diagnostics.budget_exceeded,
+    cache_bytes_before: diagnostics.cache_bytes_before,
+    cache_bytes_after: searchBudget.bytes + artifactBudget.bytes,
+    raw_bytes: total("raw_bytes"),
+    decoded_rows: total("decoded_rows"),
+    fetch_ms: roundDiagnosticMs(total("fetch_ms")),
+    checksum_ms: roundDiagnosticMs(total("checksum_ms")),
+    parse_ms: roundDiagnosticMs(total("parse_ms")),
+    hydrate_ms: roundDiagnosticMs(total("hydrate_ms")),
+    shard_ids: shardIds,
+    subrequest_count: shardIds.length,
+    failure_class: diagnostics.failure_class ?? null,
+    cache_budget: {
+      search: searchBudget,
+      artifact: artifactBudget,
+      max_total_bytes: MAX_TOTAL_CACHE_BYTES,
+      max_search_bytes: MAX_SEARCH_CACHE_BYTES,
+      max_artifact_bytes: MAX_ARTIFACT_CACHE_BYTES,
+      max_single_shard_bytes: MAX_SINGLE_SHARD_BYTES,
+      max_decoded_rows: MAX_DECODED_ROWS,
+      max_inflight_bytes: MAX_INFLIGHT_BYTES,
+    },
     cache_sizes: {
       large: cachedLargeSearchShards.size,
       small: cachedSmallSearchShards.size,
@@ -415,12 +498,45 @@ function diagnosticsSummary(diagnostics: RequestDiagnostics): Record<string, unk
   };
 }
 
+function searchCacheBudgetKey(kind: SearchShardCacheKind, key: string): string {
+  return `${kind}:${key}`;
+}
+
+function searchCacheForKind(kind: SearchShardCacheKind): Map<string, CachedSearchItems> {
+  if (kind === "large") return cachedLargeSearchShards;
+  if (kind === "small") return cachedSmallSearchShards;
+  return cachedExactFetchShards;
+}
+
+function removeSearchCacheEntry(kind: SearchShardCacheKind, key: string): boolean {
+  searchCacheBudget.remove(searchCacheBudgetKey(kind, key));
+  return searchCacheForKind(kind).delete(key);
+}
+
+function clearSearchCaches(): void {
+  cachedLargeSearchShards.clear();
+  cachedSmallSearchShards.clear();
+  cachedExactFetchShards.clear();
+  searchCacheBudget.clear();
+}
+
+function removeBudgetEvictions(evicted: readonly string[], diagnostics?: RequestDiagnostics): void {
+  for (const value of evicted) {
+    const separator = value.indexOf(":");
+    if (separator <= 0) continue;
+    const kind = value.slice(0, separator) as SearchShardCacheKind;
+    const key = value.slice(separator + 1);
+    if (removeSearchCacheEntry(kind, key) && diagnostics) diagnostics.evictions += 1;
+  }
+}
+
 function recordShardDiagnostic(diagnostics: RequestDiagnostics | undefined, entry: SearchShardDiagnostic): void {
   if (diagnostics && diagnostics.shard_loads.length < DIAGNOSTICS_MAX_SHARDS) diagnostics.shard_loads.push(entry);
 }
 
-function attachDiagnostics(response: Response, diagnostics: RequestDiagnostics): Response {
-  const summary = diagnosticsSummary(diagnostics);
+function attachDiagnostics(response: Response, diagnostics: RequestDiagnostics, env: Env): Response {
+  if (response.status >= 500 && !diagnostics.failure_class) diagnostics.failure_class = classifyRuntimeFailure(`HTTP ${response.status}`);
+  const summary = diagnosticsSummary(diagnostics, response, env);
   const headers = new Headers(response.headers);
   headers.set(DIAGNOSTICS_HEADER, JSON.stringify(summary));
   headers.set("server-timing", `openfin;dur=${String(summary.request_ms)}`);
@@ -1206,7 +1322,7 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await response.json()) as T;
 }
 
-async function fetchText(url: string): Promise<string> {
+async function fetchText(url: string, maxBytes?: number): Promise<string> {
   const response = await fetch(url, {
     headers: {
       accept: "application/json",
@@ -1214,7 +1330,15 @@ async function fetchText(url: string): Promise<string> {
     },
   });
   if (!response.ok) throw new Error(`Finance ontology fetch failed: ${url} ${response.status} ${response.statusText}`);
-  return response.text();
+  const contentLength = Number(response.headers.get("content-length"));
+  if (maxBytes !== undefined && Number.isFinite(contentLength) && contentLength > maxBytes) {
+    throw new SearchIndexContractError(`Finance ontology fetch exceeds ${maxBytes} bytes: ${url} ${contentLength}`);
+  }
+  const text = await response.text();
+  if (maxBytes !== undefined && new TextEncoder().encode(text).byteLength > maxBytes) {
+    throw new SearchIndexContractError(`Finance ontology fetch exceeds ${maxBytes} bytes: ${url}`);
+  }
+  return text;
 }
 
 function stableJson(value: unknown): string {
@@ -1274,10 +1398,9 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
       cachedGraph = undefined;
       cachedSearchIndexMetadata = undefined;
       cachedSearchItems = undefined;
-      cachedLargeSearchShards.clear();
-      cachedSmallSearchShards.clear();
-      cachedExactFetchShards.clear();
+      clearSearchCaches();
       cachedFinanceArtifacts.clear();
+      artifactCacheBudget.clear();
     }
     const liveEntry = manifest.live_regression_evidence;
     const liveEvidence = liveEntry?.export_checksum
@@ -1358,7 +1481,12 @@ async function loadFinanceArtifactEntry(env: Env, cacheKey: string, entry: { pat
         throw new Error(`manifest checksum mismatch for ${cacheKey}`);
       }
       if (isCurrentGeneration(requestGeneration, manifestGeneration)) {
-        cachedFinanceArtifacts.set(cacheKey, { data, loadedAt: Date.now(), generation: requestGeneration });
+        const bytes = new TextEncoder().encode(JSON.stringify(data)).byteLength;
+        const rows = artifactRecords(data).length;
+        const admission = artifactCacheBudget.admit(cacheKey, bytes, rows);
+        for (const evicted of admission.evicted) cachedFinanceArtifacts.delete(evicted);
+        if (admission.accepted) cachedFinanceArtifacts.set(cacheKey, { data, loadedAt: Date.now(), generation: requestGeneration });
+        else cachedFinanceArtifacts.delete(cacheKey);
         financeArtifactErrors.delete(cacheKey);
       }
       return data;
@@ -1868,12 +1996,13 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   const cached = cache.get(key);
   if (cached?.generation === manifestGeneration) {
     if (diagnostics) diagnostics.cache_hits += 1;
+    searchCacheBudget.touch(searchCacheBudgetKey(cacheKind, key));
     cache.delete(key);
     cache.set(key, cached);
     return cached.items;
   }
   if (diagnostics) diagnostics.cache_misses += 1;
-  if (cached && cache.delete(key) && diagnostics) diagnostics.evictions += 1;
+  if (cached && removeSearchCacheEntry(cacheKind, key) && diagnostics) diagnostics.evictions += 1;
   const pending = inFlightSearchShards.get(pendingKey);
   if (pending) {
     if (diagnostics) diagnostics.in_flight_reuses += 1;
@@ -1883,65 +2012,114 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   while (cache.size >= cacheLimit) {
     const oldest = cache.keys().next().value as string | undefined;
     if (oldest === undefined) break;
-    if (cache.delete(oldest) && diagnostics) diagnostics.evictions += 1;
+    if (removeSearchCacheEntry(cacheKind, oldest) && diagnostics) diagnostics.evictions += 1;
   }
   const request = (async () => {
     const totalStarted = diagnostics ? diagnosticNow() : 0;
     const url = resolveExportUrl(shard, financeManifestUrl(env));
-    const fetchStarted = diagnostics ? diagnosticNow() : 0;
-    const rawText = await fetchText(url);
-    const fetchMs = diagnostics ? diagnosticNow() - fetchStarted : 0;
+    let rawText = "";
+    let rawBytes = 0;
+    let fetchMs = 0;
     let checksumMs = 0;
-    if (shard.content_checksum) {
-      const checksumStarted = diagnostics ? diagnosticNow() : 0;
-      if (!(await verifyTextChecksum(rawText, shard.content_checksum))) {
-        throw new SearchIndexContractError(`search-index shard ${shard.shard_id} content checksum mismatch`);
-      }
-      if (diagnostics) checksumMs += diagnosticNow() - checksumStarted;
-    }
-    let payload: unknown;
-    const parseStarted = diagnostics ? diagnosticNow() : 0;
+    let parseMs = 0;
+    let hydrateMs = 0;
+    let inflightReserved = false;
     try {
-      payload = JSON.parse(rawText);
+      const fetchStarted = diagnostics ? diagnosticNow() : 0;
+      rawText = await fetchText(url, MAX_SINGLE_SHARD_BYTES);
+      fetchMs = diagnostics ? diagnosticNow() - fetchStarted : 0;
+      rawBytes = new TextEncoder().encode(rawText).byteLength;
+      inflightReserved = searchCacheBudget.reserveInflight(pendingKey, rawBytes);
+      if (!inflightReserved) {
+        if (diagnostics) diagnostics.budget_exceeded += 1;
+        throw new SearchIndexContractError(`search-index shard ${shard.shard_id} exceeds the in-flight cache budget`);
+      }
+      if (shard.content_checksum) {
+        const checksumStarted = diagnostics ? diagnosticNow() : 0;
+        if (!(await verifyTextChecksum(rawText, shard.content_checksum))) {
+          throw new SearchIndexContractError(`search-index shard ${shard.shard_id} content checksum mismatch`);
+        }
+        if (diagnostics) checksumMs += diagnosticNow() - checksumStarted;
+      }
+      let payload: unknown;
+      const parseStarted = diagnostics ? diagnosticNow() : 0;
+      try {
+        payload = JSON.parse(rawText);
+      } catch (error) {
+        throw new SearchIndexContractError(`search-index shard ${shard.shard_id} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
+      }
+      parseMs = diagnostics ? diagnosticNow() - parseStarted : 0;
+      const checksumPayload = isRecord(payload) && Array.isArray(payload.items) ? payload.items : payload;
+      if (!shard.content_checksum) {
+        const checksumStarted = diagnostics ? diagnosticNow() : 0;
+        if (!(await verifySearchChecksum(checksumPayload, shard.export_checksum))) {
+          throw new SearchIndexContractError(`search-index shard ${shard.shard_id} checksum mismatch`);
+        }
+        if (diagnostics) checksumMs += diagnosticNow() - checksumStarted;
+      }
+      const hydrateStarted = diagnostics ? diagnosticNow() : 0;
+      const items = parseSearchItems(payload, url);
+      hydrateMs = diagnostics ? diagnosticNow() - hydrateStarted : 0;
+      assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
+      assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
+      if (requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
+        while (cache.size >= cacheLimit) {
+          const oldest = cache.keys().next().value as string | undefined;
+          if (oldest === undefined) break;
+          if (removeSearchCacheEntry(cacheKind, oldest) && diagnostics) diagnostics.evictions += 1;
+        }
+        const admission = searchCacheBudget.admit(searchCacheBudgetKey(cacheKind, key), rawBytes, items.length);
+        removeBudgetEvictions(admission.evicted, diagnostics);
+        if (!admission.accepted && diagnostics) diagnostics.budget_exceeded += 1;
+        if (admission.accepted) cache.set(key, { items, loadedAt: Date.now(), generation: requestGeneration, bytes: rawBytes, decodedRows: items.length });
+      }
+      if (diagnostics) {
+        recordShardDiagnostic(diagnostics, {
+          shard_id: shard.shard_id,
+          cache_kind: cacheKind,
+          item_count: items.length,
+          raw_bytes: rawBytes,
+          decoded_rows: items.length,
+          cache_hit: false,
+          cache_miss: true,
+          raw_text_units: rawText.length,
+          fetch_ms: roundDiagnosticMs(fetchMs),
+          checksum_ms: roundDiagnosticMs(checksumMs),
+          parse_ms: roundDiagnosticMs(parseMs),
+          hydrate_ms: roundDiagnosticMs(hydrateMs),
+          total_ms: roundDiagnosticMs(diagnosticNow() - totalStarted),
+        });
+      }
+      return items;
     } catch (error) {
-      throw new SearchIndexContractError(`search-index shard ${shard.shard_id} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
-    }
-    const parseMs = diagnostics ? diagnosticNow() - parseStarted : 0;
-    const checksumPayload = isRecord(payload) && Array.isArray(payload.items) ? payload.items : payload;
-    if (!shard.content_checksum) {
-      const checksumStarted = diagnostics ? diagnosticNow() : 0;
-      if (!(await verifySearchChecksum(checksumPayload, shard.export_checksum))) {
-        throw new SearchIndexContractError(`search-index shard ${shard.shard_id} checksum mismatch`);
+      if (diagnostics) {
+        const message = error instanceof Error ? error.message : String(error);
+        diagnostics.failure_class = classifyRuntimeFailure(error);
+        const status = Number(message.match(/\b([45]\d{2})\b/)?.[1] ?? 0);
+        recordShardDiagnostic(diagnostics, {
+          shard_id: shard.shard_id,
+          cache_kind: cacheKind,
+          item_count: 0,
+          raw_bytes: rawBytes,
+          decoded_rows: 0,
+          cache_hit: false,
+          cache_miss: true,
+          raw_text_units: rawText.length,
+          fetch_ms: roundDiagnosticMs(fetchMs),
+          checksum_ms: roundDiagnosticMs(checksumMs),
+          parse_ms: roundDiagnosticMs(parseMs),
+          hydrate_ms: roundDiagnosticMs(hydrateMs),
+          total_ms: roundDiagnosticMs(diagnosticNow() - totalStarted),
+          http_status: status,
+          failure_class: diagnostics.failure_class,
+          error: message.slice(0, 512),
+        });
       }
-      if (diagnostics) checksumMs += diagnosticNow() - checksumStarted;
+      throw error;
+    } finally {
+      if (inflightReserved) searchCacheBudget.releaseInflight(pendingKey);
+      rawText = "";
     }
-    const hydrateStarted = diagnostics ? diagnosticNow() : 0;
-    const items = parseSearchItems(payload, url);
-    const hydrateMs = diagnostics ? diagnosticNow() - hydrateStarted : 0;
-    assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
-    assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
-    if (requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
-      while (cache.size >= cacheLimit) {
-        const oldest = cache.keys().next().value as string | undefined;
-        if (oldest === undefined) break;
-        if (cache.delete(oldest) && diagnostics) diagnostics.evictions += 1;
-      }
-      cache.set(key, { items, loadedAt: Date.now(), generation: requestGeneration });
-    }
-    if (diagnostics) {
-      recordShardDiagnostic(diagnostics, {
-        shard_id: shard.shard_id,
-        cache_kind: cacheKind,
-        item_count: items.length,
-        raw_text_units: rawText.length,
-        fetch_ms: roundDiagnosticMs(fetchMs),
-        checksum_ms: roundDiagnosticMs(checksumMs),
-        parse_ms: roundDiagnosticMs(parseMs),
-        hydrate_ms: roundDiagnosticMs(hydrateMs),
-        total_ms: roundDiagnosticMs(diagnosticNow() - totalStarted),
-      });
-    }
-    return items;
   })().finally(() => inFlightSearchShards.delete(pendingKey));
   inFlightSearchShards.set(pendingKey, request);
   return request;
@@ -2896,7 +3074,7 @@ export default {
     const handler = createMcpHandler(server, { route: "/mcp", enableJsonResponse: true });
     try {
       const response = await handler(request, env, ctx);
-      return diagnostics ? attachDiagnostics(response, diagnostics) : response;
+      return diagnostics ? attachDiagnostics(response, diagnostics, env) : response;
     } finally {
       if (request.method === "POST") await server.close().catch(() => undefined);
     }

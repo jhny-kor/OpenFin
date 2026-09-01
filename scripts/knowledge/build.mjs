@@ -74,6 +74,11 @@ const writeCompact = (file, payload) => { fs.mkdirSync(path.dirname(file), {recu
 const ONTOLOGY_SHARD_MAX_BYTES = 25 * 1024 * 1024;
 const ontologyShardFiles = new Set(fs.readdirSync(DOCS).filter(file => /^korea-.*-ontology-2026-shard-\d+\.json$/.test(file)));
 for (const file of ontologyShardFiles) fs.rmSync(path.join(DOCS, file));
+// Exact-fetch shard partitioning is generation-owned. Remove every prior
+// generated bucket before writing the current 512-bucket manifest so a rename
+// or partition-count change cannot leave unreferenced payloads in Pages.
+const exactFetchShardFiles = new Set(fs.readdirSync(DOCS).filter(file => /^finance-exact-fetch-index-2026-exact-[0-9a-f]+\.json$/.test(file)));
+for (const file of exactFetchShardFiles) fs.rmSync(path.join(DOCS, file));
 const writeOntologyShards = (file, output) => {
   const entries = [
     ...output.items.map(item => ({ kind: 'items', item })),
@@ -629,6 +634,21 @@ const evaluationAsOf = process.env.OPENFIN_EVALUATION_AS_OF || liveEvidenceCheck
 const quality = deriveQuality(readCanonicalRecords(), { sourceCount: sourceRegistry.length, exportCount: legacyFiles.length, searchItemCount: allSearchItems.length, relationshipCount: relations.length, invalidUrlCount: invalidUrls.length, sourceStatusLoaded: statuses.length === sourceRegistry.length, sourceStatusChecksum: sourceStatusArtifact ? sha256(sourceStatusArtifact).slice(7) : null, searchIndexChecksum: searchManifest.export_checksum, deploymentCommit, evaluationAsOf });
 const liveRegressionArtifact = { ...quality.live_regression, evidence_path: 'opentax/live-regression-current.json', source_evidence_path: 'evidence/live-regression/current.json' };
 writeJson(path.join(DOCS, 'live-regression-current.json'), liveRegressionArtifact);
+const runtimeAttemptSummary = attempt => {
+  if (!attempt || typeof attempt !== 'object') return null;
+  const value = attempt;
+  return {
+    status: value.status ?? value.validation_status ?? 'unknown',
+    checked_at: value.checked_at ?? null,
+    test_count: Number.isInteger(value.test_count) ? value.test_count : null,
+    passed_count: Number.isInteger(value.passed_count) ? value.passed_count : null,
+    failed_count: Number.isInteger(value.failed_count) ? value.failed_count : null,
+    skipped_count: Number.isInteger(value.skipped_count) ? value.skipped_count : null,
+    deployment_commit: value.deployment_commit ?? null,
+    generation_id: value.generation_id ?? null,
+    transport_error_count: Number.isInteger(value.transport_error_count) ? value.transport_error_count : null,
+  };
+};
 const lastAttempt = liveRegressionArtifact.last_attempt || liveRegressionArtifact;
 const lastAttemptArtifact = {
   ...lastAttempt,
@@ -1008,6 +1028,15 @@ const currentRelease = {
   last_smoke_status: lastSmokeStatus,
   last_live_status: lastLiveStatus,
   promoted_at: promotedAt,
+  validation_at_promotion: releaseState === 'promoted'
+    ? process.env.OPENFIN_VALIDATION_AT_PROMOTION || process.env.OPENFIN_PROMOTION_EVALUATED_AT || promotedAt
+    : previousReleasePointer.validation_at_promotion || null,
+  latest_runtime_attempt: runtimeAttemptSummary(liveRegressionArtifact.last_attempt || liveRegressionArtifact),
+  last_successful_runtime_attempt: runtimeAttemptSummary(liveRegressionArtifact.last_successful),
+  operational_status: releaseState === 'promoted'
+    ? (lastSmokeStatus === 'passed' && lastLiveStatus === 'passed' ? 'operational' : 'degraded')
+    : 'candidate',
+  rollback_history_url: process.env.OPENFIN_ROLLBACK_HISTORY_URL || previousReleasePointer.rollback_history_url || null,
   rollback_target: rollbackTarget,
   manifest_checksum: manifest.manifest_checksum,
   search_index_checksum: manifest.artifact_contract.search_index_checksum,
@@ -1020,7 +1049,10 @@ const currentRelease = {
   live_evidence_path: manifest.live_regression_evidence.path,
   live_evidence_url: manifest.live_regression_evidence.url,
 };
-writeJson(releasePointerPath, currentRelease);
+// Candidate builds are immutable release inputs, not production pointer writes.
+// The pointer is published only by promotion/rollback workflows; local tests
+// may opt in when they intentionally exercise a candidate snapshot.
+if (releaseState === 'promoted' || process.env.OPENFIN_WRITE_CANDIDATE_POINTER === 'true') writeJson(releasePointerPath, currentRelease);
 if (releaseState === 'promoted') {
   const historyPath = path.join(DOCS, 'production-release-history.jsonl');
   const existingHistory = fs.existsSync(historyPath) ? fs.readFileSync(historyPath, 'utf8').split('\n').filter(Boolean) : [];

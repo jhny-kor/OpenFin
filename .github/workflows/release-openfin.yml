@@ -258,7 +258,10 @@ jobs:
           generation="$(jq -r '.generation_id' "$manifest")"
           test "$generation" != null
           alias="candidate-${GITHUB_SHA:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          output="$(npx --yes wrangler@4.127.1 versions upload --name openfin-mcp --preview-alias "$alias" --tag "$alias" --message "OpenFin candidate $GITHUB_SHA" --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var FINANCE_MANIFEST_URL:"$OPENFIN_STAGING_PAGES_URL/opentax/finance-ontology-manifest.json" --var FINANCE_WEB_BASE_URL:"$OPENFIN_STAGING_PAGES_URL/opentax/" --var ARTIFACT_GENERATION:"$generation" 2>&1 | tee /dev/stderr)"
+          runtime_version="openfin-mcp-${GITHUB_SHA:0:12}"
+          build_timestamp="$(git show -s --format=%cI "$GITHUB_SHA")"
+          test -n "$runtime_version" -a -n "$build_timestamp"
+          output="$(npx --yes wrangler@4.127.1 versions upload --name openfin-mcp --preview-alias "$alias" --tag "$alias" --message "OpenFin candidate $GITHUB_SHA" --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var FINANCE_MANIFEST_URL:"$OPENFIN_STAGING_PAGES_URL/opentax/finance-ontology-manifest.json" --var FINANCE_WEB_BASE_URL:"$OPENFIN_STAGING_PAGES_URL/opentax/" --var ARTIFACT_GENERATION:"$generation" --var RUNTIME_VERSION:"$runtime_version" --var BUILD_TIMESTAMP:"$build_timestamp" 2>&1 | tee /dev/stderr)"
           version_id="$(printf '%s\n' "$output" | grep -Eo '[0-9a-f]{8}-[0-9a-f-]{27,}' | head -n 1)"
           test -n "$version_id"
           worker_url="$(printf '%s\n' "$output" | sed -nE 's#^Version Preview Alias URL: (https://[^[:space:]]+).*#\1#p' | tail -n 1)"
@@ -418,7 +421,10 @@ jobs:
           manifest_url="$OPENFIN_PAGES_URL/opentax/finance-ontology-manifest.json"
           for attempt in {1..12}; do FINANCE_MANIFEST_URL="$manifest_url" npm run verify:integrity && break; if [ "$attempt" = 12 ]; then exit 1; fi; sleep 10; done
           alias="final-${GITHUB_SHA:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          output="$(npx --yes wrangler@4.127.1 versions upload --name openfin-mcp --preview-alias "$alias" --tag "$alias" --message "OpenFin final candidate $GITHUB_SHA" --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var FINANCE_MANIFEST_URL:"$manifest_url" --var FINANCE_WEB_BASE_URL:"$OPENFIN_PAGES_URL/opentax/" --var ARTIFACT_GENERATION:"$generation" 2>&1 | tee /dev/stderr)"
+          runtime_version="openfin-mcp-${GITHUB_SHA:0:12}"
+          build_timestamp="$(git show -s --format=%cI "$GITHUB_SHA")"
+          test -n "$runtime_version" -a -n "$build_timestamp"
+          output="$(npx --yes wrangler@4.127.1 versions upload --name openfin-mcp --preview-alias "$alias" --tag "$alias" --message "OpenFin final candidate $GITHUB_SHA" --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var FINANCE_MANIFEST_URL:"$manifest_url" --var FINANCE_WEB_BASE_URL:"$OPENFIN_PAGES_URL/opentax/" --var ARTIFACT_GENERATION:"$generation" --var RUNTIME_VERSION:"$runtime_version" --var BUILD_TIMESTAMP:"$build_timestamp" 2>&1 | tee /dev/stderr)"
           version_id="$(printf '%s\n' "$output" | grep -Eo '[0-9a-f]{8}-[0-9a-f-]{27,}' | head -n 1)"
           test -n "$version_id"
           worker_url="$(printf '%s\n' "$output" | sed -nE 's#^Version Preview Alias URL: (https://[^[:space:]]+).*#\1#p' | tail -n 1)"
@@ -509,7 +515,7 @@ jobs:
           retention-days: 7
 
   promote-worker:
-    needs: [deploy-worker-final, validate-worker-final]
+    needs: [deploy-worker-final, validate-worker-final, soak-worker-final]
     runs-on: ubuntu-latest
     outputs:
       promoted: ${{ steps.promote.outputs.promoted }}
@@ -524,6 +530,27 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  soak-worker-final:
+    needs: [deploy-pages-final-candidate, deploy-worker-final, validate-worker-final]
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - name: Run the final preview reliability soak before promotion
+        run: npm run soak-test -- --duration-minutes 30 --concurrency 4
+        env:
+          MCP_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}/mcp
+          LIVE_REQUEST_TIMEOUT_MS: 15000
 
   validate-promoted-worker:
     needs: [deploy-pages-final-candidate, deploy-worker-final, promote-worker]

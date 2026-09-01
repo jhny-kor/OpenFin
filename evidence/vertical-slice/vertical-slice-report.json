@@ -2,7 +2,7 @@
   "version": "openfin-vertical-slice-v1",
   "generated_at": "2026-07-28",
   "source_registry_checksum": "d716870d82fec885917f2738b051ea19231066bb57d11b358dcafee8ad482501",
-  "canonical_content_checksum": "34c5eb9930115f12b8605576a9eb7b0059a62e8aaeae2603324b3a37fe4713d4",
+  "canonical_content_checksum": "64f3a471692ccb0a548148d8b77bac072c695b542a993cd0639e97f4139a93ac",
   "policy_version": "openfin-release-policy-v1",
   "domains": {
     "deposit": {

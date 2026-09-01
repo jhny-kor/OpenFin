@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   live-regression:
@@ -62,21 +62,13 @@ jobs:
             test "${#generation_id}" = 64
             test "$(jq -r '.semantic_unique_case_count // 0' live-regression-report.json)" = "$(jq -r '.test_count // 0' live-regression-report.json)"
           fi
-          npm ci --ignore-scripts
-          if [ -n "$deployment_commit" ]; then
-            OPENFIN_DEPLOYMENT_COMMIT="$deployment_commit" npm run knowledge:build
-          else
-            npm run knowledge:build
-          fi
-          if [ "$status" = current ]; then
-            test "$(jq -r '.generation_id // empty' docs/opentax/finance-ontology-manifest.json)" = "$generation_id"
-          fi
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add evidence/live-regression docs/opentax
-          git diff --cached --quiet && exit 0
-          git commit -m "ci: record live regression evidence ${deployment_commit:0:12}"
-          git push
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg status "$status" \
+            --arg deployment_commit "$deployment_commit" \
+            '{run_id: $run_id, run_attempt: $attempt, status: $status, deployment_commit: ($deployment_commit // ""), evidence_path: "evidence/live-regression/current.json", persistence: "workflow-artifact-only"}' \
+            > evidence/live-regression/monitor-run.json
       - name: Fail workflow when live evidence is not valid
         if: always()
         working-directory: .
@@ -91,5 +83,6 @@ jobs:
           path: |
             live-regression-report.json
             live-regression-error.log
+            evidence/live-regression
           retention-days: 7
           if-no-files-found: warn

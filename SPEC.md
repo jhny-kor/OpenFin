@@ -145,3 +145,4 @@ Modules receive a runtime dependency context from `createServer`; they do not lo
 - Pages: `https://jhny-kor.github.io/OpenFin/`.
 - MCP: `https://openfin-mcp.y2kthr.workers.dev/mcp`.
 - The repository is public; raw third-party bodies are not committed unless their terms explicitly allow redistribution.
+- Operational releases bind runtime metadata and the production pointer to the immutable promoted generation; scheduled regression evidence remains an artifact-only monitoring record.

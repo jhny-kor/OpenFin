@@ -5182,7 +5182,7 @@
   "gate_basis": "last_attempt",
   "evidence_path": "opentax/live-regression-current.json",
   "evidence_checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-  "expected_generation_id": "59c6d172f4ab546abbad4d60f9fb9dddf2cfbc25c8bc8b7d4f374a6386dc54b3",
+  "expected_generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
   "expected_fixture_checksum": "sha256:1030ce9505034216880ef47384cea521cc76000089d4b32942ba53a68c2c7989",
   "validation_status": "failed",
   "source_evidence_path": "evidence/live-regression/current.json"

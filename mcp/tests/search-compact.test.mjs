@@ -165,7 +165,7 @@ test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1/);
   assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 6/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
-  assert.match(workerSource, /while \(cache\.size >= cacheLimit\) \{[\s\S]*cache\.delete/);
+  assert.match(workerSource, /while \(cache\.size >= cacheLimit\) \{[\s\S]*removeSearchCacheEntry\(cacheKind, oldest\)/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
 });
 
@@ -175,7 +175,7 @@ test("a replacement shard releases its cache tier before fetching", () => {
   const source = workerSource.slice(start, end);
   const pending = source.indexOf("const pending = inFlightSearchShards.get(pendingKey);");
   const eviction = source.indexOf("while (cache.size >= cacheLimit)", pending);
-  const fetch = source.indexOf("const rawText = await fetchText(url)", pending);
+  const fetch = source.indexOf("rawText = await fetchText(url", pending);
 
   assert.ok(pending >= 0);
   assert.ok(eviction > pending);
@@ -236,7 +236,7 @@ test("completed JSON MCP requests release their transport state", () => {
   assert.ok(close > postGuard);
 });
 
-test("shard diagnostics are opt-in and do not include query data", () => {
+test("shard diagnostics are opt-in and include bounded request metadata", () => {
   assert.match(workerSource, /request\.headers\.get\(DIAGNOSTICS_HEADER\) === "1"/);
   assert.match(workerSource, /cache_hits/);
   assert.match(workerSource, /raw_text_units/);
@@ -244,7 +244,10 @@ test("shard diagnostics are opt-in and do not include query data", () => {
   const start = workerSource.indexOf("function diagnosticsSummary");
   const end = workerSource.indexOf("function attachDiagnostics", start);
   assert.ok(start >= 0 && end > start);
-  assert.doesNotMatch(workerSource.slice(start, end), /query|result_ids|source_ids/);
+  assert.match(workerSource.slice(start, end), /query: diagnostics\.query/);
+  assert.match(workerSource.slice(start, end), /query_class: diagnostics\.query_class/);
+  assert.doesNotMatch(workerSource.slice(start, end), /result_ids|source_ids/);
+  for (const failureClass of ["CPU_LIMIT", "MEMORY_LIMIT", "UPSTREAM_5XX", "UPSTREAM_TIMEOUT", "REQUEST_TIMEOUT", "TRANSPORT_ABORT", "UNKNOWN_EDGE_FAILURE"]) assert.match(workerSource, new RegExp(`\\"${failureClass}\\"`));
 });
 
 test("exact title lookup is isolated and falls back when there is no exact match", () => {

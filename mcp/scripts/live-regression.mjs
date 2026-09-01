@@ -102,12 +102,46 @@ if (!healthPayload || !manifest) {
   process.exit(1);
 }
 let id = 0;
+let currentCaseId = null;
+let requestSequence = 0;
+const transportMetadata = (response, startedAt, requestId) => {
+  const rawDiagnostics = response.headers.get("x-openfin-diagnostics");
+  let openfinDiagnostics = null;
+  if (rawDiagnostics) {
+    try { openfinDiagnostics = JSON.parse(rawDiagnostics); } catch { openfinDiagnostics = { parse_error: true }; }
+  }
+  return {
+    request_id: requestId,
+    case_id: currentCaseId,
+    http_status: response.status,
+    elapsed_ms: Math.round((performance.now() - startedAt) * 100) / 100,
+    cf_ray: response.headers.get("cf-ray"),
+    cf_cache_status: response.headers.get("cf-cache-status"),
+    server_timing: response.headers.get("server-timing"),
+    openfin: openfinDiagnostics,
+  };
+};
 const rpc = async (method, params = {}) => {
-  const response = await fetchWithTimeout(endpoint, { method: "POST", headers: { "content-type": "application/json", accept: "application/json, text/event-stream", "MCP-Protocol-Version": "2025-06-18" }, body: JSON.stringify({ jsonrpc: "2.0", id: ++id, method, params }) });
+  const startedAt = performance.now();
+  const requestId = `live-${++requestSequence}`;
+  const headers = { "content-type": "application/json", accept: "application/json, text/event-stream", "MCP-Protocol-Version": "2025-06-18", "x-openfin-diagnostics": "1", "x-openfin-request-id": requestId };
+  if (currentCaseId) headers["x-openfin-case-id"] = currentCaseId;
+  if (typeof params?.name === "string") headers["x-openfin-tool"] = params.name;
+  if (typeof params?.arguments?.query === "string") headers["x-openfin-query"] = params.arguments.query.slice(0, 256);
+  if (params?.name === "search") headers["x-openfin-query-class"] = "search";
+  if (params?.name === "fetch") headers["x-openfin-query-class"] = "fetch";
+  let response;
+  try {
+    response = await fetchWithTimeout(endpoint, { method: "POST", headers, body: JSON.stringify({ jsonrpc: "2.0", id: ++id, method, params }) });
+  } catch (error) {
+    return { isError: true, error: { message: `${method}: ${error instanceof Error ? error.message : String(error)}` }, http_status: 0, _transport: { request_id: requestId, case_id: currentCaseId, http_status: 0, elapsed_ms: Math.round((performance.now() - startedAt) * 100) / 100, cf_ray: null, cf_cache_status: null, server_timing: null, openfin: null } };
+  }
+  const transport = transportMetadata(response, startedAt, requestId);
   let body; try { body = await readJsonWithTimeout(response); } catch (error) { body = { error: { message: `${method}: ${response.status}`, detail: error instanceof Error ? error.message : String(error) } }; }
-  if (body.error) return { isError: true, error: body.error, http_status: response.status };
-  if (!response.ok) return { isError: true, error: { message: `${method}: ${response.status}` }, http_status: response.status };
-  return body.result;
+  if (body.error) return { isError: true, error: body.error, http_status: response.status, _transport: transport };
+  if (!response.ok) return { isError: true, error: { message: `${method}: ${response.status}` }, http_status: response.status, _transport: transport };
+  if (body.result && typeof body.result === "object" && !Array.isArray(body.result)) return { ...body.result, _transport: transport };
+  return { result: body.result, _transport: transport };
 };
 await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "openfin-live-regression", version: "1" } });
 const getPath = (value, pathExpression) => {
@@ -173,21 +207,31 @@ const contractFailures = (contract, payload) => {
 };
 const semanticRpc = async (name, arguments_) => {
   let result;
+  const transportAttempts = [];
   for (let attempt = 1; attempt <= caseAttempts; attempt += 1) {
     try {
       result = await rpc("tools/call", { name, arguments: arguments_ });
     } catch (error) {
       result = { isError: true, error: { message: error instanceof Error ? error.message : String(error) } };
     }
-    if (!result?.isError || attempt === caseAttempts) return result;
+    if (result?._transport) transportAttempts.push(result._transport);
+    if (!result?.isError || attempt === caseAttempts) return { ...result, _transport_attempts: transportAttempts };
     await wait(caseRetryDelayMs);
   }
-  return result;
+  return { ...result, _transport_attempts: transportAttempts };
 };
 const results = [];
 for (const entry of fixture) {
-  let diagnostic = { actual_status: null, actual_result_ids: [], actual_source_ids: [], actual_reason_codes: [], top_k_scores: [], retry_errors: [] };
+  currentCaseId = entry.case_id;
+  let diagnostic = { actual_status: null, actual_result_ids: [], actual_source_ids: [], actual_reason_codes: [], top_k_scores: [], retry_errors: [], transport_diagnostics: [] };
   let failurePhase = null;
+  const recordTransport = (phase, tool, result) => {
+    const attempts = Array.isArray(result?._transport_attempts) ? result._transport_attempts : result?._transport ? [result._transport] : [];
+    for (const transport of attempts) {
+      if (diagnostic.transport_diagnostics.length >= 32) break;
+      diagnostic.transport_diagnostics.push({ phase, tool, ...transport });
+    }
+  };
   const recordFailureDiagnostic = (error) => {
     const message = error instanceof Error ? error.message : String(error);
     try {
@@ -212,9 +256,10 @@ for (const entry of fixture) {
       } catch (error) {
         result = { isError: true, http_status: 503, error: { message: error instanceof Error ? error.message : String(error) } };
       }
+      recordTransport("base", entry.tool, result);
       const retryable = !expectedError && result?.isError;
       if (!retryable || attempt === caseAttempts) break;
-      try { await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "openfin-live-regression", version: "1" } }); } catch (error) { retryErrors.push(error instanceof Error ? error.message : String(error)); }
+      try { recordTransport("retry_initialize", "initialize", await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "openfin-live-regression", version: "1" } })); } catch (error) { retryErrors.push(error instanceof Error ? error.message : String(error)); }
       await wait(caseRetryDelayMs);
     }
     const text = result.content?.find((value) => value.type === "text")?.text;
@@ -231,6 +276,7 @@ for (const entry of fixture) {
       actual_reason_codes: reasonCodes(payload),
       top_k_scores: resultEvidence(payload).map(({ id, score }) => ({ id, score })),
       retry_errors: retryErrors,
+      transport_diagnostics: diagnostic.transport_diagnostics,
     };
     if (actualStatus !== entry.expected_status) throw new Error(`status=${actualStatus}; expected=${entry.expected_status}; http_status=${result?.http_status ?? "n/a"}; error=${result?.error?.message ?? "n/a"}`);
     if (expectedError) {
@@ -260,6 +306,7 @@ for (const entry of fixture) {
     for (const semantic of asArray(entry.semantic_search)) {
       try {
         const searchResult = await semanticRpc("search", { query: semantic.query, ...(semantic.type ? { type: semantic.type } : {}), limit: Math.max(semantic.expected_result_ids?.length ?? 0, semantic.category_contract?.minimum_result_count ?? 0, 3) });
+        recordTransport("semantic_search", "search", searchResult);
         const searchText = searchResult.content?.find((value) => value.type === "text")?.text;
         const searchPayload = typeof searchText === "string" ? JSON.parse(searchText) : null;
         const searchIds = resultIds(searchPayload);
@@ -287,6 +334,7 @@ for (const entry of fixture) {
         if (searchResult.isError || !searchPayload || intentFailures.length || categoryFailures.length || legacyFailures.length || topKFailure.length || sourceFailure.length || freshnessFailure.length) throw new Error(JSON.stringify({ phase: "semantic_search", query: semantic.query, expected_top_id: semantic.expected_top_id ?? null, expected_top_k_ids: expectedTopK, expected_result_ids: semantic.expected_result_ids ?? [], expected_result_ids_any: expectedAny, expected_source_ids: expectedSources, expected_freshness_status: semantic.expected_freshness_status ?? null, actual: resultEvidence(searchPayload), failures: [...intentFailures, ...categoryFailures, ...legacyFailures, ...topKFailure, ...sourceFailure, ...freshnessFailure], error: searchResult.error?.message ?? null }));
         if (!semantic.fetch_id) continue;
         const fetchedResult = await semanticRpc("fetch", { id: semantic.fetch_id });
+        recordTransport("semantic_fetch", "fetch", fetchedResult);
         const fetchedText = fetchedResult.content?.find((value) => value.type === "text")?.text;
         const fetchedPayload = typeof fetchedText === "string" ? JSON.parse(fetchedText) : null;
         const searchTitle = searchPayload.results?.find((item) => item?.id === semantic.fetch_id)?.title;
@@ -300,7 +348,9 @@ for (const entry of fixture) {
     results.push({ case_id: entry.case_id, category: entry.category, semantic_hash: semanticHash(entry), status: "passed", ...diagnostic });
   } catch (error) { results.push({ case_id: entry.case_id, category: entry.category, status: "failed", failure_phase: failurePhase ?? "base", error: error instanceof Error ? error.message : String(error), ...diagnostic }); }
 }
+currentCaseId = null;
 const passed = results.filter((result) => result.status === "passed").length;
-const report = { status: passed === fixture.length ? "current" : "failed", mode: "live", checked_at: new Date().toISOString(), endpoint, runtime_version: healthPayload.runtime_version ?? null, deployment_commit: healthPayload.deployment_commit ?? null, generation_id: manifest.generation_id ?? null, manifest_version: manifest.version ?? null, manifest_checksum: manifest.manifest_checksum ?? null, loaded_index_checksum: manifest.search_index?.export_checksum ?? null, source_status_checksum: manifest.source_status?.export_checksum ?? null, loaded_item_count: manifest.search_index?.item_count ?? null, fixture_checksum: `sha256:${checksum}`, semantic_unique_case_count: new Set(semanticHashes).size, category_counts: categoryCounts, test_count: fixture.length, passed_count: passed, failed_count: fixture.length - passed, skipped_count: 0, results };
+const transportDiagnostics = results.flatMap((result) => result.transport_diagnostics ?? []);
+const report = { status: passed === fixture.length ? "current" : "failed", mode: "live", checked_at: new Date().toISOString(), endpoint, runtime_version: healthPayload.runtime_version ?? null, deployment_commit: healthPayload.deployment_commit ?? null, generation_id: manifest.generation_id ?? null, manifest_version: manifest.version ?? null, manifest_checksum: manifest.manifest_checksum ?? null, loaded_index_checksum: manifest.search_index?.export_checksum ?? null, source_status_checksum: manifest.source_status?.export_checksum ?? null, loaded_item_count: manifest.search_index?.item_count ?? null, fixture_checksum: `sha256:${checksum}`, semantic_unique_case_count: new Set(semanticHashes).size, category_counts: categoryCounts, transport_error_count: transportDiagnostics.filter((entry) => entry.http_status === 0 || entry.http_status >= 500).length, test_count: fixture.length, passed_count: passed, failed_count: fixture.length - passed, skipped_count: 0, results };
 console.log(JSON.stringify(report, null, 2));
 if (passed !== fixture.length) process.exitCode = 1;

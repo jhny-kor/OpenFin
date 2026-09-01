@@ -14,6 +14,8 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
     if (!health.ok) throw new Error(`/health failed: ${health.status}`);
     healthPayload = await health.json();
     if (healthPayload.status !== "ok") throw new Error("/health is not live");
+    if (typeof healthPayload.runtime_version !== "string" || !healthPayload.runtime_version.trim() || /(?:^|[-_])dev(?:$|[-_])/i.test(healthPayload.runtime_version)) throw new Error("/health runtime_version is not a release value");
+    if (typeof healthPayload.build_timestamp !== "string" || !healthPayload.build_timestamp.trim() || !Number.isFinite(Date.parse(healthPayload.build_timestamp))) throw new Error("/health build_timestamp is missing or invalid");
     ready = await fetch(`${base}/ready?${cacheBust}`, { headers: { accept: "application/json", "cache-control": "no-cache" } });
     if (ready.status !== 200) throw new Error(`/ready failed: ${ready.status}`);
     readyPayload = await ready.json();
@@ -21,6 +23,8 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
     if (readyPayload.capabilities?.recommendation !== "blocked") throw new Error("recommendation must remain blocked by current policy");
     if (healthPayload.deployment_commit === "unknown") throw new Error("/health deployment_commit is unknown");
     if (!healthPayload.generation_id || healthPayload.generation_id !== readyPayload.generation_id) throw new Error("health/ready generation_id mismatch");
+    if (healthPayload.artifact_generation !== healthPayload.generation_id || readyPayload.artifact_generation !== readyPayload.generation_id) throw new Error("health/ready artifact generation mismatch");
+    if (healthPayload.manifest_deployment_commit !== healthPayload.deployment_commit) throw new Error("health manifest deployment commit mismatch");
     if (!healthPayload.artifact_contract || healthPayload.artifact_contract.generation_id !== healthPayload.generation_id || healthPayload.artifact_contract.deployment_commit !== healthPayload.manifest_deployment_commit) throw new Error("health artifact contract is incomplete");
     if (!readyPayload.artifact_contract || readyPayload.artifact_contract.generation_id !== readyPayload.generation_id || readyPayload.artifact_contract.search_index_checksum !== readyPayload.loaded_index_checksum) throw new Error("ready artifact contract is incomplete");
     if (readyPayload.capabilities?.recommendation === "ready" && readyPayload.live_regression?.generation_id && readyPayload.live_regression.generation_id !== healthPayload.generation_id) throw new Error("live evidence generation mismatch");

@@ -252,6 +252,14 @@ test('exact fetch shards keep cold item lookup bounded', () => {
   }
 });
 
+test('generated exact-fetch files contain no orphaned partition', () => {
+  const docs = path.join(root, 'docs/opentax');
+  const manifest = JSON.parse(fs.readFileSync(path.join(docs, 'finance-ontology-manifest.json')));
+  const expected = new Set(manifest.exact_fetch_index.shards.map(shard => path.basename(shard.path)));
+  const actual = new Set(fs.readdirSync(docs).filter(file => /^finance-exact-fetch-index-2026-exact-[0-9a-f]+\.json$/.test(file)));
+  assert.deepEqual([...actual].sort(), [...expected].sort());
+});
+
 test('runtime search shards exclude large provenance bookkeeping', () => {
   const docs = path.join(root, 'docs/opentax');
   const files = fs.readdirSync(docs).filter(file => /^finance-search-index-2026-(account-products|bank-products|card-products|deposit-protection|insurance-products|reference|support)\.json$/.test(file));

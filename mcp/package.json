@@ -11,6 +11,7 @@
     "verify:integrity": "node --experimental-strip-types scripts/verify-release.mjs",
     "verify:recommendation": "node --experimental-strip-types scripts/verify-release.mjs --recommendation",
     "live-regression": "node scripts/live-regression.mjs",
+    "soak-test": "node scripts/soak-test.mjs",
     "tool-schema-contract": "node scripts/tool-schema-contract.mjs",
     "financial-quality": "npm run financial-quality-unit",
     "financial-quality-unit": "node --experimental-strip-types scripts/financial-quality.mjs",

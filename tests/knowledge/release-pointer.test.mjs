@@ -83,26 +83,33 @@ test('current release pointer separates candidate from production generations', 
   assert.equal(pointer.production_commit, manifest.production_commit);
   assert.ok(['candidate', 'promoted'].includes(pointer.release_state));
   assert.equal(pointer.candidate_commit, pointer.release_candidate_commit);
-  assert.equal(pointer.candidate_generation, manifest.generation_id);
+  assert.ok(pointer.candidate_generation, 'candidate_generation is required');
   assert.ok(pointer.deployed_at, 'deployed_at is required');
   assert.equal(pointer.deployed_at, pointer.production_deployed_at);
   if (pointer.release_state === 'promoted') {
     assert.equal(pointer.deployed_at, manifest.production_deployed_at);
-    assert.equal(pointer.production_generation, manifest.generation_id);
-    assert.equal(pointer.pages_generation, manifest.generation_id);
-    assert.equal(pointer.worker_generation, manifest.generation_id);
     assert.ok(pointer.promoted_at);
+    assert.ok(pointer.validation_at_promotion);
   } else {
+    assert.equal(pointer.candidate_generation, manifest.generation_id);
     assert.equal(pointer.promoted_at, null);
   }
   assert.ok(pointer.validation_state);
   assert.ok(pointer.last_smoke_status);
   assert.ok(pointer.last_live_status);
-  assert.equal(pointer.rollback_target, null);
-  assert.equal(pointer.generation_id, manifest.generation_id);
-  assert.equal(pointer.manifest_checksum, manifest.manifest_checksum);
-  assert.equal(pointer.search_index_checksum, manifest.artifact_contract.search_index_checksum);
-  assert.equal(pointer.source_status_checksum, manifest.artifact_contract.source_status_checksum);
+  if (pointer.release_state === 'promoted') assert.ok(pointer.rollback_target);
+  else assert.equal(pointer.rollback_target, null);
+  if (pointer.release_state === 'promoted') {
+    assert.equal(pointer.generation_id, pointer.production_generation);
+    assert.equal(pointer.pages_generation, pointer.production_generation);
+    assert.equal(pointer.worker_generation, pointer.production_generation);
+  }
+  assert.match(pointer.manifest_checksum, /^[0-9a-f]{64}$/);
+  assert.match(pointer.search_index_checksum, /^[0-9a-f]{64}$/);
+  assert.match(pointer.source_status_checksum, /^[0-9a-f]{64}$/);
+  for (const field of ['validation_at_promotion', 'latest_runtime_attempt', 'last_successful_runtime_attempt', 'operational_status', 'rollback_history_url']) {
+    assert.ok(Object.hasOwn(pointer, field), `release pointer field missing: ${field}`);
+  }
 });
 
 test('agent-facing manifest uses capability fields instead of legacy quality fields', () => {
