@@ -243,7 +243,7 @@ test("query-bound hot shard hydration avoids materializing unrelated rows", () =
   assert.match(workerSource, /supportBroadQuery && \(!selectionTokens\.length \|\| !selected\.length \|\| selected\.length === value\.items\.length\)/);
   assert.match(workerSource, /Array\.from\(\{ length: Math\.min\(256, rows\.length\) \}/);
   assert.match(workerSource, /hotPayload && \(shard\.item_count \?\? 0\) <= MAX_CACHED_HOT_PAYLOAD_ROWS/);
-  assert.match(workerSource, /if \(!partial && requestGeneration !== "uninitialized"/);
+  assert.match(workerSource, /if \(!partial && !hotPayload && requestGeneration !== "uninitialized"/);
   assert.match(workerSource, /loadSearchShard\(env, shard, diagnostics, query(?:, signal)?\)/);
 });
 

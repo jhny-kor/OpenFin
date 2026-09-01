@@ -2315,7 +2315,11 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
       if (rows) assertSearchItemCount(rows.length, shard.item_count, `search-index shard ${shard.shard_id}`);
       assertEmbeddedItemCount(loaded.payload, rows ?? [], `search-index shard ${shard.shard_id}`);
     }
-    if (!partial && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
+    // Hot columnar payloads already retain their validated source rows when
+    // admitted below. Keeping a second full object projection doubles isolate
+    // pressure; materialize it per request instead.
+    const hotPayload = isRecord(loaded.payload) && loaded.payload.format === "openfin-hot-search-v1";
+    if (!partial && !hotPayload && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
       while (cache.size >= cacheLimit) {
         const oldest = cache.keys().next().value as string | undefined;
         if (oldest === undefined) break;
