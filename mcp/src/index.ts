@@ -1651,12 +1651,11 @@ async function loadOntologyExportPayloads(entry: ManifestEntry, manifestUrl: str
 }
 
 async function loadFinanceArtifactEntry(env: Env, cacheKey: string, entry: { path: string; url?: string; web_url?: string }): Promise<unknown | undefined> {
+  const now = Date.now();
   const requestGeneration = manifestGeneration;
   const pendingKey = generationCacheKey(requestGeneration, cacheKey);
   const cached = cachedFinanceArtifacts.get(cacheKey);
-  // Manifest generations include each artifact checksum, so an immutable
-  // generation does not need repeated fetch/parse work during a long run.
-  if (cached && cached.generation === manifestGeneration) return cached.data;
+  if (cached && cached.generation === manifestGeneration && now - cached.loadedAt < CACHE_TTL_MS) return cached.data;
   const pending = inFlightFinanceArtifacts.get(pendingKey);
   if (pending) return pending;
   const request = (async () => {
