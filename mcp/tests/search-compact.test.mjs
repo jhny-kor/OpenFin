@@ -230,7 +230,10 @@ test("query-bound hot shard hydration avoids materializing unrelated rows", () =
   assert.match(workerSource, /const partial = rowIndexes !== undefined/);
   assert.doesNotMatch(workerSource, /if \(!tokens\.every\(\(token\) => vocabulary\.some/);
   assert.match(workerSource, /if \(!match && Array\.isArray\(row\)\)/);
-  assert.match(workerSource, /value\.shard_id === "support"[\s\S]*tokens\.every\(\(token\) => \["지원", "지원금", "보조금", "신청"\]\.includes\(token\)\)[\s\S]*selected\.slice\(0, 256\)/);
+  assert.match(workerSource, /const SUPPORT_BROAD_QUERY_TOKENS = new Set\(\["지원", "지원금", "보조금", "신청"\]\)/);
+  assert.match(workerSource, /const selectionTokens = value\.shard_id === "support"[\s\S]*tokens\.filter\(\(token\) => !SUPPORT_BROAD_QUERY_TOKENS\.has\(token\)\)/);
+  assert.match(workerSource, /supportBroadQuery && \(!selectionTokens\.length \|\| !selected\.length \|\| selected\.length === value\.items\.length\)/);
+  assert.match(workerSource, /Array\.from\(\{ length: Math\.min\(256, rows\.length\) \}/);
   assert.match(workerSource, /if \(!partial && requestGeneration !== "uninitialized"/);
   assert.match(workerSource, /loadSearchShard\(env, shard, diagnostics, query(?:, signal)?\)/);
 });

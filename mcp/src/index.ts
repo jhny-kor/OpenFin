@@ -1953,10 +1953,18 @@ function isFinanceItem(value: unknown): value is FinanceItem {
   return isRecord(value) && typeof value.id === "string" && typeof value.title === "string" && typeof value.type === "string";
 }
 
+const SUPPORT_BROAD_QUERY_TOKENS = new Set(["지원", "지원금", "보조금", "신청"]);
+
 function hotSearchRowIndexes(value: unknown, query: string): readonly number[] | undefined {
   if (!isRecord(value) || value.format !== "openfin-hot-search-v1" || !Array.isArray(value.vocabulary) || !Array.isArray(value.search_terms) || !Array.isArray(value.items)) return undefined;
   const tokens = queryTokens(query);
   if (!tokens.length) return undefined;
+  const supportBroadQuery = value.shard_id === "support" && tokens.some((token) => SUPPORT_BROAD_QUERY_TOKENS.has(token));
+  // Universal support terms are routing hints, not useful row selectors when
+  // a query also names a specific audience or topic.
+  const selectionTokens = value.shard_id === "support"
+    ? tokens.filter((token) => !SUPPORT_BROAD_QUERY_TOKENS.has(token))
+    : tokens;
   const vocabulary = value.vocabulary;
   const searchTerms = value.search_terms;
   const fields = Array.isArray(value.fields) ? value.fields : [];
@@ -1965,12 +1973,12 @@ function hotSearchRowIndexes(value: unknown, query: string): readonly number[] |
   for (const [index, terms] of searchTerms.entries()) {
     if (!Array.isArray(terms)) return undefined;
     const row = rows[index];
-    let match = tokens.some((token) => terms.some((termId) => typeof termId === "number" && typeof vocabulary[termId] === "string" && vocabulary[termId].includes(token)));
+    let match = selectionTokens.some((token) => terms.some((termId) => typeof termId === "number" && typeof vocabulary[termId] === "string" && vocabulary[termId].includes(token)));
     if (!match && Array.isArray(row)) {
       for (const [column, value] of row.entries()) {
         if (!["id", "title", "search_aliases", "aliases", "provider"].includes(fields[column])) continue;
         const values = typeof value === "string" ? [value] : Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
-        if (tokens.some((token) => values.some((entry) => entry.toLocaleLowerCase("ko-KR").includes(token)))) {
+        if (selectionTokens.some((token) => values.some((entry) => entry.toLocaleLowerCase("ko-KR").includes(token)))) {
           match = true;
           break;
         }
@@ -1978,12 +1986,10 @@ function hotSearchRowIndexes(value: unknown, query: string): readonly number[] |
     }
     if (match) selected.push(index);
   }
-  // ponytail: broad support-only queries inspect the first 256 ranked rows;
+  // ponytail: broad support queries inspect the first 256 ranked rows;
   // use a compact term index for exhaustive broad ranking if this ceiling proves too narrow.
-  if (selected.length === value.items.length
-    && value.shard_id === "support"
-    && tokens.every((token) => ["지원", "지원금", "보조금", "신청"].includes(token))) {
-    return selected.slice(0, 256);
+  if (supportBroadQuery && (!selectionTokens.length || !selected.length || selected.length === value.items.length)) {
+    return (selected.length ? selected : Array.from({ length: Math.min(256, rows.length) }, (_, index) => index)).slice(0, 256);
   }
   // An incomplete vocabulary must not turn a valid query into a false empty
   // result. Returning undefined preserves the existing full-shard fallback.
