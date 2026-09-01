@@ -267,7 +267,6 @@ type CachedSearchIndexMetadata = {
 type CachedSearchItems = {
   readonly items: readonly FinanceItem[];
   readonly payload?: unknown;
-  readonly payloadBytes?: Uint8Array;
   readonly loadedAt: number;
   readonly generation: string;
   readonly bytes?: number;
@@ -383,9 +382,8 @@ const MAX_ARTIFACT_CACHE_BYTES = 4 * 1024 * 1024;
 const MAX_SINGLE_SHARD_BYTES = 4 * 1024 * 1024;
 const MAX_DECODED_ROWS = 12_000;
 const MAX_INFLIGHT_BYTES = 8 * 1024 * 1024;
-// ponytail: retain only the repeatedly queried support payload; the other hot
-// shards stay request-local so parsed columnar objects do not multiply inside
-// a warm Worker isolate. Add a compact selector index before widening this.
+// ponytail: retain only the repeatedly queried support and bank payloads; the
+// remaining hot shards stay request-local until a compact selector index exists.
 const MAX_CACHED_SUPPORT_PAYLOAD_BYTES = 3 * 1024 * 1024;
 const searchCacheBudget = new CacheBudget({ maxTotalBytes: MAX_SEARCH_CACHE_BYTES, maxSingleEntryBytes: MAX_SINGLE_SHARD_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_BYTES, maxSingleEntryBytes: MAX_ARTIFACT_CACHE_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
@@ -2370,22 +2368,13 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
     return items;
   };
 
-  if (cachedPayload?.generation === manifestGeneration && (cachedPayload.payload !== undefined || cachedPayload.payloadBytes !== undefined)) {
+  if (cachedPayload?.generation === manifestGeneration && cachedPayload.payload !== undefined) {
     if (diagnostics) diagnostics.cache_hits += 1;
     searchCacheBudget.touch(searchCacheBudgetKey("payload", key));
     cachedHotSearchPayloads.delete(key);
     cachedHotSearchPayloads.set(key, cachedPayload);
     try {
-      let payload = cachedPayload.payload;
-      if (payload === undefined && cachedPayload.payloadBytes !== undefined) {
-        try {
-          payload = JSON.parse(new TextDecoder().decode(cachedPayload.payloadBytes));
-        } catch (error) {
-          removeSearchCacheEntry("payload", key);
-          throw new SearchIndexContractError(`cached search-index shard ${shard.shard_id} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
-        }
-      }
-      return hydrate({ payload, source: url, rawBytes: cachedPayload.bytes ?? 0, rawTextUnits: 0, fetchMs: 0, checksumMs: 0, parseMs: 0 }, true);
+      return hydrate({ payload: cachedPayload.payload, source: url, rawBytes: cachedPayload.bytes ?? 0, rawTextUnits: 0, fetchMs: 0, checksumMs: 0, parseMs: 0 }, true);
     } catch (error) {
       recordFailure(error);
       throw error;
@@ -2422,8 +2411,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
       const fetchStarted = diagnosticNow();
       rawText = await fetchText(url, MAX_SINGLE_SHARD_BYTES, requestController.signal);
       fetchMs = diagnosticNow() - fetchStarted;
-      const encodedText = new TextEncoder().encode(rawText);
-      rawBytes = encodedText.byteLength;
+      rawBytes = new TextEncoder().encode(rawText).byteLength;
       inflightReserved = searchCacheBudget.reserveInflight(pendingKey, rawBytes);
       if (!inflightReserved) throw new SearchIndexContractError(`search-index shard ${shard.shard_id} exceeds the in-flight cache budget`);
       if (shard.content_checksum) {
@@ -2455,7 +2443,10 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
         assertEmbeddedItemCount(payload, rows ?? [], `search-index shard ${shard.shard_id}`);
       }
       const hotPayload = isRecord(payload) && payload.format === "openfin-hot-search-v1";
-      const cacheableHotPayload = hotPayload && shard.shard_id === "support" && rawBytes <= MAX_CACHED_SUPPORT_PAYLOAD_BYTES;
+      const cacheableHotPayload = hotPayload && (
+        (shard.shard_id === "support" && rawBytes <= MAX_CACHED_SUPPORT_PAYLOAD_BYTES) ||
+        (shard.shard_id === "bank-products" && rawBytes <= MAX_SINGLE_SHARD_BYTES)
+      );
       if (cacheableHotPayload && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
         while (cachedHotSearchPayloads.size >= cacheLimit) {
           const oldest = cachedHotSearchPayloads.keys().next().value as string | undefined;
@@ -2464,7 +2455,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
         }
         const admission = searchCacheBudget.admit(searchCacheBudgetKey("payload", key), rawBytes, shard.item_count ?? 0);
         removeBudgetEvictions(admission.evicted);
-        if (admission.accepted) cachedHotSearchPayloads.set(key, { items: [], payloadBytes: encodedText, loadedAt: Date.now(), generation: requestGeneration, bytes: rawBytes, decodedRows: shard.item_count ?? 0 });
+        if (admission.accepted) cachedHotSearchPayloads.set(key, { items: [], payload, loadedAt: Date.now(), generation: requestGeneration, bytes: rawBytes, decodedRows: shard.item_count ?? 0 });
       }
       return { payload, source: url, rawBytes, rawTextUnits: rawText.length, fetchMs, checksumMs, parseMs };
     } finally {
