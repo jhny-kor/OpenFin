@@ -1978,6 +1978,13 @@ function hotSearchRowIndexes(value: unknown, query: string): readonly number[] |
     }
     if (match) selected.push(index);
   }
+  // ponytail: broad support-only queries inspect the first 256 ranked rows;
+  // use a compact term index for exhaustive broad ranking if this ceiling proves too narrow.
+  if (selected.length === value.items.length
+    && value.shard_id === "support"
+    && tokens.every((token) => ["지원", "지원금", "보조금", "신청"].includes(token))) {
+    return selected.slice(0, 256);
+  }
   // An incomplete vocabulary must not turn a valid query into a false empty
   // result. Returning undefined preserves the existing full-shard fallback.
   if (!selected.length || selected.length === value.items.length) return undefined;
