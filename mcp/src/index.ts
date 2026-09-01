@@ -382,8 +382,9 @@ const MAX_ARTIFACT_CACHE_BYTES = 4 * 1024 * 1024;
 const MAX_SINGLE_SHARD_BYTES = 4 * 1024 * 1024;
 const MAX_DECODED_ROWS = 12_000;
 const MAX_INFLIGHT_BYTES = 8 * 1024 * 1024;
-// ponytail: retain only the repeatedly queried support and bank payloads; the
-// remaining hot shards stay request-local until a compact selector index exists.
+// Byte/row admission keeps the parsed hot payload set below the shared search
+// budget; the larger deposit-protection shard remains request-local.
+const MAX_CACHED_HOT_PAYLOAD_ROWS = 2_000;
 const MAX_CACHED_SUPPORT_PAYLOAD_BYTES = 3 * 1024 * 1024;
 const searchCacheBudget = new CacheBudget({ maxTotalBytes: MAX_SEARCH_CACHE_BYTES, maxSingleEntryBytes: MAX_SINGLE_SHARD_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_BYTES, maxSingleEntryBytes: MAX_ARTIFACT_CACHE_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
@@ -2445,7 +2446,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
       const hotPayload = isRecord(payload) && payload.format === "openfin-hot-search-v1";
       const cacheableHotPayload = hotPayload && (
         (shard.shard_id === "support" && rawBytes <= MAX_CACHED_SUPPORT_PAYLOAD_BYTES) ||
-        (shard.shard_id === "bank-products" && rawBytes <= MAX_SINGLE_SHARD_BYTES)
+        (shard.item_count ?? 0) <= MAX_CACHED_HOT_PAYLOAD_ROWS
       );
       if (cacheableHotPayload && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
         while (cachedHotSearchPayloads.size >= cacheLimit) {
