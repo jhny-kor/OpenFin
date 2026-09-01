@@ -197,6 +197,14 @@ test("search shard loads cannot accumulate unbounded in-flight work", () => {
   assert.match(workerSource, /createServer\(env, diagnostics, request\.signal\)/);
 });
 
+test("immutable artifact generations avoid repeated source-status parsing", () => {
+  const start = workerSource.indexOf("async function loadFinanceArtifactEntry");
+  const end = workerSource.indexOf("async function loadFinanceArtifact(", start);
+  const source = workerSource.slice(start, end);
+  assert.match(source, /cached && cached\.generation === manifestGeneration\) return cached\.data/);
+  assert.doesNotMatch(source, /cached\.loadedAt/);
+});
+
 test("partial shard loads preserve existing cache until admission", () => {
   const start = workerSource.indexOf("async function loadSearchShard");
   const end = workerSource.indexOf("const SEARCH_SHARD_BY_DOMAIN", start);
