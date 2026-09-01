@@ -382,12 +382,9 @@ const MAX_ARTIFACT_CACHE_BYTES = 4 * 1024 * 1024;
 const MAX_SINGLE_SHARD_BYTES = 4 * 1024 * 1024;
 const MAX_DECODED_ROWS = 12_000;
 const MAX_INFLIGHT_BYTES = 8 * 1024 * 1024;
-// ponytail: large hot payloads are parsed per request so retained JS objects
-// do not outgrow the byte-budget ledger; add a compact selector index if this
-// threshold causes measurable fetch churn.
-const MAX_CACHED_HOT_PAYLOAD_ROWS = 2_000;
-// Support is the only larger hot shard used repeatedly by the semantic fixture;
-// retain its columnar payload only while it remains a single bounded shard.
+// ponytail: retain only the repeatedly queried support payload; the other hot
+// shards stay request-local so parsed columnar objects do not multiply inside
+// a warm Worker isolate. Add a compact selector index before widening this.
 const MAX_CACHED_SUPPORT_PAYLOAD_BYTES = 3 * 1024 * 1024;
 const searchCacheBudget = new CacheBudget({ maxTotalBytes: MAX_SEARCH_CACHE_BYTES, maxSingleEntryBytes: MAX_SINGLE_SHARD_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_BYTES, maxSingleEntryBytes: MAX_ARTIFACT_CACHE_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
@@ -2447,7 +2444,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
         assertEmbeddedItemCount(payload, rows ?? [], `search-index shard ${shard.shard_id}`);
       }
       const hotPayload = isRecord(payload) && payload.format === "openfin-hot-search-v1";
-      const cacheableHotPayload = hotPayload && ((shard.item_count ?? 0) <= MAX_CACHED_HOT_PAYLOAD_ROWS || (shard.shard_id === "support" && rawBytes <= MAX_CACHED_SUPPORT_PAYLOAD_BYTES));
+      const cacheableHotPayload = hotPayload && shard.shard_id === "support" && rawBytes <= MAX_CACHED_SUPPORT_PAYLOAD_BYTES;
       if (cacheableHotPayload && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
         while (cachedHotSearchPayloads.size >= cacheLimit) {
           const oldest = cachedHotSearchPayloads.keys().next().value as string | undefined;
