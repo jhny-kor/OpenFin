@@ -369,7 +369,9 @@ const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_
 // ponytail: keep one parsed shard per tier; revisit only with Worker heap telemetry.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
 const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
-const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1;
+// Byte/row budgets are the primary guard; retain hot shards to avoid repeated
+// fetch/parse churn during cross-domain probes.
+const SMALL_SEARCH_SHARD_CACHE_LIMIT = 6;
 const MAX_CONCURRENT_SEARCH_SHARD_LOADS = 2;
 const MAX_QUEUED_SEARCH_SHARD_LOADS = 8;
 const SEARCH_SHARD_SLOT_WAIT_MS = 10_000;
