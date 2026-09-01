@@ -386,6 +386,9 @@ const MAX_INFLIGHT_BYTES = 8 * 1024 * 1024;
 // do not outgrow the byte-budget ledger; add a compact selector index if this
 // threshold causes measurable fetch churn.
 const MAX_CACHED_HOT_PAYLOAD_ROWS = 2_000;
+// Support is the only larger hot shard used repeatedly by the semantic fixture;
+// retain its columnar payload only while it remains a single bounded shard.
+const MAX_CACHED_SUPPORT_PAYLOAD_BYTES = 3 * 1024 * 1024;
 const searchCacheBudget = new CacheBudget({ maxTotalBytes: MAX_SEARCH_CACHE_BYTES, maxSingleEntryBytes: MAX_SINGLE_SHARD_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_BYTES, maxSingleEntryBytes: MAX_ARTIFACT_CACHE_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 // ponytail: entry count is only a secondary safety ceiling; byte/row budgets decide eviction.
@@ -2444,7 +2447,8 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
         assertEmbeddedItemCount(payload, rows ?? [], `search-index shard ${shard.shard_id}`);
       }
       const hotPayload = isRecord(payload) && payload.format === "openfin-hot-search-v1";
-      if (hotPayload && (shard.item_count ?? 0) <= MAX_CACHED_HOT_PAYLOAD_ROWS && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
+      const cacheableHotPayload = hotPayload && ((shard.item_count ?? 0) <= MAX_CACHED_HOT_PAYLOAD_ROWS || (shard.shard_id === "support" && rawBytes <= MAX_CACHED_SUPPORT_PAYLOAD_BYTES));
+      if (cacheableHotPayload && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
         while (cachedHotSearchPayloads.size >= cacheLimit) {
           const oldest = cachedHotSearchPayloads.keys().next().value as string | undefined;
           if (oldest === undefined) break;
