@@ -365,11 +365,10 @@ const MAX_DECODED_ROWS = 12_000;
 const MAX_INFLIGHT_BYTES = 8 * 1024 * 1024;
 const searchCacheBudget = new CacheBudget({ maxTotalBytes: MAX_SEARCH_CACHE_BYTES, maxSingleEntryBytes: MAX_SINGLE_SHARD_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_BYTES, maxSingleEntryBytes: MAX_ARTIFACT_CACHE_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
-// ponytail: retain the six small hot shards published by the manifest; keep
-// large shards at one entry so the known support/deposit payloads cannot stack.
+// ponytail: keep one parsed shard per tier; revisit only with Worker heap telemetry.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
 const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
-const SMALL_SEARCH_SHARD_CACHE_LIMIT = 6;
+const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1;
 type SearchShardCacheKind = "large" | "small" | "exact";
 type SearchShardDiagnostic = {
   shard_id: string;
