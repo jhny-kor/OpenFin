@@ -1965,31 +1965,60 @@ function hotSearchRowIndexes(value: unknown, query: string): readonly number[] |
   const selectionTokens = value.shard_id === "support"
     ? tokens.filter((token) => !SUPPORT_BROAD_QUERY_TOKENS.has(token))
     : tokens;
+  const queryNeedle = normalizeQuery(query);
   const vocabulary = value.vocabulary;
   const searchTerms = value.search_terms;
   const fields = Array.isArray(value.fields) ? value.fields : [];
+  const titleColumn = fields.indexOf("title");
   const rows = value.items;
   const selected: number[] = [];
+  const selectedScores: Array<{ index: number; score: number }> = [];
   for (const [index, terms] of searchTerms.entries()) {
     if (!Array.isArray(terms)) return undefined;
     const row = rows[index];
-    let match = selectionTokens.some((token) => terms.some((termId) => typeof termId === "number" && typeof vocabulary[termId] === "string" && vocabulary[termId].includes(token)));
+    let match = false;
+    let matchScore = 0;
+    for (const token of selectionTokens) {
+      if (terms.some((termId) => typeof termId === "number" && typeof vocabulary[termId] === "string" && vocabulary[termId].includes(token))) {
+        match = true;
+        matchScore += 10;
+      }
+    }
+    if (Array.isArray(row)) {
+      const title = titleColumn >= 0 && typeof row[titleColumn] === "string" ? normalizeQuery(row[titleColumn]) : "";
+      if (title === queryNeedle) matchScore += 1000;
+      else if (queryNeedle && title.includes(queryNeedle)) matchScore += 500;
+    }
     if (!match && Array.isArray(row)) {
       for (const [column, value] of row.entries()) {
         if (!["id", "title", "search_aliases", "aliases", "provider"].includes(fields[column])) continue;
         const values = typeof value === "string" ? [value] : Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
         if (selectionTokens.some((token) => values.some((entry) => entry.toLocaleLowerCase("ko-KR").includes(token)))) {
           match = true;
+          matchScore += 1;
           break;
         }
       }
     }
-    if (match) selected.push(index);
+    if (match) {
+      selected.push(index);
+      selectedScores.push({ index, score: matchScore });
+    }
   }
   // ponytail: broad support queries inspect the first 256 ranked rows;
   // use a compact term index for exhaustive broad ranking if this ceiling proves too narrow.
   if (supportBroadQuery && (!selectionTokens.length || !selected.length || selected.length === value.items.length)) {
     return (selected.length ? selected : Array.from({ length: Math.min(256, rows.length) }, (_, index) => index)).slice(0, 256);
+  }
+  if (value.shard_id === "support" && selected.length > 256) {
+    // Keep exact/strong title matches while bounding support hydration. The
+    // source rows are already relevance-ordered; restore that order after the
+    // score-based admission so downstream ranking remains deterministic.
+    return selectedScores
+      .sort((left, right) => right.score - left.score || left.index - right.index)
+      .slice(0, 256)
+      .map(({ index }) => index)
+      .sort((left, right) => left - right);
   }
   // An incomplete vocabulary must not turn a valid query into a false empty
   // result. Returning undefined preserves the existing full-shard fallback.
