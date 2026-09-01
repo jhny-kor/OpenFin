@@ -44,12 +44,13 @@ jobs:
           test -s live-regression-report.json
           mkdir -p evidence/live-regression
           status="$(jq -r '.status // "missing"' live-regression-report.json)"
-          previous_successful='null'
           if [ -s evidence/live-regression/current.json ]; then
-            previous_successful="$(jq -c '.last_successful // (if .status == "current" then . else null end)' evidence/live-regression/current.json)"
+            jq '.last_successful // (if .status == "current" then . else null end)' evidence/live-regression/current.json > previous-successful.json
+          else
+            printf 'null\n' > previous-successful.json
           fi
-          jq -n --argjson attempt "$(jq -c . live-regression-report.json)" --argjson successful "$previous_successful" \
-            '$attempt + {last_attempt: $attempt, last_successful: (if $attempt.status == "current" and $attempt.failed_count == 0 and $attempt.skipped_count == 0 and $attempt.passed_count == $attempt.test_count then $attempt else $successful end), gate_basis: "last_attempt"}' > evidence/live-regression/current.json
+          jq -n --slurpfile attempt live-regression-report.json --slurpfile successful previous-successful.json \
+            '$attempt[0] as $a | ($successful[0] // null) as $s | $a + {last_attempt: $a, last_successful: (if $a.status == "current" and $a.failed_count == 0 and $a.skipped_count == 0 and $a.passed_count == $a.test_count then $a else $s end), gate_basis: "last_attempt"}' > evidence/live-regression/current.json
           deployment_commit="$(jq -r '.deployment_commit // empty' live-regression-report.json)"
           if [ -n "$deployment_commit" ]; then
             cp live-regression-report.json "evidence/live-regression/${deployment_commit}.json"

@@ -75,6 +75,8 @@ test('scheduled live monitoring is read-only and publishes evidence as an artifa
   assert.doesNotMatch(workflow, /npm run knowledge:build/);
   assert.match(workflow, /evidence\/live-regression/);
   assert.match(workflow, /persistence: "workflow-artifact-only"/);
+  assert.match(workflow, /--slurpfile attempt live-regression-report\.json[\s\S]*--slurpfile successful previous-successful\.json/);
+  assert.doesNotMatch(workflow, /--argjson attempt "\$\(jq -c \. live-regression-report\.json\)"/);
   assert.match(workflow, /MCP_URL: https:\/\/openfin-mcp\.y2kthr\.workers\.dev\/mcp[\s\S]*LIVE_DIAGNOSTICS: "1"/);
 });
 
