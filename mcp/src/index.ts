@@ -381,6 +381,10 @@ const MAX_ARTIFACT_CACHE_BYTES = 4 * 1024 * 1024;
 const MAX_SINGLE_SHARD_BYTES = 4 * 1024 * 1024;
 const MAX_DECODED_ROWS = 12_000;
 const MAX_INFLIGHT_BYTES = 8 * 1024 * 1024;
+// ponytail: large hot payloads are parsed per request so retained JS objects
+// do not outgrow the byte-budget ledger; add a compact selector index if this
+// threshold causes measurable fetch churn.
+const MAX_CACHED_HOT_PAYLOAD_ROWS = 2_000;
 const searchCacheBudget = new CacheBudget({ maxTotalBytes: MAX_SEARCH_CACHE_BYTES, maxSingleEntryBytes: MAX_SINGLE_SHARD_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_BYTES, maxSingleEntryBytes: MAX_ARTIFACT_CACHE_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 // ponytail: entry count is only a secondary safety ceiling; byte/row budgets decide eviction.
@@ -1978,16 +1982,15 @@ function hotSearchRowIndexes(value: unknown, query: string): readonly number[] |
     const row = rows[index];
     let match = false;
     let matchScore = 0;
-    for (const token of selectionTokens) {
-      if (terms.some((termId) => typeof termId === "number" && typeof vocabulary[termId] === "string" && vocabulary[termId].includes(token))) {
-        match = true;
-        matchScore += 10;
+    if (value.shard_id === "support") {
+      for (const token of selectionTokens) {
+        if (terms.some((termId) => typeof termId === "number" && typeof vocabulary[termId] === "string" && vocabulary[termId].includes(token))) {
+          match = true;
+          matchScore += 10;
+        }
       }
-    }
-    if (Array.isArray(row)) {
-      const title = titleColumn >= 0 && typeof row[titleColumn] === "string" ? normalizeQuery(row[titleColumn]) : "";
-      if (title === queryNeedle) matchScore += 1000;
-      else if (queryNeedle && title.includes(queryNeedle)) matchScore += 500;
+    } else {
+      match = selectionTokens.some((token) => terms.some((termId) => typeof termId === "number" && typeof vocabulary[termId] === "string" && vocabulary[termId].includes(token)));
     }
     if (!match && Array.isArray(row)) {
       for (const [column, value] of row.entries()) {
@@ -2000,9 +2003,14 @@ function hotSearchRowIndexes(value: unknown, query: string): readonly number[] |
         }
       }
     }
+    if (match && value.shard_id === "support" && Array.isArray(row)) {
+      const title = titleColumn >= 0 && typeof row[titleColumn] === "string" ? normalizeQuery(row[titleColumn]) : "";
+      if (title === queryNeedle) matchScore += 1000;
+      else if (queryNeedle && title.includes(queryNeedle)) matchScore += 500;
+    }
     if (match) {
       selected.push(index);
-      selectedScores.push({ index, score: matchScore });
+      if (value.shard_id === "support") selectedScores.push({ index, score: matchScore });
     }
   }
   // ponytail: broad support queries inspect the first 256 ranked rows;
@@ -2410,7 +2418,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
         assertEmbeddedItemCount(payload, rows ?? [], `search-index shard ${shard.shard_id}`);
       }
       const hotPayload = isRecord(payload) && payload.format === "openfin-hot-search-v1";
-      if (hotPayload && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
+      if (hotPayload && (shard.item_count ?? 0) <= MAX_CACHED_HOT_PAYLOAD_ROWS && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
         while (cachedHotSearchPayloads.size >= cacheLimit) {
           const oldest = cachedHotSearchPayloads.keys().next().value as string | undefined;
           if (oldest === undefined) break;

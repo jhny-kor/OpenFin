@@ -164,6 +164,7 @@ test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const cachedHotSearchPayloads = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const MAX_SEARCH_CACHE_ENTRIES = 32/);
+  assert.match(workerSource, /const MAX_CACHED_HOT_PAYLOAD_ROWS = 2_000/);
   assert.match(workerSource, /const MAX_SEARCH_CACHE_BYTES = 12 \* 1024 \* 1024/);
   assert.match(workerSource, /searchCacheBudget\.admit\(searchCacheBudgetKey\("payload", key\)/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
@@ -235,11 +236,13 @@ test("query-bound hot shard hydration avoids materializing unrelated rows", () =
   assert.match(workerSource, /const selectedScores: Array<\{ index: number; score: number \}> = \[\]/);
   assert.match(workerSource, /const queryNeedle = normalizeQuery\(query\)/);
   assert.match(workerSource, /title === queryNeedle\) matchScore \+= 1000/);
+  assert.match(workerSource, /if \(match && value\.shard_id === "support" && Array\.isArray\(row\)\)/);
   assert.match(workerSource, /value\.shard_id === "support" && selected\.length > 256/);
   assert.match(workerSource, /\.sort\(\(left, right\) => right\.score - left\.score \|\| left\.index - right\.index\)/);
   assert.match(workerSource, /\.slice\(0, 256\)/);
   assert.match(workerSource, /supportBroadQuery && \(!selectionTokens\.length \|\| !selected\.length \|\| selected\.length === value\.items\.length\)/);
   assert.match(workerSource, /Array\.from\(\{ length: Math\.min\(256, rows\.length\) \}/);
+  assert.match(workerSource, /hotPayload && \(shard\.item_count \?\? 0\) <= MAX_CACHED_HOT_PAYLOAD_ROWS/);
   assert.match(workerSource, /if \(!partial && requestGeneration !== "uninitialized"/);
   assert.match(workerSource, /loadSearchShard\(env, shard, diagnostics, query(?:, signal)?\)/);
 });
