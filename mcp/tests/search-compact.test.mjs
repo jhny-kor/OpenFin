@@ -164,12 +164,13 @@ test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const cachedHotSearchPayloads = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const MAX_SEARCH_CACHE_ENTRIES = 32/);
-  assert.match(workerSource, /const MAX_CACHED_SUPPORT_PAYLOAD_BYTES = 3 \* 1024 \* 1024/);
   assert.match(workerSource, /const MAX_SEARCH_CACHE_BYTES = 12 \* 1024 \* 1024/);
   assert.match(workerSource, /searchCacheBudget\.admit\(searchCacheBudgetKey\("payload", key\)/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) \{[\s\S]*removeSearchCacheEntry\(cacheKind, oldest\)/);
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
+  assert.match(workerSource, /hotPayload && shard\.shard_id === "bank-products" && rawBytes <= MAX_SINGLE_SHARD_BYTES/);
+  assert.doesNotMatch(workerSource, /shard\.shard_id === "support" && rawBytes <=/);
 });
 
 test("search shard loads cannot accumulate unbounded in-flight work", () => {
@@ -249,7 +250,7 @@ test("query-bound hot shard hydration avoids materializing unrelated rows", () =
   assert.match(workerSource, /\.slice\(0, 256\)/);
   assert.match(workerSource, /supportBroadQuery && \(!selectionTokens\.length \|\| !selected\.length \|\| selected\.length === value\.items\.length\)/);
   assert.match(workerSource, /Array\.from\(\{ length: Math\.min\(256, rows\.length\) \}/);
-  assert.match(workerSource, /const cacheableHotPayload = hotPayload && \([\s\S]*shard\.shard_id === "support"[\s\S]*shard\.shard_id === "bank-products"/);
+  assert.match(workerSource, /const cacheableHotPayload = hotPayload && shard\.shard_id === "bank-products" && rawBytes <= MAX_SINGLE_SHARD_BYTES/);
   assert.doesNotMatch(workerSource, /payloadBytes/);
   assert.match(workerSource, /if \(!partial && !hotPayload && requestGeneration !== "uninitialized"/);
   assert.match(workerSource, /loadSearchShard\(env, shard, diagnostics, query(?:, signal)?\)/);
