@@ -354,6 +354,7 @@ const cachedLargeSearchShards = new Map<string, CachedSearchItems>();
 const cachedSmallSearchShards = new Map<string, CachedSearchItems>();
 const cachedExactFetchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
+const inFlightSearchShardStartedAt = new Map<string, number>();
 const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; source: string }>>();
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
 // Byte ceilings are primary; count limits remain a cheap secondary guard.
@@ -369,6 +370,19 @@ const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
 const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
 const SMALL_SEARCH_SHARD_CACHE_LIMIT = 1;
+const MAX_CONCURRENT_SEARCH_SHARD_LOADS = 2;
+const MAX_QUEUED_SEARCH_SHARD_LOADS = 8;
+const SEARCH_SHARD_SLOT_WAIT_MS = 10_000;
+const SEARCH_SHARD_SLOT_LEASE_MS = 15_000;
+const FINANCE_FETCH_TIMEOUT_MS = 10_000;
+let activeSearchShardLoads = 0;
+type SearchShardSlotRelease = () => void;
+type SearchShardSlotWaiter = {
+  resolve: (release: SearchShardSlotRelease) => void;
+  reject: (error: Error) => void;
+  timer: ReturnType<typeof setTimeout>;
+};
+const queuedSearchShardLoads: SearchShardSlotWaiter[] = [];
 type SearchShardCacheKind = "large" | "small" | "exact";
 type SearchShardDiagnostic = {
   shard_id: string;
@@ -497,6 +511,11 @@ function diagnosticsSummary(diagnostics: RequestDiagnostics, response: Response,
       exact: cachedExactFetchShards.size,
       in_flight: inFlightSearchShards.size,
     },
+    shard_load_slots: {
+      active: activeSearchShardLoads,
+      queued: queuedSearchShardLoads.length,
+      max_concurrent: MAX_CONCURRENT_SEARCH_SHARD_LOADS,
+    },
     shard_loads: diagnostics.shard_loads,
   };
 }
@@ -521,6 +540,63 @@ function clearSearchCaches(): void {
   cachedSmallSearchShards.clear();
   cachedExactFetchShards.clear();
   searchCacheBudget.clear();
+}
+
+function releaseSearchShardSlot(): SearchShardSlotRelease {
+  let released = false;
+  const leaseTimer = setTimeout(() => {
+    if (released) return;
+    released = true;
+    activeSearchShardLoads = Math.max(0, activeSearchShardLoads - 1);
+    pumpSearchShardSlots();
+  }, SEARCH_SHARD_SLOT_LEASE_MS);
+  return () => {
+    if (released) return;
+    released = true;
+    clearTimeout(leaseTimer);
+    activeSearchShardLoads = Math.max(0, activeSearchShardLoads - 1);
+    pumpSearchShardSlots();
+  };
+}
+
+function pumpSearchShardSlots(): void {
+  while (activeSearchShardLoads < MAX_CONCURRENT_SEARCH_SHARD_LOADS && queuedSearchShardLoads.length) {
+    const waiter = queuedSearchShardLoads.shift();
+    if (!waiter) break;
+    clearTimeout(waiter.timer);
+    activeSearchShardLoads += 1;
+    waiter.resolve(releaseSearchShardSlot());
+  }
+}
+
+function acquireSearchShardSlot(): Promise<SearchShardSlotRelease> {
+  if (activeSearchShardLoads < MAX_CONCURRENT_SEARCH_SHARD_LOADS) {
+    activeSearchShardLoads += 1;
+    return Promise.resolve(releaseSearchShardSlot());
+  }
+  if (queuedSearchShardLoads.length >= MAX_QUEUED_SEARCH_SHARD_LOADS) {
+    return Promise.reject(new SearchIndexContractError("search-index shard concurrency queue is full"));
+  }
+  return new Promise((resolve, reject) => {
+    const waiter = {} as SearchShardSlotWaiter;
+    waiter.resolve = resolve;
+    waiter.reject = reject;
+    waiter.timer = setTimeout(() => {
+      const index = queuedSearchShardLoads.indexOf(waiter);
+      if (index >= 0) queuedSearchShardLoads.splice(index, 1);
+      reject(new SearchIndexContractError("search-index shard concurrency wait timed out"));
+    }, SEARCH_SHARD_SLOT_WAIT_MS);
+    queuedSearchShardLoads.push(waiter);
+  });
+}
+
+function pruneStaleSearchShardRequests(now = Date.now()): void {
+  for (const [key, startedAt] of inFlightSearchShardStartedAt) {
+    if (now - startedAt <= SEARCH_SHARD_SLOT_LEASE_MS) continue;
+    inFlightSearchShardStartedAt.delete(key);
+    inFlightSearchShards.delete(key);
+    searchCacheBudget.releaseInflight(key);
+  }
 }
 
 function removeBudgetEvictions(evicted: readonly string[], diagnostics?: RequestDiagnostics): void {
@@ -1311,37 +1387,51 @@ function scoreItem(item: FinanceItem, query: string, tokens = queryTokens(query)
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
-  const response = await fetch(url, {
-    headers: {
-      accept: "application/json",
-      "user-agent": "finance-mcp-cloudflare-worker",
-    },
-  });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FINANCE_FETCH_TIMEOUT_MS);
+  try {
+    const response = await fetch(url, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "finance-mcp-cloudflare-worker",
+      },
+      signal: controller.signal,
+    });
 
-  if (!response.ok) {
-    throw new Error(`Finance ontology fetch failed: ${url} ${response.status} ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Finance ontology fetch failed: ${url} ${response.status} ${response.statusText}`);
+    }
+
+    return (await response.json()) as T;
+  } finally {
+    clearTimeout(timer);
   }
-
-  return (await response.json()) as T;
 }
 
 async function fetchText(url: string, maxBytes?: number): Promise<string> {
-  const response = await fetch(url, {
-    headers: {
-      accept: "application/json",
-      "user-agent": "finance-mcp-cloudflare-worker",
-    },
-  });
-  if (!response.ok) throw new Error(`Finance ontology fetch failed: ${url} ${response.status} ${response.statusText}`);
-  const contentLength = Number(response.headers.get("content-length"));
-  if (maxBytes !== undefined && Number.isFinite(contentLength) && contentLength > maxBytes) {
-    throw new SearchIndexContractError(`Finance ontology fetch exceeds ${maxBytes} bytes: ${url} ${contentLength}`);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FINANCE_FETCH_TIMEOUT_MS);
+  try {
+    const response = await fetch(url, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "finance-mcp-cloudflare-worker",
+      },
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(`Finance ontology fetch failed: ${url} ${response.status} ${response.statusText}`);
+    const contentLength = Number(response.headers.get("content-length"));
+    if (maxBytes !== undefined && Number.isFinite(contentLength) && contentLength > maxBytes) {
+      throw new SearchIndexContractError(`Finance ontology fetch exceeds ${maxBytes} bytes: ${url} ${contentLength}`);
+    }
+    const text = await response.text();
+    if (maxBytes !== undefined && new TextEncoder().encode(text).byteLength > maxBytes) {
+      throw new SearchIndexContractError(`Finance ontology fetch exceeds ${maxBytes} bytes: ${url}`);
+    }
+    return text;
+  } finally {
+    clearTimeout(timer);
   }
-  const text = await response.text();
-  if (maxBytes !== undefined && new TextEncoder().encode(text).byteLength > maxBytes) {
-    throw new SearchIndexContractError(`Finance ontology fetch exceeds ${maxBytes} bytes: ${url}`);
-  }
-  return text;
 }
 
 function stableJson(value: unknown): string {
@@ -2041,6 +2131,7 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
 }
 
 async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: RequestDiagnostics, query?: string): Promise<readonly FinanceItem[]> {
+  pruneStaleSearchShardRequests();
   const key = shard.path || shard.shard_id;
   const requestGeneration = manifestGeneration;
   const selectionKey = query === undefined ? "" : `\u0000${normalizeQuery(query)}`;
@@ -2073,6 +2164,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   const request = (async () => {
     const totalStarted = diagnostics ? diagnosticNow() : 0;
     const url = resolveExportUrl(shard, financeManifestUrl(env));
+    let releaseSlot: SearchShardSlotRelease | undefined;
     let rawText = "";
     let rawBytes = 0;
     let fetchMs = 0;
@@ -2081,6 +2173,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
     let hydrateMs = 0;
     let inflightReserved = false;
     try {
+      releaseSlot = await acquireSearchShardSlot();
       const fetchStarted = diagnostics ? diagnosticNow() : 0;
       rawText = await fetchText(url, MAX_SINGLE_SHARD_BYTES);
       fetchMs = diagnostics ? diagnosticNow() - fetchStarted : 0;
@@ -2181,11 +2274,19 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
       }
       throw error;
     } finally {
+      releaseSlot?.();
       if (inflightReserved) searchCacheBudget.releaseInflight(pendingKey);
       rawText = "";
     }
-  })().finally(() => inFlightSearchShards.delete(pendingKey));
+  })();
   inFlightSearchShards.set(pendingKey, request);
+  inFlightSearchShardStartedAt.set(pendingKey, Date.now());
+  const cleanup = () => {
+    if (inFlightSearchShards.get(pendingKey) !== request) return;
+    inFlightSearchShards.delete(pendingKey);
+    inFlightSearchShardStartedAt.delete(pendingKey);
+  };
+  void request.then(cleanup, cleanup);
   return request;
 }
 

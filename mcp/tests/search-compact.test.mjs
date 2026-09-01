@@ -169,6 +169,17 @@ test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.doesNotMatch(workerSource, /PINNED_SEARCH_SHARD/);
 });
 
+test("search shard loads cannot accumulate unbounded in-flight work", () => {
+  assert.match(workerSource, /const MAX_CONCURRENT_SEARCH_SHARD_LOADS = 2/);
+  assert.match(workerSource, /const MAX_QUEUED_SEARCH_SHARD_LOADS = 8/);
+  assert.match(workerSource, /const SEARCH_SHARD_SLOT_LEASE_MS = 15_000/);
+  assert.match(workerSource, /const inFlightSearchShardStartedAt = new Map/);
+  assert.match(workerSource, /pruneStaleSearchShardRequests\(\)/);
+  assert.match(workerSource, /let releaseSlot: SearchShardSlotRelease \| undefined/);
+  assert.match(workerSource, /releaseSlot\?\.\(\)/);
+  assert.match(workerSource, /signal: controller\.signal/);
+});
+
 test("a replacement shard releases its cache tier before fetching", () => {
   const start = workerSource.indexOf("async function loadSearchShard");
   const end = workerSource.indexOf("const SEARCH_SHARD_BY_DOMAIN", start);
