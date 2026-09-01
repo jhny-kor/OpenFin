@@ -551,6 +551,7 @@ jobs:
         env:
           MCP_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}/mcp
           LIVE_REQUEST_TIMEOUT_MS: 15000
+          LIVE_DIAGNOSTICS: "1"
 
   validate-promoted-worker:
     needs: [deploy-pages-final-candidate, deploy-worker-final, promote-worker]

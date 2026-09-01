@@ -41,6 +41,7 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.match(workflow, /sed -nE 's#\^Version Preview Alias URL:/);
   assert.match(workflow, /validate-worker-final:[\s\S]*Validate comparison endpoint and fail-closed state[\s\S]*MCP_URL: \$\{\{ needs\.deploy-worker-final\.outputs\.worker_url \}\}\/mcp/);
   assert.match(workflow, /validate-promoted-worker:[\s\S]*Re-run comparison endpoint and fail-closed state[\s\S]*MCP_URL: https:\/\/openfin-mcp\.y2kthr\.workers\.dev\/mcp/);
+  assert.match(workflow, /soak-worker-final:[\s\S]*LIVE_DIAGNOSTICS: "1"/);
   assert.equal((workflow.match(/--var RUNTIME_VERSION:/g) ?? []).length, 2);
   assert.equal((workflow.match(/--var BUILD_TIMESTAMP:/g) ?? []).length, 2);
   assert.equal((workflow.match(/OPENFIN_REQUIRE_POSITIVE_RUNTIME="\$\(jq -r '\(\.capabilities\.comparison \/\/ "blocked"\) != "blocked"' \.\.\/release\/docs\/opentax\/finance-ontology-manifest\.json\)"/g) ?? []).length, 2);
@@ -74,6 +75,7 @@ test('scheduled live monitoring is read-only and publishes evidence as an artifa
   assert.doesNotMatch(workflow, /npm run knowledge:build/);
   assert.match(workflow, /evidence\/live-regression/);
   assert.match(workflow, /persistence: "workflow-artifact-only"/);
+  assert.match(workflow, /MCP_URL: https:\/\/openfin-mcp\.y2kthr\.workers\.dev\/mcp[\s\S]*LIVE_DIAGNOSTICS: "1"/);
 });
 
 test('live diagnostics encode non-ASCII queries before placing them in HTTP headers', () => {

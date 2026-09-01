@@ -32,6 +32,9 @@ jobs:
           node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log
         env:
           MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
+          # Capture app-level diagnostics on the first request as well as
+          # retries; edge-terminated 1102 responses remain outside Worker code.
+          LIVE_DIAGNOSTICS: "1"
       - name: Publish current-generation evidence
         id: publish
         if: always()
