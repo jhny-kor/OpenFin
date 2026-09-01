@@ -367,12 +367,9 @@ const MAX_DECODED_ROWS = 12_000;
 const MAX_INFLIGHT_BYTES = 8 * 1024 * 1024;
 const searchCacheBudget = new CacheBudget({ maxTotalBytes: MAX_SEARCH_CACHE_BYTES, maxSingleEntryBytes: MAX_SINGLE_SHARD_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_BYTES, maxSingleEntryBytes: MAX_ARTIFACT_CACHE_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
-// ponytail: keep one parsed shard per tier; revisit only with Worker heap telemetry.
+// ponytail: entry count is only a secondary safety ceiling; byte/row budgets decide eviction.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
-const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1;
-// Byte/row budgets are the primary guard; retain hot shards to avoid repeated
-// fetch/parse churn during cross-domain probes.
-const SMALL_SEARCH_SHARD_CACHE_LIMIT = 6;
+const MAX_SEARCH_CACHE_ENTRIES = 32;
 const MAX_CONCURRENT_SEARCH_SHARD_LOADS = 2;
 const MAX_QUEUED_SEARCH_SHARD_LOADS = 8;
 const SEARCH_SHARD_SLOT_WAIT_MS = 10_000;
@@ -2181,7 +2178,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   const isExactFetchShard = /^exact-/.test(shard.shard_id);
   const cache = isExactFetchShard ? cachedExactFetchShards : (shard.item_count ?? 0) > LARGE_SEARCH_SHARD_ITEM_COUNT ? cachedLargeSearchShards : cachedSmallSearchShards;
   const cacheKind: SearchShardCacheKind = isExactFetchShard ? "exact" : cache === cachedLargeSearchShards ? "large" : "small";
-  const cacheLimit = isExactFetchShard ? 1 : cache === cachedLargeSearchShards ? LARGE_SEARCH_SHARD_CACHE_LIMIT : SMALL_SEARCH_SHARD_CACHE_LIMIT;
+  const cacheLimit = MAX_SEARCH_CACHE_ENTRIES;
   const cached = cache.get(key);
   if (cached?.generation === manifestGeneration) {
     if (diagnostics) diagnostics.cache_hits += 1;
@@ -2196,12 +2193,6 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   if (pending) {
     if (diagnostics) diagnostics.in_flight_reuses += 1;
     return pending;
-  }
-  // Release only this cache tier's previous shard before allocating the response body.
-  while (cache.size >= cacheLimit) {
-    const oldest = cache.keys().next().value as string | undefined;
-    if (oldest === undefined) break;
-    if (removeSearchCacheEntry(cacheKind, oldest) && diagnostics) diagnostics.evictions += 1;
   }
   const requestController = new AbortController();
   const unlinkAbort = linkAbortSignal(requestController, signal);

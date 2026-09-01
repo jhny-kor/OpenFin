@@ -162,8 +162,7 @@ test("freshness-filtered search resolves each shared source set once", () => {
 test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const cachedLargeSearchShards = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const cachedSmallSearchShards = new Map<string, CachedSearchItems>\(\)/);
-  assert.match(workerSource, /const LARGE_SEARCH_SHARD_CACHE_LIMIT = 1/);
-  assert.match(workerSource, /const SMALL_SEARCH_SHARD_CACHE_LIMIT = 6/);
+  assert.match(workerSource, /const MAX_SEARCH_CACHE_ENTRIES = 32/);
   assert.match(workerSource, /const MAX_SEARCH_CACHE_BYTES = 12 \* 1024 \* 1024/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) \{[\s\S]*removeSearchCacheEntry\(cacheKind, oldest\)/);
@@ -187,7 +186,7 @@ test("search shard loads cannot accumulate unbounded in-flight work", () => {
   assert.match(workerSource, /createServer\(env, diagnostics, request\.signal\)/);
 });
 
-test("a replacement shard releases its cache tier before fetching", () => {
+test("partial shard loads preserve existing cache until admission", () => {
   const start = workerSource.indexOf("async function loadSearchShard");
   const end = workerSource.indexOf("const SEARCH_SHARD_BY_DOMAIN", start);
   const source = workerSource.slice(start, end);
@@ -197,7 +196,7 @@ test("a replacement shard releases its cache tier before fetching", () => {
 
   assert.ok(pending >= 0);
   assert.ok(eviction > pending);
-  assert.ok(fetch > eviction);
+  assert.ok(fetch < eviction);
   assert.doesNotMatch(source, /cached(?:Large|Small)SearchShards\.clear\(\)/);
 });
 
