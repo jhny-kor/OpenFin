@@ -178,6 +178,10 @@ test("search shard loads cannot accumulate unbounded in-flight work", () => {
   assert.match(workerSource, /const SEARCH_SHARD_SLOT_LEASE_MS = 15_000/);
   assert.match(workerSource, /const inFlightSearchShardStartedAt = new Map/);
   assert.match(workerSource, /const inFlightSearchShardControllers = new Map/);
+  assert.match(workerSource, /const inFlightSearchShardConsumers = new Map/);
+  assert.match(workerSource, /function retainSearchShardConsumer\(key: string\)/);
+  assert.match(workerSource, /function releaseSearchShardConsumer\(key: string\)/);
+  assert.match(workerSource, /inFlightSearchShardConsumers\.delete\(key\);\s+inFlightSearchShardControllers\.get\(key\)\?\.abort\(\)/);
   assert.match(workerSource, /pruneStaleSearchShardRequests\(\)/);
   assert.match(workerSource, /function acquireSearchShardSlot\(signal\?: AbortSignal\)/);
   assert.match(workerSource, /signal\?\.addEventListener\("abort", onAbort/);
@@ -186,6 +190,9 @@ test("search shard loads cannot accumulate unbounded in-flight work", () => {
   assert.match(workerSource, /releaseSlot\?\.\(\)/);
   assert.match(workerSource, /signal: controller\.signal/);
   assert.match(workerSource, /rawText = await fetchText\(url, MAX_SINGLE_SHARD_BYTES, requestController\.signal\)/);
+  assert.match(workerSource, /if \(signal\?\.aborted\) requestController\.abort\(\)/);
+  assert.match(workerSource, /retainSearchShardConsumer\(pendingKey\)/);
+  assert.match(workerSource, /releaseSearchShardConsumer\(pendingKey\)/);
   assert.match(workerSource, /createServer\(env, diagnostics, request\.signal\)/);
 });
 

@@ -372,6 +372,7 @@ const cachedHotSearchPayloads = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<LoadedSearchShard>>();
 const inFlightSearchShardStartedAt = new Map<string, number>();
 const inFlightSearchShardControllers = new Map<string, AbortController>();
+const inFlightSearchShardConsumers = new Map<string, number>();
 const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; source: string }>>();
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
 // Byte ceilings are primary; count limits remain a cheap secondary guard.
@@ -645,8 +646,24 @@ function pruneStaleSearchShardRequests(now = Date.now()): void {
     inFlightSearchShardStartedAt.delete(key);
     inFlightSearchShards.delete(key);
     inFlightSearchShardControllers.delete(key);
+    inFlightSearchShardConsumers.delete(key);
     searchCacheBudget.releaseInflight(key);
   }
+}
+
+function retainSearchShardConsumer(key: string): void {
+  inFlightSearchShardConsumers.set(key, (inFlightSearchShardConsumers.get(key) ?? 0) + 1);
+}
+
+function releaseSearchShardConsumer(key: string): void {
+  const consumers = inFlightSearchShardConsumers.get(key);
+  if (consumers === undefined) return;
+  if (consumers <= 1) {
+    inFlightSearchShardConsumers.delete(key);
+    inFlightSearchShardControllers.get(key)?.abort();
+    return;
+  }
+  inFlightSearchShardConsumers.set(key, consumers - 1);
 }
 
 function removeBudgetEvictions(evicted: readonly string[], diagnostics?: RequestDiagnostics): void {
@@ -2368,15 +2385,20 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   if (cached && removeSearchCacheEntry(cacheKind, key) && diagnostics) diagnostics.evictions += 1;
   const pending = inFlightSearchShards.get(pendingKey);
   if (pending) {
+    retainSearchShardConsumer(pendingKey);
     if (diagnostics) diagnostics.in_flight_reuses += 1;
     try {
       return hydrate(await waitForAbort(pending, signal), false);
     } catch (error) {
       recordFailure(error);
       throw error;
+    } finally {
+      releaseSearchShardConsumer(pendingKey);
     }
   }
   const requestController = new AbortController();
+  retainSearchShardConsumer(pendingKey);
+  if (signal?.aborted) requestController.abort();
   const request = (async (): Promise<LoadedSearchShard> => {
     let releaseSlot: SearchShardSlotRelease | undefined;
     let rawText = "";
@@ -2454,6 +2476,8 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   } catch (error) {
     recordFailure(error);
     throw error;
+  } finally {
+    releaseSearchShardConsumer(pendingKey);
   }
 }
 
