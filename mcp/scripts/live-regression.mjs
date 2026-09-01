@@ -33,6 +33,7 @@ const metadataDelayMs = Number(process.env.LIVE_METADATA_DELAY_MS || 5000);
 const requestTimeoutMs = Number(process.env.LIVE_REQUEST_TIMEOUT_MS || 10000);
 const caseAttempts = Number(process.env.LIVE_CASE_ATTEMPTS || 3);
 const caseRetryDelayMs = Number(process.env.LIVE_CASE_RETRY_DELAY_MS || 500);
+const diagnosticsEnabled = process.env.LIVE_DIAGNOSTICS === "1";
 const diagnosticQuery = value => encodeURIComponent(value.slice(0, 24));
 const fetchWithTimeout = async (url, options = {}) => {
   const controller = new AbortController();
@@ -122,15 +123,18 @@ const transportMetadata = (response, startedAt, requestId) => {
     openfin: openfinDiagnostics,
   };
 };
-const rpc = async (method, params = {}) => {
+const rpc = async (method, params = {}, { diagnostics = diagnosticsEnabled } = {}) => {
   const startedAt = performance.now();
   const requestId = `live-${++requestSequence}`;
-  const headers = { "content-type": "application/json", accept: "application/json, text/event-stream", "MCP-Protocol-Version": "2025-06-18", "x-openfin-diagnostics": "1", "x-openfin-request-id": requestId };
-  if (currentCaseId) headers["x-openfin-case-id"] = currentCaseId;
-  if (typeof params?.name === "string") headers["x-openfin-tool"] = params.name;
-  if (typeof params?.arguments?.query === "string") headers["x-openfin-query"] = diagnosticQuery(params.arguments.query);
-  if (params?.name === "search") headers["x-openfin-query-class"] = "search";
-  if (params?.name === "fetch") headers["x-openfin-query-class"] = "fetch";
+  const headers = { "content-type": "application/json", accept: "application/json, text/event-stream", "MCP-Protocol-Version": "2025-06-18", "x-openfin-request-id": requestId };
+  if (diagnostics) {
+    headers["x-openfin-diagnostics"] = "1";
+    if (currentCaseId) headers["x-openfin-case-id"] = currentCaseId;
+    if (typeof params?.name === "string") headers["x-openfin-tool"] = params.name;
+    if (typeof params?.arguments?.query === "string") headers["x-openfin-query"] = diagnosticQuery(params.arguments.query);
+    if (params?.name === "search") headers["x-openfin-query-class"] = "search";
+    if (params?.name === "fetch") headers["x-openfin-query-class"] = "fetch";
+  }
   let response;
   try {
     response = await fetchWithTimeout(endpoint, { method: "POST", headers, body: JSON.stringify({ jsonrpc: "2.0", id: ++id, method, params }) });
@@ -209,15 +213,23 @@ const contractFailures = (contract, payload) => {
 const semanticRpc = async (name, arguments_) => {
   let result;
   const transportAttempts = [];
+  let diagnosticAttempted = diagnosticsEnabled;
   for (let attempt = 1; attempt <= caseAttempts; attempt += 1) {
     try {
-      result = await rpc("tools/call", { name, arguments: arguments_ });
+      const diagnostics = diagnosticsEnabled || attempt > 1;
+      diagnosticAttempted ||= diagnostics;
+      result = await rpc("tools/call", { name, arguments: arguments_ }, { diagnostics });
     } catch (error) {
       result = { isError: true, error: { message: error instanceof Error ? error.message : String(error) } };
     }
     if (result?._transport) transportAttempts.push(result._transport);
-    if (!result?.isError || attempt === caseAttempts) return { ...result, _transport_attempts: transportAttempts };
+    if (!result?.isError) return { ...result, _transport_attempts: transportAttempts };
+    if (attempt === caseAttempts) break;
     await wait(caseRetryDelayMs);
+  }
+  if (result?.isError && !diagnosticAttempted) {
+    const diagnosticResult = await rpc("tools/call", { name, arguments: arguments_ }, { diagnostics: true });
+    if (diagnosticResult?._transport) transportAttempts.push(diagnosticResult._transport);
   }
   return { ...result, _transport_attempts: transportAttempts };
 };
@@ -251,9 +263,12 @@ for (const entry of fixture) {
     let result;
     const retryErrors = [];
     const expectedError = entry.expected_status === "error" || entry.expect_error === true;
+    let diagnosticAttempted = diagnosticsEnabled;
     for (let attempt = 1; attempt <= caseAttempts; attempt += 1) {
       try {
-        result = await rpc("tools/call", { name: entry.tool, arguments: entry.arguments });
+        const diagnostics = diagnosticsEnabled || attempt > 1;
+        diagnosticAttempted ||= diagnostics;
+        result = await rpc("tools/call", { name: entry.tool, arguments: entry.arguments }, { diagnostics });
       } catch (error) {
         result = { isError: true, http_status: 503, error: { message: error instanceof Error ? error.message : String(error) } };
       }
@@ -262,6 +277,10 @@ for (const entry of fixture) {
       if (!retryable || attempt === caseAttempts) break;
       try { recordTransport("retry_initialize", "initialize", await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "openfin-live-regression", version: "1" } })); } catch (error) { retryErrors.push(error instanceof Error ? error.message : String(error)); }
       await wait(caseRetryDelayMs);
+    }
+    if (!expectedError && result?.isError && !diagnosticAttempted) {
+      const diagnosticResult = await rpc("tools/call", { name: entry.tool, arguments: entry.arguments }, { diagnostics: true });
+      recordTransport("base_diagnostic", entry.tool, diagnosticResult);
     }
     const text = result.content?.find((value) => value.type === "text")?.text;
     let payload = null;

@@ -84,6 +84,17 @@ test('live diagnostics encode non-ASCII queries before placing them in HTTP head
   assert.match(fs.readFileSync(`${root}/mcp/src/index.ts`, 'utf8'), /decodeURIComponent\(value\)/);
 });
 
+test('live diagnostics are opt-in for normal traffic and enabled on retries', () => {
+  const liveRegression = fs.readFileSync(`${root}/mcp/scripts/live-regression.mjs`, 'utf8');
+  const soak = fs.readFileSync(`${root}/mcp/scripts/soak-test.mjs`, 'utf8');
+  assert.match(liveRegression, /const diagnosticsEnabled = process\.env\.LIVE_DIAGNOSTICS === "1"/);
+  assert.match(liveRegression, /const diagnostics = diagnosticsEnabled \|\| attempt > 1/);
+  assert.match(liveRegression, /if \(diagnostics\) \{[\s\S]*x-openfin-diagnostics/);
+  assert.match(soak, /const diagnosticsEnabled = process\.env\.LIVE_DIAGNOSTICS === "1"/);
+  assert.match(soak, /\.\.\.\(diagnosticsEnabled \? \{/);
+  assert.doesNotMatch(soak, /"x-openfin-diagnostics": "1",\n\s+"x-openfin-request-id"/);
+});
+
 test('rollback contracts cover partial promotion, cancellation, and public Pages failure', () => {
   assert.equal(shouldRollbackWorker({ deployWorkerFinal: 'success', promote: 'success', validatePromoted: 'failure', deployPages: 'skipped', parity: 'skipped' }), true);
   assert.equal(shouldRollbackWorker({ deployWorkerFinal: 'success', promote: 'cancelled', validatePromoted: 'skipped', deployPages: 'skipped', parity: 'skipped' }), true);

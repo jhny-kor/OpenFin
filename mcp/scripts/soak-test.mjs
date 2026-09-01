@@ -17,6 +17,7 @@ const concurrency = Math.max(1, Math.floor(Number(option("--concurrency", proces
 const requestTimeoutMs = Math.max(1000, Math.floor(Number(process.env.LIVE_REQUEST_TIMEOUT_MS || "15000")));
 const endpoint = (process.env.MCP_URL || "https://openfin-mcp.y2kthr.workers.dev/mcp").replace(/\/$/, "");
 const dryRun = process.argv.includes("--dry-run");
+const diagnosticsEnabled = process.env.LIVE_DIAGNOSTICS === "1";
 const diagnosticQuery = value => encodeURIComponent(value.slice(0, 24));
 if (!Number.isFinite(durationMinutes) || durationMinutes < 0 || !Number.isFinite(durationSeconds) || durationSeconds < 0) throw new Error("duration must be non-negative");
 
@@ -73,12 +74,14 @@ const call = async (task) => {
         "content-type": "application/json",
         accept: "application/json, text/event-stream",
         "MCP-Protocol-Version": "2025-06-18",
-        "x-openfin-diagnostics": "1",
         "x-openfin-request-id": requestId,
-        "x-openfin-case-id": task.caseId,
-        "x-openfin-tool": task.tool,
-        "x-openfin-query-class": task.tool === "search" ? "search" : task.tool === "fetch" ? "fetch" : "other",
-        ...(typeof task.arguments?.query === "string" ? { "x-openfin-query": diagnosticQuery(task.arguments.query) } : {}),
+        ...(diagnosticsEnabled ? {
+          "x-openfin-diagnostics": "1",
+          "x-openfin-case-id": task.caseId,
+          "x-openfin-tool": task.tool,
+          "x-openfin-query-class": task.tool === "search" ? "search" : task.tool === "fetch" ? "fetch" : "other",
+          ...(typeof task.arguments?.query === "string" ? { "x-openfin-query": diagnosticQuery(task.arguments.query) } : {}),
+        } : {}),
       },
       body: JSON.stringify({ jsonrpc: "2.0", id: sequence, method: "tools/call", params: { name: task.tool, arguments: task.arguments || {} } }),
     });
