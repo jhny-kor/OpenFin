@@ -273,6 +273,16 @@ type CachedSearchItems = {
   readonly decodedRows?: number;
 };
 
+type LoadedSearchShard = {
+  readonly payload: unknown;
+  readonly source: string;
+  readonly rawBytes: number;
+  readonly rawTextUnits: number;
+  readonly fetchMs: number;
+  readonly checksumMs: number;
+  readonly parseMs: number;
+};
+
 type FinanceArtifacts = {
   source_registry?: unknown;
   source_status?: unknown;
@@ -357,7 +367,9 @@ const cachedExactFetchShards = new Map<string, CachedSearchItems>();
 // Retain validated columnar payloads so query-bound hydration does not refetch
 // and reparse the same hot shard; the shared byte/row budget bounds retention.
 const cachedHotSearchPayloads = new Map<string, CachedSearchItems>();
-const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
+// Share one fetch/parse per generation+shard. Selection remains request-local,
+// so concurrent queries cannot reuse another query's result rows.
+const inFlightSearchShards = new Map<string, Promise<LoadedSearchShard>>();
 const inFlightSearchShardStartedAt = new Map<string, number>();
 const inFlightSearchShardControllers = new Map<string, AbortController>();
 const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; source: string }>>();
@@ -1428,6 +1440,19 @@ function linkAbortSignal(controller: AbortController, signal?: AbortSignal): () 
   return () => signal.removeEventListener("abort", abort);
 }
 
+function waitForAbort<T>(promise: Promise<T>, signal?: AbortSignal): Promise<T> {
+  if (!signal) return promise;
+  if (signal.aborted) return Promise.reject(abortError());
+  return new Promise((resolve, reject) => {
+    const onAbort = () => reject(abortError());
+    signal.addEventListener("abort", onAbort, { once: true });
+    promise.then(
+      (value) => { signal.removeEventListener("abort", onAbort); resolve(value); },
+      (error) => { signal.removeEventListener("abort", onAbort); reject(error); },
+    );
+  });
+}
+
 async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
   const controller = new AbortController();
   const unlinkAbort = linkAbortSignal(controller, signal);
@@ -2180,8 +2205,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   pruneStaleSearchShardRequests();
   const key = shard.path || shard.shard_id;
   const requestGeneration = manifestGeneration;
-  const selectionKey = query === undefined ? "" : `\u0000${normalizeQuery(query)}`;
-  const pendingKey = generationCacheKey(requestGeneration, `${key}${selectionKey}`);
+  const pendingKey = generationCacheKey(requestGeneration, key);
   const isExactFetchShard = /^exact-/.test(shard.shard_id);
   const cache = isExactFetchShard ? cachedExactFetchShards : (shard.item_count ?? 0) > LARGE_SEARCH_SHARD_ITEM_COUNT ? cachedLargeSearchShards : cachedSmallSearchShards;
   const cacheKind: SearchShardCacheKind = isExactFetchShard ? "exact" : cache === cachedLargeSearchShards ? "large" : "small";
@@ -2191,186 +2215,175 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   const cachedPayload = cachedHotSearchPayloads.get(key);
   if (cached && cached.generation !== manifestGeneration) removeSearchCacheEntry(cacheKind, key);
   if (cachedPayload && cachedPayload.generation !== manifestGeneration) removeSearchCacheEntry("payload", key);
-  if (cached?.generation === manifestGeneration) {
+  if (cached?.generation === manifestGeneration && query === undefined) {
     if (diagnostics) diagnostics.cache_hits += 1;
     searchCacheBudget.touch(searchCacheBudgetKey(cacheKind, key));
     cache.delete(key);
     cache.set(key, cached);
     return cached.items;
   }
-  if (cachedPayload?.generation === manifestGeneration && cachedPayload.payload !== undefined) {
+  if (cached?.generation === manifestGeneration && query !== undefined && cachedPayload?.generation !== manifestGeneration) {
+    if (diagnostics) diagnostics.cache_hits += 1;
+    searchCacheBudget.touch(searchCacheBudgetKey(cacheKind, key));
+    return cached.items.filter((item) => searchTextIncludes(item, query));
+  }
+
+  const recordFailure = (error: unknown): void => {
+    if (!diagnostics) return;
+    const message = error instanceof Error ? error.message : String(error);
+    diagnostics.failure_class = classifyRuntimeFailure(error);
+    const status = Number(message.match(/\b([45]\d{2})\b/)?.[1] ?? 0);
+    recordShardDiagnostic(diagnostics, {
+      shard_id: shard.shard_id,
+      cache_kind: cacheKind,
+      item_count: 0,
+      raw_bytes: 0,
+      decoded_rows: 0,
+      cache_hit: false,
+      cache_miss: true,
+      raw_text_units: 0,
+      fetch_ms: 0,
+      checksum_ms: 0,
+      parse_ms: 0,
+      hydrate_ms: 0,
+      total_ms: 0,
+      http_status: status,
+      failure_class: diagnostics.failure_class,
+      error: message.slice(0, 512),
+    });
+  };
+
+  const hydrate = (loaded: LoadedSearchShard, cacheHit: boolean): readonly FinanceItem[] => {
     const hydrateStarted = diagnostics ? diagnosticNow() : 0;
+    const rowIndexes = query === undefined ? undefined : hotSearchRowIndexes(loaded.payload, query);
+    const partial = rowIndexes !== undefined;
+    const items = parseSearchItems(loaded.payload, loaded.source, rowIndexes);
+    if (!partial) {
+      assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
+      assertEmbeddedItemCount(loaded.payload, items, `search-index shard ${shard.shard_id}`);
+    } else {
+      const rows = isRecord(loaded.payload) && Array.isArray(loaded.payload.items) ? loaded.payload.items : undefined;
+      if (rows) assertSearchItemCount(rows.length, shard.item_count, `search-index shard ${shard.shard_id}`);
+      assertEmbeddedItemCount(loaded.payload, rows ?? [], `search-index shard ${shard.shard_id}`);
+    }
+    if (!partial && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
+      while (cache.size >= cacheLimit) {
+        const oldest = cache.keys().next().value as string | undefined;
+        if (oldest === undefined) break;
+        if (removeSearchCacheEntry(cacheKind, oldest) && diagnostics) diagnostics.evictions += 1;
+      }
+      const admission = searchCacheBudget.admit(searchCacheBudgetKey(cacheKind, key), loaded.rawBytes, items.length);
+      removeBudgetEvictions(admission.evicted, diagnostics);
+      if (!admission.accepted && diagnostics) diagnostics.budget_exceeded += 1;
+      if (admission.accepted) cache.set(key, { items, loadedAt: Date.now(), generation: requestGeneration, bytes: loaded.rawBytes, decodedRows: items.length });
+    }
+    if (diagnostics) {
+      const hydrateMs = diagnosticNow() - hydrateStarted;
+      const cacheKindForDiagnostic: SearchShardCacheKind = isRecord(loaded.payload) && loaded.payload.format === "openfin-hot-search-v1" ? "payload" : cacheKind;
+      recordShardDiagnostic(diagnostics, {
+        shard_id: shard.shard_id,
+        cache_kind: cacheKindForDiagnostic,
+        item_count: items.length,
+        raw_bytes: loaded.rawBytes,
+        decoded_rows: items.length,
+        cache_hit: cacheHit,
+        cache_miss: !cacheHit,
+        raw_text_units: cacheHit ? 0 : loaded.rawTextUnits,
+        fetch_ms: cacheHit ? 0 : roundDiagnosticMs(loaded.fetchMs),
+        checksum_ms: cacheHit ? 0 : roundDiagnosticMs(loaded.checksumMs),
+        parse_ms: cacheHit ? 0 : roundDiagnosticMs(loaded.parseMs),
+        hydrate_ms: roundDiagnosticMs(hydrateMs),
+        total_ms: roundDiagnosticMs((cacheHit ? 0 : loaded.fetchMs + loaded.checksumMs + loaded.parseMs) + hydrateMs),
+      });
+    }
+    return items;
+  };
+
+  if (cachedPayload?.generation === manifestGeneration && cachedPayload.payload !== undefined) {
     if (diagnostics) diagnostics.cache_hits += 1;
     searchCacheBudget.touch(searchCacheBudgetKey("payload", key));
     cachedHotSearchPayloads.delete(key);
     cachedHotSearchPayloads.set(key, cachedPayload);
-    const rowIndexes = query === undefined ? undefined : hotSearchRowIndexes(cachedPayload.payload, query);
-    const partial = rowIndexes !== undefined;
-    const items = parseSearchItems(cachedPayload.payload, url, rowIndexes);
-    if (!partial) {
-      assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
-      assertEmbeddedItemCount(cachedPayload.payload, items, `search-index shard ${shard.shard_id}`);
-    } else {
-      const rows = isRecord(cachedPayload.payload) && Array.isArray(cachedPayload.payload.items) ? cachedPayload.payload.items : undefined;
-      if (rows) assertSearchItemCount(rows.length, shard.item_count, `search-index shard ${shard.shard_id}`);
-      assertEmbeddedItemCount(cachedPayload.payload, rows ?? [], `search-index shard ${shard.shard_id}`);
+    try {
+      return hydrate({ payload: cachedPayload.payload, source: url, rawBytes: cachedPayload.bytes ?? 0, rawTextUnits: 0, fetchMs: 0, checksumMs: 0, parseMs: 0 }, true);
+    } catch (error) {
+      recordFailure(error);
+      throw error;
     }
-    if (diagnostics) {
-      recordShardDiagnostic(diagnostics, {
-        shard_id: shard.shard_id,
-        cache_kind: "payload",
-        item_count: items.length,
-        raw_bytes: cachedPayload.bytes ?? 0,
-        decoded_rows: items.length,
-        cache_hit: true,
-        cache_miss: false,
-        raw_text_units: 0,
-        fetch_ms: 0,
-        checksum_ms: 0,
-        parse_ms: 0,
-        hydrate_ms: roundDiagnosticMs(diagnosticNow() - hydrateStarted),
-        total_ms: roundDiagnosticMs(diagnosticNow() - hydrateStarted),
-      });
-    }
-    return items;
   }
   if (diagnostics) diagnostics.cache_misses += 1;
   if (cached && removeSearchCacheEntry(cacheKind, key) && diagnostics) diagnostics.evictions += 1;
   const pending = inFlightSearchShards.get(pendingKey);
   if (pending) {
     if (diagnostics) diagnostics.in_flight_reuses += 1;
-    return pending;
+    try {
+      return hydrate(await waitForAbort(pending, signal), false);
+    } catch (error) {
+      recordFailure(error);
+      throw error;
+    }
   }
   const requestController = new AbortController();
-  const unlinkAbort = linkAbortSignal(requestController, signal);
-  const request = (async () => {
-    const totalStarted = diagnostics ? diagnosticNow() : 0;
+  const request = (async (): Promise<LoadedSearchShard> => {
     let releaseSlot: SearchShardSlotRelease | undefined;
     let rawText = "";
     let rawBytes = 0;
     let fetchMs = 0;
     let checksumMs = 0;
     let parseMs = 0;
-    let hydrateMs = 0;
     let inflightReserved = false;
     try {
       releaseSlot = await acquireSearchShardSlot(requestController.signal);
-      const fetchStarted = diagnostics ? diagnosticNow() : 0;
+      const fetchStarted = diagnosticNow();
       rawText = await fetchText(url, MAX_SINGLE_SHARD_BYTES, requestController.signal);
-      fetchMs = diagnostics ? diagnosticNow() - fetchStarted : 0;
+      fetchMs = diagnosticNow() - fetchStarted;
       rawBytes = new TextEncoder().encode(rawText).byteLength;
       inflightReserved = searchCacheBudget.reserveInflight(pendingKey, rawBytes);
-      if (!inflightReserved) {
-        if (diagnostics) diagnostics.budget_exceeded += 1;
-        throw new SearchIndexContractError(`search-index shard ${shard.shard_id} exceeds the in-flight cache budget`);
-      }
+      if (!inflightReserved) throw new SearchIndexContractError(`search-index shard ${shard.shard_id} exceeds the in-flight cache budget`);
       if (shard.content_checksum) {
-        const checksumStarted = diagnostics ? diagnosticNow() : 0;
+        const checksumStarted = diagnosticNow();
         if (!(await verifyTextChecksum(rawText, shard.content_checksum))) {
           throw new SearchIndexContractError(`search-index shard ${shard.shard_id} content checksum mismatch`);
         }
-        if (diagnostics) checksumMs += diagnosticNow() - checksumStarted;
+        checksumMs += diagnosticNow() - checksumStarted;
       }
       let payload: unknown;
-      const parseStarted = diagnostics ? diagnosticNow() : 0;
+      const parseStarted = diagnosticNow();
       try {
         payload = JSON.parse(rawText);
       } catch (error) {
         throw new SearchIndexContractError(`search-index shard ${shard.shard_id} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
       }
-      parseMs = diagnostics ? diagnosticNow() - parseStarted : 0;
+      parseMs = diagnosticNow() - parseStarted;
       const checksumPayload = isRecord(payload) && Array.isArray(payload.items) ? payload.items : payload;
       if (!shard.content_checksum) {
-        const checksumStarted = diagnostics ? diagnosticNow() : 0;
+        const checksumStarted = diagnosticNow();
         if (!(await verifySearchChecksum(checksumPayload, shard.export_checksum))) {
           throw new SearchIndexContractError(`search-index shard ${shard.shard_id} checksum mismatch`);
         }
-        if (diagnostics) checksumMs += diagnosticNow() - checksumStarted;
+        checksumMs += diagnosticNow() - checksumStarted;
       }
-      const hydrateStarted = diagnostics ? diagnosticNow() : 0;
-      const rowIndexes = query === undefined ? undefined : hotSearchRowIndexes(payload, query);
-      const partial = rowIndexes !== undefined;
-      const items = parseSearchItems(payload, url, rowIndexes);
-      hydrateMs = diagnostics ? diagnosticNow() - hydrateStarted : 0;
-      if (!partial) {
-        assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
-        assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
-      } else {
-        const rows = isRecord(payload) && Array.isArray(payload.items) ? payload.items : undefined;
+      const rows = isRecord(payload) && Array.isArray(payload.items) ? payload.items : undefined;
+      if (isRecord(payload) && payload.format === "openfin-hot-search-v1") {
         if (rows) assertSearchItemCount(rows.length, shard.item_count, `search-index shard ${shard.shard_id}`);
         assertEmbeddedItemCount(payload, rows ?? [], `search-index shard ${shard.shard_id}`);
       }
-      const hotPayload = partial && isRecord(payload) && payload.format === "openfin-hot-search-v1";
+      const hotPayload = isRecord(payload) && payload.format === "openfin-hot-search-v1";
       if (hotPayload && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
         while (cachedHotSearchPayloads.size >= cacheLimit) {
           const oldest = cachedHotSearchPayloads.keys().next().value as string | undefined;
           if (oldest === undefined) break;
-          if (removeSearchCacheEntry("payload", oldest) && diagnostics) diagnostics.evictions += 1;
+          removeSearchCacheEntry("payload", oldest);
         }
         const admission = searchCacheBudget.admit(searchCacheBudgetKey("payload", key), rawBytes, shard.item_count ?? 0);
-        removeBudgetEvictions(admission.evicted, diagnostics);
-        if (!admission.accepted && diagnostics) diagnostics.budget_exceeded += 1;
+        removeBudgetEvictions(admission.evicted);
         if (admission.accepted) cachedHotSearchPayloads.set(key, { items: [], payload, loadedAt: Date.now(), generation: requestGeneration, bytes: rawBytes, decodedRows: shard.item_count ?? 0 });
       }
-      if (!partial && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
-        while (cache.size >= cacheLimit) {
-          const oldest = cache.keys().next().value as string | undefined;
-          if (oldest === undefined) break;
-          if (removeSearchCacheEntry(cacheKind, oldest) && diagnostics) diagnostics.evictions += 1;
-        }
-        const admission = searchCacheBudget.admit(searchCacheBudgetKey(cacheKind, key), rawBytes, items.length);
-        removeBudgetEvictions(admission.evicted, diagnostics);
-        if (!admission.accepted && diagnostics) diagnostics.budget_exceeded += 1;
-        if (admission.accepted) cache.set(key, { items, loadedAt: Date.now(), generation: requestGeneration, bytes: rawBytes, decodedRows: items.length });
-      }
-      if (diagnostics) {
-        recordShardDiagnostic(diagnostics, {
-          shard_id: shard.shard_id,
-          cache_kind: cacheKind,
-          item_count: items.length,
-          raw_bytes: rawBytes,
-          decoded_rows: items.length,
-          cache_hit: false,
-          cache_miss: true,
-          raw_text_units: rawText.length,
-          fetch_ms: roundDiagnosticMs(fetchMs),
-          checksum_ms: roundDiagnosticMs(checksumMs),
-          parse_ms: roundDiagnosticMs(parseMs),
-          hydrate_ms: roundDiagnosticMs(hydrateMs),
-          total_ms: roundDiagnosticMs(diagnosticNow() - totalStarted),
-        });
-      }
-      return items;
-    } catch (error) {
-      if (diagnostics) {
-        const message = error instanceof Error ? error.message : String(error);
-        diagnostics.failure_class = classifyRuntimeFailure(error);
-        const status = Number(message.match(/\b([45]\d{2})\b/)?.[1] ?? 0);
-        recordShardDiagnostic(diagnostics, {
-          shard_id: shard.shard_id,
-          cache_kind: cacheKind,
-          item_count: 0,
-          raw_bytes: rawBytes,
-          decoded_rows: 0,
-          cache_hit: false,
-          cache_miss: true,
-          raw_text_units: rawText.length,
-          fetch_ms: roundDiagnosticMs(fetchMs),
-          checksum_ms: roundDiagnosticMs(checksumMs),
-          parse_ms: roundDiagnosticMs(parseMs),
-          hydrate_ms: roundDiagnosticMs(hydrateMs),
-          total_ms: roundDiagnosticMs(diagnosticNow() - totalStarted),
-          http_status: status,
-          failure_class: diagnostics.failure_class,
-          error: message.slice(0, 512),
-        });
-      }
-      throw error;
+      return { payload, source: url, rawBytes, rawTextUnits: rawText.length, fetchMs, checksumMs, parseMs };
     } finally {
       releaseSlot?.();
       if (inflightReserved) searchCacheBudget.releaseInflight(pendingKey);
       rawText = "";
-      unlinkAbort();
       if (inFlightSearchShardControllers.get(pendingKey) === requestController) inFlightSearchShardControllers.delete(pendingKey);
     }
   })();
@@ -2383,7 +2396,12 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
     inFlightSearchShardStartedAt.delete(pendingKey);
   };
   void request.then(cleanup, cleanup);
-  return request;
+  try {
+    return hydrate(await waitForAbort(request, signal), false);
+  } catch (error) {
+    recordFailure(error);
+    throw error;
+  }
 }
 
 const SEARCH_SHARD_BY_DOMAIN: Record<string, string> = {

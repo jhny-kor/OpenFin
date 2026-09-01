@@ -193,13 +193,14 @@ test("partial shard loads preserve existing cache until admission", () => {
   const end = workerSource.indexOf("const SEARCH_SHARD_BY_DOMAIN", start);
   const source = workerSource.slice(start, end);
   const pending = source.indexOf("const pending = inFlightSearchShards.get(pendingKey);");
-  const eviction = source.indexOf("while (cache.size >= cacheLimit)", pending);
+  const admission = source.indexOf('searchCacheBudget.admit(searchCacheBudgetKey("payload", key)', pending);
   const fetch = source.indexOf("rawText = await fetchText(url", pending);
 
   assert.ok(pending >= 0);
-  assert.ok(eviction > pending);
-  assert.ok(fetch < eviction);
+  assert.ok(admission > fetch);
   assert.doesNotMatch(source, /cached(?:Large|Small)SearchShards\.clear\(\)/);
+  assert.match(source, /const pendingKey = generationCacheKey\(requestGeneration, key\)/);
+  assert.doesNotMatch(source, /selectionKey/);
 });
 
 test("hot shard parsing and scoring avoid repeated row allocations", () => {
@@ -224,8 +225,8 @@ test("query-bound hot shard hydration avoids materializing unrelated rows", () =
   assert.match(workerSource, /function hotSearchRowIndexes\(value: unknown, query: string\)/);
   assert.match(workerSource, /parseSearchItems\(value: unknown, source: string, selectedRows\?: readonly number\[\]\)/);
   assert.match(workerSource, /cachedPayload\.payload/);
-  assert.match(workerSource, /parseSearchItems\(cachedPayload\.payload, url, rowIndexes\)/);
-  assert.match(workerSource, /const rowIndexes = query === undefined \? undefined : hotSearchRowIndexes\(payload, query\)/);
+  assert.match(workerSource, /parseSearchItems\(loaded\.payload, loaded\.source, rowIndexes\)/);
+  assert.match(workerSource, /const rowIndexes = query === undefined \? undefined : hotSearchRowIndexes\(loaded\.payload, query\)/);
   assert.match(workerSource, /const partial = rowIndexes !== undefined/);
   assert.match(workerSource, /if \(!partial && requestGeneration !== "uninitialized"/);
   assert.match(workerSource, /loadSearchShard\(env, shard, diagnostics, query(?:, signal)?\)/);
