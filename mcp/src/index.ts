@@ -1655,17 +1655,29 @@ const SUPPORT_HOT_CATEGORY_BITS: ReadonlyArray<readonly [string, number]> = [
   ["health", 1 << 8], ["culture", 1 << 9], ["business", 1 << 10],
 ];
 
-const HOT_SEARCH_METADATA = Symbol("openfin.hotSearchMetadata");
-type HotSearchMetadata = { vocabulary: readonly string[]; termIds: readonly number[]; text?: string };
-type HotSearchItem = FinanceItem & { [HOT_SEARCH_METADATA]?: HotSearchMetadata };
+const HOT_SEARCH_VOCABULARY = Symbol("openfin.hotSearchVocabulary");
+const HOT_SEARCH_TERM_IDS = Symbol("openfin.hotSearchTermIds");
+const HOT_SEARCH_TEXT = Symbol("openfin.hotSearchText");
+type HotSearchItem = FinanceItem & {
+  [HOT_SEARCH_VOCABULARY]?: readonly string[];
+  [HOT_SEARCH_TERM_IDS]?: readonly number[];
+  [HOT_SEARCH_TEXT]?: string;
+};
 const HOT_ITEM_PROTOTYPE = Object.create(Object.prototype) as object;
 
-function hotSearchMetadata(item: FinanceItem): HotSearchMetadata | undefined {
-  return (item as HotSearchItem)[HOT_SEARCH_METADATA];
+function hotSearchVocabulary(item: FinanceItem): readonly string[] | undefined {
+  return (item as HotSearchItem)[HOT_SEARCH_VOCABULARY];
+}
+
+function hotSearchTermIds(item: FinanceItem): readonly number[] | undefined {
+  return (item as HotSearchItem)[HOT_SEARCH_TERM_IDS];
 }
 
 function attachHotSearchMetadata(item: FinanceItem, vocabulary: readonly string[], termIds: readonly number[]): void {
-  Object.defineProperty(item, HOT_SEARCH_METADATA, { value: { vocabulary, termIds }, configurable: true });
+  Object.defineProperties(item, {
+    [HOT_SEARCH_VOCABULARY]: { value: vocabulary, configurable: true },
+    [HOT_SEARCH_TERM_IDS]: { value: termIds, configurable: true },
+  });
 }
 
 function defineHotOwnField(item: FinanceItem, field: string, value: unknown): void {
@@ -1722,23 +1734,28 @@ function supportHotRecommendationScope(item: FinanceItem): string | undefined {
 }
 
 function hotSearchText(item: FinanceItem): string {
-  const metadata = hotSearchMetadata(item);
-  if (!metadata) return "";
-  if (metadata.text === undefined) metadata.text = metadata.termIds.map((termId) => metadata.vocabulary[termId] ?? "").join(" ");
-  return metadata.text;
+  const hotItem = item as HotSearchItem;
+  const cached = hotItem[HOT_SEARCH_TEXT];
+  if (cached !== undefined) return cached;
+  const vocabulary = hotSearchVocabulary(item);
+  const termIds = hotSearchTermIds(item);
+  if (!vocabulary || !termIds) return "";
+  const text = termIds.map((termId) => vocabulary[termId] ?? "").join(" ");
+  Object.defineProperty(item, HOT_SEARCH_TEXT, { value: text, configurable: true });
+  return text;
 }
 
 function searchTextIncludes(item: FinanceItem, value: string): boolean {
   const needle = normalizeQuery(value);
   if (!needle) return false;
-  const metadata = hotSearchMetadata(item);
-  if (!metadata) return itemSearchText(item).includes(needle);
-  const terms = metadata.termIds;
+  const vocabulary = hotSearchVocabulary(item);
+  const terms = hotSearchTermIds(item);
+  if (!vocabulary || !terms) return itemSearchText(item).includes(needle);
   if (!needle.includes(" ")) {
-    return terms.some((termId) => (metadata.vocabulary[termId] ?? "").includes(needle));
+    return terms.some((termId) => (vocabulary[termId] ?? "").includes(needle));
   }
   const needles = needle.split(/\s+/).filter(Boolean);
-  return terms.some((_, start) => needles.every((term, offset) => (metadata.vocabulary[terms[start + offset]] ?? "").includes(term)));
+  return terms.some((_, start) => needles.every((term, offset) => (vocabulary[terms[start + offset]] ?? "").includes(term)));
 }
 
 Object.defineProperties(HOT_ITEM_PROTOTYPE, {
@@ -1763,7 +1780,7 @@ function materializeSupportHotFields(item: FinanceItem): FinanceItem {
   defineHotOwnField(item, "target_group", supportHotTargetGroup(item));
   defineHotOwnField(item, "support_category", supportHotCategories(item));
   defineHotOwnField(item, "recommendation_scope", supportHotRecommendationScope(item));
-  if (hotSearchMetadata(item)) defineHotOwnField(item, "search_text", hotSearchText(item));
+  if (hotSearchVocabulary(item)) defineHotOwnField(item, "search_text", hotSearchText(item));
   return item;
 }
 
@@ -1775,7 +1792,39 @@ function isFinanceItem(value: unknown): value is FinanceItem {
   return isRecord(value) && typeof value.id === "string" && typeof value.title === "string" && typeof value.type === "string";
 }
 
-function parseSearchItems(value: unknown, source: string): readonly FinanceItem[] {
+function hotSearchRowIndexes(value: unknown, query: string): readonly number[] | undefined {
+  if (!isRecord(value) || value.format !== "openfin-hot-search-v1" || !Array.isArray(value.vocabulary) || !Array.isArray(value.search_terms) || !Array.isArray(value.items)) return undefined;
+  const tokens = queryTokens(query);
+  if (!tokens.length) return undefined;
+  const vocabulary = value.vocabulary;
+  const searchTerms = value.search_terms;
+  if (!tokens.every((token) => vocabulary.some((term) => typeof term === "string" && term.includes(token)))) return undefined;
+  const fields = Array.isArray(value.fields) ? value.fields : [];
+  const rows = value.items;
+  const selected: number[] = [];
+  for (const [index, terms] of searchTerms.entries()) {
+    if (!Array.isArray(terms)) return undefined;
+    const row = rows[index];
+    let match = tokens.some((token) => terms.some((termId) => typeof termId === "number" && typeof vocabulary[termId] === "string" && vocabulary[termId].includes(token)));
+    if (!match && Array.isArray(row)) {
+      for (const [column, value] of row.entries()) {
+        if (!["id", "title", "search_aliases", "aliases", "provider"].includes(fields[column])) continue;
+        const values = typeof value === "string" ? [value] : Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
+        if (tokens.some((token) => values.some((entry) => entry.toLocaleLowerCase("ko-KR").includes(token)))) {
+          match = true;
+          break;
+        }
+      }
+    }
+    if (match) selected.push(index);
+  }
+  // An incomplete vocabulary must not turn a valid query into a false empty
+  // result. Returning undefined preserves the existing full-shard fallback.
+  if (!selected.length || selected.length === value.items.length) return undefined;
+  return selected;
+}
+
+function parseSearchItems(value: unknown, source: string, selectedRows?: readonly number[]): readonly FinanceItem[] {
   let items: unknown;
   if (isRecord(value) && value.format === "openfin-hot-search-v1") {
     const fields = value.fields;
@@ -1785,15 +1834,18 @@ function parseSearchItems(value: unknown, source: string): readonly FinanceItem[
     if (!Array.isArray(fields) || !fields.every((field) => typeof field === "string") || !Array.isArray(vocabulary) || !vocabulary.every((term) => typeof term === "string") || !Array.isArray(searchTerms) || !Array.isArray(rows) || !rows.every((row) => Array.isArray(row))) {
       throw new SearchIndexContractError(`${source} hot-search payload has invalid columnar fields`);
     }
-    items = rows.map((row, index) => {
+    if (searchTerms.length !== rows.length || searchTerms.some((termIds) => !Array.isArray(termIds) || !termIds.every((termId) => Number.isInteger(termId) && termId >= 0 && termId < vocabulary.length))) {
+      throw new SearchIndexContractError(`${source}.search_terms is invalid`);
+    }
+    const indexes = selectedRows ?? rows.map((_, index) => index);
+    items = indexes.map((index) => {
+      const row = rows[index];
+      if (!Array.isArray(row)) throw new SearchIndexContractError(`${source}.items[${index}] is invalid`);
       const item: Record<string, unknown> = {};
       for (const [column, field] of fields.entries()) {
         if (row[column] !== null && row[column] !== undefined) item[field] = row[column];
       }
       const termIds = searchTerms[index];
-      if (!Array.isArray(termIds) || !termIds.every((termId) => Number.isInteger(termId) && termId >= 0 && termId < vocabulary.length)) {
-        throw new SearchIndexContractError(`${source}.search_terms[${index}] is invalid`);
-      }
       attachHotSearchMetadata(item as FinanceItem, vocabulary as string[], termIds as number[]);
       Object.setPrototypeOf(item, HOT_ITEM_PROTOTYPE);
       return item;
@@ -1988,10 +2040,11 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
   return items;
 }
 
-async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: RequestDiagnostics): Promise<readonly FinanceItem[]> {
+async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: RequestDiagnostics, query?: string): Promise<readonly FinanceItem[]> {
   const key = shard.path || shard.shard_id;
   const requestGeneration = manifestGeneration;
-  const pendingKey = generationCacheKey(requestGeneration, key);
+  const selectionKey = query === undefined ? "" : `\u0000${normalizeQuery(query)}`;
+  const pendingKey = generationCacheKey(requestGeneration, `${key}${selectionKey}`);
   const isExactFetchShard = /^exact-/.test(shard.shard_id);
   const cache = isExactFetchShard ? cachedExactFetchShards : (shard.item_count ?? 0) > LARGE_SEARCH_SHARD_ITEM_COUNT ? cachedLargeSearchShards : cachedSmallSearchShards;
   const cacheKind: SearchShardCacheKind = isExactFetchShard ? "exact" : cache === cachedLargeSearchShards ? "large" : "small";
@@ -2061,11 +2114,19 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
         if (diagnostics) checksumMs += diagnosticNow() - checksumStarted;
       }
       const hydrateStarted = diagnostics ? diagnosticNow() : 0;
-      const items = parseSearchItems(payload, url);
+      const rowIndexes = query === undefined ? undefined : hotSearchRowIndexes(payload, query);
+      const partial = rowIndexes !== undefined;
+      const items = parseSearchItems(payload, url, rowIndexes);
       hydrateMs = diagnostics ? diagnosticNow() - hydrateStarted : 0;
-      assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
-      assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
-      if (requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
+      if (!partial) {
+        assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
+        assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
+      } else {
+        const rows = isRecord(payload) && Array.isArray(payload.items) ? payload.items : undefined;
+        if (rows) assertSearchItemCount(rows.length, shard.item_count, `search-index shard ${shard.shard_id}`);
+        assertEmbeddedItemCount(payload, rows ?? [], `search-index shard ${shard.shard_id}`);
+      }
+      if (!partial && requestGeneration !== "uninitialized" && isCurrentGeneration(requestGeneration, manifestGeneration)) {
         while (cache.size >= cacheLimit) {
           const oldest = cache.keys().next().value as string | undefined;
           if (oldest === undefined) break;
@@ -2238,11 +2299,11 @@ async function loadSearchItemsForQuery(
   if (!shardId) {
     const reference = hotShards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference")
       ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference");
-    return reference ? loadSearchShard(env, reference, diagnostics) : loadSearchItems(env);
+    return reference ? loadSearchShard(env, reference, diagnostics, query) : loadSearchItems(env);
   }
   const shard = hotShards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId)
     ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
-  return shard ? loadSearchShard(env, shard, diagnostics) : loadSearchItems(env);
+  return shard ? loadSearchShard(env, shard, diagnostics, query) : loadSearchItems(env);
 }
 
 async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: string): Promise<readonly FinanceItem[] | undefined> {
@@ -2446,6 +2507,22 @@ function productQualityScore(item: FinanceItem): number {
 function dedupeProductItems(items: readonly FinanceItem[]): readonly FinanceItem[] {
   const cached = dedupedProductItemsCache.get(items);
   if (cached) return cached;
+  const seen = new Set<string>();
+  let hasDuplicate = false;
+  for (const item of items) {
+    const key = item.type === "card-product" || item.type === "bank-product" || item.type === "insurance-product"
+      ? item.resolved_canonical_product_id ?? item.canonical_product_id ?? item.id
+      : item.id;
+    if (seen.has(key)) {
+      hasDuplicate = true;
+      break;
+    }
+    seen.add(key);
+  }
+  if (!hasDuplicate) {
+    dedupedProductItemsCache.set(items, items);
+    return items;
+  }
   const selected = new Map<string, FinanceItem>();
   for (const item of items) {
     const key = item.type === "card-product" || item.type === "bank-product" || item.type === "insurance-product"

@@ -201,6 +201,15 @@ test("hot shard parsing and scoring avoid repeated row allocations", () => {
   assert.doesNotMatch(scoreSource, /const aliases = .*\.map/);
 });
 
+test("query-bound hot shard hydration avoids materializing unrelated rows", () => {
+  assert.match(workerSource, /function hotSearchRowIndexes\(value: unknown, query: string\)/);
+  assert.match(workerSource, /parseSearchItems\(value: unknown, source: string, selectedRows\?: readonly number\[\]\)/);
+  assert.match(workerSource, /const rowIndexes = query === undefined \? undefined : hotSearchRowIndexes\(payload, query\)/);
+  assert.match(workerSource, /const partial = rowIndexes !== undefined/);
+  assert.match(workerSource, /if \(!partial && requestGeneration !== "uninitialized"/);
+  assert.match(workerSource, /loadSearchShard\(env, shard, diagnostics, query\)/);
+});
+
 test("support hot rows decode optional fields lazily and preserve fetch projection", () => {
   const start = workerSource.indexOf("function supportHotState");
   const end = workerSource.indexOf("function isFinanceItem", start);
