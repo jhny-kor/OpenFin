@@ -355,6 +355,7 @@ const cachedSmallSearchShards = new Map<string, CachedSearchItems>();
 const cachedExactFetchShards = new Map<string, CachedSearchItems>();
 const inFlightSearchShards = new Map<string, Promise<readonly FinanceItem[]>>();
 const inFlightSearchShardStartedAt = new Map<string, number>();
+const inFlightSearchShardControllers = new Map<string, AbortController>();
 const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; source: string }>>();
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
 // Byte ceilings are primary; count limits remain a cheap secondary guard.
@@ -383,6 +384,7 @@ type SearchShardSlotWaiter = {
   resolve: (release: SearchShardSlotRelease) => void;
   reject: (error: Error) => void;
   timer: ReturnType<typeof setTimeout>;
+  cleanup: () => void;
 };
 const queuedSearchShardLoads: SearchShardSlotWaiter[] = [];
 type SearchShardCacheKind = "large" | "small" | "exact";
@@ -571,7 +573,14 @@ function pumpSearchShardSlots(): void {
   }
 }
 
-function acquireSearchShardSlot(): Promise<SearchShardSlotRelease> {
+function abortError(message = "search-index shard load aborted"): Error {
+  const error = new Error(message);
+  error.name = "AbortError";
+  return error;
+}
+
+function acquireSearchShardSlot(signal?: AbortSignal): Promise<SearchShardSlotRelease> {
+  if (signal?.aborted) return Promise.reject(abortError());
   if (activeSearchShardLoads < MAX_CONCURRENT_SEARCH_SHARD_LOADS) {
     activeSearchShardLoads += 1;
     return Promise.resolve(releaseSearchShardSlot());
@@ -580,23 +589,42 @@ function acquireSearchShardSlot(): Promise<SearchShardSlotRelease> {
     return Promise.reject(new SearchIndexContractError("search-index shard concurrency queue is full"));
   }
   return new Promise((resolve, reject) => {
+    let settled = false;
     const waiter = {} as SearchShardSlotWaiter;
-    waiter.resolve = resolve;
-    waiter.reject = reject;
+    waiter.cleanup = () => {
+      clearTimeout(waiter.timer);
+      signal?.removeEventListener("abort", onAbort);
+    };
+    const settle = (settlePromise: () => void) => {
+      if (settled) return;
+      settled = true;
+      waiter.cleanup();
+      settlePromise();
+    };
+    const onAbort = () => {
+      const index = queuedSearchShardLoads.indexOf(waiter);
+      if (index >= 0) queuedSearchShardLoads.splice(index, 1);
+      settle(() => reject(abortError()));
+    };
+    waiter.resolve = (release) => settle(() => resolve(release));
+    waiter.reject = (error) => settle(() => reject(error));
     waiter.timer = setTimeout(() => {
       const index = queuedSearchShardLoads.indexOf(waiter);
       if (index >= 0) queuedSearchShardLoads.splice(index, 1);
-      reject(new SearchIndexContractError("search-index shard concurrency wait timed out"));
+      waiter.reject(new SearchIndexContractError("search-index shard concurrency wait timed out"));
     }, SEARCH_SHARD_SLOT_WAIT_MS);
     queuedSearchShardLoads.push(waiter);
+    signal?.addEventListener("abort", onAbort, { once: true });
   });
 }
 
 function pruneStaleSearchShardRequests(now = Date.now()): void {
   for (const [key, startedAt] of inFlightSearchShardStartedAt) {
     if (now - startedAt <= SEARCH_SHARD_SLOT_LEASE_MS) continue;
+    inFlightSearchShardControllers.get(key)?.abort();
     inFlightSearchShardStartedAt.delete(key);
     inFlightSearchShards.delete(key);
+    inFlightSearchShardControllers.delete(key);
     searchCacheBudget.releaseInflight(key);
   }
 }
@@ -1388,8 +1416,17 @@ function scoreItem(item: FinanceItem, query: string, tokens = queryTokens(query)
   return score;
 }
 
-async function fetchJson<T>(url: string): Promise<T> {
+function linkAbortSignal(controller: AbortController, signal?: AbortSignal): () => void {
+  if (!signal) return () => undefined;
+  const abort = () => controller.abort();
+  if (signal.aborted) controller.abort();
+  else signal.addEventListener("abort", abort, { once: true });
+  return () => signal.removeEventListener("abort", abort);
+}
+
+async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
   const controller = new AbortController();
+  const unlinkAbort = linkAbortSignal(controller, signal);
   const timer = setTimeout(() => controller.abort(), FINANCE_FETCH_TIMEOUT_MS);
   try {
     const response = await fetch(url, {
@@ -1407,11 +1444,13 @@ async function fetchJson<T>(url: string): Promise<T> {
     return (await response.json()) as T;
   } finally {
     clearTimeout(timer);
+    unlinkAbort();
   }
 }
 
-async function fetchText(url: string, maxBytes?: number): Promise<string> {
+async function fetchText(url: string, maxBytes?: number, signal?: AbortSignal): Promise<string> {
   const controller = new AbortController();
+  const unlinkAbort = linkAbortSignal(controller, signal);
   const timer = setTimeout(() => controller.abort(), FINANCE_FETCH_TIMEOUT_MS);
   try {
     const response = await fetch(url, {
@@ -1433,6 +1472,7 @@ async function fetchText(url: string, maxBytes?: number): Promise<string> {
     return text;
   } finally {
     clearTimeout(timer);
+    unlinkAbort();
   }
 }
 
@@ -1528,14 +1568,14 @@ function resolveExportUrl(entry: { path: string; url?: string; web_url?: string 
   return new URL(fileName, manifestUrl).toString();
 }
 
-async function loadOntologyExportPayloads(entry: ManifestEntry, manifestUrl: string): Promise<unknown[]> {
+async function loadOntologyExportPayloads(entry: ManifestEntry, manifestUrl: string, signal?: AbortSignal): Promise<unknown[]> {
   const shards = entry.shards;
   const sources = shards?.length ? shards : [entry];
   const payloads: unknown[] = [];
   for (const source of sources) {
     const label = shards?.length ? `ontology export shard ${(source as SearchIndexShard).shard_id}` : `ontology export ${entry.id}`;
     const url = resolveExportUrl(source, manifestUrl);
-    const rawText = await fetchText(url);
+    const rawText = await fetchText(url, undefined, signal);
     if (source.content_checksum && !(await verifyTextChecksum(rawText, source.content_checksum))) {
       throw new SearchIndexContractError(`${label} content checksum mismatch`);
     }
@@ -2050,7 +2090,7 @@ function assertEmbeddedItemCount(value: unknown, items: readonly unknown[], sour
   assertSearchItemCount(items.length, value.item_count, source);
 }
 
-async function loadSearchIndexMetadata(env: Env): Promise<SearchIndexFile> {
+async function loadSearchIndexMetadata(env: Env, signal?: AbortSignal): Promise<SearchIndexFile> {
   const now = Date.now();
   if (cachedSearchIndexMetadata && cachedSearchIndexMetadata.generation === manifestGeneration && now - cachedSearchIndexMetadata.loadedAt < CACHE_TTL_MS) {
     return cachedSearchIndexMetadata.data;
@@ -2073,7 +2113,7 @@ async function loadSearchIndexMetadata(env: Env): Promise<SearchIndexFile> {
     return data;
   }
   const indexUrl = resolveExportUrl(manifest.search_index, manifestUrl);
-  const rawText = await fetchText(indexUrl);
+  const rawText = await fetchText(indexUrl, undefined, signal);
   if (manifest.search_index.content_checksum && !(await verifyTextChecksum(rawText, manifest.search_index.content_checksum))) {
     throw new SearchIndexContractError("finance manifest search_index content checksum mismatch");
   }
@@ -2095,7 +2135,7 @@ async function loadSearchIndexMetadata(env: Env): Promise<SearchIndexFile> {
   return data;
 }
 
-async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
+async function loadSearchItems(env: Env, signal?: AbortSignal): Promise<readonly FinanceItem[]> {
   const now = Date.now();
   if (cachedSearchItems && cachedSearchItems.generation === manifestGeneration && now - cachedSearchItems.loadedAt < CACHE_TTL_MS) {
     return cachedSearchItems.items;
@@ -2103,7 +2143,7 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
 
   const manifestUrl = financeManifestUrl(env);
   const manifest = await loadFinanceManifest(env);
-  const metadata = await loadSearchIndexMetadata(env);
+  const metadata = await loadSearchIndexMetadata(env, signal);
   const inlineItems = metadata.items;
   if (inlineItems) {
     assertSearchItemCount(inlineItems.length, metadata.item_count, "search-index root");
@@ -2123,7 +2163,7 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
     throw new SearchIndexContractError("search-index root requires compact inline items when shard count exceeds 32");
   }
   const shardItems = await Promise.all(shards.map(async (shard) => {
-    return loadSearchShard(env, shard);
+    return loadSearchShard(env, shard, undefined, undefined, signal);
   }));
   const items = shardItems.flat();
   assertSearchItemCount(items.length, metadata.item_count, "search-index root");
@@ -2132,7 +2172,7 @@ async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
   return items;
 }
 
-async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: RequestDiagnostics, query?: string): Promise<readonly FinanceItem[]> {
+async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: RequestDiagnostics, query?: string, signal?: AbortSignal): Promise<readonly FinanceItem[]> {
   pruneStaleSearchShardRequests();
   const key = shard.path || shard.shard_id;
   const requestGeneration = manifestGeneration;
@@ -2163,6 +2203,8 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
     if (oldest === undefined) break;
     if (removeSearchCacheEntry(cacheKind, oldest) && diagnostics) diagnostics.evictions += 1;
   }
+  const requestController = new AbortController();
+  const unlinkAbort = linkAbortSignal(requestController, signal);
   const request = (async () => {
     const totalStarted = diagnostics ? diagnosticNow() : 0;
     const url = resolveExportUrl(shard, financeManifestUrl(env));
@@ -2175,9 +2217,9 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
     let hydrateMs = 0;
     let inflightReserved = false;
     try {
-      releaseSlot = await acquireSearchShardSlot();
+      releaseSlot = await acquireSearchShardSlot(requestController.signal);
       const fetchStarted = diagnostics ? diagnosticNow() : 0;
-      rawText = await fetchText(url, MAX_SINGLE_SHARD_BYTES);
+      rawText = await fetchText(url, MAX_SINGLE_SHARD_BYTES, requestController.signal);
       fetchMs = diagnostics ? diagnosticNow() - fetchStarted : 0;
       rawBytes = new TextEncoder().encode(rawText).byteLength;
       inflightReserved = searchCacheBudget.reserveInflight(pendingKey, rawBytes);
@@ -2279,10 +2321,13 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
       releaseSlot?.();
       if (inflightReserved) searchCacheBudget.releaseInflight(pendingKey);
       rawText = "";
+      unlinkAbort();
+      if (inFlightSearchShardControllers.get(pendingKey) === requestController) inFlightSearchShardControllers.delete(pendingKey);
     }
   })();
   inFlightSearchShards.set(pendingKey, request);
   inFlightSearchShardStartedAt.set(pendingKey, Date.now());
+  inFlightSearchShardControllers.set(pendingKey, requestController);
   const cleanup = () => {
     if (inFlightSearchShards.get(pendingKey) !== request) return;
     inFlightSearchShards.delete(pendingKey);
@@ -2319,10 +2364,10 @@ function searchShardForQuery(
   return undefined;
 }
 
-async function loadDetailedItemsForDomain(env: Env, domain: string, asOf?: string): Promise<readonly FinanceItem[]> {
+async function loadDetailedItemsForDomain(env: Env, domain: string, asOf?: string, signal?: AbortSignal): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
   if ((domain === "deposit" || domain === "saving") && manifest.decision_offers) {
-    const offers = await loadSearchShard(env, manifest.decision_offers);
+    const offers = await loadSearchShard(env, manifest.decision_offers, undefined, undefined, signal);
     const sourceRegistry = await loadFinanceArtifact(env, "source_registry", manifest);
     const sourceRegistryMap = sourceRegistry === undefined
       ? undefined
@@ -2332,21 +2377,21 @@ async function loadDetailedItemsForDomain(env: Env, domain: string, asOf?: strin
   const detailShards = manifest.detail_search_index?.shards ?? manifest.search_index?.shards;
   const shardId = SEARCH_SHARD_BY_DOMAIN[domain];
   const shard = detailShards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
-  return shard ? loadSearchShard(env, shard) : loadSearchItems(env);
+  return shard ? loadSearchShard(env, shard, undefined, undefined, signal) : loadSearchItems(env, signal);
 }
 
 function decisionOptionItems(offer: FinanceItem, domain: "deposit" | "saving"): FinanceItem[] {
   return adaptDecisionOfferOptions(offer, domain) as FinanceItem[];
 }
 
-async function loadTargetedExactShardItems(env: Env, shard: SearchIndexShard, lookup: string, matchTitle = false): Promise<readonly FinanceItem[]> {
+async function loadTargetedExactShardItems(env: Env, shard: SearchIndexShard, lookup: string, matchTitle = false, signal?: AbortSignal): Promise<readonly FinanceItem[]> {
   const key = shard.path || shard.shard_id;
   const pendingKey = generationCacheKey(manifestGeneration, key);
   let pending = inFlightExactFetchShards.get(pendingKey);
   if (!pending) {
     pending = (async () => {
       const source = resolveExportUrl(shard, financeManifestUrl(env));
-      const rawText = await fetchText(source);
+      const rawText = await fetchText(source, undefined, signal);
       if (shard.content_checksum && !(await verifyTextChecksum(rawText, shard.content_checksum))) {
         throw new SearchIndexContractError(`search-index shard ${shard.shard_id} content checksum mismatch`);
       }
@@ -2378,6 +2423,7 @@ async function loadSearchItemsForQuery(
   searchType?: string,
   productKind?: string,
   diagnostics?: RequestDiagnostics,
+  signal?: AbortSignal,
 ): Promise<readonly FinanceItem[]> {
   const manifest = await loadFinanceManifest(env);
   const exactShards = manifest.exact_fetch_index?.shards;
@@ -2390,7 +2436,7 @@ async function loadSearchItemsForQuery(
     const exactShardId = await exactFetchShardId(query);
     const exactShard = exactShards.find((candidate) => candidate.shard_id === exactShardId || candidate.id === exactShardId);
     if (exactShard) {
-      const exactItems = await loadTargetedExactShardItems(env, exactShard, query, true);
+      const exactItems = await loadTargetedExactShardItems(env, exactShard, query, true, signal);
       const normalized = normalizeQuery(query);
       const exactMatches = exactItems.filter((item) => [item.title, ...(item.search_aliases ?? []), ...(item.aliases ?? []), ...(item.legacy_ids ?? [])]
         .some((value) => normalizeQuery(value) === normalized));
@@ -2402,14 +2448,14 @@ async function loadSearchItemsForQuery(
   if (!shardId) {
     const reference = hotShards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference")
       ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === "reference" || candidate.id === "reference");
-    return reference ? loadSearchShard(env, reference, diagnostics, query) : loadSearchItems(env);
+    return reference ? loadSearchShard(env, reference, diagnostics, query, signal) : loadSearchItems(env, signal);
   }
   const shard = hotShards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId)
     ?? manifest.search_index?.shards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
-  return shard ? loadSearchShard(env, shard, diagnostics, query) : loadSearchItems(env);
+  return shard ? loadSearchShard(env, shard, diagnostics, query, signal) : loadSearchItems(env, signal);
 }
 
-async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: string): Promise<readonly FinanceItem[] | undefined> {
+async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: string, signal?: AbortSignal): Promise<readonly FinanceItem[] | undefined> {
   const shards = manifest.exact_fetch_index?.shards;
   if (!shards?.length) return undefined;
   for (const cached of cachedExactFetchShards.values()) {
@@ -2424,16 +2470,16 @@ async function loadExactFetchItems(env: Env, manifest: FinanceManifest, itemId: 
   }
   const shardId = await exactFetchShardId(itemId);
   const shard = shards.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
-  return shard ? loadTargetedExactShardItems(env, shard, itemId) : [];
+  return shard ? loadTargetedExactShardItems(env, shard, itemId, false, signal) : [];
 }
 
-async function hydrateSearchItem(env: Env, item: FinanceItem): Promise<FinanceItem> {
+async function hydrateSearchItem(env: Env, item: FinanceItem, signal?: AbortSignal): Promise<FinanceItem> {
   const manifest = await loadFinanceManifest(env);
   const shardId = item.provenance_shard ?? item.shard_id;
   const detailShards = manifest.detail_search_index?.shards ?? manifest.search_index?.shards;
   const shard = shardId && detailShards?.find((candidate) => candidate.shard_id === shardId || candidate.id === shardId);
   if (!shard) return item;
-  const detailed = (await loadSearchShard(env, shard)).find((candidate) => candidate.id === item.id);
+  const detailed = (await loadSearchShard(env, shard, undefined, undefined, signal)).find((candidate) => candidate.id === item.id);
   return detailed ? { ...item, ...detailed } : item;
 }
 
@@ -2837,18 +2883,18 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
   });
 }
 
-async function fetchItemGraph(env: Env, rawId: string, include: readonly string[] = []): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {
+async function fetchItemGraph(env: Env, rawId: string, include: readonly string[] = [], signal?: AbortSignal): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {
   const manifestUrl = financeManifestUrl(env);
   const manifest = await loadFinanceManifest(env);
   const resolvedItemId = resolveItemId(rawId);
   const directExportId = exportIdForItemId(resolvedItemId);
-  const exactItems = rawId.startsWith("missing.") ? undefined : await loadExactFetchItems(env, manifest, resolvedItemId);
+  const exactItems = rawId.startsWith("missing.") ? undefined : await loadExactFetchItems(env, manifest, resolvedItemId, signal);
   let indexedItem = exactItems ? resolveCanonicalItemId(rawId, exactItems) : undefined;
   if (!indexedItem && exactItems === undefined && !rawId.startsWith("missing.")) {
-    indexedItem = resolveCanonicalItemId(rawId, await loadSearchItemsForQuery(env, resolvedItemId, searchTypeForItemId(resolvedItemId)));
+    indexedItem = resolveCanonicalItemId(rawId, await loadSearchItemsForQuery(env, resolvedItemId, searchTypeForItemId(resolvedItemId), undefined, undefined, undefined, signal));
   }
   if (!indexedItem && exactItems === undefined && !rawId.startsWith("missing.")) {
-    indexedItem = resolveCanonicalItemId(rawId, await loadSearchItems(env));
+    indexedItem = resolveCanonicalItemId(rawId, await loadSearchItems(env, signal));
   }
   if (!indexedItem && exactItems !== undefined) throw new Error(`Finance ontology item not found: ${rawId}`);
   const itemId = indexedItem?.id ?? resolvedItemId;
@@ -2860,7 +2906,7 @@ async function fetchItemGraph(env: Env, rawId: string, include: readonly string[
   const wantsFullDetail = include.includes("relations") || include.includes("raw");
   if (indexedItem && !wantsFullDetail) {
     if (needsSummaryDetailHydration(directExportId, indexedItem.provenance_shard)) {
-      const detailed = await hydrateSearchItem(env, indexedItem);
+      const detailed = await hydrateSearchItem(env, indexedItem, signal);
       return { item: detailed, itemsById: new Map([[detailed.id, detailed]]) };
     }
     return { item: indexedItem, itemsById: new Map([[indexedItem.id, indexedItem]]) };
@@ -2877,7 +2923,7 @@ async function fetchItemGraph(env: Env, rawId: string, include: readonly string[
     : manifest.exports;
 
   for (const entry of candidateExports) {
-    const payloads = await loadOntologyExportPayloads(entry, manifestUrl);
+    const payloads = await loadOntologyExportPayloads(entry, manifestUrl, signal);
     const items = mergeOntologyExportItems(payloads) as FinanceItem[];
     const itemsById = new Map(items.map((item) => [item.id, item]));
     const item = itemsById.get(itemId);
@@ -3078,7 +3124,7 @@ function financeNeeds(snapshot: Record<string, unknown>, metrics: Record<string,
   return needs.sort((a, b) => Number(a.priority) - Number(b.priority) || String(a.need_type).localeCompare(String(b.need_type)));
 }
 
-function createServer(env: Env, diagnostics?: RequestDiagnostics): McpServer {
+function createServer(env: Env, diagnostics?: RequestDiagnostics, requestSignal?: AbortSignal): McpServer {
   const server = new McpServer({
     name: "finance",
     version: "0.2.0",
@@ -3092,10 +3138,12 @@ function createServer(env: Env, diagnostics?: RequestDiagnostics): McpServer {
   const toolContext = {
     server, env, mcpResult, financeResult, financeSafety, normalizeFinanceSnapshot, financeMetrics, financeNeeds,
     assertFinanceSafe, financeNumber, isRecord, evaluateEligibility, productDomain, financeAuditId,
-    loadSearchItems, hydrateSearchItem, PERSONAL_FINANCE_POLICY_VERSION, ADVICE_POLICY_VERSION,
+    loadSearchItems: (requestEnv: Env) => loadSearchItems(requestEnv, requestSignal),
+    hydrateSearchItem: (requestEnv: Env, item: FinanceItem) => hydrateSearchItem(requestEnv, item, requestSignal), PERSONAL_FINANCE_POLICY_VERSION, ADVICE_POLICY_VERSION,
     STANDARD_OUTPUT_SCHEMA, READ_ONLY_TOOL_ANNOTATIONS, jsonText,
-    discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems, loadDetailedItemsForDomain,
-    loadSearchItemsForQuery: (requestEnv: Env, query: string, type?: string, searchType?: string, productKind?: string) => loadSearchItemsForQuery(requestEnv, query, type, searchType, productKind, diagnostics),
+    discoveryDomainForQuery, SUPPORT_INTENT_RE, dedupeProductItems,
+    loadDetailedItemsForDomain: (requestEnv: Env, domain: string, asOf?: string) => loadDetailedItemsForDomain(requestEnv, domain, asOf, requestSignal),
+    loadSearchItemsForQuery: (requestEnv: Env, query: string, type?: string, searchType?: string, productKind?: string) => loadSearchItemsForQuery(requestEnv, query, type, searchType, productKind, diagnostics, requestSignal),
     loadFinanceArtifacts, normalizeQuery, queryTokens, isNamedProductQuery, strictNamedProductPayload,
     isDiscoveryQuery, discoveryPayload, SEARCH_TYPE_GROUPS, inferredTypesForQuery,
     supportRegionForQuery, inferredSearchTypeForQuery, matchesSearchFilters, matchesSupportRegion,
@@ -3108,9 +3156,9 @@ function createServer(env: Env, diagnostics?: RequestDiagnostics): McpServer {
     buildRecommendationCandidates, domainMatches, recommendationReadiness, rankCandidate, explainCandidate,
     recommendationBlocker, EXCLUDED_SAMPLE_LIMIT,
     COMPARISON_ENGINE_VERSION,
-    loadSearchIndexMetadata, comparisonBlocker, comparisonOptionCandidates, comparisonOptionBlocker, diversifyBroadResults,
+    loadSearchIndexMetadata: (requestEnv: Env) => loadSearchIndexMetadata(requestEnv, requestSignal), comparisonBlocker, comparisonOptionCandidates, comparisonOptionBlocker, diversifyBroadResults,
     comparisonCandidate, comparisonBlockers,
-    fetchItemGraph, resolveItemId, sourceItems, publicProvenance,
+    fetchItemGraph: (requestEnv: Env, rawId: string, include?: readonly string[]) => fetchItemGraph(requestEnv, rawId, include, requestSignal), resolveItemId, sourceItems, publicProvenance,
     loadProvenanceShard: (requestEnv: Env, manifest: Record<string, unknown>, shardId: string) => loadProvenanceShard(requestEnv, manifest as FinanceManifest, shardId), artifactErrors,
     loadFinanceArtifact: (requestEnv: Env, key: FinanceArtifactKey, manifest?: Record<string, unknown>) => loadFinanceArtifact(requestEnv, key, manifest as FinanceManifest | undefined), coverageReport,
     runtimeMetadata: (requestEnv: Env, manifest: Record<string, unknown>, metadata: { basis_date?: string }) => runtimeMetadata(requestEnv, manifest as FinanceManifest, metadata as SearchIndexFile),
@@ -3249,7 +3297,7 @@ export default {
     }
 
     const diagnostics = requestDiagnostics(request);
-    const server = createServer(env, diagnostics);
+    const server = createServer(env, diagnostics, request.signal);
     // Keep the request promise open until the tool handler has produced its
     // result. Streamable SSE responses can otherwise be closed by the
     // stateless Worker runtime while a shard-backed tool is still hydrating.

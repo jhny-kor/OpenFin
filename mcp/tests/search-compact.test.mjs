@@ -175,10 +175,16 @@ test("search shard loads cannot accumulate unbounded in-flight work", () => {
   assert.match(workerSource, /const MAX_QUEUED_SEARCH_SHARD_LOADS = 8/);
   assert.match(workerSource, /const SEARCH_SHARD_SLOT_LEASE_MS = 15_000/);
   assert.match(workerSource, /const inFlightSearchShardStartedAt = new Map/);
+  assert.match(workerSource, /const inFlightSearchShardControllers = new Map/);
   assert.match(workerSource, /pruneStaleSearchShardRequests\(\)/);
+  assert.match(workerSource, /function acquireSearchShardSlot\(signal\?: AbortSignal\)/);
+  assert.match(workerSource, /signal\?\.addEventListener\("abort", onAbort/);
+  assert.match(workerSource, /inFlightSearchShardControllers\.get\(key\)\?\.abort\(\)/);
   assert.match(workerSource, /let releaseSlot: SearchShardSlotRelease \| undefined/);
   assert.match(workerSource, /releaseSlot\?\.\(\)/);
   assert.match(workerSource, /signal: controller\.signal/);
+  assert.match(workerSource, /rawText = await fetchText\(url, MAX_SINGLE_SHARD_BYTES, requestController\.signal\)/);
+  assert.match(workerSource, /createServer\(env, diagnostics, request\.signal\)/);
 });
 
 test("a replacement shard releases its cache tier before fetching", () => {
@@ -219,7 +225,7 @@ test("query-bound hot shard hydration avoids materializing unrelated rows", () =
   assert.match(workerSource, /const rowIndexes = query === undefined \? undefined : hotSearchRowIndexes\(payload, query\)/);
   assert.match(workerSource, /const partial = rowIndexes !== undefined/);
   assert.match(workerSource, /if \(!partial && requestGeneration !== "uninitialized"/);
-  assert.match(workerSource, /loadSearchShard\(env, shard, diagnostics, query\)/);
+  assert.match(workerSource, /loadSearchShard\(env, shard, diagnostics, query(?:, signal)?\)/);
 });
 
 test("support hot rows decode optional fields lazily and preserve fetch projection", () => {
@@ -283,7 +289,7 @@ test("exact title lookup is isolated and falls back when there is no exact match
   assert.match(workerSource, /queryTokens\(query\)\.length >= 3/);
   assert.match(workerSource, /const exactLookupRequested = exactProductLookup \|\| exactTypedLookup/);
   assert.match(workerSource, /if \(exactShards\?\.length && exactLookupRequested\)/);
-  assert.match(workerSource, /loadTargetedExactShardItems\(env, exactShard, query, true\)/);
+  assert.match(workerSource, /loadTargetedExactShardItems\(env, exactShard, query, true(?:, signal)?\)/);
   assert.doesNotMatch(workerSource, /loadSearchShard\(env, exactShard\)/);
   assert.match(workerSource, /const exactMatches = exactItems\.filter/);
   assert.match(workerSource, /if \(exactMatches\.length\) return exactMatches;/);
@@ -311,7 +317,7 @@ test("exact fetch reuses only the matching hot row before targeted decoding", ()
   assert.match(source, /cached\.generation !== manifestGeneration/);
   assert.match(source, /cached\.items\.find\(\(candidate\) => candidate\.id === itemId\)/);
   assert.match(source, /if \(item\) return \[item\]/);
-  assert.match(source, /loadTargetedExactShardItems\(env, shard, itemId\)/);
+  assert.match(source, /loadTargetedExactShardItems\(env, shard, itemId(?:, false, signal)?\)/);
   assert.match(targetedSource, /generationCacheKey\(manifestGeneration, key\)/);
   assert.match(targetedSource, /const \{ payload, source \} = await pending/);
   assert.doesNotMatch(source, /cachedExactFetchShards\.set/);
