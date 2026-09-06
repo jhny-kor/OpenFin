@@ -1,6 +1,6 @@
 {
   "version": "OPENFIN-PROVENANCE-COVERAGE-2026.07.28.1",
-  "generated_at": "2026-08-07T05:04:11.851Z",
+  "generated_at": "2026-09-06T07:06:23.298Z",
   "item_count": 21289,
   "external_item_count": 21133,
   "provenance_covered_count": 21133,
@@ -10,7 +10,7 @@
   "source_registry_count": 155,
   "collected_record_count": 20543,
   "deterministic_checksum_count": 20543,
-  "freshness_sla_coverage_ratio": 0.16129032258064516,
+  "freshness_sla_coverage_ratio": 0.08387096774193549,
   "sales_status_current_ratio": 0.00935672514619883,
   "unresolved_assertion_conflict_count": 0,
   "invalid_legacy_url_count": 0,
