@@ -1,0 +1,106 @@
+name: Diagnose OpenFin Worker Preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_url:
+        description: Version preview URL only (for example https://abc-openfin-mcp.y2kthr.workers.dev)
+        required: true
+        type: string
+      version_id:
+        description: Cloudflare Worker version UUID
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      CANDIDATE_URL: ${{ inputs.candidate_url }}
+      VERSION_ID: ${{ inputs.version_id }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+      - name: Validate preview target and version
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os, re, urllib.parse
+          url = urllib.parse.urlparse(os.environ['CANDIDATE_URL'])
+          if url.username or url.password or url.port or url.path not in ('', '/') or url.query or url.fragment:
+              raise SystemExit('candidate_url must be a preview origin without credentials, port, path, or query')
+          if url.scheme != 'https' or not re.fullmatch(r'[a-z0-9-]+-openfin-mcp\.y2kthr\.workers\.dev', url.hostname or ''):
+              raise SystemExit('candidate_url must be an HTTPS version preview host')
+          if not re.fullmatch(r'[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}', os.environ['VERSION_ID']):
+              raise SystemExit('version_id must be a UUID')
+          PY
+          echo "REPORT_DIR=$RUNNER_TEMP/openfin-worker-diagnostics" >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/openfin-worker-diagnostics"
+      - name: Capture read-only Worker settings subset
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set +x
+          if [ -n "${CLOUDFLARE_API_TOKEN:-}" ] && [ -n "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+            curl --silent --show-error --location --fail \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/openfin-mcp/settings" \
+              | jq '{limits: .result.limits, usage_model: .result.usage_model, observability: .result.observability}' > "$REPORT_DIR/settings.json" || echo '{"error":"settings endpoint unavailable"}' > "$REPORT_DIR/settings.json"
+          else
+            echo '{"error":"Cloudflare read-only credentials unavailable"}' > "$REPORT_DIR/settings.json"
+          fi
+      - name: Capture bounded version tail
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npx --yes wrangler@4.131.1 --version >/dev/null
+          timeout --signal=TERM 120s npx --yes wrangler@4.131.1 tail openfin-mcp --version-id "$VERSION_ID" --format json > "$REPORT_DIR/worker-tail.json" 2> "$REPORT_DIR/worker-tail.error.log" &
+          tail_pid=$!
+          sleep 8
+          timeout --signal=TERM 90s node --input-type=module <<'JS' > "$REPORT_DIR/probe.json"
+          import fs from 'node:fs';
+          import { readBodyText } from './mcp/scripts/live-regression-transport.mjs';
+          const endpoint = `${process.env.CANDIDATE_URL.replace(/\/$/, '')}/mcp`;
+          const fixture = fs.readFileSync('tests/golden/openfin-runtime-contract-120.jsonl', 'utf8').trim().split('\n').map(JSON.parse);
+          const cases = fixture.filter((entry) => ['search', 'fetch'].includes(entry.tool)).slice(0, 20);
+          let id = 0;
+          const call = async (entry) => {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 15_000);
+            const started = Date.now();
+            try {
+              const response = await fetch(endpoint, { method: 'POST', headers: { 'content-type': 'application/json', accept: 'application/json', 'MCP-Protocol-Version': '2025-06-18' }, body: JSON.stringify({ jsonrpc: '2.0', id: ++id, method: 'tools/call', params: { name: entry.tool, arguments: entry.arguments } }), signal: controller.signal });
+              const body = await readBodyText(response, 15000, 16 * 1024 * 1024);
+              return { case_id: entry.case_id, tool: entry.tool, http_status: response.status, elapsed_ms: Date.now() - started, body: body.slice(0, 16384) };
+            } catch (error) { return { case_id: entry.case_id, tool: entry.tool, http_status: 0, elapsed_ms: Date.now() - started, error: error instanceof Error ? error.message : String(error) }; }
+            finally { clearTimeout(timer); }
+          };
+          for (const entry of cases) console.log(JSON.stringify(await call(entry)));
+          JS
+          code=0
+          wait "$tail_pid" || code=$?
+          test "$code" = 0 || test "$code" = 124
+      - name: Summarize tail resource outcomes
+        if: always()
+        run: |
+          jq -n --slurpfile tail "$REPORT_DIR/worker-tail.json" --slurpfile probe "$REPORT_DIR/probe.json" \
+            '{tail_records: ($tail | length), probe: ($probe[0] // null), resource_outcomes: [($tail[]? | {outcome, exceededCpu, exceededMemory} )]}' \
+            > "$REPORT_DIR/summary.json" || true
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        if: always()
+        with:
+          name: openfin-worker-diagnostics-${{ github.run_id }}
+          path: ${{ env.REPORT_DIR }}
+          retention-days: 3
+          if-no-files-found: warn
