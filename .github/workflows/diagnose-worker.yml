@@ -106,9 +106,11 @@ jobs:
           process.env.EXPECTED_DEPLOYMENT_COMMIT = preview.deployment_commit;
           await import('./mcp/scripts/live-regression.mjs');
           JS
+          sleep 3
+          kill "$tail_pid" 2>/dev/null || true
           code=0
           wait "$tail_pid" || code=$?
-          test "$code" = 0 || test "$code" = 124
+          test "$code" = 0 || test "$code" = 124 || test "$code" = 143
           exit "$probe_code"
       - name: Restore original production version
         if: ${{ always() && steps.attach.outputs.previous != '' }}

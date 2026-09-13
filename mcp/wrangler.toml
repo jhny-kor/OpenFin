@@ -3,6 +3,11 @@ main = "src/index.ts"
 compatibility_date = "2026-05-03"
 compatibility_flags = ["nodejs_compat"]
 
+# Explicit request CPU ceiling; paid Workers capacity is required.
+# Measured candidate cold requests used up to 310 ms.
+[limits]
+cpu_ms = 1000
+
 [vars]
 FINANCE_MANIFEST_URL = "https://jhny-kor.github.io/OpenFin/opentax/finance-ontology-manifest.json"
 FINANCE_WEB_BASE_URL = "https://jhny-kor.github.io/OpenFin/opentax/"

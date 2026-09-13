@@ -1,0 +1,45 @@
+{
+  "run_url": "https://github.com/jhny-kor/OpenFin/actions/runs/34767592820",
+  "candidate_version": "4c2aeaa0-62d8-4a0a-90d0-5519f4a017b8",
+  "regression": {
+    "status": "failed",
+    "test_count": 120,
+    "passed_count": 117,
+    "failed_count": 3,
+    "transport_error_count": 3
+  },
+  "tail_records": 213,
+  "cpu_limit_failures": [
+    {
+      "outcome": "exceededCpu",
+      "cpuTime": 34,
+      "wallTime": 113,
+      "exceptions": [
+        {
+          "name": "Error",
+          "message": "Worker exceeded CPU time limit.",
+          "timestamp": 1789315655251
+        }
+      ]
+    },
+    {
+      "outcome": "exceededCpu",
+      "cpuTime": 10,
+      "wallTime": 25,
+      "exceptions": [
+        {
+          "name": "Error",
+          "message": "Worker exceeded CPU time limit.",
+          "timestamp": 1789315655761
+        }
+      ]
+    }
+  ],
+  "successful_cpu_max_ms": 310,
+  "restored_versions": [
+    {
+      "version_id": "8f8d72b6-93c3-4173-8ec6-54beae3657a9",
+      "percentage": 100
+    }
+  ]
+}
