@@ -1,4 +1,4 @@
-name: Diagnose OpenFin Worker Preview
+name: Diagnose OpenFin Worker Resources
 
 on:
   workflow_dispatch:
@@ -12,6 +12,10 @@ on:
         required: true
         type: string
 
+concurrency:
+  group: openfin-release
+  cancel-in-progress: false
+
 permissions:
   contents: read
 
@@ -19,7 +23,7 @@ jobs:
   diagnose:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     env:
       CANDIDATE_URL: ${{ inputs.candidate_url }}
       VERSION_ID: ${{ inputs.version_id }}
@@ -59,6 +63,19 @@ jobs:
           else
             echo '{"error":"Cloudflare read-only credentials unavailable"}' > "$REPORT_DIR/settings.json"
           fi
+      - name: Attach candidate at zero percent for diagnostic requests
+        id: attach
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          npx --yes wrangler@4.131.1 deployments status --name openfin-mcp --json > "$REPORT_DIR/before.json"
+          jq -e '(.versions | length) == 1 and .versions[0].percentage == 100' "$REPORT_DIR/before.json" >/dev/null
+          previous="$(jq -r '.versions[0].version_id' "$REPORT_DIR/before.json")"
+          test "$previous" != "$VERSION_ID"
+          echo "previous=$previous" >> "$GITHUB_OUTPUT"
+          npx --yes wrangler@4.131.1 versions deploy --name openfin-mcp "$previous@100%" "$VERSION_ID@0%" --message "Zero-percent bounded resource diagnostic" -y
       - name: Capture bounded version tail
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -68,19 +85,25 @@ jobs:
           timeout --signal=TERM 120s npx --yes wrangler@4.131.1 tail openfin-mcp --version-id "$VERSION_ID" --format json > "$REPORT_DIR/worker-tail.json" 2> "$REPORT_DIR/worker-tail.error.log" &
           tail_pid=$!
           sleep 8
-          timeout --signal=TERM 90s node --input-type=module <<'JS' > "$REPORT_DIR/probe.json"
+          probe_code=0
+          timeout --signal=TERM 90s node --input-type=module <<'JS' > "$REPORT_DIR/probe.json" || probe_code=$?
           import fs from 'node:fs';
           import { readBodyText } from './mcp/scripts/live-regression-transport.mjs';
-          const endpoint = `${process.env.CANDIDATE_URL.replace(/\/$/, '')}/mcp`;
+          const origin = 'https://openfin-mcp.y2kthr.workers.dev';
+          const override = { 'Cloudflare-Workers-Version-Overrides': `openfin-mcp="${process.env.VERSION_ID}"` };
+          const preview = await fetch(`${process.env.CANDIDATE_URL.replace(/\/$/, '')}/health`, { signal: AbortSignal.timeout(15000) }).then(r => r.json());
+          const actual = await fetch(`${origin}/health`, { headers: override, signal: AbortSignal.timeout(15000) }).then(r => r.json());
+          if (!preview.deployment_commit || preview.deployment_commit !== actual.deployment_commit || preview.artifact_generation !== actual.artifact_generation) throw new Error('Candidate override health parity failed');
+          const endpoint = `${origin}/mcp`;
           const fixture = fs.readFileSync('tests/golden/openfin-runtime-contract-120.jsonl', 'utf8').trim().split('\n').map(JSON.parse);
-          const cases = fixture.filter((entry) => ['search', 'fetch'].includes(entry.tool)).slice(0, 20);
+          const cases = fixture.flatMap(entry => (entry.semantic_search || []).flatMap(item => [{ case_id: `${entry.case_id}-search`, tool: 'search', arguments: { query: item.query, type: item.type, limit: 3 } }, { case_id: `${entry.case_id}-fetch`, tool: 'fetch', arguments: { id: item.fetch_id } }])).slice(0, 20);
           let id = 0;
           const call = async (entry) => {
             const controller = new AbortController();
             const timer = setTimeout(() => controller.abort(), 15_000);
             const started = Date.now();
             try {
-              const response = await fetch(endpoint, { method: 'POST', headers: { 'content-type': 'application/json', accept: 'application/json', 'MCP-Protocol-Version': '2025-06-18' }, body: JSON.stringify({ jsonrpc: '2.0', id: ++id, method: 'tools/call', params: { name: entry.tool, arguments: entry.arguments } }), signal: controller.signal });
+              const response = await fetch(endpoint, { method: 'POST', headers: { ...override, 'content-type': 'application/json', accept: 'application/json, text/event-stream', 'MCP-Protocol-Version': '2025-06-18' }, body: JSON.stringify({ jsonrpc: '2.0', id: ++id, method: 'tools/call', params: { name: entry.tool, arguments: entry.arguments } }), signal: controller.signal });
               const body = await readBodyText(response, 15000, 16 * 1024 * 1024);
               return { case_id: entry.case_id, tool: entry.tool, http_status: response.status, elapsed_ms: Date.now() - started, body: body.slice(0, 16384) };
             } catch (error) { return { case_id: entry.case_id, tool: entry.tool, http_status: 0, elapsed_ms: Date.now() - started, error: error instanceof Error ? error.message : String(error) }; }
@@ -91,11 +114,23 @@ jobs:
           code=0
           wait "$tail_pid" || code=$?
           test "$code" = 0 || test "$code" = 124
+          exit "$probe_code"
+      - name: Restore original production version
+        if: ${{ always() && steps.attach.outputs.previous != '' }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PREVIOUS: ${{ steps.attach.outputs.previous }}
+        run: |
+          set -euo pipefail
+          npx --yes wrangler@4.131.1 versions deploy --name openfin-mcp --version-id "$PREVIOUS" --percentage 100 --message "Restore after bounded diagnostic" -y
+          npx --yes wrangler@4.131.1 deployments status --name openfin-mcp --json > "$REPORT_DIR/after.json"
+          jq -e --arg previous "$PREVIOUS" '(.versions | length) == 1 and .versions[0].percentage == 100 and .versions[0].version_id == $previous' "$REPORT_DIR/after.json"
       - name: Summarize tail resource outcomes
         if: always()
         run: |
           jq -n --slurpfile tail "$REPORT_DIR/worker-tail.json" --slurpfile probe "$REPORT_DIR/probe.json" \
-            '{tail_records: ($tail | length), probe: ($probe[0] // null), resource_outcomes: [($tail[]? | {outcome, exceededCpu, exceededMemory} )]}' \
+            '{tail_records: ($tail | length), probe: $probe, resource_outcomes: [($tail[]? | {outcome, exceededCpu, exceededMemory} )]}' \
             > "$REPORT_DIR/summary.json" || true
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: always()
