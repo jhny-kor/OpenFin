@@ -5,6 +5,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+import ts from "typescript";
 import { compactSearchResult, diversifyBroadResults, enrichSearchPayload } from "../src/tools/search.ts";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -253,6 +254,31 @@ test("query-bound hot shard hydration avoids materializing unrelated rows", () =
   assert.doesNotMatch(workerSource, /payloadBytes/);
   assert.match(workerSource, /if \(!partial && !hotPayload && requestGeneration !== "uninitialized"/);
   assert.match(workerSource, /loadSearchShard\(env, shard, diagnostics, query(?:, signal)?\)/);
+  const selectorStart = workerSource.indexOf("function hotSearchRowIndexes");
+  const selectorEnd = workerSource.indexOf("function parseSearchItems", selectorStart);
+  const selectorSource = workerSource.slice(selectorStart, selectorEnd);
+  const transpiled = ts.transpileModule(selectorSource, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None } }).outputText;
+  const hotSearchRowIndexes = new Function("isRecord", "queryTokens", "normalizeQuery", "SUPPORT_BROAD_QUERY_TOKENS", `${transpiled}; return hotSearchRowIndexes;`)(
+    (value) => value !== null && typeof value === "object" && !Array.isArray(value),
+    (query) => query.trim().split(/\s+/).filter(Boolean),
+    (query) => query.trim().toLocaleLowerCase("ko-KR").replace(/\s+/g, " "),
+    new Set(["지원", "지원금", "보조금", "신청"]),
+  );
+  const supportRows = Array.from({ length: 300 }, (_, index) => [
+    `support.${index}`,
+    index === 279 ? "target" : `target item ${index}`,
+  ]);
+  const supportTerms = Array.from({ length: 300 }, (_, index) => [index < 280 ? 0 : 1]);
+  const bounded = hotSearchRowIndexes(
+    { format: "openfin-hot-search-v1", shard_id: "support", vocabulary: ["target", "other"], search_terms: supportTerms, fields: ["id", "title"], items: supportRows },
+    "target",
+  );
+  assert.equal(bounded.length, 256);
+  assert.ok(bounded.includes(279), "exact title match must survive the 256-row bound");
+  assert.ok(!bounded.includes(280), "non-matching rows must not enter the bounded result");
+  assert.equal(hotSearchRowIndexes({ format: "openfin-hot-search-v1", shard_id: "support", vocabulary: ["target"], search_terms: [["bad"]], fields: [], items: [["row"]] }, "target"), undefined);
+  assert.deepEqual(hotSearchRowIndexes({ format: "openfin-hot-search-v1", shard_id: "support", vocabulary: ["unrelated"], search_terms: [[], []], fields: ["title"], items: [["target"], ["other"]] }, "target"), [0]);
+  assert.equal(hotSearchRowIndexes({ format: "openfin-hot-search-v1", shard_id: "support", vocabulary: ["target"], search_terms: [[], []], fields: ["title"], items: [["target"], ["other"]] }, "missing"), undefined);
 });
 
 test("support hot rows decode optional fields lazily and preserve fetch projection", () => {

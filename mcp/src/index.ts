@@ -2032,6 +2032,16 @@ function hotSearchRowIndexes(value: unknown, query: string): readonly number[] |
   const fields = Array.isArray(value.fields) ? value.fields : [];
   const titleColumn = fields.indexOf("title");
   const rows = value.items;
+  // Resolve vocabulary substring matches once per query. Repeating the
+  // string scan for every row and term is a major CPU multiplier on the
+  // support shard while preserving the existing term-id semantics.
+  const tokenTermIds = selectionTokens.map((token) => {
+    const matching = new Set<number>();
+    for (const [termId, term] of vocabulary.entries()) {
+      if (typeof term === "string" && term.includes(token)) matching.add(termId);
+    }
+    return matching;
+  });
   const selected: number[] = [];
   const selectedScores: Array<{ index: number; score: number }> = [];
   for (const [index, terms] of searchTerms.entries()) {
@@ -2040,14 +2050,14 @@ function hotSearchRowIndexes(value: unknown, query: string): readonly number[] |
     let match = false;
     let matchScore = 0;
     if (value.shard_id === "support") {
-      for (const token of selectionTokens) {
-        if (terms.some((termId) => typeof termId === "number" && typeof vocabulary[termId] === "string" && vocabulary[termId].includes(token))) {
+      for (const matchingTermIds of tokenTermIds) {
+        if (terms.some((termId) => typeof termId === "number" && matchingTermIds.has(termId))) {
           match = true;
           matchScore += 10;
         }
       }
     } else {
-      match = selectionTokens.some((token) => terms.some((termId) => typeof termId === "number" && typeof vocabulary[termId] === "string" && vocabulary[termId].includes(token)));
+      match = tokenTermIds.some((matchingTermIds) => terms.some((termId) => typeof termId === "number" && matchingTermIds.has(termId)));
     }
     if (!match && Array.isArray(row)) {
       for (const [column, value] of row.entries()) {
