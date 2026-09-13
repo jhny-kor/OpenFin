@@ -96,7 +96,7 @@ jobs:
           if (!preview.deployment_commit || preview.deployment_commit !== actual.deployment_commit || preview.artifact_generation !== actual.artifact_generation) throw new Error('Candidate override health parity failed');
           const endpoint = `${origin}/mcp`;
           const fixture = fs.readFileSync('tests/golden/openfin-runtime-contract-120.jsonl', 'utf8').trim().split('\n').map(JSON.parse);
-          const cases = fixture.flatMap(entry => (entry.semantic_search || []).flatMap(item => [{ case_id: `${entry.case_id}-search`, tool: 'search', arguments: { query: item.query, type: item.type, limit: 3 } }, { case_id: `${entry.case_id}-fetch`, tool: 'fetch', arguments: { id: item.fetch_id } }])).slice(0, 20);
+          const cases = [...fixture.filter(entry => entry.tool === 'search').slice(0, 10), ...fixture.flatMap(entry => (entry.semantic_search || []).slice(0, 1).flatMap(item => [{ case_id: `${entry.case_id}-search`, tool: 'search', arguments: { query: item.query, type: item.type, limit: 3 } }, { case_id: `${entry.case_id}-fetch`, tool: 'fetch', arguments: { id: item.fetch_id } }])).slice(0, 10)];
           let id = 0;
           const call = async (entry) => {
             const controller = new AbortController();
