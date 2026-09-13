@@ -23,7 +23,7 @@ jobs:
   diagnose:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     env:
       CANDIDATE_URL: ${{ inputs.candidate_url }}
       VERSION_ID: ${{ inputs.version_id }}
@@ -82,34 +82,29 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           npx --yes wrangler@4.131.1 --version >/dev/null
-          timeout --signal=TERM 120s npx --yes wrangler@4.131.1 tail openfin-mcp --version-id "$VERSION_ID" --format json > "$REPORT_DIR/worker-tail.json" 2> "$REPORT_DIR/worker-tail.error.log" &
+          timeout --signal=TERM 360s npx --yes wrangler@4.131.1 tail openfin-mcp --version-id "$VERSION_ID" --format json > "$REPORT_DIR/worker-tail.json" 2> "$REPORT_DIR/worker-tail.error.log" &
           tail_pid=$!
           sleep 8
           probe_code=0
-          timeout --signal=TERM 90s node --input-type=module <<'JS' > "$REPORT_DIR/probe.json" || probe_code=$?
-          import fs from 'node:fs';
-          import { readBodyText } from './mcp/scripts/live-regression-transport.mjs';
+          timeout --signal=TERM 300s node --input-type=module <<'JS' > "$REPORT_DIR/probe.json" || probe_code=$?
           const origin = 'https://openfin-mcp.y2kthr.workers.dev';
           const override = { 'Cloudflare-Workers-Version-Overrides': `openfin-mcp="${process.env.VERSION_ID}"` };
-          const preview = await fetch(`${process.env.CANDIDATE_URL.replace(/\/$/, '')}/health`, { signal: AbortSignal.timeout(15000) }).then(r => r.json());
-          const actual = await fetch(`${origin}/health`, { headers: override, signal: AbortSignal.timeout(15000) }).then(r => r.json());
-          if (!preview.deployment_commit || preview.deployment_commit !== actual.deployment_commit || preview.artifact_generation !== actual.artifact_generation) throw new Error('Candidate override health parity failed');
-          const endpoint = `${origin}/mcp`;
-          const fixture = fs.readFileSync('tests/golden/openfin-runtime-contract-120.jsonl', 'utf8').trim().split('\n').map(JSON.parse);
-          const cases = [...fixture.filter(entry => entry.tool === 'search').slice(0, 10), ...fixture.flatMap(entry => (entry.semantic_search || []).slice(0, 1).flatMap(item => [{ case_id: `${entry.case_id}-search`, tool: 'search', arguments: { query: item.query, type: item.type, limit: 3 } }, { case_id: `${entry.case_id}-fetch`, tool: 'fetch', arguments: { id: item.fetch_id } }])).slice(0, 10)];
-          let id = 0;
-          const call = async (entry) => {
-            const controller = new AbortController();
-            const timer = setTimeout(() => controller.abort(), 15_000);
-            const started = Date.now();
-            try {
-              const response = await fetch(endpoint, { method: 'POST', headers: { ...override, 'content-type': 'application/json', accept: 'application/json, text/event-stream', 'MCP-Protocol-Version': '2025-06-18' }, body: JSON.stringify({ jsonrpc: '2.0', id: ++id, method: 'tools/call', params: { name: entry.tool, arguments: entry.arguments } }), signal: controller.signal });
-              const body = await readBodyText(response, 15000, 16 * 1024 * 1024);
-              return { case_id: entry.case_id, tool: entry.tool, http_status: response.status, elapsed_ms: Date.now() - started, body: body.slice(0, 16384) };
-            } catch (error) { return { case_id: entry.case_id, tool: entry.tool, http_status: 0, elapsed_ms: Date.now() - started, error: error instanceof Error ? error.message : String(error) }; }
-            finally { clearTimeout(timer); }
+          const originalFetch = globalThis.fetch;
+          const health = async (url, headers = {}) => {
+            const response = await originalFetch(url, { headers, signal: AbortSignal.timeout(15000) });
+            if (!response.ok) throw new Error(`Health HTTP ${response.status}`);
+            return response.json();
           };
-          for (const entry of cases) console.log(JSON.stringify(await call(entry)));
+          const preview = await health(`${process.env.CANDIDATE_URL.replace(/\/$/, '')}/health`);
+          const actual = await health(`${origin}/health`, override);
+          if (!preview.deployment_commit || preview.deployment_commit !== actual.deployment_commit || preview.artifact_generation !== actual.artifact_generation) throw new Error('Candidate override health parity failed');
+          globalThis.fetch = (url, options = {}) => originalFetch(url, new URL(url).origin === origin ? { ...options, headers: { ...options.headers, ...override } } : options);
+          process.env.MCP_URL = `${origin}/mcp`;
+          process.env.LIVE_DIAGNOSTICS = '1';
+          process.env.LIVE_CASE_ATTEMPTS = '1';
+          process.env.LIVE_METADATA_ATTEMPTS = '1';
+          process.env.EXPECTED_DEPLOYMENT_COMMIT = preview.deployment_commit;
+          await import('./mcp/scripts/live-regression.mjs');
           JS
           code=0
           wait "$tail_pid" || code=$?
@@ -130,7 +125,7 @@ jobs:
         if: always()
         run: |
           jq -n --slurpfile tail "$REPORT_DIR/worker-tail.json" --slurpfile probe "$REPORT_DIR/probe.json" \
-            '{tail_records: ($tail | length), probe: $probe, resource_outcomes: [($tail[]? | {outcome, exceededCpu, exceededMemory} )]}' \
+            '{tail_records: ($tail | length), probe: [($probe[]? | {status,test_count,passed_count,failed_count,transport_error_count})], resource_outcomes: [($tail[]? | {outcome, cpuTime, wallTime, exceptions} )]}' \
             > "$REPORT_DIR/summary.json" || true
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: always()
