@@ -1,0 +1,27 @@
+{
+  "scope": "local validation only; not production release evidence",
+  "live": {
+    "status": "current",
+    "checked_at": "2026-09-13T15:19:38.347Z",
+    "endpoint": "http://127.0.0.1:8767/mcp",
+    "runtime_version": "openfin-mcp-local-validation",
+    "test_count": 120,
+    "passed_count": 120,
+    "failed_count": 0,
+    "transport_error_count": 0
+  },
+  "financial_quality": {
+    "live_status": "current",
+    "live_positive_cases": [
+      "deposit-positive-runtime",
+      "saving-positive-runtime"
+    ],
+    "live_blocked_cases": []
+  },
+  "tests": {
+    "knowledge": 53,
+    "mcp": 111,
+    "typecheck": "passed",
+    "npm_audit_vulnerabilities": 0
+  }
+}

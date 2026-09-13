@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { readBodyText, transportErrorCount as countTransportErrors } from "./live-regression-transport.mjs";
 
 const root = new URL("../..", import.meta.url).pathname;
 const fixturePath = path.join(root, "tests/golden/openfin-runtime-contract-120.jsonl");
@@ -44,17 +45,8 @@ const fetchWithTimeout = async (url, options = {}) => {
     clearTimeout(timer);
   }
 };
-const readJsonWithTimeout = async response => {
-  let timer;
-  try {
-    return await Promise.race([
-      response.json(),
-      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(`response body timeout after ${requestTimeoutMs}ms`)), requestTimeoutMs); }),
-    ]);
-  } finally {
-    clearTimeout(timer);
-  }
-};
+const readJsonWithTimeout = async response => JSON.parse(await readBodyText(response, requestTimeoutMs, 16 * 1024 * 1024));
+
 let healthPayload;
 let manifest;
 let metadataError;
@@ -106,7 +98,7 @@ if (!healthPayload || !manifest) {
 let id = 0;
 let currentCaseId = null;
 let requestSequence = 0;
-const transportMetadata = (response, startedAt, requestId) => {
+const transportMetadata = (response, startedAt, requestId, rawBody = null) => {
   const rawDiagnostics = response.headers.get("x-openfin-diagnostics");
   let openfinDiagnostics = null;
   if (rawDiagnostics) {
@@ -120,6 +112,8 @@ const transportMetadata = (response, startedAt, requestId) => {
     cf_ray: response.headers.get("cf-ray"),
     cf_cache_status: response.headers.get("cf-cache-status"),
     server_timing: response.headers.get("server-timing"),
+    raw_body: rawBody,
+    response_headers: response.ok ? null : Object.fromEntries(response.headers),
     openfin: openfinDiagnostics,
   };
 };
@@ -139,16 +133,24 @@ const rpc = async (method, params = {}, { diagnostics = diagnosticsEnabled } = {
   try {
     response = await fetchWithTimeout(endpoint, { method: "POST", headers, body: JSON.stringify({ jsonrpc: "2.0", id: ++id, method, params }) });
   } catch (error) {
-    return { isError: true, error: { message: `${method}: ${error instanceof Error ? error.message : String(error)}` }, http_status: 0, _transport: { request_id: requestId, case_id: currentCaseId, http_status: 0, elapsed_ms: Math.round((performance.now() - startedAt) * 100) / 100, cf_ray: null, cf_cache_status: null, server_timing: null, openfin: null } };
+    return { isError: true, error: { message: `${method}: ${error instanceof Error ? error.message : String(error)}` }, http_status: 0, _transport: { request_id: requestId, case_id: currentCaseId, http_status: 0, elapsed_ms: Math.round((performance.now() - startedAt) * 100) / 100, cf_ray: null, cf_cache_status: null, server_timing: null, raw_body: null, openfin: null } };
   }
-  const transport = transportMetadata(response, startedAt, requestId);
-  let body; try { body = await readJsonWithTimeout(response); } catch (error) { body = { error: { message: `${method}: ${response.status}`, detail: error instanceof Error ? error.message : String(error) } }; }
+  const rawBody = await readBodyText(response, requestTimeoutMs, 16 * 1024 * 1024);
+  const bodyFailed = rawBody.includes("[body_read_error]");
+  const transport = { ...transportMetadata(response, startedAt, requestId, !response.ok || bodyFailed ? rawBody : null), body_error: bodyFailed };
+  let body;
+  try { body = rawBody ? JSON.parse(rawBody) : {}; }
+  catch (error) { body = { error: { message: `${method}: ${response.status}`, detail: error instanceof Error ? error.message : String(error) } }; }
   if (body.error) return { isError: true, error: body.error, http_status: response.status, _transport: transport };
   if (!response.ok) return { isError: true, error: { message: `${method}: ${response.status}` }, http_status: response.status, _transport: transport };
   if (body.result && typeof body.result === "object" && !Array.isArray(body.result)) return { ...body.result, _transport: transport };
   return { result: body.result, _transport: transport };
 };
-await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "openfin-live-regression", version: "1" } });
+const initialized = await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "openfin-live-regression", version: "1" } });
+if (initialized.isError || !initialized.serverInfo) {
+  console.log(JSON.stringify({ status: "failed", mode: "live", checked_at: new Date().toISOString(), endpoint, runtime_version: healthPayload.runtime_version, deployment_commit: healthPayload.deployment_commit, generation_id: manifest.generation_id, test_count: fixture.length, passed_count: 0, failed_count: fixture.length, skipped_count: 0, transport_error_count: 1, initialization: initialized, results: [] }, null, 2));
+  process.exit(1);
+}
 const getPath = (value, pathExpression) => {
   const pathParts = String(pathExpression).replace(/^\$\.?/, "").replace(/\[(\d+)\]/g, ".$1").split(".").filter(Boolean);
   return pathParts.reduce((current, part) => current == null ? undefined : current[part], value);
@@ -371,6 +373,7 @@ for (const entry of fixture) {
 currentCaseId = null;
 const passed = results.filter((result) => result.status === "passed").length;
 const transportDiagnostics = results.flatMap((result) => result.transport_diagnostics ?? []);
-const report = { status: passed === fixture.length ? "current" : "failed", mode: "live", checked_at: new Date().toISOString(), endpoint, runtime_version: healthPayload.runtime_version ?? null, deployment_commit: healthPayload.deployment_commit ?? null, generation_id: manifest.generation_id ?? null, manifest_version: manifest.version ?? null, manifest_checksum: manifest.manifest_checksum ?? null, loaded_index_checksum: manifest.search_index?.export_checksum ?? null, source_status_checksum: manifest.source_status?.export_checksum ?? null, loaded_item_count: manifest.search_index?.item_count ?? null, fixture_checksum: `sha256:${checksum}`, semantic_unique_case_count: new Set(semanticHashes).size, category_counts: categoryCounts, transport_error_count: transportDiagnostics.filter((entry) => entry.http_status === 0 || entry.http_status >= 500).length, test_count: fixture.length, passed_count: passed, failed_count: fixture.length - passed, skipped_count: 0, results };
+const transportErrorCount = countTransportErrors(transportDiagnostics);
+const report = { status: passed === fixture.length && transportErrorCount === 0 ? "current" : "failed", mode: "live", checked_at: new Date().toISOString(), endpoint, runtime_version: healthPayload.runtime_version ?? null, deployment_commit: healthPayload.deployment_commit ?? null, generation_id: manifest.generation_id ?? null, manifest_version: manifest.version ?? null, manifest_checksum: manifest.manifest_checksum ?? null, loaded_index_checksum: manifest.search_index?.export_checksum ?? null, source_status_checksum: manifest.source_status?.export_checksum ?? null, loaded_item_count: manifest.search_index?.item_count ?? null, fixture_checksum: `sha256:${checksum}`, semantic_unique_case_count: new Set(semanticHashes).size, category_counts: categoryCounts, transport_error_count: transportErrorCount, test_count: fixture.length, passed_count: passed, failed_count: fixture.length - passed, skipped_count: 0, results };
 console.log(JSON.stringify(report, null, 2));
-if (passed !== fixture.length) process.exitCode = 1;
+if (report.status !== "current") process.exitCode = 1;

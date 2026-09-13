@@ -107,7 +107,7 @@ test('current release pointer separates candidate from production generations', 
   assert.match(pointer.manifest_checksum, /^[0-9a-f]{64}$/);
   assert.match(pointer.search_index_checksum, /^[0-9a-f]{64}$/);
   assert.match(pointer.source_status_checksum, /^[0-9a-f]{64}$/);
-  for (const field of ['validation_at_promotion', 'latest_runtime_attempt', 'last_successful_runtime_attempt', 'operational_status', 'rollback_history_url']) {
+  for (const field of ['validation_at_promotion', 'validation_runtime_attempt', 'runtime_monitoring', 'operational_status', 'rollback_history_url']) {
     assert.ok(Object.hasOwn(pointer, field), `release pointer field missing: ${field}`);
   }
 });

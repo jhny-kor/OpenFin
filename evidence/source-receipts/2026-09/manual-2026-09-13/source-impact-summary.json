@@ -1,0 +1,940 @@
+{
+  "version": "OPENFIN-SOURCE-IMPACT-2026.07.28.1",
+  "generated_at": "2026-09-13T14:49:48.328Z",
+  "review_source_count": 133,
+  "affected_item_count": 20046,
+  "full_report_checksum": "sha256:33a85dc6665c038235aba49ad9844178eb5e7eb3da8d839ad4d5bae92a746db9",
+  "sources": [
+    {
+      "source_id": "source.bccard.check-card-list",
+      "status": "changed",
+      "affected_item_count": 88,
+      "accepted_checksum": "sha256:506234ca97d1fcfbbb64bd6b7954b7ba69f7748f6dab4ed59f49f37ce76e95a4",
+      "observed_checksum": "sha256:f1b1097d7b19da348ed28d72b68887bb27a0bdc61e74e1e32f5f25df6b6c16d9"
+    },
+    {
+      "source_id": "source.bccard.credit-card-list",
+      "status": "changed",
+      "affected_item_count": 167,
+      "accepted_checksum": "sha256:024cdf4528e4db9e6317db09d854c24994e00622b82d4b23d9b03dc5176cc4c3",
+      "observed_checksum": "sha256:ec20133f4babcb5197f0e832361f4776020c027af24bf427b4772c7f27b40367"
+    },
+    {
+      "source_id": "source.bizinfo.small-business-leap.2026",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:d9c9d45a5204ada3eda133a5bdc1c01a45bea7c189c1473a003a880a4c9c3a67",
+      "observed_checksum": "sha256:2134a3cc55e53d4824dfbf83ec9b8b3f46a997af7d3c9ed22e78ec72491d2ea0"
+    },
+    {
+      "source_id": "source.bizinfo.small-business-management-voucher.2026",
+      "status": "changed",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:01d5d98882291127ce021b2ed21e58a3269232a970319cb8773c88e1972d53df",
+      "observed_checksum": "sha256:d8c0aa594ff88e04557b6fee39b1ced7aa7a18ef63e33318d9ad3fd689540675"
+    },
+    {
+      "source_id": "source.bizinfo.small-business-policy-fund.2026",
+      "status": "changed",
+      "affected_item_count": 8,
+      "accepted_checksum": "sha256:927912b238a2e5a047dd8a0a776a1f3e128f328ea0d6eb39e607a2c83e5034ea",
+      "observed_checksum": "sha256:9cd3bc3b47136b1a4783e702c9b07c65871234fb9d3f6e73a58d902bb87166f6"
+    },
+    {
+      "source_id": "source.bizinfo.small-business-support.2026",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:5f5ac73f5fb0c7d682aa24c8616f2b9c061fe5c096d910199319df6b3476d1a5",
+      "observed_checksum": "sha256:9ec2912c1a3116ac6f12551007cbe5ac5817c0237f3a624b69b7bc3098c63eea"
+    },
+    {
+      "source_id": "source.bok.ecos",
+      "status": "stale",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:1213d7890ec5feaa46c41f3c43705dae8dcfa00c5f16f915618b11339eef64e7",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.call.nts.medical-expense-documents",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:49a6236194af52a601c1b1b71bafac86b9f3a93b8cd97b42c2e245d1154dca63",
+      "observed_checksum": "sha256:79a0bed9d88a80a26365f4c1f819abf158a6c9c5a5ff167d1143d36b3d80b492"
+    },
+    {
+      "source_id": "source.ccrs.long-term-delinquent-debt-adjustment",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:30f7934d08e42ff8804491fbc1a7fcea9502b611da770a1c1de19222d2125d53",
+      "observed_checksum": "sha256:a58932f053ba1518e3f779136edf29d23f944096ebed88dd62b9b4f1cd6ee6f6"
+    },
+    {
+      "source_id": "source.crefia.auto-lease-disclosure",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:d2c87fce6219f41ce157ed0b6ce06b7ac69a0ece4b0b1bc056b60766bf8147b0",
+      "observed_checksum": "sha256:bf9f3b57f6561c7bb0ad3f98851e63eeacf027f388652c42357f839560f93d0f"
+    },
+    {
+      "source_id": "source.crefia.card-lending-products",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:fbcec25d35259a6d0db495addf7e7469231dddbdf0df0e657fcbd395a21fda6c",
+      "observed_checksum": "sha256:c412265747ab48f5578ef65ea7d6d0129887dd2800791dcf05c71993454c2805"
+    },
+    {
+      "source_id": "source.crefia.card-loan-revolving-rates",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:9eb5d1a2de90eaa2d74f3050aa6c34bd307c427942b6114a8dc938be19a18f07",
+      "observed_checksum": "sha256:dd6857c16fa48ae836a4f5f577f1972e45f42ac3ab504d78e6b5e312b2d2e9c3"
+    },
+    {
+      "source_id": "source.crefia.card-products",
+      "status": "changed",
+      "affected_item_count": 1013,
+      "accepted_checksum": "sha256:e2d8acda11cf0201da62f8ba3f15ac6641a876f61d0fb7b9fe6abf67a511523c",
+      "observed_checksum": "sha256:215acbb97717242dac1e797c751f22bdb6b1acc46220dc09abfa758e5d356e4c"
+    },
+    {
+      "source_id": "source.crefia.carddamoa",
+      "status": "changed",
+      "affected_item_count": 51,
+      "accepted_checksum": "sha256:ddf91008b4522b0e3c646b18bb5c27e4c87bcc07a9b08a930d68067a7cdc2716",
+      "observed_checksum": "sha256:db1c6fd5ac879d23e98edea77726bcc7ea00e94cee5ed9d3ed8d2c4130a45383"
+    },
+    {
+      "source_id": "source.crefia.credit-loan-products",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:10c1bee47b39a264f23bfcd247781bcfce4fbde0c8ec69e9ebf9e3c4ab6a950f",
+      "observed_checksum": "sha256:874bd2b32941ece9b2e34ec105f6dfe4f428bb2c484a1b61c3814d64c37863b3"
+    },
+    {
+      "source_id": "source.crefia.credit-loan-rate-disclosure",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:46453026c60f4374da3ea90502a9c29411b7d11a3fdde331bc6749ae77d79f83",
+      "observed_checksum": "sha256:51b1b492ac5330deababe872353177bad8cd4387726b5c5bde3265582ca55c90"
+    },
+    {
+      "source_id": "source.crefia.lease-installment-products",
+      "status": "changed",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:622ce5bce9eec0f8cff89ee37f5d6de831d663066a75eccd3db6223af8b5ad2a",
+      "observed_checksum": "sha256:4cd589adb6cd67ebd8ad60f0f35108d81ec2c923437752da71d6dde0576b7483"
+    },
+    {
+      "source_id": "source.customs-act.2026.article14",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:6a588b20685f1948beb8366e518e4ad2458722c0cd85d85e971fae21d93bd813",
+      "observed_checksum": "sha256:c29a2b4a6f03ffe69f7be3ac9255380aef1d4e1053f5d988f16b134fd46e95fb"
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
+      "status": "stale",
+      "affected_item_count": 8,
+      "accepted_checksum": "sha256:00fc380ef756db604626e273fb4d793629929e841eeada603450ce6cc8cd09ae",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-loan-products",
+      "status": "stale",
+      "affected_item_count": 327,
+      "accepted_checksum": "sha256:9ff76de6df9ea1c5d940c55e35ff099dc5a396f76d7a87539b438dc389a57272",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-support-centers",
+      "status": "stale",
+      "affected_item_count": 8,
+      "accepted_checksum": "sha256:ee0841bf4d6b7f03282daf8d9bb14c4e77ed787853fdb343c0a242103d1213e6",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.easylaw.finance-product-disclosure",
+      "status": "changed",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:5662c8aa3497952b1243aafe2aa846ca28183647504d53e890041bd5d4b3e00f",
+      "observed_checksum": "sha256:a36b871c942a162b555e202d3f6bce879f702e04d39edbc8360b65dcb1cdd51e"
+    },
+    {
+      "source_id": "source.fsb.savings-bank-deposit-rates",
+      "status": "changed",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:4d9ebe2b3ba1d2aa3133c2fd6f156638164376d4de61ec233fb7d7c7965f234f",
+      "observed_checksum": "sha256:b8a23d04327afbc9c8c5f4c9e435f9cef5a2e911884e2ae041d4152324df92e7"
+    },
+    {
+      "source_id": "source.fsc.business-loan-comparison",
+      "status": "changed",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:4f4a3e5299c6bcf00733667f594eebd022f3cce83d3b363757f2defd71d3e247",
+      "observed_checksum": "sha256:a449fc25ee87e131719aca6c96d634a2e17df791a360e9a6681ca025a8e4d40b"
+    },
+    {
+      "source_id": "source.fsc.cofix-overview",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:5053068633e326cee56d7674ba50282ddeac5ff231b76817d9e12b94f5598315",
+      "observed_checksum": "sha256:29bd23d84cef64fe38c5558361b8db4dceca02606994dc3830518ba8eb2d447b"
+    },
+    {
+      "source_id": "source.fsc.domestic-bank-statistics",
+      "status": "stale",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:2bf9882ca8447c048baa4a9b96d9eef16e41bb8acf49dc8ca3bb80493ea7a620",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.fsc.financial-company-basic",
+      "status": "stale",
+      "affected_item_count": 224,
+      "accepted_checksum": "sha256:7d337e70cfd177593135394cd2442840c5b053dc3b4e9247dd3c2279e7400391",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.fsc.financial-company-credit",
+      "status": "stale",
+      "affected_item_count": 224,
+      "accepted_checksum": "sha256:6caa81c36bbe3eec450cb8ef2507c620038eee993cfb46bf7e7e33fffb8bbd69",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.fsc.financial-investment-statistics",
+      "status": "stale",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:91e85df3aaa109d9bf41fcc615586a8a5ed6bc204e8f3063ed6d4b155a83e10a",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.fsc.fund-products-basic",
+      "status": "stale",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:3f25f4bcf894c52816c0653184306cddfea8f11da0419981616e19f58a96287a",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.fsc.funddamoa-guide",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:0fabbcafde1de7778345c13aabd8f8f989b88880da8c5e5eca83a9b31458ec48",
+      "observed_checksum": "sha256:2343b5d84c336d00e08bcab16f16885492021f3ae7b87b836660bd5a45af31ed"
+    },
+    {
+      "source_id": "source.fsc.inclusive-finance-performance",
+      "status": "stale",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:6a6892cb1964110889247605304bc4419ec1ed8cba3fa143d5fb2fa98454e2c2",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.fsc.inclusive-finance-products",
+      "status": "stale",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:0dc82461e60f24048f24ba1a733ccf4df1b66bed9b9a0fcd0d2b721380ed6cb0",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.fsc.isa-guide",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:02333cc9f006ac0b8d18e77509ed0b9843e5ffb645c5a7949149f264916c79ad",
+      "observed_checksum": "sha256:80f130ab62fb4d6583e62a1eb504ad37a19f45a9d075e70bfe6a07e112091626"
+    },
+    {
+      "source_id": "source.fsc.isa.policy",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:e8d07a213fc1be2271702bdfcb26d3c311523271cab378775b05b5255e81083f",
+      "observed_checksum": "sha256:29cb42fad876ec278141d10f1281563757bac564c93d92db11caf28da0e9c3e8"
+    },
+    {
+      "source_id": "source.fsc.medical-reimbursement-insurance",
+      "status": "stale",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:62e091a13ec9f3afc84608f0026ac36f24380760755db1be6da13dbd1933e485",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.fsc.rate-disclosure-guide",
+      "status": "changed",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:42c239355387cce924ae22d666acc88a55c9278d5932569289a0fa26e634c706",
+      "observed_checksum": "sha256:1068a59caf8dac72008aa2e19f485d3d25affb015d5eb93e7720fdb8b51bad33"
+    },
+    {
+      "source_id": "source.fsc.retirement-pension-basic",
+      "status": "stale",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:be36ecfa8aa9c14b82381d0b506cb254994dd1aa65451974b88771dbbb44cbb3",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.fsc.revolving-service-improvement",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:4ff56b11e3681601159a4287fd0206a0b2a4630b594bc3379a3452faceec171a",
+      "observed_checksum": "sha256:90bfc302dbbea56e3e68c845483c1cc7e8add5b89bdb8be55276d74430cc00c1"
+    },
+    {
+      "source_id": "source.fsc.variable-insurance-info",
+      "status": "stale",
+      "affected_item_count": 1,
+      "accepted_checksum": "sha256:6f4407de99117b0bac35080ba6aa06c505dbe6f39d6e6d3bcee7f631ff48ff81",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.fsc.youth-future-savings",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:7dab764466f0b663562eff3e02ca04d3f1b8d200223b0a57de9bf55a4347b5a4",
+      "observed_checksum": "sha256:c10eba0751353350458a037c885afcc6e679894a48acd26b12dbff5d88d52055"
+    },
+    {
+      "source_id": "source.fss.fine.portal",
+      "status": "changed",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:448c0e4e1d4c0da4174e72f89b4a762d1a0a8558acca30cb2c22617e68cf1e6c",
+      "observed_checksum": "sha256:1eefb562e03d18d61ab2593f9c0aa7e4e2cba503eb57bb983f836280ba678917"
+    },
+    {
+      "source_id": "source.fss.finlife.api",
+      "status": "changed",
+      "affected_item_count": 1055,
+      "accepted_checksum": "sha256:a8f22d1410d885fec0654c07648c721a0852b8e79829d1457ccbc150553f2f39",
+      "observed_checksum": "sha256:154d9479a3e57a595805e2d288941ea932fd2b872fb811a82d628e016b50506c"
+    },
+    {
+      "source_id": "source.gov24.benefit-plus.local-supports",
+      "status": "changed",
+      "affected_item_count": 7721,
+      "accepted_checksum": "sha256:03cf59abf34fe75f08412d15159210b78a1d87aa693560c33c7a0b02c599bacf",
+      "observed_checksum": "sha256:db1032a35ee063eefabd2bc0e815e0f097030f551bf10e9a325fd5abe0174844"
+    },
+    {
+      "source_id": "source.govkr.basic-livelihood-benefit",
+      "status": "changed",
+      "affected_item_count": 8,
+      "accepted_checksum": "sha256:753bae7cf92022059b483f14596606ada4660212ccb6ac994c753d4c93f366f4",
+      "observed_checksum": "sha256:d6ac1b483f9ab90abb8bc3c6804ce67f7c577f75af5917177126c99863a6cb27"
+    },
+    {
+      "source_id": "source.hf.bogeumjari-loan",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:cd77e0d6833ae0574864323fd6e14d26a97dee8bfa22d00d5ba63dcad04aacbd",
+      "observed_checksum": "sha256:bb60c375e7a0fbdd5b016e62ce993dffcfba930d28f116f5cc9d36fb203fddac"
+    },
+    {
+      "source_id": "source.hf.bogeumjari-openapi",
+      "status": "stale",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:8946439f28a027ae1c48addab709f042e9b6495b69f10ae7c113cf99c6e2362e",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.hf.didimdol-loan",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:5025c97c10f55919c8b5374d818c7c57863b0b5d75853a918857c318e9128b9c",
+      "observed_checksum": "sha256:a4a4414c7eceb8dfe9e085af401ea228172ded9f34a9d559a5ef18bb3954fc8c"
+    },
+    {
+      "source_id": "source.hf.didimdol-rate.2026-05",
+      "status": "changed",
+      "affected_item_count": 1,
+      "accepted_checksum": "sha256:2b0febc73e0043193faa34d4747dac6c81fa8afe42370c31ac9824970fc37354",
+      "observed_checksum": "sha256:1fa29117da1b91f5780f96f2a5e29ba9ded246d76fedec4cd824084d1867867f"
+    },
+    {
+      "source_id": "source.hf.special-rent-guarantee",
+      "status": "changed",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:62776d397fb53c392bab067b26da51b7bf39980493c8c255f15b6dcd70155349",
+      "observed_checksum": "sha256:62a1b70e12d36a85484a1de66af99956c5b118136aefd12eeebe5fbf499d90ad"
+    },
+    {
+      "source_id": "source.hometax.main",
+      "status": "changed",
+      "affected_item_count": 10,
+      "accepted_checksum": "sha256:039fb536ed8348369166cdb168b8ace5934193f1faa92b25e96ada9ff6e8247a",
+      "observed_checksum": "sha256:ad0c7d7c693f31e028424e4daf9f96ce9d356823a559cd79f4afd54aadc4997a"
+    },
+    {
+      "source_id": "source.kbcard.card-list",
+      "status": "changed",
+      "affected_item_count": 580,
+      "accepted_checksum": "sha256:c789289722283dad7b46b23c806703b7902f1660105d1e2efab86fa939ce72ce",
+      "observed_checksum": "sha256:0b41f9752c3d03081dedcf376c81d69f8da37ece8c1397dd801e7d6b86a49cb7"
+    },
+    {
+      "source_id": "source.kdic.insured-products",
+      "status": "unreachable",
+      "affected_item_count": 9395,
+      "accepted_checksum": "sha256:0e046283501f056338443c252311913e72874f159782b1456534aab86adf8ee9",
+      "observed_checksum": null
+    },
+    {
+      "source_id": "source.kfb.consumer-portal",
+      "status": "changed",
+      "affected_item_count": 13,
+      "accepted_checksum": "sha256:e2484c7c510aace488431b1de8ee28efb1cd4250dfdc372a6ef11d48467538f9",
+      "observed_checksum": "sha256:03b5efa3634ec5afc23832e5898408c010c857682d1e5cc131a5d81259bf2f72"
+    },
+    {
+      "source_id": "source.kinfa.hessal-119",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:ceb845a20f3d953a275b157627bc58e6f85e0a137648bdf66c43bb5bdc6cc33e",
+      "observed_checksum": "sha256:0d1a86fdbc037e5fb10fb0c0d00c366da4d7c3435517bde4e60e1f204f1ed68d"
+    },
+    {
+      "source_id": "source.kinfa.hessal-loan-youth",
+      "status": "changed",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:18f1ba39adc67e31ff101826fc9472c0bce9f4c94c6c9b18cc94ba7ace8959cf",
+      "observed_checksum": "sha256:9c1ec07373db35329fcf4bee3eb9b9334c41773382adfcbdb2c88969e944b2a7"
+    },
+    {
+      "source_id": "source.kinfa.illegal-private-finance-prevention-loan",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:d2341beee844e10ef3add50f96c10bd03016b1adf30750a43d05aca8f0f2068c",
+      "observed_checksum": "sha256:287c0686548df270a6deb1c5cc4df397ee3ad7f16afeb60004b9a41c8dc76934"
+    },
+    {
+      "source_id": "source.knia.claim-nonpayment",
+      "status": "unreachable",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:61e69f72a52de36df6fe921e222a36e1f3219b7fbc0a840d69b0cad25b79c3b4",
+      "observed_checksum": "sha256:a5d7742b9af9fc38f7398f35fdf1a85e61e841a6fa9b252f81e022e916cea192"
+    },
+    {
+      "source_id": "source.knia.mis-selling",
+      "status": "unreachable",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:5135da38a92c5dae521a4acc65058f9ced6b2ffb6c2c3deca6ee931378da0054",
+      "observed_checksum": "sha256:ce8ac8dabe4bbdcb398b08f44e6c26d87ad9ca62fca04f6ade9186bc39ac2236"
+    },
+    {
+      "source_id": "source.korea.youth-job-leap.2026",
+      "status": "changed",
+      "affected_item_count": 1,
+      "accepted_checksum": "sha256:6e44f7b69c494b16d380b8265684ca793e11b7fc2edfccd479195d6f01a0294c",
+      "observed_checksum": "sha256:597b8e597dec8f87db27902a1e6189b943096dea242d8a57948bc6c1ad18cd3b"
+    },
+    {
+      "source_id": "source.korea.youth-monthly-rent.2026",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:c85ff6a5642359c0395b01ae77bf00dd0181f254232230305d44cdd556764a2a",
+      "observed_checksum": "sha256:e2e3b635d9a04255e0caf14ea8fd962c1d75131c4afbcaff9cd0d67ab033c6f4"
+    },
+    {
+      "source_id": "source.law.value-added-tax-act.filing",
+      "status": "changed",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:3b6fb40ed8b49b82fab1eee7f83a3b0f84860049cc367f1bce4eab400af08082",
+      "observed_checksum": "sha256:3b85d72f3746eb4cd6d79631c10c8995bb9e4e6f0c54647cf6b4e40a389406d4"
+    },
+    {
+      "source_id": "source.local-tax-framework-act.2026.article8",
+      "status": "changed",
+      "affected_item_count": 16,
+      "accepted_checksum": "sha256:f87b860d97480aae1277cb3e2260aa54945d90eb690a053fb4cb4e3f075e8f88",
+      "observed_checksum": "sha256:c07f5bb07cd1685c63df1c0ee1b75cf547826ee39086cb79307623c0020e2313"
+    },
+    {
+      "source_id": "source.moef.isa.tax-benefit",
+      "status": "changed",
+      "affected_item_count": 1,
+      "accepted_checksum": "sha256:4f0c451a694002ac5e10c34ea7018e79ec4cb616d43c63776ddbf91536ec07c8",
+      "observed_checksum": "sha256:1b4c5a54eeecb9d6f8e8be9008a82c253caaffee10d7778650b2cef9577eb81a"
+    },
+    {
+      "source_id": "source.mohw.beneficiary-selection.2026",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:3c0f526e7f9d48f7cf71f0acaea06dc0ccdcd16e10dc9d90444a221bc0acbc51",
+      "observed_checksum": "sha256:f1130f270c7f4d03b00c9ef503d02cb0bafc5849d4c742594f07f5fe316f4367"
+    },
+    {
+      "source_id": "source.mohw.child-allowance.2026",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:3cb85eefb2e970a18bba7ec028173c1544c71f32e77b770d605b66c6a371aaeb",
+      "observed_checksum": "sha256:ee17ba1c56292509a7dd5b6255e5639fd2c5b28339562f91171fd51f384a4595"
+    },
+    {
+      "source_id": "source.mohw.first-meeting-voucher",
+      "status": "changed",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:2c8381051ddefa011f050ec462637eb4c1b759f8050f98a896dea15188a43c2d",
+      "observed_checksum": "sha256:15cae05ae8cd39a2fee9509d8681b8bafd2ca970ceec2985b307a94009e82b10"
+    },
+    {
+      "source_id": "source.mohw.parent-benefit.2026",
+      "status": "changed",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:45eedbab4e15d75f7b1cf18d42f12a1e5770366a320a04733c6f83886b7f8884",
+      "observed_checksum": "sha256:971d3808c11e15e3cadc8882ad07d0816a001811d7f6339d16c2cc3a1e2f0774"
+    },
+    {
+      "source_id": "source.molit.realtyprice",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:dce9a1fc997cb05babfe06b9fde9c77a95cac02be54a8a866b5cf5c1f0b0e7c5",
+      "observed_checksum": "sha256:b3ca7381508c7e1993b523dc6ae7b532ccbf78f06ee6b2f66ca9a951a3e5bb57"
+    },
+    {
+      "source_id": "source.myhome.housing-benefit.2026",
+      "status": "changed",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:2f9a21867ab7a63419463f4a44c3ca2b31624228a989f5e2d9363b4ab9ca53c9",
+      "observed_checksum": "sha256:6bf201452f25989039a121326ef2d69339ac93aca28cf7b1956ca6b5c23982a1"
+    },
+    {
+      "source_id": "source.myhome.support-lease-loan",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:b46fa9c41f4498178097f6417dabc68ee53bdb58dd7e0e9162a948bdf4fd5b2b",
+      "observed_checksum": "sha256:55a583458ed7dfb235e2818a8f348580d1c6db4c25ec2172de8158a4402facd7"
+    },
+    {
+      "source_id": "source.national-tax-framework-act.2026.article2",
+      "status": "changed",
+      "affected_item_count": 24,
+      "accepted_checksum": "sha256:4ecc5c297103bcf6a889916cc22504acded02c832ae3dc146aaba9bc494b69be",
+      "observed_checksum": "sha256:ee6eb201073404e30994c8326bad79b6cc9eb1ff185b9ee3bf5f1f00a1178127"
+    },
+    {
+      "source_id": "source.nts.business-income.withholding",
+      "status": "changed",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:ec53662142aa150dc97fd51538c02abb807bc418e8d0ac5f56c600f88b4ffd0b",
+      "observed_checksum": "sha256:7ac34cb46e2dcbadc2493df1aaab4539f70c260e9b878cdfaaeb64fd54d4fe49"
+    },
+    {
+      "source_id": "source.nts.business-registration.application",
+      "status": "changed",
+      "affected_item_count": 9,
+      "accepted_checksum": "sha256:7d3bcbb70950f76e7802c6e4feb6f6f77229c11f3fe23e8eee6ef39f700e94a5",
+      "observed_checksum": "sha256:a7a10210a801b49ec925e7b4fc5781917e80d3528448ee0e5431816c1f4d6950"
+    },
+    {
+      "source_id": "source.nts.capital-gains.additional-tax",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:fa0f1466229b022cc4af9dbda6984158d6a738d66a4dc16d868a986905bdafbe",
+      "observed_checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source_id": "source.nts.capital-gains.basic-deduction",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:37c37249b48b32dc70d6dd5bcb8dc11dcef2e528ba94fc99fc559ac76d3f1caa",
+      "observed_checksum": "sha256:37c37249b48b32dc70d6dd5bcb8dc11dcef2e528ba94fc99fc559ac76d3f1caa"
+    },
+    {
+      "source_id": "source.nts.capital-gains.deadline",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:e75a3e0197868e38a5bc8a8b131bb2442382d7dec79ce6b365a47d904777e0e4",
+      "observed_checksum": "sha256:a09304caf4c5d53bd6a7e815c27f310cfb4f7507234d55e7d903175c2656d582"
+    },
+    {
+      "source_id": "source.nts.capital-gains.overview",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:32eb37973935e1e8eee126945433f12fa8885ccf4f640c2a8e3bd15f03b19169",
+      "observed_checksum": "sha256:f1faa4a19d3af2d149fa0dbd5923eafe6280f85e3c386e559b2a6a46a827b432"
+    },
+    {
+      "source_id": "source.nts.capital-gains.rates",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:e532201c5a511d0657190a8f7a1d16a28c025496e3dd8c4e4a46d3243b4efd3e",
+      "observed_checksum": "sha256:b13541c75ec59deca6db19d8072180d9f9938592ee12f9117707849e4d2b1cf8"
+    },
+    {
+      "source_id": "source.nts.comprehensive-real-estate.overview",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:664c67d61c7101eafec4422e43e88f9a8f257ffef99a3de0cdb0eb51e6648176",
+      "observed_checksum": "sha256:18cb32498025ba3c96c51002100ebf166b1e514490aaaa7fe274296e078d6344"
+    },
+    {
+      "source_id": "source.nts.comprehensive-real-estate.rates",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:efa08f5bb8ae2b6b558d5f1e5859bcc6eb5d946287a5d69fce1cd03aa7531fcb",
+      "observed_checksum": "sha256:c938bc308f34d3d9cd29a8eb2ceac43495b08dcde564707b5c076ca9321dca79"
+    },
+    {
+      "source_id": "source.nts.corporate-tax-consulting.2026",
+      "status": "changed",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:13f87eca42d8e2d87e37cc4baf295c2e4ce35c8412ed5de7653154b5caab03b6",
+      "observed_checksum": "sha256:ddf8cd2733f756421ff85b5c98407072a4e2307147db038bb314572acdc09e6f"
+    },
+    {
+      "source_id": "source.nts.corporate-tax.filing-procedure",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:492f553ae482bbe31116e7ebfd82279d39f705c76362aa46667a6d854053bb6a",
+      "observed_checksum": "sha256:41840794f4e544b94a1093e8ff9281bb65cda80977362f74b179d182aaa29a53"
+    },
+    {
+      "source_id": "source.nts.corporate-tax.rates",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:2953945a49b77013276fb727192fa1a1b8e1cfa7eff7fd92b73ea8281a66bc2d",
+      "observed_checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source_id": "source.nts.corporate-tax.reliefs",
+      "status": "changed",
+      "affected_item_count": 40,
+      "accepted_checksum": "sha256:679ae9d261cfc4acd956c5d432184da3d511029770ad815469e6ecd32409dc40",
+      "observed_checksum": "sha256:506ab1815b9ec7738aeb1bf00997805c658d43fe5de747ac7f466f5717cd730f"
+    },
+    {
+      "source_id": "source.nts.credit-card-deduction",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:cb2be1c19d8073ff283e1b93dadc420506e7ef529c062b3164c127baec0b4ae6",
+      "observed_checksum": "sha256:8e78ba3f39254213f7b82fc36b330389342f1765ca38622fb5747f3ef803fe92"
+    },
+    {
+      "source_id": "source.nts.ctc.intro",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:1a76d951a44a1e276b6b88db0dc62af27af9eb0f43e990fda721de1592ff8376",
+      "observed_checksum": "sha256:c43441c007fd3a82ef1cd65cf750a32d44bbc33355778ca8b4f1f5a0a412e74b"
+    },
+    {
+      "source_id": "source.nts.donation-credit",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:1695e600bc14ae5f9e9e9a122cecc38da82f7ba64be0155ccbf8978c4d9c34cc",
+      "observed_checksum": "sha256:634a515f405c3a7f0cbebad6909559d78f529517fb066510890e3f296c83fbe2"
+    },
+    {
+      "source_id": "source.nts.education-expense-credit",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:c1ca868d06ec0c307f23a348dc68a5ac146ed7ac2be657da1d4b1f474ab27cd5",
+      "observed_checksum": "sha256:005257a5c4ac616818d64607ae0f5a41be1436524243fa7a14ea3a8ba7b4d5a1"
+    },
+    {
+      "source_id": "source.nts.eitc.intro",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:e45d17c57de85002e4b89136b3b327b1e5fea6a95315ae16a410be286fb8ca75",
+      "observed_checksum": "sha256:25dc9f491fa9d8929a446137c7395a432a9c8f2287860c77ed17e4955456edd5"
+    },
+    {
+      "source_id": "source.nts.employee-income-statement",
+      "status": "changed",
+      "affected_item_count": 19,
+      "accepted_checksum": "sha256:29e76acccde3ee9f29c240ae5d81871d25fb435c0ecd96e061db2e0daae25aad",
+      "observed_checksum": "sha256:6820c5db0b94356fba9013130dadc83df023161fb6f564c77361b6b49da65ee6"
+    },
+    {
+      "source_id": "source.nts.financial-income",
+      "status": "changed",
+      "affected_item_count": 1,
+      "accepted_checksum": "sha256:4674b495ebf53c72a23b78919a422ba454330a67ed564418499bf961a876e7f6",
+      "observed_checksum": "sha256:6f7afa1ffc3aed93bd0fc6d5c639372beed34f0d3c4639825b4dfc42be79354e"
+    },
+    {
+      "source_id": "source.nts.gift.deadline",
+      "status": "changed",
+      "affected_item_count": 7,
+      "accepted_checksum": "sha256:c0030caa263100cfdede5d41b1d04e71b891def052ffd720b87ea3bc15640a8b",
+      "observed_checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source_id": "source.nts.gift.rates",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:722a45291b33d1da56104bb2c4ff590fa7ebb984ae01f9f514ba04d084fc3ae4",
+      "observed_checksum": "sha256:93e0c654c7a57060dcb9fd16dabeb0de2654efec22fa55b7bbeb5d059a6fcca2"
+    },
+    {
+      "source_id": "source.nts.grant.2026-regular-press",
+      "status": "unreachable",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:83fc32ebfc4722668e4a041f6815ecbf0515d2e7ee5556779cb0b31eff938ad1",
+      "observed_checksum": "sha256:5aa6d9b708f2575c38949a2de554fb2aab95b9e228ad7addcd75f3953793dc26"
+    },
+    {
+      "source_id": "source.nts.grant.deadline",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:5d577b596b7dd0940605731cd4235c909510cf35e92697a135b3d23a99f874c7",
+      "observed_checksum": "sha256:0f628d2fc4798375cf8eaf5516d2c0f5c276a3f0c7faa7655889467067201d04"
+    },
+    {
+      "source_id": "source.nts.grant.eligibility",
+      "status": "changed",
+      "affected_item_count": 8,
+      "accepted_checksum": "sha256:3a1e7040ddea5f53a8968db828395fdb88d87acf950fcaa55c7081ccfc764b42",
+      "observed_checksum": "sha256:cf581cd1b7a41bd57e958a1153153e49f2e6f824d8f8dc7f31b660fbc7b20dac"
+    },
+    {
+      "source_id": "source.nts.housing-mortgage-interest-deduction",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:c94a044be59c37e5aa1ebf021ecb7cc5fb4e8cb37d194e28b34196da1db5a2da",
+      "observed_checksum": "sha256:1e03b36c7d2587288fdf3acdfafa0c437e62e84b009caba0a54c71faaf5d793e"
+    },
+    {
+      "source_id": "source.nts.housing-rent-principal-deduction",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:aad9149e41f97252862264f8ed80da63eaacd96b308cd4b1b265c34dba4882d4",
+      "observed_checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source_id": "source.nts.housing-savings-deduction",
+      "status": "changed",
+      "affected_item_count": 8,
+      "accepted_checksum": "sha256:75ddb6264c61081612c9b3641b0c78eada5bc5e6c52dcc73755bd3027a343646",
+      "observed_checksum": "sha256:b8887eb3ad0a6e045f613adc029f0532213abaece12a034cf29fd9abd5278a84"
+    },
+    {
+      "source_id": "source.nts.income-tax.additional-tax",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:3924b6551e6235e076620f929ae0ad8ab61b9d639db96121673bfdbb0c0729a3",
+      "observed_checksum": "sha256:cc6c6d348a79d76e771152a02e4f38fe4ddcf21fd2da81c93211edec7459c855"
+    },
+    {
+      "source_id": "source.nts.income-tax.deadline",
+      "status": "changed",
+      "affected_item_count": 13,
+      "accepted_checksum": "sha256:a4dece12c8c3644374a459d160670472dc5d4fa2e33c42d88370c5497ff6483f",
+      "observed_checksum": "sha256:0fc36245cbaa4dc1f50fb08c8d3235e8d39edd52d99257fc88eda3632a5056c9"
+    },
+    {
+      "source_id": "source.nts.income-tax.overview",
+      "status": "changed",
+      "affected_item_count": 1,
+      "accepted_checksum": "sha256:12854b3231c1e24a48ed32366f718a3fdeb54e50330c61e30f4c41b4811d3fd6",
+      "observed_checksum": "sha256:38202d8d0c3eb23b58bd62285d7069b398a45cbe249428864ae1d2afb2762baf"
+    },
+    {
+      "source_id": "source.nts.income-tax.rates",
+      "status": "changed",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:e834c4f1dfbc910bdf54a4490859ce8d5b43ebfac037208c8720408cf09213f8",
+      "observed_checksum": "sha256:53a14d04d4474718125cd209344598437ec71a41c510e67ef3f67e108f5b94cc"
+    },
+    {
+      "source_id": "source.nts.inheritance.overview",
+      "status": "changed",
+      "affected_item_count": 8,
+      "accepted_checksum": "sha256:a03c5f846aedcd5c74db871370a1a2099534388ea7bdb253c2aa1b6c1b9e4380",
+      "observed_checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source_id": "source.nts.inheritance.rates",
+      "status": "changed",
+      "affected_item_count": 3,
+      "accepted_checksum": "sha256:39e87e81459f0bfcd9c07c99f9cb6f5050f3f4573d2cb7115df6f1eb78476ed9",
+      "observed_checksum": "sha256:1651e9d8fecf264c26040d181317bcfe221f638b2ce28fdba9529cf92dd36713"
+    },
+    {
+      "source_id": "source.nts.monthly-rent-credit",
+      "status": "changed",
+      "affected_item_count": 15,
+      "accepted_checksum": "sha256:1a549d63e222873f3e9245c88089c13db58d5becdf62bc8c6fa5ebe5c78b47fd",
+      "observed_checksum": "sha256:64800fe0ea26b82b1af7388f11e99d8f8a5049cb0587ad54e4c7da6ae7e76c32"
+    },
+    {
+      "source_id": "source.nts.payment-statement.deadlines",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:92c2f9eaf9b1366c6acdb29b32de710a6dd164228c393f8f8cb075908c87f250",
+      "observed_checksum": "sha256:dfb0eacdbcf12399d39b1626ff7bea78c043f90ff3120a5cfd55fc753596c29d"
+    },
+    {
+      "source_id": "source.nts.real-estate-tax.faq",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:c8f5a8f6a2034d994e4e80698bb0d1ba792ac6b5d1f685b563dbf213920f794a",
+      "observed_checksum": "sha256:04a573446c4fcbb5dac7b26ea916e3ae813544bd927a2d235b9f4ea5180a5c4b"
+    },
+    {
+      "source_id": "source.nts.retirement-income.calculation",
+      "status": "changed",
+      "affected_item_count": 1,
+      "accepted_checksum": "sha256:20c6adbf6d3997ef538797af29145dc3ceb149499c9a9cce552faf454e780641",
+      "observed_checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source_id": "source.nts.sme-employment-income-reduction",
+      "status": "changed",
+      "affected_item_count": 1,
+      "accepted_checksum": "sha256:b2f7e9358323a61a95a60bec92360df5054f48db8b126ca1f56a3a7e8a9d8791",
+      "observed_checksum": "sha256:e43a49e163085ccc3ec6de7499812b878eb4116c8da08676af0295cd3b0e6066"
+    },
+    {
+      "source_id": "source.nts.tax-calendar.2026",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:95812a1a7726db86e255dececfcf8208b3ff3549daab3957a7b1883705666b9d",
+      "observed_checksum": "sha256:a504e9ff63b22405ab3e15424803bd2bcac219d1063c03c24c42a877314d622a"
+    },
+    {
+      "source_id": "source.nts.vat.additional-tax",
+      "status": "changed",
+      "affected_item_count": 2,
+      "accepted_checksum": "sha256:1fae689bc121c1c196c7da3fe586a7eb03f1a8f2fae6229d8fb0275e03750134",
+      "observed_checksum": "sha256:da4418f2299526bc3626ed5ebcea9c7f8e0ca3b9762fdd8304917336cb741b2a"
+    },
+    {
+      "source_id": "source.nts.vat.filing-duty",
+      "status": "changed",
+      "affected_item_count": 25,
+      "accepted_checksum": "sha256:caebcf80f0f87e2aa51bd89b6ace5b3a7cebb813a3345d20c40ce22aa5c58248",
+      "observed_checksum": "sha256:69f75155dae34cc71d2dfc322794e9ce719e3f2eca4dec98622bf3d2e2eaee2a"
+    },
+    {
+      "source_id": "source.nts.vat.overview",
+      "status": "changed",
+      "affected_item_count": 10,
+      "accepted_checksum": "sha256:b22e61a16583d0524ee19c45f142cabb676d807710f0b7446a026efbf1129671",
+      "observed_checksum": "sha256:b4a03007084d3bbf83ff8e2af40aa84f26f7bb163fdf252549161314f347b89a"
+    },
+    {
+      "source_id": "source.nts.withholding.deadlines",
+      "status": "changed",
+      "affected_item_count": 6,
+      "accepted_checksum": "sha256:f53e43397e7f62f132c7f5ee06e24d4d263bf24b521e5e589c2cb0d55199c132",
+      "observed_checksum": "sha256:5c31122e3406e8f31e50543fe37969f96a22976b36c33eb7bbf9590fc8459d70"
+    },
+    {
+      "source_id": "source.nts.withholding.overview",
+      "status": "changed",
+      "affected_item_count": 4,
+      "accepted_checksum": "sha256:4a3a2c02db11f601afa28c0c58d07d91f117ad239aac0ede3732117612e2a193",
+      "observed_checksum": "sha256:152f1a779b049a08d5e2e6c68e39f01550aaa80e5d4ba5f695dd88b1131f2b3f"
+    },
+    {
+      "source_id": "source.nts.year-end-settlement.calculation",
+      "status": "changed",
+      "affected_item_count": 45,
+      "accepted_checksum": "sha256:f746796934da34fca1979997da40ae77e266dd049d6eaf2ed85bbac22aa8a29f",
+      "observed_checksum": "sha256:26a6120ba2241c0014947aa8d0107a8029ff71f0d1d2a5b1e66c52eac8192290"
+    },
+    {
+      "source_id": "source.nts.year-end-settlement.deduction-limit",
+      "status": "changed",
+      "affected_item_count": 12,
+      "accepted_checksum": "sha256:ee96aad6df1ff08c5837ee488deed13fd7a4742d4815c2fd8d69beeef1ebda1a",
+      "observed_checksum": "sha256:df97576e0f468de5ab10201519fb137205535ebcd73379aced100d14fef9809a"
+    },
+    {
+      "source_id": "source.nts.year-end-settlement.special-credit",
+      "status": "changed",
+      "affected_item_count": 10,
+      "accepted_checksum": "sha256:3670283cefa772afa1e304636771502bd62775490e9632d856a1893c3db28a10",
+      "observed_checksum": "sha256:11ca5b95d2a26565d71efe699ade8a1b9286bb67baa5099c1dc38011a2cdc45c"
+    },
+    {
+      "source_id": "source.provider.busanbank.product-documents",
+      "status": "changed",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:77c602598d7610f641a8c443cf2489f670197fde35c6677848288690e4f400f9",
+      "observed_checksum": "sha256:73a48f485f5b74256c4ae80d8c798107880d8253d42fe1fd9f62a5fbe8dafd2b"
+    },
+    {
+      "source_id": "source.provider.hana.product-documents",
+      "status": "changed",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:0c5e4f1b1c5f0ddf48f4eb9a8c717efd58d8485a111de935165e2056089cb436",
+      "observed_checksum": "sha256:b7fcbeb2094f915cc08bd1bf325e7a55083b9c80877bebd685b2b4174ce604a4"
+    },
+    {
+      "source_id": "source.provider.ibk.product-documents",
+      "status": "changed",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:ca83d3c9def2024078bb86999e4f59ef29a8579737bc92242573111050af3ea1",
+      "observed_checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source_id": "source.provider.kjbank.product-documents",
+      "status": "changed",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:3b2050d66ae5c5b03041f8d793f0e616a0eb23663cda68b7dbfb3a9ff60ddcf8",
+      "observed_checksum": "sha256:a1d7a2d7c5f01ba863b10c1c437694c6915745be44572e618312f79a41cd48cd"
+    },
+    {
+      "source_id": "source.provider.knbank.product-documents",
+      "status": "changed",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:93abc2b902d6511fb1a5ca1866cf548a5b53b03495efe2790e26e18de2d47dff",
+      "observed_checksum": "sha256:bf256e3ccd372ee1d504a443a65bdaafffd7f0e75994b2c1815ec9d96fc8b3e4"
+    },
+    {
+      "source_id": "source.provider.nonghyup.product-documents",
+      "status": "changed",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:63a187a4b13286f2fad7b9810cf1c8a20ae512d1947cab076de4a0de919488cd",
+      "observed_checksum": "sha256:c88fd0123f6a589b6c7d04808d589f6f06ff778b6881ede2883489357660abcd"
+    },
+    {
+      "source_id": "source.provider.sc.product-documents",
+      "status": "changed",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:6d3083a80fab609a72a831efc243f07fba639829d3e19cf55ea6548309af20b3",
+      "observed_checksum": "sha256:e92d66134e0c8344bed9335cd7bcf9eafca2c198012792939f6c11592aa1f37c"
+    },
+    {
+      "source_id": "source.provider.shinhan.product-documents",
+      "status": "changed",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:4e2120774401930c7533c30785bcf2e8d0b799b0fd60bb5ab8f22d1431e99f6a",
+      "observed_checksum": "sha256:b0654e6d8a8912e01e443611f7f737a2751bdd942a5ca500ceee61181d02aa29"
+    },
+    {
+      "source_id": "source.provider.suhyup.product-documents",
+      "status": "changed",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:5dae72e536ee14fae333e25f129f3f561be6b00b965c2e5c73397d6bc06e058b",
+      "observed_checksum": "sha256:19b509d1190e8db250552646348c4347e31d0cae60f4ba7866824ce7b99380a1"
+    },
+    {
+      "source_id": "source.provider.tossbank.product-documents",
+      "status": "changed",
+      "affected_item_count": 0,
+      "accepted_checksum": "sha256:93fb7a26381885c1280a38898f354c822e10c2792a4486fb2794e0ef4e32c710",
+      "observed_checksum": "sha256:64906efa86e259de3445c0394afdf61541b6d2664bd8a8280c6b1aed9e4eb3f2"
+    },
+    {
+      "source_id": "source.samsungcard.check-card-list",
+      "status": "changed",
+      "affected_item_count": 22,
+      "accepted_checksum": "sha256:2eaa3a68a95429ea59edba9657901f683759ffb0621654f7f95846a2bd06c87b",
+      "observed_checksum": "sha256:e9a7e6539f934ee970d42b2f75fdf157dc4151860223c3bb1d9678d8a3ae6bd9"
+    },
+    {
+      "source_id": "source.samsungcard.credit-card-list",
+      "status": "changed",
+      "affected_item_count": 135,
+      "accepted_checksum": "sha256:c99060b2e53bb5cec8b1c0114a489f19f77eaac3f63ec341567050782c3ff94b",
+      "observed_checksum": "sha256:feabb65c3e689f355a4960a522b4cfb70a49003699952e94554f5de4f5fd1b62"
+    },
+    {
+      "source_id": "source.wetax.local-tax-calendar",
+      "status": "changed",
+      "affected_item_count": 5,
+      "accepted_checksum": "sha256:6516d19c1d59a5c43340211fa2388374989e8209f07eb61be9d59ea39c5cec1e",
+      "observed_checksum": "sha256:92dc85f81f2bca0a0e57c0ca387a36bd3c89ac5067e5220fef99045fdd1a0cd4"
+    }
+  ]
+}

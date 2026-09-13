@@ -79,6 +79,7 @@
         "max_term_months": { "type": "integer", "minimum": 0 },
         "monthly_budget_krw": { "type": "number", "minimum": 0 },
         "monthly_contribution_krw": { "type": "number", "minimum": 0 },
+        "monthly_payment_krw": { "type": "number", "minimum": 0 },
         "principal_krw": { "type": "number", "minimum": 0 },
         "deposit_amount_krw": { "type": "number", "minimum": 0 },
         "tax_rate_percent": { "type": "number", "minimum": 0, "maximum": 100 },
@@ -86,7 +87,9 @@
         "planned_termination_months": { "type": "number", "minimum": 0 },
         "early_termination_months": { "type": "number", "minimum": 0 },
         "payment_timing": { "enum": ["month_start", "month_end"] },
-        "payment_schedule_krw": { "type": "array", "maxItems": 120, "items": { "type": "number", "minimum": 0 } }
+        "payment_schedule_krw": { "type": "array", "maxItems": 120, "items": { "type": "number", "minimum": 0 } },
+        "installment_paid_at": { "type": "array", "minItems": 1, "maxItems": 120, "items": { "$ref": "#/$defs/date" } },
+        "termination_date": { "$ref": "#/$defs/nullable_date" }
       }
     },
     "profile": {

@@ -19,7 +19,7 @@ export const CRITICAL_FACT_KEYS = new Set(recommendationFactsContract.critical_f
 export const FACT_ALIASES = recommendationFactsContract.aliases as Record<string, string>;
 export const REGISTERED_FACT_KEYS = new Set(Object.keys(recommendationFactsContract.facts));
 const FACT_DEFINITIONS = recommendationFactsContract.facts as Record<string, { source_classes?: string[] }>;
-const PREFERENCE_KEYS = new Set(["provider", "term_months", "liquidity_horizon_months", "max_term_months", "monthly_budget_krw", "monthly_contribution_krw", "principal_krw", "deposit_amount_krw", "tax_rate_percent", "risk_capacity", "planned_termination_months", "early_termination_months", "payment_timing", "payment_schedule_krw"]);
+const PREFERENCE_KEYS = new Set(["provider", "term_months", "liquidity_horizon_months", "max_term_months", "monthly_budget_krw", "monthly_contribution_krw", "monthly_payment_krw", "principal_krw", "deposit_amount_krw", "tax_rate_percent", "risk_capacity", "planned_termination_months", "early_termination_months", "payment_timing", "payment_schedule_krw", "installment_paid_at", "termination_date"]);
 const CONSTRAINT_KEYS = new Set(["provider", "term_months", "join_channel", "minimum_amount_krw", "maximum_amount_krw", "eligible_rule_ids"]);
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 

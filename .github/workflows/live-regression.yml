@@ -71,6 +71,10 @@ jobs:
             --arg deployment_commit "$deployment_commit" \
             '{run_id: $run_id, run_attempt: $attempt, status: $status, deployment_commit: ($deployment_commit // ""), evidence_path: "evidence/live-regression/current.json", persistence: "workflow-artifact-only"}' \
             > evidence/live-regression/monitor-run.json
+      - name: Write separate runtime monitoring status
+        if: always()
+        working-directory: .
+        run: node scripts/knowledge/runtime-monitoring.mjs --report live-regression-report.json --output evidence/live-regression/runtime-monitoring.json
       - name: Fail workflow when live evidence is not valid
         if: always()
         working-directory: .

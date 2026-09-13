@@ -22,7 +22,7 @@ const expected = {
   candidate_set_checksum: candidateSetChecksum(),
   policy_version: 'openfin-recommendation-policy-v1',
   ranking_version: 'openfin-ranking-v2',
-  calculator_version: 'openfin-calculator-v1',
+  calculator_version: 'openfin-calculator-v2',
   quality_suite_checksum: qualitySuiteChecksum(),
 };
 const mismatches = Object.entries(expected).filter(([key, value]) => value && receipt[key] !== value).map(([key]) => `${key}_mismatch`);

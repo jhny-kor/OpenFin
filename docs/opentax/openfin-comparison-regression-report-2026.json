@@ -16,7 +16,7 @@
   "search_regression_failed_count": 0,
   "export_checksum": "f12f3dde4c6d66a9217fcee9b8d2dc5c861173df3e747819a56406e4415c6178",
   "live_evidence_generation_id": "7061c38252c01e4ebb38da932722f90fd3791fdbe77a6a3dce2cb3f1b52deabf",
-  "live_expected_generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
+  "live_expected_generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
   "live_evidence": {
     "path": "evidence/live-regression/current.json",
     "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
@@ -27,45 +27,41 @@
   "domain_readiness": [
     {
       "domain": "deposit",
-      "structural_candidate_count": 20,
-      "value_complete_candidate_count": 20,
-      "strict_type_schema_candidate_count": 20,
-      "strict_offer_count": 20,
-      "strict_option_count": 69,
-      "structural_option_count": 69,
-      "comparison_eligible_candidate_count": 0,
-      "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 0,
+      "structural_candidate_count": 5,
+      "value_complete_candidate_count": 5,
+      "strict_type_schema_candidate_count": 5,
+      "strict_offer_count": 5,
+      "strict_option_count": 14,
+      "structural_option_count": 14,
+      "comparison_eligible_candidate_count": 14,
+      "public_comparison_candidate_count": 14,
+      "shadow_recommendation_candidate_count": 14,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0,
-      "field_verified_candidate_count": 0,
-      "runtime_eligible_candidate_count": 0,
-      "public_candidate_count": 0,
-      "status": "structural_only",
-      "blockers": [
-        "FIELD_ASSERTIONS_INCOMPLETE"
-      ]
+      "field_verified_candidate_count": 5,
+      "runtime_eligible_candidate_count": 5,
+      "public_candidate_count": 5,
+      "status": "limited_public_ready",
+      "blockers": []
     },
     {
       "domain": "saving",
-      "structural_candidate_count": 20,
-      "value_complete_candidate_count": 20,
-      "strict_type_schema_candidate_count": 20,
-      "strict_offer_count": 20,
-      "strict_option_count": 66,
-      "structural_option_count": 66,
-      "comparison_eligible_candidate_count": 0,
-      "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 0,
+      "structural_candidate_count": 5,
+      "value_complete_candidate_count": 5,
+      "strict_type_schema_candidate_count": 5,
+      "strict_offer_count": 5,
+      "strict_option_count": 19,
+      "structural_option_count": 19,
+      "comparison_eligible_candidate_count": 19,
+      "public_comparison_candidate_count": 19,
+      "shadow_recommendation_candidate_count": 19,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0,
-      "field_verified_candidate_count": 0,
-      "runtime_eligible_candidate_count": 0,
-      "public_candidate_count": 0,
-      "status": "structural_only",
-      "blockers": [
-        "FIELD_ASSERTIONS_INCOMPLETE"
-      ]
+      "field_verified_candidate_count": 5,
+      "runtime_eligible_candidate_count": 5,
+      "public_candidate_count": 5,
+      "status": "limited_public_ready",
+      "blockers": []
     },
     {
       "domain": "card",
@@ -152,11 +148,11 @@
       ]
     }
   ],
-  "strict_field_verified_candidate_count": 0,
-  "runtime_eligible_candidate_count": 0,
+  "strict_field_verified_candidate_count": 10,
+  "runtime_eligible_candidate_count": 10,
   "public_recommendation_candidate_count": 0,
-  "comparison_data_status": "blocked",
-  "public_comparison_candidate_count": 0,
+  "comparison_data_status": "limited",
+  "public_comparison_candidate_count": 33,
   "quality_export_live_summary": {
     "source": "manifest.live_regression_evidence",
     "live_test_count": 120,

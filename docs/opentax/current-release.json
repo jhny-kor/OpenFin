@@ -18,28 +18,6 @@
   "last_live_status": "passed",
   "promoted_at": "2026-08-31T22:23:26+09:00",
   "validation_at_promotion": "2026-08-31T22:23:26+09:00",
-  "latest_runtime_attempt": {
-    "status": "failed",
-    "checked_at": "2026-08-31T22:50:17.534Z",
-    "test_count": 120,
-    "passed_count": 114,
-    "failed_count": 6,
-    "skipped_count": 0,
-    "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
-    "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
-    "transport_error_count": null
-  },
-  "last_successful_runtime_attempt": {
-    "status": "current",
-    "checked_at": "2026-08-31T13:34:39.038Z",
-    "test_count": 120,
-    "passed_count": 120,
-    "failed_count": 0,
-    "skipped_count": 0,
-    "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
-    "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
-    "transport_error_count": null
-  },
   "operational_status": "degraded",
   "rollback_history_url": "https://jhny-kor.github.io/OpenFin/opentax/production-release-history.jsonl",
   "rollback_target": "f451d6cd-4c60-4979-8a3d-047bdebe614b",
@@ -99,5 +77,20 @@
     "source_path": "actions:openfin-live-promoted-c4daa0076b7e20b9ac80803ac914e5a94e6928a8"
   },
   "live_evidence_path": "opentax/live-regression-production-current.json",
-  "live_evidence_url": "https://jhny-kor.github.io/OpenFin/opentax/live-regression-production-current.json"
+  "live_evidence_url": "https://jhny-kor.github.io/OpenFin/opentax/live-regression-production-current.json",
+  "validation_runtime_attempt": {
+    "status": "failed",
+    "checked_at": "2026-08-31T22:50:17.534Z",
+    "test_count": 120,
+    "passed_count": 114,
+    "failed_count": 6,
+    "skipped_count": 0,
+    "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
+    "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
+    "transport_error_count": null
+  },
+  "runtime_monitoring": {
+    "path": "opentax/runtime-monitoring.json",
+    "url": "https://jhny-kor.github.io/OpenFin/opentax/runtime-monitoring.json"
+  }
 }

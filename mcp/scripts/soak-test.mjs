@@ -16,9 +16,14 @@ const durationSeconds = Number(option("--duration-seconds", "0"));
 const concurrency = Math.max(1, Math.floor(Number(option("--concurrency", process.env.OPENFIN_SOAK_CONCURRENCY || "4"))));
 const requestTimeoutMs = Math.max(1000, Math.floor(Number(process.env.LIVE_REQUEST_TIMEOUT_MS || "15000")));
 const endpoint = (process.env.MCP_URL || "https://openfin-mcp.y2kthr.workers.dev/mcp").replace(/\/$/, "");
+const healthEndpoint = endpoint.replace(/\/mcp$/, "") + "/health";
+const expectedCommit = process.env.EXPECTED_DEPLOYMENT_COMMIT || "";
+const expectedGeneration = process.env.EXPECTED_GENERATION || "";
 const dryRun = process.argv.includes("--dry-run");
 const diagnosticsEnabled = process.env.LIVE_DIAGNOSTICS === "1";
 const diagnosticQuery = value => encodeURIComponent(value.slice(0, 24));
+if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 16) throw new Error("concurrency must be from 1 to 16");
+if (!Number.isFinite(requestTimeoutMs) || requestTimeoutMs < 1) throw new Error("request timeout must be positive");
 if (!Number.isFinite(durationMinutes) || durationMinutes < 0 || !Number.isFinite(durationSeconds) || durationSeconds < 0) throw new Error("duration must be non-negative");
 
 const semanticTasks = fixture.flatMap((entry) => (entry.semantic_search || []).map((semantic, index) => ({
@@ -26,12 +31,12 @@ const semanticTasks = fixture.flatMap((entry) => (entry.semantic_search || []).m
   tool: "search",
   arguments: { query: semantic.query, type: semantic.type, limit: Math.min(5, semantic.limit || 5) },
 })));
-const baseTasks = fixture.map((entry) => ({ caseId: entry.case_id, tool: entry.tool, arguments: entry.arguments }));
+const baseTasks = fixture.map((entry) => ({ caseId: entry.case_id, tool: entry.tool, arguments: entry.arguments, expectedError: entry.expected_status === "error" }));
 const tasks = [...baseTasks, ...semanticTasks];
 const taskDigest = crypto.createHash("sha256").update(JSON.stringify(tasks.map(({ tool, arguments: args }) => ({ tool, arguments: args })))).digest("hex");
 
 if (dryRun) {
-  console.log(JSON.stringify({ ok: true, endpoint, duration_minutes: durationMinutes, duration_seconds: durationSeconds, concurrency, task_count: tasks.length, fixture_checksum: `sha256:${fixtureChecksum}`, task_digest: taskDigest }, null, 2));
+  console.log(JSON.stringify({ ok: true, endpoint, duration_minutes: durationMinutes, duration_seconds: durationSeconds, concurrency, task_count: tasks.length, fixture_checksum: `sha256:${fixtureChecksum}`, task_digest: taskDigest, expected_commit: expectedCommit || null, expected_generation: expectedGeneration || null }, null, 2));
   process.exit(0);
 }
 
@@ -45,18 +50,26 @@ const startedAt = Date.now();
 const durationMs = durationSeconds > 0 ? durationSeconds * 1000 : durationMinutes * 60 * 1000;
 const deadline = startedAt + durationMs;
 
+const healthResponse = await fetch(`${healthEndpoint}?soak=${Date.now()}`, { headers: { accept: "application/json", "cache-control": "no-cache" }, signal: AbortSignal.timeout(requestTimeoutMs) });
+if (!healthResponse.ok) throw new Error(`health failed: ${healthResponse.status}`);
+const health = await healthResponse.json();
+if (health.status !== "ok" || !health.runtime_version || /(?:^|[-_])dev(?:$|[-_])/i.test(health.runtime_version)) throw new Error("health runtime contract is invalid");
+if (!health.build_timestamp || !Number.isFinite(Date.parse(health.build_timestamp))) throw new Error("health build_timestamp is invalid");
+if (expectedCommit && health.deployment_commit !== expectedCommit) throw new Error(`health deployment_commit mismatch: ${health.deployment_commit}`);
+if (expectedGeneration && (health.generation_id !== expectedGeneration || health.artifact_generation !== expectedGeneration)) throw new Error("health generation mismatch");
+
 const record = (value) => {
   metrics.total += 1;
   if (metrics.latencies_ms.length < 10000) metrics.latencies_ms.push(value.elapsedMs);
   if (value.status >= 500) metrics.http_5xx += 1;
   else if (value.status >= 400) metrics.http_4xx += 1;
-  else if (value.aborted) metrics.abort += 1;
   else if (value.timedOut) metrics.timeout += 1;
+  else if (value.aborted) metrics.abort += 1;
   else if (value.contractFailure) metrics.contract_failure += 1;
   else metrics.ok += 1;
   if (value.diagnostics) {
     metrics.cache_evictions += Number(value.diagnostics.evictions || 0);
-    if (value.diagnostics.cache_budget?.search?.bytes > value.diagnostics.cache_budget?.max_search_bytes || value.diagnostics.cache_budget?.artifact?.bytes > value.diagnostics.cache_budget?.max_artifact_bytes) metrics.cache_budget_exceeded += 1;
+    if (["search", "exact_fetch", "artifact"].some(key => value.diagnostics.cache_budget?.[key]?.bytes > value.diagnostics.cache_budget?.[`max_${key}_bytes`])) metrics.cache_budget_exceeded += 1;
   }
   if (value.error && metrics.errors.length < 20) metrics.errors.push(value.error);
 };
@@ -88,13 +101,14 @@ const call = async (task) => {
     const rawDiagnostics = response.headers.get("x-openfin-diagnostics");
     let diagnostics;
     if (rawDiagnostics) { try { diagnostics = JSON.parse(rawDiagnostics); } catch { diagnostics = undefined; } }
+    const generationMismatch = expectedGeneration && diagnostics?.generation_id !== expectedGeneration;
     let payload;
     try { payload = await response.json(); } catch { payload = undefined; }
-    const contractFailure = response.ok && (!payload || payload.error || !payload.result);
+    const contractFailure = response.ok && (generationMismatch || !payload || payload.error || !payload.result || Boolean(payload.result.isError) !== Boolean(task.expectedError));
     record({ status: response.status, elapsedMs: Math.round((performance.now() - started) * 100) / 100, diagnostics, contractFailure, error: response.ok && contractFailure ? `${task.caseId}: invalid MCP response` : response.ok ? undefined : `${task.caseId}: HTTP ${response.status}` });
   } catch (error) {
     const aborted = error?.name === "AbortError";
-    record({ status: 0, elapsedMs: Math.round((performance.now() - started) * 100) / 100, aborted: !aborted, timedOut: aborted, error: `${task.caseId}: ${error instanceof Error ? error.message : String(error)}` });
+    record({ status: 0, elapsedMs: Math.round((performance.now() - started) * 100) / 100, aborted: !aborted && error instanceof TypeError, timedOut: aborted, contractFailure: !aborted && !(error instanceof TypeError), error: `${task.caseId}: ${error instanceof Error ? error.message : String(error)}` });
   } finally {
     clearTimeout(timer);
   }
@@ -111,7 +125,7 @@ await Promise.all(Array.from({ length: concurrency }, worker));
 const sorted = [...metrics.latencies_ms].sort((a, b) => a - b);
 const percentile = (fraction) => sorted.length ? sorted[Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * fraction))] : null;
 const report = {
-  status: metrics.http_5xx || metrics.abort || metrics.timeout || metrics.contract_failure ? "failed" : "current",
+  status: metrics.total === 0 || metrics.http_5xx || metrics.http_4xx || metrics.abort || metrics.timeout || metrics.contract_failure || metrics.cache_budget_exceeded ? "failed" : "current",
   mode: "soak",
   endpoint,
   checked_at: new Date().toISOString(),

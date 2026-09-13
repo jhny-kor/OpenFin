@@ -71,7 +71,7 @@ export const canonicalCandidateContent = (offer, option) => ({
   versions: {
     policy: 'openfin-recommendation-policy-v1',
     ranking: 'openfin-ranking-v2',
-    calculator: 'openfin-calculator-v1',
+    calculator: 'openfin-calculator-v2',
   },
 });
 export const candidateSetChecksum = (offers = decisionOfferFiles()) => sha256(offers.flatMap(offer =>

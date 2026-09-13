@@ -44,7 +44,7 @@ cd mcp && npm run test:mutation
 
 Pages manifest는 구조화 수, 값 완결 수, 필드 출처 검증 수, runtime 비교 가능 수, 공개 가능 수를 구분합니다. provenance 연결률은 필드 출처 검증률이 아니며, 현재 세대 120/120 live regression과 공개 승인 receipt가 없으면 추천은 활성화되지 않습니다.
 
-모든 GitHub workflow는 `workflow_dispatch` 수동 실행 전용입니다. `Track OpenFin Sources`는 읽기 전용 점검과 영향 보고서만 생성하고, `OpenFin Live Regression`도 결과만 artifact로 남깁니다(보관 3일). 자동 branch push·PR·Issue 생성과 Dependabot 정기 업데이트 설정은 제거했습니다. 출처 반영은 로컬에서 명시적으로 수행한 뒤 사람이 검토하는 PR로 진행합니다. Dependabot 보안 자동 PR 및 Actions PR 생성 권한은 저장소 설정에서도 꺼 둡니다. 수동 정식 release와 staging은 유지합니다.
+모든 GitHub workflow는 `workflow_dispatch` 수동 실행 전용입니다. `Track OpenFin Sources`는 기본 `report-only`로 읽기 전용 점검과 영향 보고서만 생성하고(보관 3일), 명시적으로 `create-review-pr`를 선택한 경우에만 `OPENFIN_SOURCE_TRACKING_TOKEN`으로 `automation/source-tracking-<run_id>` 브랜치와 사람 검토용 PR을 만듭니다. 이 PR에는 source status와 receipt만 포함되며 canonical 지식 rebuild, `main` push·force push, Issue 생성은 하지 않습니다. `OpenFin Live Regression`도 결과만 artifact로 남깁니다. 자동 branch push·PR·Issue 생성과 Dependabot 정기 업데이트 설정은 제거했습니다. 출처 반영은 사람이 검토한 PR로 진행합니다. 수동 정식 release와 staging은 유지합니다.
 
 Cloudflare Worker와 GitHub Pages는 개별 workflow나 로컬 명령으로 운영 배포하지 않습니다. `OpenFin Immutable Release`를 실행하려면 repository variable `OPENFIN_STAGING_PAGES_PROJECT`가 먼저 설정되어 있어야 합니다. Worker preview URL은 Wrangler가 반환한 실제 alias를 사용합니다.
 

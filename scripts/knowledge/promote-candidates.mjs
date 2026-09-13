@@ -11,6 +11,7 @@ import {
   schemaValidationChecksum,
 } from './common.mjs';
 import { collectComparisonAssertions, collectRecommendationAssertions, resolveAssertionProfile } from './assertion-profiles.mjs';
+import { preferredSourceReview } from './source-review-selection.mjs';
 
 const requested = process.argv.slice(2).filter(value => ['deposit', 'saving'].includes(value));
 const selectedDomains = requested.length ? requested : ['deposit', 'saving'];
@@ -22,6 +23,9 @@ const evaluatedAt = process.env.OPENFIN_PROMOTION_EVALUATED_AT || new Date().toI
 const comparisonProfile = resolveAssertionProfile({ profile: process.env.OPENFIN_COMPARISON_PROFILE, comparison_mode: process.env.OPENFIN_COMPARISON_MODE });
 
 const readRows = file => fs.existsSync(file) ? fs.readFileSync(file, 'utf8').split('\n').filter(Boolean).map(JSON.parse) : [];
+const readReviewRows = () => fs.existsSync(reviewDir)
+  ? fs.readdirSync(reviewDir).filter(file => file.endsWith('.jsonl')).flatMap(file => readRows(path.join(reviewDir, file)))
+  : [];
 const normalized = value => String(value || '').replace(/^sha256:/, '');
 const reviewKey = row => `${row.offer_id}|${row.option_id || 'offer'}|${row.assertion_id || ''}`;
 const reviewChecksumVerified = review => review && typeof review.receipt_checksum === 'string'
@@ -108,8 +112,12 @@ function promotion(offer, option, reviews) {
 
 for (const domain of selectedDomains) {
   const offers = readRows(path.join(decisionDir, `${domain}-offers.jsonl`));
-  const reviewRows = readRows(path.join(reviewDir, `${domain}.jsonl`));
-  const reviews = new Map(reviewRows.map(row => [reviewKey(row), row]));
+  const reviewRows = readReviewRows();
+  const reviews = new Map();
+  for (const row of reviewRows) {
+    const key = reviewKey(row);
+    reviews.set(key, preferredSourceReview(reviews.get(key), row));
+  }
   const rows = offers.flatMap(offer => (offer.options || []).map(option => promotion(offer, option, reviews)));
   fs.mkdirSync(promotionDir, { recursive: true });
   fs.writeFileSync(path.join(promotionDir, `${domain}.jsonl`), rows.map(row => JSON.stringify(row)).join('\n') + (rows.length ? '\n' : ''));

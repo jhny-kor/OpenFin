@@ -377,16 +377,22 @@ const inFlightExactFetchShards = new Map<string, Promise<{ payload: unknown; sou
 const dedupedProductItemsCache = new WeakMap<readonly FinanceItem[], readonly FinanceItem[]>();
 // Byte ceilings are primary; count limits remain a cheap secondary guard.
 const MAX_TOTAL_CACHE_BYTES = 16 * 1024 * 1024;
-const MAX_SEARCH_CACHE_BYTES = 12 * 1024 * 1024;
+const MAX_SEARCH_CACHE_BYTES = 10 * 1024 * 1024;
+const MAX_EXACT_FETCH_CACHE_BYTES = 2 * 1024 * 1024;
 const MAX_ARTIFACT_CACHE_BYTES = 4 * 1024 * 1024;
 const MAX_SINGLE_SHARD_BYTES = 4 * 1024 * 1024;
 const MAX_DECODED_ROWS = 12_000;
 const MAX_INFLIGHT_BYTES = 8 * 1024 * 1024;
+const MANIFEST_CACHE_KEY = "__manifest_with_live_evidence";
+const SEARCH_METADATA_CACHE_KEY = "__search_index_metadata";
+const SEARCH_ITEMS_CACHE_KEY = "__search_items";
 // Retain only the repeatedly queried support and bank payloads; the remaining
 // hot shards stay request-local until a compact selector index exists.
 const MAX_CACHED_SUPPORT_PAYLOAD_BYTES = 3 * 1024 * 1024;
 const searchCacheBudget = new CacheBudget({ maxTotalBytes: MAX_SEARCH_CACHE_BYTES, maxSingleEntryBytes: MAX_SINGLE_SHARD_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
+const exactFetchCacheBudget = new CacheBudget({ maxTotalBytes: MAX_EXACT_FETCH_CACHE_BYTES, maxSingleEntryBytes: MAX_SINGLE_SHARD_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 const artifactCacheBudget = new CacheBudget({ maxTotalBytes: MAX_ARTIFACT_CACHE_BYTES, maxSingleEntryBytes: MAX_ARTIFACT_CACHE_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
+const sharedInflightBudget = new CacheBudget({ maxTotalBytes: MAX_INFLIGHT_BYTES, maxSingleEntryBytes: MAX_INFLIGHT_BYTES, maxDecodedRows: MAX_DECODED_ROWS, maxInflightBytes: MAX_INFLIGHT_BYTES });
 // ponytail: entry count is only a secondary safety ceiling; byte/row budgets decide eviction.
 const LARGE_SEARCH_SHARD_ITEM_COUNT = 2_000;
 const MAX_SEARCH_CACHE_ENTRIES = 32;
@@ -458,7 +464,7 @@ function requestDiagnostics(request: Request): RequestDiagnostics | undefined {
   };
   const colo = (request as Request & { cf?: { colo?: unknown } }).cf?.colo;
   return request.headers.get(DIAGNOSTICS_HEADER) === "1"
-    ? { started_at: diagnosticNow(), request_id: header("x-openfin-request-id"), case_id: header("x-openfin-case-id"), colo: typeof colo === "string" ? colo.slice(0, 64) : null, tool: header("x-openfin-tool"), query: diagnosticQuery(header("x-openfin-query")), query_class: header("x-openfin-query-class"), cache_bytes_before: searchCacheBudget.snapshot().bytes, cache_hits: 0, cache_misses: 0, in_flight_reuses: 0, evictions: 0, budget_exceeded: 0, shard_loads: [] }
+    ? { started_at: diagnosticNow(), request_id: header("x-openfin-request-id"), case_id: header("x-openfin-case-id"), colo: typeof colo === "string" ? colo.slice(0, 64) : null, tool: header("x-openfin-tool"), query: diagnosticQuery(header("x-openfin-query")), query_class: header("x-openfin-query-class"), cache_bytes_before: searchCacheBudget.snapshot().bytes + exactFetchCacheBudget.snapshot().bytes + artifactCacheBudget.snapshot().bytes, cache_hits: 0, cache_misses: 0, in_flight_reuses: 0, evictions: 0, budget_exceeded: 0, shard_loads: [] }
     : undefined;
 }
 
@@ -506,7 +512,7 @@ function diagnosticsSummary(diagnostics: RequestDiagnostics, response: Response,
     cache_eviction: diagnostics.evictions > 0,
     cache_budget_exceeded: diagnostics.budget_exceeded,
     cache_bytes_before: diagnostics.cache_bytes_before,
-    cache_bytes_after: searchBudget.bytes + artifactBudget.bytes,
+    cache_bytes_after: searchBudget.bytes + exactFetchCacheBudget.snapshot().bytes + artifactBudget.bytes,
     raw_bytes: total("raw_bytes"),
     decoded_rows: total("decoded_rows"),
     fetch_ms: roundDiagnosticMs(total("fetch_ms")),
@@ -518,13 +524,16 @@ function diagnosticsSummary(diagnostics: RequestDiagnostics, response: Response,
     failure_class: diagnostics.failure_class ?? null,
     cache_budget: {
       search: searchBudget,
+      exact_fetch: exactFetchCacheBudget.snapshot(),
       artifact: artifactBudget,
       max_total_bytes: MAX_TOTAL_CACHE_BYTES,
       max_search_bytes: MAX_SEARCH_CACHE_BYTES,
+      max_exact_fetch_bytes: MAX_EXACT_FETCH_CACHE_BYTES,
       max_artifact_bytes: MAX_ARTIFACT_CACHE_BYTES,
       max_single_shard_bytes: MAX_SINGLE_SHARD_BYTES,
       max_decoded_rows: MAX_DECODED_ROWS,
       max_inflight_bytes: MAX_INFLIGHT_BYTES,
+      shared_inflight: sharedInflightBudget.snapshot(),
     },
     cache_sizes: {
       large: cachedLargeSearchShards.size,
@@ -553,8 +562,12 @@ function searchCacheForKind(kind: SearchShardCacheKind): Map<string, CachedSearc
   return cachedHotSearchPayloads;
 }
 
+function cacheBudgetForKind(kind: SearchShardCacheKind): CacheBudget {
+  return kind === "exact" ? exactFetchCacheBudget : searchCacheBudget;
+}
+
 function removeSearchCacheEntry(kind: SearchShardCacheKind, key: string): boolean {
-  searchCacheBudget.remove(searchCacheBudgetKey(kind, key));
+  cacheBudgetForKind(kind).remove(searchCacheBudgetKey(kind, key));
   return searchCacheForKind(kind).delete(key);
 }
 
@@ -564,6 +577,8 @@ function clearSearchCaches(): void {
   cachedExactFetchShards.clear();
   cachedHotSearchPayloads.clear();
   searchCacheBudget.clear();
+  exactFetchCacheBudget.clear();
+  sharedInflightBudget.clear();
 }
 
 function releaseSearchShardSlot(): SearchShardSlotRelease {
@@ -646,7 +661,7 @@ function pruneStaleSearchShardRequests(now = Date.now()): void {
     inFlightSearchShards.delete(key);
     inFlightSearchShardControllers.delete(key);
     inFlightSearchShardConsumers.delete(key);
-    searchCacheBudget.releaseInflight(key);
+    sharedInflightBudget.releaseInflight(key);
   }
 }
 
@@ -672,6 +687,15 @@ function removeBudgetEvictions(evicted: readonly string[], diagnostics?: Request
     const kind = value.slice(0, separator) as SearchShardCacheKind;
     const key = value.slice(separator + 1);
     if (removeSearchCacheEntry(kind, key) && diagnostics) diagnostics.evictions += 1;
+  }
+}
+
+function removeArtifactBudgetEvictions(evicted: readonly string[]): void {
+  for (const key of evicted) {
+    if (key === MANIFEST_CACHE_KEY) cachedManifest = undefined;
+    else if (key === SEARCH_METADATA_CACHE_KEY) cachedSearchIndexMetadata = undefined;
+    else if (key === SEARCH_ITEMS_CACHE_KEY) cachedSearchItems = undefined;
+    else cachedFinanceArtifacts.delete(key);
   }
 }
 
@@ -1474,33 +1498,15 @@ function waitForAbort<T>(promise: Promise<T>, signal?: AbortSignal): Promise<T> 
 }
 
 async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
-  const controller = new AbortController();
-  const unlinkAbort = linkAbortSignal(controller, signal);
-  const timer = setTimeout(() => controller.abort(), FINANCE_FETCH_TIMEOUT_MS);
-  try {
-    const response = await fetch(url, {
-      headers: {
-        accept: "application/json",
-        "user-agent": "finance-mcp-cloudflare-worker",
-      },
-      signal: controller.signal,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Finance ontology fetch failed: ${url} ${response.status} ${response.statusText}`);
-    }
-
-    return (await response.json()) as T;
-  } finally {
-    clearTimeout(timer);
-    unlinkAbort();
-  }
+  const text = await fetchText(url, MAX_ARTIFACT_CACHE_BYTES, signal, { budget: sharedInflightBudget, key: `json:${url}` });
+  return JSON.parse(text) as T;
 }
 
-async function fetchText(url: string, maxBytes?: number, signal?: AbortSignal): Promise<string> {
+async function fetchText(url: string, maxBytes?: number, signal?: AbortSignal, budget?: { budget: CacheBudget; key: string }): Promise<string> {
   const controller = new AbortController();
   const unlinkAbort = linkAbortSignal(controller, signal);
   const timer = setTimeout(() => controller.abort(), FINANCE_FETCH_TIMEOUT_MS);
+  let reservedBytes = 0;
   try {
     const response = await fetch(url, {
       headers: {
@@ -1514,12 +1520,34 @@ async function fetchText(url: string, maxBytes?: number, signal?: AbortSignal): 
     if (maxBytes !== undefined && Number.isFinite(contentLength) && contentLength > maxBytes) {
       throw new SearchIndexContractError(`Finance ontology fetch exceeds ${maxBytes} bytes: ${url} ${contentLength}`);
     }
-    const text = await response.text();
-    if (maxBytes !== undefined && new TextEncoder().encode(text).byteLength > maxBytes) {
-      throw new SearchIndexContractError(`Finance ontology fetch exceeds ${maxBytes} bytes: ${url}`);
+    const reader = response.body?.getReader();
+    if (!reader) throw new SearchIndexContractError(`Finance ontology response has no bounded body stream: ${url}`);
+    const decoder = new TextDecoder();
+    let text = "";
+    let totalBytes = 0;
+    try {
+      while (true) {
+        const chunk = await reader.read();
+        if (chunk.done) break;
+        totalBytes += chunk.value.byteLength;
+        if (maxBytes !== undefined && totalBytes > maxBytes) {
+          controller.abort();
+          throw new SearchIndexContractError(`Finance ontology fetch exceeds ${maxBytes} bytes: ${url}`);
+        }
+        if (budget && !budget.budget.reserveInflight(budget.key, totalBytes)) {
+          controller.abort();
+          throw new SearchIndexContractError(`network body exceeds the shared in-flight cache budget: ${url}`);
+        }
+        reservedBytes = totalBytes;
+        text += decoder.decode(chunk.value, { stream: true });
+      }
+      text += decoder.decode();
+      return text;
+    } finally {
+      await reader.cancel().catch(() => undefined);
     }
-    return text;
   } finally {
+    if (reservedBytes > 0) budget?.budget.releaseInflight(budget.key);
     clearTimeout(timer);
     unlinkAbort();
   }
@@ -1559,6 +1587,7 @@ async function verifyTextChecksum(text: string, expected: string | undefined): P
 async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
   const now = Date.now();
   if (cachedManifest && now - cachedManifest.loadedAt < CACHE_TTL_MS) {
+    artifactCacheBudget.touch(MANIFEST_CACHE_KEY);
     return cachedManifest.data;
   }
   return manifestSingleFlight.run(async () => {
@@ -1585,20 +1614,25 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
       clearSearchCaches();
       cachedFinanceArtifacts.clear();
       artifactCacheBudget.clear();
+      sharedInflightBudget.clear();
     }
     const liveEntry = manifest.live_regression_evidence;
     const liveEvidence = liveEntry?.export_checksum
       ? await fetchJson<Record<string, unknown>>(resolveExportUrl(liveEntry, financeManifestUrl(env))).catch(() => null)
       : null;
+    const liveArtifactInvalid = liveEntry ? { status: "invalid", reason: "LIVE_REGRESSION_EVIDENCE_UNAVAILABLE" } : undefined;
     Object.defineProperty(manifest, "_live_regression", {
       value: liveEvidence && await verifyArtifactChecksum(liveEvidence, liveEntry?.export_checksum)
         ? liveEvidence
-        : manifest.openfin_120_live_regression ?? {},
+        : liveEntry ? liveArtifactInvalid : manifest.openfin_120_live_regression ?? {},
       enumerable: false,
       configurable: true,
     });
     manifestGeneration = generation;
-    cachedManifest = { data: manifest, loadedAt: Date.now() };
+    const bytes = new TextEncoder().encode(JSON.stringify(manifest) + JSON.stringify(manifest._live_regression)).byteLength;
+    const admission = artifactCacheBudget.admit(MANIFEST_CACHE_KEY, bytes, 1);
+    removeArtifactBudgetEvictions(admission.evicted);
+    cachedManifest = admission.accepted ? { data: manifest, loadedAt: Date.now() } : undefined;
     return manifest;
   });
 }
@@ -1624,7 +1658,7 @@ async function loadOntologyExportPayloads(entry: ManifestEntry, manifestUrl: str
   for (const source of sources) {
     const label = shards?.length ? `ontology export shard ${(source as SearchIndexShard).shard_id}` : `ontology export ${entry.id}`;
     const url = resolveExportUrl(source, manifestUrl);
-    const rawText = await fetchText(url, undefined, signal);
+    const rawText = await fetchText(url, MAX_ARTIFACT_CACHE_BYTES, signal, { budget: sharedInflightBudget, key: `ontology:${manifestGeneration}:${url}` });
     if (source.content_checksum && !(await verifyTextChecksum(rawText, source.content_checksum))) {
       throw new SearchIndexContractError(`${label} content checksum mismatch`);
     }
@@ -1659,8 +1693,14 @@ async function loadFinanceArtifactEntry(env: Env, cacheKey: string, entry: { pat
   const pending = inFlightFinanceArtifacts.get(pendingKey);
   if (pending) return pending;
   const request = (async () => {
+    let inflightReserved = false;
+    const pendingBudgetKey = `artifact:${pendingKey}`;
     try {
-      const data = await fetchJson<unknown>(resolveExportUrl(entry, financeManifestUrl(env)));
+      const rawText = await fetchText(resolveExportUrl(entry, financeManifestUrl(env)), MAX_ARTIFACT_CACHE_BYTES, undefined, { budget: sharedInflightBudget, key: pendingBudgetKey });
+      inflightReserved = sharedInflightBudget.reserveInflight(pendingBudgetKey, new TextEncoder().encode(rawText).byteLength);
+      if (!inflightReserved) throw new SearchIndexContractError(`finance artifact ${cacheKey} exceeds the in-flight cache budget`);
+      let data: unknown;
+      try { data = JSON.parse(rawText); } catch (error) { throw new SearchIndexContractError(`finance artifact ${cacheKey} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`); }
       if (!(await verifyArtifactChecksum(data, (entry as ManifestEntry).export_checksum))) {
         throw new Error(`manifest checksum mismatch for ${cacheKey}`);
       }
@@ -1668,7 +1708,7 @@ async function loadFinanceArtifactEntry(env: Env, cacheKey: string, entry: { pat
         const bytes = new TextEncoder().encode(JSON.stringify(data)).byteLength;
         const rows = artifactRecords(data).length;
         const admission = artifactCacheBudget.admit(cacheKey, bytes, rows);
-        for (const evicted of admission.evicted) cachedFinanceArtifacts.delete(evicted);
+        removeArtifactBudgetEvictions(admission.evicted);
         if (admission.accepted) cachedFinanceArtifacts.set(cacheKey, { data, loadedAt: Date.now(), generation: requestGeneration });
         else cachedFinanceArtifacts.delete(cacheKey);
         financeArtifactErrors.delete(cacheKey);
@@ -1680,6 +1720,7 @@ async function loadFinanceArtifactEntry(env: Env, cacheKey: string, entry: { pat
       }
       return undefined;
     } finally {
+      if (inflightReserved) sharedInflightBudget.releaseInflight(pendingBudgetKey);
       inFlightFinanceArtifacts.delete(pendingKey);
     }
   })();
@@ -2203,11 +2244,14 @@ async function loadSearchIndexMetadata(env: Env, signal?: AbortSignal): Promise<
       content_checksum: manifest.search_index.content_checksum,
       shards: manifest.search_index.shards,
     }, `${manifestUrl}#search_index`);
-    cachedSearchIndexMetadata = { data, loadedAt: now, generation: manifestGeneration };
+    const bytes = new TextEncoder().encode(JSON.stringify(data)).byteLength;
+    const admission = artifactCacheBudget.admit(SEARCH_METADATA_CACHE_KEY, bytes, data.shards?.length ?? 0);
+    removeArtifactBudgetEvictions(admission.evicted);
+    if (admission.accepted) cachedSearchIndexMetadata = { data, loadedAt: now, generation: manifestGeneration };
     return data;
   }
   const indexUrl = resolveExportUrl(manifest.search_index, manifestUrl);
-  const rawText = await fetchText(indexUrl, undefined, signal);
+  const rawText = await fetchText(indexUrl, MAX_ARTIFACT_CACHE_BYTES, signal, { budget: sharedInflightBudget, key: `metadata:${manifestGeneration}:${indexUrl}` });
   if (manifest.search_index.content_checksum && !(await verifyTextChecksum(rawText, manifest.search_index.content_checksum))) {
     throw new SearchIndexContractError("finance manifest search_index content checksum mismatch");
   }
@@ -2225,7 +2269,10 @@ async function loadSearchIndexMetadata(env: Env, signal?: AbortSignal): Promise<
     throw new SearchIndexContractError("finance manifest search_index checksum mismatch");
   }
   const data = parseSearchIndexFile(rawData, indexUrl);
-  cachedSearchIndexMetadata = { data, loadedAt: now, generation: manifestGeneration };
+  const bytes = new TextEncoder().encode(JSON.stringify(data)).byteLength;
+  const admission = artifactCacheBudget.admit(SEARCH_METADATA_CACHE_KEY, bytes, data.items?.length ?? 0);
+  removeArtifactBudgetEvictions(admission.evicted);
+  if (admission.accepted) cachedSearchIndexMetadata = { data, loadedAt: now, generation: manifestGeneration };
   return data;
 }
 
@@ -2242,7 +2289,6 @@ async function loadSearchItems(env: Env, signal?: AbortSignal): Promise<readonly
   if (inlineItems) {
     assertSearchItemCount(inlineItems.length, metadata.item_count, "search-index root");
     assertSearchItemCount(inlineItems.length, manifest.search_index?.item_count, "finance manifest search_index");
-    cachedSearchItems = { items: inlineItems, loadedAt: now, generation: manifestGeneration };
     return inlineItems;
   }
 
@@ -2262,7 +2308,10 @@ async function loadSearchItems(env: Env, signal?: AbortSignal): Promise<readonly
   const items = shardItems.flat();
   assertSearchItemCount(items.length, metadata.item_count, "search-index root");
   assertSearchItemCount(items.length, manifest.search_index?.item_count, "finance manifest search_index");
-  cachedSearchItems = { items, loadedAt: now, generation: manifestGeneration };
+  const bytes = new TextEncoder().encode(JSON.stringify(items)).byteLength;
+  const admission = artifactCacheBudget.admit(SEARCH_ITEMS_CACHE_KEY, bytes, items.length);
+  removeArtifactBudgetEvictions(admission.evicted);
+  if (admission.accepted) cachedSearchItems = { items, loadedAt: now, generation: manifestGeneration, bytes, decodedRows: items.length };
   return items;
 }
 
@@ -2282,14 +2331,14 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
   if (cachedPayload && cachedPayload.generation !== manifestGeneration) removeSearchCacheEntry("payload", key);
   if (cached?.generation === manifestGeneration && query === undefined) {
     if (diagnostics) diagnostics.cache_hits += 1;
-    searchCacheBudget.touch(searchCacheBudgetKey(cacheKind, key));
+    cacheBudgetForKind(cacheKind).touch(searchCacheBudgetKey(cacheKind, key));
     cache.delete(key);
     cache.set(key, cached);
     return cached.items;
   }
   if (cached?.generation === manifestGeneration && query !== undefined && cachedPayload?.generation !== manifestGeneration) {
     if (diagnostics) diagnostics.cache_hits += 1;
-    searchCacheBudget.touch(searchCacheBudgetKey(cacheKind, key));
+    cacheBudgetForKind(cacheKind).touch(searchCacheBudgetKey(cacheKind, key));
     return cached.items.filter((item) => searchTextIncludes(item, query));
   }
 
@@ -2341,7 +2390,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
         if (oldest === undefined) break;
         if (removeSearchCacheEntry(cacheKind, oldest) && diagnostics) diagnostics.evictions += 1;
       }
-      const admission = searchCacheBudget.admit(searchCacheBudgetKey(cacheKind, key), loaded.rawBytes, items.length);
+      const admission = cacheBudgetForKind(cacheKind).admit(searchCacheBudgetKey(cacheKind, key), loaded.rawBytes, items.length);
       removeBudgetEvictions(admission.evicted, diagnostics);
       if (!admission.accepted && diagnostics) diagnostics.budget_exceeded += 1;
       if (admission.accepted) cache.set(key, { items, loadedAt: Date.now(), generation: requestGeneration, bytes: loaded.rawBytes, decodedRows: items.length });
@@ -2409,10 +2458,10 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
     try {
       releaseSlot = await acquireSearchShardSlot(requestController.signal);
       const fetchStarted = diagnosticNow();
-      rawText = await fetchText(url, MAX_SINGLE_SHARD_BYTES, requestController.signal);
+      rawText = await fetchText(url, MAX_SINGLE_SHARD_BYTES, requestController.signal, { budget: sharedInflightBudget, key: pendingKey });
       fetchMs = diagnosticNow() - fetchStarted;
       rawBytes = new TextEncoder().encode(rawText).byteLength;
-      inflightReserved = searchCacheBudget.reserveInflight(pendingKey, rawBytes);
+      inflightReserved = sharedInflightBudget.reserveInflight(pendingKey, rawBytes);
       if (!inflightReserved) throw new SearchIndexContractError(`search-index shard ${shard.shard_id} exceeds the in-flight cache budget`);
       if (shard.content_checksum) {
         const checksumStarted = diagnosticNow();
@@ -2460,7 +2509,7 @@ async function loadSearchShard(env: Env, shard: SearchIndexShard, diagnostics?: 
       return { payload, source: url, rawBytes, rawTextUnits: rawText.length, fetchMs, checksumMs, parseMs };
     } finally {
       releaseSlot?.();
-      if (inflightReserved) searchCacheBudget.releaseInflight(pendingKey);
+      if (inflightReserved) sharedInflightBudget.releaseInflight(pendingKey);
       rawText = "";
       if (inFlightSearchShardControllers.get(pendingKey) === requestController) inFlightSearchShardControllers.delete(pendingKey);
     }
@@ -2538,7 +2587,10 @@ async function loadTargetedExactShardItems(env: Env, shard: SearchIndexShard, lo
   if (!pending) {
     pending = (async () => {
       const source = resolveExportUrl(shard, financeManifestUrl(env));
-      const rawText = await fetchText(source, undefined, signal);
+      const rawText = await fetchText(source, MAX_SINGLE_SHARD_BYTES, signal, { budget: sharedInflightBudget, key: `exact:${pendingKey}` });
+      const inflightBudgetKey = `exact:${pendingKey}`;
+      const inflightBytes = new TextEncoder().encode(rawText).byteLength;
+      if (!sharedInflightBudget.reserveInflight(inflightBudgetKey, inflightBytes)) throw new SearchIndexContractError(`exact search shard ${shard.shard_id} exceeds the shared in-flight cache budget`);
       if (shard.content_checksum && !(await verifyTextChecksum(rawText, shard.content_checksum))) {
         throw new SearchIndexContractError(`search-index shard ${shard.shard_id} content checksum mismatch`);
       }
@@ -2555,8 +2607,9 @@ async function loadTargetedExactShardItems(env: Env, shard: SearchIndexShard, lo
       if (!rows) throw new SearchIndexContractError(`search-index shard ${shard.shard_id} exact payload has no items`);
       assertSearchItemCount(rows.length, shard.item_count, `search-index shard ${shard.shard_id}`);
       assertEmbeddedItemCount(payload, rows, `search-index shard ${shard.shard_id}`);
+      sharedInflightBudget.releaseInflight(inflightBudgetKey);
       return { payload, source };
-    })().finally(() => inFlightExactFetchShards.delete(pendingKey));
+    })().finally(() => { sharedInflightBudget.releaseInflight(`exact:${pendingKey}`); inFlightExactFetchShards.delete(pendingKey); });
     inFlightExactFetchShards.set(pendingKey, pending);
   }
   const { payload, source } = await pending;
@@ -2631,11 +2684,6 @@ async function hydrateSearchItem(env: Env, item: FinanceItem, signal?: AbortSign
 }
 
 async function loadFinanceGraph(env: Env): Promise<FinanceGraph> {
-  const now = Date.now();
-  if (cachedGraph && cachedGraph.generation === manifestGeneration && now - cachedGraph.loadedAt < CACHE_TTL_MS) {
-    return cachedGraph.data;
-  }
-
   const manifestUrl = financeManifestUrl(env);
   const manifest = await loadFinanceManifest(env);
   const itemsById = new Map<string, FinanceItem>();
@@ -2655,7 +2703,6 @@ async function loadFinanceGraph(env: Env): Promise<FinanceGraph> {
     exports: manifest.exports,
     items: [...itemsById.values()].sort((a, b) => a.id.localeCompare(b.id, "ko-KR")),
   };
-  cachedGraph = { data, loadedAt: now, generation: manifestGeneration };
   return data;
 }
 
@@ -2838,9 +2885,15 @@ function requiredVerifiedCount(manifest: FinanceManifest | undefined, domain: st
   return typeof value === "number" && Number.isInteger(value) && value >= 0 ? value : 0;
 }
 
+function requiredComparisonCount(manifest: FinanceManifest | undefined, domain: string): number {
+  const state = manifest?.domain_readiness?.[domain];
+  const value = state?.required_comparison_candidates;
+  return typeof value === "number" && Number.isInteger(value) && value >= 0 ? value : requiredVerifiedCount(manifest, domain);
+}
+
 function comparisonReleaseGate(manifest: FinanceManifest, domain: string): { status: "ready" | "blocked"; reasons: string[] } {
   const state = manifest.domain_readiness?.[domain];
-  const required = requiredVerifiedCount(manifest, domain);
+  const required = requiredComparisonCount(manifest, domain);
   const capabilities = isRecord(manifest.capabilities) ? manifest.capabilities : {};
   const publicCount = typeof state?.public_comparison_candidate_count === "number" ? state.public_comparison_candidate_count : Number(state?.public_candidate_count ?? 0);
   const comparisonCapability = capabilities.comparison === undefined || capabilities.comparison === "limited" || capabilities.comparison === "ready";

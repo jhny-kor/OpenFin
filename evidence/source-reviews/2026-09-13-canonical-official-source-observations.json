@@ -1,0 +1,780 @@
+{
+  "version": "openfin-canonical-official-source-observation-v1",
+  "observed_at": "2026-09-13T14:56:54.354Z",
+  "scope": "ten current candidate source observations for market-comparison evidence; not financial-suitability or recommendation approval",
+  "fss": {
+    "deposit": {
+      "endpoint": "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+      "response_checksum": "sha256:186db4f2b35b1cc1a317df086eb7c2b12c138a3057279c6172b5f635c0ed9c8e",
+      "records": [
+        {
+          "product_code": "TD11300027000",
+          "base": {
+            "dcls_month": "202608",
+            "fin_co_no": "0010019",
+            "fin_prdt_cd": "TD11300027000",
+            "kor_co_nm": "광주은행",
+            "fin_prdt_nm": "미즈월복리정기예금",
+            "join_way": "영업점,인터넷,스마트폰,기타",
+            "mtrt_int": "*만기후 1개월 이내: 만기일 당시 최초 가입 기간별 일반정기예금 고시금리의 1/2 \n*만기후 1개월 초과: 0.01%",
+            "spcl_cnd": "▶ 최고우대금리 0.2% \n ① 요구불평잔 : 0.2% -300만원이상 0.1%, 500만원이상 0.2%\n ② 신용(체크)카드결제실적 : 0.1% -전월결제금 300만원이상 0.05%, 500만원이상 0.1%",
+            "join_deny": "1",
+            "join_member": "만18세이상 여성으로 실명의 개인 및 개인사업자",
+            "etc_note": "1. 가입기간 : 1년이상 3년제\n2. 가입금액 : 5백만원이상 최고 50백만원",
+            "max_limit": 50000000,
+            "dcls_strt_day": "20260820",
+            "dcls_end_day": null,
+            "fin_co_subm_day": "202609111051"
+          },
+          "options": [
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11300027000",
+              "intr_rate_type": "M",
+              "intr_rate_type_nm": "복리",
+              "save_trm": "12",
+              "intr_rate": 3.48,
+              "intr_rate2": 3.68
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11300027000",
+              "intr_rate_type": "M",
+              "intr_rate_type_nm": "복리",
+              "save_trm": "24",
+              "intr_rate": 3.35,
+              "intr_rate2": 3.55
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11300027000",
+              "intr_rate_type": "M",
+              "intr_rate_type_nm": "복리",
+              "save_trm": "36",
+              "intr_rate": 3.29,
+              "intr_rate2": 3.49
+            }
+          ],
+          "record_checksum": "sha256:e0727307235ff30c4237f2babd223d289efe40d98b4ae0a5f42216f274b807d6"
+        },
+        {
+          "product_code": "TD11300035000",
+          "base": {
+            "dcls_month": "202608",
+            "fin_co_no": "0010019",
+            "fin_prdt_cd": "TD11300035000",
+            "kor_co_nm": "광주은행",
+            "fin_prdt_nm": "굿스타트예금",
+            "join_way": "스마트폰",
+            "mtrt_int": "*만기후 1개월 이내: 만기일 당시 최초 가입 기간별 일반정기예금 고시금리의 1/2 \n*만기후 1개월 초과: 0.01%",
+            "spcl_cnd": "▶ 최고우대금리 0.5% \n ① 첫예금거래 : 0.4% -최근1년동안 정기예금 계좌 신규 또는 해지이력이 없는경우\n ② 개인(신용)정보 수집이용동의 : 0.1% -만기일전일까지 유지시",
+            "join_deny": "1",
+            "join_member": "개인 및 개인사업자",
+            "etc_note": "1. 가입기간 : 1년제\n2. 가입금액 : 1백만원이상 최고 1억원(1인1계좌)",
+            "max_limit": 100000000,
+            "dcls_strt_day": "20260820",
+            "dcls_end_day": null,
+            "fin_co_subm_day": "202609111050"
+          },
+          "options": [
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11300035000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "12",
+              "intr_rate": 3.28,
+              "intr_rate2": 3.78
+            }
+          ],
+          "record_checksum": "sha256:01540ec881ac66a7b2ed3d2489c3f24c7dc8a9390c913aa792e0ba394a1f211c"
+        },
+        {
+          "product_code": "TD11300036000",
+          "base": {
+            "dcls_month": "202608",
+            "fin_co_no": "0010019",
+            "fin_prdt_cd": "TD11300036000",
+            "kor_co_nm": "광주은행",
+            "fin_prdt_nm": "The플러스예금",
+            "join_way": "영업점,스마트폰",
+            "mtrt_int": "*만기후 1개월 이내: 만기일 당시 최초 가입 기간별 일반정기예금 고시금리의 1/2 \n*만기후 1개월 초과: 0.01%",
+            "spcl_cnd": "▶ 해당사항없음",
+            "join_deny": "1",
+            "join_member": "개인 및 법인(단,국가 지자체 및 금융기관 제외)",
+            "etc_note": "1. 가입기간 : 3개월,6개월,1년제\n2. 가입금액 : 10백만원이상 고객당 10억원한도",
+            "max_limit": 1000000000,
+            "dcls_strt_day": "20260820",
+            "dcls_end_day": null,
+            "fin_co_subm_day": "202609111050"
+          },
+          "options": [
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11300036000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "3",
+              "intr_rate": 2.45,
+              "intr_rate2": 2.45
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11300036000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "6",
+              "intr_rate": 2.68,
+              "intr_rate2": 2.68
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11300036000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "12",
+              "intr_rate": 2.7,
+              "intr_rate2": 2.7
+            }
+          ],
+          "record_checksum": "sha256:4038fbd141aafe5876b5797da64ef7857a465a2a06f895b56244c6fa6c01ddcc"
+        },
+        {
+          "product_code": "21001115",
+          "base": {
+            "dcls_month": "202608",
+            "fin_co_no": "0010024",
+            "fin_prdt_cd": "21001115",
+            "kor_co_nm": "경남은행",
+            "fin_prdt_nm": "BNK더조은정기예금",
+            "join_way": "인터넷,스마트폰",
+            "mtrt_int": "만기 후 1개월 이내: 일반정기예금 기본이율 Ⅹ50%\n만기 후 1개월 초과: 일반정기예금 기본이율 Ⅹ20%",
+            "spcl_cnd": "①신규시 가입(재예치)금액 20백만원 이상인 경우 0.10%\n②신규시 금리우대쿠폰을 등록한 경우 0.20% \n③경남은행 오픈뱅킹 서비스를 가입한 경우 0.10%\n(만기시까지 해당서비스 유지하는 경우)\n④자동재예치를 통해 가입한 경우 0.05%\n(금리우대쿠폰과 중복적용 불가)\n⑤신규(재예치)시 마케팅동의 및 모바일메시지 수신동의 0.10%",
+            "join_deny": "1",
+            "join_member": "거래대상자는 제한을 두지 아니한다. 다만, 국가 및 지방자치단체는 이 예금을 거래할 수 없다.",
+            "etc_note": "1. 이 예금의 계약기간은 3개월 이상 2년 이내 월단위로 한다.\n2. 가입금액은 1인당 최소 100만원 이상 5억원 이하이다.",
+            "max_limit": 500000000,
+            "dcls_strt_day": "20260831",
+            "dcls_end_day": "99991231",
+            "fin_co_subm_day": "202608310910"
+          },
+          "options": [
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001115",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "3",
+              "intr_rate": 2,
+              "intr_rate2": 2.5
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001115",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "6",
+              "intr_rate": 2.05,
+              "intr_rate2": 2.55
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001115",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "12",
+              "intr_rate": 2.05,
+              "intr_rate2": 2.55
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001115",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "24",
+              "intr_rate": 2.05,
+              "intr_rate2": 2.55
+            }
+          ],
+          "record_checksum": "sha256:58677077c07a9f5fcf178f48871e52fd009d55516956f6b31186cde0c9b6703b"
+        },
+        {
+          "product_code": "21001280",
+          "base": {
+            "dcls_month": "202608",
+            "fin_co_no": "0010024",
+            "fin_prdt_cd": "21001280",
+            "kor_co_nm": "경남은행",
+            "fin_prdt_nm": "The든든예금(시즌2)",
+            "join_way": "스마트폰",
+            "mtrt_int": "만기 후 1개월 이내: 일반정기예금 기본이율 Ⅹ50%\n만기 후 1개월 초과: 일반정기예금 기본이율 Ⅹ20%",
+            "spcl_cnd": "①마케팅동의 및 모바일메시지 수신동의 0.05%\n②신규고객 우대(최근 12개월 신규이력·해지이력 미보유) 0.40%\n③이벤트금리(비대면금리) 최대 1.10% (3개월 0.70% / 6, 9개월 0.80% / 12개월 1.10%)",
+            "join_deny": "1",
+            "join_member": "개인",
+            "etc_note": "1. 이 예금의 계약기간은 3개월, 6개월, 9개월, 12개월로 한다.\n2. 가입좌수 제한없으며, 가입금액은 1인당 최소 100만원 이상 10억원 이하이다.",
+            "max_limit": 1000000000,
+            "dcls_strt_day": "20260831",
+            "dcls_end_day": "20261231",
+            "fin_co_subm_day": "202608310910"
+          },
+          "options": [
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001280",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "3",
+              "intr_rate": 2.25,
+              "intr_rate2": 3.4
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001280",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "6",
+              "intr_rate": 2.25,
+              "intr_rate2": 3.5
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001280",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "save_trm": "12",
+              "intr_rate": 2.3,
+              "intr_rate2": 3.85
+            }
+          ],
+          "record_checksum": "sha256:bbff8ea2e59ed97a67c2af21cc9894c9e7d13c006665b04a8d68c664bdf9fa06"
+        }
+      ]
+    },
+    "saving": {
+      "endpoint": "https://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json",
+      "response_checksum": "sha256:08d19f83bd19365746467f335b8a579ea2603699ee4c21fa900b92d9b49bfeba",
+      "records": [
+        {
+          "product_code": "TD11330029000",
+          "base": {
+            "dcls_month": "202608",
+            "fin_co_no": "0010019",
+            "fin_prdt_cd": "TD11330029000",
+            "kor_co_nm": "광주은행",
+            "fin_prdt_nm": "해피라이프_여행스케치적금V",
+            "join_way": "영업점,스마트폰",
+            "mtrt_int": "*만기후 1개월 이내: 만기일 당시 최초 가입 기간별 고시금리의 1/2 \n*만기후 1개월 초과: 0.1%",
+            "spcl_cnd": "▶ 최고우대금리 1.20%p  \n①해피라이프_여행스케치외화적금V 동일자가입 0.5%p \n②해지원금 기준 500만원이상 : 최고0.2%p\n③신용(체크)카드사용실적300만원이상:최고 0.3%p\n④개인(신용)정보 동의: 0.2%p",
+            "join_deny": "1",
+            "join_member": "제한없음(단,국가및지방자치단체제외)",
+            "etc_note": "1. 가입기간 : 6개월이상 3년제\n2. 가입금액 : 월5만원 이상 5백만원 이하 (1인1계좌)",
+            "max_limit": 5000000,
+            "dcls_strt_day": "20260820",
+            "dcls_end_day": null,
+            "fin_co_subm_day": "202608201410"
+          },
+          "options": [
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11330029000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "S",
+              "rsrv_type_nm": "정액적립식",
+              "save_trm": "6",
+              "intr_rate": 2.4,
+              "intr_rate2": 3.6
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11330029000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "S",
+              "rsrv_type_nm": "정액적립식",
+              "save_trm": "36",
+              "intr_rate": 2.4,
+              "intr_rate2": 3.6
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11330029000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "S",
+              "rsrv_type_nm": "정액적립식",
+              "save_trm": "24",
+              "intr_rate": 2.4,
+              "intr_rate2": 3.6
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11330029000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "S",
+              "rsrv_type_nm": "정액적립식",
+              "save_trm": "12",
+              "intr_rate": 2.5,
+              "intr_rate2": 3.7
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11330029000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "F",
+              "rsrv_type_nm": "자유적립식",
+              "save_trm": "6",
+              "intr_rate": 2.2,
+              "intr_rate2": 3.4
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11330029000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "F",
+              "rsrv_type_nm": "자유적립식",
+              "save_trm": "36",
+              "intr_rate": 2.2,
+              "intr_rate2": 3.4
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11330029000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "F",
+              "rsrv_type_nm": "자유적립식",
+              "save_trm": "24",
+              "intr_rate": 2.2,
+              "intr_rate2": 3.4
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11330029000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "F",
+              "rsrv_type_nm": "자유적립식",
+              "save_trm": "12",
+              "intr_rate": 2.3,
+              "intr_rate2": 3.5
+            }
+          ],
+          "record_checksum": "sha256:d87074ee2ca2496e85e6aeb503ab4a1f9035271b7d280d07538ce42e0540b827"
+        },
+        {
+          "product_code": "TD11330031000",
+          "base": {
+            "dcls_month": "202608",
+            "fin_co_no": "0010019",
+            "fin_prdt_cd": "TD11330031000",
+            "kor_co_nm": "광주은행",
+            "fin_prdt_nm": "VIP플러스적금",
+            "join_way": "영업점,인터넷,스마트폰",
+            "mtrt_int": "*만기후 1개월 이내: 만기일 당시 최초 가입 기간별 고시금리의 1/2 \n*만기후 1개월 초과: 0.1%",
+            "spcl_cnd": "▶ 최고우대금리 0.50%p  \n①이 예금가입시 VIP고객이거나 가입일 이후부터 만기일전일까지 VIP고객에 선정된 경험이 있는 경우 : 0.3%p \n②이 예금 가입일에 정기예금 500만원이상(만기 1년이상) 가입하고 만기일 전일까지 유지한 경우 : 0.2%p",
+            "join_deny": "1",
+            "join_member": "실명의 개인",
+            "etc_note": "1. 가입기간 : 1년제\n2. 가입금액 : 월10만원 이상 5백만원 이하 (1인1계좌)",
+            "max_limit": 5000000,
+            "dcls_strt_day": "20260820",
+            "dcls_end_day": null,
+            "fin_co_subm_day": "202608201410"
+          },
+          "options": [
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11330031000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "F",
+              "rsrv_type_nm": "자유적립식",
+              "save_trm": "12",
+              "intr_rate": 2.2,
+              "intr_rate2": 2.7
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010019",
+              "fin_prdt_cd": "TD11330031000",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "S",
+              "rsrv_type_nm": "정액적립식",
+              "save_trm": "12",
+              "intr_rate": 2.4,
+              "intr_rate2": 2.9
+            }
+          ],
+          "record_checksum": "sha256:6f7e53627189954733c0e71b465ce15928b38de4c0613d5a097068e92b137b0d"
+        },
+        {
+          "product_code": "21000111",
+          "base": {
+            "dcls_month": "202608",
+            "fin_co_no": "0010024",
+            "fin_prdt_cd": "21000111",
+            "kor_co_nm": "경남은행",
+            "fin_prdt_nm": "행복 DREAM 적금",
+            "join_way": "영업점,인터넷,스마트폰",
+            "mtrt_int": "만기후 1개월 이내: 일반정기예금 기본이율의 50%\n만기후 1개월 초과: 일반정기예금 기본이율의 20%",
+            "spcl_cnd": "①신규일로부터 6개월전까지 당행 적금 미보유 0.2%\n②월부금이 50만원 이상인 경우 0.2%\n③이 예금을 자동이체로 납입하는 경우 0.2%\n④신규일로부터 익월 말일까지 신용(체크)카드를 최초로 발급하고 동 기간내에 10만원이상 이용실적이 있는경우 0.2%\n⑤이 예금 가입전 경남은행 마케팅동의가 되어있는경우 0.2%",
+            "join_deny": "1",
+            "join_member": "실명의 개인 및 개인사업자",
+            "etc_note": "1. 계약기간은 1년 이상 3년 이하 월단위로 한다.\n2. 적립금액은 5만원 이상, 최고금액은 제한없음",
+            "max_limit": 999999999,
+            "dcls_strt_day": "20260820",
+            "dcls_end_day": "99991231",
+            "fin_co_subm_day": "202608201143"
+          },
+          "options": [
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21000111",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "S",
+              "rsrv_type_nm": "정액적립식",
+              "save_trm": "12",
+              "intr_rate": 2.9,
+              "intr_rate2": 3.9
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21000111",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "S",
+              "rsrv_type_nm": "정액적립식",
+              "save_trm": "24",
+              "intr_rate": 2.8,
+              "intr_rate2": 3.8
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21000111",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "S",
+              "rsrv_type_nm": "정액적립식",
+              "save_trm": "36",
+              "intr_rate": 2.8,
+              "intr_rate2": 3.8
+            }
+          ],
+          "record_checksum": "sha256:65e263c3c08d6817d955cbc2385c6734e7d9f82048a7b5dc27355f4201d0dec9"
+        },
+        {
+          "product_code": "21001199",
+          "base": {
+            "dcls_month": "202608",
+            "fin_co_no": "0010024",
+            "fin_prdt_cd": "21001199",
+            "kor_co_nm": "경남은행",
+            "fin_prdt_nm": "BNK 위더스자유적금",
+            "join_way": "영업점,인터넷,스마트폰,기타",
+            "mtrt_int": "만기후 1개월 이내: 일반정기예금 기본이율의 50%\n만기후 1개월 초과: 일반정기예금 기본이율의 20%",
+            "spcl_cnd": "①ESG 실천 우대금리 1.00%\n②신규고객 우대금리 1.00%\n- 당행 1년 이내예적금(청약포함)신규해지 이력미보유\n③마케팅동의우대금리 0.50%",
+            "join_deny": "1",
+            "join_member": "실명의 개인 및 개인사업자",
+            "etc_note": "1.계약기간은 1개월 이상 36개월 이하 월단위로 한다.\n2..1인 1계좌로 가입가능\n2.매월 최소 1만원 이상, 최고 월 100만원 이하 (천원 단위)",
+            "max_limit": 1000000,
+            "dcls_strt_day": "20260820",
+            "dcls_end_day": "99991231",
+            "fin_co_subm_day": "202608201143"
+          },
+          "options": [
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001199",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "F",
+              "rsrv_type_nm": "자유적립식",
+              "save_trm": "6",
+              "intr_rate": 2,
+              "intr_rate2": 4.5
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001199",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "F",
+              "rsrv_type_nm": "자유적립식",
+              "save_trm": "36",
+              "intr_rate": 2.3,
+              "intr_rate2": 4.8
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001199",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "F",
+              "rsrv_type_nm": "자유적립식",
+              "save_trm": "24",
+              "intr_rate": 2.3,
+              "intr_rate2": 4.8
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001199",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "F",
+              "rsrv_type_nm": "자유적립식",
+              "save_trm": "12",
+              "intr_rate": 2.3,
+              "intr_rate2": 4.8
+            },
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001199",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "F",
+              "rsrv_type_nm": "자유적립식",
+              "save_trm": "1",
+              "intr_rate": 1.45,
+              "intr_rate2": 3.95
+            }
+          ],
+          "record_checksum": "sha256:2949225939c2e280ed0408d73445688a859bdb68f98b5e1f9e56d4ca1098015a"
+        },
+        {
+          "product_code": "21001292",
+          "base": {
+            "dcls_month": "202608",
+            "fin_co_no": "0010024",
+            "fin_prdt_cd": "21001292",
+            "kor_co_nm": "경남은행",
+            "fin_prdt_nm": "오면우대! 하면우대!\n정기적금",
+            "join_way": "영업점,인터넷,스마트폰",
+            "mtrt_int": "만기후 1개월 이내: 일반정기예금 기본이율의 50%\n만기후 1개월 초과: 일반정기예금 기본이율의 20%",
+            "spcl_cnd": "신규고객\n①적금가입시3.0%\n②상품가입 전 마케팅동의시0.1%\n③이 적금 신규월 포함 3개월 동안 10만원 이상 경남은행 카드 대금결제시2.0%\n기존고객\n①급여 또는 연금입금시1.5%\n②공과금 자동이체시 2.0%\n③경남은행 카드이용시(8회이상&10만원이상 카드대금 결제보유)1.5%\n④상품가입 전 마케팅동의시0.1%",
+            "join_deny": "1",
+            "join_member": "실명의 개인",
+            "etc_note": "1.계악기간은 1년제로 한다.\n2. 적립금액은 매월 10만원이상, 50만원 이하(1만원 이상)",
+            "max_limit": 500000,
+            "dcls_strt_day": "20260820",
+            "dcls_end_day": "99991231",
+            "fin_co_subm_day": "202608201143"
+          },
+          "options": [
+            {
+              "dcls_month": "202608",
+              "fin_co_no": "0010024",
+              "fin_prdt_cd": "21001292",
+              "intr_rate_type": "S",
+              "intr_rate_type_nm": "단리",
+              "rsrv_type": "S",
+              "rsrv_type_nm": "정액적립식",
+              "save_trm": "12",
+              "intr_rate": 1.9,
+              "intr_rate2": 7
+            }
+          ],
+          "record_checksum": "sha256:8ef50f70446ae140d72b0520a74ded71f0335f5707974a9b698ae99624fcb8cf"
+        }
+      ]
+    }
+  },
+  "provider_terms": [
+    {
+      "code": "21000111",
+      "sourceId": "source.provider.knbank.product-documents",
+      "url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000017123&historyIgnore=Y",
+      "protectionLocator": "상품 상세 > 예금자보호법 고지",
+      "fieldLocators": {
+        "monthly_payment_krw": "상품안내 > 가입금액 및 저축방식",
+        "early_termination": "상품안내 > 중도해지이율",
+        "sales_active": "상품 상세 > 가입방법; 준법감시인 심의 유효기일"
+      },
+      "http_status": 200,
+      "normalized_page_checksum": "sha256:b1dad38f7adc73a580b11a343c657433b622b3cbcfb0986aa3e602b194c3c07c",
+      "observed_at": "2026-09-13T14:56:54.354Z",
+      "protection_statement": "이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(해당 은행의 여타 보호상품과 합산) 보호됩니다."
+    },
+    {
+      "code": "21001115",
+      "sourceId": "source.provider.knbank.product-documents",
+      "url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000020177&historyIgnore=Y",
+      "protectionLocator": "상품 상세 > 예금자보호법 고지",
+      "fieldLocators": {
+        "deposit_krw": "상품안내 > 가입금액",
+        "early_termination": "상품안내 > 중도해지이율",
+        "sales_active": "상품 상세 > 가입방법; 준법감시인 심의 유효기일"
+      },
+      "http_status": 200,
+      "normalized_page_checksum": "sha256:02463e418257d8e94c5546886a2d7026c713eda455a57d8411c640b597a82758",
+      "observed_at": "2026-09-13T14:56:54.354Z",
+      "protection_statement": "이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(해당 은행의 여타 보호상품과 합산) 보호됩니다."
+    },
+    {
+      "code": "21001199",
+      "sourceId": "source.provider.knbank.product-documents",
+      "url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000202492&historyIgnore=Y",
+      "protectionLocator": "상품 상세 > 예금자보호법 고지",
+      "fieldLocators": {
+        "monthly_payment_krw": "상품안내 > 가입금액 및 저축방식",
+        "early_termination": "상품안내 > 중도해지이율",
+        "sales_active": "상품 상세 > 가입방법; 준법감시인 심의 유효기일"
+      },
+      "http_status": 200,
+      "normalized_page_checksum": "sha256:6c05578daf5d8b04bba20c02f1912a6cd2136f86b01c6ff2c63c7277e864fed4",
+      "observed_at": "2026-09-13T14:56:54.354Z",
+      "protection_statement": "이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(해당 은행의 여타 보호상품과 합산) 보호됩니다."
+    },
+    {
+      "code": "21001280",
+      "sourceId": "source.provider.knbank.product-documents",
+      "url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM020101000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000210872&historyIgnore=Y",
+      "protectionLocator": "상품 상세 > 예금자보호법 고지",
+      "fieldLocators": {
+        "deposit_krw": "상품안내 > 가입금액",
+        "early_termination": "상품안내 > 중도해지이율",
+        "sales_active": "상품안내 > 판매기간; 준법감시인 심의 유효기일"
+      },
+      "http_status": 200,
+      "normalized_page_checksum": "sha256:bfc54f4ade448f00e34e4ff1e7157499ee9b20411c5ee89fa2857b5ccab52007",
+      "observed_at": "2026-09-13T14:56:54.354Z",
+      "protection_statement": "이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(해당 은행의 여타 보호상품과 합산) 보호됩니다."
+    },
+    {
+      "code": "21001292",
+      "sourceId": "source.provider.knbank.product-documents",
+      "url": "https://m.knbank.co.kr/ib20/mnu/MBWSFM030103000?FNC_PRD_DIS_CD=01&FNC_PRD_NO=0000211818&historyIgnore=Y",
+      "protectionLocator": "상품 상세 > 예금자보호법 고지",
+      "fieldLocators": {
+        "monthly_payment_krw": "상품안내 > 가입금액",
+        "early_termination": "상품안내 > 중도해지이율",
+        "sales_active": "상품 상세 > 가입방법; 준법감시인 심의 유효기일"
+      },
+      "http_status": 200,
+      "normalized_page_checksum": "sha256:aff91ad378c48e5b672e38fa220061495d4d2ffb07d471c8141b66f03ca199a7",
+      "observed_at": "2026-09-13T14:56:54.354Z",
+      "protection_statement": "이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(해당 은행의 여타 보호상품과 합산) 보호됩니다."
+    },
+    {
+      "code": "TD11300027000",
+      "sourceId": "source.provider.kjbank.product-documents",
+      "url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20110819001",
+      "protectionLocator": "상품안내 > 예금자보호",
+      "fieldLocators": {
+        "deposit_krw": "상품안내 > 가입금액",
+        "early_termination": "상품안내 > 중도해지금리",
+        "sales_active": "상품안내 > 거래방법; 본 공시내용의 유효기간"
+      },
+      "http_status": 200,
+      "normalized_page_checksum": "sha256:19b572a6a3b40130228936183ae58457e5b7ce1a1b679ef9bd7a51e780317ada",
+      "observed_at": "2026-09-13T14:56:54.354Z",
+      "protection_statement": "이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(해당 은행의 여타 보호상품과 합산) 보호됩니다."
+    },
+    {
+      "code": "TD11300035000",
+      "sourceId": "source.provider.kjbank.product-documents",
+      "url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230209001",
+      "protectionLocator": "상품안내 > 예금자보호",
+      "fieldLocators": {
+        "deposit_krw": "상품안내 > 가입금액",
+        "early_termination": "상품안내 > 중도해지금리",
+        "sales_active": "상품안내 > 거래방법; 본 공시내용의 유효기간"
+      },
+      "http_status": 200,
+      "normalized_page_checksum": "sha256:14a1e61e28db5ff446ce8dea4197402ac69ef5161d6a2958c48f826284815ae2",
+      "observed_at": "2026-09-13T14:56:54.354Z",
+      "protection_statement": "이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(해당 은행의 여타 보호상품과 합산) 보호됩니다."
+    },
+    {
+      "code": "TD11300036000",
+      "sourceId": "source.provider.kjbank.product-documents",
+      "url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230922001",
+      "protectionLocator": "상품안내 > 예금자보호",
+      "fieldLocators": {
+        "deposit_krw": "상품안내 > 가입금액",
+        "early_termination": "상품안내 > 중도해지금리",
+        "sales_active": "상품안내 > 거래방법; 본 공시내용의 유효기간"
+      },
+      "http_status": 200,
+      "normalized_page_checksum": "sha256:727e0ca817d64f694ddddc03a70e6ae42b265f86cb24a81ae5fb3f86a995f0f0",
+      "observed_at": "2026-09-13T14:56:54.354Z",
+      "protection_statement": "이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(해당 은행의 여타 보호상품과 합산) 보호됩니다."
+    },
+    {
+      "code": "TD11330029000",
+      "sourceId": "source.provider.kjbank.product-documents",
+      "url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20220520001",
+      "protectionLocator": "상품안내 > 예금자보호",
+      "fieldLocators": {
+        "monthly_payment_krw": "상품안내 > 가입금액",
+        "early_termination": "상품안내 > 중도해지금리",
+        "sales_active": "상품안내 > 거래방법; 본 공시내용의 유효기간"
+      },
+      "http_status": 200,
+      "normalized_page_checksum": "sha256:0511690bf7f7a639676702a2398d44f02e00be36c1df56c576ab5bb2c7c09cbe",
+      "observed_at": "2026-09-13T14:56:54.354Z",
+      "protection_statement": "이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(해당 은행의 여타 보호상품과 합산) 보호됩니다."
+    },
+    {
+      "code": "TD11330031000",
+      "sourceId": "source.provider.kjbank.product-documents",
+      "url": "https://www.kjbank.com/ib20/mnu/FPMDPTR030100?INBN_GDS_NO=DEP20230906001",
+      "protectionLocator": "상품안내 > 예금자보호",
+      "fieldLocators": {
+        "monthly_payment_krw": "상품안내 > 가입금액",
+        "early_termination": "상품안내 > 중도해지금리",
+        "sales_active": "상품안내 > 거래방법; 본 공시내용의 유효기간"
+      },
+      "http_status": 200,
+      "normalized_page_checksum": "sha256:c174d43cfcf8153c9e4fd302d1c9953d7176265a2eb6e76d4314ab4db532e553",
+      "observed_at": "2026-09-13T14:56:54.354Z",
+      "protection_statement": "이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(해당 은행의 여타 보호상품과 합산) 보호됩니다."
+    }
+  ],
+  "kdic_endpoint": {
+    "url": "https://apis.data.go.kr/B190017/service/GetInsuredProductService202008/getProductList202008",
+    "status": "unavailable_2026-09-13",
+    "error_checksum": "sha256:b756a98df9390986ef9f8bda49d8b8d0ce48d0f783c2d543ad522efc6c25125d",
+    "replacement_endpoint_found": false
+  },
+  "limitations": [
+    "No raw provider pages stored under provider usage terms.",
+    "Provider terms support the product-specific protection statement; KDIC endpoint did not provide a usable current response.",
+    "This observation does not assess individual eligibility, financial suitability, or issue a public recommendation."
+  ]
+}

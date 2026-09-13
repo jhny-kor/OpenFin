@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { runtimeMonitoring } from './runtime-monitoring.mjs';
 import { json, sha256, writeJson } from './common.mjs';
 
 const args = process.argv.slice(2);
@@ -52,6 +53,7 @@ const published = {
   source_evidence_path: `actions:openfin-live-promoted-${expectedCommit}`,
 };
 writeJson(outputPath, published);
+writeJson(path.join(docs, 'opentax/runtime-monitoring.json'), runtimeMonitoring(published, { report_path: `opentax/${outputName}` }));
 
 const productionEvidence = {
   id: 'openfin-live-regression-production-current',

@@ -2,6 +2,15 @@ name: Track OpenFin Sources
 
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Source inspection mode
+        required: true
+        type: choice
+        default: report-only
+        options:
+          - report-only
+          - create-review-pr
 
 permissions:
   contents: read
@@ -17,6 +26,7 @@ jobs:
     timeout-minutes: 15
     env:
       REPORT_DIR: ${{ runner.temp }}/openfin-source-report
+      MODE: ${{ inputs.mode || 'report-only' }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
@@ -26,14 +36,26 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Check sources without changing status or receipts
+      - name: Check sources (report-only)
+        if: ${{ env.MODE == 'report-only' }}
         env:
           FINLIFE_API_KEY: ${{ secrets.FINLIFE_API_KEY }}
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
-        run: npm run knowledge:track-sources -- --report-dir "$REPORT_DIR"
+        run: npm run knowledge:track-sources -- --dry-run --report-dir "$REPORT_DIR"
+      - name: Check sources and prepare review candidate
+        if: ${{ env.MODE == 'create-review-pr' }}
+        env:
+          FINLIFE_API_KEY: ${{ secrets.FINLIFE_API_KEY }}
+          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
+        run: |
+          node scripts/knowledge/track-sources.mjs --write --report-dir "$REPORT_DIR" --status-file "$GITHUB_WORKSPACE/docs/opentax/openfin-source-status-2026.json"
+          receipt_dir="$GITHUB_WORKSPACE/evidence/source-receipts/$(date -u +%Y-%m)"
+          mkdir -p "$receipt_dir"
+          cp "$REPORT_DIR"/receipt-*.jsonl "$receipt_dir/"
+          git diff -- docs/opentax/openfin-source-status-2026.json evidence/source-receipts > "$REPORT_DIR/source-status.diff"
       - name: Build impact report
         run: npm run knowledge:source-impact-report -- --status-report "$REPORT_DIR/source-status-report.json" --output "$REPORT_DIR/source-impact-report.json"
-      - name: Upload manual inspection report
+      - name: Upload source inspection report
         if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
@@ -41,6 +63,51 @@ jobs:
           path: ${{ env.REPORT_DIR }}
           retention-days: 3
           if-no-files-found: warn
-      - name: Summarize manual inspection
+      - name: Summarize report-only inspection
+        if: ${{ env.MODE == 'report-only' }}
+        run: echo 'Report-only inspection: no status, receipt, branch, PR, or issue was created.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload review candidate
+        if: ${{ env.MODE == 'create-review-pr' }}
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: openfin-source-review-candidate-${{ github.run_id }}
+          path: |
+            docs/opentax/openfin-source-status-2026.json
+            evidence/source-receipts
+          retention-days: 3
+          if-no-files-found: error
+
+  publish-review-pr:
+    if: ${{ github.ref == 'refs/heads/main' && (inputs.mode || 'report-only') == 'create-review-pr' }}
+    needs: inspect-sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      BRANCH: automation/source-tracking-${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+          ref: main
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v5
+        with:
+          name: openfin-source-review-candidate-${{ github.run_id }}
+          path: .source-review
+      - name: Publish review branch and PR
+        env:
+          OPENFIN_SOURCE_TRACKING_TOKEN: ${{ secrets.OPENFIN_SOURCE_TRACKING_TOKEN }}
         run: |
-          echo 'Source reports are available in the artifact. Review and apply changes locally, then submit a human-reviewed PR.' >> "$GITHUB_STEP_SUMMARY"
+          set -euo pipefail
+          test -n "$OPENFIN_SOURCE_TRACKING_TOKEN"
+          cp -a .source-review/docs/. docs/
+          cp -a .source-review/evidence/. evidence/
+          git config user.name openfin-source-tracking
+          git config user.email openfin-source-tracking@users.noreply.github.com
+          git switch -c "$BRANCH"
+          git add docs/opentax/openfin-source-status-2026.json evidence/source-receipts
+          git diff --cached --quiet && { echo 'No source changes require review.'; exit 0; }
+          git commit -m 'chore: refresh source tracking receipts'
+          git -c http.extraheader="AUTHORIZATION: bearer $OPENFIN_SOURCE_TRACKING_TOKEN" push --set-upstream origin "HEAD:$BRANCH"
+          GH_TOKEN="$OPENFIN_SOURCE_TRACKING_TOKEN" gh pr create --base main --head "$BRANCH" --title 'chore: refresh OpenFin source tracking' --body 'Automated source observation for human review. Status and receipts only; no canonical knowledge rebuild or main push.'

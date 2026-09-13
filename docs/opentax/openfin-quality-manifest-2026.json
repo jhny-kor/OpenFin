@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-08-07T05:04:11.851Z",
+  "built_at": "2026-09-13T14:49:48.328Z",
   "ontology_kind": "openfin-quality-manifest",
   "search_regression_report": {
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
@@ -158,7 +158,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-08-07T05:04:11.851Z",
+    "built_at": "2026-09-13T14:49:48.328Z",
     "domain_export_count": 10,
     "search_index_item_count": 21289,
     "canonical_product_count": 12825,
@@ -167,7 +167,7 @@
     "checksum_covered_export_count": 18,
     "broken_relation_count": 0,
     "relationship_count": 102523,
-    "collection_failure_sources": 130
+    "collection_failure_sources": 133
   },
   "operating_policy": {
     "allowed": [
@@ -216,11 +216,9 @@
   "recommendation_enabled": false,
   "degraded_domains": [
     "card",
-    "deposit",
     "insurance",
     "loan",
-    "pension",
-    "saving"
+    "pension"
   ],
   "blocking_reasons": [],
   "blocking_issues": [
@@ -5424,7 +5422,7 @@
     "gate_basis": "last_attempt",
     "evidence_path": "opentax/live-regression-current.json",
     "evidence_checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
-    "expected_generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
+    "expected_generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
     "expected_fixture_checksum": "sha256:1030ce9505034216880ef47384cea521cc76000089d4b32942ba53a68c2c7989",
     "validation_status": "failed",
     "source_evidence_path": "evidence/live-regression/current.json"
@@ -5446,7 +5444,7 @@
         "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
+        "live_expected_generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
@@ -5479,7 +5477,7 @@
         "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
+        "live_expected_generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
@@ -5506,7 +5504,7 @@
         "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
+        "live_expected_generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
@@ -5531,7 +5529,7 @@
         "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
+        "live_expected_generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
@@ -5559,7 +5557,7 @@
         "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
+        "live_expected_generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
@@ -5584,7 +5582,7 @@
         "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
+        "live_expected_generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
@@ -5610,7 +5608,7 @@
         "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
         "runtime_version": "openfin-mcp-dev",
         "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-        "live_expected_generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
+        "live_expected_generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
         "live_evidence": {
           "path": "evidence/live-regression/current.json",
           "checksum": "2e22a5e6bb01fdc94acab752f06a7d0f52755ef780583da8407f5de139248abd",
@@ -5621,25 +5619,25 @@
     }
   ],
   "export_checksum": "a539451ea55234261b435971ebabc4114ac9fff05bba54fa0ef6c4004e659bdf",
-  "generated_at": "2026-08-07T05:04:11.851Z",
+  "generated_at": "2026-09-13T14:49:48.328Z",
   "canonical": {
     "item_count": 21289,
-    "decision_snapshot_count": 40,
+    "decision_snapshot_count": 10,
     "source_count": 155,
     "product_count": 12825,
     "canonical_product_count": 12825,
     "export_count": 10,
     "search_item_count": 21289,
     "relationship_count": 102523,
-    "content_checksum": "64f3a471692ccb0a548148d8b77bac072c695b542a993cd0639e97f4139a93ac"
+    "content_checksum": "1d72931ff0470d911d85e77613cbc69982525a17dd19ec232d82d1c696bf2746"
   },
   "domain_readiness": {
     "deposit": {
-      "item_count": 20,
+      "item_count": 5,
       "catalog_item_count": 430,
-      "strict_offer_count": 20,
-      "strict_option_count": 69,
-      "structural_option_count": 69,
+      "strict_offer_count": 5,
+      "strict_option_count": 14,
+      "structural_option_count": 14,
       "required_fields": [
         "deposit_protection_status",
         "join_channels",
@@ -5648,34 +5646,34 @@
         "early_termination_rules",
         "sales_verification_status"
       ],
+      "required_comparison_candidates": 5,
+      "required_verified_candidates": 20,
       "sales_verification_ttl_hours": 720,
-      "structural_candidate_count": 20,
-      "value_complete_candidate_count": 20,
-      "strict_type_schema_candidate_count": 20,
-      "field_verified_candidate_count": 0,
-      "runtime_eligible_candidate_count": 0,
-      "public_candidate_count": 0,
-      "comparison_eligible_candidate_count": 0,
-      "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 0,
+      "structural_candidate_count": 5,
+      "value_complete_candidate_count": 5,
+      "strict_type_schema_candidate_count": 5,
+      "field_verified_candidate_count": 5,
+      "runtime_eligible_candidate_count": 5,
+      "public_candidate_count": 5,
+      "comparison_eligible_candidate_count": 14,
+      "public_comparison_candidate_count": 14,
+      "shadow_recommendation_candidate_count": 14,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0,
       "schema_defined": true,
       "structural_value_completeness": 1,
-      "required_field_total": 120,
-      "value_complete_field_count": 120,
-      "field_verified_count": 0,
+      "required_field_total": 30,
+      "value_complete_field_count": 30,
+      "field_verified_count": 30,
       "value_field_coverage": 1,
-      "reviewed_assertion_coverage": 0,
-      "complete_field_count": 20,
-      "verified_candidate_count": 0,
-      "comparison_data": "structural_only",
+      "reviewed_assertion_coverage": 1,
+      "complete_field_count": 5,
+      "verified_candidate_count": 5,
+      "comparison_data": "limited_public_ready",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "structural_only",
-      "blockers": [
-        "FIELD_ASSERTIONS_INCOMPLETE"
-      ],
+      "status": "limited_public_ready",
+      "blockers": [],
       "missing_required_fields": {
         "deposit_protection_status": 0,
         "join_channels": 0,
@@ -5686,27 +5684,27 @@
       },
       "data_layers": {
         "raw": {
-          "item_count": 20,
+          "item_count": 5,
           "status": "available",
           "lineage": "source_receipt"
         },
         "normalized": {
-          "item_count": 69,
+          "item_count": 14,
           "status": "available",
           "lineage": "decision_snapshot"
         },
         "verified": {
-          "item_count": 0,
-          "status": "blocked"
+          "item_count": 5,
+          "status": "available"
         }
       }
     },
     "saving": {
-      "item_count": 20,
+      "item_count": 5,
       "catalog_item_count": 335,
-      "strict_offer_count": 20,
-      "strict_option_count": 66,
-      "structural_option_count": 66,
+      "strict_offer_count": 5,
+      "strict_option_count": 19,
+      "structural_option_count": 19,
       "required_fields": [
         "deposit_protection_status",
         "join_channels",
@@ -5715,34 +5713,34 @@
         "early_termination_rules",
         "sales_verification_status"
       ],
+      "required_comparison_candidates": 5,
+      "required_verified_candidates": 20,
       "sales_verification_ttl_hours": 720,
-      "structural_candidate_count": 20,
-      "value_complete_candidate_count": 20,
-      "strict_type_schema_candidate_count": 20,
-      "field_verified_candidate_count": 0,
-      "runtime_eligible_candidate_count": 0,
-      "public_candidate_count": 0,
-      "comparison_eligible_candidate_count": 0,
-      "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 0,
+      "structural_candidate_count": 5,
+      "value_complete_candidate_count": 5,
+      "strict_type_schema_candidate_count": 5,
+      "field_verified_candidate_count": 5,
+      "runtime_eligible_candidate_count": 5,
+      "public_candidate_count": 5,
+      "comparison_eligible_candidate_count": 19,
+      "public_comparison_candidate_count": 19,
+      "shadow_recommendation_candidate_count": 19,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0,
       "schema_defined": true,
       "structural_value_completeness": 1,
-      "required_field_total": 120,
-      "value_complete_field_count": 120,
-      "field_verified_count": 0,
+      "required_field_total": 30,
+      "value_complete_field_count": 30,
+      "field_verified_count": 30,
       "value_field_coverage": 1,
-      "reviewed_assertion_coverage": 0,
-      "complete_field_count": 20,
-      "verified_candidate_count": 0,
-      "comparison_data": "structural_only",
+      "reviewed_assertion_coverage": 1,
+      "complete_field_count": 5,
+      "verified_candidate_count": 5,
+      "comparison_data": "limited_public_ready",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "structural_only",
-      "blockers": [
-        "FIELD_ASSERTIONS_INCOMPLETE"
-      ],
+      "status": "limited_public_ready",
+      "blockers": [],
       "missing_required_fields": {
         "deposit_protection_status": 0,
         "join_channels": 0,
@@ -5753,18 +5751,18 @@
       },
       "data_layers": {
         "raw": {
-          "item_count": 20,
+          "item_count": 5,
           "status": "available",
           "lineage": "source_receipt"
         },
         "normalized": {
-          "item_count": 66,
+          "item_count": 19,
           "status": "available",
           "lineage": "decision_snapshot"
         },
         "verified": {
-          "item_count": 0,
-          "status": "blocked"
+          "item_count": 5,
+          "status": "available"
         }
       }
     },
@@ -5783,6 +5781,8 @@
         "per_transaction_limit_krw",
         "benefit_overlap_policy"
       ],
+      "required_comparison_candidates": null,
+      "required_verified_candidates": null,
       "sales_verification_ttl_hours": null,
       "structural_candidate_count": 1007,
       "value_complete_candidate_count": 0,
@@ -5856,6 +5856,8 @@
         "delinquency_rate_percent",
         "total_cost_basis"
       ],
+      "required_comparison_candidates": null,
+      "required_verified_candidates": null,
       "sales_verification_ttl_hours": null,
       "structural_candidate_count": 598,
       "value_complete_candidate_count": 0,
@@ -5931,6 +5933,8 @@
         "insurance_term_months",
         "surrender_value_condition"
       ],
+      "required_comparison_candidates": null,
+      "required_verified_candidates": null,
       "sales_verification_ttl_hours": null,
       "structural_candidate_count": 1071,
       "value_complete_candidate_count": 0,
@@ -5994,6 +5998,8 @@
       "strict_option_count": 0,
       "structural_option_count": 0,
       "required_fields": [],
+      "required_comparison_candidates": null,
+      "required_verified_candidates": null,
       "sales_verification_ttl_hours": null,
       "structural_candidate_count": 0,
       "value_complete_candidate_count": 0,
@@ -6042,56 +6048,56 @@
     }
   },
   "quality_policy_version": "openfin-release-policy-v1",
-  "quality_hash": "2a3e5e12e2597853cf34b66fd45dae1fccb46e3d2095c5b4d5d169780390b53f",
+  "quality_hash": "70bf750f31fb2fb9a7edf555ebf12f3d3293dcba18f30d994ed752cbb3b86401",
   "platform_release_status": "ready",
-  "comparison_release_status": "blocked",
+  "comparison_release_status": "limited",
   "recommendation_release_status": "blocked",
   "core_search_status": "ready",
-  "comparison_status": "blocked",
+  "comparison_status": "limited",
   "recommendation_status": "blocked",
-  "generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
+  "generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
   "artifact_contract": {
     "version": "openfin-artifact-contract-v1",
     "readiness_schema_version": "openfin-readiness-v2",
-    "generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
-    "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
-    "canonical_content_checksum": "64f3a471692ccb0a548148d8b77bac072c695b542a993cd0639e97f4139a93ac",
+    "generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
+    "deployment_commit": "875f06b7fb19e6603dbecee7cf45b53b1ac13e6d",
+    "canonical_content_checksum": "1d72931ff0470d911d85e77613cbc69982525a17dd19ec232d82d1c696bf2746",
     "search_index_checksum": "bd51ec36ff4c1af01dce78159abe39ba9fede11cc7e68f73c2c8ebfb710dcba7",
-    "source_status_checksum": "c85e3e16448ccf1faffb6dee5bd271d36a133f2c819f10700246822968ab555d",
-    "release_policy_checksum": "f1d8859ad6c589c8c6d8682933e44e62137b07dc4336e3557911ae60b6525482",
+    "source_status_checksum": "2a2e9d149a79a04ae4f224a4b14b30c3bdfe5e7dd23f1a354f97157ead746ac5",
+    "release_policy_checksum": "095166ae1de036d809bcd40faea1eb64a5923de290d96ca4bede21b7f17ae269",
     "capability_policy_checksum": "dfb4b5d4bac533d2a34b9c5ff0117dd0c67b49ebd2ba8e4fba2bc3a21cb6e35f",
     "capability_status_checksum": "3dd2d94b17fc04679d45859d4614d84026252e2aba365c4a2621705ec7346934",
     "fixture_checksum": "sha256:1030ce9505034216880ef47384cea521cc76000089d4b32942ba53a68c2c7989",
-    "candidate_set_checksum": "sha256:87db0279a06433b8aa4b8b71421cf43d370ee36606e1287b3636185d571d24d0",
+    "candidate_set_checksum": "sha256:20b08a5dbbd51d3222a299e34a2cba1184220902a668c46a3be8f68bcbe7f4b5",
     "candidate_content_checksum_policy": "immutable_candidate_set_checksum",
-    "quality_suite_transitive_checksum": "sha256:7757ce29bdf2d3ebd406e4d629744f1401ace5e57073d9b1f81c1e6e60966d35"
+    "quality_suite_transitive_checksum": "sha256:64b626ea6c32bd2a9cd6e950df5c26245c907c8eabbb72540c423c4e401ecef5"
   },
   "capabilities": {
     "search": "ready",
     "discovery": "ready",
-    "comparison": "blocked",
-    "shadow": "blocked",
+    "comparison": "limited",
+    "shadow": "ready",
     "owner_pilot": "blocked",
     "recommendation": "blocked"
   },
   "candidate_counts": {
     "deposit": {
-      "strict_offer_count": 20,
-      "strict_option_count": 69,
-      "structural_option_count": 69,
-      "comparison_eligible_candidate_count": 0,
-      "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 0,
+      "strict_offer_count": 5,
+      "strict_option_count": 14,
+      "structural_option_count": 14,
+      "comparison_eligible_candidate_count": 14,
+      "public_comparison_candidate_count": 14,
+      "shadow_recommendation_candidate_count": 14,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0
     },
     "saving": {
-      "strict_offer_count": 20,
-      "strict_option_count": 66,
-      "structural_option_count": 66,
-      "comparison_eligible_candidate_count": 0,
-      "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 0,
+      "strict_offer_count": 5,
+      "strict_option_count": 19,
+      "structural_option_count": 19,
+      "comparison_eligible_candidate_count": 19,
+      "public_comparison_candidate_count": 19,
+      "shadow_recommendation_candidate_count": 19,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0
     },
@@ -6150,14 +6156,14 @@
       {
         "id": "deposit-readiness",
         "domain": "deposit",
-        "item_count": 20,
-        "product_count": 20,
+        "item_count": 5,
+        "product_count": 5,
         "quality_summary": {
-          "item_count": 20,
+          "item_count": 5,
           "catalog_item_count": 430,
-          "strict_offer_count": 20,
-          "strict_option_count": 69,
-          "structural_option_count": 69,
+          "strict_offer_count": 5,
+          "strict_option_count": 14,
+          "structural_option_count": 14,
           "required_fields": [
             "deposit_protection_status",
             "join_channels",
@@ -6166,34 +6172,34 @@
             "early_termination_rules",
             "sales_verification_status"
           ],
+          "required_comparison_candidates": 5,
+          "required_verified_candidates": 20,
           "sales_verification_ttl_hours": 720,
-          "structural_candidate_count": 20,
-          "value_complete_candidate_count": 20,
-          "strict_type_schema_candidate_count": 20,
-          "field_verified_candidate_count": 0,
-          "runtime_eligible_candidate_count": 0,
-          "public_candidate_count": 0,
-          "comparison_eligible_candidate_count": 0,
-          "public_comparison_candidate_count": 0,
-          "shadow_recommendation_candidate_count": 0,
+          "structural_candidate_count": 5,
+          "value_complete_candidate_count": 5,
+          "strict_type_schema_candidate_count": 5,
+          "field_verified_candidate_count": 5,
+          "runtime_eligible_candidate_count": 5,
+          "public_candidate_count": 5,
+          "comparison_eligible_candidate_count": 14,
+          "public_comparison_candidate_count": 14,
+          "shadow_recommendation_candidate_count": 14,
           "owner_pilot_candidate_count": 0,
           "public_recommendation_candidate_count": 0,
           "schema_defined": true,
           "structural_value_completeness": 1,
-          "required_field_total": 120,
-          "value_complete_field_count": 120,
-          "field_verified_count": 0,
+          "required_field_total": 30,
+          "value_complete_field_count": 30,
+          "field_verified_count": 30,
           "value_field_coverage": 1,
-          "reviewed_assertion_coverage": 0,
-          "complete_field_count": 20,
-          "verified_candidate_count": 0,
-          "comparison_data": "structural_only",
+          "reviewed_assertion_coverage": 1,
+          "complete_field_count": 5,
+          "verified_candidate_count": 5,
+          "comparison_data": "limited_public_ready",
           "recommendation": "blocked",
           "recommendation_mode": "blocked",
-          "status": "structural_only",
-          "blockers": [
-            "FIELD_ASSERTIONS_INCOMPLETE"
-          ],
+          "status": "limited_public_ready",
+          "blockers": [],
           "missing_required_fields": {
             "deposit_protection_status": 0,
             "join_channels": 0,
@@ -6204,18 +6210,18 @@
           },
           "data_layers": {
             "raw": {
-              "item_count": 20,
+              "item_count": 5,
               "status": "available",
               "lineage": "source_receipt"
             },
             "normalized": {
-              "item_count": 69,
+              "item_count": 14,
               "status": "available",
               "lineage": "decision_snapshot"
             },
             "verified": {
-              "item_count": 0,
-              "status": "blocked"
+              "item_count": 5,
+              "status": "available"
             }
           }
         }
@@ -6223,14 +6229,14 @@
       {
         "id": "saving-readiness",
         "domain": "saving",
-        "item_count": 20,
-        "product_count": 20,
+        "item_count": 5,
+        "product_count": 5,
         "quality_summary": {
-          "item_count": 20,
+          "item_count": 5,
           "catalog_item_count": 335,
-          "strict_offer_count": 20,
-          "strict_option_count": 66,
-          "structural_option_count": 66,
+          "strict_offer_count": 5,
+          "strict_option_count": 19,
+          "structural_option_count": 19,
           "required_fields": [
             "deposit_protection_status",
             "join_channels",
@@ -6239,34 +6245,34 @@
             "early_termination_rules",
             "sales_verification_status"
           ],
+          "required_comparison_candidates": 5,
+          "required_verified_candidates": 20,
           "sales_verification_ttl_hours": 720,
-          "structural_candidate_count": 20,
-          "value_complete_candidate_count": 20,
-          "strict_type_schema_candidate_count": 20,
-          "field_verified_candidate_count": 0,
-          "runtime_eligible_candidate_count": 0,
-          "public_candidate_count": 0,
-          "comparison_eligible_candidate_count": 0,
-          "public_comparison_candidate_count": 0,
-          "shadow_recommendation_candidate_count": 0,
+          "structural_candidate_count": 5,
+          "value_complete_candidate_count": 5,
+          "strict_type_schema_candidate_count": 5,
+          "field_verified_candidate_count": 5,
+          "runtime_eligible_candidate_count": 5,
+          "public_candidate_count": 5,
+          "comparison_eligible_candidate_count": 19,
+          "public_comparison_candidate_count": 19,
+          "shadow_recommendation_candidate_count": 19,
           "owner_pilot_candidate_count": 0,
           "public_recommendation_candidate_count": 0,
           "schema_defined": true,
           "structural_value_completeness": 1,
-          "required_field_total": 120,
-          "value_complete_field_count": 120,
-          "field_verified_count": 0,
+          "required_field_total": 30,
+          "value_complete_field_count": 30,
+          "field_verified_count": 30,
           "value_field_coverage": 1,
-          "reviewed_assertion_coverage": 0,
-          "complete_field_count": 20,
-          "verified_candidate_count": 0,
-          "comparison_data": "structural_only",
+          "reviewed_assertion_coverage": 1,
+          "complete_field_count": 5,
+          "verified_candidate_count": 5,
+          "comparison_data": "limited_public_ready",
           "recommendation": "blocked",
           "recommendation_mode": "blocked",
-          "status": "structural_only",
-          "blockers": [
-            "FIELD_ASSERTIONS_INCOMPLETE"
-          ],
+          "status": "limited_public_ready",
+          "blockers": [],
           "missing_required_fields": {
             "deposit_protection_status": 0,
             "join_channels": 0,
@@ -6277,18 +6283,18 @@
           },
           "data_layers": {
             "raw": {
-              "item_count": 20,
+              "item_count": 5,
               "status": "available",
               "lineage": "source_receipt"
             },
             "normalized": {
-              "item_count": 66,
+              "item_count": 19,
               "status": "available",
               "lineage": "decision_snapshot"
             },
             "verified": {
-              "item_count": 0,
-              "status": "blocked"
+              "item_count": 5,
+              "status": "available"
             }
           }
         }
@@ -6313,6 +6319,8 @@
             "per_transaction_limit_krw",
             "benefit_overlap_policy"
           ],
+          "required_comparison_candidates": null,
+          "required_verified_candidates": null,
           "sales_verification_ttl_hours": null,
           "structural_candidate_count": 1007,
           "value_complete_candidate_count": 0,
@@ -6392,6 +6400,8 @@
             "delinquency_rate_percent",
             "total_cost_basis"
           ],
+          "required_comparison_candidates": null,
+          "required_verified_candidates": null,
           "sales_verification_ttl_hours": null,
           "structural_candidate_count": 598,
           "value_complete_candidate_count": 0,
@@ -6473,6 +6483,8 @@
             "insurance_term_months",
             "surrender_value_condition"
           ],
+          "required_comparison_candidates": null,
+          "required_verified_candidates": null,
           "sales_verification_ttl_hours": null,
           "structural_candidate_count": 1071,
           "value_complete_candidate_count": 0,
@@ -6542,6 +6554,8 @@
           "strict_option_count": 0,
           "structural_option_count": 0,
           "required_fields": [],
+          "required_comparison_candidates": null,
+          "required_verified_candidates": null,
           "sales_verification_ttl_hours": null,
           "structural_candidate_count": 0,
           "value_complete_candidate_count": 0,

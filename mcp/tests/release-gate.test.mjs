@@ -42,6 +42,18 @@ test("release gate always uses the latest live attempt", () => {
   assert.ok(result.reasons.includes("LIVE_REGRESSION_NOT_CURRENT"));
 });
 
+test("declared live evidence failure cannot fall back to legacy current evidence", () => {
+  const manifest = {
+    ...readyManifest,
+    live_regression_evidence: { path: "opentax/live.json", export_checksum: "sha256:missing" },
+    _live_regression: { status: "invalid", reason: "LIVE_REGRESSION_EVIDENCE_UNAVAILABLE" },
+    openfin_120_live_regression: readyManifest.openfin_120_live_regression,
+  };
+  const result = evaluateReleaseGate({ manifest, checksumVerified: true, deploymentCommit: "commit" });
+  assert.equal(result.status, "blocked");
+  assert.ok(result.reasons.includes("LIVE_REGRESSION_NOT_CURRENT"));
+});
+
 test("shadow and owner-pilot gates have separate candidate and approval contracts", () => {
   const shadowManifest = {
     ...readyManifest,

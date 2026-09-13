@@ -64,6 +64,7 @@
       "comparison": "limited_public_ready",
       "recommendation": "blocked",
       "required_verified_candidates": 20,
+      "required_comparison_candidates": 5,
       "sales_verification_ttl_hours": 720,
       "required_fields": [
         "deposit_protection_status",
@@ -78,6 +79,7 @@
       "comparison": "limited_public_ready",
       "recommendation": "blocked",
       "required_verified_candidates": 20,
+      "required_comparison_candidates": 5,
       "sales_verification_ttl_hours": 720,
       "required_fields": [
         "deposit_protection_status",
