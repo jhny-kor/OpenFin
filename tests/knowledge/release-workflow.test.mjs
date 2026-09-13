@@ -68,7 +68,7 @@ test('production release validates the promoted Worker before Pages and retains 
   assert.doesNotMatch(workflow.match(/validate-worker-final:[\s\S]*?\n  promote-worker:/)?.[0] || '', /OPENFIN_REQUIRE_PRODUCTION_LIVE_EVIDENCE/);
 });
 
-test('scheduled live monitoring is read-only and publishes evidence as an artifact', () => {
+test('manual live monitoring is read-only and publishes evidence as an artifact', () => {
   const workflow = read('live-regression.yml');
   assert.match(workflow, /permissions:\n\s+contents: read/);
   assert.doesNotMatch(workflow, /git (?:add|commit|push)/);
@@ -112,11 +112,21 @@ test('rollback contracts cover partial promotion, cancellation, and public Pages
   assert.equal(shouldRollbackPages({ canonical: 'failure', deployPages: 'failure', parity: 'skipped' }), false);
 });
 
-test('source tracking keeps optional credentials out of shell interpolation', () => {
-  const workflow = read('track-sources.yml');
-  assert.match(workflow, /OPENFIN_SOURCE_TRACKING_TOKEN: \$\{\{ secrets\.OPENFIN_SOURCE_TRACKING_TOKEN \}\}/);
-  assert.match(workflow, /\[ -n "\$\{OPENFIN_SOURCE_TRACKING_TOKEN:-\}" \]/);
-  assert.doesNotMatch(workflow, /\[ -n "\$\{\{ secrets\./);
+test('all workflows are manual and source tracking cannot publish repository changes', () => {
+  for (const name of fs.readdirSync(`${root}/.github/workflows`).filter(name => /\.ya?ml$/.test(name))) {
+    const workflow = read(name);
+    const trigger = workflow.match(/\non:([\s\S]*?)(?=\n[^\s#])/)[1];
+    assert.match(trigger, /workflow_dispatch:/);
+    assert.doesNotMatch(trigger, /^  (?!workflow_dispatch:)[a-z_]+:/m);
+    assert.doesNotMatch(workflow, /git push.*main/);
+  }
+  assert.equal(fs.existsSync(`${root}/.github/dependabot.yml`), false);
+  const tracker = read('track-sources.yml');
+  assert.match(tracker, /permissions:\n  contents: read/);
+  assert.match(tracker, /persist-credentials: false/);
+  assert.match(tracker, /knowledge:track-sources -- --report-dir/);
+  assert.doesNotMatch(tracker, /contents: write|pull-requests: write|issues: write|git (?:push|commit)|gh (?:pr|issue)|track-sources:write|knowledge:build/);
+  assert.match(tracker, /retention-days: 3/);
 });
 
 test('legacy production deployment workflows are fail-closed', () => {

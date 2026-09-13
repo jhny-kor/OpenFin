@@ -1,8 +1,6 @@
 name: OpenFin Live Regression
 
 on:
-  schedule:
-    - cron: '17 18 * * *'
   workflow_dispatch:
 
 permissions:
@@ -88,5 +86,5 @@ jobs:
             live-regression-report.json
             live-regression-error.log
             evidence/live-regression
-          retention-days: 7
+          retention-days: 3
           if-no-files-found: warn
