@@ -24,6 +24,7 @@ test("source_id records resolve and aggregate the worst source freshness", () =>
     sourceUrlCount: 2,
     sourceStatusArtifact: artifact,
     staticFreshness: "current",
+    asOf: "2026-08-30T00:00:00Z",
   }), {
     statuses: artifact.statuses,
     freshnessStatus: "stale",
