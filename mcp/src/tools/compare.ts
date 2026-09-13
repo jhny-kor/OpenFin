@@ -94,6 +94,8 @@ export function registerCompareTool(ctx: ToolContext): void {
       const comparisonBasisDate = verifiedDates[verifiedDates.length - 1] ?? metadata.basis_date;
       const payload = {
         domain,
+        status: results.length ? "ready" : "blocked",
+        reason_codes: results.length ? [] : ["NO_VERIFIED_COMPARISON_CANDIDATES"],
         candidates: results,
         candidate_count: candidateTargetIds.size,
         result_count: results.length,

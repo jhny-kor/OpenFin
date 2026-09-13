@@ -147,13 +147,16 @@ if (endpoint) {
         for (const expectedId of fixture.expected_candidate_ids ?? []) {
           const candidate = result.candidates.find((value) => candidateId(value) === expectedId);
           if (!candidate) throw new Error(`${fixture.case_id}: expected candidate ${expectedId} missing`);
-          if (fixture.positive_assertions?.includes("financial_outcome_calculated")) {
+          if (fixture.expected_uncalculated_candidate_ids?.includes(expectedId)) {
+            assert.equal(candidate.gross_interest_krw, null, `${fixture.case_id}: unknown compounding must not produce a made-up outcome`);
+            assert.equal(candidate.net_interest_krw, null);
+          } else if (fixture.positive_assertions?.includes("financial_outcome_calculated")) {
             if (!Number.isFinite(candidate.gross_interest_krw) || !Number.isFinite(candidate.net_interest_krw)) throw new Error(`${fixture.case_id}: ${expectedId} gross/net outcome missing`);
           }
           const expectedLimit = fixture.expected_candidate_limits_krw?.[expectedId];
           if (expectedLimit !== undefined) {
             const actualLimit = fixture.domain === "deposit" ? candidate.deposit_limit : candidate.monthly_payment_limit;
-            if (actualLimit !== expectedLimit) throw new Error(`${fixture.case_id}: ${expectedId} limit mismatch`);
+            assert.deepEqual(actualLimit, expectedLimit, `${fixture.case_id}: ${expectedId} limit mismatch`);
           }
           const expectedBonusIds = fixture.expected_applied_bonus_rule_ids?.[expectedId];
           if (expectedBonusIds) assert.deepEqual(candidate.applied_bonus_rule_ids ?? [], expectedBonusIds, `${fixture.case_id}: ${expectedId} applied bonus rules`);

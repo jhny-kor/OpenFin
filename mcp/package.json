@@ -12,6 +12,7 @@
     "verify:recommendation": "node --experimental-strip-types scripts/verify-release.mjs --recommendation",
     "live-regression": "node scripts/live-regression.mjs",
     "soak-test": "node scripts/soak-test.mjs",
+    "canary-validate": "node scripts/canary-validate.mjs",
     "tool-schema-contract": "node scripts/tool-schema-contract.mjs",
     "financial-quality": "npm run financial-quality-unit",
     "financial-quality-unit": "node --experimental-strip-types scripts/financial-quality.mjs",
@@ -28,6 +29,6 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260828.1",
     "typescript": "^5.9.3",
-    "wrangler": "^4.127.1"
+    "wrangler": "^4.131.1"
   }
 }

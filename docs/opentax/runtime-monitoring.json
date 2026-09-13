@@ -1,0 +1,19 @@
+{
+  "version": "openfin-runtime-monitoring-v1",
+  "checked_at": "2026-09-12T20:32:23.633Z",
+  "operational_status": "degraded",
+  "deployment_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
+  "generation_id": "517ba8e0616541e083a7eb0ae3d507044f01e002cd76d698152ebd3debc07ecf",
+  "endpoint": "https://openfin-mcp.y2kthr.workers.dev/mcp",
+  "runtime_version": "openfin-mcp-dev",
+  "test_count": 120,
+  "passed_count": 120,
+  "failed_count": 0,
+  "skipped_count": 0,
+  "failed_case_ids": [],
+  "evidence": {
+    "report_path": "live-regression-report.json",
+    "workflow_run_id": "34717357551"
+  },
+  "release_pointer_mutated": false
+}

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import fs from "node:fs";
 
 import { CacheBudget } from "../src/cache-budget.ts";
 
@@ -29,4 +30,14 @@ test("in-flight reservations enforce their independent byte ceiling", () => {
   assert.equal(budget.reserveInflight("b", 1), false);
   budget.releaseInflight("a");
   assert.equal(budget.reserveInflight("b", 1), true);
+});
+
+
+test("runtime cache partitions stay within the declared total and expose numeric snapshots", () => {
+  const source = fs.readFileSync(new URL("../src/index.ts", import.meta.url), "utf8");
+  const megabytes = name => Number(source.match(new RegExp(`const ${name} = (\\d+) \\* 1024 \\* 1024;`))[1]);
+  assert.ok(megabytes("MAX_SEARCH_CACHE_BYTES") + megabytes("MAX_EXACT_FETCH_CACHE_BYTES") + megabytes("MAX_ARTIFACT_CACHE_BYTES") <= megabytes("MAX_TOTAL_CACHE_BYTES"));
+  assert.match(source, /artifactCacheBudget\.admit\(MANIFEST_CACHE_KEY, bytes, 1\)/);
+  assert.match(source, /fetchText\(url, MAX_ARTIFACT_CACHE_BYTES, signal, \{ budget: sharedInflightBudget/);
+  assert.match(source, /exact_fetch: exactFetchCacheBudget\.snapshot\(\)/);
 });

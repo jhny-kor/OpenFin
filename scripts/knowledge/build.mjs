@@ -1031,8 +1031,8 @@ const currentRelease = {
   validation_at_promotion: releaseState === 'promoted'
     ? process.env.OPENFIN_VALIDATION_AT_PROMOTION || process.env.OPENFIN_PROMOTION_EVALUATED_AT || promotedAt
     : previousReleasePointer.validation_at_promotion || null,
-  latest_runtime_attempt: runtimeAttemptSummary(liveRegressionArtifact.last_attempt || liveRegressionArtifact),
-  last_successful_runtime_attempt: runtimeAttemptSummary(liveRegressionArtifact.last_successful),
+  validation_runtime_attempt: runtimeAttemptSummary(liveRegressionArtifact.last_attempt || liveRegressionArtifact),
+  runtime_monitoring: { path: 'opentax/runtime-monitoring.json', url: `${PUBLIC_BASE}/runtime-monitoring.json` },
   operational_status: releaseState === 'promoted'
     ? (lastSmokeStatus === 'passed' && lastLiveStatus === 'passed' ? 'operational' : 'degraded')
     : 'candidate',

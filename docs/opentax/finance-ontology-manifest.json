@@ -2,16 +2,14 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-08-07T05:04:11.851Z",
+  "built_at": "2026-09-13T14:49:48.328Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "degraded_domains": [
     "card",
-    "deposit",
     "insurance",
     "loan",
-    "pension",
-    "saving"
+    "pension"
   ],
   "blocking_issues": [],
   "warning_issues": [],
@@ -326,9 +324,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "export_checksum": "c690712d9971a59ba0f8e0d646a806838b873fe4cc9cc82d3c9fc96e1d95fce8",
+      "export_checksum": "7b1b7cc4518e48a0571b48f9df5712fde52d1badbb74fb1ab2d0ecbd7b664899",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
-      "generated_at": "2026-08-07T05:04:11.851Z"
+      "generated_at": "2026-09-13T14:49:48.328Z"
     },
     {
       "id": "openfin-search-regression-report",
@@ -356,9 +354,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "export_checksum": "32f9459c6eb867c72648a62c4e933ec589df0baed3321396fd76a001da8b47f5",
+      "export_checksum": "3ffe1608d15a978f0afbb9cfed79a413870fa66c8649f1c03b638bc44b9a3152",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-08-07T05:04:11.851Z"
+      "generated_at": "2026-09-13T14:49:48.328Z"
     },
     {
       "id": "openfin-semantic-duplicate-report",
@@ -371,9 +369,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "export_checksum": "6e3a173d71c234da70f114d005bf087ac29f5969f9fd5a4dc064b2f49c198f75",
+      "export_checksum": "6b0f88c62b25e4abb42c350a12477a14a95f4e4e99b4d57ba3088265a9f38700",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-08-07T05:04:11.851Z"
+      "generated_at": "2026-09-13T14:49:48.328Z"
     },
     {
       "id": "openfin-comparison-regression-report",
@@ -386,9 +384,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "export_checksum": "f085252f2612d9ca284a6a55d68c2cea141fe11f98c2d07377c1a4390870e913",
+      "export_checksum": "5612567f2ad951f84861e4a4fad2773967be91fb528581d3b37fed7abfc67d11",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-08-07T05:04:11.851Z"
+      "generated_at": "2026-09-13T14:49:48.328Z"
     },
     {
       "id": "openfin-recommendation-safety-report",
@@ -401,9 +399,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "export_checksum": "6bc54c8d302b96eb0d6262e8c88657138a50a5ec20067e46f947541ae2422a35",
+      "export_checksum": "80e07f5e3beba32508e7af1948a67a8cc67deeda9cd3abd0a78eb27c6fc3d982",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-08-07T05:04:11.851Z"
+      "generated_at": "2026-09-13T14:49:48.328Z"
     },
     {
       "id": "openfin-support-relevance-report",
@@ -416,9 +414,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "export_checksum": "32fd341d7dca5614c6d1b28264ee2cbb19b9d4dc0a4f3c777b92b8c20c18adbb",
+      "export_checksum": "e4bfe5a8fb4ec6942d0cf560118094aef503e15243150a434ba443d8730f0c03",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-08-07T05:04:11.851Z"
+      "generated_at": "2026-09-13T14:49:48.328Z"
     },
     {
       "id": "openfin-data-drift-report",
@@ -431,9 +429,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "export_checksum": "1c64d2671fbfd3c1bd9c8381f2114e6f375e33d63e8ba1486725418583e6b769",
+      "export_checksum": "c159db8107a4da2aca17850844d82c92b9c939376f16a4d174c2099ce16eb286",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-08-07T05:04:11.851Z"
+      "generated_at": "2026-09-13T14:49:48.328Z"
     },
     {
       "id": "openfin-local-cloudflare-parity-report",
@@ -446,9 +444,9 @@
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
-      "export_checksum": "0f3ce18d4bb7641328775f19855e743889aea17f6bceec743558efba12b0e280",
+      "export_checksum": "93285ba7f59d8a591c731b38a19111e1413878af15ac97b6b5447480f9c250d2",
       "description": "OpenFin 품질 하위 리포트입니다.",
-      "generated_at": "2026-08-07T05:04:11.851Z"
+      "generated_at": "2026-09-13T14:49:48.328Z"
     },
     {
       "id": "openfin-provenance-coverage",
@@ -457,8 +455,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "item_count": 1,
-      "generated_at": "2026-08-07T05:04:11.851Z",
-      "export_checksum": "39b21794a908f23ac62fe979872985b56f540c25cc3f4cc59c2e797a9d10efd1",
+      "generated_at": "2026-09-13T14:49:48.328Z",
+      "export_checksum": "e3b06707f3f3deb2aca1412ae9bb0d9ad6ae18a45937b169609e16bc4132c4a2",
       "coverage": {
         "external_provenance_coverage_ratio": 1,
         "status": "ready"
@@ -659,8 +657,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
       "item_count": 155,
-      "generated_at": "2026-08-07T05:04:11.851Z",
-      "export_checksum": "faab4abe18180af3d651bf8e5330bcee00bf53f5c05c72fabf6603f8e338d4a3"
+      "generated_at": "2026-09-13T14:49:48.328Z",
+      "export_checksum": "e8beaccdfdf673d72a6cd9927eab0a89fac20e6dbe887a45f00ad13e75e2fc49"
     },
     "source_status": {
       "id": "openfin-source-status",
@@ -669,8 +667,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
       "item_count": 155,
-      "generated_at": "2026-08-07T05:04:11.851Z",
-      "export_checksum": "c85e3e16448ccf1faffb6dee5bd271d36a133f2c819f10700246822968ab555d"
+      "generated_at": "2026-09-13T14:49:48.328Z",
+      "export_checksum": "2a2e9d149a79a04ae4f224a4b14b30c3bdfe5e7dd23f1a354f97157ead746ac5"
     },
     "provenance_index": {
       "id": "openfin-provenance-index",
@@ -679,8 +677,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
       "item_count": 21133,
-      "generated_at": "2026-08-07T05:04:11.851Z",
-      "export_checksum": "4bb895dbe98f62a99c5c087ba9ef0e9d3c6dae715fcb6a1d3f92a0d3acb6b2d4",
+      "generated_at": "2026-09-13T14:49:48.328Z",
+      "export_checksum": "1cfb0b1d5df169887db4b50fe53c1fa91d0a8d2cc76c104b19d5a8aa6f101d4d",
       "shards": [
         {
           "id": "openfin-provenance-account-products",
@@ -689,8 +687,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
           "item_count": 4,
-          "generated_at": "2026-08-07T05:04:11.851Z",
-          "export_checksum": "cd9550b5d31668664a02eba6a5030c3df37b79685443717cdfc771e0f277416f",
+          "generated_at": "2026-09-13T14:49:48.328Z",
+          "export_checksum": "ff4e622cd7afc0338bab8d3c0dd8e5f6279d7ec60f1f41d06b38b27becd5a35c",
           "shard_id": "account-products"
         },
         {
@@ -700,8 +698,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
           "item_count": 1363,
-          "generated_at": "2026-08-07T05:04:11.851Z",
-          "export_checksum": "3eee6094d5a447048562eba1d4729a0d47d089a342844d8b0fed4f0f3f939a6c",
+          "generated_at": "2026-09-13T14:49:48.328Z",
+          "export_checksum": "6a662242aefe14a8b64689cc1ea3780eeee0501479225f6d8e1935cfd361a6c9",
           "shard_id": "bank-products"
         },
         {
@@ -711,8 +709,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
           "item_count": 1007,
-          "generated_at": "2026-08-07T05:04:11.851Z",
-          "export_checksum": "615e4d539d46c54a848f62aa726916ee10b63ea532a6b50028a3990e1a537400",
+          "generated_at": "2026-09-13T14:49:48.328Z",
+          "export_checksum": "f5ae74df970aa20b0075dbd6be1930ebbc350384d7c20781e758ebf5483ce19e",
           "shard_id": "card-products"
         },
         {
@@ -722,8 +720,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
           "item_count": 9380,
-          "generated_at": "2026-08-07T05:04:11.851Z",
-          "export_checksum": "8d6836e42c59f99ce159b958535d3eb162416363a956682a71ecb0c84e00ce5e",
+          "generated_at": "2026-09-13T14:49:48.328Z",
+          "export_checksum": "05553d03ad1a26569790d67b6bc1882632536798b347487626f39eadfecf74ec",
           "shard_id": "deposit-protection"
         },
         {
@@ -733,8 +731,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
           "item_count": 1071,
-          "generated_at": "2026-08-07T05:04:11.851Z",
-          "export_checksum": "6dceb82588cee600998db087693722bffb792046279d45429f030dafb5ea9666",
+          "generated_at": "2026-09-13T14:49:48.328Z",
+          "export_checksum": "9f15e4501731140e5f9089caad364e1adeed9589ac201583bfa08ef616db9ed7",
           "shard_id": "insurance-products"
         },
         {
@@ -744,8 +742,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
           "item_count": 569,
-          "generated_at": "2026-08-07T05:04:11.851Z",
-          "export_checksum": "1221802d774285cd326d1c28e926dc8b5a9b63311d814fa25326ae27d270a8ed",
+          "generated_at": "2026-09-13T14:49:48.328Z",
+          "export_checksum": "b15f54fd79de46557d1a4c357626b31aea9fd18ee03fffdcf7838fce013e3fc7",
           "shard_id": "reference"
         },
         {
@@ -755,8 +753,8 @@
           "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
           "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
           "item_count": 7739,
-          "generated_at": "2026-08-07T05:04:11.851Z",
-          "export_checksum": "9120484d7996c72024eed176f779fa0a0723264c1507f2b3fdcd34bcd7f13439",
+          "generated_at": "2026-09-13T14:49:48.328Z",
+          "export_checksum": "a5e545efa440d3758f5f5523dd7045c7fdebf26f4fd868e6c7302afbf420b7d8",
           "shard_id": "support"
         }
       ]
@@ -768,8 +766,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
       "item_count": 1,
-      "generated_at": "2026-08-07T05:04:11.851Z",
-      "export_checksum": "39b21794a908f23ac62fe979872985b56f540c25cc3f4cc59c2e797a9d10efd1",
+      "generated_at": "2026-09-13T14:49:48.328Z",
+      "export_checksum": "e3b06707f3f3deb2aca1412ae9bb0d9ad6ae18a45937b169609e16bc4132c4a2",
       "coverage": {
         "external_provenance_coverage_ratio": 1,
         "status": "ready"
@@ -782,8 +780,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
       "item_count": 102523,
-      "generated_at": "2026-08-07T05:04:11.851Z",
-      "export_checksum": "02330a31e1519918f0275211a1bb3e04caa9ea448ab4a54ab8bfae5fdcb6c83b"
+      "generated_at": "2026-09-13T14:49:48.328Z",
+      "export_checksum": "596a2da4203b8d560d7ea217ab27db779e4cf8f2d0cdd8cf83e1dbe584f6d068"
     },
     "migration_manifest": {
       "id": "openfin-migration-manifest",
@@ -792,8 +790,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
       "item_count": 1,
-      "generated_at": "2026-08-07T05:04:11.851Z",
-      "export_checksum": "87182f353aac1c12530eee76f138a4cef107f97ef988a9934f5aef1f1574e238"
+      "generated_at": "2026-09-13T14:49:48.328Z",
+      "export_checksum": "90a38c5e197fbc9ada61383e218d66606b675bf4794a961da25a4133222e98c4"
     },
     "decision_offers": {
       "id": "openfin-decision-offers",
@@ -802,10 +800,10 @@
       "path": "opentax/openfin-decision-offers-2026.json",
       "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
-      "item_count": 40,
-      "export_checksum": "9bb6472e8ec9ab6831a14f11b70f9163f02fbe01b6ebba4c4fb82b42e47fb346",
-      "content_checksum": "1f292355bdaeaceef63d3ab4e01d5df291349143d0b23929e9b51cc8069802d9",
-      "generated_at": "2026-08-07T05:04:11.851Z"
+      "item_count": 10,
+      "export_checksum": "846b19531710946f04c480d04d1d73d44b07d7b06c2eff2d72197d644de665d1",
+      "content_checksum": "e5f4848aa394baf2675f4ec7819f44f556f34f665a4f1358f3b2ee7c86813267",
+      "generated_at": "2026-09-13T14:49:48.328Z"
     },
     "live_regression_evidence": {
       "id": "openfin-live-regression-current",
@@ -814,8 +812,8 @@
       "url": "https://jhny-kor.github.io/OpenFin/opentax/live-regression-current.json",
       "web_url": "https://jhny-kor.github.io/OpenFin/opentax/live-regression-current.json",
       "item_count": 1,
-      "generated_at": "2026-08-07T05:04:11.851Z",
-      "export_checksum": "1b0626f348dab49665aff4a5bd27967fbb63dc1909fd5329574c808493356c14",
+      "generated_at": "2026-09-13T14:49:48.328Z",
+      "export_checksum": "759118859a5f6232d9aa0dbc76f28bd4af4331eb9f83b1cb8e1031c1f048bccb",
       "source_path": "evidence/live-regression/current.json"
     }
   },
@@ -827,8 +825,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-coverage-report-2026.json",
     "item_count": 1,
-    "generated_at": "2026-08-07T05:04:11.851Z",
-    "export_checksum": "39b21794a908f23ac62fe979872985b56f540c25cc3f4cc59c2e797a9d10efd1",
+    "generated_at": "2026-09-13T14:49:48.328Z",
+    "export_checksum": "e3b06707f3f3deb2aca1412ae9bb0d9ad6ae18a45937b169609e16bc4132c4a2",
     "coverage": {
       "external_provenance_coverage_ratio": 1,
       "status": "ready"
@@ -841,8 +839,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-registry-2026.json",
     "item_count": 155,
-    "generated_at": "2026-08-07T05:04:11.851Z",
-    "export_checksum": "faab4abe18180af3d651bf8e5330bcee00bf53f5c05c72fabf6603f8e338d4a3"
+    "generated_at": "2026-09-13T14:49:48.328Z",
+    "export_checksum": "e8beaccdfdf673d72a6cd9927eab0a89fac20e6dbe887a45f00ad13e75e2fc49"
   },
   "source_status": {
     "id": "openfin-source-status",
@@ -851,8 +849,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-source-status-2026.json",
     "item_count": 155,
-    "generated_at": "2026-08-07T05:04:11.851Z",
-    "export_checksum": "c85e3e16448ccf1faffb6dee5bd271d36a133f2c819f10700246822968ab555d"
+    "generated_at": "2026-09-13T14:49:48.328Z",
+    "export_checksum": "2a2e9d149a79a04ae4f224a4b14b30c3bdfe5e7dd23f1a354f97157ead746ac5"
   },
   "provenance_index": {
     "id": "openfin-provenance-index",
@@ -861,8 +859,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026.json",
     "item_count": 21133,
-    "generated_at": "2026-08-07T05:04:11.851Z",
-    "export_checksum": "4bb895dbe98f62a99c5c087ba9ef0e9d3c6dae715fcb6a1d3f92a0d3acb6b2d4",
+    "generated_at": "2026-09-13T14:49:48.328Z",
+    "export_checksum": "1cfb0b1d5df169887db4b50fe53c1fa91d0a8d2cc76c104b19d5a8aa6f101d4d",
     "shards": [
       {
         "id": "openfin-provenance-account-products",
@@ -871,8 +869,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-account-products.json",
         "item_count": 4,
-        "generated_at": "2026-08-07T05:04:11.851Z",
-        "export_checksum": "cd9550b5d31668664a02eba6a5030c3df37b79685443717cdfc771e0f277416f",
+        "generated_at": "2026-09-13T14:49:48.328Z",
+        "export_checksum": "ff4e622cd7afc0338bab8d3c0dd8e5f6279d7ec60f1f41d06b38b27becd5a35c",
         "shard_id": "account-products"
       },
       {
@@ -882,8 +880,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-bank-products.json",
         "item_count": 1363,
-        "generated_at": "2026-08-07T05:04:11.851Z",
-        "export_checksum": "3eee6094d5a447048562eba1d4729a0d47d089a342844d8b0fed4f0f3f939a6c",
+        "generated_at": "2026-09-13T14:49:48.328Z",
+        "export_checksum": "6a662242aefe14a8b64689cc1ea3780eeee0501479225f6d8e1935cfd361a6c9",
         "shard_id": "bank-products"
       },
       {
@@ -893,8 +891,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-card-products.json",
         "item_count": 1007,
-        "generated_at": "2026-08-07T05:04:11.851Z",
-        "export_checksum": "615e4d539d46c54a848f62aa726916ee10b63ea532a6b50028a3990e1a537400",
+        "generated_at": "2026-09-13T14:49:48.328Z",
+        "export_checksum": "f5ae74df970aa20b0075dbd6be1930ebbc350384d7c20781e758ebf5483ce19e",
         "shard_id": "card-products"
       },
       {
@@ -904,8 +902,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-deposit-protection.json",
         "item_count": 9380,
-        "generated_at": "2026-08-07T05:04:11.851Z",
-        "export_checksum": "8d6836e42c59f99ce159b958535d3eb162416363a956682a71ecb0c84e00ce5e",
+        "generated_at": "2026-09-13T14:49:48.328Z",
+        "export_checksum": "05553d03ad1a26569790d67b6bc1882632536798b347487626f39eadfecf74ec",
         "shard_id": "deposit-protection"
       },
       {
@@ -915,8 +913,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-insurance-products.json",
         "item_count": 1071,
-        "generated_at": "2026-08-07T05:04:11.851Z",
-        "export_checksum": "6dceb82588cee600998db087693722bffb792046279d45429f030dafb5ea9666",
+        "generated_at": "2026-09-13T14:49:48.328Z",
+        "export_checksum": "9f15e4501731140e5f9089caad364e1adeed9589ac201583bfa08ef616db9ed7",
         "shard_id": "insurance-products"
       },
       {
@@ -926,8 +924,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-reference.json",
         "item_count": 569,
-        "generated_at": "2026-08-07T05:04:11.851Z",
-        "export_checksum": "1221802d774285cd326d1c28e926dc8b5a9b63311d814fa25326ae27d270a8ed",
+        "generated_at": "2026-09-13T14:49:48.328Z",
+        "export_checksum": "b15f54fd79de46557d1a4c357626b31aea9fd18ee03fffdcf7838fce013e3fc7",
         "shard_id": "reference"
       },
       {
@@ -937,8 +935,8 @@
         "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
         "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-provenance-index-2026-support.json",
         "item_count": 7739,
-        "generated_at": "2026-08-07T05:04:11.851Z",
-        "export_checksum": "9120484d7996c72024eed176f779fa0a0723264c1507f2b3fdcd34bcd7f13439",
+        "generated_at": "2026-09-13T14:49:48.328Z",
+        "export_checksum": "a5e545efa440d3758f5f5523dd7045c7fdebf26f4fd868e6c7302afbf420b7d8",
         "shard_id": "support"
       }
     ]
@@ -950,8 +948,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-relationship-index-2026.json",
     "item_count": 102523,
-    "generated_at": "2026-08-07T05:04:11.851Z",
-    "export_checksum": "02330a31e1519918f0275211a1bb3e04caa9ea448ab4a54ab8bfae5fdcb6c83b"
+    "generated_at": "2026-09-13T14:49:48.328Z",
+    "export_checksum": "596a2da4203b8d560d7ea217ab27db779e4cf8f2d0cdd8cf83e1dbe584f6d068"
   },
   "provenance_coverage_ratio": 1,
   "migration_manifest": {
@@ -961,16 +959,16 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-migration-manifest-2026.json",
     "item_count": 1,
-    "generated_at": "2026-08-07T05:04:11.851Z",
-    "export_checksum": "87182f353aac1c12530eee76f138a4cef107f97ef988a9934f5aef1f1574e238"
+    "generated_at": "2026-09-13T14:49:48.328Z",
+    "export_checksum": "90a38c5e197fbc9ada61383e218d66606b675bf4794a961da25a4133222e98c4"
   },
   "domain_readiness": {
     "deposit": {
-      "item_count": 20,
+      "item_count": 5,
       "catalog_item_count": 430,
-      "strict_offer_count": 20,
-      "strict_option_count": 69,
-      "structural_option_count": 69,
+      "strict_offer_count": 5,
+      "strict_option_count": 14,
+      "structural_option_count": 14,
       "required_fields": [
         "deposit_protection_status",
         "join_channels",
@@ -979,34 +977,34 @@
         "early_termination_rules",
         "sales_verification_status"
       ],
+      "required_comparison_candidates": 5,
+      "required_verified_candidates": 20,
       "sales_verification_ttl_hours": 720,
-      "structural_candidate_count": 20,
-      "value_complete_candidate_count": 20,
-      "strict_type_schema_candidate_count": 20,
-      "field_verified_candidate_count": 0,
-      "runtime_eligible_candidate_count": 0,
-      "public_candidate_count": 0,
-      "comparison_eligible_candidate_count": 0,
-      "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 0,
+      "structural_candidate_count": 5,
+      "value_complete_candidate_count": 5,
+      "strict_type_schema_candidate_count": 5,
+      "field_verified_candidate_count": 5,
+      "runtime_eligible_candidate_count": 5,
+      "public_candidate_count": 5,
+      "comparison_eligible_candidate_count": 14,
+      "public_comparison_candidate_count": 14,
+      "shadow_recommendation_candidate_count": 14,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0,
       "schema_defined": true,
       "structural_value_completeness": 1,
-      "required_field_total": 120,
-      "value_complete_field_count": 120,
-      "field_verified_count": 0,
+      "required_field_total": 30,
+      "value_complete_field_count": 30,
+      "field_verified_count": 30,
       "value_field_coverage": 1,
-      "reviewed_assertion_coverage": 0,
-      "complete_field_count": 20,
-      "verified_candidate_count": 0,
-      "comparison_data": "structural_only",
+      "reviewed_assertion_coverage": 1,
+      "complete_field_count": 5,
+      "verified_candidate_count": 5,
+      "comparison_data": "limited_public_ready",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "structural_only",
-      "blockers": [
-        "FIELD_ASSERTIONS_INCOMPLETE"
-      ],
+      "status": "limited_public_ready",
+      "blockers": [],
       "missing_required_fields": {
         "deposit_protection_status": 0,
         "join_channels": 0,
@@ -1017,27 +1015,27 @@
       },
       "data_layers": {
         "raw": {
-          "item_count": 20,
+          "item_count": 5,
           "status": "available",
           "lineage": "source_receipt"
         },
         "normalized": {
-          "item_count": 69,
+          "item_count": 14,
           "status": "available",
           "lineage": "decision_snapshot"
         },
         "verified": {
-          "item_count": 0,
-          "status": "blocked"
+          "item_count": 5,
+          "status": "available"
         }
       }
     },
     "saving": {
-      "item_count": 20,
+      "item_count": 5,
       "catalog_item_count": 335,
-      "strict_offer_count": 20,
-      "strict_option_count": 66,
-      "structural_option_count": 66,
+      "strict_offer_count": 5,
+      "strict_option_count": 19,
+      "structural_option_count": 19,
       "required_fields": [
         "deposit_protection_status",
         "join_channels",
@@ -1046,34 +1044,34 @@
         "early_termination_rules",
         "sales_verification_status"
       ],
+      "required_comparison_candidates": 5,
+      "required_verified_candidates": 20,
       "sales_verification_ttl_hours": 720,
-      "structural_candidate_count": 20,
-      "value_complete_candidate_count": 20,
-      "strict_type_schema_candidate_count": 20,
-      "field_verified_candidate_count": 0,
-      "runtime_eligible_candidate_count": 0,
-      "public_candidate_count": 0,
-      "comparison_eligible_candidate_count": 0,
-      "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 0,
+      "structural_candidate_count": 5,
+      "value_complete_candidate_count": 5,
+      "strict_type_schema_candidate_count": 5,
+      "field_verified_candidate_count": 5,
+      "runtime_eligible_candidate_count": 5,
+      "public_candidate_count": 5,
+      "comparison_eligible_candidate_count": 19,
+      "public_comparison_candidate_count": 19,
+      "shadow_recommendation_candidate_count": 19,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0,
       "schema_defined": true,
       "structural_value_completeness": 1,
-      "required_field_total": 120,
-      "value_complete_field_count": 120,
-      "field_verified_count": 0,
+      "required_field_total": 30,
+      "value_complete_field_count": 30,
+      "field_verified_count": 30,
       "value_field_coverage": 1,
-      "reviewed_assertion_coverage": 0,
-      "complete_field_count": 20,
-      "verified_candidate_count": 0,
-      "comparison_data": "structural_only",
+      "reviewed_assertion_coverage": 1,
+      "complete_field_count": 5,
+      "verified_candidate_count": 5,
+      "comparison_data": "limited_public_ready",
       "recommendation": "blocked",
       "recommendation_mode": "blocked",
-      "status": "structural_only",
-      "blockers": [
-        "FIELD_ASSERTIONS_INCOMPLETE"
-      ],
+      "status": "limited_public_ready",
+      "blockers": [],
       "missing_required_fields": {
         "deposit_protection_status": 0,
         "join_channels": 0,
@@ -1084,18 +1082,18 @@
       },
       "data_layers": {
         "raw": {
-          "item_count": 20,
+          "item_count": 5,
           "status": "available",
           "lineage": "source_receipt"
         },
         "normalized": {
-          "item_count": 66,
+          "item_count": 19,
           "status": "available",
           "lineage": "decision_snapshot"
         },
         "verified": {
-          "item_count": 0,
-          "status": "blocked"
+          "item_count": 5,
+          "status": "available"
         }
       }
     },
@@ -1114,6 +1112,8 @@
         "per_transaction_limit_krw",
         "benefit_overlap_policy"
       ],
+      "required_comparison_candidates": null,
+      "required_verified_candidates": null,
       "sales_verification_ttl_hours": null,
       "structural_candidate_count": 1007,
       "value_complete_candidate_count": 0,
@@ -1187,6 +1187,8 @@
         "delinquency_rate_percent",
         "total_cost_basis"
       ],
+      "required_comparison_candidates": null,
+      "required_verified_candidates": null,
       "sales_verification_ttl_hours": null,
       "structural_candidate_count": 598,
       "value_complete_candidate_count": 0,
@@ -1262,6 +1264,8 @@
         "insurance_term_months",
         "surrender_value_condition"
       ],
+      "required_comparison_candidates": null,
+      "required_verified_candidates": null,
       "sales_verification_ttl_hours": null,
       "structural_candidate_count": 1071,
       "value_complete_candidate_count": 0,
@@ -1325,6 +1329,8 @@
       "strict_option_count": 0,
       "structural_option_count": 0,
       "required_fields": [],
+      "required_comparison_candidates": null,
+      "required_verified_candidates": null,
       "sales_verification_ttl_hours": null,
       "structural_candidate_count": 0,
       "value_complete_candidate_count": 0,
@@ -1379,31 +1385,31 @@
     "public_approval_receipt_missing",
     "recommendation_state_blocked"
   ],
-  "quality_hash": "2a3e5e12e2597853cf34b66fd45dae1fccb46e3d2095c5b4d5d169780390b53f",
+  "quality_hash": "70bf750f31fb2fb9a7edf555ebf12f3d3293dcba18f30d994ed752cbb3b86401",
   "live_regression_policy": {
     "required_count": 120,
     "required_mode": "live",
     "freshness_ttl_hours": 24
   },
-  "comparison_status": "blocked",
+  "comparison_status": "limited",
   "recommendation_status": "blocked",
-  "generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
-  "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+  "generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
+  "deployment_commit": "875f06b7fb19e6603dbecee7cf45b53b1ac13e6d",
   "artifact_contract": {
     "version": "openfin-artifact-contract-v1",
     "readiness_schema_version": "openfin-readiness-v2",
-    "generation_id": "88ed68d0d1c81ccf906efc72905a6226c9174af94ba3c7281b0ddce1d52ef57c",
-    "deployment_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
-    "canonical_content_checksum": "64f3a471692ccb0a548148d8b77bac072c695b542a993cd0639e97f4139a93ac",
+    "generation_id": "c22ba2ab620cc88cf0885b9882a96c6754362b444225beb9c97759923cf485b6",
+    "deployment_commit": "875f06b7fb19e6603dbecee7cf45b53b1ac13e6d",
+    "canonical_content_checksum": "1d72931ff0470d911d85e77613cbc69982525a17dd19ec232d82d1c696bf2746",
     "search_index_checksum": "bd51ec36ff4c1af01dce78159abe39ba9fede11cc7e68f73c2c8ebfb710dcba7",
-    "source_status_checksum": "c85e3e16448ccf1faffb6dee5bd271d36a133f2c819f10700246822968ab555d",
-    "release_policy_checksum": "f1d8859ad6c589c8c6d8682933e44e62137b07dc4336e3557911ae60b6525482",
+    "source_status_checksum": "2a2e9d149a79a04ae4f224a4b14b30c3bdfe5e7dd23f1a354f97157ead746ac5",
+    "release_policy_checksum": "095166ae1de036d809bcd40faea1eb64a5923de290d96ca4bede21b7f17ae269",
     "capability_policy_checksum": "dfb4b5d4bac533d2a34b9c5ff0117dd0c67b49ebd2ba8e4fba2bc3a21cb6e35f",
     "capability_status_checksum": "3dd2d94b17fc04679d45859d4614d84026252e2aba365c4a2621705ec7346934",
     "fixture_checksum": "sha256:1030ce9505034216880ef47384cea521cc76000089d4b32942ba53a68c2c7989",
-    "candidate_set_checksum": "sha256:87db0279a06433b8aa4b8b71421cf43d370ee36606e1287b3636185d571d24d0",
+    "candidate_set_checksum": "sha256:20b08a5dbbd51d3222a299e34a2cba1184220902a668c46a3be8f68bcbe7f4b5",
     "candidate_content_checksum_policy": "immutable_candidate_set_checksum",
-    "quality_suite_transitive_checksum": "sha256:7757ce29bdf2d3ebd406e4d629744f1401ace5e57073d9b1f81c1e6e60966d35"
+    "quality_suite_transitive_checksum": "sha256:64b626ea6c32bd2a9cd6e950df5c26245c907c8eabbb72540c423c4e401ecef5"
   },
   "source_freshness_status": "degraded",
   "recommendation_state": "blocked",
@@ -1416,37 +1422,37 @@
     "path": "opentax/openfin-decision-offers-2026.json",
     "url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/openfin-decision-offers-2026.json",
-    "item_count": 40,
-    "export_checksum": "9bb6472e8ec9ab6831a14f11b70f9163f02fbe01b6ebba4c4fb82b42e47fb346",
-    "content_checksum": "1f292355bdaeaceef63d3ab4e01d5df291349143d0b23929e9b51cc8069802d9",
-    "generated_at": "2026-08-07T05:04:11.851Z"
+    "item_count": 10,
+    "export_checksum": "846b19531710946f04c480d04d1d73d44b07d7b06c2eff2d72197d644de665d1",
+    "content_checksum": "e5f4848aa394baf2675f4ec7819f44f556f34f665a4f1358f3b2ee7c86813267",
+    "generated_at": "2026-09-13T14:49:48.328Z"
   },
   "capabilities": {
     "search": "ready",
     "discovery": "ready",
-    "comparison": "blocked",
-    "shadow": "blocked",
+    "comparison": "limited",
+    "shadow": "ready",
     "owner_pilot": "blocked",
     "recommendation": "blocked"
   },
   "candidate_counts": {
     "deposit": {
-      "strict_offer_count": 20,
-      "strict_option_count": 69,
-      "structural_option_count": 69,
-      "comparison_eligible_candidate_count": 0,
-      "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 0,
+      "strict_offer_count": 5,
+      "strict_option_count": 14,
+      "structural_option_count": 14,
+      "comparison_eligible_candidate_count": 14,
+      "public_comparison_candidate_count": 14,
+      "shadow_recommendation_candidate_count": 14,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0
     },
     "saving": {
-      "strict_offer_count": 20,
-      "strict_option_count": 66,
-      "structural_option_count": 66,
-      "comparison_eligible_candidate_count": 0,
-      "public_comparison_candidate_count": 0,
-      "shadow_recommendation_candidate_count": 0,
+      "strict_offer_count": 5,
+      "strict_option_count": 19,
+      "structural_option_count": 19,
+      "comparison_eligible_candidate_count": 19,
+      "public_comparison_candidate_count": 19,
+      "shadow_recommendation_candidate_count": 19,
       "owner_pilot_candidate_count": 0,
       "public_recommendation_candidate_count": 0
     },
@@ -1676,8 +1682,8 @@
     "content_checksum": "56244285404ee8efa4629d83ab50d58e8ad9a0598bb23b53a2db04e52b55080a"
   },
   "service_availability": "available",
-  "source_head_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
-  "release_candidate_commit": "b6c028524f79abd236d6e8d54f026d9119ede80d",
+  "source_head_commit": "875f06b7fb19e6603dbecee7cf45b53b1ac13e6d",
+  "release_candidate_commit": "875f06b7fb19e6603dbecee7cf45b53b1ac13e6d",
   "production_commit": "c4daa0076b7e20b9ac80803ac914e5a94e6928a8",
   "production_deployed_at": "2026-08-31T22:23:26+09:00",
   "current_release": {
@@ -1695,8 +1701,8 @@
     "url": "https://jhny-kor.github.io/OpenFin/opentax/live-regression-current.json",
     "web_url": "https://jhny-kor.github.io/OpenFin/opentax/live-regression-current.json",
     "item_count": 1,
-    "generated_at": "2026-08-07T05:04:11.851Z",
-    "export_checksum": "1b0626f348dab49665aff4a5bd27967fbb63dc1909fd5329574c808493356c14",
+    "generated_at": "2026-09-13T14:49:48.328Z",
+    "export_checksum": "759118859a5f6232d9aa0dbc76f28bd4af4331eb9f83b1cb8e1031c1f048bccb",
     "source_path": "evidence/live-regression/current.json"
   },
   "capability_status_version": "openfin-capability-status-v1",
@@ -6833,5 +6839,5 @@
     ],
     "content_checksum": "bb27681182cdaf86fda1c526e40188b1c0e09169b3c10307c6b7009d460500aa"
   },
-  "manifest_checksum": "6c28c33b0e78e83a1e04f3a02222e279768e76f9fe4f5c2cf568ab5f9d22d83c"
+  "manifest_checksum": "691cff57d08239213eced404fef447107a75e09d1c89604e9f58f9c2df2df052"
 }

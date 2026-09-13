@@ -165,7 +165,7 @@ test("the runtime keeps each parsed search-shard tier bounded", () => {
   assert.match(workerSource, /const cachedHotSearchPayloads = new Map<string, CachedSearchItems>\(\)/);
   assert.match(workerSource, /const MAX_SEARCH_CACHE_ENTRIES = 32/);
   assert.match(workerSource, /const MAX_CACHED_SUPPORT_PAYLOAD_BYTES = 3 \* 1024 \* 1024/);
-  assert.match(workerSource, /const MAX_SEARCH_CACHE_BYTES = 12 \* 1024 \* 1024/);
+  assert.match(workerSource, /const MAX_SEARCH_CACHE_BYTES = 10 \* 1024 \* 1024/);
   assert.match(workerSource, /searchCacheBudget\.admit\(searchCacheBudgetKey\("payload", key\)/);
   assert.match(workerSource, /cache\.delete\(key\);\s+cache\.set\(key, cached\)/);
   assert.match(workerSource, /while \(cache\.size >= cacheLimit\) \{[\s\S]*removeSearchCacheEntry\(cacheKind, oldest\)/);
@@ -189,7 +189,7 @@ test("search shard loads cannot accumulate unbounded in-flight work", () => {
   assert.match(workerSource, /let releaseSlot: SearchShardSlotRelease \| undefined/);
   assert.match(workerSource, /releaseSlot\?\.\(\)/);
   assert.match(workerSource, /signal: controller\.signal/);
-  assert.match(workerSource, /rawText = await fetchText\(url, MAX_SINGLE_SHARD_BYTES, requestController\.signal\)/);
+  assert.match(workerSource, /rawText = await fetchText\(url, MAX_SINGLE_SHARD_BYTES, requestController\.signal, \{ budget: sharedInflightBudget/);
   assert.match(workerSource, /if \(signal\?\.aborted\) requestController\.abort\(\)/);
   assert.match(workerSource, /retainSearchShardConsumer\(pendingKey\)/);
   assert.match(workerSource, /releaseSearchShardConsumer\(pendingKey\)/);

@@ -233,7 +233,8 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
     }).length;
     const ownerPilotCandidateCount = optionRows.filter(({ offer, option }) => promotions.get(option.option_id)?.recommendation_approved === true && promotions.get(option.option_id)?.mode === 'owner_pilot').length;
     const publicRecommendationCandidateCount = optionRows.filter(({ offer, option }) => promotions.get(option.option_id)?.recommendation_approved === true && optionVerified(offer, option, name, evaluationAsOf)).length;
-    const threshold = config.required_verified_candidates || Infinity;
+    const publicComparisonOfferCount = new Set(optionRows.filter(({ offer, option }) => optionVerified(offer, option, name, evaluationAsOf) && promotions.get(option.option_id)?.comparison_approved === true).map(({ offer }) => offer.id)).size;
+    const threshold = config.required_comparison_candidates || config.required_verified_candidates || Infinity;
     const status = !items.length ? 'blocked'
       : !schemaDefined ? 'schema_not_defined'
       : runtimeEligible.length >= threshold ? 'limited_public_ready'
@@ -248,13 +249,15 @@ export const deriveQuality = (records, { sourceCount, exportCount, searchItemCou
       strict_option_count: strictOptionCount,
       structural_option_count: structuralOptionCount,
       required_fields: required,
+      required_comparison_candidates: config.required_comparison_candidates || null,
+      required_verified_candidates: config.required_verified_candidates || null,
       sales_verification_ttl_hours: Number.isFinite(config.sales_verification_ttl_hours) ? config.sales_verification_ttl_hours : null,
       structural_candidate_count: items.length,
       value_complete_candidate_count: valueComplete.length,
       strict_type_schema_candidate_count: valueComplete.filter(strictDecisionCandidate).length,
       field_verified_candidate_count: fieldVerifiedItems.length,
       runtime_eligible_candidate_count: runtimeEligible.length,
-      public_candidate_count: publicCount,
+      public_candidate_count: publicCount > 0 ? publicComparisonOfferCount : 0,
       comparison_eligible_candidate_count: comparisonEligibleCandidateCount,
       public_comparison_candidate_count: publicCount,
       shadow_recommendation_candidate_count: shadowRecommendationCandidateCount,

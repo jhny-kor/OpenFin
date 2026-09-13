@@ -35,7 +35,7 @@ export function explainCandidate(item: Candidate, eligibility: Record<string, un
       recommendation_decision: { type: "RecommendationDecision", candidate_id: item.candidate_id ?? item.option_id ?? item.id ?? null },
       decision_trace: { type: "DecisionTrace", schema_version: DECISION_TRACE_SCHEMA_VERSION, supported_by: item.source_receipt_ids ?? [] },
       policy_version: { type: "PolicyVersion", version: eligibility.policy_version ?? ranking.recommendation_model_version ?? null },
-      calculator_version: { type: "CalculatorVersion", version: ranking.calculator_version ?? "openfin-calculator-v1" },
+      calculator_version: { type: "CalculatorVersion", version: ranking.calculator_version ?? "openfin-calculator-v2" },
       ranking_version: { type: "RankingVersion", version: ranking.ranking_version ?? "openfin-ranking-v2" },
       artifact_generation: { type: "ArtifactGeneration", generation_id: item.generation_id ?? null },
     },

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import test from 'node:test';
 import { deriveQuality, liveRegressionCurrent } from '../../scripts/knowledge/derive-quality.mjs';
 
@@ -62,6 +63,23 @@ test('a verified deposit subset opens comparison without claiming public recomme
   assert.equal(result.domains.deposit.status, 'limited_public_ready');
   assert.equal(result.comparison_release_status, 'limited');
   assert.equal(result.recommendation_enabled, false);
+});
+
+test('comparison and recommendation thresholds remain separate', async () => {
+  const policy = JSON.parse(await (await import('node:fs/promises')).readFile(new URL('../../contracts/release-policy.json', import.meta.url), 'utf8'));
+  assert.equal(policy.domains.deposit.required_comparison_candidates, 5);
+  assert.equal(policy.domains.saving.required_comparison_candidates, 5);
+  assert.equal(policy.domains.deposit.required_verified_candidates, 20);
+  assert.equal(policy.domains.saving.required_verified_candidates, 20);
+});
+
+test('comparison option counts do not masquerade as offer counts', () => {
+  const file = new URL('../../knowledge/30-financial-products/banking/_decision/deposit-offers.jsonl', import.meta.url);
+  const records = fs.readFileSync(file, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+  const sample = records.slice(0, 5);
+  const result = deriveQuality(sample, { sourceCount: 1, exportCount: 10, searchItemCount: sample.length, relationshipCount: 1 });
+  assert.ok(result.domains.deposit.public_candidate_count <= result.domains.deposit.runtime_eligible_candidate_count);
+  assert.ok(result.domains.deposit.public_comparison_candidate_count <= result.domains.deposit.comparison_eligible_candidate_count);
 });
 
 test('decision-critical domains use their policy field contract', () => {

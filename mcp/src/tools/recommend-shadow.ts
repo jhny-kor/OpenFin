@@ -35,6 +35,7 @@ export const PILOT_CONTEXT_SCHEMA = z.object({
     max_term_months: z.number().int().nonnegative().optional(),
     monthly_budget_krw: z.number().nonnegative().optional(),
     monthly_contribution_krw: z.number().nonnegative().optional(),
+    monthly_payment_krw: z.number().nonnegative().optional(),
     principal_krw: z.number().nonnegative().optional(),
     deposit_amount_krw: z.number().nonnegative().optional(),
     tax_rate_percent: z.number().min(0).max(100).optional(),
@@ -42,6 +43,8 @@ export const PILOT_CONTEXT_SCHEMA = z.object({
     early_termination_months: z.number().nonnegative().optional(),
     payment_timing: z.enum(["month_start", "month_end"]).optional(),
     payment_schedule_krw: z.array(z.number().nonnegative()).max(120).optional(),
+    installment_paid_at: z.array(DATE).min(1).max(120).optional(),
+    termination_date: DATE.optional(),
   }).strict().optional(),
   decision_context: z.object({
     as_of: DATE.optional(),

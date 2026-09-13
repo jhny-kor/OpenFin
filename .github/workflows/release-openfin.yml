@@ -67,21 +67,26 @@ jobs:
             | sort_by(.rollback_priority, .created_at)
             | last // empty
           ' <<< "$artifacts")"
-          test -n "$pages_artifact"
-          pages_artifact_name="$(jq -r '.name' <<< "$pages_artifact")"
-          pages_run_id="$(jq -r '.workflow_run.id' <<< "$pages_artifact")"
-          pages_artifact_layout="$(jq -r 'if (.name == "github-pages" or .name == "github-pages-final") then "pages" else "release" end' <<< "$pages_artifact")"
-          test -n "$pages_artifact_name"
-          test -n "$pages_run_id"
-          case "$pages_artifact_layout" in pages|release) ;; *) exit 1 ;; esac
-          gh run download "$pages_run_id" --name "$pages_artifact_name" --dir previous-pages-check
-          mkdir previous-pages-site
-          if [ "$pages_artifact_layout" = pages ]; then
-            test -f previous-pages-check/artifact.tar
-            tar --extract --file previous-pages-check/artifact.tar --directory previous-pages-site
+          if [ -n "$pages_artifact" ]; then
+            mkdir previous-pages-site
+            pages_artifact_name="$(jq -r '.name' <<< "$pages_artifact")"
+            pages_run_id="$(jq -r '.workflow_run.id' <<< "$pages_artifact")"
+            pages_artifact_layout="$(jq -r 'if (.name == "github-pages" or .name == "github-pages-final") then "pages" else "release" end' <<< "$pages_artifact")"
+            test -n "$pages_artifact_name" -a -n "$pages_run_id"
+            gh run download "$pages_run_id" --name "$pages_artifact_name" --dir previous-pages-check
+            if [ "$pages_artifact_layout" = pages ]; then
+              test -f previous-pages-check/artifact.tar
+              tar --extract --file previous-pages-check/artifact.tar --directory previous-pages-site
+            else
+              test -d previous-pages-check/docs
+              cp -a previous-pages-check/docs/. previous-pages-site/
+            fi
           else
-            test -d previous-pages-check/docs
-            cp -a previous-pages-check/docs/. previous-pages-site/
+            pages_artifact_name="openfin-rollback-snapshot-${GITHUB_SHA}"
+            pages_run_id="$GITHUB_RUN_ID"
+            pages_artifact_layout=snapshot
+            test ! -e previous-pages-site
+            node scripts/knowledge/capture-production-snapshot.mjs --output previous-pages-site
           fi
           jq -e --arg commit "$production_commit" --arg generation "$production_generation" '
             (.production_commit == $commit) and
@@ -98,6 +103,13 @@ jobs:
           } >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
+      - name: Upload captured rollback snapshot
+        if: ${{ steps.production.outputs.pages_artifact_layout == 'snapshot' }}
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: openfin-rollback-snapshot-${{ github.sha }}
+          path: previous-pages-site
+          retention-days: 7
       - name: Bind timestamps to the immutable source commit
         run: |
           set -euo pipefail
@@ -200,7 +212,7 @@ jobs:
           done < <(jq -r '.exports[] | select((.shards? // []) | length > 0) | .path' "$manifest" | sort -u)
           oversized="$(find "$upload_dir" -type f -size +26214399c -print -quit)"
           test -z "$oversized" || { echo "Pages file exceeds 25 MiB: $oversized" >&2; exit 1; }
-          npx --yes wrangler@4.127.1 pages deploy "$upload_dir" --project-name "$OPENFIN_STAGING_PAGES_PROJECT" --branch "$alias" --commit-hash "$GITHUB_SHA" 2>&1 | tee pages-deploy.log
+          npx --yes wrangler@4.131.1 pages deploy "$upload_dir" --project-name "$OPENFIN_STAGING_PAGES_PROJECT" --branch "$alias" --commit-hash "$GITHUB_SHA" 2>&1 | tee pages-deploy.log
           pages_url="$(sed -nE 's#.*(https://[A-Za-z0-9.-]+\.pages\.dev).*#\1#p' pages-deploy.log | tail -n 1)"
           test -n "$pages_url"
           printf 'pages_url=%s\n' "$pages_url" >> "$GITHUB_OUTPUT"
@@ -216,6 +228,7 @@ jobs:
       worker_url: ${{ steps.upload.outputs.worker_url }}
       version_id: ${{ steps.upload.outputs.version_id }}
       previous_version_id: ${{ steps.previous.outputs.version_id }}
+      generation: ${{ steps.upload.outputs.generation }}
     defaults:
       run:
         working-directory: mcp
@@ -241,7 +254,7 @@ jobs:
         name: Capture current Worker version for rollback
         run: |
           set -euo pipefail
-          deployment="$(npx --yes wrangler@4.127.1 deployments status --name openfin-mcp --json)"
+          deployment="$(npx --yes wrangler@4.131.1 deployments status --name openfin-mcp --json)"
           jq -e '(.versions | length) == 1 and .versions[0].percentage == 100' <<< "$deployment" >/dev/null
           version_id="$(jq -r '.versions[0].version_id // empty' <<< "$deployment")"
           test -n "$version_id"
@@ -261,12 +274,12 @@ jobs:
           runtime_version="openfin-mcp-${GITHUB_SHA:0:12}"
           build_timestamp="$(git show -s --format=%cI "$GITHUB_SHA")"
           test -n "$runtime_version" -a -n "$build_timestamp"
-          output="$(npx --yes wrangler@4.127.1 versions upload --name openfin-mcp --preview-alias "$alias" --tag "$alias" --message "OpenFin candidate $GITHUB_SHA" --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var FINANCE_MANIFEST_URL:"$OPENFIN_STAGING_PAGES_URL/opentax/finance-ontology-manifest.json" --var FINANCE_WEB_BASE_URL:"$OPENFIN_STAGING_PAGES_URL/opentax/" --var ARTIFACT_GENERATION:"$generation" --var RUNTIME_VERSION:"$runtime_version" --var BUILD_TIMESTAMP:"$build_timestamp" 2>&1 | tee /dev/stderr)"
+          output="$(npx --yes wrangler@4.131.1 versions upload --name openfin-mcp --preview-alias "$alias" --tag "$alias" --message "OpenFin candidate $GITHUB_SHA" --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var FINANCE_MANIFEST_URL:"$OPENFIN_STAGING_PAGES_URL/opentax/finance-ontology-manifest.json" --var FINANCE_WEB_BASE_URL:"$OPENFIN_STAGING_PAGES_URL/opentax/" --var ARTIFACT_GENERATION:"$generation" --var RUNTIME_VERSION:"$runtime_version" --var BUILD_TIMESTAMP:"$build_timestamp" 2>&1 | tee /dev/stderr)"
           version_id="$(printf '%s\n' "$output" | grep -Eo '[0-9a-f]{8}-[0-9a-f-]{27,}' | head -n 1)"
           test -n "$version_id"
           worker_url="$(printf '%s\n' "$output" | sed -nE 's#^Version Preview Alias URL: (https://[^[:space:]]+).*#\1#p' | tail -n 1)"
           test -n "$worker_url"
-          printf 'version_id=%s\nworker_url=%s\n' "$version_id" "$worker_url" >> "$GITHUB_OUTPUT"
+          printf 'version_id=%s\nworker_url=%s\ngeneration=%s\n' "$version_id" "$worker_url" "$generation" >> "$GITHUB_OUTPUT"
         env:
           OPENFIN_STAGING_PAGES_URL: ${{ needs.deploy-pages-staging.outputs.pages_url }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -305,22 +318,29 @@ jobs:
         env:
           MCP_URL: ${{ needs.deploy-worker-candidate.outputs.worker_url }}/mcp
       - id: live
-        name: Run current-generation 120-case candidate regression
+        name: Run current-generation 120-case candidate regression three times
         run: |
           set -euo pipefail
-          node scripts/live-regression.mjs > ../live-regression-report.json 2> ../live-regression-error.log
-          test "$(jq -r '.status' ../live-regression-report.json)" = current
-          test "$(jq -r '.test_count' ../live-regression-report.json)" = 120
-          test "$(jq -r '.passed_count' ../live-regression-report.json)" = 120
-          test "$(jq -r '.failed_count' ../live-regression-report.json)" = 0
-          test "$(jq -r '.skipped_count' ../live-regression-report.json)" = 0
+          result=0
+          for run in 1 2 3; do
+            report="../candidate-live-regression-report-$run.json"
+            error_log="../candidate-live-regression-error-$run.log"
+            if ! node scripts/live-regression.mjs > "$report" 2> "$error_log"; then result=1; fi
+            if ! jq -e '.status == "current" and .test_count == 120 and .passed_count == 120 and .failed_count == 0 and .skipped_count == 0 and ((.retry_errors // []) | length == 0) and (.transport_error_count == 0)' "$report" >/dev/null; then result=1; fi
+          done
+          cp ../candidate-live-regression-report-3.json ../live-regression-report.json
+          cp ../candidate-live-regression-error-3.log ../live-regression-error.log
           echo "artifact_name=openfin-live-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+          exit "$result"
         env:
           MCP_URL: ${{ needs.deploy-worker-candidate.outputs.worker_url }}/mcp
+          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          EXPECTED_GENERATION: ${{ needs.deploy-worker-candidate.outputs.generation }}
           LIVE_METADATA_ATTEMPTS: 12
           LIVE_METADATA_DELAY_MS: 1000
           LIVE_REQUEST_TIMEOUT_MS: 15000
           LIVE_CASE_ATTEMPTS: 1
+          LIVE_DIAGNOSTICS: "1"
           LIVE_CASE_RETRY_DELAY_MS: 1000
       - name: Verify candidate Pages/Worker generation parity
         run: |
@@ -338,6 +358,8 @@ jobs:
           path: |
             live-regression-report.json
             live-regression-error.log
+            candidate-live-regression-report-*.json
+            candidate-live-regression-error-*.log
           if-no-files-found: ignore
           retention-days: 7
 
@@ -379,7 +401,7 @@ jobs:
           done < <(jq -r '.exports[] | select((.shards? // []) | length > 0) | .path' "$manifest" | sort -u)
           oversized="$(find "$upload_dir" -type f -size +26214399c -print -quit)"
           test -z "$oversized" || { echo "Pages file exceeds 25 MiB: $oversized" >&2; exit 1; }
-          npx --yes wrangler@4.127.1 pages deploy "$upload_dir" --project-name "$OPENFIN_STAGING_PAGES_PROJECT" --branch "$alias" --commit-hash "$GITHUB_SHA" 2>&1 | tee pages-deploy.log
+          npx --yes wrangler@4.131.1 pages deploy "$upload_dir" --project-name "$OPENFIN_STAGING_PAGES_PROJECT" --branch "$alias" --commit-hash "$GITHUB_SHA" 2>&1 | tee pages-deploy.log
           pages_url="$(sed -nE 's#.*(https://[A-Za-z0-9.-]+\.pages\.dev).*#\1#p' pages-deploy.log | tail -n 1)"
           test -n "$pages_url"
           printf 'pages_url=%s\n' "$pages_url" >> "$GITHUB_OUTPUT"
@@ -395,6 +417,7 @@ jobs:
       worker_url: ${{ steps.upload.outputs.worker_url }}
       version_id: ${{ steps.upload.outputs.version_id }}
       previous_version_id: ${{ needs.deploy-worker-candidate.outputs.previous_version_id }}
+      generation: ${{ steps.upload.outputs.generation }}
     defaults:
       run:
         working-directory: mcp
@@ -424,12 +447,12 @@ jobs:
           runtime_version="openfin-mcp-${GITHUB_SHA:0:12}"
           build_timestamp="$(git show -s --format=%cI "$GITHUB_SHA")"
           test -n "$runtime_version" -a -n "$build_timestamp"
-          output="$(npx --yes wrangler@4.127.1 versions upload --name openfin-mcp --preview-alias "$alias" --tag "$alias" --message "OpenFin final candidate $GITHUB_SHA" --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var FINANCE_MANIFEST_URL:"$manifest_url" --var FINANCE_WEB_BASE_URL:"$OPENFIN_PAGES_URL/opentax/" --var ARTIFACT_GENERATION:"$generation" --var RUNTIME_VERSION:"$runtime_version" --var BUILD_TIMESTAMP:"$build_timestamp" 2>&1 | tee /dev/stderr)"
+          output="$(npx --yes wrangler@4.131.1 versions upload --name openfin-mcp --preview-alias "$alias" --tag "$alias" --message "OpenFin final candidate $GITHUB_SHA" --var DEPLOYMENT_COMMIT:"$GITHUB_SHA" --var FINANCE_MANIFEST_URL:"$manifest_url" --var FINANCE_WEB_BASE_URL:"$OPENFIN_PAGES_URL/opentax/" --var ARTIFACT_GENERATION:"$generation" --var RUNTIME_VERSION:"$runtime_version" --var BUILD_TIMESTAMP:"$build_timestamp" 2>&1 | tee /dev/stderr)"
           version_id="$(printf '%s\n' "$output" | grep -Eo '[0-9a-f]{8}-[0-9a-f-]{27,}' | head -n 1)"
           test -n "$version_id"
           worker_url="$(printf '%s\n' "$output" | sed -nE 's#^Version Preview Alias URL: (https://[^[:space:]]+).*#\1#p' | tail -n 1)"
           test -n "$worker_url"
-          printf 'version_id=%s\nworker_url=%s\n' "$version_id" "$worker_url" >> "$GITHUB_OUTPUT"
+          printf 'version_id=%s\nworker_url=%s\ngeneration=%s\n' "$version_id" "$worker_url" "$generation" >> "$GITHUB_OUTPUT"
         env:
           OPENFIN_PAGES_URL: ${{ needs.deploy-pages-final-candidate.outputs.page_url }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -477,7 +500,7 @@ jobs:
             report="../final-live-regression-report-$run.json"
             error_log="../final-live-regression-error-$run.log"
             if ! node scripts/live-regression.mjs > "$report" 2> "$error_log"; then result=1; fi
-            if ! jq -e '.status == "current" and .test_count == 120 and .passed_count == 120 and .failed_count == 0 and .skipped_count == 0 and ((.retry_errors // []) | length == 0)' "$report" > /dev/null; then result=1; fi
+            if ! jq -e '.status == "current" and .test_count == 120 and .passed_count == 120 and .failed_count == 0 and .skipped_count == 0 and ((.retry_errors // []) | length == 0) and (.transport_error_count == 0)' "$report" > /dev/null; then result=1; fi
           done
           cp ../final-live-regression-report-3.json ../live-regression-report.json
           cp ../final-live-regression-error-3.log ../live-regression-error.log
@@ -488,6 +511,7 @@ jobs:
           LIVE_METADATA_DELAY_MS: 1000
           LIVE_REQUEST_TIMEOUT_MS: 15000
           LIVE_CASE_ATTEMPTS: 1
+          LIVE_DIAGNOSTICS: "1"
           LIVE_CASE_RETRY_DELAY_MS: 1000
       - name: Verify immutable Pages mirror and Worker preview parity
         run: node ../scripts/knowledge/verify-public-parity.mjs --expected-deployment-commit "$GITHUB_SHA"
@@ -519,17 +543,71 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       promoted: ${{ steps.promote.outputs.promoted }}
+    defaults:
+      run:
+        working-directory: mcp
     steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
       - id: promote
-        name: Promote the validated final Worker version to 100 percent
+        name: Promote the validated final Worker through 1/10/50/100 percent canary stages
         run: |
           set -euo pipefail
-          test -n "${{ needs.deploy-worker-final.outputs.version_id }}"
-          npx --yes wrangler@4.127.1 versions deploy --name openfin-mcp --version-id "${{ needs.deploy-worker-final.outputs.version_id }}" --percentage 100 --message "Promote OpenFin $GITHUB_SHA" -y
+          candidate="${{ needs.deploy-worker-final.outputs.version_id }}"
+          previous="${{ needs.deploy-worker-final.outputs.previous_version_id }}"
+          test -n "$candidate" -a -n "$previous"
+          rollback() { npx --yes wrangler@4.131.1 rollback "$previous" --name openfin-mcp --message "OpenFin canary rollback for $GITHUB_SHA" -y; }
+          trap rollback ERR
+          for percentage in 1 10 50 100; do
+            if [ "$percentage" = 100 ]; then
+              npx --yes wrangler@4.131.1 versions deploy --name openfin-mcp --version-id "$candidate" --percentage 100 --message "Promote OpenFin $GITHUB_SHA at 100%" -y
+            else
+              old=$((100 - percentage))
+              npx --yes wrangler@4.131.1 versions deploy --name openfin-mcp "$candidate@$percentage%" "$previous@$old%" --message "Canary OpenFin $GITHUB_SHA at ${percentage}%" -y
+            fi
+            CANARY_VERSION_ID="$candidate" EXPECTED_DEPLOYMENT_COMMIT="$GITHUB_SHA" EXPECTED_GENERATION="${{ needs.deploy-worker-final.outputs.generation }}" npm run canary-validate --silent
+          done
+          trap - ERR
           echo 'promoted=true' >> "$GITHUB_OUTPUT"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  post-promotion-soak:
+    needs: [deploy-pages-final-candidate, deploy-worker-final, promote-worker, validate-promoted-worker]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - name: Run the 15-minute post-promotion soak
+        run: npm run soak-test -- --duration-minutes 15 --concurrency 4 > ../post-promotion-soak-report.json
+        env:
+          MCP_URL: https://openfin-mcp.y2kthr.workers.dev/mcp
+          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          EXPECTED_GENERATION: ${{ needs.deploy-worker-final.outputs.generation }}
+          LIVE_REQUEST_TIMEOUT_MS: 15000
+          LIVE_DIAGNOSTICS: "1"
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        if: ${{ always() }}
+        with:
+          name: openfin-soak-post-${{ github.sha }}
+          path: post-promotion-soak-report.json
+          if-no-files-found: ignore
+          retention-days: 7
 
   soak-worker-final:
     needs: [deploy-pages-final-candidate, deploy-worker-final, validate-worker-final]
@@ -547,11 +625,20 @@ jobs:
           cache-dependency-path: mcp/package-lock.json
       - run: npm ci
       - name: Run the final preview reliability soak before promotion
-        run: npm run soak-test -- --duration-minutes 30 --concurrency 4
+        run: npm run soak-test -- --duration-minutes 30 --concurrency 4 > ../candidate-soak-report.json
         env:
           MCP_URL: ${{ needs.deploy-worker-final.outputs.worker_url }}/mcp
+          EXPECTED_DEPLOYMENT_COMMIT: ${{ github.sha }}
+          EXPECTED_GENERATION: ${{ needs.deploy-worker-final.outputs.generation }}
           LIVE_REQUEST_TIMEOUT_MS: 15000
           LIVE_DIAGNOSTICS: "1"
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        if: ${{ always() }}
+        with:
+          name: openfin-soak-candidate-${{ github.sha }}
+          path: candidate-soak-report.json
+          if-no-files-found: ignore
+          retention-days: 7
 
   validate-promoted-worker:
     needs: [deploy-pages-final-candidate, deploy-worker-final, promote-worker]
@@ -601,7 +688,7 @@ jobs:
             report="../promoted-live-regression-report-$run.json"
             error_log="../promoted-live-regression-error-$run.log"
             if ! node scripts/live-regression.mjs > "$report" 2> "$error_log"; then result=1; fi
-            if ! jq -e '.status == "current" and .test_count == 120 and .passed_count == 120 and .failed_count == 0 and .skipped_count == 0 and ((.retry_errors // []) | length == 0)' "$report" > /dev/null; then result=1; fi
+            if ! jq -e '.status == "current" and .test_count == 120 and .passed_count == 120 and .failed_count == 0 and .skipped_count == 0 and ((.retry_errors // []) | length == 0) and (.transport_error_count == 0)' "$report" > /dev/null; then result=1; fi
           done
           cp ../promoted-live-regression-report-3.json ../promoted-live-regression-report.json
           cp ../promoted-live-regression-error-3.log ../promoted-live-regression-error.log
@@ -612,6 +699,7 @@ jobs:
           LIVE_METADATA_DELAY_MS: 1000
           LIVE_REQUEST_TIMEOUT_MS: 15000
           LIVE_CASE_ATTEMPTS: 1
+          LIVE_DIAGNOSTICS: "1"
           LIVE_CASE_RETRY_DELAY_MS: 1000
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: ${{ always() }}
@@ -626,7 +714,7 @@ jobs:
           retention-days: 7
 
   deploy-pages-final:
-    needs: [finalize-artifact, validate-promoted-worker]
+    needs: [finalize-artifact, validate-promoted-worker, post-promotion-soak]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -780,8 +868,8 @@ jobs:
           test "$actual" = "$expected"
 
   rollback-worker-on-post-promotion-failure:
-    needs: [canonical-artifact, promote-worker, validate-promoted-worker, deploy-pages-final, public-parity, deploy-worker-candidate, deploy-worker-final]
-    if: ${{ always() && needs.deploy-worker-final.result == 'success' && needs.promote-worker.result != 'skipped' && (needs.promote-worker.result != 'success' || needs.validate-promoted-worker.result != 'success' || needs.deploy-pages-final.result != 'success' || needs.public-parity.result != 'success') }}
+    needs: [canonical-artifact, promote-worker, validate-promoted-worker, post-promotion-soak, deploy-pages-final, public-parity, deploy-worker-candidate, deploy-worker-final]
+    if: ${{ always() && needs.deploy-worker-final.result == 'success' && needs.promote-worker.result != 'skipped' && (needs.promote-worker.result != 'success' || needs.validate-promoted-worker.result != 'success' || needs.post-promotion-soak.result != 'success' || needs.deploy-pages-final.result != 'success' || needs.public-parity.result != 'success') }}
     runs-on: ubuntu-latest
     steps:
       - name: Roll back Worker to the captured previous version
@@ -789,7 +877,7 @@ jobs:
           set -euo pipefail
           previous="${{ needs.deploy-worker-candidate.outputs.previous_version_id }}"
           test -n "$previous"
-          npx --yes wrangler@4.127.1 rollback "$previous" --name openfin-mcp --message "OpenFin post-promotion rollback for $GITHUB_SHA" -y
+          npx --yes wrangler@4.131.1 rollback "$previous" --name openfin-mcp --message "OpenFin post-promotion rollback for $GITHUB_SHA" -y
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -838,6 +926,8 @@ jobs:
           elif [ "$layout" = release ]; then
             test -d previous-pages/docs
             cp -a previous-pages/docs/. rollback-site/
+          elif [ "$layout" = snapshot ]; then
+            cp -a previous-pages/. rollback-site/
           else
             echo "Unsupported rollback artifact layout: $layout" >&2
             exit 1
